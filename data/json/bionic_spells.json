@@ -27,8 +27,8 @@
     "damage_type": "electric",
     "sound_type": "combat",
     "sound_ambient": false,
-    "sound_id": "misc",
-    "sound_variant": "shockwave",
+    "sound_id": "bionics",
+    "sound_variant": "elec_crackle_low",
     "message": "You discharge energy from your Super Stun Gun."
   }
 ]

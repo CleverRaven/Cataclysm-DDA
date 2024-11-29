@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "lobotomizer",
+    "result": "lobotomizer_weapon",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -21,6 +21,7 @@
   {
     "result": "broken_laserturret",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",

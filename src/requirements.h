@@ -231,10 +231,10 @@ struct requirement_data {
         template <
             typename Container,
             typename = std::enable_if_t <
-                std::is_same <
-                    typename Container::value_type, std::pair<requirement_id, int >>::value ||
-                std::is_same <
-                    typename Container::value_type, std::pair<const requirement_id, int >>::value
+                std::is_same_v <
+                    typename Container::value_type, std::pair<requirement_id, int >> ||
+                std::is_same_v <
+                    typename Container::value_type, std::pair<const requirement_id, int >>
                 >
             >
         explicit requirement_data( const Container &cont ) :
@@ -384,6 +384,8 @@ struct requirement_data {
          * Dump to json in inline requirements format
          */
         void dump( JsonOut &jsout ) const;
+
+        uint64_t make_hash() const;
 
     private:
         requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)

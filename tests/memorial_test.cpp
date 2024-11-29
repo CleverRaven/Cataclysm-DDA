@@ -90,7 +90,9 @@ TEST_CASE( "memorials", "[memorial]" )
     itype_id it( "marloss_seed" );
     trait_id mut( "CARNIVORE" );
     trait_id mut2( "SAPROPHAGE" );
+    trait_id mut3( "NONE" );
     bionic_id cbm( "bio_alarm" );
+    proficiency_id prof( "prof_wound_care" );
 
     check_memorial<event_type::activates_artifact>(
         m, b, "Activated the art_name.", ch, "art_name" );
@@ -123,17 +125,17 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Caused a resonance cascade." );
 
     check_memorial<event_type::character_gains_effect>(
-        m, b, "Caught on fire.", ch, eff );
+        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff );
 
     check_memorial<event_type::character_kills_character>(
         m, b, "Killed an innocent person, victim_name, in cold blood and felt terrible "
         "afterwards.", ch, ch2, "victim_name" );
 
     check_memorial<event_type::character_kills_monster>(
-        m, b, "Killed a Kevlar hulk.", ch, mon );
+        m, b, "Killed a Kevlar hulk.", ch, mon, 0 );
 
     check_memorial<event_type::character_loses_effect>(
-        m, b, "Put out the fire.", ch, eff );
+        m, b, "Put out the fire.", ch, bodypart_id( "arm_r" ), eff );
 
     check_memorial<event_type::character_triggers_trap>(
         m, b, "Fell in a pit.", ch, tr_pit );
@@ -216,6 +218,9 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
 
+    check_memorial<event_type::gains_proficiency>(
+        m, b, "Gained the proficiency 'Wound Care'.", ch, prof );
+
     check_memorial<event_type::gains_skill_level>(
         m, b, "Reached skill level 8 in vehicles.", ch, skill_driving, 8 );
 
@@ -255,7 +260,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Learned the spell Pain.", ch, spell_pain_damage );
 
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_pain_damage, 5, mut3 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

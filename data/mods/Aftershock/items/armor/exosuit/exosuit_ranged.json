@@ -14,7 +14,7 @@
     "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
     "charges_per_use": 30,
     "ammo": "flammable",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank", "aux_pressurized_tank" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ] } ],
     "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 1 }
   },
   {

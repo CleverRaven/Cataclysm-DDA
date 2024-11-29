@@ -4,12 +4,8 @@
     "type": "requirement",
     "components": [
       [
-        [ "8mm_bootleg", 1 ],
         [ "8mm_caseless", 1 ],
-        [ "8mm_civilian", 1 ],
-        [ "8mm_fmj", 1 ],
         [ "8mm_hvp", 1 ],
-        [ "8mm_inc", 1 ],
         [ "8mm_jhp", 1 ],
         [ "9mm", 1 ],
         [ "9mmfmj", 1 ],
@@ -34,10 +30,6 @@
         [ "reloaded_10mm_fmj", 1 ],
         [ "12mm", 1 ],
         [ "reloaded_10mm_fmj", 1 ],
-        [ "20x66_bootleg_flechette", 1 ],
-        [ "20x66_bootleg_slug", 1 ],
-        [ "20x66_flechette", 1 ],
-        [ "20x66_slug", 1 ],
         [ "22_cb", 1 ],
         [ "22_fmj", 1 ],
         [ "22_lr", 1 ],
@@ -148,11 +140,9 @@
         [ "545_ap", 1 ],
         [ "reloaded_545", 1 ],
         [ "reloaded_545_ap", 1 ],
-        [ "700nx", 1 ],
-        [ "reloaded_700nx", 1 ],
-        [ "762_m43", 1 ],
+        [ "762_jhp", 1 ],
         [ "762_m87", 1 ],
-        [ "reloaded_762_m43", 1 ],
+        [ "reloaded_762_jhp", 1 ],
         [ "reloaded_762_m87", 1 ],
         [ "762_54R", 1 ],
         [ "762_25", 1 ],
@@ -173,7 +163,7 @@
         [ "reloaded_4570_pen", 1 ],
         [ "reloaded_4570_low", 1 ],
         [ "reloaded_4570_bp", 1 ],
-        [ "reloaded_762_m43", 1 ]
+        [ "reloaded_762_jhp", 1 ]
       ]
     ]
   },
@@ -182,7 +172,7 @@
     "type": "SPELL",
     "name": "Railgun",
     "description": "Magnetize a bullet, and fire it at supersonic speeds by applying an opposite magnetic force to the bullet.  Leaves a trail of sparks",
-    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "spell_class": "MAGNETISM_MAGE",
     "energy_source": "MANA",
@@ -198,13 +188,13 @@
     "max_range": 20,
     "base_casting_time": 400,
     "base_energy_cost": 600,
-    "extra_effects": [ { "id": "railgun_sparks" } ]
+    "extra_effects": [ { "id": "railgun_sparks" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "railgun_sparks",
     "type": "SPELL",
-    "name": "Railgun Sparks",
-    "description": "The spark portion of the Railgun spell.",
+    "name": { "str": "Railgun Sparks", "//~": "NO_I18N" },
+    "description": { "str": "The spark portion of the Railgun spell.", "//~": "NO_I18N" },
     "valid_targets": [ "ground", "hostile", "ally" ],
     "effect": "attack",
     "shape": "line",
@@ -221,10 +211,11 @@
     "name": "Electrolaser",
     "description": "Creates a conductive channel from the caster's hand to the target by ionizing air molecules using a high-powered laser beam, then sends a powerful half million volt charge down the channel.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SOMATIC", "NO_LEGS", "LOUD" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "NO_LEGS", "LOUD" ],
     "effect": "attack",
     "shape": "line",
-    "damage_type": "heat",
+    "damage_type": "light",
+    "multiple_projectiles": 4,
     "min_damage": 15,
     "max_damage": 75,
     "damage_increment": 1.8,
@@ -244,16 +235,21 @@
     "base_energy_cost": 500,
     "final_energy_cost": 150,
     "energy_increment": -10,
-    "extra_effects": [ { "id": "magnetismmage_electrolaser_electro" } ]
+    "extra_effects": [ { "id": "magnetismmage_electrolaser_electro" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "magnetismmage_electrolaser_electro",
     "type": "SPELL",
-    "name": "Electrolaser Electric Damage",
-    "description": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Electrolaser Electric Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "EVOCATION_SPELL" ],
     "effect": "attack",
     "shape": "line",
+    "multiple_projectiles": 4,
     "damage_type": "electric",
     "min_damage": 20,
     "max_damage": 150,
@@ -268,8 +264,11 @@
   {
     "id": "robot_disabler",
     "type": "SPELL",
-    "name": "Surge mod moves",
-    "description": "Substract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Surge mod moves", "//~": "NO_I18N" },
+    "description": {
+      "str": "Subtract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "ROBOT", "CYBORG" ],
     "effect": "mod_moves",
@@ -286,8 +285,8 @@
     "id": "robot_disabler_explosion",
     "type": "SPELL",
     "name": "Surge",
-    "description": "Send a wave of high-frequency alternating pulse.  It can't hurt living creatures, but is extremely good destroying and stunning robots.  No, it's not EMP.",
-    "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
+    "description": "Send a wave of high-frequency alternating pulses.  It can't hurt living creatures, but is exceptional at stunning and destroying robots.  Even though it isn't an EMP.",
+    "flags": [ "EVOCATION_SPELL", "NO_LEGS", "LOUD", "SOMATIC" ],
     "valid_targets": [ "hostile", "ground" ],
     "targeted_monster_species": [ "ROBOT", "CYBORG" ],
     "spell_class": "MAGNETISM_MAGE",
@@ -316,6 +315,6 @@
     "casting_time_increment": -9,
     "final_casting_time": 100,
     "max_level": 35,
-    "extra_effects": [ { "id": "robot_disabler" } ]
+    "extra_effects": [ { "id": "robot_disabler" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   }
 ]

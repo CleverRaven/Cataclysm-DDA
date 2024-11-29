@@ -256,6 +256,7 @@
         { "id": "mission_arrow_se", "fg": 253, "rotates": false },
         { "id": "mission_arrow_w", "fg": 256, "rotates": false },
         { "id": "mission_arrow_e", "fg": 248, "rotates": false },
+        { "id": "shadow", "fg": 259 },
         { "id": "mission_cursor_base", "fg": 258 }
       ]
     },

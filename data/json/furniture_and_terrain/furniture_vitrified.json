@@ -370,7 +370,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.7, "mass": 2000, "volume": "75L" }
+    "workbench": { "multiplier": 0.7, "mass": 2000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -520,28 +520,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 2000, "volume": "75L" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_vitrified_rack_coat",
-    "name": "black glass coat rack",
-    "description": "A tall glass pole with a set of hooks, on which rigid, shapeless masses are draped.",
-    "symbol": "Y",
-    "color": "dark_gray",
-    "move_cost_mod": -1,
-    "coverage": 30,
-    "required_str": 4,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ] },
-    "max_volume": "30 L",
-    "bash": {
-      "str_min": 6,
-      "str_max": 30,
-      "sound": "glass shattering!",
-      "sound_fail": "clink.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    }
+    "workbench": { "multiplier": 1.1, "mass": 2000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -679,7 +658,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -701,7 +680,7 @@
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
     "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75 L" }
   },
   {
     "type": "furniture",
@@ -876,5 +855,37 @@
       "sound_fail": "clang!",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vitrified_doll",
+    "name": "incomplete plush doll",
+    "symbol": "D",
+    "description": "A soft plush torso, empty of features, is lying on this sofa.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 1,
+    "required_str": 900,
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_doll_talk" ] },
+    "rotates_to": "INDOORFLOOR",
+    "bash": { "str_min": 900, "str_max": 900, "sound": "smash!", "sound_fail": "whump." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_vitrified_bookcase_talker",
+    "name": "black glass bookcase",
+    "symbol": "{",
+    "description": "This bookcase is missing a book.",
+    "color": "dark_gray",
+    "looks_like": "f_vitrified_bookcase",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 900,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_vitrified_bookcase_talk" ] },
+    "flags": [ "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
+    "emissions": [ "emit_glimmer" ]
   }
 ]

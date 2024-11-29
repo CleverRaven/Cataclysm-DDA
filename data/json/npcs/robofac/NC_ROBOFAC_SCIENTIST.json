@@ -14,7 +14,7 @@
       { "item": "pencil", "charges": [ 50, 100 ], "damage": [ 0, 2 ] },
       { "item": "paper", "count": [ 2, 3 ] },
       { "item": "laptop", "charges": [ 300, 500 ] },
-      { "item": "nic_gum", "charges": [ 5, 10 ] },
+      { "item": "nic_gum", "count": [ 5, 10 ] },
       { "item": "water_clean", "container-item": "canteen", "prob": 50, "charges": [ 2, 6 ] },
       { "item": "boots" }
     ]

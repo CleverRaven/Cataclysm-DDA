@@ -1,0 +1,65 @@
+[
+  {
+    "type": "fault",
+    "id": "fault_electronic_blown_fuse",
+    "fault_type": "shorted",
+    "name": { "str": "Blown fuse" },
+    "description": "Required for closing a protected electronic circuit.",
+    "item_prefix": "shorted",
+    "flags": [ "ITEM_BROKEN" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_electronic_blown_fuse",
+    "name": "Replace blown fuse",
+    "success_msg": "You replace the blown fuse of the %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_electronic_blown_fuse" ],
+    "skills": { "electronics": 3 },
+    "requirements": [ { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "e_scrap", 1 ], [ "copper_wire", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_electronic_blown_capacitor",
+    "fault_type": "shorted",
+    "name": { "str": "Blown capacitor" },
+    "description": "Required for storing charge in an electronic circuit.",
+    "item_prefix": "shorted",
+    "flags": [ "ITEM_BROKEN" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_electronic_blown_capacitor",
+    "name": "Replace blown fuse",
+    "success_msg": "You replace the blow capacitor of the %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_electronic_blown_capacitor" ],
+    "skills": { "electronics": 4 },
+    "requirements": [
+      [ "soldering_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "e_scrap", 1 ] ] ] }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_electronic_shorted_circuit",
+    "fault_type": "shorted",
+    "name": { "str": "Shorted electronic circuit" },
+    "description": "An electronic circuit has been destroyed by overvoltage.",
+    "item_prefix": "shorted",
+    "flags": [ "ITEM_BROKEN" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_electronic_shorted_circuit",
+    "name": "Replace shorted circuit",
+    "success_msg": "You replace the shorted circuit of the %s.",
+    "time": "70 m",
+    "faults_removed": [ "fault_electronic_shorted_circuit" ],
+    "skills": { "electronics": 5 },
+    "requirements": [
+      [ "soldering_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "circuit", 1 ] ] ] }
+    ]
+  }
+]

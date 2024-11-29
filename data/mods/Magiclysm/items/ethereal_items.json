@@ -7,8 +7,7 @@
     "weight": "1 g",
     "volume": "250 ml",
     "longest_side": "20 cm",
-    "price": 1,
-    "to_hit": 2,
+    "price": "1 cent",
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
@@ -26,51 +25,18 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "UNRESTRICTED" ],
     "techniques": [ "WBLOCK_3" ],
     "melee_damage": { "bash": 20 }
-  },
-  {
-    "id": "shape_of_dust",
-    "type": "ARMOR",
-    "name": "dust cloak",
-    "description": "You are unseen in between of the sand that cover you.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "brown",
-    "looks_like": "cloak",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-          "emitter": "emit_eshaper_dust",
-          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
-        }
-      ]
-    }
   },
   {
     "id": "finger_firelighter",
     "type": "TOOL",
     "name": "finger firelighter",
-    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire, or you can throw it, to ignite something flammable.",
+    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire, or you can throw it to ignite something flammable.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": ",",
     "color": "red",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
@@ -81,10 +47,10 @@
     "id": "electric_lighter",
     "type": "TOOL",
     "name": "stable spark",
-    "description": "Small electric spark, that does not disappear under your force.  With a thought, you can cause it to light something on fire, or you can throw it, to ignite something flammable.",
+    "description": "Small electric spark, that does not disappear under your force.  With a thought, you can cause it to light something on fire, or you can throw it to ignite something flammable.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": ",",
     "color": "yellow",
     "use_action": [ { "type": "firestarter", "moves": 20 } ],
@@ -100,8 +66,7 @@
     "weight": "1 g",
     "material": [ "magical_material" ],
     "volume": "250 ml",
-    "price": 1,
-    "to_hit": -2,
+    "price": "1 cent",
     "symbol": ",",
     "color": "light_green",
     "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
@@ -116,7 +81,7 @@
     "description": "A small magical light that you can read by.",
     "weight": "0 kg",
     "volume": "0 L",
-    "price": 0,
+    "price": "0 cent",
     "symbol": ",",
     "color": "light_green",
     "material": [ "magical_material" ],
@@ -132,7 +97,7 @@
     "weight": "1 kg",
     "volume": "5 L",
     "longest_side": "50 cm",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": 1,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
@@ -141,7 +106,7 @@
     "sided": true,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 14 }
   },
@@ -153,8 +118,7 @@
     "weight": "1 g",
     "volume": "250 ml",
     "longest_side": "15 cm",
-    "price": 1,
-    "to_hit": -2,
+    "price": "1 cent",
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "brown",
@@ -163,7 +127,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
     "melee_damage": { "bash": 6 }
   },
@@ -171,15 +135,15 @@
     "type": "GENERIC",
     "id": "stormhammer",
     "name": { "str": "The Stormhammer" },
-    "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
+    "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, to smash things to bits!",
     "weight": "1337 g",
     "longest_side": "70 cm",
-    "to_hit": 2,
     "color": "brown",
     "symbol": "/",
     "looks_like": "warhammer",
     "material": [ "concentrated_mana" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "copy-from": "warhammer",
     "flags": [
       "NONCONDUCTIVE",
       "BELT_CLIP",
@@ -191,7 +155,7 @@
       "MAGIC_FOCUS"
     ],
     "volume": "1250 ml",
-    "relic_data": { "passive_effects": [ { "has": "WIELD", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_storm_hammer" } ] },
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 30 }
   },
@@ -215,11 +179,11 @@
       "TRADER_AVOID",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "MAGIC_FOCUS"
+      "MAGIC_FOCUS",
+      "UNRESTRICTED"
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material_thickness": 0.3,
     "armor": [
       {
@@ -258,17 +222,7 @@
     "longest_side": "40 cm",
     "material": [ "bone", "flesh" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [
-      "REACH_ATTACK",
-      "REACH3",
-      "WHIP",
-      "STURDY",
-      "TRADER_AVOID",
-      "UNBREAKABLE_MELEE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS"
-    ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "STURDY", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "MAGIC_FOCUS" ],
     "category": "weapons",
     "melee_damage": { "cut": 30 }
   },
@@ -297,14 +251,12 @@
       "FIRESTARTER",
       "LIGHT_8",
       "FLAMING",
-      "FIRE"
+      "FIRE",
+      "RELIC_PINK"
     ],
     "to_hit": 3,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 30 } ] } ]
-    },
     "category": "weapons",
-    "melee_damage": { "cut": 6 }
+    "melee_damage": { "cut": 6, "heat": 30 }
   },
   {
     "id": "fleshpouch",
@@ -313,7 +265,7 @@
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
     "weight": "0 kg",
     "volume": "0 L",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
@@ -329,7 +281,8 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "ZERO_WEIGHT"
+      "ZERO_WEIGHT",
+      "UNRESTRICTED"
     ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
@@ -350,19 +303,16 @@
       "SHEATH_SPEAR",
       "ONLY_ONE",
       "NO_REPAIR",
-      "NO_SALVAGE",
       "MAGIC_FOCUS"
     ],
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
     "volume": "2500 ml",
     "longest_side": "183 cm",
-    "to_hit": 2,
     "melee_damage": { "bash": 16, "stab": 36 }
   },
   {
     "id": "druid_recurve",
-    "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -377,26 +327,121 @@
       "NONCONDUCTIVE",
       "ONLY_ONE",
       "NO_REPAIR",
+      "SHEATH_BOW",
       "NO_SALVAGE",
-      "NO_UNLOAD",
       "WATERPROOF_GUN",
       "NO_TURRET",
+      "RELOAD_AND_SHOOT",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
+    "ammo": [ "arrow" ],
     "min_strength": 9,
     "weight": "540 g",
     "longest_side": "140 cm",
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "stab", "amount": 29 },
-    "range": 12,
+    "ranged_damage": { "damage_type": "stab", "amount": 9 },
+    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "range": 14,
     "dispersion": 950,
     "durability": 6,
     "volume": "2500 ml",
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "druid_quiver",
+    "type": "ARMOR",
+    "name": { "str": "Woodquiver" },
+    "description": "A magically conjured quiver, marvelously light and easy to wear despite the arrows it holds.",
+    "weight": "260 g",
+    "volume": "500 ml",
+    "price": "65 USD",
+    "price_postapoc": "10 USD",
+    "melee_damage": { "bash": 2 },
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "green",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 },
+        "weight_multiplier": 0.33333,
+        "volume_multiplier": 0.33333,
+        "moves": 20
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 5 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "druid_quiver_plus",
+    "type": "ARMOR",
+    "name": { "str": "Woodquiver" },
+    "description": "A magically conjured quiver, marvelously light and easy to wear despite the arrows it holds.  This is an enhanced version, created by your increased mastery of the spell.",
+    "weight": "260 g",
+    "volume": "500 ml",
+    "price": "65 USD",
+    "price_postapoc": "10 USD",
+    "melee_damage": { "bash": 2 },
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "green",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "ammo_restriction": { "arrow": 120, "bolt": 120, "arrow_orichalcum": 120 },
+        "weight_multiplier": 0.16667,
+        "volume_multiplier": 0.16667,
+        "moves": 20
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 5 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "druid_naturearrows1",
+    "type": "AMMO",
+    "copy-from": "arrow_heavy_fire_hardened_fletched",
+    "name": { "str": "nature's arrow" },
+    "looks_like": "arrow_heavy_fire_hardened_fletched",
+    "description": "A magically conjured arrow made of twisted wood.",
+    "damage": { "damage_type": "stab", "armor_penetration": 3 },
+    "count": 1,
+    "recovery_chance": 87
+  },
+  {
+    "id": "arrow_druid",
+    "type": "AMMO",
+    "copy-from": "arrow_heavy_fire_hardened_fletched",
+    "name": { "str": "twisted wooden arrow" },
+    "looks_like": "arrow_heavy_fire_hardened_fletched",
+    "description": "A arrow that looks more like it was grown than carved.  Despite that, it flies straight and true.  It explodes into a mass of entangling vegetation when it hits its target.",
+    "damage": { "damage_type": "stab", "armor_penetration": 2 },
+    "count": 1,
+    "recovery_chance": 83,
+    "effects": [ "TANGLE" ]
   },
   {
     "type": "TOOL",
@@ -419,11 +464,11 @@
   {
     "id": "druid_dust",
     "type": "TOOL",
-    "name": "faintly glowing dust",
-    "description": "This fine dust glows with a growing intensity.",
+    "name": { "str_sp": "faintly glowing dust" },
+    "description": "This handful of fine dust glows with a growing intensity.",
     "weight": "1 g",
     "volume": "30 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": "!",
     "color": "white",
     "initial_charges": 15,
@@ -433,7 +478,7 @@
   {
     "type": "COMESTIBLE",
     "id": "druid_fertilizer",
-    "name": { "str": "seed of growth", "str_pl": "seeds of growth" },
+    "name": { "str_sp": "seed of growth" },
     "weight": "27 g",
     "color": "white",
     "flags": [ "TRADER_AVOID", "FERTILIZER" ],
@@ -441,116 +486,18 @@
     "symbol": "°",
     "quench": -10,
     "healthy": -2,
-    "description": "A magical powder that can be scattered on growing crops and make them grow faster.",
+    "description": "A magical powder that can be scattered on growing crops to make them grow faster.",
     "material": [ "powder" ],
-    "volume": "2 L",
-    "charges": 60,
+    "volume": "33 ml",
     "category": "chems",
     "fun": -15
-  },
-  {
-    "id": "obfuscating_aura",
-    "type": "ARMOR",
-    "name": "obfuscating aura",
-    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "white",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-      }
-    ]
-  },
-  {
-    "id": "acid_res_aura",
-    "type": "ARMOR",
-    "name": { "str": "acid resistance aura" },
-    "description": "An all-encompassing, invisible layer of protection against acid.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "green",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
-    },
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-      }
-    ]
-  },
-  {
-    "id": "acid_res_aura_greater",
-    "type": "ARMOR",
-    "name": "greater acid resistance aura",
-    "description": "An all-encompassing, invisible layer of protection against acid.",
-    "weight": "1g",
-    "volume": "1ml",
-    "price": 3646,
-    "symbol": "o",
-    "color": "green",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
-    },
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
-      }
-    ]
   },
   {
     "id": "armor_frost",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "frost armor" },
-    "description": "A thin layer of magical ice, covering the entire body.  It doesn't provide much armor, but deal significant damage to enemies that try to attack you instead.",
+    "description": "A thin layer of magical ice, covering the entire body.  It doesn't provide much armor, instead dealing significant damage to enemies that try to attack you.",
     "weight": "5000 g",
     "volume": "5 L",
     "material": [ "concentrated_mana" ],
@@ -568,7 +515,8 @@
       "STURDY",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
-      "PADDED"
+      "PADDED",
+      "UNRESTRICTED"
     ],
     "armor": [
       {
@@ -660,54 +608,34 @@
     ]
   },
   {
-    "id": "thorns_electric",
-    "type": "ARMOR",
-    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
-    "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "blue",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
-  },
-  {
     "id": "aura_feral",
     "type": "ARMOR",
     "name": "feral aura",
+    "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
     "description": "The manifestation of your rage.  It won't disappear until you calm down.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 3646,
+    "price": "36 USD 46 cent",
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "STRENGTH", "add": 3 },
-            { "value": "DEXTERITY", "add": 3 },
-            { "value": "INTELLIGENCE", "add": -3 },
-            { "value": "PERCEPTION", "add": -3 }
-          ],
-          "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE" ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral" } ] }
+  },
+  {
+    "id": "aura_feral_plus",
+    "type": "ARMOR",
+    "name": "enhanced feral aura",
+    "//": "Needs to remain an item instead of an effect until enchantment mutations from effects are fixed.",
+    "description": "The manifestation of your rage.  It won't disappear until you calm down.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_feral_plus" } ] }
   },
   {
     "id": "flamesword",
@@ -718,7 +646,7 @@
     "name": { "str": "flaming sword" },
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
@@ -734,11 +662,7 @@
     "weight": "900 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "to_hit": 2,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
-    },
-    "melee_damage": { "bash": 12, "cut": 2 }
+    "melee_damage": { "bash": 12, "cut": 2, "heat": 28 }
   },
   {
     "id": "decaying_boneclub",
@@ -750,25 +674,13 @@
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
     "weapon_category": [ "BATONS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "ONLY_ONE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS",
-      "BELT_CLIP",
-      "TRADER_AVOID"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "ONLY_ONE", "NO_REPAIR", "MAGIC_FOCUS", "BELT_CLIP", "TRADER_AVOID" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weight": "700 g",
     "volume": "800 ml",
     "longest_side": "70 cm",
     "to_hit": 3,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 8 } ] } ]
-    },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12, "biological": 8 }
   },
   {
     "id": "impactsling",
@@ -778,7 +690,7 @@
     "color": "brown",
     "name": { "str": "impact sling" },
     "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing.  A pebble appears when you begin spinning it.",
-    "price": 150,
+    "price": "1 USD 50 cent",
     "material": [ "leather" ],
     "flags": [
       "NEVER_JAMS",
@@ -796,7 +708,7 @@
     "volume": "250 ml",
     "longest_side": "25 cm",
     "skill": "throw",
-    "price_postapoc": 250,
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "ranged_damage": { "damage_type": "bash", "amount": 20 },
     "range": 20,
@@ -826,16 +738,7 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
-          "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
   },
   {
     "id": "aura_werewolf",
@@ -844,7 +747,7 @@
     "description": "You have become the werewolf.  Boys becoming men, men becoming wolves.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 3646,
+    "price": "36 USD 46 cent",
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
@@ -932,17 +835,25 @@
     "weight": "100 g",
     "volume": "100 ml",
     "longest_side": "15 cm",
-    "price": 1,
+    "price": "1 cent",
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "every", "balance": "good" },
     "weapon_category": [ "CLAWS" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_UNWIELD",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "UNRESTRICTED"
+    ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [
       {
         "encumbrance": 5,
@@ -957,7 +868,7 @@
     "id": "armor_spirit",
     "type": "ARMOR",
     "category": "armor",
-    "copy-from": "armor_lightplate",
+    "copy-from": "armor_lc_lightplate",
     "name": { "str_sp": "mage armor" },
     "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level and is affected by your intelligence.",
     "weight": "1 g",
@@ -984,8 +895,8 @@
     "weight": "1 g",
     "volume": "3050 ml",
     "longest_side": "298 mm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "material": [ "concentrated_mana" ],
     "symbol": ")",
@@ -1001,10 +912,7 @@
     ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 3 } ] } ]
-    },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1, "pure": 3 }
   },
   {
     "id": "longsword_holy",
@@ -1022,7 +930,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "auroral shell" },
-    "description": "A sturdy shell that wraps your body, gaining a sturdy defense.",
+    "description": "A sturdy shell that wraps your body, granting a sturdy defense.",
     "weight": "400 g",
     "volume": "25 L",
     "material": [ "concentrated_mana" ],
@@ -1044,7 +952,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "Pocket Sun" },
-    "description": "A small, capsule-shaped field containing a stable portal to the sun.  You can feel a solar energy radiate from it, and it saturate your body.",
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.  You can feel solar energy radiating from it, and it saturates your body.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "sunlight" ],
@@ -1090,8 +998,8 @@
     "id": "alchemist_pocket",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "ethereal pocket" },
-    "description": "Small ethereal pocket, that expanded under your left arm.  You can store your potions here, but it seems it has no real limitations.",
+    "name": { "str": "ethereal pocket" },
+    "description": "A small ethereal pocket located under your left arm.  You can store your potions here, but it seems it has no real limitations.",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "concentrated_mana" ],
@@ -1114,10 +1022,10 @@
     "type": "GENERIC",
     "id": "magical_throwing_knife",
     "copy-from": "throwing_knife",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
-    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "material": [ "concentrated_mana" ],
     "extend": { "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ] },
     "thrown_damage": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 5 } ]
@@ -1127,7 +1035,7 @@
     "id": "magical_throwing_knife_fire",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
-    "description": "A thin and flat knife made for throwing, wrapped in ethereal flames.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin and flat knife made for throwing, wrapped in ethereal flames.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "heat", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
@@ -1135,7 +1043,7 @@
     "id": "magical_throwing_knife_cold",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
-    "description": "A thin and flat knife made for throwing, emanates cold.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin and flat knife made for throwing, emanating frigid cold.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "cold", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
@@ -1143,7 +1051,7 @@
     "id": "magical_throwing_knife_cut",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
-    "description": "A thin and flat knife with wide edge made for throwing, seems unnaturally sharp.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin and flat knife with wide edge made for throwing, seems unnaturally sharp.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.2 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
@@ -1151,7 +1059,7 @@
     "id": "magical_throwing_knife_biological",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
-    "description": "A thin and flat knife made for throwing, made of porous substance and covered in dark ooze.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A thin and flat knife made for throwing, made of porous substance and covered in dark ooze.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "biological", "amount": 15 }, { "damage_type": "stab", "amount": 5 } ]
   },
   {
@@ -1159,7 +1067,7 @@
     "id": "magical_throwing_knife_pure_special",
     "copy-from": "magical_throwing_knife",
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
-    "description": "A transparent blade seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "description": "A transparent blade that seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
   },
   {
@@ -1316,7 +1224,8 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "MAGICAL_MIND_PROTECTION"
     ]
   },
   {
@@ -1351,15 +1260,16 @@
       "PSYSHIELD_PARTIAL",
       "PORTAL_PROOF",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
+      "ALLOWS_NATURAL_ATTACKS",
+      "MAGICAL_MIND_PROTECTION"
     ]
   },
   {
     "type": "AMMO",
     "id": "elastic_potential_energy",
     "category": "spare_parts",
-    "price": 12000,
-    "price_postapoc": 2,
+    "price": "120 USD",
+    "price_postapoc": "2 cent",
     "name": { "str_sp": "elastic potential energy" },
     "symbol": "=",
     "color": "yellow",
@@ -1380,12 +1290,570 @@
     "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
     "weight": "50 g",
     "volume": "60 ml",
-    "price": 1,
-    "price_postapoc": 1,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "wood" ],
     "symbol": "!",
     "color": "green",
     "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
+  },
+  {
+    "id": "technomancer_summoned_radio",
+    "type": "TOOL",
+    "name": { "str": "aetherspeaker (speaking)", "str_pl": "aetherspeakers (speaking)" },
+    "description": "A magically-summoned aetherspeaker, capable of communicating long-distance with other aetherspeakers or conventional radios.  With a command word, it may instead scan for radio signals.",
+    "weight": "295 g",
+    "volume": "125 ml",
+    "to_hit": -1,
+    "material": [ "concentrated_mana" ],
+    "symbol": ";",
+    "color": "cyan",
+    "flags": [ "TWO_WAY_RADIO", "ONLY_ONE", "TRADER_AVOID", "NO_DROP" ],
+    "use_action": [ { "type": "transform", "target": "technomancer_summoned_radio_on", "menu_text": "Turn to scanning mode" } ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "technomancer_summoned_radio_on",
+    "copy-from": "technomancer_summoned_radio",
+    "type": "TOOL",
+    "name": { "str": "aetherspeaker (scanning)", "str_pl": "aetherspeakers (scanning)" },
+    "description": "An aetherspeaker tuned to listen for radio signals from the surrounding area.  With a command word, it may change frequency or switch to communicating with other aetherspeakers or radios.",
+    "use_action": [ "RADIO_ON", { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" } ],
+    "tick_action": [ "RADIO_TICK" ],
+    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP" ]
+  },
+  {
+    "id": "technomancer_summoned_ups",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "weight": "125 g",
+    "volume": "65 ml",
+    "material": [ "concentrated_mana" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "capacity": 1250,
+    "looks_like": "spiral_stone",
+    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "IS_UPS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 8000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_6",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 32000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_welder",
+    "type": "TOOL",
+    "name": { "str_sp": "voltaic touch" },
+    "description": "Your hands can spark with electricity powerful enough to heat metal to searing temperatures and weld it together.  You can also zap the undead with it.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "$",
+    "color": "red",
+    "material": [ "concentrated_mana" ],
+    "flags": [
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "NO_DROP"
+    ],
+    "qualities": [ [ "WELD", 2 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "electric": 6 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "druid_bramble_spear_item",
+    "name": { "str": "spear of brambles", "str_pl": "spears of brambles" },
+    "looks_like": "spear_wood",
+    "description": "A twisted wooden spear whose branches twine together into a vicious point sticky with sap.",
+    "weight": "1200 g",
+    "price_postapoc": "1 cent",
+    "color": "green",
+    "symbol": "/",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1", "IMPALE" ],
+    "volume": "1750 ml",
+    "longest_side": "180 cm",
+    "melee_damage": { "bash": 5, "stab": 26 },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price": "1 cent",
+    "qualities": [ [ "COOK", 1 ] ],
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "hit_you_effect": [ { "id": "bramble_spear_slow", "hit_self": false } ] } ] }
+  },
+  {
+    "id": "druid_thorn_skin_item",
+    "//": " 'Tornskin' but working right.  Values copied from the Bark mutation.",
+    "type": "ARMOR",
+    "name": "Thornskin",
+    "description": "Your skin is bark-like and covered in thorns.",
+    "weight": "6 kg",
+    "volume": "7500 ml",
+    "price": "0 cent",
+    "material": [ "wood" ],
+    "symbol": "x",
+    "color": "brown",
+    "flags": [
+      "PERSONAL",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
+          "melee_damage_bonus": [ { "type": "stab", "add": 3 } ],
+          "values": [
+            { "value": "DEXTERITY", "add": -1 },
+            { "value": "STRENGTH", "add": 1 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
+            { "value": "ARMOR_HEAT", "multiply": 0.6 }
+          ]
+        }
+      ]
+    },
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 100,
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "item_biomancer_scalpel_fingers",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "flensing fingers" },
+    "description": "Your fingers are a series of knives made of bone and flesh.  Enemies beware.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "flesh" ],
+    "symbol": ",",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "ZERO_WEIGHT", "UNBREAKABLE", "PERSONAL", "PADDED" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
+    "melee_damage": { "stab": 12 },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.1 } ] }
+      ]
+    }
+  },
+  {
+    "id": "aura_druid_breathing_water",
+    "type": "ARMOR",
+    "name": "Aquatic Mantle",
+    "description": "Covered in magical seaweed, you can travel and breathe underwater as long as this spell is in effect.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "material": [ "veggy" ],
+    "symbol": "O",
+    "color": "blue",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "REBREATHER",
+      "WATER_FRIENDLY",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "WATERPROOF",
+      "SWIM_GOGGLES"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "MAX_MANA", "add": 0 } ],
+          "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
+        }
+      ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "item_earthshaper_map_01",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 15,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_02",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 20,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_03",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 25,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_04",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 30,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_05",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 35,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock",
+        "tream"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_earthshaper_map_06",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": { "str": "earthshaper map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
+    "color": "brown",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 40,
+      "terrain": [
+        { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "stream", "om_terrain_match_type": "PREFIX" },
+        "solid_earth",
+        "empty_rock"
+      ],
+      "message": "The earth reveals its secrets."
+    }
+  },
+  {
+    "id": "item_druid_disinfectant",
+    "type": "GENERIC",
+    "name": { "str_sp": "druid antiseptic", "//~": "NO_I18N" },
+    "description": { "str": "A magical disinfectant.  You should never actually see this.", "//~": "NO_I18N" },
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "~",
+    "color": "green",
+    "phase": "solid",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.9, "move_cost": 1 }
+  },
+  {
+    "id": "item_kelvinist_icy_freezing_container",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "freezer field" },
+    "looks_like": "art_sphere",
+    "description": "A large, hollow sphere of ice.  Food placed inside will not rot.",
+    "weight": "3 kg",
+    "volume": "92 L",
+    "longest_side": "550 mm",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "material": [ "water" ],
+    "phase": "solid",
+    "symbol": "o",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "70 L",
+        "max_contains_weight": "70 kg",
+        "spoil_multiplier": 0.0
+      }
+    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "item_kelvinist_frozen_heart",
+    "type": "ARMOR",
+    "name": "Rime-Frozen Heart",
+    "description": "You don't feel anything.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "PADDED",
+      "INTEGRATED"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ] }
+  },
+  {
+    "id": "aura_bearmantle",
+    "type": "ARMOR",
+    "name": "bearmantle",
+    "description": "Think as the bear.  Move as the bear.  Sleep as the bear.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "INTEGRATED",
+      "NONCONDUCTIVE"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [ "HEAVYSLEEPER2", "FAT", "URSINE_FUR", "SMELLY2", "STRONGER_RESISTCHILL", "HIBERNATE" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "item_animist_luck_bone",
+    "copy-from": "bone",
+    "type": "GENERIC",
+    "name": { "str": "luck-bone" },
+    "description": "A bone from some creature or other, inhabited by benevolent spirits.",
+    "color": "white",
+    "price": "0 cent",
+    "material": [ "bone" ],
+    "weight": "225 g",
+    "symbol": "%",
+    "price_postapoc": "10 cent",
+    "volume": "250 ml",
+    "longest_side": "40 cm",
+    "relic_data": { "passive_effects": [ { "id": "ench_luck_bone" } ] }
+  },
+  {
+    "id": "technomancer_far_sight_lens",
+    "type": "GENERIC",
+    "copy-from": "lens",
+    "name": { "str": "enchanted lens", "str_pl": "enchanted lenses" },
+    "description": "This lens has been etched with small symbols and infused with mana.  Holding it up to your eye allows you to see further than any mundane binoculars allow.",
+    "flags": [ "ENHANCED_VISION", "TRADER_AVOID" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_technomancer_far_sight_lens" } ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "item_druid_goodberry",
+    "name": { "str": "handful of goodberries", "str_pl": "handfuls of goodberries" },
+    "description": "A set of magical berries.  They look absolutely delicious.",
+    "weight": "144 g",
+    "color": "pink",
+    "spoils_in": "24 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "calories": 1500,
+    "price": "1 USD 78 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "fun": 6,
+    "flags": [ "EDIBLE_FROZEN", "TRADER_AVOID" ],
+    "vitamins": [ [ "vitC", 50 ], [ "iron", 50 ], [ "calcium", 50 ], [ "fruit_allergen", 1 ] ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the goodberries.",
+      "effect_on_conditions": [ "EOC_DRUID_EAT_THE_GOODBERRY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_EAT_THE_GOODBERRY",
+    "//": "Will not unbreak your limbs, but heals you.",
+    "effect": [
+      { "if": { "math": [ "u_hp('head') > 0" ] }, "then": { "math": [ "u_hp('head')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('torso') > 0" ] }, "then": { "math": [ "u_hp('torso')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('arm_l') > 0" ] }, "then": { "math": [ "u_hp('arm_l')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('arm_r') > 0" ] }, "then": { "math": [ "u_hp('arm_r')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('leg_l') > 0" ] }, "then": { "math": [ "u_hp('leg_l')", "+=", "3" ] } },
+      { "if": { "math": [ "u_hp('leg_r') > 0" ] }, "then": { "math": [ "u_hp('leg_r')", "+=", "3" ] } }
+    ]
   }
 ]

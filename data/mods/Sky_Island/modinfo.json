@@ -4,9 +4,9 @@
     "id": "skyisland",
     "name": "Sky Island",
     "authors": [ "TGW" ],
-    "description": "An attempt at an entirely new way to play CDDA, inspired by games like Escape from Tarkov and Dark and Darker.  Begin on a floating island in the sky and warp down to random spots on the earth below to conduct expeditions for items you need.  Permadeath is gone - you will return to the island on death but lose any items you had on you.  Build up your stockpile, carry out missions for unique rewards, customize your home island, and be prudent about what you take on any given outing.  Be aware that 'PLAY NOW' will NOT work, you MUST make a custom character.",
+    "description": "An attempt at an entirely new way to play CDDA, inspired by games like Escape from Tarkov and Dark and Darker.  Begin on a floating island in the sky and warp down to random spots on the earth below to conduct expeditions for items you need.  Permadeath is gone - you will return to the island on death but lose any items you had on you.  Build up your stockpile, carry out missions for unique rewards, customize your home island, unlock upgrades, and be prudent about what you take on any given outing.  Be aware that 'PLAY NOW' will NOT work, you MUST make a custom character.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
-    "version": "0.2.1"
+    "version": "0.3.0"
   }
 ]

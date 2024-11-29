@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "debug.h"
+
 namespace io
 {
 
@@ -22,10 +24,13 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::broken_bone: return "broken_bone";
         case event_type::broken_bone_mends: return "broken_bone_mends";
         case event_type::buries_corpse: return "buries_corpse";
+        case event_type::camp_taken_over: return "camp_taken_over";
         case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
         case event_type::character_consumes_item: return "character_consumes_item";
+        case event_type::character_dies: return "character_dies";
         case event_type::character_eats_item: return "character_eats_item";
         case event_type::character_casts_spell: return "character_casts_spell";
+        case event_type::character_finished_activity: return "character_finished_activity";
         case event_type::character_forgets_spell: return "character_forgets_spell";
         case event_type::character_gains_effect: return "character_gains_effect";
         case event_type::character_gets_headshot: return "character_gets_headshot";
@@ -38,15 +43,21 @@ std::string enum_to_string<event_type>( event_type data )
                                                  return "character_melee_attacks_character";
         case event_type::character_melee_attacks_monster:
                                                  return "character_melee_attacks_monster";
+        case event_type::character_radioactively_mutates: return "character_radioactively_mutates";
         case event_type::character_ranged_attacks_character:
                                                  return "character_ranged_attacks_character";
         case event_type::character_ranged_attacks_monster:
                                                  return "character_ranged_attacks_monster";
         case event_type::character_smashes_tile: return "character_smashes_tile";
+        case event_type::character_starts_activity: return "character_starts_activity";
         case event_type::character_takes_damage: return "character_takes_damage";
+        case event_type::monster_takes_damage: return "monster_takes_damage";
         case event_type::character_triggers_trap: return "character_triggers_trap";
+        case event_type::character_falls_asleep: return "character_falls_asleep";
+        case event_type::character_attempt_to_fall_asleep: return "character_attempt_to_fall_asleep";
         case event_type::character_wakes_up: return "character_wakes_up";
         case event_type::character_wears_item: return "character_wears_item";
+         case event_type::character_armor_destroyed: return "character_armor_destroyed";
         case event_type::character_wields_item: return "character_wields_item";
         case event_type::consumes_marloss_item: return "consumes_marloss_item";
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
@@ -75,6 +86,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::fuel_tank_explodes: return "fuel_tank_explodes";
         case event_type::gains_addiction: return "gains_addiction";
         case event_type::gains_mutation: return "gains_mutation";
+        case event_type::gains_proficiency: return "gains_proficiency";
         case event_type::gains_skill_level: return "gains_skill_level";
         case event_type::game_avatar_death: return "game_avatar_death";
         case event_type::game_avatar_new: return "game_avatar_new";
@@ -87,6 +99,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::installs_faulty_cbm: return "installs_faulty_cbm";
         case event_type::learns_martial_art: return "learns_martial_art";
         case event_type::loses_addiction: return "loses_addiction";
+        case event_type::loses_mutation: return "loses_mutation";
         case event_type::npc_becomes_hostile: return "npc_becomes_hostile";
         case event_type::opens_portal: return "opens_portal";
         case event_type::opens_spellbook: return "opens_spellbook";
@@ -108,6 +121,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::uses_debug_menu: return "uses_debug_menu";
         case event_type::u_var_changed: return "u_var_changed";
         case event_type::vehicle_moves: return "vehicle_moves";
+        case event_type::character_butchered_corpse: return "character_butchered_corpse";
         // *INDENT-ON*
         case event_type::num_event_types:
             break;
@@ -131,7 +145,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 94,
+static_assert( static_cast<int>( event_type::num_event_types ) == 106,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -148,8 +162,11 @@ DEFINE_EVENT_FIELDS( avatar_moves )
 DEFINE_EVENT_FIELDS( broken_bone )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )
+DEFINE_EVENT_FIELDS( camp_taken_over )
+DEFINE_EVENT_FIELDS( character_finished_activity )
 DEFINE_EVENT_FIELDS( character_forgets_spell )
 DEFINE_EVENT_FIELDS( character_casts_spell )
+DEFINE_EVENT_FIELDS( character_dies )
 DEFINE_EVENT_FIELDS( character_gains_effect )
 DEFINE_EVENT_FIELDS( character_heals_damage )
 DEFINE_EVENT_FIELDS( character_kills_character )
@@ -161,8 +178,12 @@ DEFINE_EVENT_FIELDS( character_melee_attacks_monster )
 DEFINE_EVENT_FIELDS( character_ranged_attacks_character )
 DEFINE_EVENT_FIELDS( character_ranged_attacks_monster )
 DEFINE_EVENT_FIELDS( character_smashes_tile )
+DEFINE_EVENT_FIELDS( character_starts_activity )
 DEFINE_EVENT_FIELDS( character_takes_damage )
+DEFINE_EVENT_FIELDS( monster_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
+DEFINE_EVENT_FIELDS( character_falls_asleep )
+DEFINE_EVENT_FIELDS( character_attempt_to_fall_asleep )
 DEFINE_EVENT_FIELDS( character_wakes_up )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )
 DEFINE_EVENT_FIELDS( dies_from_drug_overdose )
@@ -172,6 +193,7 @@ DEFINE_EVENT_FIELDS( fails_to_remove_cbm )
 DEFINE_EVENT_FIELDS( fuel_tank_explodes )
 DEFINE_EVENT_FIELDS( gains_addiction )
 DEFINE_EVENT_FIELDS( gains_mutation )
+DEFINE_EVENT_FIELDS( gains_proficiency )
 DEFINE_EVENT_FIELDS( gains_skill_level )
 DEFINE_EVENT_FIELDS( game_avatar_death )
 DEFINE_EVENT_FIELDS( game_avatar_new )
@@ -184,6 +206,7 @@ DEFINE_EVENT_FIELDS( installs_cbm )
 DEFINE_EVENT_FIELDS( installs_faulty_cbm )
 DEFINE_EVENT_FIELDS( learns_martial_art )
 DEFINE_EVENT_FIELDS( loses_addiction )
+DEFINE_EVENT_FIELDS( loses_mutation )
 DEFINE_EVENT_FIELDS( npc_becomes_hostile )
 DEFINE_EVENT_FIELDS( opens_spellbook )
 DEFINE_EVENT_FIELDS( player_fails_conduct )
@@ -196,6 +219,7 @@ DEFINE_EVENT_FIELDS( teleports_into_wall )
 DEFINE_EVENT_FIELDS( uses_debug_menu )
 DEFINE_EVENT_FIELDS( u_var_changed )
 DEFINE_EVENT_FIELDS( vehicle_moves )
+DEFINE_EVENT_FIELDS( character_butchered_corpse )
 
 } // namespace event_detail
 

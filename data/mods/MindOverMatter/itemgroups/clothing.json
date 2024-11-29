@@ -1,0 +1,11 @@
+[
+  {
+    "type": "item_group",
+    "id": "wallets_phavian",
+    "items": [
+      { "group": "wallet_phavian_leather_full", "prob": 50 },
+      { "group": "wallet_phavian_full", "prob": 25 },
+      { "group": "wallet_phavian_stylish_full", "prob": 25 }
+    ]
+  }
+]

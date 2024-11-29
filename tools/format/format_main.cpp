@@ -15,7 +15,7 @@
 #include <string>
 
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 
 static void erase_char( std::string &s, const char &c )
 {

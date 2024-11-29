@@ -6,16 +6,18 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_subscriber.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -209,6 +211,9 @@ class achievements_tracker : public event_subscriber
 
         void report_achievement( const achievement *, achievement_completion );
 
+        void write_json_achievements(
+            std::ostream &achievement_file, const std::string &avatar_name ) const;
+
         achievement_completion is_completed( const achievement_id & ) const;
         bool is_hidden( const achievement * ) const;
         std::string ui_text_for( const achievement * ) const;
@@ -220,6 +225,7 @@ class achievements_tracker : public event_subscriber
         }
 
         void clear();
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;

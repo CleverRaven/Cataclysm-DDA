@@ -3,7 +3,6 @@
 #include "item.h"
 #include "map.h"
 
-
 TEST_CASE( "tick_action_triggering", "[item]" )
 {
     item chainsaw( "chainsaw_on" );
@@ -11,7 +10,7 @@ TEST_CASE( "tick_action_triggering", "[item]" )
 
     // The chainsaw has no fuel and turns off via its tick_action
 
-    chainsaw.process( get_map(), nullptr, tripoint_zero );
+    chainsaw.process( get_map(), nullptr, tripoint::zero );
     CHECK( chainsaw.typeId().str() == "chainsaw_off" );
     CHECK( chainsaw.active == false );
 }

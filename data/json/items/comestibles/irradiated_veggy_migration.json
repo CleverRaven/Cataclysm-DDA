@@ -1,0 +1,92 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_lettuce",
+    "replace": "lettuce",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_cabbage",
+    "replace": "cabbage",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_tomato",
+    "replace": "tomato",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_broccoli",
+    "replace": "broccoli",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_zucchini",
+    "replace": "zucchini",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_onion",
+    "replace": "onion",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_carrot",
+    "replace": "carrot",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_corn",
+    "replace": "corn",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_pumpkin",
+    "replace": "pumpkin",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_potato",
+    "replace": "potato",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_plantain",
+    "replace": "plantain",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_cucumber",
+    "replace": "cucumber",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_celery",
+    "replace": "celery",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_rhubarb",
+    "replace": "rhubarb",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_eggplant",
+    "replace": "eggplant",
+    "flags": [ "IRRADIATED" ]
+  }
+]

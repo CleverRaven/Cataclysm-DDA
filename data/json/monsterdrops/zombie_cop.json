@@ -59,22 +59,19 @@
         "collection": [
           { "item": "tacvest", "damage": [ 1, 4 ] },
           {
-            "distribution": [
-              { "group": "longguns_cop_in_field", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
-              { "group": "longguns_cop_in_field_no_gun", "prob": 90 }
-            ],
-            "prob": 100
+            "distribution": [ { "group": "longguns_cop_in_field", "prob": 10 }, { "group": "longguns_cop_in_field_no_gun", "prob": 90 } ],
+            "prob": 50
           },
-          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 80 }
+          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 90 }
         ],
-        "prob": 70
+        "prob": 30
       },
       {
         "collection": [
-          { "group": "longguns_cop", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
-          { "group": "cop_holster", "damage": [ 1, 4 ], "prob": 80 }
+          { "group": "longguns_cop", "prob": 10, "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ] },
+          { "group": "cop_holster", "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ], "prob": 90 }
         ],
-        "prob": 30
+        "prob": 90
       }
     ]
   },
@@ -167,7 +164,7 @@
     "id": "cop_holster",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 20 }, { "item": "holster", "prob": 80 } ]
+    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 10 }, { "item": "holster", "prob": 90 } ]
   },
   {
     "id": "cop_holster_field",
@@ -176,7 +173,8 @@
     "//": "same as above but with the assumption that you have storage for magazines",
     "entries": [
       { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field" } ], "prob": 20 },
-      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field_no_gun" } ], "prob": 80 }
+      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field_no_gun" } ], "prob": 60 },
+      { "item": "holster", "prob": 60 }
     ]
   },
   {
@@ -192,7 +190,8 @@
       { "group": "swat_pants", "damage": [ 0, 4 ] },
       { "group": "swat_shoes", "damage": [ 0, 4 ] },
       { "group": "swat_torso", "damage": [ 0, 4 ] },
-      { "group": "swat_weapons", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 0, 7050 ] },
+      { "group": "swat_weapons", "prob": 25 },
+      { "group": "cop_holster", "prob": 70 },
       { "group": "underwear", "damage": [ 0, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 10 },

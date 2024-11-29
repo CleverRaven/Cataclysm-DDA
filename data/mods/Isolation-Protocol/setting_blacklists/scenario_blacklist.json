@@ -1,0 +1,7 @@
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "fractal_facility" ]
+  }
+]

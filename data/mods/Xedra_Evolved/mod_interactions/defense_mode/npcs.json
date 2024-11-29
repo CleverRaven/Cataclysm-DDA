@@ -1,0 +1,72 @@
+[
+  {
+    "type": "npc",
+    "id": "follower_xedra_zebra_officer",
+    "//": "Scenario specific NPC, should not spawn outside of trigger events.",
+    "class": "NC_ZEBRA_INVESTIGATOR",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_FRIEND",
+    "faction": "your_followers"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ZEBRA_INVESTIGATOR",
+    "name": "Zebra Investigator",
+    "job_description": "I've seen things I don't want to remember, strange far worlds and stuff.",
+    "skills": [
+      { "skill": "speech", "bonus": { "rng": [ 3, 3 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 3 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 3 ] } }
+    ],
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "worn_override": "zebra_worn_override",
+    "carry_override": "zebra_carry_override",
+    "weapon_override": "zebra_weapon_override",
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "zebra_worn_override",
+    "entries": [
+      { "item": "pants" },
+      { "item": "dress_shirt" },
+      { "item": "tie_skinny" },
+      { "item": "blazer" },
+      { "item": "trenchcoat" },
+      { "item": "badge_zebra" },
+      { "item": "gloves_leather" },
+      { "item": "wristwatch" },
+      { "item": "socks" },
+      { "item": "dress_shoes" },
+      { "item": "cig" },
+      { "item": "shoulder_holster" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "zebra_carry_override",
+    "entries": [
+      { "group": "charged_smart_phone" },
+      { "group": "charged_two_way_radio" },
+      { "group": "charged_ref_lighter" },
+      { "group": "suppressed_fn57" },
+      { "group": "diazepam_scrip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "zebra_weapon_override",
+    "entries": [ { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20 } ]
+  }
+]

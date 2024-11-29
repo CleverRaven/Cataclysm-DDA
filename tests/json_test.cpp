@@ -533,6 +533,67 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
     // NOLINTEND(cata-text-style)
 }
 
+TEST_CASE( "report_unvisited_members", "[json]" )
+{
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    restore_on_out_of_scope<json_error_output_colors_t> error_colors( json_error_output_colors );
+    error_log_format = error_log_format_t::human_readable;
+    json_error_output_colors = json_error_output_colors_t::no_colors;
+
+    // NOLINTBEGIN(cata-text-style)
+    SECTION( "unvisited members" ) {
+        const std::string json = R"({"foo": "foo", "bar": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonObject jo = json_loader::from_string( json );
+            jo.get_string( "foo" );
+        } );
+        CHECK_THAT(
+            dmsg,
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:22: Invalid or misplaced field name "bar" in JSON data)"
+                "\n\n"
+                R"({"foo": "foo", "bar": "bar"})" "\n"
+                R"(                    ▲▲▲)" "\n" ) );
+    }
+
+    SECTION( "comments" ) {
+        const std::string json = R"({"foo": "foo", "//": "foobar", "//bar": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonObject jo = json_loader::from_string( json );
+            jo.get_string( "foo" );
+        } );
+        CHECK_THAT( dmsg, Catch::Equals( "" ) );
+    }
+
+    SECTION( "misplaced translator comments" ) {
+        const std::string json = R"({"foo": "foo", "//~": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonObject jo = json_loader::from_string( json );
+            jo.get_string( "foo" );
+        } );
+        CHECK_THAT(
+            dmsg,
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:1:22: "//~" should be within a text object and contain comments for translators.)"
+                "\n\n"
+                R"({"foo": "foo", "//~": "bar"})" "\n"
+                R"(                    ▲▲▲)" "\n" ) );
+    }
+
+    SECTION( "valid translator comments" ) {
+        const std::string json = R"({"str": "foo", "//~": "bar"})";
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            JsonValue jv = json_loader::from_string( json );
+            translation msg;
+            jv.read( msg );
+        } );
+        CHECK_THAT( dmsg, Catch::Equals( "" ) );
+    }
+    // NOLINTEND(cata-text-style)
+}
+
 TEST_CASE( "correct_cursor_position_for_unicode_json_error", "[json]" )
 {
     restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );

@@ -2,17 +2,26 @@
   {
     "id": "BGSS_COP_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was a cop.  Small town sheriff.  We got orders without even really knowing what they meant.  At some point one of the g-men on the phone told me it was a Chinese attack, something in the water supply… I don't know if I believe it now, but at the time it was the best explanation.  At first it was weird, a few people - <zombies> - fighting like rabid animals.  Then it got worse.  I tried to control things, but it was just me and my deputies against a town in riot.  Then things really got fucked up.",
+    "dynamic_line": {
+      "gendered_line": "I was a cop.  Small town sheriff.  We got orders without even really knowing what they meant.  At some point one of the g-men on the phone told me it was a Chinese attack, something in the water supply… I don't know if I believe it now, but at the time it was the best explanation.  At first it was weird, a few people - <zombies> - fighting like rabid animals.  Then it got worse.  I tried to control things, but it was just me and my deputies against a town in riot.  Then things really got fucked up.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What happened?", "topic": "BGSS_COP_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_COP_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "A big-ass hole opened up right in the middle of town, and a <monster> crawled out, right in front of the church.  We unloaded into it, but bullets just bounced off.  Got some civilians in the crossfire.  It started just devouring people like potato chips into a gullet that looked like a rotting asshole with teeth, and… well, I lost my nerve.  I ran.  I think I might have been the only person to escape.  I haven't been able to even look at my badge since then.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "A big-ass hole opened up right in the middle of town, and a <monster> crawled out, right in front of the church.  We unloaded into it, but bullets just bounced off.  Got some civilians in the crossfire.  It started just devouring people like potato chips into a gullet that looked like a rotting asshole with teeth, and… well, I lost my nerve.  I ran.  I think I might have been the only person to escape.  I haven't been able to even look at my badge since then.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

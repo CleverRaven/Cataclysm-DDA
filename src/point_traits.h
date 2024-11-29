@@ -32,7 +32,7 @@ struct point_traits {
 template<typename Point>
 struct point_traits <
     Point,
-    std::enable_if_t < std::is_same<Point, point>::value || std::is_same<Point, tripoint>::value >
+    std::enable_if_t < std::is_same_v<Point, point> || std::is_same_v<Point, tripoint> >
     >  {
     static int &x( Point &p ) {
         return p.x;

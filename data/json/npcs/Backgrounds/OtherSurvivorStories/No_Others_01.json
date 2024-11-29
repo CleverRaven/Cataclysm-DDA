@@ -2,9 +2,12 @@
   {
     "id": "BOSS_No_Others_01_Story1",
     "type": "talk_topic",
-    "dynamic_line": "Sorry, but until I met you, I thought I might be the only one left.",
+    "dynamic_line": {
+      "gendered_line": "Sorry, but until I met you, I thought I might be the only one left.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
-      { "text": "Oh well.  Let's hope we find others.", "topic": "TALK_FRIEND" },
+      { "text": "Oh well.  Let's hope we find others.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

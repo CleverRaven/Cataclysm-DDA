@@ -1,0 +1,20 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "4570_sp",
+    "picture": [
+      "<color_light_gray>,",
+      "<color_yellow>‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "4570_pen",
+    "picture": [
+      "<color_yellow>.",
+      "‼",
+      "\""
+    ]
+  }
+]

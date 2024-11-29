@@ -42,6 +42,7 @@
 #include "mutation.h"
 #include "omdata.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
@@ -57,8 +58,6 @@ static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
-
-static const mon_flag_str_id mon_flag_HUMAN( "HUMAN" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -127,9 +126,11 @@ void memorial_logger::add( const std::string_view male_msg,
         return;
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+    const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
+                             oter_id() :
+                             overmap_buffer.ter( player_character.global_omt_location() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
-    const std::string &oter_name = cur_ter->get_name();
+    const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
     log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }
@@ -405,7 +406,7 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
 {
     JsonOut jsout( memorial_file, true, 2 );
     jsout.start_object();
-    jsout.member( "memorial_version", 0 );
+    jsout.member( "memorial_version", 1 );
     jsout.member( "log", log );
     jsout.member( "achievements", get_achievements() );
     jsout.member( "stats", get_stats() );
@@ -866,6 +867,16 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::gains_proficiency: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                proficiency_id proficiency = e.get<proficiency_id>( "proficiency" );
+                add( pgettext( "memorial_male", "Gained the proficiency '%s'." ),
+                     pgettext( "memorial_female", "Gained the proficiency '%s'." ),
+                     proficiency->name() );
+            }
+            break;
+        }
         case event_type::gains_skill_level: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
@@ -956,6 +967,16 @@ void memorial_logger::notify( const cata::event &e )
                 add( pgettext( "memorial_male", "Overcame addiction to %s." ),
                      pgettext( "memorial_female", "Overcame addiction to %s." ),
                      type->get_type_name().translated() );
+            }
+            break;
+        }
+        case event_type::loses_mutation: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                trait_id trait = e.get<trait_id>( "trait" );
+                add( pgettext( "memorial_male", "Lost the mutation '%s'." ),
+                     pgettext( "memorial_female", "Lost the mutation '%s'." ),
+                     get_avatar().mutation_name( trait ) );
             }
             break;
         }
@@ -1095,8 +1116,11 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::camp_taken_over:
         case event_type::character_consumes_item:
+        case event_type::character_dies:
         case event_type::character_eats_item:
+        case event_type::character_finished_activity:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
         case event_type::character_melee_attacks_character:
@@ -1104,10 +1128,16 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_ranged_attacks_character:
         case event_type::character_ranged_attacks_monster:
         case event_type::character_smashes_tile:
+        case event_type::character_starts_activity:
         case event_type::character_takes_damage:
+        case event_type::monster_takes_damage:
         case event_type::character_wakes_up:
+        case event_type::character_attempt_to_fall_asleep:
+        case event_type::character_falls_asleep:
+        case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:
         case event_type::cuts_tree:
         case event_type::opens_spellbook:
@@ -1120,6 +1150,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
+        case event_type::character_butchered_corpse:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

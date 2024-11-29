@@ -81,9 +81,9 @@ class colony : private element_allocator_type
         using skipfield_type = element_skipfield_type;
 
         // NOLINTNEXTLINE(bugprone-sizeof-expression)
-        using aligned_element_type = typename std::aligned_storage < sizeof( element_type ),
+        using aligned_element_type = std::aligned_storage_t < sizeof( element_type ),
               ( alignof( element_type ) > ( sizeof( element_skipfield_type ) * 2 ) ) ? alignof( element_type ) :
-              ( sizeof( element_skipfield_type ) * 2 ) >::type;
+              ( sizeof( element_skipfield_type ) * 2 ) >;
 
         using size_type = typename std::allocator_traits<element_allocator_type>::size_type;
         using difference_type = typename std::allocator_traits<element_allocator_type>::difference_type;

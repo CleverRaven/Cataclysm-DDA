@@ -2,30 +2,39 @@
   {
     "id": "BGSS_RURAL_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Well, I lived on the edge of a small town.  Corner store and a gas station and not much else.  We heard about the shit goin' down in the city, but we didn't see much of it until the military came blazing through and tried to set up a camp there.  They wanted to bottle us all up in town, and I wasn't having with that, so my dog Buck and I, we headed out while they were all sniffin' their own farts.",
+    "dynamic_line": {
+      "gendered_line": "Well, I lived on the edge of a small town.  Corner store and a gas station and not much else.  We heard about the shit goin' down in the city, but we didn't see much of it until the military came blazing through and tried to set up a camp there.  They wanted to bottle us all up in town, and I wasn't having with that, so my dog Buck and I, we headed out while they were all sniffin' their own farts.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_2_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_RURAL_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Buck and I slipped out and went East, headin' for my friend's ranch.  Cute little dope thought we were just goin' for a real long walk.  I couldn't take the truck without the army boys catchin' wind of it.  We made it out to the forest, camped out in a lean to.  Packed up and kept heading out.  At first we walked along the highway a little, but saw too many army trucks and buses full of evacuees, and that's when we found out about the <zombies>.",
+    "dynamic_line": {
+      "gendered_line": "Buck and I slipped out and went East, headin' for my friend's ranch.  Cute little dope thought we were just goin' for a real long walk.  I couldn't take the truck without the army boys catchin' wind of it.  We made it out to the forest, camped out in a lean to.  Packed up and kept heading out.  At first we walked along the highway a little, but saw too many army trucks and buses full of evacuees, and that's when we found out about the <zombies>.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "TK: In a future version this NPC might give you directions to the ranch.",
     "responses": [
       { "text": "Where's Buck now?", "topic": "BGSS_RURAL_2_STORY3" },
-      { "text": "I see where this is headed.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I see where this is headed.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "I see where this is headed.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_RURAL_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "We got to my buddy's ranch, but the <swear> g-men had been there first.  It was all boarded up and there was a police barricade out front.  One of those <swear> turrets… <swear> shot Buck.  Almost got me too.  I managed to get my pup… get him outta there, that… it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first.  And then, well, while I was still cryin', Buck came back.  I had to… <swear!>.  I… I can't say it.  You know.",
+    "dynamic_line": {
+      "gendered_line": "We got to my buddy's ranch, but the <swear> g-men had been there first.  It was all boarded up and there was a police barricade out front.  One of those <swear> turrets… <swear> shot Buck.  Almost got me too.  I managed to get my pup… get him outta there, that… it wasn't easy, had to use a police car door as a shield, had to kill a cop-zombie first.  And then, well, while I was still cryin', Buck came back.  I had to… <swear!>.  I… I can't say it.  You know.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
-      { "text": "I'm sorry about Buck.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I'm sorry about Buck.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "I'm sorry about Buck.  <end_talking>", "topic": "TALK_DONE" }
     ]
   }

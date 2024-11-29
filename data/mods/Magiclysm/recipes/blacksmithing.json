@@ -16,7 +16,7 @@
       { "proficiency": "prof_almetallurgy" }
     ],
     "book_learn": [ [ "metal_legends", 4 ] ],
-    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "components": [ [ [ "orichalcum_sliver", 8 ], [ "orichalcum_lump", 2 ] ], [ [ "mercury", 100 ] ] ]
   },
   {
@@ -36,7 +36,7 @@
     ],
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "metal_legends", 4 ] ],
-    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "demon_forge", 15 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "components": [ [ [ "scrap_bronze", 9 ] ], [ [ "mercury", 400 ] ] ]
   },
   {
@@ -90,7 +90,7 @@
       { "id": "FILE", "level": 2 },
       { "id": "ANVIL", "level": 1 }
     ],
-    "tools": [ [ [ "demon_forge", 30 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "demon_forge", 30 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_almetallurgy", "required": true },
       { "proficiency": "prof_golemancy_basic", "required": false, "time_multiplier": 1.5, "skill_penalty": 1 }

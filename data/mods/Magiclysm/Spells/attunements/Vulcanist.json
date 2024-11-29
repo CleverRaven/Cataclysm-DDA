@@ -2,8 +2,9 @@
   {
     "id": "lava_bomb_shrapnel",
     "type": "SPELL",
-    "name": "Lava Bomb Shrapnel",
-    "description": "This is a sub spell for the Lava Bomb spell.",
+    "name": { "str": "Lava Bomb Shrapnel", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub spell for the Lava Bomb spell.", "//~": "NO_I18N" },
+    "flags": [ "EVOCATION_SPELL" ],
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
@@ -12,6 +13,7 @@
     "min_damage": 5,
     "max_damage": 145,
     "damage_increment": 4,
+    "multiple_projectiles": { "math": [ "rng(3, 8)" ] },
     "min_aoe": 1,
     "max_aoe": 3,
     "aoe_increment": 0.1
@@ -19,8 +21,9 @@
   {
     "id": "lava_bomb_heat",
     "type": "SPELL",
-    "name": "Lava Bomb Heat",
-    "description": "This is a sub spell for the Lava Bomb spell.",
+    "name": { "str": "Lava Bomb Heat", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub spell for the Lava Bomb spell.", "//~": "NO_I18N" },
+    "flags": [ "EVOCATION_SPELL", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
@@ -36,8 +39,8 @@
   {
     "id": "lava_bomb_ter",
     "type": "SPELL",
-    "name": "Lava Bomb Terrain",
-    "description": "This is a sub spell for the Lava Bomb spell.",
+    "name": { "str": "Lava Bomb Terrain", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub spell for the Lava Bomb spell.", "//~": "NO_I18N" },
     "effect": "ter_transform",
     "effect_str": "lava_bomb",
     "shape": "blast",
@@ -68,8 +71,13 @@
     "base_casting_time": 350,
     "base_energy_cost": 400,
     "energy_source": "MANA",
-    "flags": [ "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
+    "extra_effects": [
+      { "id": "lava_bomb_shrapnel" },
+      { "id": "lava_bomb_heat" },
+      { "id": "lava_bomb_ter" },
+      { "id": "eoc_evocation_setup", "hit_self": true }
+    ],
     "spell_class": "VULCANIST"
   },
   {
@@ -97,15 +105,15 @@
     "final_energy_cost": 500,
     "energy_increment": 5,
     "energy_source": "MANA",
-    "flags": [ "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE" ],
-    "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" } ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE", "SPLIT_DAMAGE" ],
+    "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "VULCANIST"
   },
   {
     "type": "SPELL",
     "id": "vulcanist_pyroclastic_flow_smoke",
-    "name": "Pyroclastic Flow Smoke",
-    "description": "Creates smoke in the area.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Pyroclastic Flow Smoke", "//~": "NO_I18N" },
+    "description": { "str": "Creates smoke in the area.  Subspell; you aren't allowed to see it except in debug mode.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground", "ally" ],

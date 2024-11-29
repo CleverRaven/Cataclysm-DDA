@@ -1,0 +1,21 @@
+[
+  {
+    "id": "afs_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "tourniquet_upper" },
+      { "group": "quikclot_bag_plastic_5" },
+      { "item": "bandages", "count": 9 },
+      { "item": "medical_gauze", "count": 3 },
+      { "item": "afs_medigel" },
+      { "item": "afs_painkiller" },
+      { "item": "afs_stimpack" },
+      { "item": "syringe" },
+      { "item": "gloves_medical" },
+      { "item": "scissors_medical" }
+    ]
+  }
+]

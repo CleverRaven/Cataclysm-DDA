@@ -1,8 +1,6 @@
 #include "iuse_software_snake.h"
 
 #include <cstddef>
-#include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <utility>
@@ -11,7 +9,7 @@
 #include "catacharset.h"  // utf8_width()
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -43,11 +41,13 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
 
     // Body of dead snake
     size_t body_length = 3;
+    wattron( w_snake, c_green );
     for( size_t i = 1; i <= body_length; i++ ) {
         for( size_t j = 0; j <= 1; j++ ) {
-            mvwprintz( w_snake, point( 4 + j * 65, i ), c_green, "|   |" );
+            mvwprintw( w_snake, point( 4 + j * 65, i ),  "|   |" );
         }
     }
+    wattroff( w_snake, c_green );
 
     // Head of dead snake
     mvwprintz( w_snake, point( 3, body_length + 1 ), c_green, "(     )" );
@@ -74,9 +74,11 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     game_over_text.emplace_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
     game_over_text.emplace_back( R"(         \/                  \/         \/  )" );
 
+    wattron( w_snake, c_light_red );
     for( size_t i = 0; i < game_over_text.size(); i++ ) {
-        mvwprintz( w_snake, point( 17, i + 3 ), c_light_red, game_over_text[i] );
+        mvwprintw( w_snake, point( 17, i + 3 ), game_over_text[i] );
     }
+    wattroff( w_snake, c_light_red );
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
     // TODO: print actual bound keys
@@ -130,10 +132,15 @@ int snake_game::start_game()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_snake );
         print_header( w_snake );
+        wattron( w_snake, c_light_gray );
         for( auto it = vSnakeBody.begin(); it != vSnakeBody.end(); ++it ) {
-            const nc_color col = it + 1 == vSnakeBody.end() ? c_white : c_light_gray;
-            mvwputch( w_snake, point( it->second, it->first ), col, '#' );
+            if( it + 1 == vSnakeBody.end() ) {
+                wattroff( w_snake, c_light_gray );
+                wattron( w_snake, c_white );
+            }
+            mvwaddch( w_snake, point( it->second, it->first ), '#' );
         }
+        wattroff( w_snake, c_white );
         if( iFruitPosX != 0 && iFruitPosY != 0 ) {
             mvwputch( w_snake, point( iFruitPosX, iFruitPosY ), c_light_red, '*' );
         }

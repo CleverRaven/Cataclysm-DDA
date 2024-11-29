@@ -1,0 +1,28 @@
+[
+  {
+    "id": "bullet",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "light_red",
+    "name": "ballistic",
+    "material_required": true,
+    "immune_flags": { "character": [ "BULLET_IMMUNE" ] },
+    "ondamage_eocs": [ "ISO_BAL_DAMAGE_EFFECTS" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "ISO_BAL_DAMAGE_EFFECTS",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "iso_backup_perk",
+            "condition": { "u_has_trait": "iso_backup" },
+            "effect": [ { "u_add_effect": "iso_eff_backup", "duration": "2 seconds" } ]
+          }
+        ]
+      }
+    ]
+  }
+]

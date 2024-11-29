@@ -4,7 +4,7 @@
     "id": "DREAMER",
     "name": "Dreamer",
     "points": 0,
-    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices, that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their power scales with their natural perception and intellect.",
+    "description": "Dreamers are people who are able to tap into the power of dreams and nearby dimensions and create fantastical effects as a result.  They can even pull some of this dream material into our world to build other things with it.  Sometimes they hear outside voices that offer help and presents, and with enough power, dreamers can pull them right from beyond.  Their power scales with their natural perception and intellect.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -19,14 +19,14 @@
     ],
     "vitamin_rates": [ [ "dreamer_vit", -1080 ] ],
     "//": "1 vit each 18 minutes, 80 per day, 12,5 days to full",
-    "spells_learned": [ [ "create_dream_dross", 0 ], [ "dreamer_artifact", 0 ] ]
+    "spells_learned": [ [ "create_dream_dross", 0 ], [ "dreamer_artifact", 0 ], [ "return_critters", 0 ] ]
   },
   {
     "type": "mutation",
     "id": "EATER",
     "name": "Eater of Dreams",
     "points": 0,
-    "description": "These people are aware of this cross-dimensional contamination and while they can't pull anything over and make new things, they can eat anything they find in our world that doesn't belong and gain abilities and powers from that consumption.  They have larger than normal mana pools but regen that mana much slower as a result, they can cast a spell to convert dreamdross scraps directly into mana.  Their powers scales with their natural strength and dexterity.",
+    "description": "These people are aware of this cross-dimensional contamination and while they can't pull anything over and make new things, they can eat anything they find in our world that doesn't belong and gain abilities and powers from that consumption.  They have larger than normal mana pools but regen that mana much slower as a result, they can cast a spell to convert dreamdross scraps directly into mana.  Their power scales with their natural strength and dexterity.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -58,5 +58,15 @@
     "enchantments": [ "BONUS_INVENTOR" ],
     "cancels": [ "DREAMSMITH" ],
     "vitamin_rates": [ [ "creative_spark", -64800 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HEDGE_MAGIC",
+    "name": "Hedgecraft",
+    "points": 0,
+    "description": "The craft of the wise, provenance of cunning men, wise women, soothsayers, knowers, herb-witches, and curse-lifters throughout history.  With the proper components, and at the proper times and places, they can perform miracles.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

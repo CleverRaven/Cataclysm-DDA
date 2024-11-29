@@ -293,5 +293,27 @@
     "mission": 3,
     "chat": "TALK_CARAVAN_MERCHANT_1",
     "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "FM_caravan_merchant_godco_predatory",
+    "//": "Random NPC, persistent, is predatory in their pricing and aims to exploit God's Chosen for profit.",
+    "name_suffix": "merchant",
+    "class": "NC_TRADER_PREDATORY",
+    "attitude": 0,
+    "mission": 3,
+    "death_eocs": [ "GODCO_TRADER_MISSION_DEATHFAIL" ],
+    "chat": "TALK_CARAVAN_MERCHANT_PREDATORY_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "FM_caravan_guard_predatory",
+    "name_suffix": "guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CARAVAN_GUARD_PREDATORY",
+    "faction": "free_merchants"
   }
 ]

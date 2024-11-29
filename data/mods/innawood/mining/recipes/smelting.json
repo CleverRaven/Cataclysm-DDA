@@ -67,7 +67,7 @@
     "//": "Yield is just over 98% by weight, each output of copper is 400 weight.  Volume of output is massively oversize however.",
     "result_mult": 21,
     "byproducts": [ [ "platinum_small" ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },
   {
@@ -84,7 +84,7 @@
     "autolearn": true,
     "//": "Reversed copper smelting recipe to make it easier to find the platinum recipe.",
     "byproducts": [ [ "copper", 21 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },
   {
@@ -101,7 +101,7 @@
     "autolearn": true,
     "//": "Yield is just over 97% by weight, each output of silver is 300 weight.  Volume of output is massively oversize however.",
     "result_mult": 34,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_silver", 1 ] ] ]
   },
   {
@@ -118,7 +118,7 @@
     "autolearn": true,
     "//": "Yield is just over 98% by weight, each output of gold is 500 weight.  Volume of output is massively oversize however.",
     "result_mult": 38,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_gold", 1 ] ] ]
   },
   {
@@ -135,7 +135,7 @@
     "autolearn": true,
     "//": "Yield is just 100% by weight, each output of aluminum is 675 weight.",
     "result_mult": 4,
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "integrated_welder", 10 ] ] ],
     "components": [ [ [ "chunk_aluminum", 1 ] ] ]
   },
   {
@@ -246,5 +246,23 @@
       [ [ "material_shrd_limestone", 1 ], [ "material_limestone", 10 ] ],
       [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ]
     ]
+  },
+  {
+    "result": "mercury",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "smelt",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "chemistry", 3 ] ],
+    "time": "2 h",
+    "batch_time_factors": [ 20, 4 ],
+    "//": "handwaves crushing cinnabar to avoid extra micro and recipe, added an extra hour to simulate crushing",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ] ] ],
+    "components": [ [ [ "chunk_cinnabar", 1 ] ] ]
   }
 ]

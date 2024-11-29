@@ -5,9 +5,70 @@
     "name": { "str": "PrepNet Tag" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a Prepnet.  It is a bug if you have it.",
+    "description": "NPC trait that makes monsters see it as a PrepNet.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_SYSTEM_SECURITY",
+    "name": { "str": "Local System Security" },
+    "points": 0,
+    "description": "You are a duly sworn law enforcement officer, with jurisdiction that technically extends to the Salus System.  Whether you can find anyone who that matters to is questionable.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_PINKERTON",
+    "name": { "str": "Pinkerton" },
+    "points": 0,
+    "description": "You are an UICA affiliated private-security professional, with jurisdiction that technically extends to the Salus System.  Whether you can find anyone who that matters to is questionable.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_TRAVELING_DOCTOR",
+    "name": { "str": "MD" },
+    "points": 0,
+    "description": "You're a doctor who went out to space and has somehow ended up out on the frontier in the Salus System.  At least out here you get a lot more hands on life or death work compared to the core UICA worlds.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_REDISCOVERED_TRIBAL",
+    "name": { "str": "Rediscovered Tribal" },
+    "points": 0,
+    "description": "Some worlds maintained human life but lost technologically advanced civilization.  As these worlds get rediscovered some organizations leave the worlds to develop, while others see a source of cheap labor.  Whether you snuck onto a ship or were Shanghaied onto one you've somehow ended up on the hell that is Salus IV.  At least you have some experience surviving outside of what these spacers call 'civilization'.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_UICA_INSPECTOR",
+    "name": { "str": "UICA Inspector" },
+    "points": 0,
+    "description": "You are a UICA Inspector from a civilized part of space.  You have the authority to investigate under a variety of different legal frameworks, UICA, planetary, corporate, system, pre-Discontinuity legal systems for worlds that have only recently been re-discovered.  All of this means that you are nearly a law unto yourself, though you wonder how much that matters in a place like Salus IV outside of maybe Port Augustmoon.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_UICA_SECRET_POLICE",
+    "name": { "str": "UICA Astrographic and Gatepoint Agent" },
+    "points": 0,
+    "description": "As a member of the Astrographic and Gatepoint Division you are responsible for spreading the boundaries of the Frontiers and protecting interstellar travel.  This gives you wide ranging latitude when it comes to addressing threats to interstellar travel.  Does this technically make you a member of UICA's very own secret police?  Yes, yes it does.",
+    "cancels": [ "PROF_HUB01_ANCILLIARY" ],
+    "valid": false,
+    "purifiable": false,
+    "profession": true
   },
   {
     "type": "mutation_category",
@@ -82,7 +143,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
-    "consume_time_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ],
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_TENDRILS" ],
@@ -192,7 +253,7 @@
     "changes_to": [ "EXPANDED_CONSCIOUSNESS" ],
     "types": [ "INT" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "int_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -204,7 +265,7 @@
     "prereqs": [ "NEURAL_IMPROVEMENT" ],
     "changes_to": [ "UPLIFTED_CONSCIOUSNESS" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -218,7 +279,7 @@
     "types": [ "INT" ],
     "changes_to": [ "ALIEN_INT" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "int_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -233,7 +294,7 @@
     "category": [ "MIGO" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
-    "passive_mods": { "int_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -244,7 +305,7 @@
     "types": [ "DEX" ],
     "changes_to": [ "QUICKENING" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -256,7 +317,7 @@
     "prereqs": [ "ENHANCED_REACTIONS" ],
     "changes_to": [ "OTHERWORLDLY_GRACE" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -269,7 +330,7 @@
     "threshreq": "THRESH_YUGGOTH",
     "social_modifiers": { "persuade": -10, "lie": -6 },
     "category": [ "MIGO" ],
-    "passive_mods": { "dex_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -281,7 +342,7 @@
     "category": [ "MIGO" ],
     "types": [ "STR" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -294,7 +355,7 @@
     "category": [ "MIGO" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "ugliness": 2,
-    "passive_mods": { "str_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -306,7 +367,7 @@
     "types": [ "EARS" ],
     "category": [ "MIGO" ],
     "ugliness": 4,
-    "hearing_modifier": 1.4
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -440,7 +501,7 @@
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 60%.",
     "category": [ "MASTODON" ],
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -480,9 +541,22 @@
     "visibility": 2,
     "ugliness": 1,
     "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "LIGHTFUR" ],
-    "category": [ "MASTODON", "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "URSINE" ]
+    "category": [
+      "MASTODON",
+      "SPIDER",
+      "MOUSE",
+      "BEAST",
+      "CATTLE",
+      "RAT",
+      "FELINE",
+      "LUPINE",
+      "RABBIT",
+      "INSECT",
+      "URSINE",
+      "CHIROPTERAN"
+    ]
   },
   {
     "type": "mutation",
@@ -510,7 +584,7 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_sleep": 550,
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1.1 } ] } ],
     "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
@@ -626,6 +700,12 @@
     "type": "mutation",
     "id": "MUT_TOUGH3",
     "copy-from": "MUT_TOUGH3",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
     "extend": { "category": [ "MASTODON" ] }
   },
   {
@@ -765,7 +845,7 @@
     "purifiable": false,
     "cancels": [ "STR_UP" ],
     "profession": true,
-    "passive_mods": { "str_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -774,6 +854,16 @@
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
     "bodytemp_modifiers": [ -850, 850 ],
     "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_LEADERSHIP",
+    "name": "Empathic Leadership",
+    "description": "You have a natural talent for leadership and can easily see yourself in others.  Quite literally.  In fact, you can swap control to any other character that follows you.",
+    "points": 5,
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -867,5 +957,15 @@
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
     "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SKULLGUN_STUPID",
+    "name": { "str": "Skullgun Stupidity" },
+    "points": -1,
+    "description": "You took the bionic skullgun out of your noggin, but that didn't replace the brain cells you lost when you installed it.",
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "PERCEPTION", "add": -2 } ] } ]
   }
 ]

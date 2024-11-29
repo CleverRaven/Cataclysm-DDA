@@ -10,7 +10,6 @@
 // They should be updated when the corresponding option is changed (in
 // options.cpp).
 
-extern bool fov_3d;
 extern int fov_3d_z_range;
 extern bool keycode_mode;
 extern bool log_from_top;
@@ -21,6 +20,7 @@ extern bool prevent_occlusion_retract;
 extern bool prevent_occlusion_transp;
 extern float prevent_occlusion_min_dist;
 extern float prevent_occlusion_max_dist;
+extern bool show_creature_overlay_icons;
 extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_pinyin_search;

@@ -1,0 +1,93 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armored_warrior_mace",
+    "copy-from": "mon_feral_armored_mace",
+    "name": { "str": "armored warrior with mace", "str_pl": "armored warriors with maces" },
+    "looks_like": "mon_feral_armored_mace",
+    "description": "Clad in ancient armor and with a mace in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armored_warrior_axe",
+    "copy-from": "mon_feral_armored_battleaxe",
+    "name": { "str": "armored warrior with axe", "str_pl": "armored warriors with axes" },
+    "looks_like": "mon_feral_armored_battleaxe",
+    "description": "Clad in ancient armor and with a battleaxe in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armed_warrior_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "name": { "str": "warrior with spear", "str_pl": "warriors with spears" },
+    "looks_like": "mon_feral_sapien_spear",
+    "description": "Clad in leather armor and with a spear in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hedge_armed_warrior_sword",
+    "copy-from": "mon_feral_fancy_rapier",
+    "name": { "str": "warrior with sword", "str_pl": "warriors with sword" },
+    "looks_like": "mon_feral_fancy_rapier",
+    "description": "Clad in leather armor and with a sword in hand, this warrior was summoned by magic to defend you.",
+    "default_faction": "player",
+    "extend": { "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 18 } },
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_samhain_ghost_mace",
+    "copy-from": "mon_feral_armored_mace",
+    "name": { "str": "shadowy warrior" },
+    "looks_like": "mon_memory",
+    "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
+    "default_faction": "player",
+    "melee_skill": 5,
+    "speed": 95,
+    "vision_night": 15,
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_samhain_ghost_axe",
+    "copy-from": "mon_feral_armored_battleaxe",
+    "name": { "str": "shadowy warrior" },
+    "looks_like": "mon_memory",
+    "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
+    "default_faction": "player",
+    "melee_skill": 5,
+    "speed": 95,
+    "vision_night": 15,
+    "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_samhain_ghost_spear",
+    "copy-from": "mon_feral_sapien_spear",
+    "name": { "str": "shadowy warrior" },
+    "description": "A shadowy figure, only barely visible as more than a mist, but the silhouette of armor and weapons are obvious.",
+    "looks_like": "mon_memory",
+    "default_faction": "player",
+    "melee_skill": 5,
+    "speed": 95,
+    "vision_night": 15,
+    "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
+  }
+]

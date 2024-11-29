@@ -16,7 +16,7 @@ jobs:
         cancel_others: 'true'
         paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
     - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v3.1.2
+    - uses: actions/upload-artifact@v4
       with:
         name: pull_request_id
         path: pull_request_id
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: install dependencies
       run: sudo apt-get install astyle

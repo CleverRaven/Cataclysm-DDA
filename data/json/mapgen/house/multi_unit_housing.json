@@ -31,8 +31,14 @@
         "..............=`````=...",
         "..............=======..."
       ],
-      "palettes": [ "standard_domestic_palette", "apt_complex_ground" ],
-      "place_nested": [ { "chunks": [ "multi_unit_home" ], "x": 2, "y": 2 } ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex_ground" ],
+      "place_nested": [
+        { "chunks": [ "multi_unit_home" ], "x": 2, "y": 2 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 10, "y": 1 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 11, "y": 1 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 1 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 13, "y": 1 }
+      ],
       "terrain": { "-": "t_concrete" }
     }
   },
@@ -68,7 +74,7 @@
         "..............=`````=...",
         "..............=======..."
       ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_nested": [ { "chunks": [ "multi_unit_home" ], "x": 2, "y": 2 } ],
       "terrain": { ".": "t_open_air" }
     }
@@ -105,7 +111,7 @@
         "..............=`````=...",
         "..............=======..."
       ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_nested": [ { "chunks": [ "multi_unit_home" ], "x": 2, "y": 2 } ],
       "terrain": { ".": "t_open_air" }
     }
@@ -215,7 +221,7 @@
         "////////////////////"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_loot": [ { "item": "television", "x": 13, "y": 8, "chance": 100 } ]
     }
   },
@@ -249,7 +255,7 @@
         "////////////////////"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_loot": [ { "item": "television", "x": 18, "y": [ 12, 13 ], "chance": 100 } ]
     }
   },
@@ -283,7 +289,7 @@
         "////////////////////"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_loot": [
         { "item": "television", "x": 11, "y": 15, "chance": 100 },
         { "item": "television", "x": [ 14, 15 ], "y": 6, "chance": 100 }
@@ -320,7 +326,7 @@
         "////////////////////"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_loot": [ { "item": "television", "x": 13, "y": 15, "chance": 100 } ]
     }
   },
@@ -354,7 +360,7 @@
         "////////////////////"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_loot": [ { "item": "television", "x": 18, "y": [ 12, 13 ], "chance": 100 } ]
     }
   },
@@ -388,7 +394,7 @@
         "////////////////////"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "standard_domestic_palette", "apt_complex" ],
+      "palettes": [ "domestic_general_and_variant_palette", "apt_complex" ],
       "place_loot": [
         { "item": "television", "x": 14, "y": [ 2, 3 ], "chance": 100 },
         { "item": "television", "x": [ 17, 18 ], "y": 17, "chance": 100 }

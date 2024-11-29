@@ -8,6 +8,10 @@
 #include "type_id.h"
 #include "units.h"
 
+static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id test_bio_limb_leg_l( "test_bio_limb_leg_l" );
+static const bionic_id test_bio_limb_leg_r( "test_bio_limb_leg_r" );
+
 static const character_modifier_id
 character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
 static const character_modifier_id
@@ -91,7 +95,7 @@ static int actual_burn_rate( Character &dummy, const move_mode_id &move_mode )
     int before_stam = dummy.get_stamina();
     dummy.burn_move_stamina( to_moves<int>( 1_turns ) );
     int after_stam = dummy.get_stamina();
-    REQUIRE( before_stam > after_stam );
+    REQUIRE( before_stam >= after_stam );
 
     // How much stamina was actually burned?
     return before_stam - after_stam;
@@ -138,6 +142,34 @@ static float actual_regen_rate( Character &dummy, int turns )
     int after_stam = dummy.get_stamina();
 
     return after_stam - before_stam;
+}
+
+static int one_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode )
+{
+    clear_avatar();
+    dummy.add_bionic( bio_power_storage );
+    dummy.add_bionic( test_bio_limb_leg_l );
+    dummy.set_power_level( dummy.get_max_power_level() );
+
+    // confirm that we have the bionic and that our limb is missing
+    REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
+    REQUIRE( dummy.get_cached_organic_size() == 0.85f );
+    return actual_burn_rate( dummy, move_mode );
+}
+
+static int two_bionic_burn_rate( Character &dummy, const move_mode_id &move_mode )
+{
+    clear_avatar();
+    dummy.add_bionic( bio_power_storage );
+    dummy.add_bionic( test_bio_limb_leg_l );
+    dummy.add_bionic( test_bio_limb_leg_r );
+    dummy.set_power_level( dummy.get_max_power_level() );
+
+    // confirm that we have the bionics and that our limbs are missing
+    REQUIRE( dummy.has_bionic( test_bio_limb_leg_l ) );
+    REQUIRE( dummy.has_bionic( test_bio_limb_leg_r ) );
+    REQUIRE( dummy.get_cached_organic_size() == 0.70f );
+    return actual_burn_rate( dummy, move_mode );
 }
 
 // Test cases
@@ -324,6 +356,16 @@ TEST_CASE( "stamina_burn_for_movement", "[stamina][burn][move]" )
             CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.50 ) == ( normal_burn_rate + 50 ) / 2 );
             CHECK( burdened_burn_rate( dummy, move_mode_crouch, 1.99 ) == ( normal_burn_rate + 99 ) / 2 );
             CHECK( burdened_burn_rate( dummy, move_mode_crouch, 2.00 ) == ( normal_burn_rate + 100 ) / 2 );
+        }
+    }
+
+    GIVEN( "player has bionic limbs which will spend power instead of stamina" ) {
+        THEN( "having one bionic leg means half the stamina cost" ) {
+            CHECK( one_bionic_burn_rate( dummy, move_mode_walk ) == normal_burn_rate / 2 );
+        }
+
+        THEN( "having two bionic legs means movement takes no stamina" ) {
+            CHECK( two_bionic_burn_rate( dummy, move_mode_walk ) == 0 );
         }
     }
 }

@@ -44,5 +44,13 @@
     "default_time_multiplier": 2,
     "default_skill_penalty": 0.4,
     "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_aircraft_mechanic",
+    "category": "prof_mechanic",
+    "name": { "str": "Airframe and Powerplant Mechanic" },
+    "description": "You've been trained and certified to repair aircraft.  You're not really sure how that could help you survive now.",
+    "can_learn": false
   }
 ]

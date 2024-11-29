@@ -110,6 +110,12 @@
           "failures": [ { "action": "destroy_blood" } ]
         }
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
         { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 },
         { "monster": "GROUP_HOSPITAL", "x": [ 25, 31 ], "y": [ 5, 22 ], "density": 0.6 },
@@ -223,6 +229,12 @@
           "failures": [ { "action": "destroy_blood" } ]
         }
       },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+      },
       "place_monsters": [
         { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 },
         { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.6 },
@@ -268,28 +280,28 @@
         "#|| |  +kjj|jjk+  |X   |Ƨ  u  ||#...............",
         "#J  Y  | Г | ^ |  |X   +   u  4f#...............",
         "#J  u  |4 r|4 r|  ||||||||||  ||#############...",
-        "#JƧ u  ||+|||+||  |FFPP|---|  |4ւrz|T|T|4ւrz#...",
-        "#J  U  |W T|W T|  |   4|---|  |f   + | +   ho...",
-        "#||||  |||||||||  ||+|||&**|  |E  L|W|W|E  L#...",
+        "#JƧ u  ||+|||+||  |FFPP|---|  |4ւrz|T|T|4ւrz#°..",
+        "#J  U  |W T|W T|  |   4|---|  |f   + | +   ho°..",
+        "#||||  |||||||||  ||+|||&**|  |E  L|W|W|E  L#°..",
         "#PLP|                         ||+||||||||+||#...",
         "#O4 $                                       o...",
         "#||||  |||||||||        ƃ ƃ                 o...",
-        "#W T|  |W T|W T|  |||||||||+||||+||||||||+||#...",
-        "#|+||  ||+|||+||  |L +T|W|L gE|E  L|W|W|E  L#...",
-        "#4 r|  |4 r|4 r|  +  ||| +    |    + | +    o...",
-        "# ^ |  | Г |Г  +  |z +T|T|4Яrz|4Яrz|T|T|4Яrz#...",
+        "#W T|  |W T|W T|  |||||||||+||||+||||||||+||#°..",
+        "#|+||  ||+|||+||  |L +T|W|L gE|E  L|W|W|E  L#°..",
+        "#4 r|  |4 r|4 r|  +  ||| +    |    + | +    o°..",
+        "# ^ |  | Г |Г  +  |z +T|T|4Яrz|4Яrz|T|T|4Яrz#°..",
         "#jjk+  +kjj|||||  ||||||||||||||||||||||||||#...",
         "# ^ |  | Г |4         uJJJJ| X|4ւrz|T|T|4ւrz#...",
         "#r E|  |r E|   |||||  Y    $ D|f   + | +   ho...",
-        "#||||  |||||   o  >o  u Ƨ  | O|E  L|W|W|E  L#...",
-        "#W T|  |W T|ƃ  *   *  uuuUu|||||+||||||||+||#...",
-        "#|+||  ||+||ƃ  o  <o                        o...",
+        "#||||  |||||   o  >o  u Ƨ  | O|E  L|W|W|E  L#°..",
+        "#W T|  |W T|ƃ  *   *  uuuUu|||||+||||||||+||#°..",
+        "#|+||  ||+||ƃ  o  <o                        o°..",
         "o4 r|  |4 r|ƃ  |||||ƃ                       o...",
         "# ^ |  | Г |    SzR   V||||+||||+||||||||+||#...",
         "#jjk+  +kjj|          H|W|L gE|E  L|W|W|E  L#...",
-        "# ^ |  | Г |h         H| +    |    + | +    o...",
-        "#r E|  |r E|E  hƃy HHHV|T|4Яrz|4Яrz|T|T|4Яrz#...",
-        "##o##oo########oooooo#######o####o###########...",
+        "# ^ |  | Г |h         H| +    |    + | +    o°..",
+        "#r E|  |r E|E  hƃy HHHV|T|4Яrz|4Яrz|T|T|4Яrz#°..",
+        "##o##oo########oooooo#######o####o###########°..",
         "...°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°...",
         "...°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°...",
         "...°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°...",
@@ -337,6 +349,12 @@
           { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
+      },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
@@ -440,6 +458,12 @@
           { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
+      },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
@@ -545,6 +569,12 @@
           { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
+      },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
@@ -662,6 +692,12 @@
           { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
+      },
+      "monster": {
+        "^": { "monster": "mon_civilian_icu", "chance": 10 },
+        "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Г": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
       },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
@@ -816,8 +852,8 @@
         "-...........................................-   ",
         "-...........................................-   ",
         "-...#############...........................-   ",
-        "-...#66r66r66r66#...........................-   ",
-        "-...#66_66_66_66#..................&&.......-   ",
+        "-...#GGrGGrGGrGG#...........................-   ",
+        "-...#GG_GG_GG_GG#..................&&.......-   ",
         "-...#___________#...........................-   ",
         "-...##########_##+##........................-   ",
         "-...#AAAAAAAAA_#__L#........................-   ",
@@ -850,13 +886,13 @@
         "r": "t_thconc_floor",
         "L": "t_thconc_floor",
         "A": "t_thconc_floor",
-        "6": "t_thconc_floor"
+        "G": "t_thconc_floor"
       },
       "items": {
         "L": [ { "item": "jackets", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "r": [ { "item": "tools_mechanic", "chance": 40 }, { "item": "tools_common", "chance": 80 } ]
       },
-      "furniture": { "1": "f_water_purifier", "6": "f_generator_broken" },
+      "furniture": { "1": "f_water_purifier", "G": "f_generator_broken" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 },
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 25, 30 ], "density": 0.06 }

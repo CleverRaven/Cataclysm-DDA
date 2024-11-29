@@ -2,9 +2,12 @@
   {
     "id": "BGSS_GUNG_HO_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo hoo.  I gotta be straight with you though: I honestly think I like this better.  Fighting for survival every day?  I've never felt so alive.  I've killed hundreds of those bastards.  Sooner or later one of them will take me out, but I'll go down knowing I did something actually important.",
+    "dynamic_line": {
+      "gendered_line": "Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo hoo.  I gotta be straight with you though: I honestly think I like this better.  Fighting for survival every day?  I've never felt so alive.  I've killed hundreds of those bastards.  Sooner or later one of them will take me out, but I'll go down knowing I did something actually important.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
-      { "text": "It's good you found your calling.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "It's good you found your calling.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "It's good you found your calling.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -15,7 +18,7 @@
     "responses": [
       { "text": "The goop?  What do you mean?", "topic": "BGSS_GUNG_HO_2_IDEAS2a" },
       { "text": "What are your other ideas?", "topic": "BGSS_GUNG_HO_2_IDEAS2b" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -29,7 +32,7 @@
         "topic": "BGSS_GUNG_HO_2_IDEAS3"
       },
       { "text": "What are your other ideas?", "topic": "BGSS_GUNG_HO_2_IDEAS2b" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -39,7 +42,7 @@
     "dynamic_line": "You got any better ideas?  Besides, not like there's any teacher checkin' our work.  Maybe I'm wrong, don't really give a shit.  But the zombies and those slime things showed up about the same time, and they both have this connection to black goo, so I'm stickin' to my guns.",
     "responses": [
       { "text": "What are your other ideas?", "topic": "BGSS_GUNG_HO_2_IDEAS2b" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -49,7 +52,7 @@
     "dynamic_line": "Oh, probably the same stuff everyone's thinking.  No special ideas.  Like, maybe this is some kind of military superweapon gone wrong.  Or maybe the world just is like this every so often, and that's what killed the dinosaurs.  Who knows.",
     "responses": [
       { "text": "What were you saying about goop?", "topic": "BGSS_GUNG_HO_2_IDEAS2a" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

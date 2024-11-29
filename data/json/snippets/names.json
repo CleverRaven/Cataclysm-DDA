@@ -1,0 +1,44 @@
+[
+  {
+    "type": "snippet",
+    "category": "<backer_name>",
+    "text": [
+      { "text": { "str": "<female_backer_name>", "//~": "NO_I18N" } },
+      { "text": { "str": "<male_backer_name>", "//~": "NO_I18N" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<given_name>",
+    "text": [
+      { "text": { "str": "<female_given_name>", "//~": "NO_I18N" } },
+      { "text": { "str": "<male_given_name>", "//~": "NO_I18N" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<full_name>",
+    "text": [
+      { "text": { "str": "<female_full_name>", "//~": "NO_I18N" } },
+      { "text": { "str": "<male_full_name>", "//~": "NO_I18N" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<male_full_name>",
+    "text": [
+      { "text": { "str": "<male_backer_name>", "//~": "NO_I18N" }, "weight": 10 },
+      { "text": "<male_given_name> '<nick_name>' <family_name>", "weight": 19 },
+      { "text": "<male_given_name> <family_name>", "weight": 171 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<female_full_name>",
+    "text": [
+      { "text": { "str": "<female_backer_name>", "//~": "NO_I18N" }, "weight": 10 },
+      { "text": "<female_given_name> '<nick_name>' <family_name>", "weight": 19 },
+      { "text": "<female_given_name> <family_name>", "weight": 171 }
+    ]
+  }
+]

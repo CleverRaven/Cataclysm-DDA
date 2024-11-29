@@ -1,5 +1,70 @@
 [
   {
+    "id": "burning_trail",
+    "type": "SPELL",
+    "name": "Burning Trail",
+    "description": "Speak a short phrase and transform your footsteps into burning pits of flame, leaving a trail of fire behind you.  Each step will consume mana, but you will be immune to fire while the spell is in effect.",
+    "valid_targets": [ "self" ],
+    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "VERBAL", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_FAIL" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "CLEANSING_FLAME",
+    "difficulty": 8,
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 1,
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_burning_trail') > -1 ? 0 : 50" ] },
+    "base_energy_cost": 25
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS",
+    "condition": { "not": { "u_has_effect": "effect_burning_trail" } },
+    "effect": [
+      { "u_add_effect": "effect_burning_trail", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_burning_trail" },
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2",
+    "condition": { "u_has_effect": "effect_burning_trail" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_3",
+            "condition": { "math": [ "u_val('mana') >= 1" ] },
+            "effect": [
+              { "math": [ "u_val('mana')", "-=", "1" ] },
+              { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+              { "u_set_field": "fd_fire", "radius": 0, "hit_player": false },
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+            ],
+            "false_effect": [
+              { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" },
+              { "u_lose_effect": "effect_burning_trail" },
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP",
+    "effect": [ { "u_lose_effect": "effect_flame_immunity" } ]
+  },
+  {
     "type": "ter_furn_transform",
     "id": "immolate_transform",
     "furniture": [
@@ -18,8 +83,8 @@
   },
   {
     "id": "immolate_transform",
-    "name": "Immolate Transform",
-    "description": "The part of the Immolate spell that causes the transform.",
+    "name": { "str": "Immolate Transform", "//~": "NO_I18N" },
+    "description": { "str": "The part of the Immolate spell that causes the transform.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "type": "SPELL",
     "effect": "ter_transform",
@@ -35,10 +100,21 @@
     "name": "Immolate",
     "description": "A purifying blast of raw elemental heat wipes the slate clean, searing the Earth back to her most original state: a barren ball of burning rock.",
     "valid_targets": [ "ally", "hostile", "ground" ],
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "LOUD", "CONCENTRATE", "IGNITE_FLAMMABLE", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
+    "flags": [
+      "EVOCATION_SPELL",
+      "SOMATIC",
+      "VERBAL",
+      "NO_LEGS",
+      "LOUD",
+      "CONCENTRATE",
+      "IGNITE_FLAMMABLE",
+      "MUST_HAVE_CLASS_TO_LEARN",
+      "NO_HANDS",
+      "SPLIT_DAMAGE"
+    ],
     "effect": "attack",
     "shape": "blast",
-    "extra_effects": [ { "id": "immolate_transform" }, { "id": "immolate_push" } ],
+    "extra_effects": [ { "id": "immolate_transform" }, { "id": "immolate_push" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "heat",
     "min_damage": 90,
     "damage_increment": 4.9,
@@ -60,8 +136,8 @@
   {
     "id": "immolate_push",
     "type": "SPELL",
-    "name": "Immolate Push Effect",
-    "description": "The immolate spell is powerful enough to push targets from its epicenter.",
+    "name": { "str": "Immolate Push Effect", "//~": "NO_I18N" },
+    "description": { "str": "The immolate spell is powerful enough to push targets from its epicenter.", "//~": "NO_I18N" },
     "effect": "directed_push",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -94,16 +170,20 @@
     "max_damage": -120,
     "damage_increment": -2.9,
     "max_level": 35,
-    "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" } ],
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" }, { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
-    "name": "Hermes Reborn Fire",
-    "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Hermes Reborn Fire", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "max_level": 35,
+    "flags": [ "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "min_damage": 10,

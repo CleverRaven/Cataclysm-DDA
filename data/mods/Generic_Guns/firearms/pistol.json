@@ -47,7 +47,7 @@
   },
   {
     "id": "pistol_pcc",
-    "copy-from": "cx4",
+    "copy-from": "m1carbine",
     "type": "GUN",
     "name": "survivalist carbine",
     "ammo": [ "ammo_pistol" ],
@@ -100,24 +100,6 @@
     "name": "survivor subgun",
     "ammo": [ "ammo_pistol" ],
     "description": "A crudely constructed fully automatic submachinegun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "pistol_mag", "pistol_smg_mag" ],
-        "rigid": true
-      }
-    ]
-  },
-  {
-    "id": "feral_pistol",
-    "copy-from": "feral_m9",
-    "type": "GUN",
-    "name": { "str_sp": "Beretta M9A1" },
-    "description": "A poorly maintained and inaccurate version of the M9 for feral security guards, feral preppers, etc.",
-    "ammo": [ "ammo_pistol" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

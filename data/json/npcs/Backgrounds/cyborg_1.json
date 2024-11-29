@@ -3,6 +3,9 @@
     "id": "BGSS_CYBORG_1_STORY1",
     "type": "talk_topic",
     "dynamic_line": "Oh God… *Zzzzt* I… I don't know what ha-happened.  *BEEEEEEP* They told me I was going to become the very b-best!  And then I c-can only remember pain and screams.  P-Please don't *Zzzt* leave me here!",
-    "responses": [ { "text": "You're okay it's over now.", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "You're okay, it's over now.", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

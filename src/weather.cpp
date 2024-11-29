@@ -16,7 +16,6 @@
 #include "character.h"
 #include "city.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -25,7 +24,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -36,6 +34,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -43,6 +42,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather_gen.h"
 
@@ -74,7 +74,8 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
-    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z() >= 0;
+    return here.is_outside( tripoint_bub_ms( target.posx(), target.posy(), here.get_abs_sub().z() ) ) &&
+           here.get_abs_sub().z() >= 0;
 }
 
 weather_type_id get_bad_weather()
@@ -245,15 +246,10 @@ void item::add_rain_to_container( int charges )
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
-        ret.poison = one_in( 10 ) ? 1 : 0;
-        put_in( ret, item_pocket::pocket_type::CONTAINER );
+        put_in( ret, pocket_type::CONTAINER );
     } else {
-        static const std::set<itype_id> allowed_liquid_types{
-            itype_water
-        };
         item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
-            return allowed_liquid_types.count( liquid.typeId() );
+            return liquid.typeId() == itype_water;
         } );
         if( found_liq == nullptr ) {
             debugmsg( "Rainwater failed to add to container" );
@@ -324,8 +320,8 @@ static void fill_funnels( int rain_depth_mm_per_hour, const trap &tr )
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     map &here = get_map();
     // Give each funnel on the map a chance to collect the rain.
-    const std::vector<tripoint> &funnel_locs = here.trap_locations( tr.loadid );
-    for( const tripoint &loc : funnel_locs ) {
+    const std::vector<tripoint_bub_ms> &funnel_locs = here.trap_locations( tr.loadid );
+    for( const tripoint_bub_ms &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
         if( one_in( turns_per_charge ) ) {
             // FIXME:
@@ -417,12 +413,12 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
                 sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
         } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
-                                     player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                                     player_character.hearing_ability() ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound(
                     "environment", sound_effect,
-                    ( 80 * player_character.mutation_value( "hearing_modifier" ) ),
+                    ( 80 * player_character.hearing_ability() ),
                     random_direction() );
             }
         }
@@ -871,10 +867,10 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return rl_vec2d( 0, 0 );
 }
 
-bool warm_enough_to_plant( const tripoint &pos )
+bool warm_enough_to_plant( const tripoint_bub_ms &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    return get_weather().get_temperature( pos.raw() ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
@@ -925,7 +921,7 @@ void weather_manager::update_weather()
         map &here = get_map();
         if( uistate.distraction_weather_change &&
             weather_id != old_weather && weather_id->dangerous &&
-            here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos() )
+            here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos_bub() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
@@ -939,7 +935,7 @@ void weather_manager::update_weather()
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 here.set_transparency_cache_dirty( i );
             }
-            here.set_seen_cache_dirty( tripoint_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         if( weather_id != old_weather ) {
             effect_on_conditions::process_reactivate();

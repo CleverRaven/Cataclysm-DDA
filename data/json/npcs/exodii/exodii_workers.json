@@ -1,0 +1,24 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_EXODII_WORKER",
+    "dynamic_line": [
+      "&You see a human-like robot walking nearby.",
+      "&You see a mechanical humanoid moving somewhere in a hurry.",
+      "&You see some sort of robot walking in a hurry.",
+      "&This robot doesn't seem to be very busy."
+    ],
+    "responses": [ { "text": "Hello?", "topic": "TALK_EXODII_WORKER_2" }, { "text": "[Move away.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EXODII_WORKER_2",
+    "dynamic_line": [
+      "&They seem to completely ignore you.",
+      "&They ran past you, completely ignoring your presence.",
+      "&They don't seem to want to talk to you.",
+      "&They seem to greet you, but that's it."
+    ],
+    "responses": [ { "text": "How rude.", "topic": "TALK_DONE" } ]
+  }
+]

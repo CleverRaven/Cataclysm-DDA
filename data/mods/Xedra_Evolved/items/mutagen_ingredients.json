@@ -1,0 +1,62 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "ierde_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "ierde sample" },
+    "description": "A sample of rare earths.",
+    "looks_like": "medical_sample",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "arvore_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "arvore sample" },
+    "description": "A sample of verdant plant life.",
+    "looks_like": "medical_sample",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "salamander_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "salamander sample" },
+    "description": "A sample of fiery passion.",
+    "looks_like": "medical_sample",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "undine_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "undine sample" },
+    "description": "A sample of deep waters.",
+    "looks_like": "medical_sample",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "homullus_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "homullus sample" },
+    "description": "A sample of lifelike dolls.",
+    "looks_like": "medical_sample",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sylph_sample",
+    "copy-from": "mutagen_sample",
+    "color": "red",
+    "name": { "str": "sylph sample" },
+    "description": "A sample of untamed air.",
+    "looks_like": "medical_sample",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  }
+]

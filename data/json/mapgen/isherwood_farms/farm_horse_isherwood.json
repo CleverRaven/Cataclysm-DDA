@@ -8,7 +8,6 @@
       [ "horse_farm_isherwood_9", "horse_farm_isherwood_10", "horse_farm_isherwood_11", "horse_farm_isherwood_12" ],
       [ "horse_farm_isherwood_13", "horse_farm_isherwood_14", "horse_farm_isherwood_15", "horse_farm_isherwood_16" ]
     ],
-    "weight": 250,
     "object": {
       "faction_owner": [
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -118,7 +117,7 @@
         "..%.9...0.....9...9..9.9...9,,..,,...9..99...9..9..........9...9..9....//////...9....9..9....%..",
         "..%...9....9.......9...9..9.,,..,,.9..9...9..99...9..9.9...9..9.9...9..9..9...9..99...9..9...%..",
         "..%%%%%%%%%%%%%%%%%%%%%%%%%%,,..,,%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%..",
-        "..%.........................,,..,,...........................................................%.."
+        "............................,,..,,.............................................................."
       ],
       "place_npcs": [
         { "class": "isherwood_carlos", "x": 80, "y": 17 },
@@ -160,11 +159,11 @@
         { "group": "farming_tools", "x": [ 74, 77 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": [ 79, 81 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
         { "group": "farming_tools", "x": [ 75, 81 ], "y": [ 17, 22 ], "chance": 50, "repeat": [ 2, 4 ] },
-        { "item": "bucket", "x": 46, "y": 48, "chance": 20 },
-        { "item": "bucket", "x": 56, "y": 52, "chance": 30 },
-        { "item": "bucket", "x": 56, "y": 33, "chance": 30 },
-        { "item": "bucket", "x": 56, "y": 37, "chance": 30 },
-        { "item": "bucket", "x": 64, "y": 41, "chance": 30 },
+        { "item": "bucket_5gal", "x": 46, "y": 48, "chance": 20 },
+        { "item": "bucket_5gal", "x": 56, "y": 52, "chance": 30 },
+        { "item": "bucket_5gal", "x": 56, "y": 33, "chance": 30 },
+        { "item": "bucket_5gal", "x": 56, "y": 37, "chance": 30 },
+        { "item": "bucket_5gal", "x": 64, "y": 41, "chance": 30 },
         { "item": "cattlefodder", "x": [ 52, 68 ], "y": [ 31, 41 ], "chance": 80, "repeat": [ 6, 10 ] },
         { "item": "birdfood", "x": [ 40, 44 ], "y": [ 48, 52 ], "chance": 80, "repeat": [ 2, 4 ] }
       ],

@@ -4,7 +4,7 @@
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
@@ -29,12 +29,12 @@ struct mapgen_arguments {
     template <
         typename InputRange,
         std::enable_if_t <
-            std::is_same <
+            std::is_same_v <
                 typename InputRange::value_type, std::pair<std::string, cata_variant>
-                >::value ||
-            std::is_same <
+                > ||
+            std::is_same_v <
                 typename InputRange::value_type, std::pair<const std::string, cata_variant>
-                >::value
+                >
             > * = nullptr >
     explicit mapgen_arguments( const InputRange &map_ )
         : map( map_.begin(), map_.end() )
@@ -185,6 +185,9 @@ class mapgendata
             // TODO: should be able to determine this from the map itself
             return zlevel_;
         }
+        std::vector<oter_id> get_predecessors() const {
+            return predecessors_;
+        }
 
         void set_dir( int dir_in, int val );
         void fill( int val );
@@ -222,7 +225,7 @@ class mapgendata
         const oter_id &neighbor_at( om_direction::type dir ) const;
         const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
-        void square_groundcover( const point &p1, const point &p2 ) const;
+        void square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
 

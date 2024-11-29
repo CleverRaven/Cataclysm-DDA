@@ -1,6 +1,5 @@
 #include "cached_options.h"
 
-bool fov_3d;
 int fov_3d_z_range;
 bool keycode_mode;
 bool log_from_top;
@@ -12,6 +11,7 @@ bool prevent_occlusion_retract;
 bool prevent_occlusion_transp;
 float prevent_occlusion_min_dist;
 float prevent_occlusion_max_dist;
+bool show_creature_overlay_icons;
 bool use_tiles;
 bool use_far_tiles;
 bool use_pinyin_search;

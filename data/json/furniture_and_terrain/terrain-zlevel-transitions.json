@@ -116,6 +116,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
   },
   {
@@ -137,6 +138,7 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
@@ -157,6 +159,7 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
+    "examine_action": "locked_object",
     "prying": {
       "result": "t_manhole",
       "message": "You lift the manhole cover.",
@@ -223,6 +226,69 @@
   },
   {
     "type": "terrain",
+    "id": "t_scaffolding_pipe_up",
+    "name": "scaffolding up",
+    "description": "Scaffolding leading up.",
+    "symbol": "<",
+    "looks_like": "t_ladder_up",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_scaffolding_pipe_down",
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_down",
+    "name": "scaffolding down",
+    "description": "Scaffolding leading down.",
+    "symbol": ">",
+    "looks_like": "t_ladder_down",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT" ],
+    "bash": { "str_min": 20, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_updown",
+    "name": "scaffolding up/down",
+    "description": "Scaffolding leading up and down.",
+    "looks_like": "t_ladder_up_down",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_scaffolding_pipe_down",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_ramp_down_high",
     "name": "road ramp down (high end)",
     "description": "The upper end of an asphalt ramp leading down.",
@@ -231,7 +297,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -243,7 +309,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -277,7 +343,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -289,7 +355,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -323,7 +389,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -335,7 +401,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -447,7 +513,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAIL", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAIL", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -459,7 +525,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -495,7 +561,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -507,7 +573,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",

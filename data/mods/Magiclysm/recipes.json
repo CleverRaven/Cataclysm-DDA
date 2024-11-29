@@ -8,10 +8,10 @@
     "skill_used": "cooking",
     "time": "2 m",
     "autolearn": true,
-    "result_mult": 40,
     "byproducts": [ [ "stone_shell", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "egg_owlbear_rock", 1 ] ] ]
+    "components": [ [ [ "egg_owlbear_rock", 1 ] ] ],
+    "charges": 40
   },
   {
     "type": "recipe",

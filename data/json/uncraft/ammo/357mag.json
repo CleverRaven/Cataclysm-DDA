@@ -8,7 +8,7 @@
     "components": [
       [ [ "lead", 3 ] ],
       [ [ "357mag_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ]
@@ -22,7 +22,7 @@
     "components": [
       [ [ "lead", 4 ] ],
       [ [ "357mag_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ]

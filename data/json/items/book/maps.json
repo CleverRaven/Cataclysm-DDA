@@ -1,23 +1,5 @@
 [
   {
-    "abstract": "abstractmap",
-    "//": "Match type options in iuse_actor.cpp",
-    "//1": "Add maps/brochures/pamphlets as appopriate to itemgroups/books.json 's groups",
-    "type": "GENERIC",
-    "category": "maps",
-    "name": { "str": "abstract map" },
-    "description": "seeing this is a bug",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "flags": [ "PAPER_SHAPED" ],
-    "price": 1000,
-    "price_postapoc": 1000,
-    "to_hit": -1,
-    "material": [ "paper" ],
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
     "id": "labmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
@@ -140,7 +122,7 @@
     "type": "GENERIC",
     "name": { "str": "subway map" },
     "looks_like": "roadmap",
-    "description": "A schematic diagram of local subway networks, too stylised to garter much useful information.  Using it will add subway stations to your map.",
+    "description": "A schematic diagram of local subway networks, too stylized to garter much useful information.  Using it will add subway stations to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -236,7 +218,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "satellite map" },
-    "description": "A printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognise most buildings.  Using it will add terrain and roads to your map.",
+    "description": "A printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognize most buildings.  Using it will add terrain and roads to your map.",
     "color": "light_gray",
     "use_action": {
       "type": "reveal_map",
@@ -248,7 +230,8 @@
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
         "lake",
-        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" }
+        { "om_terrain": "river", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "ocean", "om_terrain_match_type": "PREFIX" }
       ],
       "message": "You add terrain and roads to your map."
     }
@@ -343,7 +326,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "get active pamphlet" },
-    "description": "A small pamphlet advertising various local buisnesses encouraging you to get fit.  Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
+    "description": "A small pamphlet advertising various local businesses encouraging you to get fit.  Using it will add roads, gyms and pools along with shops where you can buy sporting gear to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",

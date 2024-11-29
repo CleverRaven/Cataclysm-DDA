@@ -356,6 +356,34 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "xed__contraband_containment",
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "*V..............",
+        "*V..............",
+        "*V..............",
+        "*|...FFF..FFF...",
+        "*V...-|-..-|-...",
+        "*Vcx.d|cx.d|cx..",
+        "*Vch.d|ch.d|c...",
+        "*|d.hc|d.hc|d.h.",
+        "*Vd.xc|d.xc|d...",
+        "*V....|....|....",
+        "*Vd.h.|c.h.|..hd",
+        "*|dccx|cxdd|xccd",
+        "*|-HHH-HHHH-HHH-",
+        "****************",
+        "****************",
+        "****************"
+      ],
+      "palettes": [ "field_office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "xed_armory_cafe_dr",
     "object": {
       "mapgensize": [ 16, 16 ],
@@ -372,7 +400,7 @@
         "bb...bb|......V*",
         "tt...tt|-=----|*",
         "tt...tt|......|*",
-        "bb.a.bb|FQFQFQ|*",
+        "bb.a.bb|QQQQQQ|*",
         "-HHHHH-|------|*",
         "****************",
         "****************",
@@ -1175,11 +1203,11 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Containment Control",
+          "name": "Border Patrol Containment Room Controls",
           "security": 4,
           "options": [
             { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 },
-            { "name": "EMERGENCY CLEANSE", "action": "disconnect", "security": 7 }
+            { "name": "EMERGENCY CLEANSE", "action": "terminate", "security": 7 }
           ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
@@ -1208,11 +1236,11 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Containment Control",
+          "name": "Border Patrol Containment Room Controls",
           "security": 4,
           "options": [
             { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 },
-            { "name": "EMERGENCY CLEANSE", "action": "disconnect", "security": 7 }
+            { "name": "EMERGENCY CLEANSE", "action": "terminate", "security": 7 }
           ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
@@ -1240,11 +1268,11 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Containment Control",
+          "name": "Border Patrol Containment Room Controls",
           "security": 4,
           "options": [
             { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 },
-            { "name": "EMERGENCY CLEANSE", "action": "disconnect", "security": 7 }
+            { "name": "EMERGENCY CLEANSE", "action": "terminate", "security": 7 }
           ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
@@ -1273,11 +1301,11 @@
       "palettes": [ "lab_palette" ],
       "computers": {
         "6": {
-          "name": "Containment Control",
+          "name": "Border Patrol Containment Room Controls",
           "security": 4,
           "options": [
             { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 },
-            { "name": "EMERGENCY CLEANSE", "action": "disconnect", "security": 7 }
+            { "name": "EMERGENCY CLEANSE", "action": "terminate", "security": 7 }
           ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }

@@ -75,11 +75,11 @@ static std::vector <point> canonical_line_to( const point &p1, const point &p2, 
     return ret;
 }
 
-static void check_bresenham( const tripoint &source, const tripoint &destination,
-                             const std::vector<tripoint> &path )
+static void check_bresenham( const tripoint_bub_ms &source, const tripoint_bub_ms &destination,
+                             const std::vector<tripoint_bub_ms> &path )
 {
-    std::vector<tripoint> generated_path;
-    bresenham( source, destination, 0, 0, [&generated_path]( const tripoint & current_point ) {
+    std::vector<tripoint_bub_ms> generated_path;
+    bresenham( source, destination, 0, 0, [&generated_path]( const tripoint_bub_ms & current_point ) {
         generated_path.push_back( current_point );
         return true;
     } );
@@ -121,14 +121,14 @@ TEST_CASE( "3D_bresenham", "[line]" )
 
 TEST_CASE( "test_normalized_angle", "[line]" )
 {
-    CHECK( get_normalized_angle( point_zero, {10, 0} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( point_zero, {0, 10} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( point_zero, {-10, 0} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( point_zero, {0, -10} ) == Approx( 0.0 ) );
-    CHECK( get_normalized_angle( point_zero, {10, 10} ) == Approx( 1.0 ) );
-    CHECK( get_normalized_angle( point_zero, {-10, 10} ) == Approx( 1.0 ) );
-    CHECK( get_normalized_angle( point_zero, {10, -10} ) == Approx( 1.0 ) );
-    CHECK( get_normalized_angle( point_zero, {-10, -10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point::zero, {10, 0} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point::zero, {0, 10} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point::zero, {-10, 0} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point::zero, {0, -10} ) == Approx( 0.0 ) );
+    CHECK( get_normalized_angle( point::zero, {10, 10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point::zero, {-10, 10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point::zero, {10, -10} ) == Approx( 1.0 ) );
+    CHECK( get_normalized_angle( point::zero, {-10, -10} ) == Approx( 1.0 ) );
 }
 
 // NOLINTNEXTLINE(readability-function-size)
@@ -136,31 +136,31 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
 {
     // Test the unit cube, which are the only values this function is valid for.
     REQUIRE( make_xyz_unit( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz_unit( tripoint_north_west ) == direction::NORTHWEST );
+    REQUIRE( make_xyz_unit( tripoint::north_west ) == direction::NORTHWEST );
     REQUIRE( make_xyz_unit( tripoint( -1, -1, -1 ) ) == direction::BELOWNORTHWEST );
     REQUIRE( make_xyz_unit( tripoint( 0, -1, 1 ) ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz_unit( tripoint_north ) == direction::NORTH );
+    REQUIRE( make_xyz_unit( tripoint::north ) == direction::NORTH );
     REQUIRE( make_xyz_unit( tripoint( 0, -1, -2 ) ) == direction::BELOWNORTH );
     REQUIRE( make_xyz_unit( tripoint( 1, -1, 1 ) ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz_unit( tripoint_north_east ) == direction::NORTHEAST );
+    REQUIRE( make_xyz_unit( tripoint::north_east ) == direction::NORTHEAST );
     REQUIRE( make_xyz_unit( tripoint( 1, -1, -1 ) ) == direction::BELOWNORTHEAST );
     REQUIRE( make_xyz_unit( tripoint( -1, 0, 1 ) ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz_unit( tripoint_west ) == direction::WEST );
+    REQUIRE( make_xyz_unit( tripoint::west ) == direction::WEST );
     REQUIRE( make_xyz_unit( tripoint( -1, 0, -1 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz_unit( tripoint_above ) == direction::ABOVECENTER );
-    REQUIRE( make_xyz_unit( tripoint_zero ) == direction::CENTER );
-    REQUIRE( make_xyz_unit( tripoint_below ) == direction::BELOWCENTER );
+    REQUIRE( make_xyz_unit( tripoint::above ) == direction::ABOVECENTER );
+    REQUIRE( make_xyz_unit( tripoint::zero ) == direction::CENTER );
+    REQUIRE( make_xyz_unit( tripoint::below ) == direction::BELOWCENTER );
     REQUIRE( make_xyz_unit( tripoint( 1, 0, 1 ) ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz_unit( tripoint_east ) == direction::EAST );
+    REQUIRE( make_xyz_unit( tripoint::east ) == direction::EAST );
     REQUIRE( make_xyz_unit( tripoint( 1, 0, -1 ) ) == direction::BELOWEAST );
     REQUIRE( make_xyz_unit( tripoint( -1, 1, 1 ) ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz_unit( tripoint_south_west ) == direction::SOUTHWEST );
+    REQUIRE( make_xyz_unit( tripoint::south_west ) == direction::SOUTHWEST );
     REQUIRE( make_xyz_unit( tripoint( -1, 1, -1 ) ) == direction::BELOWSOUTHWEST );
     REQUIRE( make_xyz_unit( tripoint( 0, 1, 1 ) ) == direction::ABOVESOUTH );
-    REQUIRE( make_xyz_unit( tripoint_south ) == direction::SOUTH );
+    REQUIRE( make_xyz_unit( tripoint::south ) == direction::SOUTH );
     REQUIRE( make_xyz_unit( tripoint( 0, 1, -1 ) ) == direction::BELOWSOUTH );
     REQUIRE( make_xyz_unit( tripoint( 1, 1, 1 ) ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz_unit( tripoint_south_east ) == direction::SOUTHEAST );
+    REQUIRE( make_xyz_unit( tripoint::south_east ) == direction::SOUTHEAST );
     REQUIRE( make_xyz_unit( tripoint( 1, 1, -1 ) ) == direction::BELOWSOUTHEAST );
 
     // Test the unit square values at distance 1 and 2.
@@ -171,7 +171,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( -30, -60, 1 ) ) == direction::ABOVENORTHWEST );
     REQUIRE( make_xyz( tripoint( -60, -60, 1 ) ) == direction::ABOVENORTHWEST );
     REQUIRE( make_xyz( tripoint( -60, -30, 1 ) ) == direction::ABOVENORTHWEST );
-    REQUIRE( make_xyz( tripoint_north_west ) == direction::NORTHWEST );
+    REQUIRE( make_xyz( tripoint::north_west ) == direction::NORTHWEST );
     REQUIRE( make_xyz( tripoint( -2, -2, 0 ) ) == direction::NORTHWEST );
     REQUIRE( make_xyz( tripoint( -60, -60, 0 ) ) == direction::NORTHWEST );
     REQUIRE( make_xyz( tripoint( -1, -1, -1 ) ) == direction::BELOWNORTHWEST );
@@ -184,7 +184,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( -22, -60, 1 ) ) == direction::ABOVENORTH );
     REQUIRE( make_xyz( tripoint( 0, -60, 1 ) ) == direction::ABOVENORTH );
     REQUIRE( make_xyz( tripoint( 22, -60, 1 ) ) == direction::ABOVENORTH );
-    REQUIRE( make_xyz( tripoint_north ) == direction::NORTH );
+    REQUIRE( make_xyz( tripoint::north ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( 0, -2, 0 ) ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( -22, -60, 0 ) ) == direction::NORTH );
     REQUIRE( make_xyz( tripoint( 0, -60, 0 ) ) == direction::NORTH );
@@ -199,7 +199,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( 30, -60, 1 ) ) == direction::ABOVENORTHEAST );
     REQUIRE( make_xyz( tripoint( 60, -60, 1 ) ) == direction::ABOVENORTHEAST );
     REQUIRE( make_xyz( tripoint( 60, -30, 1 ) ) == direction::ABOVENORTHEAST );
-    REQUIRE( make_xyz( tripoint_north_east ) == direction::NORTHEAST );
+    REQUIRE( make_xyz( tripoint::north_east ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 2, -2, 0 ) ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 30, -60, 0 ) ) == direction::NORTHEAST );
     REQUIRE( make_xyz( tripoint( 60, -60, 0 ) ) == direction::NORTHEAST );
@@ -215,7 +215,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( -60, -22, 1 ) ) == direction::ABOVEWEST );
     REQUIRE( make_xyz( tripoint( -60, 0, 1 ) ) == direction::ABOVEWEST );
     REQUIRE( make_xyz( tripoint( -60, 22, 1 ) ) == direction::ABOVEWEST );
-    REQUIRE( make_xyz( tripoint_west ) == direction::WEST );
+    REQUIRE( make_xyz( tripoint::west ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -2, 0, 0 ) ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -60, -22, 0 ) ) == direction::WEST );
     REQUIRE( make_xyz( tripoint( -60, 0, 0 ) ) == direction::WEST );
@@ -225,17 +225,17 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( -60, -22, -1 ) ) == direction::BELOWWEST );
     REQUIRE( make_xyz( tripoint( -60, 0, -1 ) ) == direction::BELOWWEST );
     REQUIRE( make_xyz( tripoint( -60, 22, -1 ) ) == direction::BELOWWEST );
-    REQUIRE( make_xyz( tripoint_above ) == direction::ABOVECENTER );
+    REQUIRE( make_xyz( tripoint::above ) == direction::ABOVECENTER );
     REQUIRE( make_xyz( tripoint( 0, 0, 2 ) ) == direction::ABOVECENTER );
-    REQUIRE( make_xyz( tripoint_zero ) == direction::CENTER );
-    REQUIRE( make_xyz( tripoint_below ) == direction::BELOWCENTER );
+    REQUIRE( make_xyz( tripoint::zero ) == direction::CENTER );
+    REQUIRE( make_xyz( tripoint::below ) == direction::BELOWCENTER );
     REQUIRE( make_xyz( tripoint( 0, 0, -2 ) ) == direction::BELOWCENTER );
     REQUIRE( make_xyz( tripoint( 1, 0, 1 ) ) == direction::ABOVEEAST );
     REQUIRE( make_xyz( tripoint( 2, 0, 2 ) ) == direction::ABOVEEAST );
     REQUIRE( make_xyz( tripoint( 60, -22, 1 ) ) == direction::ABOVEEAST );
     REQUIRE( make_xyz( tripoint( 60, 0, 1 ) ) == direction::ABOVEEAST );
     REQUIRE( make_xyz( tripoint( 60, 22, 1 ) ) == direction::ABOVEEAST );
-    REQUIRE( make_xyz( tripoint_east ) == direction::EAST );
+    REQUIRE( make_xyz( tripoint::east ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 2, 0, 0 ) ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 60, -22, 0 ) ) == direction::EAST );
     REQUIRE( make_xyz( tripoint( 60, 0, 0 ) ) == direction::EAST );
@@ -251,7 +251,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( -30, 60, 1 ) ) == direction::ABOVESOUTHWEST );
     REQUIRE( make_xyz( tripoint( -60, 60, 1 ) ) == direction::ABOVESOUTHWEST );
     REQUIRE( make_xyz( tripoint( -60, 30, 1 ) ) == direction::ABOVESOUTHWEST );
-    REQUIRE( make_xyz( tripoint_south_west ) == direction::SOUTHWEST );
+    REQUIRE( make_xyz( tripoint::south_west ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -2, 2, 0 ) ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -30, 60, 0 ) ) == direction::SOUTHWEST );
     REQUIRE( make_xyz( tripoint( -60, 60, 0 ) ) == direction::SOUTHWEST );
@@ -264,7 +264,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( 0, 1, 1 ) ) == direction::ABOVESOUTH );
     REQUIRE( make_xyz( tripoint( 0, 2, 2 ) ) == direction::ABOVESOUTH );
     REQUIRE( make_xyz( tripoint( 0, 60, 1 ) ) == direction::ABOVESOUTH );
-    REQUIRE( make_xyz( tripoint_south ) == direction::SOUTH );
+    REQUIRE( make_xyz( tripoint::south ) == direction::SOUTH );
     REQUIRE( make_xyz( tripoint( -22, 60, 0 ) ) == direction::SOUTH );
     REQUIRE( make_xyz( tripoint( 0, 60, 0 ) ) == direction::SOUTH );
     REQUIRE( make_xyz( tripoint( 22, 60, 0 ) ) == direction::SOUTH );
@@ -278,7 +278,7 @@ TEST_CASE( "Test_bounds_for_mapping_x/y/z/_offsets_to_direction_enum", "[line]" 
     REQUIRE( make_xyz( tripoint( 30, 60, 1 ) ) == direction::ABOVESOUTHEAST );
     REQUIRE( make_xyz( tripoint( 60, 60, 1 ) ) == direction::ABOVESOUTHEAST );
     REQUIRE( make_xyz( tripoint( 60, 30, 1 ) ) == direction::ABOVESOUTHEAST );
-    REQUIRE( make_xyz( tripoint_south_east ) == direction::SOUTHEAST );
+    REQUIRE( make_xyz( tripoint::south_east ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 2, 2, 0 ) ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 30, 60, 0 ) ) == direction::SOUTHEAST );
     REQUIRE( make_xyz( tripoint( 60, 60, 0 ) ) == direction::SOUTHEAST );
@@ -297,8 +297,8 @@ TEST_CASE( "direction_from", "[point][line][coords]" )
             for( int z = -2; z <= 2; ++z ) {
                 tripoint p( x, y, z );
                 tripoint_abs_omt c( p );
-                CHECK( direction_from( tripoint_zero, p ) == direction_from( p ) );
-                CHECK( direction_from( tripoint_zero, p ) ==
+                CHECK( direction_from( tripoint::zero, p ) == direction_from( p ) );
+                CHECK( direction_from( tripoint::zero, p ) ==
                        direction_from( tripoint_abs_omt(), c ) );
                 CHECK( direction_from( p ) == make_xyz( p ) );
             }
@@ -308,41 +308,41 @@ TEST_CASE( "direction_from", "[point][line][coords]" )
 
 TEST_CASE( "direction_name", "[line]" )
 {
-    CHECK( direction_name( direction_from( tripoint_north_east + tripoint_above ) ) ==
+    CHECK( direction_name( direction_from( tripoint::north_east + tripoint::above ) ) ==
            "northeast and above" );
-    CHECK( direction_name_short( direction_from( tripoint_north_east + tripoint_above ) ) ==
+    CHECK( direction_name_short( direction_from( tripoint::north_east + tripoint::above ) ) ==
            "UP_NE" );
 }
 
 TEST_CASE( "squares_closer_to_test", "[line]" )
 {
     // TODO: make this ordering agnostic.
-    auto actual = squares_closer_to( tripoint_zero, {10, 0, 0} );
-    std::vector<tripoint> expected = {tripoint_east, tripoint_south_east, tripoint_north_east};
+    auto actual = squares_closer_to( tripoint::zero, {10, 0, 0} );
+    std::vector<tripoint> expected = {tripoint::east, tripoint::south_east, tripoint::north_east};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( tripoint_zero, {-10, -10, 0} );
-    expected = {tripoint_north_west, tripoint_west, tripoint_north};
+    actual = squares_closer_to( tripoint::zero, {-10, -10, 0} );
+    expected = {tripoint::north_west, tripoint::west, tripoint::north};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( tripoint_zero, {10, 10, 0} );
-    expected = {tripoint_south_east, tripoint_east, tripoint_south};
+    actual = squares_closer_to( tripoint::zero, {10, 10, 0} );
+    expected = {tripoint::south_east, tripoint::east, tripoint::south};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( tripoint_zero, {10, 9, 0} );
-    expected = {tripoint_east, tripoint_south_east, tripoint_north_east, tripoint_south};
+    actual = squares_closer_to( tripoint::zero, {10, 9, 0} );
+    expected = {tripoint::east, tripoint::south_east, tripoint::north_east, tripoint::south};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( tripoint_zero, {10, 1, 0} );
-    expected = {tripoint_east, tripoint_south_east, tripoint_north_east, tripoint_south};
+    actual = squares_closer_to( tripoint::zero, {10, 1, 0} );
+    expected = {tripoint::east, tripoint::south_east, tripoint::north_east, tripoint::south};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( {10, 9, 0}, tripoint_zero );
+    actual = squares_closer_to( {10, 9, 0}, tripoint::zero );
     expected = {tripoint( 9, 9, 0 ), tripoint( 9, 10, 0 ), tripoint( 9, 8, 0 ), tripoint( 10, 8, 0 )};
     CHECK( actual == expected );
 
-    actual = squares_closer_to( tripoint_zero, {-10, -9, 0} );
-    expected = {tripoint_west, tripoint_south_west, tripoint_north_west, tripoint_north};
+    actual = squares_closer_to( tripoint::zero, {-10, -9, 0} );
+    expected = {tripoint::west, tripoint::south_west, tripoint::north_west, tripoint::north};
     CHECK( actual == expected );
 
     actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );
@@ -359,8 +359,8 @@ static constexpr int COORDINATE_RANGE = 99;
 
 static void line_to_comparison( const int iterations )
 {
-    REQUIRE( trig_dist( point_zero, point_zero ) == 0 );
-    REQUIRE( trig_dist( point_zero, point_east ) == 1 );
+    REQUIRE( trig_dist( point::zero, point::zero ) == 0 );
+    REQUIRE( trig_dist( point::zero, point::east ) == 1 );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
         const point p1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
@@ -427,7 +427,7 @@ TEST_CASE( "line_to_boundaries", "[line]" )
             const int st( ( ideal_start_offset > 0 ) - ( ideal_start_offset < 0 ) );
             const int max_start_offset = std::abs( ideal_start_offset ) * 2 + 1;
             for( int k = -1; k <= max_start_offset; ++k ) {
-                auto line = line_to( point_zero, point( i, j ), k * st );
+                auto line = line_to( point::zero, point( i, j ), k * st );
                 if( line.back() != point( i, j ) ) {
                     WARN( "Expected (" << i << "," << j << ") but got (" <<
                           line.back().x << "," << line.back().y << ") with t == " << k );

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_type",
+    "id": "spell_karma_arms_eff",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stalker_eyes_eff",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "devil_tail_eff",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_temmporary_glorious",
+    "//": "typo id and non-typo id were both mentioned, so the typo id is being obsoleted",
+    "name": [ "" ],
+    "desc": [ "" ]
+  }
+]

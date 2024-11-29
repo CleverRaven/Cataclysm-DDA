@@ -1,0 +1,60 @@
+[
+  {
+    "id": "zenfs_hunger_label",
+    "type": "widget",
+    "style": "text",
+    "string": "  <color_dark_gray>Hunger</color>",
+    "width": 7,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_hunger_no_label",
+    "type": "widget",
+    "style": "text",
+    "clauses": [
+      { "id": "engorged", "text": " Engorged", "color": "red", "condition": { "u_has_effect": "hunger_engorged" } },
+      { "id": "full", "text": "   Full", "color": "yellow", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "satisfied",
+        "text": "Satisfied",
+        "color": "light_green",
+        "condition": { "u_has_effect": "hunger_satisfied" }
+      },
+      { "id": "blank", "text": "   Okay", "color": "green", "condition": { "u_has_effect": "hunger_blank" } },
+      { "id": "hungry", "text": " Peckish", "color": "light_gray", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "very_hungry",
+        "text": "  Hungry",
+        "color": "yellow",
+        "condition": { "u_has_effect": "hunger_very_hungry" }
+      },
+      {
+        "id": "near_starving",
+        "text": "V. Hungry",
+        "color": "red",
+        "condition": { "u_has_effect": "hunger_near_starving" }
+      },
+      {
+        "id": "starving",
+        "text": "!Starving!",
+        "color": "light_red",
+        "condition": { "u_has_effect": "hunger_starving" }
+      },
+      {
+        "id": "famished",
+        "text": " FAMISHED",
+        "color": "c_white_red",
+        "condition": { "u_has_effect": "hunger_famished" }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_hunger_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 10,
+    "widgets": [ "zenfs_hunger_no_label" ]
+  }
+]

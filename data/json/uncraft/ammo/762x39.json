@@ -1,6 +1,6 @@
 [
   {
-    "result": "762_m43",
+    "result": "762_jhp",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
@@ -12,7 +12,6 @@
       [ [ "762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 15 ] ],
-      [ [ "scrap", 1 ] ],
       [ [ "copper", 1 ] ]
     ]
   },

@@ -1,6 +1,12 @@
 [
   {
     "type": "trait_group",
+    "id": "NPC_starting_traits",
+    "subtype": "collection",
+    "traits": [ { "trait": "DREAMLESS", "prob": 75 } ]
+  },
+  {
+    "type": "trait_group",
     "id": "trait_group_spider_victim_eggsac",
     "subtype": "collection",
     "traits": [

@@ -2,7 +2,7 @@
   {
     "type": "item_group",
     "id": "grenade_can_full",
-    "container-item": "ammunition_box_grenade",
+    "container-item": { "item": "ammunition_box_grenade", "variant": "ammunition_box_grenade_m67" },
     "items": [ { "item": "grenade" } ]
   },
   {

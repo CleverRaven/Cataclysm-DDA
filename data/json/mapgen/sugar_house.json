@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "sugar_house_parking" ], [ "sugar_house" ] ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         " ~,,,,,,,,,,,,,,,,,,,,~ ",
         " ~,,,,,,,,,,,,,,,,,,,,~ ",
@@ -39,7 +39,7 @@
         " |.hnnh.|F..nn..hnnh.|||",
         " |.....p|F..nn..hnnh.|t|",
         " ||||||||...hh..hnnh.+'v",
-        " |CCCfff|.......hnnh.|S|",
+        " |CCCff(|.......hnnh.|S|",
         " vO'''''|.hhhh..hnnh.|||",
         " vO'cc''|.nnnn..hnnh.|t|",
         " |1'cS''+.nnnn..hnnh.+'v",
@@ -55,6 +55,7 @@
         " |||||||++|||||||||||| M",
         " 4      ~~              "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         " ": "t_region_groundcover",
         "!": "t_region_groundcover",
@@ -69,7 +70,7 @@
         "h": "t_floor",
         "p": "t_floor",
         "D": "t_floor",
-        "'": "t_linoleum_white",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": "t_thconc_floor",
         "F": "t_thconc_floor",
         "r": "t_thconc_floor",
@@ -89,7 +90,8 @@
         "O": "f_oven",
         "S": "f_sink",
         "c": "f_counter",
-        "f": "f_fridge",
+        "f": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "h": "f_chair",
         "n": "f_table",
         "p": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -115,7 +117,7 @@
         "C": { "item": "SUS_cookware", "chance": 100 },
         "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] }
       },
-      "item": { "M": { "item": "bucket", "chance": 100 } },
+      "item": { "M": [ { "item": "bucket", "chance": 100 }, { "item": "tree_spile", "chance": 100 } ] },
       "place_loot": [
         { "item": "stepladder", "x": 3, "y": 44, "chance": 100 },
         { "group": "sugar_house_drum", "x": 2, "y": 40, "chance": 60 },

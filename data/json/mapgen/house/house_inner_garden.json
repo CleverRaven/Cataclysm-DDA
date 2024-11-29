@@ -8,7 +8,7 @@
       "rows": [
         "...$..GssMMMMMMMMsssss..",
         ".$.....ssM......Msssssu.",
-        ".......ssM.....##xxxxx%#",
+        ".......ssM.....##xxxxx##",
         ".#MMM##8]#8#8#8#~~~~~~u#",
         ".#888#E  #5    #~~~~~~~#",
         "^#yay##8]#     #~~~~~~##",
@@ -32,20 +32,13 @@
         "........................"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": {
-        "8": "t_wall_glass",
-        "#": "t_rock_wall",
-        "]": "t_door_glass_c",
-        "%": "t_wall_w",
-        "F": "t_concrete",
-        "U": "t_thconc_floor",
-        "N": "t_thconc_floor"
-      },
+      "terrain": { "8": "t_wall_glass", "]": "t_door_glass_c", "F": "t_concrete", "U": "t_thconc_floor", "N": "t_thconc_floor" },
       "furniture": { "a": "f_displaycase" },
       "place_vehicles": [
         { "vehicle": "showroom_small_vehicles", "x": 17, "y": 5, "rotation": 270, "chance": 20, "status": 0 },
         { "vehicle": "showroom_small_vehicles", "x": 19, "y": 5, "rotation": 270, "chance": 20, "status": 0 }
       ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 1 } ],
       "items": {
         "E": { "item": "coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
         "G": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
@@ -95,7 +88,7 @@
         "               ---------",
         " ---------------.......-",
         " -................ooo..-",
-        " -.....................-",
+        " -.....1...............-",
         "5-................ooo.A-",
         "-~.....................-",
         "--................ooo..-",
@@ -109,7 +102,7 @@
         "-...........----------- ",
         "-.....................- ",
         "-.....................- ",
-        "-................... .- ",
+        "-.....................- ",
         "-------...............- ",
         "      5..&............- ",
         "      ----------------- ",

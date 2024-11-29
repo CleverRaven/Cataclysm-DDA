@@ -1,0 +1,7 @@
+[
+  {
+    "id": [ "warpheal_stone", "warpstat_stone", "warp_portalstorm_ender", "warpdifficulty_stone" ],
+    "type": "MIGRATION",
+    "replace": "rock"
+  }
+]

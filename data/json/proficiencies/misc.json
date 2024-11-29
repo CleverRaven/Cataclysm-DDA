@@ -124,22 +124,6 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_helicopter_pilot",
-    "category": "prof_mechanic",
-    "name": { "str": "Helicopter Piloting" },
-    "description": "Before the Cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
-    "can_learn": false
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_aircraft_mechanic",
-    "category": "prof_mechanic",
-    "name": { "str": "Airframe and Powerplant Mechanic" },
-    "description": "You've been trained and certified to repair aircraft.  You're not really sure how that could help you survive now.",
-    "can_learn": false
-  },
-  {
-    "type": "proficiency",
     "id": "prof_gem_setting",
     "category": "prof_misc_craft",
     "name": { "str": "Gem Setting" },
@@ -159,15 +143,6 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.5,
-    "time_to_learn": "8 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_parkour",
-    "category": "prof_survival",
-    "name": { "str": "Parkour Expert" },
-    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-    "can_learn": true,
     "time_to_learn": "8 h"
   },
   {

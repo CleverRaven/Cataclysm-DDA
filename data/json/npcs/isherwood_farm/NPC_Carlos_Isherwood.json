@@ -3,11 +3,19 @@
     "type": "npc",
     "id": "isherwood_carlos",
     "//": "Dairy farmer the Isherwood family.",
+    "//2": "Brother of Eddie, husband of Jesse.  Father of Lisa and Chris, cousin of Luke.  Son of Claire and Jack, nephew of Barry.",
     "name_unique": "Carlos Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_CARLOS",
     "attitude": 0,
     "mission": 7,
+    "age": 44,
+    "height": 176,
+    "str": 9,
+    "dex": 8,
+    "int": 7,
+    "per": 9,
+    "personality": { "aggression": -2, "bravery": 4, "collector": -2, "altruism": -1 },
     "chat": "TALK_ISHERWOOD_CARLOS",
     "mission_offered": "MISSION_ISHERWOOD_CARLOS_1",
     "faction": "isherwood_family"
@@ -18,13 +26,16 @@
     "name": { "str": "Carlos Isherwood" },
     "job_description": "I'm Jesse's husband, part of the Isherwood family.",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "BADKNEES" },
+      { "trait": "GOODMEMORY" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "gray" },
+      { "trait": "hair_short", "variant": "gray" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_male_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
@@ -42,11 +53,53 @@
   },
   {
     "type": "talk_topic",
+    "id": [ "TALK_ISHERWOOD_CARLOS", "TALK_ISHERWOOD_CARLOS_ConvincedMarshal" ],
+    "responses": [
+      {
+        "text": "Hi, looks like you are building a forge setup.",
+        "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
+        "effect": [ { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } } ] }
+      },
+      {
+        "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
+        "topic": "TALK_CARLOS_FORGE",
+        "effect": [ { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" } ],
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_about_jesse" } ] }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "<end_talking_leave>",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CARLOS",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
-      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
+      "concatenate": [
+        "*is an older middle-aged man, well-muscled and darkly tanned, with worried lines around the corners of his eyes and mouth.  He looks up as you get close",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": ", and then puts his hand on the butt of the rifle slung across  his back.  \"I see that badge, I think you need to keep on walking, straight off this property.\"",
+          "no": {
+            "u_male": true,
+            "yes": ", then smiles distantly.  \"Hello Sir, what brings you here?\"",
+            "no": ", then smiles distantly.  \"Hello Ma'am, what brings you here?\""
+          }
+        }
+      ]
     },
     "responses": [
       {
@@ -57,36 +110,79 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…",
-        "topic": "TALK_LEAVE_NOW_MARSHAL",
+        "text": "…[Leave.]",
+        "topic": "TALK_DONE",
+        "effect": { "npc_first_topic": "TALK_ISHERWOOD_CARLOS_SawMarshal" },
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
-      },
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CARLOS_SawMarshal",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "* glares at you, his hand moving again to his gun.  \"I see that badge, I think you need to keep on walking, straight off this property.\"",
+      "no": "*rolls his eyes.  \"I'm not an idiot.  You think if you don't wear your badge, I won't know who you're working for?  Get out of here.\""
+    },
+    "responses": [
       {
-        "text": "Hi, looks like you are building a forge setup.",
-        "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
-        "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
-        "topic": "TALK_CARLOS_FORGE",
+        "text": "Look, I took it off to show I'm not here as a marshal.  I'm just here as a traveler, someone who can maybe help you out.  I know you've got problems bigger than you can handle right now.",
+        "topic": "TALK_ISHERWOOD_CARLOS_MarshalSaveBarry",
         "condition": {
           "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] },
+            { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
       },
+      { "text": "…[Leave.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CARLOS_ConvincedMarshal",
+    "dynamic_line": {
+      "concatenate": [
+        "*looks up warily as you approach",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": {
+            "gendered_line": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+            "relevant_genders": [ "u" ]
+          },
+          "no": ".  \"Yeah?\""
+        }
+      ]
+    },
+    "responses": [
       {
-        "text": "Can I do anything for you?",
-        "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      {
-        "text": "I'd better get going.",
+        "text": "Oh, right… [Leave.]",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+        "opinion": { "trust": -10, "value": -10 },
+        "condition": { "u_is_wearing": "badge_marshal" }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CARLOS_MarshalSaveBarry",
+    "dynamic_line": "*struggles to think of a reply for a moment, then drops his hand from his gun.  \"We've got that under control, but you're not wrong.  An extra pair of hands wouldn't hurt, just now.  Just keep that damn badge out of my sight.\"",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_ISHERWOOD_CARLOS_ConvincedMarshal" } },
+    "responses": [
+      {
+        "text": "Fine.  Thanks.  Tell me more about what happened to Barry.",
+        "topic": "TALK_CARLOS_BARRY",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
+        }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -101,49 +197,86 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
           ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_BARRY",
-    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitely not human.  It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
+    "dynamic_line": "It was pink and really fast, it had lots of limbs, definitely not human.\"  Carlos rubs the back of his hand idly, staring into space.  \"It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
     "responses": [
       { "text": "You all just gonna leave him out there to his fate?", "topic": "TALK_CARLOS_BARRY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_BARRY2",
-    "dynamic_line": "We tracked it for a while, but lost the trail.  Right now we don't have the resources to try to rescue him.  Chris has been trying to pick up the trail again and figure out a rescue plan.",
+    "dynamic_line": "*frowns at you.  \"Of course not.  We tracked it for a while, but lost the trail.  Right now we don't have the resources to try to rescue him.  My son, Chris, has been trying to pick up the trail again and figure out a rescue plan.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I could help.  Where did Chris go?", "topic": "TALK_CARLOS_BARRY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_CARLOS_FORGE",
-    "dynamic_line": "The big item I need is an anvil, once I have that I can get a lot of repairs done.",
+    "id": "TALK_CARLOS_BARRY3",
+    "dynamic_line": "*shakes his head.  \"Leave Chris be, he knows what he's doing.  Give him some time.  Calling more attention to him could get both of you killed.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_CARLOS_CHRIS",
-    "dynamic_line": "Chris is hiking the perimeter of our land, planning some defense options.",
+    "id": "TALK_CARLOS_FORGE1",
+    "dynamic_line": "The big item I need is an anvil, once I have that I can get a lot of repairs done.\"  He smiles briefly.  \"Can't exactly head to town to get it done anymore, but I learned a bit of old world metalwork from my granddad.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_FORGE2",
+    "dynamic_line": "*gestures around the workspace, which looks more set up.  \"I'm figuring things out, getting it worked out.  It's been a while since I did this kind of metalwork.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_FORGE3",
+    "dynamic_line": "Yeah, it's coming along nice.\"  He slaps the surface of the anvil.  \"Thanks for this, I'm still getting my skills back up, but it's going to be real helpful.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_CHRIS1",
+    "dynamic_line": "Chris is hiking the perimeter of our land, planning some defense options.\"  He looks you up and down.  \"Best just let him be.",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARLOS_CHRIS2",
+    "dynamic_line": "*looks at you curiously.  \"Should be where you saw him last.  He's not missing again, is he?\"",
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -156,25 +289,55 @@
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
           "and": [
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] },
             { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
       },
-      { "text": "Is your forge operational?", "topic": "TALK_CARLOS_FORGE" },
-      { "text": "Where can I find Chris?", "topic": "TALK_CARLOS_CHRIS" },
+      {
+        "text": "Is your forge operational?",
+        "topic": "TALK_CARLOS_FORGE1",
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "carlos_has_anvil" } ] } }
+      },
+      {
+        "text": "Is your forge operational?",
+        "topic": "TALK_CARLOS_FORGE2",
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) <= time('5 d')" ] }
+      },
+      {
+        "text": "Is your forge operational?",
+        "topic": "TALK_CARLOS_FORGE3",
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
+      },
+      {
+        "text": "Where can I find Chris?",
+        "topic": "TALK_CARLOS_CHRIS1",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] } }
+      },
+      {
+        "text": "Where can I find Chris?",
+        "topic": "TALK_CARLOS_CHRIS2",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] }
+      },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "MISSION_ISHERWOOD_CARLOS_1",
     "type": "mission_definition",
     "name": { "str": "Find an anvil" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "value": 50000,
-    "item": "anvil",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "anvil" },
+        { "u_has_item": "anvil_crude" },
+        { "u_has_item": "anvil_heavy" },
+        { "u_has_item": "anvil_bronze" }
+      ]
+    },
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -192,7 +355,24 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_spawn_item": "leather_armor_horse", "count": 1 } ],
+      "effect": [
+        {
+          "if": { "u_has_item": "anvil" },
+          "then": { "u_consume_item": "anvil", "popup": true },
+          "else": {
+            "if": { "u_has_item": "anvil_crude" },
+            "then": { "u_consume_item": "anvil_crude", "popup": true },
+            "else": {
+              "if": { "u_has_item": "anvil_heavy" },
+              "then": { "u_consume_item": "anvil_heavy", "popup": true },
+              "else": { "u_consume_item": "anvil_bronze", "popup": true }
+            }
+          }
+        },
+        { "u_spawn_item": "leather_armor_horse", "count": 1 },
+        { "npc_add_var": "carlos_has_anvil", "value": "yes" },
+        { "math": [ "timer_carlos_has_anvil = time('now')" ] }
+      ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
   },
@@ -205,22 +385,19 @@
     "value": 20000,
     "start": {
       "assign_mission_target": {
-        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
-        "om_special": "Isherwood Farms",
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farm Mutable'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farm Mutable",
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
         "search_range": 20,
-        "min_distance": 8
+        "min_distance": 2
       },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [
-        { "u_spawn_item": "chainmail_armor_horse", "count": 1 },
-        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "chainmail_armor_horse", "count": 1 }, { "u_add_var": "u_found_chris_for_carlos", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

@@ -6,5 +6,49 @@
     "interruptable": false,
     "verb": "meditating",
     "based_on": "time"
+  },
+  {
+    "id": "ACT_PSI_LEARNING_NEW_POWER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_PSI_PHOTOKIN_RADIATION_STERILIZATION",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "sterilizing",
+    "based_on": "time",
+    "can_resume": false,
+    "completion_eoc": "EOC_PHOTOKIN_RADIATION_STERILIZATION_FINALIZE"
+  },
+  {
+    "id": "ACT_PSI_STUDYING_POWER",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "rooted": true,
+    "do_turn_eoc": "EOC_PSI_STUDYING_POWER"
+  },
+  {
+    "id": "ACT_PSI_TELEPORTER_ATTUNING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "attuning to area",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "adjusting mentality",
+    "rooted": true,
+    "based_on": "time",
+    "can_resume": false,
+    "completion_eoc": "ACT_PSI_TELEPATH_MENTAL_ENGINEERING_FINISH"
   }
 ]

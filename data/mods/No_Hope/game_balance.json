@@ -2,6 +2,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STAMINA_BURN_RATE",
+    "//": "TODO: Why is this lower than vanilla?",
     "info": "Sets base stamina burn per 100 moves of the walking player.",
     "stype": "int",
     "value": 10

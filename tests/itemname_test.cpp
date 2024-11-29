@@ -7,8 +7,8 @@
 #include "character.h"
 #include "flag.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -148,7 +148,7 @@ TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents
            "test quiver (0)" );
 
     // Insert one arrow
-    quiver.put_in( arrow, item_pocket::pocket_type::CONTAINER );
+    quiver.put_in( arrow, pocket_type::CONTAINER );
     // Expect 1 arrow remaining and displayed
     CHECK( quiver.ammo_remaining() == 10 );
     std::string const arrow_color = get_tag_from_color( arrow.color_in_inventory() );
@@ -156,4 +156,38 @@ TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents
     CHECK( quiver.display_name() ==
            "<color_c_green>++</color>\u00A0"
            "test quiver > " + arrow_color + "test wooden broadhead arrows" + color_end_tag + " (10)" );
+}
+
+TEST_CASE( "display_name_rotten_food", "[item][display_name][contents]" )
+{
+    clear_avatar();
+
+    item wrapper( "wrapper" );
+    item butter_std( "butter" );
+    item butter_rot1( "butter" );
+    item butter_rot2( "butter" );
+    butter_std.set_relative_rot( 0.5 );
+    butter_rot1.set_relative_rot( 1.01 );
+    butter_rot2.set_relative_rot( 1.02 );
+
+    const std::string butter_std_tname =
+        colorize( butter_std.tname(), butter_std.color_in_inventory() );
+    const std::string butter_rot_tname =
+        colorize( butter_rot1.tname(), butter_rot1.color_in_inventory() );
+    REQUIRE( butter_std_tname == "<color_c_light_cyan>butter</color>" );
+    REQUIRE( butter_rot_tname == "<color_c_brown>butter (rotten)</color>" );
+    REQUIRE_FALSE( butter_std.stacks_with( butter_rot1 ) );
+    REQUIRE( butter_rot1.stacks_with( butter_rot2 ) );
+
+    REQUIRE( wrapper.put_in( butter_rot1, pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > " + butter_rot_tname );
+
+    REQUIRE( wrapper.put_in( butter_rot2, pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > 2 " + butter_rot_tname );
+
+    REQUIRE( wrapper.put_in( butter_std, pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > 3 " + butter_std_tname );
 }

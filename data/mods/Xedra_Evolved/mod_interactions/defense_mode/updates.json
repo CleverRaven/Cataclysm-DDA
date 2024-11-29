@@ -1,0 +1,16 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "precinct_13_spawns",
+    "method": "json",
+    "object": {
+      "place_npcs": [
+        { "class": "follower_xedra_zebra_officer", "x": 0, "y": 0 },
+        { "class": "follower_xedra_zebra_officer", "x": 1, "y": 0 },
+        { "class": "follower_xedra_zebra_officer", "x": 2, "y": 0 },
+        { "class": "follower_xedra_zebra_officer", "x": 1, "y": 0 },
+        { "class": "follower_xedra_zebra_officer", "x": 1, "y": 0 }
+      ]
+    }
+  }
+]

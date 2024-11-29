@@ -22,12 +22,10 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_tacoma_ranch_doctor_anesthetic_asked" } ] } }
           ]
         },
-        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_BARKEEP_JOB" },
       { "text": "I'm looking for information.", "topic": "TALK_RANCH_BARKEEP_INFORMATION" },
@@ -140,7 +138,7 @@
           { "u_message": "Thanks for bringing the glass back.", "type": "good", "popup": true }
         ]
       },
-      { "text": "I'll be going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -219,7 +217,10 @@
     "id": "RANCH_BARTENDER_ASK_TOKEN",
     "dynamic_line": [
       "Bring the token back with your glass and I'll exchange it for a merch.",
-      "Oh, that?  There were too many people stealing our glasses, so I started stamping a logo on some bottle caps as a token and raised the drink prices a bit to encourage their return.  I'll give you a merch back when you bring me the token with your glass.",
+      {
+        "gendered_line": "Oh, that?  There were too many people stealing our glasses, so I started stamping a logo on some bottle caps as a token and raised the drink prices a bit to encourage their return.  I'll give you a merch back when you bring me the token with your glass.",
+        "relevant_genders": [ "npc" ]
+      },
       "Some people like to hang on to them thinking they'll have value someday, but I'd prefer it if you brought it back with your glass and I'll give you a merch back from your purchase."
     ],
     "responses": [ { "text": "I see.", "topic": "TALK_RANCH_BARKEEP" } ]
@@ -234,6 +235,7 @@
     "item": "still",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_2",
     "dialogue": {
       "describe": "We need help…",
@@ -268,6 +270,7 @@
     "item": "yeast",
     "count": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_3",
     "dialogue": {
       "describe": "We need help…",
@@ -303,6 +306,7 @@
     "item": "seed_sugar_beet",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_4",
     "dialogue": {
       "describe": "We need help…",
@@ -343,6 +347,7 @@
     "item": "metal_tank",
     "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
       "describe": "We need help…",
@@ -377,6 +382,7 @@
     "item": "55gal_drum",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",
@@ -390,6 +396,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
+      "effect": { "u_add_var": "mission_flag_Bartender_rewarded", "value": "no" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
         "place_item": [ { "item": "55gal_drum", "x": 18, "y": 3, "repeat": 2, "faction": "tacoma_commune" } ],

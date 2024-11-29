@@ -276,16 +276,6 @@
     ]
   },
   {
-    "id": "reactor_test",
-    "type": "vehicle",
-    "name": "Reactor test",
-    "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical" ] },
-      { "x": 0, "y": 0, "parts": [ "minireactor" ] },
-      { "x": 0, "y": -1, "parts": [ "frame#vertical", "seat", "dashboard", "storage_battery" ] }
-    ]
-  },
-  {
     "id": "solar_panel_test",
     "type": "vehicle",
     "name": "Solar test",
@@ -305,6 +295,19 @@
       { "x": 0, "y": 3, "parts": [ "frame#vertical", "large_storage_battery" ] },
       { "x": 1, "y": 3, "parts": [ "frame#vertical", "large_storage_battery" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical", "seat", "large_storage_battery" ] }
+    ]
+  },
+  {
+    "id": "obstacle_test",
+    "type": "vehicle",
+    "name": "TEST obstacle boards",
+    "blueprint": [ "===" ],
+    "parts": [
+      { "x": -2, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "board", "omnicam" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": 2, "y": 0, "parts": [ "frame", "board" ] }
     ]
   },
   {
@@ -462,6 +465,85 @@
       { "x": -5, "y": 3, "parts": [ "frame#se", "board#se", "roof" ] },
       { "x": -5, "y": -2, "parts": [ "wing_mirror" ] },
       { "x": -5, "y": 4, "parts": [ "external_tank_small" ] }
+    ]
+  },
+  {
+    "id": "test_beetle",
+    "type": "vehicle",
+    "name": "Test Beetle",
+    "blueprint": [
+      [ "o+o-" ],
+      [ "|=|=" ],
+      [ "|=|=" ],
+      [ "o+o-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "seat#windshield_front", "seatbelt", "roof", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "seat#windshield_front", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame#vertical_right", "door#ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame#vertical_left", "windshield#wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame#horizontal", "windshield#cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame#horizontal", "windshield#cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame#vertical_right", "windshield#wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#nw", "halfboard#nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "trunk" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#horizontal_front", "trunk" ] },
+      { "x": 2, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
+      { "x": 2, "y": 2, "parts": [ "frame#ne", "halfboard#ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#sw", "halfboard#hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "halfboard#horizontal_2_rear" ] },
+      { "x": -1, "y": 0, "parts": [ "engine_inline4", "alternator_car", "battery_car" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#horizontal_rear", "halfboard#horizontal_2_rear" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#se", "halfboard#hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
+    ]
+  },
+  {
+    "id": "character_volume_test_car",
+    "type": "vehicle",
+    "name": "DEBUG volume test car DEBUG",
+    "blueprint": [
+      [ "=====" ],
+      [ "=====" ],
+      [ "=====" ],
+      [ "=====" ],
+      [ "=====" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame", "aisle", "roof" ] }
+    ],
+    "items": [
+      { "x": 1, "y": 0, "chance": 100, "items": [ "rock_volume_test" ] },
+      { "x": -1, "y": 0, "chance": 100, "items": [ "rock_volume_test" ] },
+      { "x": 0, "y": 1, "chance": 100, "items": [ "rock_volume_test" ] },
+      { "x": 0, "y": -1, "chance": 100, "items": [ "rock_volume_test" ] }
     ]
   }
 ]

@@ -1,33 +1,38 @@
 #include "cata_utility.h"
 
-#include <cctype>
+#include <zconf.h>
+#include <algorithm>
 #include <cerrno>
 #include <charconv>
-#include <clocale>
-#include <cstdlib>
-#include <cwctype>
-#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cwctype>
 #include <exception>
-#include <iterator>
+#include <fstream>
+#include <iosfwd>
+#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
 #include "cached_options.h"
+#include "cata_path.h"
 #include "catacharset.h"
 #include "debug.h"
-#include "enum_conversions.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "json_loader.h"
 #include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
-#include "path_info.h"
 #include "pinyin.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "unicode.h"
 #include "zlib.h"
@@ -399,7 +404,10 @@ std::string read_compressed_file_to_string( std::istream &fin )
     z_stream zs;
     memset( &zs, 0, sizeof( zs ) );
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
     if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+#pragma GCC diagnostic pop
         throw std::runtime_error( "inflateInit failed while decompressing." );
     }
 
@@ -611,9 +619,12 @@ std::string obscure_message( const std::string &str, const std::function<char()>
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
-        if( transformation[0] == -1 ) {
+        // mk_wcwidth, which is used by utf8_width, might return -1 for some values, such as newlines 0x0A
+        if( transformation[0] == -1 || utf8_width( this_char ) == -1 ) {
+            // Leave unchanged
             continue;
         } else if( transformation[0] == 0 ) {
+            // Replace with random character
             if( utf8_width( this_char ) == 1 ) {
                 w_str[i] = random_entry( w_gibberish_narrow );
             } else {

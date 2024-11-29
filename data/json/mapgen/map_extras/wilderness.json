@@ -769,5 +769,58 @@
         { "monster": "GROUP_SWAMP", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5, "density": 0.5 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_worm_sign",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   ...................  ",
+        "  ....................  ",
+        "  ..................... ",
+        " ...................... ",
+        " ...................... ",
+        "........................",
+        "........................",
+        "........................",
+        "...........x............",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        " ...................... ",
+        " ...................... ",
+        " ...................... ",
+        "  ....................  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        ".": { "chunks": [ [ "null", 20 ], [ "1x1_upturn_earth", 1 ] ] },
+        "x": { "chunks": [ [ "null", 20 ], [ "1x1_upturn_earth", 1 ] ] }
+      },
+      "monsters": {
+        ".": { "monster": "GROUP_WORM", "chance": 2, "density": 0.0001 },
+        "x": { "monster": "GROUP_WORM", "chance": 100, "density": 0.0001 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_upturn_earth",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "upturn_earth", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "upturn_earth",
+    "terrain": [ { "result": "t_dirtmound", "valid_flags": [ "DIGGABLE" ] } ]
   }
 ]

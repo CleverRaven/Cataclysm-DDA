@@ -954,6 +954,7 @@ TEST_CASE( "list_emplace_move_copy_and_reverse_iterate", "[list]" )
 
     SECTION( "emplace post-moved list" ) {
         // Reuse the moved list will cause segmentation fault
+        // NOLINTNEXTLINE(clang-analyzer-cplusplus.Move)
         test_list.emplace_back( 3 );
         CHECK( test_list.size() == 1 );
     }

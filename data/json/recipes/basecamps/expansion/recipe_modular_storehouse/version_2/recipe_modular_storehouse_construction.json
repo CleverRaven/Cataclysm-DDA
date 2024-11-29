@@ -19,7 +19,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2" } ],
@@ -58,7 +59,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_1" } ],
@@ -97,7 +99,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_2" } ],
@@ -136,7 +139,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_3" } ],
@@ -175,7 +179,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_4" } ],
@@ -198,7 +203,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbms_2_6_construction",
-    "description": "Let's finish our storage building with a last section.  If we really want to, we can then go on to double the volume, but won't that be extreme, when we can use the space to unload loot instead?",
+    "description": "Let's finish our storage building with a last section.  We could then go on to double the volume with another six sections, but if that seems excessive we could use the space to unload loot instead.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -214,7 +219,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_5" } ],
@@ -237,7 +243,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbms_2_7_construction",
-    "description": "We want to store EVERYTHING!  Let's double the size of the storage building, proceeding with a seventh section.",
+    "description": "Let's start the construction of an adjoining warehouse with a seventh section to eventually double our storage space.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -253,7 +259,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_6" } ],
@@ -292,7 +299,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_7" } ],
@@ -331,7 +339,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_8" } ],
@@ -370,7 +379,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_9" } ],
@@ -409,7 +419,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_10" } ],
@@ -448,7 +459,8 @@
         "fbms_2_rammed_earth_palette": "Rammed earth walls and sod roof",
         "fbms_2_rock_palette": "Rock walls and wooden roof",
         "fbms_2_wad_palette": "Wattle-and-daub walls and sod roof",
-        "fbms_2_wood_palette": "Wooden walls and wooden roof"
+        "fbms_2_wood_palette": "Wooden walls and wooden roof",
+        "fbms_2_brick_palette": "Brick walls and wooden roof"
       }
     },
     "blueprint_requires": [ { "id": "fbms_2_11" } ],

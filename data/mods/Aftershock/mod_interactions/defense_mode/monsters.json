@@ -1,0 +1,117 @@
+[
+  {
+    "id": "mon_moxie_scavenger_dm",
+    "copy-from": "mon_moxie_scavenger",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "regenerates": 1,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_moxie_regenerator_dm",
+    "copy-from": "mon_moxie_regenerator",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "regenerates": 2,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_moxie_grabby_dm",
+    "copy-from": "mon_moxie_grabby",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "regenerates": 1,
+    "default_faction": "aftershock_defense_mode",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_human_biomachine_dm",
+    "copy-from": "mon_human_biomachine",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "afs_venandi_dm",
+    "copy-from": "afs_venandi",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "hp": 80,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "afs_mon_boatman_dm",
+    "copy-from": "afs_mon_boatman",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "hp": 80,
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_upliftedbear_dm",
+    "copy-from": "mon_zombie_upliftedbear",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_uplifted_ape_zed_dm",
+    "copy-from": "mon_uplifted_ape_zed",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "mon_zombie_upliftedoctopus_dm",
+    "copy-from": "mon_zombie_upliftedoctopus",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  },
+  {
+    "id": "afs_titanis_dm",
+    "copy-from": "afs_titanis",
+    "type": "MONSTER",
+    "species": [ "AFTERSHOCK_DM" ],
+    "default_faction": "aftershock_defense_mode",
+    "vision_day": 99,
+    "vision_night": 99,
+    "aggression": 100,
+    "morale": 100
+  }
+]

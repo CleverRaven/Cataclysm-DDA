@@ -1,7 +1,20 @@
+#include <algorithm>
+#include <memory>
+#include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "creature_tracker.h"
+#include "damage.h"
+#include "debug.h"
+#include "effect.h"
+#include "enums.h"
 #include "flag.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "martialarts.h"
@@ -9,6 +22,12 @@
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "pimpl.h"
+#include "point.h"
+#include "rng.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
 
 static const character_modifier_id
 character_modifier_grab_break_limb_mod( "grab_break_limb_mod" );
@@ -23,6 +42,7 @@ static const efftype_id effect_webbed( "webbed" );
 
 static const flag_id json_flag_GRAB( "GRAB" );
 
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 
@@ -34,6 +54,9 @@ static const limb_score_id limb_score_manip( "manip" );
 
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_unarmed( "unarmed" );
+
+static const trait_id trait_SLIMY( "SLIMY" );
+static const trait_id trait_VISCOUS( "VISCOUS" );
 
 bool Character::can_escape_trap( int difficulty, bool manip = false ) const
 {
@@ -67,7 +90,7 @@ void Character::try_remove_bear_trap()
     /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
        allow normal players two options: removal of the limb or removal of the trap from the ground
        (at which point the player could later remove it from the leg with the right tools).
-       As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
+       As such we are currently making it a bit easier for players and NPCs to get out of bear traps.
     */
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
     if( is_avatar() && is_mounted() ) {
@@ -76,6 +99,7 @@ void Character::try_remove_bear_trap()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
                 remove_effect( effect_beartrap );
+                get_map().spawn_item( pos_bub(), itype_beartrap );
                 add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
             } else {
                 add_msg_if_player( m_bad,
@@ -85,6 +109,7 @@ void Character::try_remove_bear_trap()
     } else {
         if( can_escape_trap( 100 ) ) {
             remove_effect( effect_beartrap );
+            get_map().spawn_item( pos_bub(), itype_beartrap );
             add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
                                    _( "<npcname> frees themselves from the bear trap!" ) );
         } else {
@@ -124,8 +149,8 @@ void Character::try_remove_heavysnare()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                 mon->remove_effect( effect_heavysnare );
                 remove_effect( effect_heavysnare );
-                here.spawn_item( pos(), itype_rope_6 );
-                here.spawn_item( pos(), itype_snare_trigger );
+                here.spawn_item( pos_bub(), itype_rope_6 );
+                here.spawn_item( pos_bub(), itype_snare_trigger );
                 add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
             }
         }
@@ -136,8 +161,8 @@ void Character::try_remove_heavysnare()
                                    _( "<npcname> frees themselves from the heavy snare!" ) );
             item rope( "rope_6", calendar::turn );
             item snare( "snare_trigger", calendar::turn );
-            here.add_item_or_charges( pos(), rope );
-            here.add_item_or_charges( pos(), snare );
+            here.add_item_or_charges( pos_bub(), rope );
+            here.add_item_or_charges( pos_bub(), snare );
         } else {
             add_msg_if_player( m_bad,
                                _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
@@ -190,7 +215,7 @@ bool Character::try_remove_grab( bool attacking )
                                        std::max( std::max( static_cast<float>( get_skill_level( skill_melee ) ) / 10, 0.1f ),
                                                std::max( static_cast<float>( get_skill_level( skill_unarmed ) ) / 8, 0.1f ) ) );
         int grab_break_factor = has_grab_break_tec() ? 10 : 0;
-        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
+        const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( pos_bub(), 1, 0 );
 
         // Iterate through all our grabs and attempt to break them one by one
         for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
@@ -199,7 +224,7 @@ bool Character::try_remove_grab( bool attacking )
             // We need to figure out which monster is responsible for this grab early for good messaging
             // For now, one grabber per limb TODO: handle multiple grabbers and decrement intensity
             monster *grabber = nullptr;
-            for( const tripoint loc : surrounding ) {
+            for( const tripoint_bub_ms loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
                 if( mon && mon->is_grabbing( eff.get_bp().id() ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
@@ -251,6 +276,16 @@ bool Character::try_remove_grab( bool attacking )
             escape_chance = ( skill_factor * limb_factor ) * 100 + stat_factor;
             grabber_roll = std::max( grabber_roll, escape_chance ) + rng( 1, 10 );
             escape_chance += grab_break_factor;
+            if( has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS ) ) {
+                const float slime_factor = worn.clothing_wetness_mult( eff.get_bp() ) * 6;
+                // Slime offers a 6% bonus to escaping from a grab on a naked body part.
+                // Slime exudes from the skin and will only soak through clothes according to their combined breathability and coverage.
+                // Since the attacker is grabbing at the outermost layer, that 6% is multiplied by clothing_wetness_mult for that body part.
+                escape_chance += slime_factor;
+                add_msg_debug( debugmode::DF_MATTACK,
+                               "%s is slimy, escape chance increased by %f",
+                               eff.get_bp()->name, slime_factor );
+            }
             add_msg_debug( debugmode::DF_MATTACK,
                            "Attempting to break grab on %s, grab strength roll %.1f, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
                            eff.get_bp()->name, grabber_roll, skill_factor, limb_factor, stat_factor, grab_break_factor,
@@ -264,7 +299,7 @@ bool Character::try_remove_grab( bool attacking )
             }
 
             // Every attempt burns some stamina - maybe some moves?
-            mod_stamina( -5 * eff.get_intensity() );
+            burn_energy_arms( -5 * eff.get_intensity() );
             if( x_in_y( escape_chance, grabber_roll ) ) {
                 grabber->remove_grab( eff.get_bp().id() );
                 add_msg_debug( debugmode::DF_MATTACK, "Removed grab effect %s from monster %s",

@@ -12,7 +12,6 @@
     "time": "1 h",
     "construction_blueprint": "fbbb",
     "blueprint_provides": [
-      { "id": "bed", "amount": 16 },
       { "id": "gathering" },
       { "id": "fbbb_crafting_recipes_basic" },
       { "id": "fbbb_crafting_recipes_cooking" },

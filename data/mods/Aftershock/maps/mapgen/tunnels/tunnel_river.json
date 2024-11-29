@@ -260,7 +260,6 @@
       [ "afs_tunnel_lake1", "afs_tunnel_lake2", "afs_tunnel_lake3" ],
       [ "afs_tunnel_lake4", "afs_tunnel_lake5", "afs_tunnel_lake6" ]
     ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [

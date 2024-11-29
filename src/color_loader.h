@@ -62,6 +62,7 @@ class color_loader
             const cata_path custom_path = PATH_INFO::base_colors();
 
             if( !file_exist( custom_path ) ) {
+                assure_dir_exist( PATH_INFO::config_dir() );
                 copy_file( default_path, custom_path );
             }
 

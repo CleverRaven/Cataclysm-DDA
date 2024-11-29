@@ -17,8 +17,10 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "sleep.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -94,10 +96,25 @@ struct mut_transform {
     bool load( const JsonObject &jsobj, std::string_view member );
 };
 
+struct mut_personality_score {
+
+    /** bounds within which this trait is applied */
+    int min_aggression = -10;
+    int max_aggression = 10;
+    int min_bravery = -10;
+    int max_bravery = 10;
+    int min_collector = -10;
+    int max_collector = 10;
+    int min_altruism = -10;
+    int max_altruism = 10;
+    mut_personality_score();
+    bool load( const JsonObject &jsobj, std::string_view member );
+};
+
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( dialogue & )>trigger;
+    std::function<bool( const_dialogue const & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -164,6 +181,10 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // Other threshold traits that are taken as acceptable replacements for this threshold
+        std::vector<trait_id> threshold_substitutes;
+        // Disallow threshold substitution for this trait in particular
+        bool strict_threshreq = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -177,17 +198,21 @@ struct mutation_branch {
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
+        // By default startingtrait = true traits can be randomly assigned, this allows that to be reversed.
+        bool random_at_chargen = true;
         bool activated     = false;
+        translation activation_msg;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
         // Should it destroy gear on restricted body parts? (otherwise just pushes it off)
         bool destroys_gear = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
-        // IF any of the three are true, it drains that as the "cost"
-        bool fatigue       = false;
+        // IF any of the four are true, it drains that as the "cost"
+        bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
+        bool mana       = false;
         // How many points it costs in character creation
         int points     = 0;
         // How many mutagen vitamins are consumed to gain this trait
@@ -198,47 +223,16 @@ struct mutation_branch {
         // costs are consumed every cooldown turns,
         time_duration cooldown   = 0_turns;
         // bodytemp elements:
-        int bodytemp_min = 0;
-        int bodytemp_max = 0;
-        int bodytemp_sleep = 0;
-        // Healing per turn
-        std::optional<float> healing_awake = std::nullopt;
-        std::optional<float> healing_multiplier = std::nullopt;
-        // Limb mending bonus
-        std::optional<float> mending_modifier = std::nullopt;
-        std::optional<float> pain_modifier = std::nullopt;
-        // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        std::optional<float> hp_modifier = std::nullopt;
-        // Second HP modifier that stacks with first but is otherwise identical.
-        std::optional<float> hp_modifier_secondary = std::nullopt;
-        // Flat bonus/penalty to hp.
-        std::optional<float> hp_adjustment = std::nullopt;
-        // Modify strength stat without changing HP
-        std::optional<float> str_modifier = std::nullopt;
-        //melee bonuses
-        int cut_dmg_bonus = 0;
-        float pierce_dmg_bonus = 0.0f;
-        std::pair<int, int> rand_cut_bonus;
-        int bash_dmg_bonus = 0;
-        std::pair<int, int> rand_bash_bonus;
+        units::temperature_delta bodytemp_min = 0_C_delta;
+        units::temperature_delta bodytemp_max = 0_C_delta;
         // Additional bonuses
-        std::optional<float> dodge_modifier = std::nullopt;
-        std::optional<float> movecost_modifier = std::nullopt;
-        std::optional<float> movecost_flatground_modifier = std::nullopt;
-        std::optional<float> movecost_obstacle_modifier = std::nullopt;
-        std::optional<float> attackcost_modifier = std::nullopt;
-        std::optional<float> cardio_multiplier = std::nullopt;
-        std::optional<float> weight_capacity_modifier = std::nullopt;
-        std::optional<float> hearing_modifier = std::nullopt;
-        std::optional<float> movecost_swim_modifier = std::nullopt;
-        std::optional<float> noise_modifier = std::nullopt;
-        float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
-        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
         cata::value_ptr<mut_transform> transform;
+
+        cata::value_ptr<mut_personality_score> personality_score;
 
         // Cosmetic variants of this mutation
         std::map<std::string, mutation_variant> variants;
@@ -253,55 +247,6 @@ struct mutation_branch {
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
-
-        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
-        float fat_to_max_hp = 0.0f;
-        /**How fast does lifetsyle tends toward daily_health*/
-        float healthy_rate = 1.0f;
-
-        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
-        int weakness_to_water = 0;
-
-        std::optional<float> crafting_speed_multiplier = std::nullopt;
-
-        // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        std::optional<float> stealth_modifier = std::nullopt;
-
-        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        std::optional<float> temperature_speed_modifier = std::nullopt;
-        // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        std::optional<float> metabolism_modifier = std::nullopt;
-        // As above but for thirst.
-        std::optional<float> thirst_modifier = std::nullopt;
-        // As above but for fatigue.
-        std::optional<float> fatigue_modifier = std::nullopt;
-        // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        std::optional<float> fatigue_regen_modifier = std::nullopt;
-        // Modifier for the rate at which stamina regenerates.
-        std::optional<float> stamina_regen_modifier = std::nullopt;
-        // the modifier for obtaining an item from a container as a handling penalty
-        std::optional<float> obtain_cost_multiplier = std::nullopt;
-        // the modifier for the stomach size
-        std::optional<float> stomach_size_multiplier = std::nullopt;
-        // the modifier for the vomit chance
-        std::optional<float> vomit_multiplier = std::nullopt;
-        // the modifier for sweat amount
-        std::optional<float> sweat_multiplier = std::nullopt;
-
-        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        std::optional<float> overmap_sight = std::nullopt;
-
-        // Multiplier for sight range, defaulting to 1.
-        std::optional<float> overmap_multiplier = std::nullopt;
-
-        // Multiplier for reading speed, defaulting to 1.
-        std::optional<float> reading_speed_multiplier = std::nullopt;
-
-        // Multiplier for skill rust delay, defaulting to 1.
-        std::optional<float> skill_rust_multiplier = std::nullopt;
-
-        // Multiplier for consume time, defaulting to 1.
-        std::optional<float> consume_time_modifier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -328,13 +273,6 @@ struct mutation_branch {
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
 
-        // amount of mana added or subtracted from max
-        std::optional<float> mana_modifier = std::nullopt;
-        std::optional<float> mana_multiplier = std::nullopt;
-        std::optional<float> mana_regen_multiplier = std::nullopt;
-        // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
-        std::optional<float> bionic_mana_penalty = std::nullopt;
-        std::optional<float> casting_time_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations
@@ -353,6 +291,20 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
+
+        struct OverrideLook {
+            std::string id;
+            std::string tile_category;
+            OverrideLook( const std::string &_id, const std::string &_tile_category )
+                : id( _id ), tile_category( _tile_category ) {}
+        };
+        /** ID, tile category, and variant
+        This will make the player appear as another entity (such as a non-humanoid creature).
+        The texture will override all other textures, including the character's body. */
+        std::optional<OverrideLook> override_look;
     private:
         translation raw_spawn_item_message;
     public:
@@ -399,9 +351,6 @@ struct mutation_branch {
         std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
-        // Mutation stat mods
-        /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<bodypart_str_id, resistances> armor; // Modifiers to protection values
         std::vector<itype_id> integrated_armor; // Armor pseudo-items that are put on by this mutation
         std::vector<matype_id>
@@ -457,7 +406,7 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
@@ -606,8 +555,10 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
 std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
@@ -615,7 +566,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

@@ -101,7 +101,12 @@
       { "point": [ 3, 3, 0 ], "overmap": "lake_retreat_ground_north" },
       { "point": [ 3, 3, 1 ], "overmap": "lake_retreat_z1_north" },
       { "point": [ 3, 3, 2 ], "overmap": "lake_retreat_z2_north" },
-      { "point": [ 3, 3, 3 ], "overmap": "lake_retreat_z3_north" },
+      {
+        "point": [ 3, 3, 3 ],
+        "overmap": "lake_retreat_z3_north",
+        "camp": "wizards_ancient",
+        "camp_name": "Old Wizard"
+      },
       { "point": [ 3, 3, 4 ], "overmap": "lake_retreat_z4_north" },
       { "point": [ 4, 3, 0 ], "overmap": "forest" },
       { "point": [ 5, 3, 0 ], "overmap": "lake_shore" },
@@ -233,8 +238,8 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 1, 2 ],
-    "spawns": { "group": "GROUP_FOREST", "population": [ 2, 15 ], "radius": [ 1, 3 ] },
-    "flags": [ "UNIQUE" ]
+    "spawns": { "group": "GROUP_MAGIC_FIELD", "population": [ 2, 15 ], "radius": [ 1, 3 ] },
+    "flags": [ "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -244,6 +249,69 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
-    "spawns": { "group": "GROUP_FOREST", "population": [ 1, 7 ], "radius": [ 1, 3 ] }
+    "spawns": { "group": "GROUP_MAGIC_FIELD", "population": [ 1, 7 ], "radius": [ 1, 3 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "standing_teleport_stones",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_teleport_stones" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 66, 100 ],
+    "flags": [ "OVERMAP_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "druid_tower",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "druid_ritual_home_z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "druid_ritual_home_z1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "druid_ritual_home_z2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "druid_ritual_home_z3_north" },
+      { "point": [ -1, -1, 4 ], "overmap": "druid_ritual_home_crown_nw_north" },
+      { "point": [ 0, -1, 4 ], "overmap": "druid_ritual_home_crown_n_north" },
+      { "point": [ 1, -1, 4 ], "overmap": "druid_ritual_home_crown_ne_north" },
+      { "point": [ -1, 0, 4 ], "overmap": "druid_ritual_home_crown_w_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "druid_ritual_home_crown_north" },
+      { "point": [ 1, 0, 4 ], "overmap": "druid_ritual_home_crown_e_north" },
+      { "point": [ -1, 1, 4 ], "overmap": "druid_ritual_home_crown_sw_north" },
+      { "point": [ 0, 1, 4 ], "overmap": "druid_ritual_home_crown_s_north" },
+      { "point": [ 1, 1, 4 ], "overmap": "druid_ritual_home_crown_se_north" }
+    ],
+    "locations": [ "forest_center" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ogre_lair",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "ogre_mound_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "ogre_mound_roof_north" }
+    ],
+    "locations": [ "swamp" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 2 ],
+    "spawns": { "group": "GROUP_OGRE", "population": [ 1, 10 ], "radius": [ 1, 6 ] },
+    "flags": [ "WILDERNESS", "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "last_mage_on_earth_shelter_start",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "last_mage_on_earth_shelter_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "//": "Meant for the Last Mage on Earth start",
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 10, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "WILDERNESS" ]
   }
 ]

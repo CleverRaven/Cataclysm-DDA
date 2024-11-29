@@ -1,10 +1,10 @@
-Copyright (c) 2019 Dimitar Toshkov Zhekov,
+Copyright (C) 2020 Dimitar Toshkov Zhekov,
 with Reserved Font Name "Terminus Font".
 
 Copyright (c) 2017 tisimst
 with Reserved Font Name "Vecterminus"
 
-Copyright (c) 2011 Tilman Blumenbach,
+Copyright (c) 2011-2023 Tilman Blumenbach,
 with Reserved Font Name "Terminus (TTF)".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

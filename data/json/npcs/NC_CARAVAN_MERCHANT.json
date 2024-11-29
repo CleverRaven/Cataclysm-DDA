@@ -1,0 +1,8 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_CARAVAN_MERCHANT_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 80 }, { "item": "rucksack", "prob": 50 } ]
+  }
+]

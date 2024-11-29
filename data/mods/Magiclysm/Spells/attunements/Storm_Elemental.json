@@ -18,16 +18,16 @@
     "base_energy_cost": 500,
     "base_casting_time": 100,
     "difficulty": 4,
-    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crackle",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" } ]
+    "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",
     "id": "storm_chain_1",
-    "name": "Storm Chain 1",
-    "description": "#1 in the storm chain series of effects.",
+    "name": { "str": "Storm Chain 1", "//~": "NO_I18N" },
+    "description": { "str": "#1 in the storm chain series of effects.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -46,14 +46,14 @@
     "max_aoe": 1,
     "sound_description": "a crackle",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
     "extra_effects": [ { "id": "storm_chain_2" }, { "id": "storm_chain_2" } ]
   },
   {
     "type": "SPELL",
     "id": "storm_chain_2",
-    "name": "Storm Chain 2",
-    "description": "#2 in the storm chain series of effects.",
+    "name": { "str": "Storm Chain 2", "//~": "NO_I18N" },
+    "description": { "str": "#2 in the storm chain series of effects.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -72,14 +72,14 @@
     "max_aoe": 1,
     "sound_description": "a crackle",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
     "extra_effects": [ { "id": "storm_chain_3" }, { "id": "storm_chain_3" } ]
   },
   {
     "type": "SPELL",
     "id": "storm_chain_3",
-    "name": "Storm Chain 3",
-    "description": "#3 in the storm chain series of effects.",
+    "name": { "str": "Storm Chain 3", "//~": "NO_I18N" },
+    "description": { "str": "#3 in the storm chain series of effects.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -98,7 +98,7 @@
     "max_aoe": 1,
     "sound_description": "a crackle",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ]
+    "flags": [ "EVOCATION_SPELL", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ]
   },
   {
     "id": "storm_elemental_electric_melee",
@@ -109,7 +109,8 @@
     "effect": "attack",
     "effect_str": "eff_storm_elemental_electric_melee",
     "shape": "blast",
-    "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "ENHANCEMENT_SPELL", "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "spell_class": "STORM_ELEMENTAL",
     "difficulty": 4,
     "min_duration": 20000,
@@ -133,6 +134,9 @@
     "remove_message": "Your hands turn back to normal condition.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 35 }, { "value": "MELEE_DAMAGE", "multiply": 0.4 } ] } ]
+    "enchantments": [
+      { "melee_damage_bonus": [ { "type": "electric", "add": 35 } ] },
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.4 } ] }
+    ]
   }
 ]

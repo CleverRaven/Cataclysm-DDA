@@ -1,0 +1,242 @@
+[
+  {
+    "result": "mt_chainmail_arms",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 20 ] ], [ [ "moon_tear_wire", 25 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_arms",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 27 ] ], [ [ "moon_tear_wire", 33 ] ] ]
+  },
+  {
+    "result": "xs_mt_chainmail_arms",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 12 ] ], [ [ "moon_tear_wire", 16 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_feet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 6 ] ], [ [ "moon_tear_wire", 12 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_feet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 9 ] ], [ [ "moon_tear_wire", 18 ] ] ]
+  },
+  {
+    "result": "xs_mt_chainmail_feet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 4 ] ], [ [ "moon_tear_wire", 9 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_hands",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 2 ] ], [ [ "moon_tear_wire", 5 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_hands",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 3 ] ], [ [ "moon_tear_wire", 7 ] ] ]
+  },
+  {
+    "result": "xs_mt_chainmail_hands",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 1 ] ], [ [ "moon_tear_wire", 2 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_hood",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 9 ] ], [ [ "moon_tear_wire", 12 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_hood",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 12 ] ], [ [ "moon_tear_wire", 16 ] ] ]
+  },
+  {
+    "result": "xs_mt_chainmail_hood",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 6 ] ], [ [ "moon_tear_wire", 8 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_legs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 20 ] ], [ [ "moon_tear_wire", 25 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_legs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 30 ] ], [ [ "moon_tear_wire", 35 ] ] ]
+  },
+  {
+    "result": "xs_mt_chainmail_legs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 12 ] ], [ [ "moon_tear_wire", 16 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_hauberk",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 35 ] ], [ [ "moon_tear_wire", 42 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_hauberk",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 45 ] ], [ [ "moon_tear_wire", 56 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_hauberk_xs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 23 ] ], [ [ "moon_tear_wire", 30 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 100 ] ], [ [ "moon_tear_wire", 125 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 130 ] ], [ [ "moon_tear_wire", 163 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_suit_xs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 66 ] ], [ [ "moon_tear_wire", 83 ] ] ]
+  },
+  {
+    "result": "mt_chainmail_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 20 ] ], [ [ "moon_tear_wire", 25 ] ] ]
+  },
+  {
+    "result": "xl_mt_chainmail_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 30 ] ], [ [ "moon_tear_wire", 35 ] ] ]
+  },
+  {
+    "result": "xs_mt_chainmail_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "scrap_moon_tears", 12 ] ], [ [ "moon_tear_wire", 16 ] ] ]
+  }
+]

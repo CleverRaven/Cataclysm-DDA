@@ -1,0 +1,16 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_teleporter_attuned_ground",
+    "name": "[Ψ]Attuned ground",
+    "symbol": "+",
+    "looks_like": "tr_telepad",
+    "description": "There is nothing obvious about this area of ground to the casual observer, but you can see it with your eyes closed.  You know it like the back of your hand, and with but a thought, you could teleport to it.  (e)xamine to complete attunement.",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  }
+]

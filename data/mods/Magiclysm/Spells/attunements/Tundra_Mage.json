@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "cold_snap",
     "name": "Cold Snap",
-    "description": "With a snap of your fingers, a target takes cold damage and freezes in place.",
+    "description": "With a snap of your fingers, the target takes cold damage and freezes in place.",
     "effect": "attack",
     "shape": "blast",
     "damage_type": "cold",
@@ -19,16 +19,16 @@
     "base_energy_cost": 100,
     "base_casting_time": 33,
     "difficulty": 7,
-    "flags": [ "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
     "sound_description": "crack",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "cold_snap_freeze" } ]
+    "extra_effects": [ { "id": "cold_snap_freeze" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",
     "id": "cold_snap_freeze",
-    "name": "Cold Snap Freeze",
-    "description": "Freezes the target monster in place.",
+    "name": { "str": "Cold Snap Freeze", "//~": "NO_I18N" },
+    "description": { "str": "Freezes the target monster in place.", "//~": "NO_I18N" },
     "effect": "mod_moves",
     "shape": "blast",
     "max_level": 35,
@@ -36,7 +36,7 @@
     "max_damage": -400,
     "damage_increment": -10,
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT" ]
+    "flags": [ "EVOCATION_SPELL", "SILENT" ]
   },
   {
     "id": "summon_winter_wolf",
@@ -52,6 +52,7 @@
     "spell_class": "TUNDRA_MAGE",
     "effect": "summon",
     "effect_str": "mon_winter_wolf",
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 600,
@@ -61,7 +62,7 @@
     "range_increment": 0.2,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 180000,
     "duration_increment": 5000

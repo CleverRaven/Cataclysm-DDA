@@ -1,0 +1,52 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_parkour",
+    "category": "prof_athletics",
+    "name": { "str": "Parkour Expert" },
+    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_athlete_basic",
+    "category": "prof_athletics",
+    "name": { "str": "Athlete's Form" },
+    "description": "You've spent some time developing your general fitness.  When operating muscle-powered vehicles, you know how to get more power out of each stroke.",
+    "can_learn": true,
+    "time_to_learn": "4 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "bonuses": { "athlete": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_athlete_expert",
+    "category": "prof_athletics",
+    "name": { "str": "Athlete's Form (Expert)" },
+    "description": "With considerable practice, you've honed your athletic fitness and form.  You know how to get the most out of your effort, when manually powering a muscle-driven vehicle.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_athlete_basic" ],
+    "bonuses": { "athlete": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_athlete_master",
+    "category": "prof_athletics",
+    "name": { "str": "Athlete's Form (Master)" },
+    "description": "You've honed your athletics to at least a professional level.  When it comes to making vehicles move under your own power, your body is a well-oiled machine.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_athlete_expert" ],
+    "bonuses": { "athlete": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  }
+]

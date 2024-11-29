@@ -21,6 +21,9 @@ std::uint32_t TranslationManager::Impl::Hash( const char *str )
 std::optional<std::pair<std::size_t, std::size_t>> TranslationManager::Impl::LookupString(
             const char *query ) const
 {
+    if( strings.empty() ) {
+        return std::nullopt;
+    }
     std::uint32_t hash = Hash( query );
     auto it = strings.find( hash );
     if( it == strings.end() ) {

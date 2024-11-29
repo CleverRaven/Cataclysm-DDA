@@ -10,5 +10,19 @@
     "dependencies": [ "dda" ],
     "version": "0.1",
     "obsolete": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "info": "Sets the latitude used for sunrise/sunset times.  Set to Las Vegas.",
+    "stype": "float",
+    "value": 36.17
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "info": "Sets the longitude used for sunrise/sunset times.  Set to Las Vegas.",
+    "stype": "float",
+    "value": -115.14
   }
 ]

@@ -7,6 +7,12 @@
   },
   {
     "type": "proficiency_category",
+    "id": "prof_combat",
+    "name": "Weapons Proficiencies",
+    "description": "Proficiencies for various weapons."
+  },
+  {
+    "type": "proficiency_category",
     "id": "prof_chem",
     "name": "Applied Science",
     "description": "Proficiencies for scientific understanding and working with certain chemicals and substances."
@@ -16,6 +22,12 @@
     "id": "prof_food",
     "name": "Food Handling",
     "description": "Proficiencies for cooking and food preparation, as well as experience with food handling tools."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_butchering",
+    "name": "Butchering",
+    "description": "Proficiencies for carving and proper dressing of meat and skin of animals."
   },
   {
     "type": "proficiency_category",
@@ -82,5 +94,17 @@
     "id": "prof_tailoring",
     "name": "Fabrics and Tailoring",
     "description": "Proficiencies for sewing, binding and mending fabrics and clothing materials."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_vehicles",
+    "name": "Vehicles",
+    "description": "Proficiencies for driving, piloting, and general vehicle operations."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_athletics",
+    "name": "Athletics",
+    "description": "Proficiencies for various athletic activities."
   }
 ]

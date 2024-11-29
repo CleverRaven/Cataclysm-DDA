@@ -23,10 +23,10 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -54,6 +54,9 @@ static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
+
+static const quality_id qual_PISTOL( "PISTOL" );
+static const quality_id qual_SMG( "SMG" );
 
 static const skill_id skill_launcher( "launcher" );
 
@@ -101,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
+    { "NO_LEAK", VPFLAG_NO_LEAK },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
@@ -113,6 +117,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
     { "CARGO", VPFLAG_CARGO },
+    { "CARGO_PASSABLE", VPFLAG_CARGO_PASSABLE },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
@@ -132,6 +137,13 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "TURRET_CONTROLS", VPFLAG_TURRET_CONTROLS },
     { "ROOF", VPFLAG_ROOF },
     { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
+    { "BATTERY", VPFLAG_BATTERY },
+    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER },
+    { "HUGE_OK", VPFLAG_HUGE_OK },
+    { "NEED_LEG", VPFLAG_NEED_LEG },
+    { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
+    { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
+    { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
@@ -197,6 +209,30 @@ static void parse_vp_reqs( const JsonObject &obj, const vpart_id &id, const std:
     }
 }
 
+static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
+                                   const std::string_view &key,
+                                   vp_control_req &req )
+{
+    if( !obj.has_object( key ) ) {
+        return;
+    }
+    JsonObject src = obj.get_object( key );
+
+    JsonArray sk = src.get_array( "skills" );
+    if( !sk.empty() ) {
+        req.skills.clear();
+        for( JsonArray cur : sk ) {
+            if( cur.size() != 2 ) {
+                debugmsg( "vpart '%s' has requirement with invalid skill entry", id.str() );
+                continue;
+            }
+            req.skills.emplace( skill_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+    }
+
+    optional( src, false, "proficiencies", req.proficiencies );
+}
+
 void vehicles::parts::load( const JsonObject &jo, const std::string &src )
 {
     vpart_info_factory.load( jo, src );
@@ -232,6 +268,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name_, strict );
     assign( jo, "item", base_item, strict );
+    assign( jo, "remove_as", removed_item, strict );
     assign( jo, "location", location, strict );
     assign( jo, "durability", durability, strict );
     assign( jo, "damage_modifier", dmg_mod, strict );
@@ -252,8 +289,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "broken_color", color_broken, strict );
     assign( jo, "comfort", comfort, strict );
-    assign( jo, "floor_bedding_warmth", floor_bedding_warmth, strict );
-    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, strict );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
+    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
+    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
+    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -280,6 +321,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         parse_vp_reqs( reqs, id, "install", install_reqs, install_skills, install_moves );
         parse_vp_reqs( reqs, id, "removal", removal_reqs, removal_skills, removal_moves );
         parse_vp_reqs( reqs, id, "repair",  repair_reqs,  repair_skills, repair_moves );
+    }
+
+    if( jo.has_member( "control_requirements" ) ) {
+        JsonObject reqs = jo.get_object( "control_requirements" );
+
+        parse_vp_control_reqs( reqs, id, "air", control_air );
+        parse_vp_control_reqs( reqs, id, "land", control_land );
     }
 
     assign( jo, "looks_like", looks_like, strict );
@@ -384,11 +432,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         JsonObject jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
-        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
-        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
+        if( jttd.has_string( "post_field" ) ) {
+            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
+            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
+            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
+        }
     }
 }
 
@@ -536,6 +586,13 @@ void vehicles::parts::finalize()
             electronics_req += static_cast<int>( std::ceil( battery_mags_drain / 15.0 ) );
         }
 
+        // make part foldable for pistols and SMGs
+        bool is_foldable = item->qualities.count( qual_PISTOL ) > 0 ||
+                           item->qualities.count( qual_SMG ) > 0;
+        if( is_foldable ) {
+            new_part.folded_volume = item->volume;
+        }
+
         // cap all skills at 8
         primary_req = std::min( 8, primary_req );
         mechanics_req = std::min( 8, mechanics_req );
@@ -677,7 +734,7 @@ void vpart_info::finalize()
     if( variants.empty() ) {
         debugmsg( "vehicle part %s defines no variants", id.str() );
         vpart_variant vv;
-        vv.id = "";
+        vv.id.clear();
         vv.label_ = "Default";
         vv.symbols.fill( '?' );
         vv.symbols_broken.fill( '?' );
@@ -889,6 +946,18 @@ void vpart_info::check() const
     if( base_item->pockets.size() > 4 ) {
         debugmsg( "Error: vehicle parts assume only one pocket.  Multiple pockets unsupported" );
     }
+    for( const auto &dt : damage_reduction ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid damage_reduction type \"%s\" for vehicle part %s", dt.first.c_str(),
+                      id.c_str() );
+        }
+    }
+    if( !!transform_terrain_info && !( transform_terrain_info->post_terrain ||
+                                       transform_terrain_info->post_furniture ||
+                                       transform_terrain_info->post_field ) ) {
+        debugmsg( "transform_terrain_info must contain at least one of post_terrain, post_furniture and post_field for vehicle part %s",
+                  id.c_str() );
+    }
 }
 
 void vehicles::parts::reset()
@@ -961,7 +1030,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             } else if( !base.magazine_default().is_null() ) {
                 class::item tmp_mag( base.magazine_default() );
                 tmp_mag.ammo_set( tmp_mag.ammo_default() );
-                base.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                base.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
             }
         }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -1041,8 +1110,7 @@ static time_duration scale_time( const std::map<skill_id, int> &sk, time_duratio
                                          MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    // 10% reduction per assisting Character
     const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
@@ -1091,6 +1159,12 @@ time_duration vpart_info::get_folding_time() const
 time_duration vpart_info::get_unfolding_time() const
 {
     return unfolding_time;
+}
+
+bool vpart_info::has_control_req() const
+{
+    return !control_air.proficiencies.empty() || !control_air.skills.empty() ||
+           !control_land.proficiencies.empty() || !control_land.skills.empty();
 }
 
 std::string vpart_variant::get_label() const
@@ -1202,7 +1276,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
 
-    const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
+    const auto add_part_obj = [&]( const JsonObject & part, point_rel_ms pos ) {
         const auto [id, variant] = get_vpart_str_variant( part.get_string( "part" ) );
         part_def pt;
         pt.part = vpart_id( id );
@@ -1218,7 +1292,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
         parts.emplace_back( pt );
     };
 
-    const auto add_part_string = [&]( const std::string & part, point pos ) {
+    const auto add_part_string = [&]( const std::string & part, point_rel_ms pos ) {
         const auto [id, variant] = get_vpart_str_variant( part );
         part_def pt;
         pt.part = vpart_id( id );
@@ -1233,7 +1307,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     }
 
     for( JsonObject part : jo.get_array( "parts" ) ) {
-        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        point_rel_ms pos{ part.get_int( "x" ), part.get_int( "y" ) };
 
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
@@ -1254,13 +1328,13 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 
     for( JsonObject spawn_info : jo.get_array( "items" ) ) {
         vehicle_item_spawn next_spawn;
-        next_spawn.pos.x = spawn_info.get_int( "x" );
-        next_spawn.pos.y = spawn_info.get_int( "y" );
+        next_spawn.pos.x() = spawn_info.get_int( "x" );
+        next_spawn.pos.y() = spawn_info.get_int( "y" );
 
         next_spawn.chance = spawn_info.get_int( "chance" );
         if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
             debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
+                      name, next_spawn.pos.x(), next_spawn.pos.y(), next_spawn.chance );
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
@@ -1297,7 +1371,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
         zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
         std::string name;
         std::string filter;
-        point pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
+        point_rel_ms pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
 
         if( jzi.has_string( "name" ) ) {
             name = jzi.get_string( "name" );
@@ -1324,26 +1398,20 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.member( "id", "/TO_BE_REPLACED/" );
     json.member( "type", "vehicle" );
     json.member( "name", "/TO_BE_REPLACED/" );
-    std::map<point, std::list<const vehicle_part *>> vp_map;
+    std::map<point_rel_ms, std::list<const vehicle_part *>> vp_map;
     int mount_min_y = 123;
     int mount_max_y = -123;
     // Form a map of existing real parts
-    // Structural parts first
+    // get_all_parts() gets all non-fake parts
+    // The parts are already in installation order
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const vehicle_part &p = vpr.part();
-        if( p.is_fake ) {
-            continue;
-        }
-        if( p.info().location == part_location_structure ) {
-            vp_map[p.mount].push_front( &p );
-            continue;
-        }
-        mount_max_y = mount_max_y < p.mount.y ? p.mount.y : mount_max_y;
-        mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
+        mount_max_y = mount_max_y < p.mount.y() ? p.mount.y() : mount_max_y;
+        mount_min_y = mount_min_y > p.mount.y() ? p.mount.y() : mount_min_y;
         vp_map[p.mount].push_back( &p );
     }
-    int mount_min_x = vp_map.begin()->first.x;
-    int mount_max_x = vp_map.rbegin()->first.x;
+    int mount_min_x = vp_map.begin()->first.x();
+    int mount_max_x = vp_map.rbegin()->first.x();
 
     // print the vehicle's blueprint.
     json.member( "blueprint" );
@@ -1352,11 +1420,11 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     for( int x = mount_max_x; x >= mount_min_x; x-- ) {
         std::string row;
         for( int y = mount_min_y; y <= mount_max_y; y++ ) {
-            if( veh.part_displayed_at( point( x, y ), false, true, true ) == -1 ) {
+            if( veh.part_displayed_at( point_rel_ms( x, y ), false, true, true ) == -1 ) {
                 row += " ";
                 continue;
             }
-            const vpart_display &c = veh.get_display_of_tile( point( x, y ), false, false, true, true );
+            const vpart_display &c = veh.get_display_of_tile( point_rel_ms( x, y ), false, false, true, true );
             row += utf32_to_utf8( c.symbol );
         }
         json.write( row );
@@ -1377,35 +1445,9 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         return;
     };
     for( auto &vp_pos : vp_map ) {
-        auto fake = make_shared_fast<vehicle>( vproto_id() );
-        vehicle &fakev = *fake;
-        auto iter = vp_pos.second.begin();
-        // Ensure that the entries in the list can be installed in order.
-        // Might be a infinite loop if debug hammerspace created improper parts combination.
-        // So add a iteration limit to avoid this.
-        int iteration = 0;
-        for( ; iter != vp_pos.second.end(); ) {
-            vehicle_part g = **iter;
-            if( fakev.can_mount( point_zero, g.info() ).success() ) {
-                fakev.install_part( point_zero, std::move( g ) );
-                iter++;
-                continue;
-            }
-            iteration++;
-            auto iter2 = std::next( iter, 1 );
-            vp_pos.second.splice( vp_pos.second.end(), vp_pos.second, iter );
-            iter = iter2;
-            // It's impossible to hit this limit when a single mount point has fewer than 50 parts.
-            // So we can assume only infinite loop hits this limit.
-            if( iteration > 1250 ) {
-                debugmsg( "Error exporting vehicle: mount point (%d,%d) has illegal vehicle part sequence.",
-                          vp_pos.first.x, vp_pos.first.y );
-                return;
-            }
-        }
         json.start_object();
-        json.member( "x", vp_pos.first.x );
-        json.member( "y", vp_pos.first.y );
+        json.member( "x", vp_pos.first.x() );
+        json.member( "y", vp_pos.first.y() );
 
         json.member( "parts" );
         json.start_array();
@@ -1462,8 +1504,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         const vehicle_stack &stack = veh.get_items( vp.part() );
         if( !stack.empty() ) {
             json.start_object();
-            json.member( "x", vp.mount().x );
-            json.member( "y", vp.mount().y );
+            json.member( "x", vp.mount_pos().x() );
+            json.member( "y", vp.mount_pos().y() );
             json.member( "chance", 100 );
             json.member( "items" );
             json.start_array();
@@ -1480,8 +1522,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.start_array();
     for( auto const &z : veh.loot_zones ) {
         json.start_object();
-        json.member( "x", z.first.x );
-        json.member( "y", z.first.y );
+        json.member( "x", z.first.x() );
+        json.member( "y", z.first.y() );
         json.member( "type", z.second.get_type().str() );
         json.end_object();
     }
@@ -1489,7 +1531,6 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
 
     json.end_object();
 }
-
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
@@ -1499,7 +1540,7 @@ void vehicles::finalize_prototypes()
     vehicle_prototype_factory.finalize();
     for( const vehicle_prototype &const_proto : vehicles::get_all_prototypes() ) {
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
-        std::unordered_set<point> cargo_spots;
+        std::unordered_set<point_rel_ms> cargo_spots;
 
         // Calling the constructor with empty vproto_id as parameter
         // makes constructor bypass copying the (non-existing) blueprint.
@@ -1525,7 +1566,7 @@ void vehicles::finalize_prototypes()
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
-                          blueprint.part_count(), pt.pos.x, pt.pos.y );
+                          blueprint.part_count(), pt.pos.x(), pt.pos.y() );
             } else {
                 vehicle_part &vp = blueprint.part( part_idx );
                 const vpart_info &vpi = vp.info();
@@ -1548,7 +1589,8 @@ void vehicles::finalize_prototypes()
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }
                 if( pt.fuel ) {
-                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
+                    vp.ammo_set( pt.fuel,
+                                 pt.fuel->ammo ? vp.ammo_capacity( pt.fuel->ammo->type ) : vp.item_capacity( pt.fuel ) );
                 }
             }
 
@@ -1615,7 +1657,7 @@ void vehicles::finalize_prototypes()
         for( vehicle_item_spawn &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                          proto.name, i.pos.x, i.pos.y, i.chance );
+                          proto.name, i.pos.x(), i.pos.y(), i.chance );
             }
             for( auto &j : i.item_ids ) {
                 if( !item::type_is_defined( j ) ) {
@@ -1663,10 +1705,10 @@ void vpart_category::reset()
 void vpart_migration::load( const JsonObject &jo )
 {
     vpart_migration migration;
-    mandatory( jo, /* was_loaded = */ true, "from", migration.part_id_old );
-    mandatory( jo, /* was_loaded = */ true, "to", migration.part_id_new );
-    optional( jo, /* was_loaded = */ true, "variant", migration.variant );
-    optional( jo, /* was_loaded = */ true, "add_veh_tools", migration.add_veh_tools );
+    mandatory( jo, false, "from", migration.part_id_old );
+    mandatory( jo, false, "to", migration.part_id_new );
+    optional( jo, false, "variant", migration.variant );
+    optional( jo, false, "add_veh_tools", migration.add_veh_tools );
     vpart_migrations.emplace( migration.part_id_old, migration );
 }
 

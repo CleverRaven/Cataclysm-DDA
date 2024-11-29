@@ -5,7 +5,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "XEDRA laptop" },
-    "description": "Heavy, dark laptop, with swappable battery slot.  Back panel is labeled \"PROPERTY OF XEDRA\".  It uses non-standard OS, so there's not much you can use it without reinstalling.",
+    "description": "A heavy, dark laptop with a swappable battery slot.  The back panel is labeled \"PROPERTY OF XEDRA\".  It uses a non-standard OS, so there's not much you can use it for without reinstalling it.",
     "symbol": ",",
     "color": "dark_gray",
     "use_action": [
@@ -27,7 +27,7 @@
       {
         "target": "laptop",
         "msg": "Reinstall the OS.",
-        "menu_text": "You can reinstall OS to use it as common laptop.",
+        "menu_text": "You can reinstall the OS to use it as a common laptop.",
         "need_charges": 50,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform",
@@ -56,7 +56,7 @@
     "id": "laptop_xedra_lit",
     "copy-from": "laptop_xedra",
     "type": "TOOL",
-    "name": { "str": "xedra laptop - lit screen", "str_pl": "xedra laptops - lit screen" },
+    "name": { "str": "XEDRA laptop - lit screen", "str_pl": "XEDRA laptops - lit screen" },
     "power_draw": "1 W",
     "revert_to": "laptop_xedra",
     "use_action": [

@@ -34,6 +34,7 @@
     "result": "seed_pumpkin",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
+    "//p": "about 450-500 seeds per pumpkin, which is about a cup. these are fairly small pumpkins.",
     "components": [ [ [ "pumpkin", 1 ] ] ],
     "byproducts": [ [ "pumpkin_cut", 4 ] ],
     "charges": 6
@@ -51,22 +52,33 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "components": [ [ [ "melon", 1 ] ] ],
-    "byproducts": [ [ "melon_chunks", 3 ] ],
-    "charges": 5
+    "byproducts": [ [ "melon_chunks", 4 ] ],
+    "charges": 3
   },
   {
     "result": "seed_cucumber",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "byproducts": [ [ "cucumber_cut", 1 ] ],
-    "components": [ [ [ "cucumber", 1 ] ] ]
+    "components": [ [ [ "cucumber", 1 ] ] ],
+    "charges": 2
+  },
+  {
+    "result": "seed_gherkin",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "byproducts": [ [ "gherkin_cut", 1 ] ],
+    "components": [ [ [ "gherkin", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_eggplant",
+    "id_suffix": "with_cutting_tool",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "byproducts": [ [ "eggplant_cut", 1 ] ],
-    "components": [ [ [ "eggplant", 1 ] ] ]
+    "byproducts": [ [ "eggplant_cut", 2 ] ],
+    "components": [ [ [ "eggplant", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_oats",
@@ -118,7 +130,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "byproducts": [ [ "zucchini_cut", 1 ] ],
-    "components": [ [ [ "zucchini", 1 ] ] ]
+    "components": [ [ [ "zucchini", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_barley",
@@ -216,13 +229,22 @@
     "result": "seed_rose",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "rose_hips", 1 ] ] ]
+    "components": [ [ [ "rose_hips", 1 ] ] ],
+    "byproducts": [ [ "rose_hips_cut", 1 ] ]
   },
   {
     "result": "seed_chili_pepper",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ] ] ],
+    "charges": 2
+  },
+  {
+    "result": "seed_bell_pepper",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "bell_pepper", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_wheat",
@@ -253,7 +275,7 @@
     "result": "buckwheat",
     "type": "recipe",
     "id_suffix": "seed_designation",
-    "copy-from": "seed_extraction_base",
+    "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_buckwheat", 1 ] ] ]
   },
   {
@@ -263,11 +285,18 @@
     "components": [ [ [ "dogbane", 1 ] ] ]
   },
   {
-    "result": "seed_garlic",
+    "result": "seed_garlic_clove",
     "type": "recipe",
-    "copy-from": "seed_extraction_base",
-    "components": [ [ [ "garlic", 1 ] ] ],
-    "charges": 8
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "garlic_clove", 6 ] ] ]
+  },
+  {
+    "result": "garlic_clove",
+    "type": "recipe",
+    "id_suffix": "seed_designation",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_garlic_clove", 1 ] ] ],
+    "charges": 6
   },
   {
     "result": "seed_mugwort",
@@ -293,13 +322,14 @@
     "result": "seed_raw_dandelion",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "raw_dandelion", 4 ] ] ]
+    "components": [ [ [ "raw_dandelion", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_raw_burdock",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "raw_burdock", 4 ] ] ]
+    "components": [ [ [ "raw_burdock", 1 ] ] ]
   },
   {
     "result": "seed_japanese_knotweed",
@@ -366,7 +396,7 @@
     "result": "seed_rhubarb",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "rhubarb", 4 ] ] ]
+    "components": [ [ [ "rhubarb", 1 ] ] ]
   },
   {
     "result": "seed_thyme",
@@ -384,7 +414,7 @@
     "result": "seed_wild_herbs",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "wild_herbs", 20 ] ] ]
+    "components": [ [ [ "wild_herbs", 10 ] ] ]
   },
   {
     "result": "seed_potato_raw",
@@ -397,21 +427,20 @@
     "type": "recipe",
     "copy-from": "seed_extraction_base",
     "components": [ [ [ "sunflower", 1 ] ] ],
-    "charges": 16
+    "charges": 6
   },
   {
     "result": "seed_beans",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "dry_beans", 6 ] ] ],
-    "charges": 6
+    "components": [ [ [ "dry_beans", 1 ] ] ]
   },
   {
     "result": "dry_beans",
     "id_suffix": "seed_designation",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_beans", 6 ] ] ]
+    "components": [ [ [ "seed_beans", 1 ] ] ]
   },
   {
     "result": "soybean_seed",
@@ -430,14 +459,14 @@
     "result": "seed_lentils",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "dry_lentils", 2 ] ] ]
+    "components": [ [ [ "dry_lentils", 1 ] ] ]
   },
   {
     "result": "dry_lentils",
     "id_suffix": "seed_designation",
     "type": "recipe",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_lentils", 2 ] ] ]
+    "components": [ [ [ "seed_lentils", 1 ] ] ]
   },
   {
     "result": "seed_chamomile",
@@ -455,13 +484,6 @@
     "result": "seed_bottle_gourd",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 1 ] ] ]
-  },
-  {
-    "result": "seed_eggplant",
-    "type": "recipe",
-    "copy-from": "seed_extraction_base",
-    "components": [ [ [ "eggplant", 1 ] ] ],
-    "charges": 8
+    "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
   }
 ]

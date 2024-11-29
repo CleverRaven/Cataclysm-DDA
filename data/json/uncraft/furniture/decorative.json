@@ -1,0 +1,10 @@
+[
+  {
+    "result": "bigmirror",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT_GLASS", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "glass_sheet", 2 ] ], [ [ "scrap_aluminum", 10 ] ] ]
+  }
+]

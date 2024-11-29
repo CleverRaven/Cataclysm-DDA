@@ -15,11 +15,24 @@
           { "group": "radio", "prob": 15 },
           { "group": "psi_lab", "prob": 60 },
           { "group": "textbooks", "prob": 25 },
-          { "item": "lab_postit_psi", "prob": 15 },
-          { "item": "id_science_visitor_phavian", "prob": 15 }
+          { "item": "lab_postit_psi", "prob": 15 }
         ]
       },
-      { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
+      { "group": "wallets_phavian", "damage": [ 1, 4 ], "prob": 5 }
     ]
+  },
+  {
+    "id": "mon_zombie_survivor_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_zombie_survivor_death_drops",
+    "extend": { "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 2 } ] }
+  },
+  {
+    "id": "mon_zombie_survivor_elite_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_zombie_survivor_elite_death_drops",
+    "extend": { "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 3 } ] }
   }
 ]

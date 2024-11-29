@@ -1,396 +1,202 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_SPELL_TELEKIN_SUMMON_JACKING_TOOL",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR",
     "effect": {
-      "switch": { "math": [ "u_val('spell_level', 'spell: telekinetic_vehicle_lift')" ] },
-      "cases": [
-        { "case": 1, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_1" } } ] },
-        { "case": 2, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_2" } } ] },
-        { "case": 3, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_3" } } ] },
-        { "case": 4, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_4" } } ] },
-        { "case": 5, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_5" } } ] },
-        { "case": 6, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_6" } } ] },
-        { "case": 7, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_7" } } ] },
-        { "case": 8, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_8" } } ] },
-        { "case": 9, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_9" } } ] },
-        { "case": 10, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_10" } } ] },
-        { "case": 11, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_11" } } ] },
-        { "case": 12, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_12" } } ] },
-        { "case": 13, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_13" } } ] },
-        { "case": 14, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_14" } } ] },
-        { "case": 15, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_15" } } ] },
-        { "case": 16, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_16" } } ] },
-        { "case": 17, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_17" } } ] },
-        { "case": 18, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_18" } } ] },
-        { "case": 19, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_19" } } ] },
-        { "case": 20, "effect": [ { "u_cast_spell": { "id": "telekin_ritual_summon_lifting_jack_20" } } ] }
-      ]
+      "run_eoc_selector": [ "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL", "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PUSH" ],
+      "names": [ "Pull", "Push" ],
+      "keys": [ "1", "2" ],
+      "descriptions": [ "Pull a set of items to you.", "Push a set of items away from you." ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_REMOVE_ENHANCE_STRENGTH",
-    "effect": [ { "u_remove_item_with": "telekin_ritual_summon_strength_item" } ]
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_pull_real" }, "targeted": true }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_1",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #1",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_1",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PUSH",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_push_real" }, "targeted": true }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_2",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #2",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_2",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "effect": {
+      "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
+      "names": [ "Push", "Pull" ],
+      "keys": [ "1", "2" ],
+      "descriptions": [ "Shove a target away from you.", "Grab a target and pull them towards you." ]
+    }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_3",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #3",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_3",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH",
+    "effect": { "u_cast_spell": { "id": "telekinetic_force_shove_away_target" }, "targeted": true }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_4",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #4",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_4",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL",
+    "effect": { "u_cast_spell": { "id": "telekinetic_force_shove_toward_target" }, "targeted": true }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_5",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #5",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_5",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
+    "effect": [
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "math": [ "u_telekinesis_shove_spell_level < 1" ] },
+        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "else": [
+          {
+            "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+            "loc": { "context_val": "loc" }
+          },
+          { "npc_message": "You hurl your target away.", "type": "good" },
+          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+        ]
+      }
+    ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_6",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #6",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_6",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER",
+    "condition": { "x_in_y_chance": { "x": { "math": [ "u_weight_ratio * 1000" ] }, "y": 1000 } },
+    "effect": [
+      { "u_add_effect": "downed", "duration": 2 },
+      { "npc_message": "You shove your target off their feet.", "type": "good" }
+    ],
+    "false_effect": [ { "npc_message": "You attempt to shove your target but they are too heavy!", "type": "bad" } ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_7",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #7",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_7",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
+    "effect": [
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_pull_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "math": [ "u_telekinesis_pull_spell_level < 1" ] },
+        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "else": [
+          {
+            "npc_cast_spell": { "id": "telekinetic_force_shove_toward", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+            "loc": { "context_val": "loc" }
+          },
+          { "npc_message": "You pull your target towards you.", "type": "good" },
+          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+        ]
+      }
+    ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_8",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #8",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_8",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_WAVE_FORCE",
+    "effect": [
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
+      { "u_cast_spell": { "id": "telekinetic_wave_wonder", "hit_self": true } }
+    ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_9",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #9",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_9",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PUSH", "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PULL" ],
+        "names": [ "Push", "Pull" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ "Push something away from you.", "Pull something toward you." ]
+      }
+    ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_10",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #10",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_10",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PUSH",
+    "effect": { "u_cast_spell": { "id": "telekinetic_move_large_weight_pushing" }, "targeted": true }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_11",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #11",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_11",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PULL",
+    "effect": { "u_cast_spell": { "id": "telekinetic_move_large_weight_pulling" }, "targeted": true }
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_12",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #12",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_12",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
+    "effect": [
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_move_large_weight')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "math": [ "u_telekinesis_shove_spell_level < 1" ] },
+        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "else": [
+          {
+            "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+            "loc": { "context_val": "loc" }
+          },
+          { "npc_message": "You hurl your target away.", "type": "good" },
+          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+        ]
+      }
+    ]
   },
   {
-    "id": "telekin_ritual_summon_lifting_jack_13",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #13",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_13",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_14",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #14",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_14",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_15",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #15",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_15",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_16",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #16",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_16",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_17",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #17",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_17",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_18",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #18",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_18",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_19",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #19",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_19",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
-  },
-  {
-    "id": "telekin_ritual_summon_lifting_jack_20",
-    "type": "SPELL",
-    "name": "[Ψ]Summon Lifting Jack #20",
-    "description": "The spell that summons the Lifting Jack.  It's a bug if you have it directly.",
-    "message": "",
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
-    "effect": "spawn_item",
-    "effect_str": "telekin_lifting_jack_20",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 12000)" ] },
-    "max_duration": { "math": [ "(u_val('spell_level', 'spell: telekinetic_vehicle_lift') * 120000)" ] }
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
+    "effect": [
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_move_large_weight')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_weight_ratio",
+          "=",
+          "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_weight() / 1000000)"
+        ]
+      },
+      { "math": [ "u_telekinesis_pull_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "if": { "math": [ "u_telekinesis_pull_spell_level < 1" ] },
+        "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
+        "else": [
+          {
+            "npc_cast_spell": { "id": "telekinetic_force_shove_toward", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+            "loc": { "context_val": "loc" }
+          },
+          { "npc_message": "You pull your target towards you.", "type": "good" },
+          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+        ]
+      }
+    ]
   }
 ]

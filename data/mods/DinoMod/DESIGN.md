@@ -22,7 +22,7 @@ As of this writing, each dinosaur touches at least ten different JSON files, lis
 
 Main DinoMod folder: 
 
-* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
+* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage families
 
 items folder:
 
@@ -34,7 +34,7 @@ monstergroups folder:
 * fungi.json is where you add the fungal variant to spawn in fungal locations
 * lab.json is where you add the dinosaur if it is not native to North America
 * misc.json has all kinds of odd lists, especially for safe, scavenging, and underground dinos
-* monstergroups_egg.json is where you add the hatchling to be spawned from its own egg, and from random eggs
+* monstergroups_egg.json is where you add the hatchling to be spawned from random eggs, if they are North American natives
 * wilderness.json is where your dino will be spawned in natural settings. Forests should stay safe.
 * zinosaur.json  adds the zombified version to zombie spawn lists and is where the zombie upgrade groups go for now
 
@@ -58,4 +58,11 @@ This is much easier!
 * Each dinosaur gets its own nest mapgen file in \mapgen\map_extras\ you can copy from a similar dino there
 * You can define the map extra in \overmap\map_extras.json
 * Finally you tell it to spawn in the right biome in regional_overlay.json . Predator nests go in swamps, everything else in forests
+  
+# Lore
+
+* Dinosaurs came here through portals at the very beginning of the portal storm
+* The Swampers expected this and were prepared.  They believe that the dinosaurs are here to restore our world to be back in harmony with the rest
+* Before all this, some of the labs were already pulling dinos and dino material back here for study, including some with CBMs.  They got out.
+* The Exodii don't know that this was a dino free world. That's very rare.
 

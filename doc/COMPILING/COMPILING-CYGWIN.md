@@ -57,6 +57,8 @@ You will see messages saying packages are already installed, as well as Cygwin i
 
 **Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
+**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CONTRIBUTING.md#example-workflow).
+
 ```bash
 cd /cygdrive/c/dev
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
@@ -71,7 +73,7 @@ make CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZ
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
-**Note**: This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `Cygwin=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `Cygwin=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
 
 ## Running:
 

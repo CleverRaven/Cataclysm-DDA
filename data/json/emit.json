@@ -97,6 +97,14 @@
     "chance": 15
   },
   {
+    "id": "emit_toxic_stream",
+    "type": "emit",
+    "//": "Steady stream of toxic gas",
+    "field": "fd_toxic_gas",
+    "intensity": 3,
+    "qty": 24
+  },
+  {
     "id": "emit_relax_gas_blast",
     "type": "emit",
     "//": "Large blast of relaxation gas (similar to riot control bot)",
@@ -119,6 +127,15 @@
     "field": "fd_tear_gas",
     "intensity": 3,
     "chance": 15
+  },
+  {
+    "id": "emit_tear_gas_toad",
+    "type": "emit",
+    "//": "Periodic leaking of tear gas",
+    "field": "fd_tear_gas",
+    "intensity": 3,
+    "chance": 15,
+    "qty": 3
   },
   {
     "id": "emit_tindalos_gas_leak",
@@ -146,13 +163,6 @@
     "intensity": 3,
     "chance": 1,
     "qty": 25
-  },
-  {
-    "id": "emit_acid_splash",
-    "type": "emit",
-    "//": "Small amount of strong acid - stacks, but weak on its own",
-    "field": "fd_acid",
-    "intensity": 3
   },
   {
     "id": "emit_acid_drop",
@@ -249,14 +259,6 @@
     "qty": 100
   },
   {
-    "id": "emit_hot_air4_blast",
-    "type": "emit",
-    "field": "fd_hot_air4",
-    "//": "Makes the surrounding area extremely, uncomfortably hot.",
-    "intensity": 3,
-    "qty": 300
-  },
-  {
     "id": "emit_heater_vehicle",
     "type": "emit",
     "field": "fd_hot_air2",
@@ -271,34 +273,6 @@
     "intensity": 3,
     "qty": 3,
     "chance": 100
-  },
-  {
-    "id": "emit_hot_air1_cbm",
-    "type": "emit",
-    "field": "fd_hot_air1",
-    "intensity": 3,
-    "qty": 1
-  },
-  {
-    "id": "emit_hot_air2_cbm",
-    "type": "emit",
-    "field": "fd_hot_air2",
-    "intensity": 3,
-    "qty": 1
-  },
-  {
-    "id": "emit_hot_air3_cbm",
-    "type": "emit",
-    "field": "fd_hot_air3",
-    "intensity": 3,
-    "qty": 1
-  },
-  {
-    "id": "emit_hot_air4_cbm",
-    "type": "emit",
-    "field": "fd_hot_air4",
-    "intensity": 3,
-    "qty": 1
   },
   {
     "id": "emit_hot_air_migo_seep",
@@ -387,6 +361,21 @@
     "id": "emit_fungal_blast",
     "type": "emit",
     "field": "fd_fungal_haze",
+    "qty": 200
+  },
+  {
+    "id": "emit_hallucinogenic_spores",
+    "type": "emit",
+    "//": "Slow infrequent leak of hallucinogenic cloud",
+    "field": "fd_hallucinogenic_spores",
+    "intensity": 1,
+    "qty": 4
+  },
+  {
+    "id": "emit_hallucinogenic_spores_blast",
+    "type": "emit",
+    "field": "fd_hallucinogenic_spores",
+    "intensity": 2,
     "qty": 200
   },
   {

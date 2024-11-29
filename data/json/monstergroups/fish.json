@@ -268,7 +268,7 @@
         "conditions": [ "SPRING", "SUMMER" ],
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_strider_small", "weight": 35, "cost_multiplier": 3, "pack_size": [ 3, 6 ] }
+      { "group": "GROUP_WATER_STRIDER", "weight": 35, "cost_multiplier": 3, "pack_size": [ 3, 6 ] }
     ]
   },
   {
@@ -317,6 +317,15 @@
     "monsters": [
       { "monster": "mon_razorclaw", "weight": 667, "cost_multiplier": 0 },
       { "monster": "mon_razorclaw", "weight": 333, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CRAYFISH",
+    "monsters": [
+      { "monster": "mon_crayfish_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_giant_crayfish", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_crayfish_mega", "weight": 2, "starts": "72 days" }
     ]
   }
 ]

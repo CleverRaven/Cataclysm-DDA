@@ -2,6 +2,7 @@
   {
     "id": "TALK_REFUGEE_Draco_1a",
     "type": "talk_topic",
+    "insert_before_standard_exits": true,
     "responses": [ { "text": "Have you seen anything that could help me?", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb" } ]
   },
   {
@@ -35,7 +36,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "boann_sidhe_island", "om_special": "Boann's Island", "reveal_radius": 6, "search_range": 360 }
     },
-    "goal_condition": { "u_has_var": "u_met_boann_sidhe", "type": "general", "context": "meeting", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_boann_sidhe" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

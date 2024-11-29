@@ -400,3 +400,16 @@ TEST_CASE( "Specific_energy", "[temperature]" )
         CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100.1 ) ) == Approx( 100.1 ) );
     }
 }
+
+TEST_CASE( "energy_display", "[units][nogame]" )
+{
+    CHECK( units::display( units::from_millijoule( 1 ) ) == "1 mJ" );
+    CHECK( units::display( units::from_millijoule( 1000 ) ) == "1 J" );
+    CHECK( units::display( units::from_millijoule( 1001 ) ) == "1001 mJ" );
+    CHECK( units::display( units::from_millijoule( 1000000 ) ) == "1 kJ" );
+    CHECK( units::display( units::from_millijoule( 1000001 ) ) == "1 kJ" );
+    CHECK( units::display( units::from_millijoule( 1001000 ) ) == "1001 J" );
+    CHECK( units::display( units::from_millijoule( 1001001 ) ) == "1001001 mJ" );
+    CHECK( units::display( units::from_millijoule( 2147483648LL ) ) == "2147483648 mJ" );
+    CHECK( units::display( units::from_millijoule( 4294967296LL ) ) == "4294967296 mJ" );
+}

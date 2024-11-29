@@ -9,9 +9,9 @@
     "weight": "1960 g",
     "volume": "2083 ml",
     "longest_side": "42 cm",
-    "price": 175000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
+    "barrel_length": "180 mm",
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "30 USD",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -27,7 +27,7 @@
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -35,7 +35,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk46mag", "hk46bigmag" ] } ],
     "melee_damage": { "bash": 7 }
   }

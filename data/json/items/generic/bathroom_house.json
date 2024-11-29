@@ -1,18 +1,16 @@
 [
   {
     "abstract": "base_toiletries",
-    "name": { "str": "generic grooming" },
+    "name": { "str_sp": "generic grooming", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": "+",
     "color": "blue",
-    "price": 200,
-    "price_postapoc": 0,
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
     "weight": "100 g",
-    "volume": "50 ml",
-    "material": [ "plastic" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 1 }
+    "volume": "100 ml",
+    "material": [ "plastic" ]
   },
   {
     "id": "soap_holder",
@@ -23,7 +21,7 @@
     "weight": "65 g",
     "volume": "221 ml",
     "longest_side": "13 cm",
-    "price": 250,
+    "price": "2 USD 50 cent",
     "copy-from": "base_toiletries",
     "//": "Based on https://www.amazon.com/dp/B09QGPWJPX"
   },
@@ -34,8 +32,8 @@
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",
     "copy-from": "base_toiletries",
-    "price": 800,
-    "price_postapoc": 500,
+    "price": "8 USD",
+    "price_postapoc": "5 USD",
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
@@ -47,6 +45,10 @@
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
+    "weight": "18 g",
+    "volume": "38 ml",
+    "longest_side": "18 cm",
+    "price": "6 USD",
     "copy-from": "base_toiletries",
     "snippet_category": [
       {
@@ -69,7 +71,8 @@
         "id": "tbrush5",
         "text": "A short toothbrush designed for children.  It has a grinning red racecar on the handle."
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B0BQ1FVGJM, volume calculated as a cylinder with the assumption of 7in length and 0.65in diameter - the dimensions on the listing are for the package, so I took a bit of length off."
   },
   {
     "id": "tampon",
@@ -79,9 +82,9 @@
     "symbol": "+",
     "color": "white",
     "looks_like": "cotton_ball",
-    "container": "bag_plastic",
-    "price": 25,
-    "price_postapoc": 200,
+    "container": "bag_plastic_small",
+    "price": "25 cent",
+    "price_postapoc": "2 USD",
     "//": "Makes a decent trade commodity but can be acquired in bulk.",
     "weight": "10 g",
     "volume": "50 ml",
@@ -116,9 +119,9 @@
     "symbol": "=",
     "color": "white",
     "looks_like": "bandages",
-    "container": "bag_plastic",
-    "price": 25,
-    "price_postapoc": 200,
+    "container": "bag_plastic_small",
+    "price": "25 cent",
+    "price_postapoc": "2 USD",
     "//": "Makes a decent trade commodity but can be acquired in bulk.",
     "weight": "10 g",
     "volume": "50 ml",
@@ -153,9 +156,9 @@
     "symbol": "v",
     "color": "pink",
     "looks_like": "bottle_plastic_small",
-    "container": "bag_plastic",
-    "price": 1000,
-    "price_postapoc": 500,
+    "container": "bag_plastic_small",
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
     "//": "Makes a decent trade commodity.",
     "weight": "10 g",
     "volume": "50 ml",
@@ -172,7 +175,6 @@
     "volume": "400 ml",
     "longest_side": "24 cm",
     "price": "6 USD",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "hbrush1", "text": "An instrument of hair torture.  There are round safety tips on the bristles." },
       { "id": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
@@ -229,14 +231,14 @@
     "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
     "symbol": "p",
     "color": "red",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "weight": "590 g",
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
     "material": [ "wood", "rubber" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 5 }
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "plunger_futuristic",
@@ -245,13 +247,11 @@
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",
     "color": "black",
-    "price": 1590,
-    "price_postapoc": 10,
+    "price": "15 USD 90 cent",
+    "price_postapoc": "10 cent",
     "weight": "680 g",
     "volume": "2400 ml",
-    "material": [ "plastic" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 2 }
+    "material": [ "plastic" ]
   },
   {
     "id": "toilet_paper",
@@ -260,13 +260,12 @@
     "description": "A luxurious remnant of civilization.",
     "symbol": "~",
     "color": "white",
-    "container": "bag_plastic",
-    "price": 89,
-    "price_postapoc": 180,
+    "container": "bag_plastic_small",
+    "price": "89 cent",
+    "price_postapoc": "1 USD 80 cent",
     "volume": "250 ml",
     "weight": "227 g",
     "material": [ "paper" ],
-    "to_hit": -2,
     "snippet_category": [
       {
         "id": "tpaper1",
@@ -291,25 +290,18 @@
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  The heat can be toggled on and off.",
     "symbol": "(",
     "color": "black",
-    "price": 2100,
-    "price_postapoc": 0,
+    "price": "21 USD",
+    "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 35,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
-    "charged_qualities": [ [ "BLOW_AIR", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 3 }
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
+    "charged_qualities": [ [ "WINNOW", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "curling_iron",
@@ -318,12 +310,12 @@
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",
     "color": "magenta",
-    "price": 2500,
-    "price_postapoc": 0,
+    "price": "25 USD",
+    "price_postapoc": "0 cent",
     "volume": "250 ml",
     "weight": "590 g",
     "material": [ "ceramic", "steel" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -333,13 +325,11 @@
     "description": "Zombies cannot be intimidated or humiliated, so this stiff brush is only useful for scouring toilet bowls.",
     "symbol": "p",
     "color": "white",
-    "price": 1700,
-    "price_postapoc": 0,
+    "price": "17 USD",
+    "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "160 g",
-    "material": [ "steel", "plastic" ],
-    "to_hit": 1,
-    "melee_damage": { "bash": 3 }
+    "material": [ "steel", "plastic" ]
   },
   {
     "id": "comb_lice",
@@ -399,6 +389,7 @@
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
+    "longest_side": "18 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -412,11 +403,9 @@
         "moves": 400
       }
     ],
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan",
     "snippet_category": [

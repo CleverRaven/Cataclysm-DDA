@@ -31,7 +31,7 @@ void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
                     )
                 )
             ),
-            hasAncestor( callExpr( callee( functionDecl( matchesName( "add_msg_debug.*" ) ) ) ) )
+            hasAncestor( callExpr( callee( functionDecl( matchesName( "clang_tidy_no_translations" ) ) ) ) )
         ).bind( "translationCall" ),
         this
     );
@@ -48,15 +48,13 @@ void TranslationsInDebugMessagesCheck::check( const MatchFinder::MatchResult &Re
     if( toStringDecl ) {
         diag(
             translationCall->getBeginLoc(),
-            "string arguments to debug message functions should not be translated, because this "
-            "is an unnecessary performance cost.  This call to to_string might involve a "
-            "translation; consider using to_string_writable instead."
+            "string arguments to debug message functions should not be translated.  This call "
+            "to to_string might involve a translation; consider using to_string_writable instead."
         );
     } else {
         diag(
             translationCall->getBeginLoc(),
-            "string arguments to debug message functions should not be translated, because this "
-            "is an unnecessary performance cost."
+            "string arguments to debug message functions should not be translated."
         );
     }
 }

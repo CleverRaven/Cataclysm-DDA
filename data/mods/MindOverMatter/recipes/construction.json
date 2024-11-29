@@ -1,5 +1,22 @@
 [
   {
+    "type": "construction",
+    "id": "place_transport_beacon",
+    "group": "place_transporter_beacon",
+    "category": "OTHER",
+    "required_skills": [ [ "electronics", 2 ] ],
+    "time": "15 m",
+    "components": [ [ [ "psionic_transporter_beacon", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_transporter_beacon",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_transporter_beacon",
+    "name": "Place Transporter Beacon"
+  },
+  {
     "type": "construction_group",
     "id": "place_standing_pyrokinetic_lamp",
     "name": "Place Standing Matrix Lamp"

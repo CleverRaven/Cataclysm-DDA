@@ -32,6 +32,7 @@ enum class proficiency_bonus_type : int {
     dexterity,
     intelligence,
     perception,
+    stamina,
     last
 };
 
@@ -71,6 +72,7 @@ class proficiency
 
         bool _can_learn = false;
         bool _ignore_focus = false;
+        bool _teachable = true;
 
         translation _name;
         translation _description;
@@ -95,6 +97,7 @@ class proficiency
 
         bool can_learn() const;
         bool ignore_focus() const;
+        bool is_teachable() const;
         proficiency_id prof_id() const;
         proficiency_category_id prof_category() const;
         std::string name() const;
@@ -110,6 +113,7 @@ class proficiency
         std::set<proficiency_id> required_proficiencies() const;
 
         std::vector<proficiency_bonus> get_bonuses( const std::string &category ) const;
+        std::optional<float> bonus_for( const std::string &category, proficiency_bonus_type type ) const;
 };
 
 // The proficiencies you know, and the ones you're learning.
@@ -127,8 +131,8 @@ class proficiency_set
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
         bool practice( const proficiency_id &practicing, const time_duration &amount,
-                       const std::optional<time_duration> &max );
-        void learn( const proficiency_id &learned );
+                       float remainder, const std::optional<time_duration> &max );
+        void learn( const proficiency_id &learned, bool recursive = false );
         void remove( const proficiency_id &lost );
 
         // Ignore requirements, made for debugging
@@ -152,7 +156,6 @@ class proficiency_set
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jsobj );
-        void deserialize_legacy( const JsonArray &jo );
 };
 
 struct learning_proficiency {
@@ -160,6 +163,8 @@ struct learning_proficiency {
 
     // How long we have practiced this proficiency
     time_duration practiced;
+    // Rounding errors of seconds, so that proficiencies practiced very briefly don't get truncated
+    float remainder = 0.f;
 
     learning_proficiency() = default;
     learning_proficiency( const proficiency_id &id, const time_duration &practiced ) : id( id ),
@@ -220,6 +225,7 @@ class book_proficiency_bonuses
         float time_factor( const proficiency_id &id ) const;
 };
 
-void show_proficiencies_window( const Character &u );
+void show_proficiencies_window( const Character &u,
+                                std::optional<proficiency_id> default_selection = std::nullopt );
 
 #endif // CATA_SRC_PROFICIENCY_H

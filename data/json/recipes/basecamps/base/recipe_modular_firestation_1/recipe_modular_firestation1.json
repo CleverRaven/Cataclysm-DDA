@@ -37,7 +37,7 @@
     "construction_blueprint": "fbmc_firestation1_kitchen1_cleared",
     "blueprint_name": "prepare the kitchen area",
     "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "tool_storage" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "tool_storage" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen" } ],
     "check_blueprint_needs": false
   },
@@ -235,7 +235,7 @@
       { "id": "hunting" }
     ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_butchery" } ],
-    "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ]
+    "components": [ [ [ "knife_huge", 1 ], [ "knife_small", 1 ], [ "knife_large", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -293,7 +293,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_sw" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_sw" } ]
   },
   {
@@ -311,7 +311,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_nw" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_nw" } ]
   },
   {
@@ -329,7 +329,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_se" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_se" } ]
   },
   {
@@ -347,7 +347,7 @@
       "fbmc_bed_palette": { "fbmc_straw_bed_palette": "Straw bed", "fbmc_makeshift_bed_palette": "Makeshift bed", "fbmc_bed_palette": "Bed" }
     },
     "blueprint_requires": [ { "id": "fbmc_firestation1_quarters" } ],
-    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" }, { "id": "bed" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_bedroom_ne" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_bedroom_ne" } ]
   },
   {
@@ -398,9 +398,9 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_forge" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_anvil" }, { "id": "fbmc_firestation_blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_anvil" } ],
-    "blueprint_resources": [ "anvil", "crucible" ],
+    "blueprint_resources": [ "anvil_crude", "crucible" ],
     "check_blueprint_needs": false,
-    "components": [ [ [ "anvil", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ]
+    "components": [ [ [ "anvil_crude", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -417,7 +417,7 @@
     "blueprint_requires": [ { "id": "fbmc_firestation1_anvil" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_pottery" }, { "id": "fbmc_firestation_blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_pottery" } ],
-    "blueprint_resources": [ "anvil", "crucible" ],
+    "blueprint_resources": [ "anvil_crude", "crucible" ],
     "components": [ [ [ "glassblowing_book", 1 ] ], [ [ "glasses_safety", 1 ] ], [ [ "chemistry_set", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {

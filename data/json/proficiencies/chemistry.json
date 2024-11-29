@@ -12,6 +12,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_gross_anatomy",
+    "category": "prof_chem",
+    "name": { "str": "Gross Anatomy" },
+    "description": "You've identified the key organs within several creatures and their locations with the goal of attacking them in combat.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.4,
+    "time_to_learn": "30 m"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_intro_biology",
     "category": "prof_chem",
     "name": { "str": "Principles of Biology" },
@@ -44,6 +55,26 @@
     "default_skill_penalty": 0.25,
     "required_proficiencies": [ "prof_intro_chemistry" ],
     "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_mycology",
+    "category": "prof_chem",
+    "name": { "str": "Mycology" },
+    "description": "Knowledge of the esoteric biology of fungi.",
+    "can_learn": true,
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_mycology_advanced",
+    "category": "prof_chem",
+    "name": { "str": "Doctorate of Mycology" },
+    "description": "Extensive and detailed knowledge of the esoteric biology of fungi, to an extremely nerdy degree.",
+    "can_learn": false,
+    "required_proficiencies": [ "prof_mycology" ],
+    "time_to_learn": "18 h"
   },
   {
     "type": "proficiency",

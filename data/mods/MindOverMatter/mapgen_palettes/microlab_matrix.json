@@ -1,0 +1,38 @@
+[
+  {
+    "type": "palette",
+    "id": "microlab_matrix_chunk",
+    "remove_all": {
+      "!": {  },
+      "2": {  },
+      ":": {  },
+      "X": {  },
+      "3": {  },
+      "4": {  },
+      "ó": {  },
+      "R": {  },
+      ">": {  },
+      "<": {  },
+      ";": {  }
+    },
+    "terrain": {
+      ".": [ "t_strconc_floor", "t_nether_glass_floor" ],
+      "c": [ "t_strconc_floor", "t_nether_glass_floor" ],
+      ",": [ "t_nether_glass_floor", "t_strconc_floor_glimmer" ],
+      "!": "t_door_locked_interior",
+      "-": "t_wall_metal",
+      "|": "t_concrete_wall",
+      "2": "t_door_glass_frosted_lab_c",
+      ":": "t_door_glass_c",
+      "=": "t_wall_glass",
+      "(": "t_reinforced_glass",
+      "X": "t_door_metal_locked",
+      "3": "t_door_metal_c",
+      "4": "t_door_metal_pickable",
+      "C": "t_nether_glass_floor",
+      "R": "t_railing"
+    },
+    "furniture": { "C": "f_nether_crystal_structure" },
+    "items": { "c": { "item": "dist_matrix_crystals", "chance": 100 } }
+  }
+]

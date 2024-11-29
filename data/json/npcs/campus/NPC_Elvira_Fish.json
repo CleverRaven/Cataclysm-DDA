@@ -1,0 +1,54 @@
+[
+  {
+    "type": "npc",
+    "id": "great_library_librarian",
+    "name_unique": "Elvira Fish",
+    "//": "Appears in the Great Library as essentially a shopkeeper.  Faction critical.",
+    "gender": "female",
+    "name_suffix": "Circulations",
+    "class": "NC_GREAT_LIBRARY_LIBRARIAN",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_GREAT_LIBRARY_LIBRARIAN",
+    "faction": "the_great_library"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_GREAT_LIBRARY_LIBRARIAN",
+    "name": { "str": "Circulations" },
+    "job_description": "I'm a librarian.",
+    "common": false,
+    "sells_belongings": false,
+    "//": "Elvira is a young librarian, one of the few surviving librarians from before.  She is also heir to the fabulous Fish fortune, but she threw that all away to pursue her passion for library science.",
+    "//2": "Elvira has a formal, professional tone but breaks into stutters when asked anything personal or uncomfortable.  She will not lie.",
+    "//3": "Most of her dialogue goes in 'great_library_librarian_dialogue.json'. Dialogue that just does worldbuilding goes into 'great_library_librarian_dialogue_fluff.json'.",
+    "bonus_int": 4,
+    "shopkeeper_item_group": [ { "group": "GREAT_LIBRARY_Shop", "rigid": true } ],
+    "shopkeeper_consumption_rates": "elvira_shop_rates",
+    "worn_override": "NC_GREAT_LIBRARY_LIBRARIAN_worn",
+    "weapon_override": "NC_GREAT_LIBRARY_LIBRARIAN_carried",
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "trait": "LOVES_BOOKS" },
+      { "trait": "TRUTHTELLER" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "STRONGBACK" },
+      { "trait": "CLUMSY" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [ { "skill": "firstaid", "bonus": 1 }, { "skill": "speech", "bonus": 3 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_Elvira_onetime_greeting",
+    "//": "12-hour period for the player to ask follow up questions about Elvira's initial greeting."
+  },
+  {
+    "id": "elvira_shop_rates",
+    "copy-from": "basic_shop_rates",
+    "type": "shopkeeper_consumption_rates",
+    "extend": { "rates": [ { "item": "FMCNote", "rate": -1 } ] }
+  }
+]

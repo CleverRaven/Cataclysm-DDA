@@ -28,10 +28,26 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "time": "1 s",
+    "time": "16 s",
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
-    "//": "Too simple to learn any tailoring or healthcare.",
+    "//": "using brute force, so not very precise, but still relatively fast;  can't make str requirement for the recipe; so assume relatively weak character tries to rip it",
+    "//2": "Too simple to learn any tailoring or healthcare.",
+    "result_mult": 2,
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
+  },
+  {
+    "result": "bandages_makeshift",
+    "id_suffix": "with_tool",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "time": "12 s",
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "result_mult": 3,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
   },
   {
@@ -45,8 +61,8 @@
     "time": "5 m",
     "batch_time_factors": [ 95, 4 ],
     "autolearn": true,
-    "result_mult": 3,
-    "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "bleach", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
+    "result_mult": 9,
+    "components": [ [ [ "bandages_makeshift", 9 ] ], [ [ "bleach", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
   },
   {
     "result": "bandages_makeshift_boiled",
@@ -61,10 +77,10 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
-    "//": "3 units of water + 114g of cotton, bandages will soak up some of the water but the rest should be potable",
-    "result_mult": 3,
-    "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ],
-    "byproducts": [ [ "water_clean", 2 ] ]
+    "//": "3 units of water + 114g of cotton, bandages will soak up some of the water but the rest should be returned",
+    "result_mult": 9,
+    "components": [ [ [ "bandages_makeshift", 9 ] ], [ [ "water_clean", 3 ] ] ],
+    "byproducts": [ [ "water", 2 ] ]
   },
   {
     "result": "adhesive_bandages",
@@ -239,12 +255,14 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "lye_powder", 100 ], [ "lye", 3 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",
     "id_suffix": "from_alder",
     "result": "quikclot",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -255,7 +273,8 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "alder_bark", 6 ] ], [ [ "water_clean", 10 ] ] ],
+    "charges": 6
   },
   {
     "type": "recipe",
@@ -285,7 +304,7 @@
         [ "metal_funnel", 2 ]
       ],
       [ [ "hose", 1 ] ],
-      [ [ "condom", 1 ], [ "balloon", 1 ] ]
+      [ [ "any_condom", 1, "LIST" ], [ "balloon", 1 ] ]
     ]
   },
   {
@@ -313,7 +332,7 @@
     "skill_used": "tailor",
     "time": "54 m",
     "autolearn": true,
-    "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "byproduct_group": [ { "item": "seed_cotton_boll", "count": 2 } ],
     "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },

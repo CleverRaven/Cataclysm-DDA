@@ -6,7 +6,7 @@
     "looks_like": "cave",
     "sym": "C",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -16,7 +16,7 @@
     "looks_like": "cave_underground",
     "sym": "C",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -26,7 +26,7 @@
     "looks_like": "cave_rat_underground",
     "sym": "C",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -36,7 +36,7 @@
     "looks_like": "cave_rat",
     "sym": "C",
     "color": "dark_gray",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
   }
 ]

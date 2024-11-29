@@ -1,20 +1,22 @@
 #include "anatomy.h"
 
-#include <array>
+#include <algorithm>
 #include <cmath>
-#include <cstddef>
-#include <numeric>
+#include <map>
 #include <set>
 #include <string>
 #include <unordered_set>
 
 #include "ballistics.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "creature.h"
 #include "debug.h"
-#include "generic_factory.h"
 #include "flag.h"
-#include "json.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"
@@ -24,6 +26,7 @@
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
@@ -151,6 +154,19 @@ float anatomy::get_hit_size_sum() const
         ret += bp->hit_size;
     }
     add_msg_debug( debugmode::DF_ANATOMY_BP, "Current anatomy hitsize sum %.1f",
+                   ret );
+    return ret;
+}
+
+float anatomy::get_organic_size_sum() const
+{
+    float ret = 0.0f;
+    for( const bodypart_id &bp : cached_bps ) {
+        if( !bp->has_flag( json_flag_BIONIC_LIMB ) ) {
+            ret += bp->hit_size;
+        }
+    }
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "Current organic hitsize sum %.1f",
                    ret );
     return ret;
 }
@@ -325,14 +341,18 @@ std::vector<bodypart_id> anatomy::get_all_eligable_parts( int min_hit, int max_h
     return ret;
 }
 
-bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
-        const double range_max, const double value ) const
+bodypart_id anatomy::get_max_hitsize_bodypart() const
 {
-    // Find the body part with the biggest hitsize - we will treat this as the center of mass
-    const bodypart_id biggest_bp = *std::max_element( cached_bps.begin(), cached_bps.end(),
+    return *std::max_element( cached_bps.begin(), cached_bps.end(),
     []( const bodypart_id & lhs, const bodypart_id & rhs ) {
         return lhs->hit_size < rhs->hit_size;
     } );
+}
+
+bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
+        const double range_max, const double value ) const
+{
+    const bodypart_id biggest_bp = get_max_hitsize_bodypart();
 
     // A little wrapper telling the targeting graph how to connect and weight bodypart_ids
     struct bp_wrapper {

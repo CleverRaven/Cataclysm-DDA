@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_astrobiology_lab_n1" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -107,7 +106,7 @@
         "                        "
       ],
       "terrain": { " ": "t_open_air" },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "X": "f_small_satelitte_dish" }
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "X": "f_small_satellite_dish" }
     }
   }
 ]

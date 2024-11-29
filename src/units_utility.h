@@ -37,7 +37,7 @@ int angle_to_dir4( units::angle direction );
 // convert angle to nearest of 0=north 1=NE 2=east 3=SE...
 int angle_to_dir8( units::angle direction );
 
-template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+template<typename T, typename U, std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
 units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
 {
     int multiple = std::lround( val / of );
@@ -48,8 +48,6 @@ struct lat_long {
     units::angle latitude;
     units::angle longitude;
 };
-
-constexpr lat_long location_boston{ 42.36_degrees, -71.06_degrees };
 
 /**
  * Create a units label for a weight value.
@@ -100,12 +98,29 @@ int convert_length( const units::length &length );
 std::string length_units( const units::length &length );
 std::string length_to_string( const units::length &length, bool compact = false );
 
+/**
+* Rounds length so that reasonably large units can be used (kilometers/meters or miles/yards).
+* If value is >0.5km or >0.5mi then uses km/mi respectively, otherwise uses meters/yards.
+* Outputs to two decimal places (km/mi) or as integer (meters/yards).
+* Should always be accessed through length_to_string_approx()
+*/
+double convert_length_approx( const units::length &length, bool &display_as_integer );
+std::string length_units_approx( const units::length &length );
+std::string length_to_string_approx( const units::length &length );
+
 /** Convert length to inches or cm. Used in pickup UI */
 double convert_length_cm_in( const units::length &length );
 
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight, bool compact = false,
                               bool remove_trailing_zeroes = false );
+
+/**
+ * Convert high-definition weight/mass to readable format
+ * Always metric units. First is value as string, second is unit
+ */
+std::pair<std::string, std::string> weight_to_string( const
+        units::quantity<int, units::mass_in_microgram_tag> &weight );
 
 /**
  * Convert volume from ml to units defined by user.

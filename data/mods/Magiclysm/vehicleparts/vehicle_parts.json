@@ -42,5 +42,26 @@
     },
     "damage_reduction": { "all": 60 },
     "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] }
+  },
+  {
+    "id": "ap_everburning_sconce",
+    "type": "vehicle_part",
+    "name": { "str": "everburning torch sconce" },
+    "description": "An everburning torch that has been placed into a sconce for easy attachment to a wall.",
+    "item": "everburning_sconce",
+    "categories": [ "lighting" ],
+    "color": "red",
+    "broken_color": "blue",
+    "durability": 20,
+    "bonus": 60,
+    "damage_modifier": 10,
+    "breaks_into": [
+      { "item": "splinter", "count": [ 2, 8 ] },
+      { "item": "scrap", "count": [ 1, 4 ] },
+      { "item": "mtorch_everburning", "count": [ 0, 1 ] }
+    ],
+    "flags": [ "WALL_MOUNTED", "HALF_CIRCLE_LIGHT", "APPLIANCE" ],
+    "requirements": { "removal": { "time": "15 m" } },
+    "variants": [ { "symbols": "*", "symbols_broken": "-" } ]
   }
 ]

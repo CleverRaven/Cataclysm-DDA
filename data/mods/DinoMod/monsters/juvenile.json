@@ -290,7 +290,7 @@
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ],
     "harvest": "bird_small"
   },
   {
@@ -306,27 +306,30 @@
     "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" }
   },
   {
-    "id": "mon_therizinosaurus_juvenile",
+    "id": "mon_falcarius_juvenile",
     "type": "MONSTER",
     "name": "green and magenta two-legged juvenile",
-    "description": "A large bipedal plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "description": "A small bipedal plant-eating dinosaur juvenile, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_falcarius" }
+  },
+  {
+    "id": "mon_therizinosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_falcarius_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_therizinosaurus" }
   },
   {
     "id": "mon_nothronychus_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta two-legged juvenile",
-    "description": "A small bipedal plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_falcarius_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_nothronychus" }
   },
   {
     "id": "mon_anzu_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta two-legged juvenile",
     "description": "A small bipedal dinosaur juvenile with huge shiny eyes and a beak, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_falcarius_juvenile",
     "default_faction": "anzu_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_anzu" },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
@@ -342,30 +345,16 @@
     "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "dissect": "dissect_raptor_sample_single",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CANPLAY",
-      "NO_BREED",
-      "CAN_BE_CULLED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_utahraptor_juvenile",
     "type": "MONSTER",
     "name": "gray and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "utahraptor_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_deinonychus_juvenile",
     "color": "dark_gray_white",
-    "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "dissect": "dissect_raptor_sample_single"
+    "upgrades": { "age_grow": 80, "into": "mon_utahraptor" }
   },
   {
     "id": "mon_sarahsaurus_juvenile",
@@ -382,7 +371,8 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
-    ]
+    ],
+    "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_anchisaurus_juvenile",
@@ -412,7 +402,8 @@
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
-    ]
+    ],
+    "extend": { "flags": [ "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_haplocanthosaurus_juvenile",
@@ -433,7 +424,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
-    "families": [ "prof_intro_biology", "prof_wp_dino" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 200,
     "aggression": -10,
@@ -453,7 +444,7 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
   },
   {
     "id": "mon_apatosaurus_juvenile",
@@ -487,20 +478,32 @@
     "id": "mon_camarasaurus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_juvenile",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "tailsmash_long_DinoMod", 30 ],
+      [ "EAT_CROP", 5 ]
+    ],
     "zombify_into": "mon_zamarasaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_camarasaurus" }
   },
   {
     "id": "mon_brachiosaurus_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_amargasaurus_juvenile",
+    "copy-from": "mon_camarasaurus_juvenile",
     "zombify_into": "mon_zrachiosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
   },
   {
-    "id": "mon_alamosaurus_juvenile",
+    "id": "mon_astrodon_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zastrodon_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_astrodon" }
+  },
+  {
+    "id": "mon_alamosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_camarasaurus_juvenile",
     "zombify_into": "mon_zalamosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_alamosaurus" },
     "armor": { "bash": 7, "cut": 9 }
@@ -509,13 +512,14 @@
     "id": "mon_stegosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "description": "A four-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "hp": 200,
     "volume": "1000 L",
     "weight": "1000 kg",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
+    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" },
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_hesperosaurus_juvenile",
@@ -595,27 +599,47 @@
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
+    "volume": "400 L",
+    "weight": "400 kg",
     "color": "yellow",
+    "hp": 100,
     "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
+    "extend": { "flags": [ "SWIMS", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
-    "copy-from": "mon_stegosaurus_juvenile",
+    "copy-from": "mon_tenontosaurus_juvenile",
+    "volume": "425 L",
+    "weight": "425 kg",
     "color": "yellow",
-    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" },
-    "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
+    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
+  },
+  {
+    "id": "mon_iguanodon_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta two-legged juvenile",
+    "copy-from": "mon_camptosaurus_juvenile",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 220,
+    "description": "A two-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
+    "color": "yellow",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 365, "into": "mon_iguanodon" },
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED", "SWIMS" ]
+  },
+  {
+    "id": "mon_eolambia_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_iguanodon_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_eolambia" }
   },
   {
     "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta two-legged juvenile",
-    "description": "A small two-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
-    "copy-from": "mon_camptosaurus_juvenile",
-    "color": "yellow",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_iguanodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
@@ -704,6 +728,16 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
+    "id": "mon_lokiceratops_juvenile",
+    "type": "MONSTER",
+    "name": "lokiceratops juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a bony head crest with two horns pointing out and curving down, two brow horns, and a beak.",
+    "copy-from": "mon_lokiceratops",
+    "hp": 200,
+    "upgrades": { "age_grow": 365, "into": "mon_lokiceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_styracosaurus_juvenile",
     "type": "MONSTER",
     "name": "styracosaurus juvenile",
@@ -733,7 +767,7 @@
     "weight": "650 kg",
     "hp": 75,
     "upgrades": { "age_grow": 220, "into": "mon_einiosaurus" },
-    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_achelousaurus_juvenile",
@@ -772,11 +806,12 @@
   {
     "id": "mon_kosmoceratops_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_triceratops_juvenile",
+    "copy-from": "mon_kosmoceratops",
     "volume": "600 L",
     "weight": "600 kg",
     "hp": 75,
-    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" }
+    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_torosaurus_juvenile",
@@ -817,10 +852,9 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "FLIES",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "NO_BREED",
@@ -848,6 +882,21 @@
     "hp": 100,
     "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_plesiosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "plesiosaurus juvenile",
+    "description": "A juvenile predatory aquatic reptile with large pointy teeth and a long neck.",
+    "default_faction": "plesiosaurus",
+    "copy-from": "mon_plesiosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 80,
+    "upgrades": { "age_grow": 365, "into": "mon_plesiosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "CANPLAY", "NO_BREED", "SWIMS", "AQUATIC" ]
   }
 ]

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "mon_flying_polyp_migo",
+    "copy-from": "mon_flying_polyp",
+    "//": "These and below monsters are so the nethermancer summons are on the mi-go's side.",
+    "type": "MONSTER",
+    "name": { "str": "flying polyp" },
+    "default_faction": "mi-go_summon"
+  },
+  {
+    "id": "mon_hunting_horror_migo",
+    "copy-from": "mon_hunting_horror",
+    "type": "MONSTER",
+    "name": { "str": "hunting horror" },
+    "default_faction": "mi-go_summon"
+  },
+  {
+    "id": "mon_unseen_hunter_migo",
+    "copy-from": "mon_unseen_hunter",
+    "type": "MONSTER",
+    "name": { "str": "unseen hunter" },
+    "default_faction": "mi-go_summon"
+  },
+  {
+    "id": "mon_yugg_migo",
+    "copy-from": "mon_yugg",
+    "type": "MONSTER",
+    "name": { "str": "yugg" },
+    "default_faction": "mi-go_summon"
+  },
+  {
+    "id": "mon_gelatin_migo",
+    "copy-from": "mon_gelatin",
+    "type": "MONSTER",
+    "name": { "str": "amoebic mold" },
+    "default_faction": "mi-go_summon"
+  },
+  {
+    "id": "mon_flaming_eye_migo",
+    "copy-from": "mon_flaming_eye",
+    "type": "MONSTER",
+    "name": { "str": "flaming eye" },
+    "default_faction": "mi-go_summon"
+  },
+  {
+    "id": "mon_kreck_migo",
+    "copy-from": "mon_kreck",
+    "type": "MONSTER",
+    "name": { "str": "kreck" },
+    "default_faction": "mi-go_summon"
+  }
+]

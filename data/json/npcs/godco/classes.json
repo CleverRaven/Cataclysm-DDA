@@ -15,7 +15,8 @@
     "traits": [
       { "trait": "SPIRITUAL" },
       { "trait": "EAGLEEYED" },
-      { "trait": "hair_brown_long" },
+      { "trait": "hair_long", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -92,7 +93,8 @@
       { "trait": "PRETTY" },
       { "trait": "PACIFIST" },
       { "group": "NPC_starting_traits" },
-      { "trait": "hair_blond_long" },
+      { "trait": "hair_long", "variant": "blond" },
+      { "trait": "natural_hair_color_blond" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -255,7 +257,7 @@
       {
         "group": "GODCO_russell_carried",
         "rigid": true,
-        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "math": [ "n_NEVER == 1" ] },
         "refusal": "<npcname> will never sell this"
       }
     ],
@@ -405,7 +407,6 @@
     "weapon_override": "GODCO_felicity_wield",
     "traits": [
       { "group": "NPC_starting_traits" },
-      { "trait": "STYLISH" },
       { "trait": "SPIRITUAL" },
       { "group": "Appearance_Mixed" },
       { "trait": "NO_BASH" },
@@ -437,7 +438,8 @@
       { "trait": "FLIMSY" },
       { "trait": "ANIMALEMPATH" },
       { "trait": "HYPEROPIC" },
-      { "trait": "hair_white_long" },
+      { "trait": "hair_long", "variant": "white" },
+      { "trait": "natural_hair_color_white" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -567,6 +569,25 @@
     ]
   },
   {
+    "type": "npc_class",
+    "id": "NC_TRADER_PREDATORY",
+    "name": { "str": "Trader" },
+    "job_description": "I'm collecting gear and selling it at a high interest.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "shopkeeper_item_group": [ { "group": "NC_EVAC_SHOPKEEP_misc", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "item": "icon", "price": 100 },
+      {
+        "group": "NC_EVAC_SHOPKEEP_misc",
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_paidoff" } ] } },
+        "markup": 3
+      }
+    ],
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 }
+  },
+  {
     "type": "item_group",
     "id": "GODCO_helena_worn",
     "subtype": "collection",
@@ -608,7 +629,7 @@
       { "item": "sports_bra" },
       { "item": "boxer_shorts" },
       { "item": "socks" },
-      { "item": "tshirt_text" },
+      { "item": "tshirt" },
       { "item": "skirt" },
       { "item": "sneakers" },
       { "item": "gloves_light" },
@@ -627,7 +648,7 @@
       { "item": "sneakers" },
       { "item": "briefs" },
       { "item": "bra" },
-      { "item": "tshirt_tour" },
+      { "item": "tshirt" },
       { "item": "pants_cargo" },
       { "item": "leather_belt" },
       { "item": "trenchcoat_leather" },
@@ -977,10 +998,7 @@
     "type": "item_group",
     "id": "GODCO_julian_carried",
     "subtype": "collection",
-    "entries": [
-      { "item": "glock17_17", "charges-min": 15, "charges-max": 17 },
-      { "item": "glock_17", "charges-min": 25, "charges-max": 30 }
-    ]
+    "entries": [ { "item": "glock17_17", "charges": [ 15, 17 ] }, { "item": "glock_17", "charges": [ 25, 30 ] } ]
   },
   {
     "type": "item_group",
@@ -1008,17 +1026,17 @@
     "items": [
       { "item": "rebreather", "prob": 3, "ammo-item": "rebreather_cartridge_o2" },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      { "item": "misc_repairkit", "prob": 20, "charges-min": 25 },
-      { "item": "bbgun", "prob": 15, "charges-min": 100 },
-      { "item": "bb", "prob": 10, "charges-min": 100 },
-      { "item": "tailors_kit", "prob": 15, "charges-min": 0 },
+      { "item": "bbgun", "prob": 15, "charges": [ 100, -1 ] },
+      { "item": "bb", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "tailors_kit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 20 },
       { "item": "heavy_flashlight", "prob": 20, "charges": [ 100, 300 ] },
       { "item": "glowstick", "prob": 50, "charges": 1400 },
       { "item": "handflare", "prob": 50, "charges": 300 },
-      { "item": "gasoline_lantern", "prob": 7, "charges-min": 100 },
-      { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
-      { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
-      { "item": "pur_tablets", "prob": 10, "charges": [ 5, 15 ] },
+      { "item": "pur_tablets", "prob": 10, "count": [ 15, 50 ] },
+      { "item": "gasoline_lantern", "prob": 7, "charges": [ 100, -1 ] },
+      { "item": "oil_lamp", "prob": 7, "charges": [ 100, -1 ] },
+      { "item": "lamp_oil", "prob": 5, "charges": [ 100, -1 ] },
       { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {
@@ -1059,8 +1077,7 @@
       [ "trappers_companion", 2 ],
       [ "textbook_traps", 8 ],
       [ "beartrap", 25 ],
-      [ "bolt_steel", 15 ],
-      [ "bolt_cf", 10 ],
+      { "group": "crossbow_bolts", "prob": 10 },
       [ "hand_crossbow", 1 ],
       [ "crossbow", 2 ],
       [ "compcrossbow", 3 ],
@@ -1095,11 +1112,11 @@
       [ "chem_hexamine", 5 ],
       [ "flint_steel", 10 ],
       [ "esbit_stove", 10 ],
-      { "item": "wild_herbs", "prob": 100, "count": [ 1, 10 ] },
+      { "item": "wild_herbs", "prob": 100, "count": [ 20, 200 ] },
       { "item": "thyme", "prob": 75, "count": [ 1, 10 ] },
       { "item": "hickory_nut", "prob": 66, "count": [ 1, 10 ] },
-      { "item": "poppy_pain", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppy_sleep", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 80, "group": "poppy_pain_jar_glass_sealed_2" },
+      { "prob": 80, "group": "poppy_sleep_jar_glass_sealed_2" }
     ]
   },
   {
@@ -1121,7 +1138,7 @@
     "entries": [
       { "item": "screwdriver" },
       { "item": "duct_tape" },
-      { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "welder" },
+      { "item": "welder" },
       { "item": "goggles_welding" },
       { "item": "solar_cell" }
     ]
@@ -1196,7 +1213,7 @@
     "type": "item_group",
     "id": "GODCO_katherine_wield",
     "subtype": "collection",
-    "entries": [ { "item": "knife_steak" } ]
+    "entries": [ { "item": "knife_small", "variant": "knife_steak" } ]
   },
   {
     "type": "item_group",
@@ -1286,5 +1303,21 @@
     "type": "item_group",
     "id": "NC_GODCO_MERCHANT_sell",
     "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "poppy_pain_jar_glass_sealed_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "poppy_pain", "count": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "poppy_sleep_jar_glass_sealed_2",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "poppy_sleep", "count": 2 } ]
   }
 ]

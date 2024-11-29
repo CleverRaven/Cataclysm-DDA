@@ -1,21 +1,11 @@
 [
   {
-    "name": "GROUP_NECROPOLIS_VAULT2",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_irradiated_wanderer_2", "weight": 30 },
-      { "monster": "mon_irradiated_wanderer_3", "weight": 50 },
-      { "monster": "mon_irradiated_wanderer_4", "weight": 30 },
-      { "monster": "mon_charred_nightmare", "weight": 20 }
-    ]
-  },
-  {
-    "id": "necropolis_visitors",
-    "type": "item_group",
-    "items": [ [ "newest_newspaper", 10 ], [ "necropolis_leaflet", 50 ] ]
-  },
-  {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_1", "necropolis_c_2", "necropolis_c_3" ],
+      [ "necropolis_c_10", "necropolis_c_11", "necropolis_c_12" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -69,7 +59,6 @@
         "...|c D|          jjj  jj  jj   V  |...|/////////|----------------------"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.35 },
@@ -85,16 +74,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.45 }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 40, "y": 32, "chance": 75, "rotation": 90 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_1", "necropolis_c_2", "necropolis_c_3" ],
-      [ "necropolis_c_10", "necropolis_c_11", "necropolis_c_12" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_4", "necropolis_c_5", "necropolis_c_6" ],
+      [ "necropolis_c_13", "necropolis_c_14", "necropolis_c_15" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -148,7 +136,6 @@
         "----|/////////|---------|/////,//,/////|-------------------| ,,,,,,,,,,,"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.35 },
@@ -167,16 +154,15 @@
         { "vehicle": "golf_cart", "x": 28, "y": 44, "chance": 75, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 67, "y": 45, "chance": 75, "rotation": 90 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_4", "necropolis_c_5", "necropolis_c_6" ],
-      [ "necropolis_c_13", "necropolis_c_14", "necropolis_c_15" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_7", "necropolis_c_8", "necropolis_c_9" ],
+      [ "necropolis_c_16", "necropolis_c_17", "necropolis_c_18" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -230,7 +216,6 @@
         ",,,,,, |------------|///////|.....|rrrrrrr |..|   |.....|kh         hk|."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 },
@@ -246,16 +231,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.45 }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 3, "y": 46, "chance": 75, "rotation": 90 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_7", "necropolis_c_8", "necropolis_c_9" ],
-      [ "necropolis_c_16", "necropolis_c_17", "necropolis_c_18" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_19", "necropolis_c_20", "necropolis_c_21" ],
+      [ "necropolis_c_28", "necropolis_c_29", "necropolis_c_30" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -309,7 +293,6 @@
         "..............|///////|...|//,/////,///,/////,///,/////,//|...|///////|."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 12 ], "density": 0.05 },
@@ -323,16 +306,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 34, "y": 33, "chance": 25, "rotation": 180 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_19", "necropolis_c_20", "necropolis_c_21" ],
-      [ "necropolis_c_28", "necropolis_c_29", "necropolis_c_30" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_22", "necropolis_c_23", "necropolis_c_24" ],
+      [ "necropolis_c_31", "necropolis_c_32", "necropolis_c_33" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -421,16 +403,15 @@
         { "class": "old_guard_soldier", "x": 41, "y": 16 },
         { "class": "old_guard_soldier", "x": 38, "y": 20 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_22", "necropolis_c_23", "necropolis_c_24" ],
-      [ "necropolis_c_31", "necropolis_c_32", "necropolis_c_33" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_25", "necropolis_c_26", "necropolis_c_27" ],
+      [ "necropolis_c_34", "necropolis_c_35", "necropolis_c_36" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -484,7 +465,6 @@
         "66k6 a   k6k|......|rcSSc|                       6  V^|.|/////|........."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -508,16 +488,15 @@
         { "vehicle": "golf_cart", "x": 29, "y": 21, "chance": 25, "rotation": 270 }
       ],
       "place_npcs": [ { "class": "old_guard_soldier", "x": 38, "y": 47 }, { "class": "old_guard_soldier", "x": 32, "y": 45 } ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_25", "necropolis_c_26", "necropolis_c_27" ],
-      [ "necropolis_c_34", "necropolis_c_35", "necropolis_c_36" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_37", "necropolis_c_38", "necropolis_c_39" ],
+      [ "necropolis_c_46", "necropolis_c_47", "necropolis_c_48" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -571,7 +550,6 @@
         "..........................|////////////////////////////////////,,,,,////"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -587,23 +565,22 @@
       "place_vehicles": [
         { "vehicle": "humvee", "x": 33, "y": 3, "chance": 60, "rotation": 90 },
         { "vehicle": "humvee", "x": 43, "y": 3, "chance": 60, "rotation": 90 },
-        { "vehicle": "humvee", "x": 53, "y": 3, "chance": 30, "rotation": 90 },
-        { "vehicle": "humvee", "x": 51, "y": 20, "chance": 30, "rotation": 270 },
+        { "vehicle": "humvee", "x": 53, "y": 3, "chance": 100, "rotation": 90 },
+        { "vehicle": "humvee", "x": 51, "y": 20, "chance": 100, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 68, "y": 43, "chance": 25, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 68, "y": 39, "chance": 25, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 68, "y": 35, "chance": 25, "rotation": 90 },
         { "vehicle": "humvee", "x": 53, "y": 40, "chance": 60, "rotation": 90 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_37", "necropolis_c_38", "necropolis_c_39" ],
-      [ "necropolis_c_46", "necropolis_c_47", "necropolis_c_48" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_40", "necropolis_c_41", "necropolis_c_42" ],
+      [ "necropolis_c_49", "necropolis_c_50", "necropolis_c_51" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -657,7 +634,6 @@
         "////////|..|  |...........|-=====-|....................| bnnb   bnnb   b"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -685,16 +661,15 @@
         { "vehicle": "golf_cart", "x": 25, "y": 36, "chance": 20, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 25, "y": 40, "chance": 20, "rotation": 90 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_40", "necropolis_c_41", "necropolis_c_42" ],
-      [ "necropolis_c_49", "necropolis_c_50", "necropolis_c_51" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_43", "necropolis_c_44", "necropolis_c_45" ],
+      [ "necropolis_c_52", "necropolis_c_53", "necropolis_c_54" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -748,7 +723,7 @@
         "nnb |t|t|  |t|t| bnnb   bnnb   bnnb |..................|///////|........"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
+      "terrain": { "b": "t_metal_floor" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.05 },
@@ -778,16 +753,15 @@
         { "vehicle": "golf_cart", "x": 54, "y": 37, "chance": 15, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 54, "y": 41, "chance": 15, "rotation": 90 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_43", "necropolis_c_44", "necropolis_c_45" ],
-      [ "necropolis_c_52", "necropolis_c_53", "necropolis_c_54" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_55", "necropolis_c_56", "necropolis_c_57" ],
+      [ "necropolis_c_64", "necropolis_c_65", "necropolis_c_66" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -841,7 +815,6 @@
         "......................|          |.|L   L|..|                           "
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
@@ -862,16 +835,15 @@
         { "vehicle": "golf_cart", "x": 55, "y": 16, "chance": 20, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 51, "y": 16, "chance": 20, "rotation": 270 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_55", "necropolis_c_56", "necropolis_c_57" ],
-      [ "necropolis_c_64", "necropolis_c_65", "necropolis_c_66" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_58", "necropolis_c_59", "necropolis_c_60" ],
+      [ "necropolis_c_67", "necropolis_c_68", "necropolis_c_69" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -925,7 +897,6 @@
         "      |..|L   L|.|-------------|r     |.|  |c           c|..|   !    !  "
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -940,16 +911,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 34 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 34 ], "density": 0.05 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_58", "necropolis_c_59", "necropolis_c_60" ],
-      [ "necropolis_c_67", "necropolis_c_68", "necropolis_c_69" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_c_61", "necropolis_c_62", "necropolis_c_63" ],
+      [ "necropolis_c_70", "necropolis_c_71", "necropolis_c_72" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1003,7 +973,6 @@
         " |..|EE=    Vc     |c6c   hc|..| k   v  |   k |        |rrrr  +  |t|t|.."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -1032,16 +1001,12 @@
         { "vehicle": "golf_cart", "x": 4, "y": 24, "chance": 20, "rotation": 0 },
         { "vehicle": "golf_cart", "x": 1, "y": 24, "chance": 20, "rotation": 0 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_c_61", "necropolis_c_62", "necropolis_c_63" ],
-      [ "necropolis_c_70", "necropolis_c_71", "necropolis_c_72" ]
-    ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_c_73", "necropolis_c_74", "necropolis_c_75" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1071,20 +1036,18 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.2 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.45 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.45 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_c_73", "necropolis_c_74", "necropolis_c_75" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_c_76", "necropolis_c_77", "necropolis_c_78" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1114,7 +1077,6 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -1123,13 +1085,12 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.25 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_c_76", "necropolis_c_77", "necropolis_c_78" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_c_79", "necropolis_c_80", "necropolis_c_81" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1159,7 +1120,6 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
@@ -1168,9 +1128,6 @@
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.25 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_c_79", "necropolis_c_80", "necropolis_c_81" ] ],
-    "type": "mapgen",
-    "weight": 25000
+    }
   }
 ]

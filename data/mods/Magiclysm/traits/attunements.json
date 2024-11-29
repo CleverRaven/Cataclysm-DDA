@@ -10,7 +10,7 @@
     "description": "With the mechanically-minded Technomancer and the sheer power of lightning from a Stormshaper, the Artificer has a unique confluence of skills and spells to be perfect for invention.  While modern inventions and machines have won out in a modern society, after a Cataclysm one has a chance to go back to roots of things.  To make weird gadgets that are just as likely to explode as explode the thing you're pointing at.",
     "prereqs": [ "STORMSHAPER", "TECHNOMANCER" ],
     "spells_learned": [ [ "spy_wasp", 5 ], [ "artificer_toolkit", 5 ] ],
-    "crafting_speed_multiplier": 1.2,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.2 } ] } ],
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
@@ -36,9 +36,10 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "EMP_IMMUNE", "CRAFT_IN_DARKNESS" ]
   },
   {
     "id": "ALCHEMIST",
@@ -75,7 +76,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -90,7 +92,7 @@
     "description": "The Biotek is quite simply the marriage of technology and flesh.  It was not even discovered as an attunement until recent times due to the great advancements in technology in the last 50 years.  The Biotek is unique as it is the only known attunement that warps the Aethereum in such a way as to allow cybernetics to coincide with magical abilities, to an extent.",
     "prereqs": [ "BIOMANCER", "TECHNOMANCER" ],
     "spells_learned": [ [ "nitro_boost", 5 ], [ "biotek_healing", 5 ] ],
-    "bionic_mana_penalty": 0.5,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -0.5 } ] } ],
     "bionic_slot_bonuses": { "torso": 20 },
     "cancels": [
       "ARTIFICER",
@@ -117,7 +119,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "UNCANNY_DODGE" ]
   },
@@ -129,9 +132,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Animists are known for their blood magic, and being a Biomancer you are able to take it another step further by strengthening your blood.  The dark arts have opened to you, and while dangerous, are incredible to behold.",
+    "description": "Animists are known for their blood magic, and being a Biomancer you are able to take it another step further by strengthening your blood.  The dark arts have opened to you, and while dangerous, are incredible to behold.\n\nIchor: Your Blood Mage abilities grant you the ability to steal some health from your enemies from time to time, and immunity to bleeding.",
     "prereqs": [ "BIOMANCER", "ANIMIST" ],
-    "enchantments": [ "BLOOD_MAGE" ],
+    "enchantments": [ { "hit_you_effect": [ { "id": "blood_mage_healing", "hit_self": true, "once_in": 12 } ] } ],
     "spells_learned": [ [ "banishment_greater", 5 ], [ "demonic_possession", 5 ] ],
     "cancels": [
       "ALCHEMIST",
@@ -156,9 +159,10 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
-    "flags": [ "ATTUNEMENT", "BLEED_IMMUNE" ]
+    "flags": [ "ATTUNEMENT", "BLEEDSLOW2" ]
   },
   {
     "id": "BOREAL_MAGE",
@@ -168,8 +172,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
-    "enchantments": [ "BOREAL_MAGE" ],
+    "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.\n\nBoreal Wind: Your Boreal Mage abilities grant you good resistance to temperature conditions.  Also, your hands emit a small amount of cold, increasing your damage in melee.",
+    "enchantments": [
+      {
+        "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
+      }
+    ],
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
     "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
@@ -197,7 +206,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -209,9 +219,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
-    "enchantments": [ "CLEANSING_FLAME" ],
-    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ] ],
+    "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.\n\nCleansing Blaze: Your Cleansing Flame abilities grant you good resistance to temperature conditions.  You are also immune to infection, as your body cleanses every tainted part of you, constantly.",
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ],
+    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ], [ "burning_trail", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -238,7 +248,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "INFECTION_IMMUNE" ]
   },
@@ -253,8 +264,7 @@
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
     "spells_learned": [ [ "holy_shield", 5 ], [ "judgement_sword", 5 ] ],
-    "passive_mods": { "dex_mod": 5 },
-    "hp_modifier": 1,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 1 }, { "value": "DEXTERITY", "add": 5 } ] } ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -278,7 +288,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -290,10 +301,19 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Stone is superior to flesh.  You have allowed this axiom into your life, and work to correct your own weakness with biomancy.  The strength of the Earth rushed up to meet you with open arms.",
+    "description": "Stone is superior to flesh.  You have allowed this axiom into your life, and work to correct your own weakness with biomancy.  The strength of the Earth rushed up to meet you with open arms.\n\nEarth Creep: Your Earth Elemental body grant you good resistance against cut damage, total immunity to electricity, great strength, and colossal stamina.",
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
     "spells_learned": [ [ "quake", 5 ], [ "rock_blast", 5 ] ],
-    "enchantments": [ "EARTH_ELEMENTAL" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -15 },
+          { "value": "STRENGTH", "add": 5 },
+          { "value": "MAX_STAMINA", "multiply": 3 },
+          { "value": "REGEN_STAMINA", "multiply": 3 }
+        ]
+      }
+    ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -317,7 +337,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -329,8 +350,25 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "You have used your expertise in Biomancy to change your body more toward your affinity for fire as a Kelvinist.  Fire doesn't bother you as much anymore, and your blood is flammable when it touches the air, resulting in a gout of flame when something hurts you.  You are also starting to study more spells that focus on using your own body's affinity for fire.",
-    "enchantments": [ "FIRE_ELEMENTAL" ],
+    "description": "You have used your expertise in Biomancy to change your body more toward your affinity for fire as a Kelvinist.  Fire doesn't bother you as much anymore, and your blood is flammable when it touches the air, resulting in a gout of flame when something hurts you.  You are also starting to study more spells that focus on using your own body's affinity for fire.\n\nSalamander: Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also, your body emits streams of blistering heat towards anyone who attacks you.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_HEAT", "multiply": -0.4 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
+        ]
+      },
+      {
+        "hit_me_effect": [
+          {
+            "id": "FIRE_ELEMENTAL_BURNBACK",
+            "message": "Flame and heat flash out from where you've been hit.",
+            "npc_message": "%1$s's body jets fire and heat out from the wound."
+          }
+        ]
+      }
+    ],
     "spells_learned": [ [ "flareup", 5 ], [ "flarewhip", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
@@ -358,7 +396,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -370,7 +409,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.",
+    "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.\n\nMotion: Your Force Mage abilities grant you better speed, and increased damage in melee.",
     "prereqs": [ "MAGUS", "STORMSHAPER" ],
     "spells_learned": [ [ "force_blade", 5 ], [ "force_magical_armor", 5 ] ],
     "cancels": [
@@ -398,10 +437,11 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ],
-    "enchantments": [ "FORCE_MAGE" ]
+    "enchantments": [ { "values": [ { "value": "MELEE_DAMAGE", "multiply": 1 }, { "value": "SPEED", "multiply": 0.2 } ] } ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -411,8 +451,20 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
-    "enchantments": [ "GAIAS_CHOSEN" ],
+    "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.\n\nGaia's Champion: Your Gaia's Chosen abilities grant you a larger HP pool, and enemies have a chance to impale themselves upon your thorns when they attack you.  However, the thorns growing from your skin means you feel pain more acutely.",
+    "enchantments": [
+      { "values": [ { "value": "MAX_HP", "multiply": 0.3 }, { "value": "PAIN", "multiply": 0.15 } ] },
+      {
+        "hit_me_effect": [
+          {
+            "id": "GAIAS_CHOSEN_THORNS",
+            "once_in": 2,
+            "message": "Thorns tear at your opponent as they strike you.",
+            "npc_message": "%1$s's thorny brambles bite into their attacker."
+          }
+        ]
+      }
+    ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
     "spells_learned": [ [ "gaiaschosen_samsara", 5 ], [ "dust_reborn", 5 ], [ "terra_armor", 5 ] ],
     "cancels": [
@@ -438,7 +490,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -450,9 +503,12 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
+    "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.\n\nStalactite: Your Glacier Mage abilities grant you good resistance to temperature conditions, and enemies are often hurt when try to attack you in melee.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
-    "enchantments": [ "GLACIER_MAGE" ],
+    "enchantments": [
+      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ] },
+      { "hit_you_effect": [ { "id": "glacier_mage_attack", "once_in": 14 } ] }
+    ],
     "spells_learned": [ [ "ice_clave", 5 ], [ "frozen_winds", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -479,7 +535,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -491,8 +548,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "GOLEMANCER" ],
-    "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
+    "enchantments": [ { "hit_me_effect": [ { "id": "golemancer_block", "hit_self": true, "once_in": 5 } ] } ],
+    "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.\n\nClay: Your Golemancer abilities make you perfectly steady, as nothing can slow you down.  Your body also deflects some of the damage you take.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
     "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
     "cancels": [
@@ -518,7 +575,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "STEADY" ]
   },
@@ -530,10 +588,18 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
+    "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.\n\nWeight: Your Gravity Mage abilities increase your attack speed and melee damage for a bit, double your ability to carry weight, and allow you to climb without using ladders or support.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
     "spells_learned": [ [ "gravitymage_graviton", 5 ], [ "gravity_mage_leap", 5 ], [ "gravity_mage_melee", 5 ] ],
-    "enchantments": [ "GRAVITY_MAGE" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "CARRY_WEIGHT", "multiply": 1 },
+          { "value": "ATTACK_SPEED", "multiply": -0.1 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.1 }
+        ]
+      }
+    ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -557,7 +623,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "CLIMB_NO_LADDER" ]
   },
@@ -571,8 +638,7 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your ley lines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
-    "passive_mods": { "int_mod": 5 },
-    "casting_time_multiplier": 0.75,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 5 }, { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.25 } ] } ],
     "spells_learned": [ [ "overaccelerate", 5 ], [ "overclocker_drive", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -599,7 +665,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -611,8 +678,26 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
-    "enchantments": [ "ICE_ELEMENTAL" ],
+    "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.\n\nIceberg: Your Ice Elemental abilities grant you good resistance to temperature conditions and cold damage, your hands can emit small amount of cold, increasing your damage in melee, and enemies impale themselves on ice spikes when they attack you.",
+    "enchantments": [
+      {
+        "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
+        "values": [
+          { "value": "ARMOR_COLD", "multiply": -0.4 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+        ]
+      },
+      {
+        "hit_you_effect": [
+          {
+            "id": "ICE_ELEMENTAL_COLD_DAMAGE",
+            "message": "Frost rimes over your attacker as they strike you.",
+            "npc_message": "A coating of frost appears on their opponent as %1$s is struck."
+          }
+        ]
+      }
+    ],
     "spells_learned": [ [ "summon_subzero_talons", 5 ], [ "cold_heart", 5 ], [ "iceelemental_frostcrystal", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
@@ -640,7 +725,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -680,7 +766,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "HARDTOHIT" ]
   },
@@ -692,8 +779,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
-    "enchantments": [ "MAGNETISM_MAGE" ],
+    "description": "This attunement grants you a magical control over the forces of magnetism.\n\nPower: Your Magnetism Mage abilities grant you a good defense against firearms, perfect electric immunity, and the ability to see electric creatures from any distance.",
+    "enchantments": [ "ELECTRIC_VISION", { "values": [ { "value": "ARMOR_BULLET", "add": -50 } ] } ],
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
     "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ], [ "robot_disabler_explosion", 5 ] ],
     "cancels": [
@@ -721,7 +808,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -733,8 +821,11 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
-    "enchantments": [ "PERMAFROST_MAGE" ],
+    "description": "This attunement focuses on continuously freezing foes to death.\n\nBlizzard: Your Permafrost Mage abilities grant you good resistance to temperature conditions.  Also, enemies who attack you may find themselves frozen solid.",
+    "enchantments": [
+      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ] },
+      { "hit_me_effect": [ { "id": "permafrost_mage_moves_substract" } ] }
+    ],
     "prereqs": [ "KELVINIST", "MAGUS" ],
     "spells_learned": [ [ "cold_energy", 5 ], [ "permafrost_mage_ice_age", 5 ] ],
     "cancels": [
@@ -762,7 +853,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE" ]
   },
@@ -802,7 +894,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -814,10 +907,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
+    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.\n\nSpirits: Your Shaman abilities double your natural mana regeneration.",
     "prereqs": [ "ANIMIST", "DRUID" ],
     "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_shambling_mound", 5 ] ],
-    "enchantments": [ "SHAMAN" ],
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ],
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
@@ -841,7 +934,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -883,7 +977,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ALKAHEST_IMMUNE" ]
   },
@@ -895,10 +990,15 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The Soulfire is a phenomena of the caster's spirit binding to a fragment of a spirit of flame.  This makes it possible for the Soulfire to use its namesake as an element - much like fire, it does burn, but it burns away at the soul instead of the flesh.",
+    "description": "The Soulfire is a phenomena of the caster's spirit binding to a fragment of a spirit of flame.  This makes it possible for the Soulfire to use its namesake as an element - much like fire, it does burn, but it burns away at the soul instead of the flesh.\n\nSpirit Flames: Your Soulfire abilities grant you good resistance to temperature conditions.  Your hands also emit the purest of blazes, which increases your damage in melee.",
     "spells_learned": [ [ "burn_at_both_ends", 5 ], [ "soul_afterburner", 5 ] ],
     "prereqs": [ "KELVINIST", "ANIMIST" ],
-    "enchantments": [ "SOULFIRE" ],
+    "enchantments": [
+      {
+        "melee_damage_bonus": [ { "type": "pure", "add": 9 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
+      }
+    ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -924,7 +1024,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -936,9 +1037,20 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.",
+    "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.\n\nCyclone: Your Storm Elemental abilities grant you total electric immunity, and reflective zippers to anyone who tries to attack you.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
-    "enchantments": [ "STORM_ELEMENTAL" ],
+    "enchantments": [
+      { "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ] },
+      {
+        "hit_me_effect": [
+          {
+            "id": "STORM_ELEMENTAL_ZAPBACK",
+            "message": "Electricity arcs out from where you've been hit.",
+            "npc_message": "%1$s's body arcs electricity from the wound."
+          }
+        ]
+      }
+    ],
     "spells_learned": [ [ "storm_chain_master", 5 ], [ "storm_elemental_electric_melee", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -965,9 +1077,10 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
-    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE", "EMP_IMMUNE" ]
   },
   {
     "id": "STORMCALLER",
@@ -1005,7 +1118,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -1017,9 +1131,19 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The Sun Mage has been studying the Laws governing heat, and has attained a special relationship with that life-giving yellow orb in the sky.  Glimpses of the Sun meet its foes, and its own burning light pierces the darkness.",
+    "description": "The Sun Mage has been studying the Laws governing heat, and has attained a special relationship with that life-giving yellow orb in the sky.  Glimpses of the Sun meet its foes, and its own burning light pierces the darkness.\n\nSolar Warrior: Your Sun Mage abilities blind everyone who are mean to you.",
     "prereqs": [ "MAGUS", "KELVINIST" ],
-    "enchantments": [ "SUN_MAGE" ],
+    "enchantments": [
+      {
+        "hit_me_effect": [
+          {
+            "id": "solar_blinding",
+            "message": "A brilliant light radiates from where you've been hit.",
+            "npc_message": "%1$s's body is enveloped in a bright glare."
+          }
+        ]
+      }
+    ],
     "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -1046,7 +1170,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1058,9 +1183,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The barren cold of the world's far reaches flows through the Tundra Mage.  They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.",
+    "description": "The barren cold of the world's far reaches flows through the Tundra Mage.  They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.\n\nArctic: Your Tundra Mage abilities grant you good resistance to temperature conditions.",
     "prereqs": [ "DRUID", "KELVINIST" ],
-    "enchantments": [ "TUNDRA_MAGE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ] } ],
     "spells_learned": [ [ "cold_snap", 5 ], [ "summon_winter_wolf", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -1087,7 +1212,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1099,10 +1225,21 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
+    "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.\n\nDrainer: Your Void Mage abilities grant you perfect night vision, and envenom everyone you attack.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
     "spells_learned": [ [ "voidmage_final_grasp", 5 ], [ "voidmage_horizon_vortex", 5 ] ],
-    "enchantments": [ "VOID_MAGE" ],
+    "enchantments": [
+      { "ench_effects": [ { "effect": "void_mage_night_vision", "intensity": 1 } ] },
+      {
+        "hit_you_effect": [
+          {
+            "id": "void_claws",
+            "message": "Shadowy claws follow behind your strikes and the afterimage shrivels flesh as it passes through.",
+            "npc_message": "%1$s's attacks seems to have an afterimage of shadowy claws striking behind them about a half a second."
+          }
+        ]
+      }
+    ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -1128,9 +1265,10 @@
       "TUNDRA_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "READ_IN_DARKNESS" ]
   },
   {
     "id": "VULCANIST",
@@ -1140,10 +1278,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "One of the most destructive forces on earth, a Volcano Mage takes some aspect of its namesake.  Their spells tend to be a little slow, but their resilience in proximity to a volcano is legendary.",
+    "description": "One of the most destructive forces on earth, a Volcano Mage takes some aspect of its namesake.  Their spells tend to be a little slow, but their resilience in proximity to a volcano is legendary.\n\nLava: Your Vulcanist abilities grant you good resistance to temperature conditions, total heat immunity, and immunity to smoke.",
     "spells_learned": [ [ "lava_bomb_main", 5 ], [ "vulcanist_pyroclastic_flow", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
-    "enchantments": [ "VULCANIST" ],
+    "enchantments": [
+      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] },
+      { "ench_effects": [ { "effect": "effect_vulcanist_no_smoke_or_blisters", "intensity": 1 } ] }
+    ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -1169,7 +1310,8 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
   },
@@ -1181,9 +1323,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.",
+    "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.\n\nFading: Your Wither Mage abilities grant you the ability to consume the enemies powers for a short time.",
     "prereqs": [ "DRUID", "MAGUS" ],
-    "enchantments": [ "WITHER_MAGE" ],
+    "enchantments": [ { "hit_you_effect": [ { "id": "wither_mage_withering", "hit_self": true, "once_in": 6 } ] } ],
     "spells_learned": [ [ "assassin_strike", 5 ], [ "life_drain", 5 ] ],
     "cancels": [
       "ALCHEMIST",
@@ -1208,7 +1350,8 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   }

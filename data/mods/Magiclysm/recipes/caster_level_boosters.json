@@ -36,7 +36,12 @@
       { "id": "CHISEL", "level": 3 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_glassblowing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 75 ] ]
+    ],
     "components": [
       [ [ "filament", 5, "LIST" ] ],
       [ [ "rune_magus", 1 ] ],

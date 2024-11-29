@@ -73,28 +73,68 @@
     "copy-from": "legacy_classic_sidebar",
     "type": "widget",
     "id": "legacy_classic_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "ruach_counter_meter",
+        "ruach_counter_numbers",
+        "ruach_counter_graph"
+      ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_compact_sidebar",
     "type": "widget",
     "id": "legacy_compact_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "ruach_counter_meter",
+        "ruach_counter_numbers",
+        "ruach_counter_graph"
+      ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "id": "legacy_labels_narrow_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "ruach_counter_meter",
+        "ruach_counter_numbers",
+        "ruach_counter_graph"
+      ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_labels_sidebar",
     "type": "widget",
     "id": "legacy_labels_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": {
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "ruach_counter_meter",
+        "ruach_counter_numbers",
+        "ruach_counter_graph"
+      ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
@@ -102,7 +142,15 @@
     "type": "widget",
     "id": "structured_sidebar",
     "extend": {
-      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+      "widgets": [
+        "xe_current_max_mana_nums_layout",
+        "xe_mana_graph_layout",
+        "xe_mana_pool_layout",
+        "vampire_blood_levels",
+        "ruach_counter_meter",
+        "ruach_counter_numbers",
+        "ruach_counter_graph"
+      ]
     }
   },
   {
@@ -127,7 +175,7 @@
       "thirst_desc_label",
       "vampire_blood_levels",
       "weight_desc_label",
-      "fatigue_desc_label",
+      "sleepiness_desc_label",
       "pain_desc_label",
       "body_temp_desc_label"
     ]
@@ -183,7 +231,16 @@
     "copy-from": "spacebar",
     "type": "widget",
     "id": "spacebar",
-    "extend": { "widgets": [ "xe_spacebar_mana_numbers_block", "xe_spacebar_mana_bar_block", "vampire_blood_levels" ] }
+    "extend": {
+      "widgets": [
+        "xe_spacebar_mana_numbers_block",
+        "xe_spacebar_mana_bar_block",
+        "vampire_blood_levels",
+        "spacebar_ruach_counter_block",
+        "spacebar_ruach_numbers_block",
+        "spacebar_ruach_graph_block"
+      ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",

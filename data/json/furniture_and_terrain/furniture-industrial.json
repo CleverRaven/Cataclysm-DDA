@@ -1,50 +1,6 @@
 [
   {
     "type": "furniture",
-    "id": "f_robotic_assembler",
-    "name": "robotic assembler",
-    "looks_like": "f_robotic_arm",
-    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.  Despite its specialized purpose being all but lost now, it could provide a plethora of useful parts if disassembled.",
-    "symbol": "3",
-    "color": "magenta_cyan",
-    "move_cost_mod": -1,
-    "coverage": 35,
-    "required_str": -1,
-    "bash": {
-      "str_min": 40,
-      "str_max": 150,
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-        { "item": "e_scrap", "count": [ 5, 8 ] },
-        { "item": "circuit", "count": [ 3, 5 ] },
-        { "item": "power_supply", "count": [ 1, 2 ] },
-        { "item": "amplifier", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "processor", "count": [ 2, 4 ] },
-        { "item": "RAM", "count": [ 8, 16 ] },
-        { "item": "cable", "charges": [ 8, 12 ] },
-        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] },
-        { "item": "motor_small", "count": [ 0, 1 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_chemical_mixer",
     "looks_like": "f_machinery_light",
     "description": "A large vat with a motorized mixing device for combining large quantities of chemicals.",
@@ -121,7 +77,7 @@
     "id": "f_compact_ASRG_containment",
     "name": "Compact Advanced Sterling Radioisotope Generator",
     "looks_like": "t_plut_generator",
-    "description": "This hefty lump of steel and lead is the housing unit for a stirling generator powered by plutonium-238, originally designed by NASA and repurposed by the military.  It is plastered with warning signs.  It's really heavy owing to the thick armor plating, but you could take this down and use it for your own purposes if you wanted.",
+    "description": "This hefty lump of steel and lead is the housing unit for a Stirling generator powered by plutonium-238, originally designed by NASA and repurposed by the military.  It is plastered with warning signs.  It's really heavy owing to the thick armor plating, but you could take this down and use it for your own purposes if you wanted.",
     "symbol": "0",
     "color": "green_white",
     "move_cost_mod": -1,
@@ -139,7 +95,7 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
@@ -150,7 +106,7 @@
     "id": "f_xedra_antenna",
     "name": "mobile antenna",
     "symbol": "1",
-    "looks_like": "f_small_satelitte_dish",
+    "looks_like": "f_small_satellite_dish",
     "description": "A stark black directional antenna, seemingly part of a monitoring setup.  An LED mounted on its back lights up with a lazy and irregular rhythm.",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -176,7 +132,10 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 40 },
         { "item": "cu_pipe", "prob": 40 },
@@ -194,7 +153,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "count": 2, "prob": 40 },
         { "item": "chain", "prob": 20 },
         { "item": "cu_pipe", "prob": 10 },
@@ -220,7 +182,10 @@
     "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 60 },
         { "item": "cu_pipe", "prob": 20 },
@@ -242,7 +207,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "count": 1 },
         { "item": "chain", "prob": 20 },
         { "item": "steel_lump", "count": 1 },
@@ -271,7 +239,10 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 40 },
         { "item": "cu_pipe", "prob": 60 },
@@ -293,7 +264,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 20 },
         { "item": "cu_pipe", "prob": 10 },
@@ -319,8 +293,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
+      "skill": { "skill": "electronics", "min": 1, "max": 8 },
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "bearing", "charges": [ 2, 6 ] },
@@ -343,7 +321,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "prob": 40 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "prob": 40 },
         { "item": "steel_chunk", "prob": 40 },
         { "item": "bearing", "charges": [ 2, 4 ] },
@@ -499,7 +480,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "processor", "count": 1 },
@@ -520,7 +501,7 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "prob": 40 },
+        { "item": "lc_wire", "prob": 40 },
         { "item": "pipe", "prob": 40 },
         { "item": "steel_chunk", "prob": 40 },
         { "item": "processor", "prob": 40 },
@@ -560,9 +541,9 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "uranium", "charges": [ 10, 50 ] },
+        { "item": "uranium", "count": [ 10, 50 ] },
         { "item": "uran_cell", "charges": [ 10, 150 ] },
-        { "item": "plutonium", "charges": [ 0, 20 ] },
+        { "item": "plutonium", "count": [ 0, 20 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }

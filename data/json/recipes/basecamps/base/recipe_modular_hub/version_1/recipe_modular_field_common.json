@@ -71,16 +71,36 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "fbmh_0_cooking_northeast",
+    "result": "fbmh_0_cooking_shack_northeast",
     "description": "Now that we have some cover, we should build basic cooking facilities in the northeast shack.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmh_0_cooking_northeast",
+    "construction_blueprint": "fbmh_0_cooking_shack_northeast",
     "blueprint_name": "northeast cooking",
-    "blueprint_parameter_names": { "fbmh_0_cooking_palette": { "fbmh_0_fireplace_palette": "Fireplace", "fbmh_0_stove_palette": "Woodstove" } },
-    "blueprint_requires": [ { "id": "fbmh_northeast" } ],
+    "blueprint_parameter_names": {
+      "fbmh_0_cooking_shack_palette": { "fbmh_0_fireplace_shack_palette": "Fireplace", "fbmh_0_stove_shack_palette": "Woodstove" }
+    },
+    "blueprint_requires": [ { "id": "fbmh_shack_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_fire_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbmh_fire_northeast" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_0_cooking_tent_northeast",
+    "description": "Now that we have some cover, we should build basic cooking facilities in the northeast tent.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_0_cooking_tent_northeast",
+    "blueprint_name": "northeast cooking",
+    "blueprint_parameter_names": {
+      "fbmh_0_cooking_tent_palette": { "fbmh_0_fireplace_tent_palette": "Fireplace", "fbmh_0_stove_tent_palette": "Woodstove" }
+    },
+    "blueprint_requires": [ { "id": "fbmh_tent_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_fire_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_fire_northeast" } ]
   },
@@ -103,7 +123,7 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_northeast" } ],
-    "blueprint_provides": [ { "id": "bed" }, { "id": "fbmh_bed1_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_northeast" } ]
   },
   {
@@ -125,14 +145,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_bed1_northeast" }, { "id": "fbmh_northeast", "amount": 2 } ],
-    "blueprint_provides": [ { "id": "bed" }, { "id": "fbmh_bed2_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed2_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed2_northeast" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_tent_bed3_east",
-    "description": "A pair of beds in the east tent will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the east tent will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -147,14 +167,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_tent_east" } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_east" }, { "id": "fbmh_bed2_east" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_east" }, { "id": "fbmh_bed2_east" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_east" }, { "id": "fbmh_bed2_east" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_room_bed3_east",
-    "description": "A pair of beds in the east room will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the east room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -169,14 +189,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_east" }, { "id": "fbmh_bed2_east" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_east" }, { "id": "fbmh_bed2_east" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_east" }, { "id": "fbmh_bed2_east" }, { "id": "fbmh_tent_east" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_tent_bed3_southeast",
-    "description": "A pair of beds in the southeast tent will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the southeast tent will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -191,14 +211,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_tent_southeast" } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_southeast" }, { "id": "fbmh_bed2_southeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_southeast" }, { "id": "fbmh_bed2_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_southeast" }, { "id": "fbmh_bed2_southeast" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_room_bed3_southeast",
-    "description": "A pair of beds in the southeast room will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the southeast room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -213,14 +233,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_southeast", "amount": 4 } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_southeast" }, { "id": "fbmh_bed2_southeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_southeast" }, { "id": "fbmh_bed2_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_southeast" }, { "id": "fbmh_bed2_southeast" }, { "id": "fbmh_tent_southeast" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_bed3_northwest",
-    "description": "A pair of beds in the northwest building will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the northwest building will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -235,14 +255,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_northwest", "amount": 4 } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_northwest" }, { "id": "fbmh_bed2_northwest" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_northwest" }, { "id": "fbmh_bed2_northwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_northwest" }, { "id": "fbmh_bed2_northwest" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_tent_bed3_west",
-    "description": "A pair of beds in the west tent will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the west tent will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -257,14 +277,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_tent_west" } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_west" }, { "id": "fbmh_bed2_west" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_west" }, { "id": "fbmh_bed2_west" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_west" }, { "id": "fbmh_bed2_west" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_room_bed3_west",
-    "description": "A pair of beds in the west room will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the west room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -279,14 +299,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_west" }, { "id": "fbmh_bed2_west" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_west" }, { "id": "fbmh_bed2_west" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_west" }, { "id": "fbmh_bed2_west" }, { "id": "fbmh_tent_west" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_tent_bed3_southwest",
-    "description": "A pair of beds in the southwest tent will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the southwest tent will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -301,14 +321,14 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_tent_southwest" } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_southwest" }, { "id": "fbmh_bed2_southwest" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_southwest" }, { "id": "fbmh_bed2_southwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_southwest" }, { "id": "fbmh_bed2_southwest" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_0_room_bed3_southwest",
-    "description": "A pair of beds in the southwest room will allow us to house two more people and expand the camp.",
+    "description": "A pair of beds in the southwest room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -323,7 +343,7 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_southwest", "amount": 4 } ],
-    "blueprint_provides": [ { "id": "bed", "amount": 2 }, { "id": "fbmh_bed1_southwest" }, { "id": "fbmh_bed2_southwest" } ],
+    "blueprint_provides": [ { "id": "fbmh_bed1_southwest" }, { "id": "fbmh_bed2_southwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_bed1_southwest" }, { "id": "fbmh_bed2_southwest" }, { "id": "fbmh_tent_southwest" } ]
   },
   {
@@ -473,7 +493,7 @@
         [ "reinforced_solar_panel_v2", 2 ]
       ],
       [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
-      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "sheet_metal", 2 ], [ "lc_wire", 8 ] ],
       [ [ "pipe", 24 ] ]
     ],
     "check_blueprint_needs": false

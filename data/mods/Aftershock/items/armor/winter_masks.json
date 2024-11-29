@@ -28,7 +28,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 10,
     "material_thickness": 6,
@@ -58,7 +58,13 @@
     "power_draw": "8170 mW",
     "warmth": 150,
     "revert_to": "afs_magellan_suit_helmet",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit_helmet" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_magellan_suit_helmet"
+    },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ] },
     "environmental_protection": 15
   },
@@ -90,7 +96,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -115,6 +121,12 @@
     "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryomask",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryomask" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_frontier_cryomask"
+    }
   }
 ]

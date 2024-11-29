@@ -66,15 +66,15 @@ std::string utf32_to_utf8( uint32_t ch )
         case 4: // NOLINT(bugprone-branch-clone)
             *--buf = ( ch | 0x80 ) & 0xBF;
             ch >>= 6;
-        /* fallthrough */
+            [[fallthrough]];
         case 3:
             *--buf = ( ch | 0x80 ) & 0xBF;
             ch >>= 6;
-        /* fallthrough */
+            [[fallthrough]];
         case 2:
             *--buf = ( ch | 0x80 ) & 0xBF;
             ch >>= 6;
-        /* fallthrough */
+            [[fallthrough]];
         case 1:
             *--buf = ch | utf8FirstByte[utf8Bytes];
     }
@@ -148,12 +148,18 @@ void TextJsonObject::report_unvisited() const
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
-            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
+            if( !visited_members.count( name ) ) {
                 try {
-                    throw_error_at(
-                        name,
-                        string_format( "Invalid or misplaced field name \"%s\" in JSON data, or "
-                                       "value in unexpected format.", name ) );
+                    if( !string_starts_with( name, "//" ) ) {
+                        throw_error_at(
+                            name,
+                            string_format( "Invalid or misplaced field name \"%s\" in JSON data, or "
+                                           "value in unexpected format.", name ) );
+                    } else if( name == "//~" ) {
+                        throw_error_at(
+                            name,
+                            "\"//~\" should be within a text object and contain comments for translators." );
+                    }
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }

@@ -159,5 +159,182 @@
         { "item": "feces_bat", "count": [ 60, 75 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_elemental_altar",
+    "name": "altar of elements",
+    "move_cost_mod": 10,
+    "symbol": "H",
+    "color": "light_gray",
+    "coverage": 40,
+    "required_str": 30,
+    "light_emitted": 4,
+    "crafting_pseudo_item": "sacrifice_table",
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" },
+    "description": "This is a dramatic stone altar, it glows faintly in the dark.  Each of the four corners has a place for one of the cardinal elements as well as several recessed spaces around the center of the altar.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_barkfloor_no_roof",
+    "looks_like": "t_barkfloor",
+    "name": "bark",
+    "description": "A solid piece of bark covers the floor here, open to the sky.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_dirt",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dreamforged_bed_of_restful_repose",
+    "name": "dreamforged bed of restful repose",
+    "symbol": "#",
+    "description": "A bed made solely for dreaming, by a dreamsmith.  When you lay upon this bed, your mind renews and your body recuperates.  Said to be so comfortable that if you die while in this bed, your mind detaches without pain from your body and sets forth upon the dream realms.",
+    "color": "cyan_green",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 500,
+    "floor_bedding_warmth": 3000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "dreamforged_bed_of_restful_repose", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "scrap_dreamdross", "count": [ 50, 80 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_homullus_translocator_location",
+    "name": "civilization",
+    "symbol": "+",
+    "description": "A part of one of the last bastions of civilization.  You could travel here in moments from any road you found yourself on.",
+    "color": "brown",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ierde_translocator_location",
+    "name": "living earth",
+    "symbol": "+",
+    "description": "The rock of the living earth.  You could travel here in moments as long as you are deep underground.",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sylph_translocator_location",
+    "name": "open to the sky",
+    "symbol": "+",
+    "description": "The rock of the living earth.  You could travel here in moments as long as you are high above the earth or surrounded by the blowing wind.",
+    "color": "white",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ierde_lithic_gaol_fang",
+    "name": "Rocky fang",
+    "description": "A thick, jagged spike of rock.",
+    "symbol": "|",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "color": "light_gray",
+    "coverage": 85,
+    "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "BLOCKSDOOR", "PERMEABLE" ],
+    "bash": { "str_min": 20, "str_max": 50, "sound_fail": "smash!", "items": [ { "item": "rock", "count": [ 20, 100 ] } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sevenoclock_track",
+    "name": "Bloody footsteps",
+    "description": "A trail of old footsteps, still visible despite the blood and rain.  Examine it to track its source.",
+    "symbol": "l",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "color": "brown",
+    "coverage": 0,
+    "flags": [ "NOITEM", "TRANSPARENT", "PERMEABLE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_SEVENOCLOCK_ALREADY_TRACKED",
+          "condition": { "math": [ "u_tracked_sevenoclock == 1" ] },
+          "effect": [ { "u_message": "You already know where these footprints lead." } ]
+        },
+        {
+          "id": "EOC_SEVENOCLOCK_TRACK",
+          "condition": { "math": [ "u_tracked_sevenoclock == 0" ] },
+          "effect": [
+            { "u_message": "You carefully examine the footprints, determining where they lead." },
+            { "assign_mission": "MISSION_SEVENOCLOCK" },
+            { "math": [ "u_tracked_sevenoclock = 1" ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_deathworm_track",
+    "name": "Suspicious hole",
+    "description": "A hole in the ground, bearing acid burns.  Examine it to track its source.",
+    "symbol": "o",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "color": "brown",
+    "coverage": 0,
+    "flags": [ "NOITEM", "TRANSPARENT", "PERMEABLE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_DEATHWORM_ALREADY_TRACKED",
+          "condition": { "math": [ "u_tracked_deathworm == 1" ] },
+          "effect": [ { "u_message": "You already know where this hole leads." } ]
+        },
+        {
+          "id": "EOC_DEATHWORM_TRACK",
+          "condition": { "math": [ "u_tracked_deathworm == 0" ] },
+          "effect": [
+            { "u_message": "You carefully examine the hole, determining where it leads." },
+            { "assign_mission": "MISSION_DEATHWORM" },
+            { "math": [ "u_tracked_deathworm = 1" ] }
+          ]
+        }
+      ]
+    }
   }
 ]

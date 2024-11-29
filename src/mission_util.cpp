@@ -40,12 +40,12 @@ static tripoint_abs_omt reveal_destination( const std::string &type )
     const tripoint_abs_omt center_pos =
         overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
 
-    if( center_pos != overmap::invalid_tripoint ) {
+    if( !center_pos.is_invalid() ) {
         overmap_buffer.reveal( center_pos, 2 );
         return center_pos;
     }
 
-    return overmap::invalid_tripoint;
+    return tripoint_abs_omt::invalid;
 }
 
 static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
@@ -75,10 +75,10 @@ static void reveal_target( mission *miss, const std::string &omter_id )
     }
 
     const tripoint_abs_omt destination = reveal_destination( omter_id );
-    if( destination != overmap::invalid_tripoint ) {
+    if( !destination.is_invalid() ) {
         const oter_id oter = overmap_buffer.ter( destination );
         add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
-                 oter->get_name() );
+                 oter->get_name( om_vision_level::full ) );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
             reveal_route( miss, destination );
@@ -109,7 +109,7 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
     tripoint_abs_omt loc = get_player_character().global_omt_location();
     loc.z() = target_z;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, omter, 0, must_see );
-    if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+    if( !place.is_invalid() && reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
     return place;
@@ -167,7 +167,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
         closest = underground;
     }
 
-    if( closest != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+    if( !closest.is_invalid() && reveal_rad >= 0 ) {
         overmap_buffer.reveal( closest, reveal_rad );
     }
     miss->set_target( closest );
@@ -177,10 +177,10 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
 static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     const tripoint_abs_omt &origin_pos, const mission_target_params &params, dialogue &d )
 {
-    tripoint_abs_omt target_pos = overmap::invalid_tripoint;
+    tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d ) );
+        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
     }
 
     omt_find_params find_params;
@@ -206,7 +206,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
         // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
         // have to see the location beforehand, then we can attempt to create the new terrain.
-        if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
+        if( target_pos.is_invalid() && params.create_if_necessary &&
             !params.must_see ) {
             // If this terrain is part of an overmap special...
             if( params.overmap_special ) {
@@ -229,13 +229,13 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
                 // We didn't find it, so allow this search to create new overmaps and try again.
                 find_params.existing_only = true;
-                if( target_pos == overmap::invalid_tripoint ) {
+                if( target_pos.is_invalid() ) {
                     target_pos = overmap_buffer.find_random( origin_pos, find_params );
                 }
 
                 // We found a match, so set this position (which was our replacement terrain)
                 // to our desired mission terrain.
-                if( target_pos != overmap::invalid_tripoint ) {
+                if( !target_pos.is_invalid() ) {
                     overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain.evaluate( d ) ) );
                 }
             }
@@ -245,7 +245,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     // First try to get the position where we only allow existing overmaps.
     get_target_position();
 
-    if( target_pos == overmap::invalid_tripoint ) {
+    if( target_pos.is_invalid() ) {
         // If it's invalid, then that means we couldn't find it or create it (if allowed) on
         // our current overmap. We'll now go ahead and try again but allow it to create new overmaps.
         find_params.existing_only = false;
@@ -254,7 +254,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
     // If we got here and this is still invalid, it means that we couldn't find it nor create it
     // on any overmap (new or existing) within the allowed search range.
-    if( target_pos == overmap::invalid_tripoint ) {
+    if( target_pos.is_invalid() ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain.evaluate( d ) );
         return std::nullopt;
     }
@@ -351,7 +351,7 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
         mission *miss, bool must_see, int range, tripoint_abs_omt loc )
 {
     Character &player_character = get_player_character();
-    if( loc == overmap::invalid_tripoint ) {
+    if( loc.is_invalid() ) {
         loc = player_character.global_omt_location();
     }
 
@@ -439,10 +439,10 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
 void mission_util::set_reveal( const std::string &terrain,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    const auto mission_func = [ terrain ]( mission * miss ) {
+    auto mission_func = [ terrain ]( mission * miss ) {
         reveal_target( miss, terrain );
     };
-    funcs.emplace_back( mission_func );
+    funcs.emplace_back( std::move( mission_func ) );
 }
 
 void mission_util::set_reveal_any( const JsonArray &ja,
@@ -452,23 +452,22 @@ void mission_util::set_reveal_any( const JsonArray &ja,
     for( const std::string terrain : ja ) {
         terrains.push_back( terrain );
     }
-    const auto mission_func = [ terrains ]( mission * miss ) {
+    auto mission_func = [ terrains = std::move( terrains ) ]( mission * miss ) {
         reveal_any_target( miss, terrains );
     };
-    funcs.emplace_back( mission_func );
+    funcs.emplace_back( std::move( mission_func ) );
 }
 
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
     mission_target_params p = parse_mission_om_target( jo );
-    const auto mission_func = [p]( mission * miss ) {
-        mission_target_params mtp = p;
-        mtp.mission_pointer = miss;
+    auto mission_func = [p = std::move( p )]( mission * miss ) mutable {
+        p.mission_pointer = miss;
         dialogue d( get_talker_for( get_avatar() ), nullptr );
-        assign_mission_target( mtp, d );
+        assign_mission_target( p, d );
     };
-    funcs.emplace_back( mission_func );
+    funcs.emplace_back( std::move( mission_func ) );
 }
 
 bool mission_util::set_update_mapgen( const JsonObject &jo,
@@ -483,17 +482,17 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
 
     if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
-        const auto mission_func = [update_map, om_terrain]( mission * miss ) {
+        auto mission_func = [update_map = std::move( update_map ), om_terrain]( mission * miss ) {
             tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
-        funcs.emplace_back( mission_func );
+        funcs.emplace_back( std::move( mission_func ) );
     } else {
-        const auto mission_func = [update_map]( mission * miss ) {
+        auto mission_func = [update_map = std::move( update_map )]( mission * miss ) {
             tripoint_abs_omt update_pos3 = miss->get_target();
             update_map( update_pos3, miss );
         };
-        funcs.emplace_back( mission_func );
+        funcs.emplace_back( std::move( mission_func ) );
     }
     return true;
 }
@@ -527,7 +526,8 @@ bool mission_util::load_funcs( const JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func )
+bool mission_type::parse_funcs( const JsonObject &jo, const std::string_view src,
+                                std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;
     if( !mission_util::load_funcs( jo, funcs ) ) {
@@ -538,7 +538,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
-    talk_effects.load_effect( jo, "effect" );
+    talk_effects.load_effect( jo, "effect", src );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         npc *beta_npc = g->find_npc( miss->get_npc_id() );
         ::dialogue d( get_talker_for( get_avatar() ),
@@ -552,7 +552,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     };
 
     for( talk_effect_fun_t &effect : talk_effects.effects ) {
-        auto rewards = effect.get_likely_rewards();
+        talk_effect_fun_t::likely_rewards_t rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );
         }

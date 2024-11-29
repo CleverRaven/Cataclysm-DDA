@@ -42,12 +42,13 @@
       "c": "f_cupboard",
       "f": "f_tourist_table",
       "h": "f_camp_chair",
-      "l": "f_foot_locker",
+      "l": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "@": "f_bed",
       "&": "f_cleat"
     },
     "toilets": { "t": {  } },
     "gaspumps": { "!": {  } },
+    "items": { "I": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
   }
 ]

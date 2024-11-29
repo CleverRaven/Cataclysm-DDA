@@ -22,21 +22,21 @@ Each perk needs to be selectable in the menu itself. To do this append a respons
 You need to fill in the:
 `PERK_ID`: The requirements text and the perk condition.
 `REQUIREMENTS TEXT`: A description of the requirements to select the perk. If you don't have requirements put: "No Requirements".
-`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0", "==", "0" ].
+`CONDITION_GOES_HERE`: The EOC conditional that is required to select the perk. If you don't have a condition put: "math": [ "0 == 0" ].
 `ANY ADDITIONAL INFO TEXT`: Any additional info you want to include. If you don't have any additional details put "".
 ``` json 
 {
   "condition": { "not": { "u_has_trait": "PERK_ID" } },
   "text": "Gain [<trait_name:PERK_ID>]",
   "effect": [
-    { "set_string_var": "<trait_name:PERK_ID>", "target_var": { "global_val": "trait_name" } },
-    { "set_string_var": "<trait_description:PERK_ID>", "target_var": { "global_val": "trait_description" } },
-    { "set_string_var": "PERK_ID", "target_var": { "global_val": "trait_id" } },
-    { "set_string_var": "REQUIREMENTS TEXT", "target_var": { "global_val": "trait_requirement_description" } },
+    { "set_string_var": "<trait_name:PERK_ID>", "target_var": { "context_val": "trait_name" } },
+    { "set_string_var": "<trait_description:PERK_ID>", "target_var": { "context_val": "trait_description" } },
+    { "set_string_var": "PERK_ID", "target_var": { "context_val": "trait_id" } },
+    { "set_string_var": "REQUIREMENTS TEXT", "target_var": { "context_val": "trait_requirement_description" } },
     { "set_condition": "perk_condition", "condition": { CONDITION_GOES_HERE } },
     {
       "set_string_var": "ANY ADDITIONAL INFO TEXT",
-      "target_var": { "global_val": "trait_additional_details" }
+      "target_var": { "context_val": "trait_additional_details" }
     }
   ],
   "topic": "TALK_PERK_MENU_SELECT"

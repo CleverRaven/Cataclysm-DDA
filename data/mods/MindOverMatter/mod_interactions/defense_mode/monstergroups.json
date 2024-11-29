@@ -1,0 +1,15 @@
+[
+  {
+    "name": "GROUP_FERAL_PSYCHIC_DM",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_feral_human_bio_dm", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_clair_dm", "weight": 1 },
+      { "monster": "mon_feral_human_pyrokin_dm", "weight": 1, "cost_multiplier": 3 },
+      { "monster": "mon_feral_human_telekin_dm", "weight": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_human_teep_dm", "weight": 1 },
+      { "monster": "mon_feral_human_porter_dm", "weight": 1 },
+      { "monster": "mon_feral_human_vita_dm", "weight": 1 }
+    ]
+  }
+]

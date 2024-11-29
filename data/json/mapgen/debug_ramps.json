@@ -33,9 +33,9 @@
       "terrain": { "#": "t_rock", ".": "t_grass", "<": "t_low_stairs_begin", "E": "t_low_stairs_end", "H": "t_grass", "~": "t_water_dp" },
       "furniture": { "H": "f_ladder" },
       "place_monster": [
-        { "monster": "debug_mon", "x": 1, "y": 1 },
-        { "monster": "debug_mon", "x": 3, "y": 1 },
-        { "monster": "debug_mon", "x": 5, "y": 1 }
+        { "monster": "pseudo_debug_mon", "x": 1, "y": 1 },
+        { "monster": "pseudo_debug_mon", "x": 3, "y": 1 },
+        { "monster": "pseudo_debug_mon", "x": 5, "y": 1 }
       ]
     }
   }

@@ -14,10 +14,10 @@
         "condition": { "u_has_effect": "hunger_satisfied" }
       },
       { "id": "blank", "text": "", "color": "white", "condition": { "u_has_effect": "hunger_blank" } },
-      { "id": "hungry", "text": "Hungry", "color": "yellow", "condition": { "u_has_effect": "hunger_hungry" } },
+      { "id": "hungry", "text": "Peckish", "color": "c_light_gray", "condition": { "u_has_effect": "hunger_hungry" } },
       {
         "id": "very_hungry",
-        "text": "Very hungry",
+        "text": "Hungry",
         "color": "yellow",
         "condition": { "u_has_effect": "hunger_very_hungry" }
       },

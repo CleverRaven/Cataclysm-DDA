@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "martialarts.h"
@@ -11,8 +11,8 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class avatar;
 class item;
+class item_location;
 
 class character_martial_arts
 {
@@ -80,11 +80,12 @@ class character_martial_arts
         /** Fires all kill-triggered martial arts events */
         void ma_onkill_effects( Character &owner );
 
-        /** Returns an attack vector that the player can use */
-        std::string get_valid_attack_vector( const Character &user,
-                                             const std::vector<std::string> &attack_vectors ) const;
-        /** Returns true if the player is able to use the given attack vector */
-        bool can_use_attack_vector( const Character &user, const std::string &av ) const;
+        // Selects a valid attack vector
+        std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>> choose_attack_vector(
+                    const Character &user, const matec_id &tech ) const;
+        // Calculate and return the damage of the given contact area for a given vector
+        damage_instance calculate_vector_damage( const Character &user, const attack_vector_id &vec,
+                const sub_bodypart_str_id &contact_area ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */
@@ -97,7 +98,9 @@ class character_martial_arts
         bool can_weapon_block() const;
 
         std::vector<matec_id> get_all_techniques( const item_location &weap, const Character &u ) const;
-        std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
+        std::vector<matype_id> get_unknown_styles( const character_martial_arts &from,
+                bool teachable_only ) const;
+        std::vector<matype_id> get_known_styles( bool teachable_only ) const;
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
         bool has_technique( const Character &guy, const matec_id &id, const item &weap ) const;
         /** Returns the first valid grab break technique */
@@ -107,6 +110,9 @@ class character_martial_arts
 
         std::string enumerate_known_styles( const itype_id &weap ) const;
         std::string selected_style_name( const Character &owner ) const;
+        const matype_id &selected_style() const {
+            return style_selected;
+        }
 };
 
 #endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H

@@ -2,25 +2,24 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
-#include <functional>
 #include <cstddef>
-#include <iosfwd>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "memory_fast.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "avatar.h"
-#include "map.h"
 
 class JsonObject;
 class JsonOut;
@@ -37,11 +36,14 @@ const std::string type_fac_hash_str = "__FAC__";
 //Generic activity: maximum search distance for zones, constructions, etc.
 constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
 
+extern const std::vector<zone_type_id> ignorable_zone_types;
+
 class zone_type
 {
     private:
         translation name_;
         translation desc_;
+        field_type_str_id field_;
     public:
 
         zone_type_id id;
@@ -49,11 +51,13 @@ class zone_type
         bool was_loaded = false;
 
         zone_type() = default;
-        explicit zone_type( const translation &name, const translation &desc ) : name_( name ),
-            desc_( desc ) {}
+        explicit zone_type( const translation &name, const translation &desc,
+                            const field_type_str_id &field ) : name_( name ),
+            desc_( desc ), field_( field ) {}
 
         std::string name() const;
         std::string desc() const;
+        field_type_str_id get_field() const;
 
         bool can_be_personal = false;
         bool hidden = false;
@@ -62,7 +66,7 @@ class zone_type
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**
-         * All spells in the game.
+         * All zone types in the game.
          */
         static const std::vector<zone_type> &get_all();
         bool is_valid() const;
@@ -206,6 +210,37 @@ class blueprint_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class ignorable_options : public zone_options
+{
+    private:
+        bool ignore_contents;
+
+        enum query_ignorable_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_ignorable_result query_ignorable();
+
+    public:
+        bool get_ignore_contents() const {
+            return ignore_contents;
+        }
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+
+};
+
 class loot_options : public zone_options, public mark_option
 {
     private:
@@ -251,6 +286,8 @@ class unload_options : public zone_options, public mark_option
         std::string mark;
         bool mods;
         bool molle;
+        bool sparse_only;
+        int sparse_threshold = 20;
         bool always_unload;
 
         enum query_unload_result {
@@ -272,6 +309,14 @@ class unload_options : public zone_options, public mark_option
 
         bool unload_molle() const {
             return molle;
+        }
+
+        bool unload_sparse_only() const {
+            return sparse_only;
+        }
+
+        int unload_sparse_threshold() const {
+            return sparse_threshold;
         }
 
         bool unload_always() const {
@@ -318,6 +363,7 @@ class zone_data
         // for personal zones a cached value for the global shift to where the player was at activity start
         tripoint_abs_ms cached_shift;
         shared_ptr_fast<zone_options> options;
+        bool is_displayed;
 
     public:
         zone_data() {
@@ -327,16 +373,18 @@ class zone_data
             temporarily_disabled = false;
             is_vehicle = false;
             is_personal = false;
-            start = tripoint_zero;
-            end = tripoint_zero;
+            start = tripoint::zero;
+            end = tripoint::zero;
             cached_shift = {};
             options = nullptr;
+            is_displayed = false;
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false ) {
+                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false,
+                   bool _is_displayed = false ) {
             name = _name;
             type = _type;
             faction = _faction;
@@ -346,6 +394,7 @@ class zone_data
             is_personal = personal;
             start = _start;
             end = _end;
+            is_displayed = _is_displayed;
 
             // ensure that supplied options is of correct class
             if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
@@ -359,10 +408,17 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
+        // We need to be able to suppress the display of zones when the movement is part of a map rotation, as the underlying
+        // field is automatically rotated by the map rotation itself.
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true, bool skip_cache_update = false );
+                           bool update_avatar = true, bool skip_cache_update = false, bool suppress_display_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
+        // Displays/removes display fields based on the current is_displayed value.
+        // Can be used to "repair" the display when an overlapping field has removed its
+        // part of the shared area, as well as for the actual setting/removal of the fields.
+        void refresh_display() const;
+        void toggle_display();
         void set_is_vehicle( bool is_vehicle_arg );
 
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
@@ -374,6 +430,13 @@ class zone_data
                 return zone_type_id( hash_type.substr( 0, end ) );
             }
             return zone_type_id( "" );
+        }
+        static faction_id unhash_fac( const std::string_view hash_type ) {
+            size_t start = hash_type.find( type_fac_hash_str ) + type_fac_hash_str.size();
+            if( start != std::string::npos ) {
+                return faction_id( hash_type.substr( start ) );
+            }
+            return faction_id( "" );
         }
         std::string get_name() const {
             return name;
@@ -395,6 +458,10 @@ class zone_data
         }
         bool get_temporarily_disabled() const {
             return temporarily_disabled;
+        }
+
+        bool get_is_displayed() const {
+            return is_displayed;
         }
 
         bool get_is_vehicle() const {

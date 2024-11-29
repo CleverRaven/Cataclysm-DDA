@@ -1,8 +1,6 @@
 #include "scores_ui.h"
 
 #include <algorithm>
-#include <functional>
-#include <iosfwd>
 #include <iterator>
 #include <string>
 #include <tuple>
@@ -10,14 +8,14 @@
 #include <vector>
 
 #include "achievement.h"
-#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "event_statistics.h"
-#include "input.h"
+#include "input_context.h"
 #include "localized_comparator.h"
 #include "kill_tracker.h"
 #include "output.h"
+#include "past_games_info.h"
 #include "point.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
@@ -28,6 +26,9 @@
 static std::string get_achievements_text( const achievements_tracker &achievements,
         bool use_conducts, int width )
 {
+    // Load past game info beforehand because otherwise it may erase an `achievement_tracker`
+    // within a call to its method when lazy-loaded, causing dangling pointer.
+    get_past_games();
     std::string thing_name = use_conducts ? _( "conducts" ) : _( "achievements" );
     std::string cap_thing_name = use_conducts ? _( "Conducts" ) : _( "Achievements" );
     if( !achievements.is_enabled() ) {

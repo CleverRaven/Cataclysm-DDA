@@ -1,7 +1,7 @@
 # Armor Balance And Design
 
 ## Armor Overview
-Armor in cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
+Armor in Cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) Cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
 
 That said this document will practice no such restraint and is designed to be a complete guide to *everything* possible. This guide will cover the basic ideas of **how it works**, **what is necessary** for armor to function, **what is possible** with the armor system and **how to design armor** so that it is balanced and makes sense. An **FAQ** will also be included to cover some specifics people might have about armor or how to understand it as well as a section on things to be added **looking forward**.  Each section will also give specific example item ids you could investigate for examples (as well as code snippets) or for balance considerations.
 
@@ -56,8 +56,8 @@ here is an example armor to look at:
   "description": "A white button-down shirt with long sleeves.  Looks professional!",
   "weight": "250 g",
   "volume": "750 ml",
-  "price": 1500,
-  "price_postapoc": 50,
+  "price": "15 USD",
+    "price_postapoc": "50 cent",
   "material": [ "cotton" ],
   "symbol": "[",
   "looks_like": "longshirt",
@@ -182,9 +182,8 @@ Sided armor is armor that even though it describes covering, both legs, both arm
   "description": "A small concealed knife sheath worn on the ankle.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
   "weight": "160 g",
   "volume": "500 ml",
-  "price": 5200,
-  "price_postapoc": 250,
-  "to_hit": -1,
+  "price": "52 USD",
+  "price_postapoc": "2 USD 50 cent",
   "material": [ "leather" ],
   "symbol": "[",
   "looks_like": "sheath",
@@ -401,8 +400,8 @@ plate definition:
   "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
   "weight": "2500 g",
   "volume": "1533 ml",
-  "price": 60000,
-  "price_postapoc": 100,
+  "price": "600 USD",
+  "price_postapoc": "1 USD",
   "material": [ "ceramic" ],
   "symbol": ",",
   "color": "dark_gray",
@@ -433,8 +432,8 @@ Transforming items can also specify a custom destruction message with ```"damage
   "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
   "weight": "2500 g",
   "volume": "1533 ml",
-  "price": 60000,
-  "price_postapoc": 100,
+  "price": "600 USD",
+  "price_postapoc": "1 USD",
   "material": [ "ceramic" ],
   "symbol": ",",
   "color": "dark_gray",
@@ -463,8 +462,8 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
   "color": "blue",
   "name": { "str": "survivor headlamp" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
-  "price": 6500,
-  "price_postapoc": 250,
+  "price": "65 USD",
+  "price_postapoc": "2 USD 50 cent",
   "material": [ "plastic", "aluminum" ],
   "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
   "weight": "620 g",
@@ -486,7 +485,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
       "pocket_type": "MAGAZINE_WELL",
       "rigid": true,
       "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-      "default_magazine": "light_plus_battery_cell"
+      "default_magazine": "light_battery_cell"
     }
   ],
   "armor": [ { "coverage": 20, "covers": [ "head" ] } ]
@@ -533,7 +532,7 @@ Some armor with custom abilities can be handled as enchantments. This is a new w
   "valid": false,
   "purifiable": false,
   "types": [ "Equipment" ],
-  "weight_capacity_modifier": 1.1
+  "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
 }
 ```
 
@@ -563,7 +562,7 @@ STURDY           | Armor is much less likely to take damage and degrade when str
 NO_REPAIR        | Can't be repaired by the player using tools like the sewing kit, or welder
 WATER_FRIENDLY   | Armor makes the covered body parts not feel bad to be wet
 WATER_PROOF      | Makes the body parts immune to water
-RAIN_PROOF       | Wont get wet in rain
+RAIN_PROOF       | Won't get wet in rain
 HOOD             | Keeps head warm if nothing on it
 POCKETS          | Keeps hands warm if they are free
 BLOCK_WHILE_WORN | Can be used to block with while worn
@@ -574,7 +573,6 @@ FANCY            | Clothing is impractically fancy, (like a top hat)
 SUPER_FANCY      | Even more fancy than fancy
 FILTHY           | Disgusting dirty clothes
 FRAGILE          | Breaks fast
-SLOWS_MOVEMENT   | Slows you down to wear
 
 #### Immunities/Defenses
 **only some of these that are used**
@@ -601,8 +599,8 @@ ID                     | Description
 OVERSIZE               | Can be worn by larger Characters
 UNDERSIZE              | Can be worn by smaller Characters
 ALLOWS_TAIL            | People with tails can still wear it
-ALLOWS_TALONS          | People with talons can still wear it
-ALLOWS_NATURAL_ATTACKS | Wont hinder special attacks
+ALLOWS_TALONS          | People with talons for feet can still wear it
+ALLOWS_NATURAL_ATTACKS | Won't hinder special attacks
 
 #### Sci-fi
 ID                    | Description
@@ -650,7 +648,7 @@ When you want to add a new item to Cataclysm there are a few things you should p
 ### Balance/Considerations
 
 #### The Golden Rule Of Balance
-The core ideal when making any item but especially armor is that **weight, thickness and materials should be correct** if the item is real it should be exactly as it is in real life, if it is created for cataclysm it should be similar to other true to life armors. It does not matter if you think that your pet project leather armor *should* be better, if a leather jacket is 1.2mm thick and that gives it 4.4 bash protection and you think that is too low **you can not just make it thicker**. Armor should be based off real life thickness values. If after making something true to life it isn't behaving true to life then a discussion about how to solve it can be had. A new material might need to be defined (we have 3 types of Kevlar and 3-4 types of plastic) or perhaps your assumptions / materials are wrong. Any solution however should come with proper research since it will have long reaching effects. The reasoning for this golden rule is it consolidates balancing at the material level making it much easier to research and get info and leads to less favoritism and outliers.
+The core ideal when making any item but especially armor is that **weight, thickness and materials should be correct** if the item is real it should be exactly as it is in real life, if it is created for Cataclysm it should be similar to other true to life armors. It does not matter if you think that your pet project leather armor *should* be better, if a leather jacket is 1.2mm thick and that gives it 4.4 bash protection and you think that is too low **you can not just make it thicker**. Armor should be based off real life thickness values. If after making something true to life it isn't behaving true to life then a discussion about how to solve it can be had. A new material might need to be defined (we have 3 types of Kevlar and 3-4 types of plastic) or perhaps your assumptions / materials are wrong. Any solution however should come with proper research since it will have long reaching effects. The reasoning for this golden rule is it consolidates balancing at the material level making it much easier to research and get info and leads to less favoritism and outliers.
 
 #### The Golden Rule Of Design
 Make things as simple as they possibly can be. When a player inspects a t-shirt they shouldn't have to inspect 35 lines of armor data that could be summarized as "basically no protection, keeps you kinda warm". Advanced and dedicated armor can be *very* complicated but try to keep clothing as complex as they need to be to be simulated correctly.
