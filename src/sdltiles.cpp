@@ -3342,6 +3342,7 @@ static void CheckMessages()
 #if defined(__ANDROID__) || defined(__IPHONEOS__)
             case SDL_FINGERMOTION:
                 dbg( D_INFO ) << "Fingermotion triggered.";
+                dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 if( ev.tfinger.fingerId == 0 ) {
                     if( !is_quick_shortcut_touch ) {
                         dbg( D_INFO ) << "Not quick shortcut touch";
@@ -3377,6 +3378,7 @@ static void CheckMessages()
                 break;
             case SDL_FINGERDOWN:
                 dbg( D_INFO ) << "Fingerdown triggered.";
+                dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 if( ev.tfinger.fingerId == 0 ) {
                     finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
@@ -3410,6 +3412,7 @@ static void CheckMessages()
                 break;
             case SDL_FINGERUP:
                 dbg( D_INFO ) << "Fingerup triggered.";
+                dbg( D_INFO ) << "ev.tfinger.fingerId: " << ev.tfinger.fingerId;
                 if( ev.tfinger.fingerId == 0 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
