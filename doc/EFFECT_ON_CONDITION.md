@@ -4015,6 +4015,23 @@ You assign activity `ACT_GAME` for 45 minutes
 { "u_assign_activity": "ACT_GAME", "duration": "45 minutes" }
 ```
 
+#### `u_cancel_activity`, `npc_cancel_activity`
+
+NPC or character will stop their current activity
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You cancel activity `ACT_GAME` for 45 minutes
+```json
+{ "u_cancel_activity" }
+```
+
 
 #### `u_teleport`, `npc_teleport`
 You or NPC is teleported to `target_var` coordinates
