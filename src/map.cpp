@@ -2575,7 +2575,7 @@ bool map::passable_skip_fields( const tripoint &p ) const
 
 bool map::passable_skip_fields( const tripoint_bub_ms &p ) const
 {
-    return move_cost( p, ( const vehicle * )nullptr, true ) != 0;
+    return move_cost( p, static_cast<const vehicle *>( nullptr ), true ) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const
