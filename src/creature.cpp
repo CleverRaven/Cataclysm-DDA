@@ -449,9 +449,10 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
-bool Creature::is_immune_fields( std::vector<field_type_id> fields ) const {
-    for ( const field_type_id fi: fields) {
-        if (!is_immune_field(fi)) {
+bool Creature::is_immune_fields( std::vector<field_type_id> fields ) const
+{
+    for( const field_type_id fi : fields ) {
+        if( !is_immune_field( fi ) ) {
             return false;
         }
     }
@@ -2034,7 +2035,8 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Do not freeze the effect with the FREEZE_EFFECTS flag.
-            if( has_effect_with_flag( json_flag_FREEZE_EFFECTS ) && !_it.second.has_flag( json_flag_FREEZE_EFFECTS ) ) {
+            if( has_effect_with_flag( json_flag_FREEZE_EFFECTS ) &&
+                !_it.second.has_flag( json_flag_FREEZE_EFFECTS ) ) {
                 continue;
             }
             // Add any effects that others remove to the removal list
