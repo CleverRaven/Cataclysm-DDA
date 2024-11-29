@@ -84,6 +84,7 @@
   {
     "type": "palette",
     "id": "house_w_foundation_palette",
+    "palettes": [ "parametrized_walls_palette" ],
     "furniture": {
       "A": "f_stool",
       "B": "f_rotary_clothesline",
@@ -131,7 +132,6 @@
       "p": "t_region_groundcover_urban",
       "X": "t_region_groundcover_urban",
       " ": "t_floor",
-      "|": "t_wall_w",
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down",
       "o": [

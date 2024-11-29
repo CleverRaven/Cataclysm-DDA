@@ -76,8 +76,8 @@ static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
 
 disp_overmap_cache::disp_overmap_cache()
 {
-    _center = overmap::invalid_tripoint;
-    _mission = overmap::invalid_tripoint;
+    _center = tripoint_abs_omt::invalid;
+    _mission = tripoint_abs_omt::invalid;
     _width = 0;
 }
 
@@ -813,6 +813,31 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
     return std::make_pair( pain_string, pain_color );
 }
 
+std::pair<std::string, nc_color> display::faction_text( const Character &u )
+{
+    std::string display_name = _( "None" );
+    nc_color display_color = c_white;
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.global_omt_location().xy() );
+    if( !bcp ) {
+        return std::pair( display_name, display_color );
+    }
+    basecamp *actual_camp = *bcp;
+    const faction_id &owner = actual_camp->get_owner();
+    if( owner->limited_area_claim && u.global_omt_location() != actual_camp->camp_omt_pos() ) {
+        return std::pair( display_name, display_color );
+    }
+    display_name = owner->name;
+    // TODO: Make this magic number into a constant
+    if( owner->likes_u < -10 ) {
+        display_color = c_red;
+    } else if( u.get_faction()->id == owner ) {
+        display_color = c_blue;
+    } else if( owner->likes_u > 10 ) {
+        display_color = c_green;
+    }
+    return std::pair( display_name, display_color );
+}
+
 nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
 {
     nc_color color = c_light_gray; // default
@@ -1015,8 +1040,8 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
 // Weight carried, formatted as "current/max" in kg
 std::pair<std::string, nc_color> display::carry_weight_value_color( const avatar &ava )
 {
-    float carry_wt = ( convert_weight( ava.weight_carried() ) );
-    float max_wt = ( convert_weight( ava.weight_capacity() ) );
+    float carry_wt = convert_weight( ava.weight_carried() );
+    float max_wt = convert_weight( ava.weight_capacity() );
 
     // Create a string showing "current_weight / max_weight"
     std::string weight_text = string_format( "%.1f/%.1f %s", carry_wt, max_wt, weight_units() );
@@ -1155,7 +1180,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     oter_display_options opts( center_xyz,
                                u.overmap_modified_sight_range( g->light_level( u.posz() ) ) );
     opts.showhordes = true;
-    if( mission_xyz != overmap::invalid_tripoint ) {
+    if( !mission_xyz.is_invalid() ) {
         opts.mission_target = mission_xyz;
     }
     opts.mission_inbounds = ( mission_xyz.x() >= center_xyz.x() + left &&
@@ -1239,7 +1264,7 @@ point display::mission_arrow_offset( const avatar &you, int width, int height )
         }
     } else {
         // For non-vertical slope, calculate where it intersects the edge of the map
-        point arrow( point_north_west );
+        point arrow( point::north_west );
         if( std::fabs( slope ) >= 1. ) {
             // If target to the north or south, arrow on top or bottom edge of minimap
             if( targ.y() > curs.y() ) {

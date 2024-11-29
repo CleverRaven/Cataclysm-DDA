@@ -228,6 +228,15 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
+    // RestrictTiny isn't checked since it's unclear how it would actually work as there's no category smaller than tiny
+    if( settings.size && (
+            ( p_special & PathfindingFlag::RestrictSmall && settings.size > creature_size::tiny ) ||
+            ( p_special & PathfindingFlag::RestrictMedium && settings.size > creature_size::small ) ||
+            ( p_special & PathfindingFlag::RestrictLarge && settings.size > creature_size::medium ) ||
+            ( p_special & PathfindingFlag::RestrictHuge && settings.size > creature_size::large ) ) ) {
+        return PF_IMPASSABLE;
+    }
+
     const int bash = settings.bash_strength;
     const bool allow_open_doors = settings.allow_open_doors;
     const bool allow_unlock_doors = settings.allow_unlock_doors;
@@ -294,6 +303,17 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     // If we can climb it, great!
     if( climb_cost > 0 && p_special & PathfindingFlag::Climbable ) {
         return climb_cost;
+    }
+
+    // If terrain/furniture is openable but we can't fit through the open version, ignore the tile
+    if( settings.size && allow_open_doors &&
+        ( ( terrain.open && terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+          ( furniture.open && furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
+          // Windows with curtains need to be opened twice
+          ( terrain.open->open && terrain.open->open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ) &&
+        settings.size > creature_size::medium
+      ) {
+        return PF_IMPASSABLE;
     }
 
     // If it's a door and we can open it from the tile we're on, cool.
@@ -488,7 +508,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const trap &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
                 if( !trp.is_benign() && terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
                     // Warning: really expensive, needs a cache
-                    tripoint_bub_ms below( p + tripoint_below );
+                    tripoint_bub_ms below( p + tripoint::below );
                     if( valid_move( p, below, false, true ) ) {
                         if( !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, below ) ) {
                             // Otherwise this would have been a huge fall
@@ -556,7 +576,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
-            valid_move( cur, cur + tripoint_above, false, true ) ) {
+            valid_move( cur, cur + tripoint::above, false, true ) ) {
             path_data_layer &layer = pf.get_layer( cur.z() + 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint_bub_ms above( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + 1 );
@@ -569,7 +589,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
-            valid_move( cur, cur + tripoint_above, false, true, true ) ) {
+            valid_move( cur, cur + tripoint::above, false, true, true ) ) {
             path_data_layer &layer = pf.get_layer( cur.z() + 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint_bub_ms above( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + 1 );
@@ -582,7 +602,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( cur.z() > min.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
-            valid_move( cur, cur + tripoint_below, false, true, true ) ) {
+            valid_move( cur, cur + tripoint::below, false, true, true ) ) {
             path_data_layer &layer = pf.get_layer( cur.z() - 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint_bub_ms below( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() - 1 );

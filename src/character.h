@@ -520,6 +520,8 @@ struct run_cost_effect {
     float plus = 0;
 };
 
+nutrients default_character_compute_effective_nutrients( const item &comest );
+
 class Character : public Creature, public visitable
 {
     public:
@@ -1011,6 +1013,11 @@ class Character : public Creature, public visitable
         /** Returns character luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
+        /**
+        * return true if character is able to see creature in some nonstandard ways
+        * to be used only if we do not need to know anything but the fact we see it
+        * for anything more it's better to store and use enchant_cache::get_vision() struct
+        */
         bool sees_with_specials( const Creature &critter ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
@@ -1131,12 +1138,13 @@ class Character : public Creature, public visitable
         bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random technique/vector/contact area set from the  possible techs */
         std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> pick_technique(
-            Creature &t, const item_location &weap,
-            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
+            Creature const &t, const item_location &weap,
+            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} )
+        const;
         // Filter techniques per tech, return a tech/vector/sublimb set
         std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-                evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
-                                    bool crit = false, bool dodge_counter = false, bool block_counter = false );
+                evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
+                                    bool crit = false, bool dodge_counter = false, bool block_counter = false ) const;
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
@@ -1235,9 +1243,9 @@ class Character : public Creature, public visitable
         bool can_autolearn( const matype_id &ma_id ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique );
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<Creature *> &targets );
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique ) const;
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique,
+                                  std::vector<Creature *> &targets ) const;
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
@@ -1336,6 +1344,10 @@ class Character : public Creature, public visitable
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
         void randomize_cosmetic_trait( const std::string &mutation_type );
+        /** Damages worn equipment
+        @param days - simulated number of in-game days passed
+        */
+        void starting_inv_damage_worn( int days );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -1390,6 +1402,12 @@ class Character : public Creature, public visitable
         bool has_flag( const json_character_flag &flag ) const;
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
+
+    private:
+        // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.
+        mutable std::map<const json_character_flag, bool> trait_flag_cache;
+
+    public:
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
         /** Returns the vector of all traits in category, good/bad/any */
@@ -1528,16 +1546,12 @@ class Character : public Creature, public visitable
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
     private:
-        /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
         void do_skill_rust();
-        /** Applies stat mods to character. */
-        void apply_mods( const trait_id &mut, bool add_remove );
 
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
@@ -1934,11 +1948,9 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        // TODO: Get rid of untyped overload
-        virtual bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves = -1 );
         virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        virtual bool invoke_item( item *, const std::string &, const tripoint &pt,
+        virtual bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
                                   int pre_obtain_moves = -1 );
         /** As above two, but with position equal to current position */
         virtual bool invoke_item( item * );
@@ -2732,7 +2744,7 @@ class Character : public Creature, public visitable
         // Items currently being hauled
         std::vector<item_location> haul_list;
 
-        tripoint_rel_ms view_offset;
+        mutable tripoint_rel_ms view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
@@ -3258,12 +3270,6 @@ class Character : public Creature, public visitable
         float power_rating() const override;
         float speed_rating() const override;
 
-        /**
-         * Check whether the this player can see the other creature with infrared. This implies
-         * this player can see infrared and the target is visible with infrared (is warm).
-         * And of course a line of sight exists.
-        */
-        bool sees_with_infrared( const Creature &critter ) const;
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile
@@ -3488,7 +3494,7 @@ class Character : public Creature, public visitable
         * @param clear_path True to select only items within view. False to select all within the radius.
         * @returns Craftable inventory items found.
         * */
-        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
+        const inventory &crafting_inventory( const tripoint &src_pos = tripoint::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
@@ -3497,7 +3503,7 @@ class Character : public Creature, public visitable
          * above 4.0 means these activities cannot be performed.
          * takes pos as a parameter so that remote spots can be judged
          * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_min ) const;
+        float fine_detail_vision_mod( const tripoint &p = tripoint::invalid ) const;
 
         // ---- CRAFTING ----
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
@@ -3511,7 +3517,7 @@ class Character : public Creature, public visitable
         // providing the recipe or a nearby allied Character knows it.
         bool has_recipe( const recipe *r ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
+        void learn_recipe( const recipe *rec, bool override_never_learn = false );
         void forget_recipe( const recipe *rec );
         void forget_all_recipes();
         int exceeds_recipe_requirements( const recipe &rec ) const;
@@ -3551,7 +3557,8 @@ class Character : public Creature, public visitable
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
+        float lighting_craft_speed_multiplier( const recipe &rec,
+                                               const tripoint &p = tripoint::invalid ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
         // TODO: Get rid of untyped overload
         float workbench_crafting_speed_multiplier( const item &craft,
@@ -3704,7 +3711,7 @@ class Character : public Creature, public visitable
         bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            const tripoint &origin = tripoint::zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const std::vector<tripoint> &reachable_pts = {},   basecamp *bcp = nullptr );

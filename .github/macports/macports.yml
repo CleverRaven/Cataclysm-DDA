@@ -1,0 +1,5 @@
+ports:
+  - name: freetype
+    select: [ universal ]
+  - name: pkgconfig
+    select: [ universal ]

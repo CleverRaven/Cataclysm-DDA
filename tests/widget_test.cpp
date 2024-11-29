@@ -85,6 +85,8 @@ static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" )
 static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
 static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
+static const widget_id widget_test_custom_var_dynamic_range( "test_custom_var_dynamic_range" );
+static const widget_id widget_test_custom_var_static_range( "test_custom_var_static_range" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
@@ -1940,7 +1942,7 @@ TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
         }
 
         SECTION( "cannot see weather when underground" ) {
-            ava.setpos( tripoint_below );
+            ava.setpos( tripoint::below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
@@ -2044,13 +2046,13 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Single-line layout" ) {
             std::string layout1 = "abcd efgh ijkl mnop qrst";
             CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2062,7 +2064,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         SECTION( "Single-line layout" ) {
             std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
             CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd                           " );
             CHECK( lines[1] == " efgh                           " );
             CHECK( lines[2] == " ijkl                           " );
@@ -2623,14 +2625,14 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         const int cols = 32;
         const int rows = 5;
 
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Not empty" ) {
             // Show widget text when character is not blind
             REQUIRE( !ava.is_blind() );
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " NOT EMPTY: Text exists         " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2645,7 +2647,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
             REQUIRE( ava.is_blind() );
             // Shouldn't be called (height should be decremented), but check it just in case
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == "                                " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2904,6 +2906,49 @@ TEST_CASE( "W_NO_PADDING_widget_flag", "[widget]" )
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
             test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
+        }
+    }
+}
+
+TEST_CASE( "widgets_using_custom_vars", "[widget]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "static range" ) {
+        widget static_range_w = widget_test_custom_var_static_range.obj();
+
+        ava.set_focus( 75 );
+        CHECK( static_range_w.layout( ava ) == "FOCUS: 75" );
+        ava.set_focus( 120 );
+        CHECK( static_range_w.layout( ava ) == "FOCUS: 120" );
+    }
+
+    SECTION( "dynamic range" ) {
+        widget dynamic_range_w = widget_test_custom_var_dynamic_range.obj();
+        ava.str_max = 8;
+
+        GIVEN( "value within normal range" ) {
+            ava.set_str_bonus( 0 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_white>8</color>" );
+        }
+
+        GIVEN( "value below normal range" ) {
+            ava.set_str_bonus( -1 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_yellow>7</color>" );
+            ava.set_str_bonus( -2 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_red>6</color>" );
+            ava.set_str_bonus( -3 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_red>5</color>" );
+        }
+
+        GIVEN( "value above normal range" ) {
+            ava.set_str_bonus( 1 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_cyan>9</color>" );
+            ava.set_str_bonus( 2 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_green>10</color>" );
+            ava.set_str_bonus( 3 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_green>11</color>" );
         }
     }
 }

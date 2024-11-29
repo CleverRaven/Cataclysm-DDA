@@ -25,7 +25,7 @@
       {
         "effect": [
           { "u_add_effect": "drunk", "duration": "370 minutes" },
-          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
+          { "run_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_TP", "time_in_future": [ "0s", "0s" ] },
           { "u_add_faction_trust": 1 }
         ]
       }
@@ -33,10 +33,7 @@
     "responses": [
       {
         "text": "Bar… barshender!  We… we?",
-        "effect": [
-          "end_conversation",
-          { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }
-        ],
+        "effect": [ "end_conversation", { "run_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -58,7 +55,7 @@
       },
       {
         "text": "Recall the time you were tricked into fighting against distorted versions of yourself while lost in a place beyond time.",
-        "condition": { "math": [ "visited_a_portal_dungeon", "==", "1" ] },
+        "condition": { "math": [ "visited_a_portal_dungeon == 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
@@ -83,12 +80,12 @@
       },
       {
         "text": "Recall that time when you used a tactical nuclear weapon.",
-        "condition": { "math": [ "u_mininuke_activated", ">=", "1" ] },
+        "condition": { "math": [ "u_mininuke_activated >= 1" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
         "text": "Try to gross each other out with tales of mutant butchery.",
-        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent')", ">=", "50" ] },
+        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent') >= 50" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BUTCHERY"
       },
       {

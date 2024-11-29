@@ -54,6 +54,19 @@
     ]
   },
   {
+    "id": "demon_spider_queen",
+    "type": "harvest",
+    "//": "separate harvest entry for future special alchemical items",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
+      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
+    ]
+  },
+  {
     "id": "mammal_small_fur",
     "type": "harvest",
     "copy-from": "mammal_small_fur",
@@ -211,6 +224,25 @@
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 }
     ]
+  },
+  {
+    "id": "zombie_lizardfolk",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "zombie_ravenfolk",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "//": "removes 66% of their featers due to most being unusable due to being from an undead corpse.",
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.007 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.003 }
+      ]
+    }
   },
   {
     "id": "ogre",

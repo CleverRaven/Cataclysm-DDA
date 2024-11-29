@@ -173,6 +173,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
     }
   ],
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
+  "activation_msg": "Time to rock and roll",  // Optional, default "You activate your %s." where %s is replaced with the mutation's name.
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
   "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or sleepiness values set to true (default: 0).
   "time": 100,                                // Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again.  Needs to be higher than one to have any effect (default: 0).
@@ -213,7 +214,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
       { 
-        "condition": { "math": [ "u_val('morale')", "<", "-50" ] },                                     // Dialogue condition (see NPCs.md).
+        "condition": { "math": [ "u_val('morale') < -50" ] },                                     // Dialogue condition (see NPCs.md).
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
       }
     ],
@@ -221,8 +222,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialogue condition (see NPCs.md).
           "or": [ 
-            { "math": [ "u_val('strength')", "<", "5" ] },
-            { "math": [ "u_val('dexterity')", ">", "20" ] }
+            { "math": [ "u_val('strength') < 5" ] },
+            { "math": [ "u_val('dexterity') > 20" ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.

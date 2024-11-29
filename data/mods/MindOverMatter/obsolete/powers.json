@@ -4,7 +4,7 @@
     "id": "EOC_MOM_GAMESTART_TELEPORTATION_GATEWAY_UPDATE",
     "eoc_type": "EVENT",
     "required_event": "game_start",
-    "effect": [ { "math": [ "u_teleportation_gateway_updated", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_teleportation_gateway_updated = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -14,11 +14,11 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
-        { "math": [ "u_teleportation_gateway_updated", "!=", "1" ] },
-        { "math": [ "u_spell_level('teleport_gateway')", "==", "-1" ] }
+        { "math": [ "u_teleportation_gateway_updated != 1" ] },
+        { "math": [ "u_spell_level('teleport_gateway') == -1" ] }
       ]
     },
-    "effect": [ { "math": [ "u_teleportation_gateway_updated", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_teleportation_gateway_updated = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -28,18 +28,18 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
-        { "math": [ "u_teleportation_gateway_updated", "!=", "1" ] },
-        { "math": [ "u_spell_level('teleport_gateway')", ">=", "1" ] }
+        { "math": [ "u_teleportation_gateway_updated != 1" ] },
+        { "math": [ "u_spell_level('teleport_gateway') >= 1" ] }
       ]
     },
     "effect": [
-      { "math": [ "u_spell_level('teleport_area_attune')", "=", "-1" ] },
-      { "math": [ "u_spell_level('teleport_gateway_legacy')", "=", "u_spell_level('teleport_gateway')" ] },
+      { "math": [ "u_spell_level('teleport_area_attune') = -1" ] },
+      { "math": [ "u_spell_level('teleport_gateway_legacy') = u_spell_level('teleport_gateway')" ] },
       {
         "u_message": "Your Gateway power has been updated.  Your saved locations have not been updated--you can use the Gateway (Obsolete) power to return to them and add them to the new Gateway power.",
         "popup": true
       },
-      { "math": [ "u_teleportation_gateway_updated", "=", "1" ] }
+      { "math": [ "u_teleportation_gateway_updated = 1" ] }
     ]
   },
   {
@@ -200,5 +200,30 @@
     "base_casting_time": 200,
     "final_casting_time": 75,
     "casting_time_increment": -8
+  },
+  {
+    "id": "vita_super_heal_healing",
+    "type": "SPELL",
+    "name": "Anabolic Rejuvenation Heal",
+    "description": "The healing part of Anabolic Rejuvenation.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
+    "max_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "PSIONIC", "SILENT" ]
+  },
+  {
+    "id": "vita_super_heal_drain",
+    "type": "SPELL",
+    "name": "Anabolic Rejuvenation draining",
+    "description": "The draining part of Anabolic Rejuvenation.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "shape": "blast",
+    "flags": [ "PSIONIC", "SILENT" ]
   }
 ]

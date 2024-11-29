@@ -182,7 +182,6 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WISH: return "WISH";
         case debug_menu::debug_menu_index::SHORT_TELEPORT: return "SHORT_TELEPORT";
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
-        case debug_menu::debug_menu_index::REVEAL_MAP: return "REVEAL_MAP";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
         case debug_menu::debug_menu_index::SPAWN_NAMED_NPC: return "SPAWN_NAMED_NPC";
         case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
@@ -460,30 +459,33 @@ bool is_debug_character()
            debug_names.count( first_word( world_generator->active_world->world_name ) );
 }
 
-static void prompt_or_do_map_reveal( int reveal_level = 0 )
+void prompt_map_reveal( const std::optional<tripoint_abs_omt> &p )
 {
-    if( reveal_level == 0 ) {
-        uilist vis_sel;
-        vis_sel.text = _( "Reveal at which vision level?" );
-        for( int i = static_cast<int>( om_vision_level::unseen );
-             i < static_cast<int>( om_vision_level::last ); ++i ) {
-            vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
-        }
-        vis_sel.query();
-        reveal_level = vis_sel.ret;
-        if( reveal_level == UILIST_CANCEL ) {
-            return;
-        }
+    uilist vis_sel;
+    vis_sel.text = _( "Reveal at which vision level?" );
+    for( int i = static_cast<int>( om_vision_level::full );
+         i >= static_cast<int>( om_vision_level::unseen ); --i ) {
+        vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
     }
-    overmap &cur_om = g->get_cur_om();
+    vis_sel.query();
+    if( vis_sel.ret == UILIST_CANCEL ) {
+        return;
+    }
+    map_reveal( vis_sel.ret, p );
+}
+
+void map_reveal( int reveal_level_int, const std::optional<tripoint_abs_omt> &p )
+{
+    const om_vision_level reveal_level = static_cast<om_vision_level>( reveal_level_int );
+    overmap &om = !p ? g->get_cur_om() : overmap_buffer.get( project_to<coords::om>( *p ).xy() );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( reveal_level ), true );
+                om.set_seen( { i, j, k }, reveal_level, true );
             }
         }
     }
-    add_msg( m_good, _( "Current overmap revealed." ) );
+    add_msg( m_good, !p ? _( "Current overmap revealed." ) : _( "Overmap revealed." ) );
 }
 
 static int player_uilist()
@@ -543,6 +545,7 @@ static void monster_ammo_edit( monster &mon )
     char hotkey = 'a';
     const auto &ammo_map = mon.type->starting_ammo;
     std::vector<itype_id> ammos;
+    ammos.reserve( ammo_map.size() );
     for( const std::pair<const itype_id, int> &pair : ammo_map ) {
         ammos.emplace_back( pair.first );
         const itype *display_type = item::find_type( pair.first );
@@ -567,6 +570,96 @@ static void monster_ammo_edit( monster &mon )
             }
             mon.ammo[new_ammo] = value;
         }
+    }
+}
+
+static std::string query_npctalkvar_new_value()
+{
+    std::string value;
+    string_input_popup popup_val;
+    popup_val
+    .title( _( "Value" ) )
+    .width( 85 )
+    .edit( value );
+    return value;
+}
+
+static void edit_global_npctalk_vars()
+{
+    uilist global_var_list;
+    global_var_list.desc_enabled = true;
+    global_var_list.title = _( "Edit npctalkvar variables (global)" );
+    global_variables &globvars = get_globals();
+    // some ordering shennanigans so that i == 0 is the option to add a new var
+    int i = 1;
+    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (global)" )};
+    global_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
+    for( std::pair<const std::string, std::string> &some_global : globvars.get_global_values() ) {
+        keymap_index.emplace_back( some_global.first );
+        std::string description = string_format( _( "raw var value: %s" ), some_global.second );
+        if( std::optional<double> globvar_as_dbl = svtod( some_global.second ); globvar_as_dbl ) {
+            description += "\n";
+            description += string_format( _( "as time_duration: %s" ),
+                                          to_string( time_duration::from_turns( *globvar_as_dbl ) ) );
+            description += "\n";
+            description += string_format( _( "as time_point: %s" ),
+                                          to_string( calendar::turn_zero + time_duration::from_turns( *globvar_as_dbl ) ) );
+        }
+        global_var_list.addentry_desc( i, true, input_event(), some_global.first, description );
+        i++;
+    }
+    global_var_list.query();
+    int selected_globvar = global_var_list.ret;
+    if( selected_globvar == 0 ) {
+        std::string key;
+        string_input_popup popup_key;
+        popup_key
+        .title( _( "Key\n" ) )
+        .width( 85 )
+        .edit( key );
+        globvars.set_global_value( key, query_npctalkvar_new_value() );
+    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
+        globvars.set_global_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
+    }
+}
+
+static void edit_character_npctalk_vars( Character &you )
+{
+
+    uilist char_var_list;
+    char_var_list.desc_enabled = true;
+    char_var_list.title = string_format( _( "Edit npctalkvar variables (%s)" ), you.disp_name() );
+    std::unordered_map<std::string, std::string> &char_vars = you.get_values();
+    // some ordering shennanigans so that i == 0 is the option to add a new var
+    int i = 1;
+    std::vector<std::string> keymap_index = {_( "Add new npctalkvar (local)" )};
+    char_var_list.addentry_desc( 0, true, input_event(), keymap_index[0], "" );
+    for( std::pair<const std::string, std::string> &some_local : char_vars ) {
+        keymap_index.emplace_back( some_local.first );
+        std::string description = string_format( _( "raw var value: %s" ), some_local.second );
+        if( std::optional<double> localvar_as_dbl = svtod( some_local.second ); localvar_as_dbl ) {
+            description += "\n";
+            description += string_format( _( "as time_duration: %s" ),
+                                          to_string( time_duration::from_turns( *localvar_as_dbl ) ) );
+            description += "\n";
+            description += string_format( _( "as time_point: %s" ),
+                                          to_string( calendar::turn_zero + time_duration::from_turns( *localvar_as_dbl ) ) );
+        }
+        char_var_list.addentry_desc( i, true, input_event(), some_local.first, description );
+        i++;
+    }
+    char_var_list.query();
+    int selected_globvar = char_var_list.ret;
+    if( selected_globvar == 0 ) {
+        std::string key;
+        string_input_popup popup_key;
+        popup_key
+        .title( _( "Key\n" ) )
+        .width( 85 )
+        .edit( key );
+        you.set_value( key, query_npctalkvar_new_value() );
+    } else if( selected_globvar > 0 && selected_globvar <= static_cast<int>( keymap_index.size() ) ) {
+        you.set_value( keymap_index[selected_globvar], query_npctalkvar_new_value() );
     }
 }
 
@@ -878,7 +971,6 @@ static int spawning_uilist()
 static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
@@ -975,7 +1067,6 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
         // sense and can be auto–sized.
         uilist debug = uilist();
         debug.text = msg;
-        debug.desired_bounds = { -1.0, -1.0, 0.5, 0.5 };
         debug.entries = menu;
         debug.query();
         const int group = debug.ret;
@@ -1312,7 +1403,7 @@ static void change_spells( Character &character )
     struct win_info w_name;
     w_name.border = &borders.add_border();
     w_name.width = spname_len + 1;
-    w_name.start = point_zero;
+    w_name.start = point::zero;
 
     struct win_info w_level;
     w_level.border = &borders.add_border();
@@ -1346,7 +1437,7 @@ static void change_spells( Character &character )
         w_descborder.border->set( w_descborder.start, { w_descborder.width, TERMY } );
 
         scrllbr.viewport_size( TERMY - 2 );
-        ui.position( point_zero, { TERMX, TERMY } );
+        ui.position( point::zero, { TERMX, TERMY } );
     } );
     spellsui.mark_resize();
 
@@ -1425,7 +1516,7 @@ static void change_spells( Character &character )
         }
 
         nc_color gray = c_light_gray;
-        print_colored_text( w_desc.window, point_zero, gray, gray,
+        print_colored_text( w_desc.window, point::zero, gray, gray,
                             std::get<2>( *spells_relative[spell_selected] ) );
 
         wnoutrefresh( w_name.window );
@@ -1660,8 +1751,9 @@ static void teleport_short()
 
 static void teleport_long()
 {
-    const tripoint_abs_omt where( ui::omap::choose_point( true ) );
-    if( where == overmap::invalid_tripoint ) {
+    const tripoint_abs_omt where( ui::omap::choose_point( _( "Choose a teleport destination." ),
+                                  true ) );
+    if( where.is_invalid() ) {
         return;
     }
     g->place_player_overmap( where );
@@ -2599,19 +2691,7 @@ static void character_edit_menu()
             break;
         }
         case D_EDIT_VARS: {
-            std::string key;
-            std::string value;
-            string_input_popup popup_key;
-            string_input_popup popup_val;
-            popup_key
-            .title( _( "Key" ) )
-            .width( 85 )
-            .edit( key );
-            popup_val
-            .title( _( "Value" ) )
-            .width( 85 )
-            .edit( value );
-            you.set_value( "npctalk_var_" + key, value );
+            edit_character_npctalk_vars( you );
             break;
         }
         case D_FACTION: {
@@ -3140,8 +3220,7 @@ static void debug_menu_force_temperature()
         auto ask = [&pop]( const std::string & unit, std::optional<float> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
-                      .text( current ? std::to_string( *current ) : "" )
-                      .only_digits( true )
+                      .text( current ? std::to_string( static_cast<int>( std::round( *current ) ) ) : "" )
                       .query_int();
 
             return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
@@ -3311,24 +3390,6 @@ static void damage_self()
     }
 }
 
-static void edit_global_vars()
-{
-    std::string key;
-    std::string value;
-    string_input_popup popup_key;
-    string_input_popup popup_val;
-    popup_key
-    .title( _( "Key" ) )
-    .width( 85 )
-    .edit( key );
-    popup_val
-    .title( _( "Value" ) )
-    .width( 85 )
-    .edit( value );
-    global_variables &globvars = get_globals();
-    globvars.set_global_value( "npctalk_var_" + key, value );
-}
-
 static void game_report()
 {
     // generate a game report, useful for bug reporting.
@@ -3464,8 +3525,9 @@ static void map_extra()
     mx_menu.query();
     int mx_choice = mx_menu.ret;
     if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-        const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
-        if( where_omt != overmap::invalid_tripoint ) {
+        const tripoint_abs_omt where_omt( ui::omap::choose_point(
+                                              _( "Select location to spawn map extra." ), true ) );
+        if( !where_omt.is_invalid() ) {
             smallmap mx_map;
             mx_map.load( where_omt, false );
             MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
@@ -3507,12 +3569,16 @@ static void show_sound()
         const point offset {
             player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
         };
+        wattron( g->w_terrain, c_yellow );
         for( const tripoint &sound : sounds_to_draw.first ) {
-            mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
+            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
         }
+        wattroff( g->w_terrain, c_yellow );
+        wattron( g->w_terrain, c_red );
         for( const tripoint &sound : sounds_to_draw.second ) {
-            mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
+            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
         }
+        wattroff( g->w_terrain, c_red );
     } );
     g->add_draw_callback( sound_cb );
 
@@ -3759,7 +3825,7 @@ void do_debug_quick_setup()
     for( const std::pair<const skill_id, SkillLevel> &pair : u.get_all_skills() ) {
         u.set_skill_level( pair.first, 10 );
     }
-    prompt_or_do_map_reveal( static_cast<int>( om_vision_level::full ) );
+    map_reveal( static_cast<int>( om_vision_level::full ) );
 }
 
 void debug()
@@ -3817,11 +3883,6 @@ void debug()
         case debug_menu_index::LONG_TELEPORT:
             debug_menu::teleport_long();
             break;
-
-        case debug_menu_index::REVEAL_MAP: {
-            prompt_or_do_map_reveal();
-        }
-        break;
 
         case debug_menu_index::SPAWN_NPC:
             spawn_npc();
@@ -4163,7 +4224,7 @@ void debug()
         }
         break;
         case debug_menu_index::EDIT_GLOBAL_VARS:
-            edit_global_vars();
+            edit_global_npctalk_vars();
             break;
 
         case debug_menu_index::SAVE_SCREENSHOT:

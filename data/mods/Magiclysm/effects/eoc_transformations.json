@@ -18,11 +18,11 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_BEAR_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -51,7 +51,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a bear.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -71,7 +71,7 @@
                       },
                       { "u_lose_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
                       { "u_lose_trait": "DRUID_SHIFTER_MANA_REDUCER" },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -102,7 +102,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a bear if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -130,11 +130,11 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_COUGAR_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -155,7 +155,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a cougar.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -179,7 +179,7 @@
                         "if": { "not": { "u_has_trait": "THRESH_FELINE" } },
                         "then": { "u_lose_trait": "FELINE_LEAP" }
                       },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -201,7 +201,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a cougar if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -229,11 +229,11 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_DEER_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -262,7 +262,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a deer.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -282,7 +282,7 @@
                       },
                       { "u_lose_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
                       { "u_lose_trait": "DRUID_SHIFTER_MANA_REDUCER" },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -313,7 +313,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a deer if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_DEER_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -341,12 +341,12 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_RAVEN_FORM_activated_3",
-                    "condition": { "math": [ "u_val('mana')", ">=", "50" ] },
+                    "condition": { "math": [ "u_val('mana') >= 50" ] },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       { "math": [ "u_val('mana')", "-=", "50" ] },
-                      { "math": [ "u_transformed_mana", "=", "u_val('mana') - 50" ] },
-                      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+                      { "math": [ "u_transformed_mana = u_val('mana') - 50" ] },
+                      { "math": [ "u_preshift_size = u_val('size')" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -378,7 +378,7 @@
                     ],
                     "false_effect": [
                       { "u_message": "You don't have enough mana to transform into a raven.", "type": "bad" },
-                      { "queue_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
+                      { "run_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
                     ]
                   }
                 ]
@@ -398,8 +398,8 @@
                       },
                       { "u_lose_trait": "DRUID_SHIFTER_RAVEN_FORM_TRAITS" },
                       { "u_lose_trait": "DRUID_SHIFTER_MANA_REDUCER" },
-                      { "math": [ "u_spell_level('druid_raven_form_fly_upward')", "=", "-1" ] },
-                      { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
+                      { "math": [ "u_spell_level('druid_raven_form_fly_upward') = -1" ] },
+                      { "math": [ "u_val('mana') = u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
                         "cases": [
@@ -433,7 +433,7 @@
     ],
     "false_effect": [
       { "u_message": "You cannot transform into a raven if you are already in an animal form.", "type": "mixed" },
-      { "queue_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivate_future", "time_in_future": 0 }
     ]
   },
   {

@@ -193,7 +193,7 @@
       {
         "text": "[Social 1] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
-        "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
+        "condition": { "math": [ "u_skill('speech') >= 1" ] },
         "effect": { "npc_add_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
@@ -240,6 +240,12 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited",
     "type": "talk_topic",
     "dynamic_line": "I appreciate it a lot, getting them somewhere safe.  I hope that's what you did, anyway.  In any case, having the lobby clear is a big help.  Even with the uh, cardboard guy still around, he's a lot easier to handle alone.",
+    "speaker_effect": {
+      "effect": [
+        { "mapgen_update": "shopkeep_lobby_cleanup1", "om_terrain": "evac_center_13" },
+        { "mapgen_update": "shopkeep_lobby_cleanup2", "om_terrain": "evac_center_18" }
+      ]
+    },
     "responses": [
       { "text": "I do believe we discussed a reward?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward" },
       { "text": "Just glad to help.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
@@ -369,9 +375,21 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shopkeep_lobby_cleanup1",
+    "method": "json",
+    "object": { "set": [ { "square": "item_remove", "x": 5, "y": 22, "x2": 18, "y2": 23 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "shopkeep_lobby_cleanup2",
+    "method": "json",
+    "object": { "set": [ { "square": "item_remove", "x": 5, "y": 0, "x2": 18, "y2": 2 } ] }
   }
 ]

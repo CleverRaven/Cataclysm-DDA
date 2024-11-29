@@ -5,7 +5,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_profession": "shifter_druid" },
-    "effect": [ { "queue_eocs": "EOC_DRUID_SHIFTER_GIVE_FORM_2", "time_in_future": 0 } ]
+    "effect": [ { "run_eocs": "EOC_DRUID_SHIFTER_GIVE_FORM_2", "time_in_future": 0 } ]
   },
   {
     "type": "effect_on_condition",

@@ -15,7 +15,7 @@
     "id": "EOC_AFS_FIND_PORT_AUGUSTMOON",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "condition": { "math": [ "searched_port_augustmoon", "!=", "1" ] },
+    "condition": { "math": [ "searched_port_augustmoon != 1" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "Port_augustmoon" },
@@ -37,7 +37,7 @@
         "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
         "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true, "search_range": 380 }
       },
-      { "math": [ "searched_port_augustmoon", "=", "1" ] }
+      { "math": [ "searched_port_augustmoon = 1" ] }
     ]
   },
   {
@@ -45,7 +45,7 @@
     "id": "EOC_AFS_FIND_LANDING_PAD",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "condition": { "math": [ "searched_landing_pad", "!=", "1" ] },
+    "condition": { "math": [ "searched_landing_pad != 1" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "landing_pad" },
@@ -59,18 +59,18 @@
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
-      { "math": [ "searched_landing_pad", "=", "1" ] }
+      { "math": [ "searched_landing_pad = 1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_CALL_AUGUSTMOON_SHUTTLE",
-    "condition": { "math": [ "augustmoon_shuttle_inprogress", "!=", "1" ] },
+    "condition": { "math": [ "augustmoon_shuttle_inprogress != 1" ] },
     "effect": [
       { "u_consume_item": "afs_shuttle_radiobeacon", "count": 1 },
       { "u_message": "Order Received: Shuttle inbound to your location.", "popup": true },
-      { "queue_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "30 minutes" },
-      { "math": [ "augustmoon_shuttle_inprogress", "=", "1" ] }
+      { "run_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "30 minutes" },
+      { "math": [ "augustmoon_shuttle_inprogress = 1" ] }
     ],
     "false_effect": [ { "u_message": "WARNING: Cannot schedule landing, shuttle already inbound.", "popup": true } ]
   },
@@ -96,29 +96,29 @@
       },
       { "assign_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
       { "mapgen_update": "augustmoon_shuttle_ground", "target_var": { "global_val": "landing_site" } },
-      { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "4 hours" }
+      { "run_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "4 hours" }
     ],
-    "false_effect": [ { "queue_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "10 seconds" } ]
+    "false_effect": [ { "run_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "10 seconds" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL",
     "condition": { "not": { "u_near_om_location": "afs_landed_shuttle", "range": 4 } },
     "effect": [
-      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "math": [ "augustmoon_shuttle_inprogress = 0" ] },
       { "remove_active_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
       { "mapgen_update": "augustmoon_shuttle_ground_left", "target_var": { "global_val": "landing_site" } }
     ],
-    "false_effect": [ { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "10 seconds" } ]
+    "false_effect": [ { "run_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "10 seconds" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP",
     "effect": [
-      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "math": [ "augustmoon_shuttle_inprogress = 0" ] },
       { "run_eocs": "EOC_VALIDATE_PORT_AUGUSTMOON" },
-      { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "1 seconds" },
-      { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
       {
         "u_location_variable": { "context_val": "crate_loc" },
         "terrain": "t_intermodal_crate_scripted_source",
@@ -143,9 +143,9 @@
     "type": "effect_on_condition",
     "id": "EOC_AFS_AUGUSTMOON_SPACEPORT_TP",
     "effect": [
-      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "math": [ "augustmoon_shuttle_inprogress = 0" ] },
       { "run_eocs": "EOC_VALIDATE_PORT_AUGUSTMOON" },
-      { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
       {
         "u_location_variable": { "context_val": "crate_loc" },
         "terrain": "t_intermodal_crate_scripted_source",

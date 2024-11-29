@@ -304,7 +304,7 @@
     "description": "You've gotten pretty good at sneaking up on people.  When you have no allies within 20 squares, enemies' vision detection range is reduced by 15%.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies')", "==", "0" ] },
+        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies') == 0" ] },
         "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
       }
     ]
@@ -413,7 +413,26 @@
     "purifiable": false,
     "valid": false,
     "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": 4,
+            "precise": true,
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -437,7 +456,8 @@
             }
           ]
         },
-        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 } ],
+        "melee_damage_bonus": [ { "type": "electric", "add": 3 } ]
       }
     ]
   },
@@ -810,7 +830,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
       }
     ]
   },

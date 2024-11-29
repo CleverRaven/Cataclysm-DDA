@@ -370,6 +370,29 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     return true;
 }
 
+bool trapfunc::eocs( const tripoint &p, Creature *critter, item * )
+{
+    if( !critter ) {
+        //TODO: Pass the item as a talker somehow taking into account we don't have the item's tripoint in the case of ranged traps so something like get_talker_for( item_location( map_cursor( tripoint_bub_ms( p ) ), it ) ) isn't enough (and didn't work for non ranged traps on testing anyway)
+        return false;
+    }
+    map &here = get_map();
+    trap tr = here.tr_at( p );
+    const tripoint_abs_ms trap_location = get_map().getglobal( p );
+    for( const effect_on_condition_id &eoc : tr.eocs ) {
+        dialogue d( get_talker_for( critter ), nullptr );
+        write_var_value( var_type::context, "trap_location", &d, trap_location.to_string() );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+    here.remove_trap( p );
+    return true;
+}
+
+
 bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
 {
     if( c == nullptr ) {
@@ -812,22 +835,6 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
-{
-    //~ the sound of a telepad functioning
-    sounds::sound( p, 6, sounds::sound_t::movement, _( "vvrrrRRMM*POP!*" ), false, "trap", "teleport" );
-    if( c == nullptr ) {
-        return false;
-    }
-    if( c->is_avatar() ) {
-        c->add_msg_if_player( m_warning, _( "The air shimmers around you…" ) );
-    } else {
-        add_msg_if_player_sees( p, _( "The air shimmers around %s…" ), c->disp_name() );
-    }
-    teleport::teleport( *c );
-    return false;
-}
-
 bool trapfunc::goo( const tripoint &p, Creature *c, item * )
 {
     get_map().remove_trap( p );
@@ -1201,13 +1208,6 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
     return true;
 }
 
-// STUB
-bool trapfunc::portal( const tripoint &p, Creature *c, item *i )
-{
-    // TODO: make this do something unique and interesting
-    return telepad( p, c, i );
-}
-
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
 static bool query_for_item( const Character *pl, const itype_id &itemname, const char *que )
 {
@@ -1325,7 +1325,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
 
     int height = 0;
     tripoint_bub_ms where( p );
-    tripoint_bub_ms below( where + tripoint_below );
+    tripoint_bub_ms below( where + tripoint::below );
     creature_tracker &creatures = get_creature_tracker();
     while( here.valid_move( where, below, false, true ) ) {
         where.z()--;
@@ -1472,28 +1472,29 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
     if( c->is_avatar() ) {
         add_msg( _( "You hear the grinding of shifting rock." ) );
         map &here = get_map();
-        const ter_id type = here.ter( p );
+        const ter_id &type = here.ter( p );
         tripoint tmp = p;
         int &i = tmp.x;
         int &j = tmp.y;
         for( i = 0; i < MAPSIZE_X; i++ ) {
             for( j = 0; j < MAPSIZE_Y; j++ ) {
+                const ter_id &t = here.ter( tmp );
                 if( type == ter_t_floor_red ) {
-                    if( here.ter( tmp ) == ter_t_rock_green ) {
+                    if( t == ter_t_rock_green ) {
                         here.ter_set( tmp, ter_t_floor_green );
-                    } else if( here.ter( tmp ) == ter_t_floor_green ) {
+                    } else if( t == ter_t_floor_green ) {
                         here.ter_set( tmp, ter_t_rock_green );
                     }
                 } else if( type == ter_t_floor_green ) {
-                    if( here.ter( tmp ) == ter_t_rock_blue ) {
+                    if( t == ter_t_rock_blue ) {
                         here.ter_set( tmp, ter_t_floor_blue );
-                    } else if( here.ter( tmp ) == ter_t_floor_blue ) {
+                    } else if( t == ter_t_floor_blue ) {
                         here.ter_set( tmp, ter_t_rock_blue );
                     }
                 } else if( type == ter_t_floor_blue ) {
-                    if( here.ter( tmp ) == ter_t_rock_red ) {
+                    if( t == ter_t_rock_red ) {
                         here.ter_set( tmp, ter_t_floor_red );
-                    } else if( here.ter( tmp ) == ter_t_floor_red ) {
+                    } else if( t == ter_t_floor_red ) {
                         here.ter_set( tmp, ter_t_rock_red );
                     }
                 }
@@ -1510,18 +1511,20 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
 
         if( blocked_tiles.size() == 8 ) {
             for( int i = 7; i >= 0 ; --i ) {
-                if( here.ter( blocked_tiles.at( i ) ) != ter_t_rock_red &&
-                    here.ter( blocked_tiles.at( i ) ) != ter_t_rock_green &&
-                    here.ter( blocked_tiles.at( i ) ) != ter_t_rock_blue ) {
+                const ter_id &t = here.ter( blocked_tiles.at( i ) );
+                if( t != ter_t_rock_red &&
+                    t != ter_t_rock_green &&
+                    t != ter_t_rock_blue ) {
                     blocked_tiles.erase( blocked_tiles.begin() + i );
                 }
             }
             const tripoint &pnt = random_entry( blocked_tiles );
-            if( here.ter( pnt ) == ter_t_rock_red ) {
+            const ter_id &t = here.ter( pnt );
+            if( t == ter_t_rock_red ) {
                 here.ter_set( pnt, ter_t_floor_red );
-            } else if( here.ter( pnt ) == ter_t_rock_green ) {
+            } else if( t == ter_t_rock_green ) {
                 here.ter_set( pnt, ter_t_floor_green );
-            } else if( here.ter( pnt ) == ter_t_rock_blue ) {
+            } else if( t == ter_t_rock_blue ) {
                 here.ter_set( pnt, ter_t_floor_blue );
             }
         }
@@ -1770,6 +1773,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "board", trapfunc::board },
             { "caltrops", trapfunc::caltrops },
             { "caltrops_glass", trapfunc::caltrops_glass },
+            { "eocs", trapfunc::eocs },
             { "tripwire", trapfunc::tripwire },
             { "crossbow", trapfunc::crossbow },
             { "shotgun", trapfunc::shotgun },
@@ -1778,7 +1782,6 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "snare_heavy", trapfunc::snare_heavy },
             { "snare_species", trapfunc::snare_species },
             { "landmine", trapfunc::landmine },
-            { "telepad", trapfunc::telepad },
             { "goo", trapfunc::goo },
             { "dissector", trapfunc::dissector },
             { "sinkhole", trapfunc::sinkhole },
@@ -1786,7 +1789,6 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "pit_spikes", trapfunc::pit_spikes },
             { "pit_glass", trapfunc::pit_glass },
             { "lava", trapfunc::lava },
-            { "portal", trapfunc::portal },
             { "ledge", trapfunc::ledge },
             { "boobytrap", trapfunc::boobytrap },
             { "temple_flood", trapfunc::temple_flood },

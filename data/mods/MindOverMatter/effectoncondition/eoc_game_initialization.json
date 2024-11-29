@@ -3,8 +3,8 @@
     "type": "effect_on_condition",
     "id": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS",
     "recurrence": [ "1 minutes", "1 minutes" ],
-    "condition": { "math": [ "u_has_initial_awakening_countup_set", "!=", "1" ] },
-    "deactivate_condition": { "math": [ "u_has_initial_awakening_countup_set", "==", "1" ] },
+    "condition": { "math": [ "u_has_initial_awakening_countup_set != 1" ] },
+    "deactivate_condition": { "math": [ "u_has_initial_awakening_countup_set == 1" ] },
     "effect": [ { "run_eocs": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS_2" } ]
   },
   {
@@ -54,9 +54,9 @@
     },
     "effect": [
       { "math": [ "u_awakening_countup", "+=", "rand(8) + 1" ] },
-      { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] }
+      { "math": [ "u_has_initial_awakening_countup_set = 1" ] }
     ],
-    "false_effect": [ { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] } ]
+    "false_effect": [ { "math": [ "u_has_initial_awakening_countup_set = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -136,14 +136,14 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "effect": [
-      { "math": [ "global_insight_power_learning_time_low", "=", "43200" ] },
-      { "math": [ "global_insight_power_learning_time_high", "=", "604800" ] },
-      { "math": [ "global_tier_one_power_learning_time_low", "=", "43200" ] },
-      { "math": [ "global_tier_one_power_learning_time_high", "=", "86400" ] },
-      { "math": [ "global_tier_two_power_learning_time_low", "=", "129600" ] },
-      { "math": [ "global_tier_two_power_learning_time_high", "=", "259200" ] },
-      { "math": [ "global_tier_three_power_learning_time_low", "=", "345600" ] },
-      { "math": [ "global_tier_three_power_learning_time_high", "=", "604800" ] }
+      { "math": [ "global_insight_power_learning_time_low = 43200" ] },
+      { "math": [ "global_insight_power_learning_time_high = 604800" ] },
+      { "math": [ "global_tier_one_power_learning_time_low = 43200" ] },
+      { "math": [ "global_tier_one_power_learning_time_high = 86400" ] },
+      { "math": [ "global_tier_two_power_learning_time_low = 129600" ] },
+      { "math": [ "global_tier_two_power_learning_time_high = 259200" ] },
+      { "math": [ "global_tier_three_power_learning_time_low = 345600" ] },
+      { "math": [ "global_tier_three_power_learning_time_high = 604800" ] }
     ]
   }
 ]

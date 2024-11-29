@@ -87,7 +87,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     SECTION( "midnight with a new moon" ) {
         // yes, surprisingly, we need to test for this
         calendar::turn = calendar::turn_zero;
-        tripoint const z_shift = GENERATE( tripoint_above, tripoint_zero );
+        tripoint const z_shift = GENERATE( tripoint::above, tripoint::zero );
         dummy.setpos( dummy.pos() + z_shift ); // This implicitly rebuilds the light map.
         CAPTURE( z_shift );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
@@ -116,7 +116,7 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
 
     clear_avatar();
     clear_map();
-    tripoint const u_shift = GENERATE( tripoint_zero, tripoint_above );
+    tripoint const u_shift = GENERATE( tripoint::zero, tripoint::above );
     CAPTURE( u_shift );
     u.setpos( u.pos() + u_shift );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
@@ -136,11 +136,11 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     set_time( time_dst );
     REQUIRE( u.fine_detail_vision_mod() == expected_vision );
     SECTION( "NPC on same z-level" ) {
-        n.setpos( u.pos() + tripoint_east );
+        n.setpos( u.pos() + tripoint::east );
         CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
     }
     SECTION( "NPC on a different z-level" ) {
-        n.setpos( u.pos() + tripoint_above );
+        n.setpos( u.pos() + tripoint::above );
         // light map is not calculated outside the player character's z-level
         // even if fov_3d_z_range > 0, and building light map on multiple levels
         // could be expensive, so make NPCs able to see things in this case to

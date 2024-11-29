@@ -89,7 +89,7 @@
           "and": [
             { "u_has_faction_trust": 2 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
-            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            { "math": [ "isherwood_gear_status < 1" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },
@@ -131,11 +131,11 @@
       {
         "sentinel": "first_meeting_effects",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
-        "effect": [ { "math": [ "u_timer_first_meeting_u_met_Rubik", "=", "time('now')" ] } ]
+        "effect": [ { "math": [ "u_timer_first_meeting_u_met_Rubik = time('now')" ] } ]
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
-        "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
+        "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
         "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
@@ -186,7 +186,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", "<", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) < time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },
@@ -196,7 +196,7 @@
         "text": "How is my buddy doing?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },
@@ -248,11 +248,15 @@
       { "//~": "That was a good exchange", "str": "For a card an' a wink, eh?" }
     ],
     "speaker_effect": {
-      "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
+      "condition": { "and": [ { "math": [ "n_val('sold') >= 20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
       "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
-      { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
+      {
+        "text": "How come that dude is selling medieval gear in addition to all those guns?",
+        "topic": "TALK_EXODII_MERCHANT_Stock_Medieval",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_met_weaponmaster" } ] }
+      },
       {
         "text": "You seem to have a bunch of blueprints.  Can you tell me more about those?",
         "topic": "TALK_EXODII_MERCHANT_Stock_Nomad"
@@ -429,13 +433,13 @@
       {
         "text": "I paid a visit to the bunker.",
         "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } ] },
-        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
+        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01 = 1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {
         "text": "I found the warehouse.",
         "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } ] },
-        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
+        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found = 1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
       { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -574,7 +578,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 30000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           {
             "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
             "value": "yank_out_all_bionics_from_prototype"
@@ -589,7 +593,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 20000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -601,7 +605,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 9500 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           {
             "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
             "value": "reverse_cybernization_prototype"
@@ -633,7 +637,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 20000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -645,7 +649,7 @@
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 2500 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
-          { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
+          { "math": [ "u_timer_exodii_cybor_rescue_operating = time('now')" ] },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -1101,10 +1105,10 @@
           "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
           "no": [
             {
-              "math": [ "exodii_knows_hub01", "==", "1" ],
+              "math": [ "exodii_knows_hub01 == 1" ],
               "yes": [
                 {
-                  "math": [ "warehouse_was_found", "==", "1" ],
+                  "math": [ "warehouse_was_found == 1" ],
                   "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
                   "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
                 }
@@ -1122,7 +1126,7 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } },
-            { "math": [ "exodii_knows_hub01", "!=", "1" ] }
+            { "math": [ "exodii_knows_hub01 != 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
@@ -1133,8 +1137,8 @@
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
             { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } },
-            { "math": [ "warehouse_was_found", "!=", "1" ] },
-            { "math": [ "exodii_knows_hub01", "==", "1" ] }
+            { "math": [ "warehouse_was_found != 1" ] },
+            { "math": [ "exodii_knows_hub01 == 1" ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_mission_2_intro"
@@ -1599,7 +1603,7 @@
                 { "u_spawn_item": "helmet_riot", "count": 5 },
                 { "u_spawn_item": "armor_riot_arm", "count": 5 },
                 { "u_spawn_item": "armor_riot_leg", "count": 5 },
-                { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+                { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
               ]
             }
           }
@@ -1627,7 +1631,7 @@
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },
           { "assign_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
-          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+          { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },

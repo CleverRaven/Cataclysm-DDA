@@ -23,7 +23,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "in_progress", { "u_val": "dialogue_dave_u_cardboard_gift" } ] },
-            { "math": [ "time_since(u_timer_dave_creating_gift)", ">", "time('1 d')" ] }
+            { "math": [ "time_since(u_timer_dave_creating_gift) > time('1 d')" ] }
           ]
         }
       }
@@ -75,7 +75,7 @@
         "topic": "TALK_DINODAVE_Cardboard",
         "effect": [
           { "u_add_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" },
-          { "math": [ "u_timer_dave_creating_gift", "=", "time('now')" ] }
+          { "math": [ "u_timer_dave_creating_gift = time('now')" ] }
         ],
         "condition": {
           "and": [

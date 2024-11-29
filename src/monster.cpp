@@ -97,6 +97,7 @@ static const efftype_id effect_disarmed( "disarmed" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
+static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
@@ -306,6 +307,9 @@ monster::monster( const mtype_id &id ) : monster()
     faction = type->default_faction;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( mon_flag_NO_BREED );
+    if( reproduces && type->baby_timer ) {
+        baby_timer.emplace( calendar::turn + *type->baby_timer );
+    }
     biosignatures = type->biosignatures;
     if( monster::has_flag( mon_flag_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
@@ -315,7 +319,7 @@ monster::monster( const mtype_id &id ) : monster()
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, calendar::turn_zero );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint::zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
     if( monster::has_flag( mon_flag_PET_MOUNTABLE ) ) {
@@ -550,6 +554,11 @@ void monster::try_upgrade( bool pin_time )
     }
 }
 
+void monster::set_baby_timer( const time_point &time )
+{
+    baby_timer.emplace( time );
+}
+
 void monster::try_reproduce()
 {
     if( !reproduces ) {
@@ -558,12 +567,6 @@ void monster::try_reproduce()
     // This can happen if the monster type has changed (from reproducing to non-reproducing monster)
     if( !type->baby_timer ) {
         return;
-    }
-
-    if( !baby_timer && has_eaten_enough() ) {
-        // Assume this is a freshly spawned monster (because baby_timer is not set yet), set the point when it reproduce to somewhere in the future.
-        // Monsters need to have eaten eat to start their pregnancy timer, but that's all.
-        baby_timer.emplace( calendar::turn + *type->baby_timer );
     }
 
     bool season_spawn = false;
@@ -967,8 +970,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
+    wattron( w, c_light_gray );
     for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-        mvwprintz( w, point( column, vStart++ ), c_light_gray, lines[i] );
+        mvwprintw( w, point( column, vStart++ ), lines[i] );
     }
 
     if( !mission_fused.empty() ) {
@@ -978,9 +982,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         lines = foldstring( fused_desc, max_width );
         numlines = lines.size();
         for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-            mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+            mvwprintw( w, point( column, ++vStart ), lines[i] );
         }
     }
+    wattroff( w, c_light_gray );
 
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
@@ -1087,6 +1092,10 @@ void monster::print_info_imgui() const
 std::vector<std::string> monster::extended_description() const
 {
     std::vector<std::string> tmp;
+    // Reserve the number of elements we know we will need.
+    // Likely we will need more, but it's best to leave that to
+    // exponential growth.
+    tmp.reserve( 12 );
 
     tmp.emplace_back( get_origin( type->src ) );
     tmp.emplace_back( "--" );
@@ -2854,7 +2863,7 @@ void monster::process_turn()
                 if( zap != pos_bub() ) {
                     explosion_handler::emp_blast( zap.raw() ); // Fries electronics due to the intensity of the field
                 }
-                const ter_id t = here.ter( zap );
+                const ter_id &t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( this, pos(), 40, 0.8, true );
@@ -3562,11 +3571,13 @@ bool monster::is_nether() const
            in_species( species_nether_player_hate );
 }
 
-// The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no
+// The logic is If PSI_NULL, no -> If HAS_MIND, yes -> if ZOMBIE, no -> if HUMAN, yes -> else, no, and monsters temporarily immune to telepathy cannot be seen
 bool monster::has_mind() const
 {
-    return ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
-           ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) && has_flag( mon_flag_HUMAN ) );
+    return ( ( !in_species( species_PSI_NULL ) && has_flag( mon_flag_HAS_MIND ) ) ||
+             ( !in_species( species_PSI_NULL ) && !in_species( species_ZOMBIE ) &&
+               has_flag( mon_flag_HUMAN ) ) ) &&
+           !has_effect( effect_eff_monster_immune_to_telepathy );
 }
 
 field_type_id monster::bloodType() const

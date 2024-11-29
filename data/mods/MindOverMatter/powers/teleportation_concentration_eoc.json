@@ -8,7 +8,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_teleport_stride", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
+        "run_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -36,12 +36,12 @@
     "id": "EOC_TELEPORT_STRIDE_DRAIN",
     "condition": { "u_has_effect": "effect_teleport_stride" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('teleport_stride')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
+        "run_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -67,7 +67,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_teleport_ephemeral_walk", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
+        "run_eocs": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -95,12 +95,12 @@
     "id": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
     "condition": { "u_has_effect": "effect_teleport_ephemeral_walk" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('teleport_ephemeral_walk')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
+        "run_eocs": "EOC_TELEPORT_EPHEMERAL_WALK_DRAIN",
         "time_in_future": [
           {
             "math": [

@@ -396,7 +396,12 @@
     "magazine": 100,
     "ammo": 20,
     "entries": [
-      { "item": "feral_57", "prob": 100, "damage": [ 2, 4 ] },
+      {
+        "distribution": [
+          { "item": "fn57_sup", "prob": 100, "damage": [ 2, 4 ] },
+          { "item": "fn57", "variant": "fn57", "prob": 100, "damage": [ 2, 4 ] }
+        ]
+      },
       { "group": "security_armor", "prob": 30, "damage": [ 0, 2 ] },
       { "group": "security_gear", "prob": 50, "damage": [ 0, 2 ] },
       { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
@@ -407,8 +412,30 @@
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] },
-      { "item": "fn57mag", "prob": 50, "ammo-item": "57mm_ss", "charges": [ 0, 10 ] },
-      { "item": "fn57mag", "prob": 50, "ammo-item": "57mm_ss", "charges": [ 0, 15 ] }
+      { "item": "fn57mag", "prob": 50, "ammo-item": "57mm", "charges": [ 0, 10 ] },
+      { "item": "fn57mag", "prob": 50, "ammo-item": "57mm", "charges": [ 0, 15 ] }
+    ]
+  },
+  {
+    "id": "feral_agent_p90_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 20,
+    "entries": [
+      { "item": "fn_p90", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "security_armor", "prob": 30, "damage": [ 0, 2 ] },
+      { "group": "security_gear", "prob": 50, "damage": [ 0, 2 ] },
+      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
+      { "item": "pants", "damage": [ 1, 4 ] },
+      { "item": "dress_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "wallets", "damage": [ 1, 4 ] },
+      { "item": "fnp90mag", "prob": 50, "ammo-item": "57mm", "charges": [ 0, 50 ] },
+      { "item": "fnp90mag", "prob": 50, "ammo-item": "57mm", "charges": [ 0, 50 ] }
     ]
   },
   {
@@ -510,6 +537,22 @@
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
       { "drop": "triffid_heart_chunk", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.3 }
+    ]
+  },
+  {
+    "id": "sevenoclock_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hat_fur" },
+      { "item": "sevenoclock_coat" },
+      { "item": "swag_bag" },
+      { "item": "cane" },
+      { "item": "bone_human", "count": [ 3, 15 ] },
+      { "item": "human_meat_scrap", "count": [ 10, 40 ] },
+      { "item": "pants", "variant": "pants_black" },
+      { "item": "dress_shoes" },
+      { "item": "union_suit" }
     ]
   }
 ]

@@ -55,11 +55,11 @@
       "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius" ] }, { "test_eoc": "EOC_CONDITION_can_hack" } ]
     },
     "effect": [
-      { "math": [ "_t_delay", "=", "afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
+      { "math": [ "_t_delay = afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
       { "u_message": "You connect to the lock controller." },
       { "u_assign_activity": "ACT_afs_hack", "duration": { "context_val": "t_delay" } },
       {
-        "queue_eoc_with": "EOC_afs_hack_unlock",
+        "run_eocs": "EOC_afs_hack_unlock",
         "time_in_future": { "context_val": "t_delay" },
         "variables": {
           "furn_pos": { "context_val": "furn_pos" },

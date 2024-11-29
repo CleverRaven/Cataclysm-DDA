@@ -133,7 +133,7 @@
         { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
         { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
         {
-          "and": [ { "math": [ "u_val('pos_z')", "==", "6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
+          "and": [ { "math": [ "u_val('pos_z') == 6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
         }
       ]
     },
@@ -230,6 +230,31 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT",
     "condition": { "x_in_y_chance": { "x": 1, "y": 80 } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_HAS_MIND",
+    "//": "we will assume that all npcs have mind, but in case it won't hold for some npc, potential fix would be making it `and[ npc_is_npc, not:{npc_has_flag:foo} ]`",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "not": { "npc_has_species": "PSI_NULL" } }, { "npc_has_flag": "HAS_MIND" } ] },
+            {
+              "and": [
+                { "not": { "npc_has_species": "PSI_NULL" } },
+                { "not": { "npc_has_species": "ZOMBIE" } },
+                { "npc_has_flag": "HUMAN" }
+              ]
+            },
+            "npc_is_npc"
+          ]
+        },
+        { "not": { "npc_has_effect": "eff_monster_immune_to_telepathy" } },
+        { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+      ]
+    },
     "effect": [  ]
   }
 ]

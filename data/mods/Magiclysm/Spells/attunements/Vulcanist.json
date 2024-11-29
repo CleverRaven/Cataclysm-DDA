@@ -2,8 +2,8 @@
   {
     "id": "lava_bomb_shrapnel",
     "type": "SPELL",
-    "name": "Lava Bomb Shrapnel",
-    "description": "This is a sub spell for the Lava Bomb spell.",
+    "name": { "str": "Lava Bomb Shrapnel", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub spell for the Lava Bomb spell.", "//~": "NO_I18N" },
     "flags": [ "EVOCATION_SPELL" ],
     "effect": "attack",
     "shape": "blast",
@@ -21,8 +21,8 @@
   {
     "id": "lava_bomb_heat",
     "type": "SPELL",
-    "name": "Lava Bomb Heat",
-    "description": "This is a sub spell for the Lava Bomb spell.",
+    "name": { "str": "Lava Bomb Heat", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub spell for the Lava Bomb spell.", "//~": "NO_I18N" },
     "flags": [ "EVOCATION_SPELL", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
@@ -39,8 +39,8 @@
   {
     "id": "lava_bomb_ter",
     "type": "SPELL",
-    "name": "Lava Bomb Terrain",
-    "description": "This is a sub spell for the Lava Bomb spell.",
+    "name": { "str": "Lava Bomb Terrain", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub spell for the Lava Bomb spell.", "//~": "NO_I18N" },
     "effect": "ter_transform",
     "effect_str": "lava_bomb",
     "shape": "blast",
@@ -112,8 +112,8 @@
   {
     "type": "SPELL",
     "id": "vulcanist_pyroclastic_flow_smoke",
-    "name": "Pyroclastic Flow Smoke",
-    "description": "Creates smoke in the area.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Pyroclastic Flow Smoke", "//~": "NO_I18N" },
+    "description": { "str": "Creates smoke in the area.  Subspell; you aren't allowed to see it except in debug mode.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground", "ally" ],

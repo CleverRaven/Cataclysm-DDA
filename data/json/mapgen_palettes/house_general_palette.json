@@ -18,7 +18,7 @@
         }
       }
     },
-    "palettes": [ { "param": "variant_palette" } ]
+    "palettes": [ { "param": "variant_palette" }, "parametrized_walls_palette" ]
   },
   {
     "type": "palette",
@@ -40,9 +40,54 @@
         "default": {
           "distribution": [ [ "null_palette", 2 ], [ "standard_domestic_damage_palette", 3 ], [ "standard_domestic_damage_large_palette", 1 ] ]
         }
+      },
+      "alarm_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "//": "Determines if house has alarm",
+        "//2": "Couldn't find an exact value of houses with alarms so estimated 25%, change if you have any good source",
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 1 ] ] }
       }
     },
-    "palettes": [ "standard_domestic_palette", { "param": "damage_palette" }, { "param": "tidyness_palette" } ]
+    "palettes": [
+      "standard_domestic_palette",
+      { "param": "damage_palette" },
+      { "param": "alarm_palette" },
+      { "param": "tidyness_palette" }
+    ]
+  },
+  {
+    "type": "palette",
+    "id": "domestic_alarm_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Makes all doors & windows have alarms",
+    "terrain": {
+      "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
+      ":": "t_wall_glass_alarm",
+      "o": "t_window_alarm"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "domestic_locked_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Makes no doors & windows have alarms",
+    "terrain": {
+      "*": [
+        [ "t_door_locked", 4 ],
+        [ "t_door_elocked", 3 ],
+        [ "t_door_locked_peep", 3 ],
+        [ "t_door_elocked_peep", 2 ],
+        [ "t_door_c", 2 ],
+        [ "t_door_o", 1 ]
+      ],
+      ":": "t_wall_glass",
+      "o": [
+        [ "t_window_domestic", 10 ],
+        "t_window_no_curtains",
+        "t_window_open",
+        "t_window_no_curtains_open",
+        [ "t_curtains", 5 ]
+      ]
+    }
   },
   {
     "type": "palette",
@@ -50,37 +95,6 @@
     "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.",
     "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ],
-            [ "t_wall_gray", 1 ],
-            [ "t_wall_brown", 1 ],
-            [ "t_wall_cyan", 1 ],
-            [ "t_wall_black", 1 ],
-            [ "t_wall_orange", 1 ]
-          ]
-        }
-      },
-      "exterior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_concrete_wall", 4 ],
-            [ "t_adobe_brick_wall", 1 ]
-          ]
-        }
-      },
       "house_fence_type": {
         "type": "ter_str_id",
         "default": {
@@ -94,6 +108,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
@@ -195,8 +210,6 @@
         [ "t_door_o", 2 ]
       ],
       "^": "t_gutter_downspout",
-      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
       "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "-": "t_sidewalk",

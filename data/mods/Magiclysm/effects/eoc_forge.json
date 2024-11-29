@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FIND_FORGE_GATE",
-    "condition": { "math": [ "searched_forge", "!=", "1" ] },
+    "condition": { "math": [ "searched_forge != 1" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "loc_forge_of_wonders" },
@@ -10,7 +10,7 @@
         "furniture": "f_magiclysm_translocator_gate",
         "target_max_radius": 26
       },
-      { "math": [ "searched_forge", "=", "1" ] }
+      { "math": [ "searched_forge = 1" ] }
     ]
   },
   {

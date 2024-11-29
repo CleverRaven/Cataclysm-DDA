@@ -84,7 +84,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
     newwindow->draw = false;
     newwindow->BG = black;
     newwindow->FG = static_cast<base_color>( 8 );
-    newwindow->cursor = point_zero;
+    newwindow->cursor = point::zero;
     newwindow->line.resize( nlines );
 
     for( int j = 0; j < nlines; j++ ) {
@@ -126,8 +126,6 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
         // TODO: log this
         return;
     }
-    int i = 0;
-    int j = 0;
     point old = win->cursor; // methods below move the cursor, save the value!
 
     const chtype border_ls = ls ? ls : LINE_XOXO;
@@ -139,21 +137,16 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     const chtype border_bl = bl ? bl : LINE_XXOO;
     const chtype border_br = br ? br : LINE_XOOX;
 
-    for( j = 1; j < win->height - 1; j++ ) {
-        mvwaddch( win_, point( 0, j ), border_ls );
-    }
-    for( j = 1; j < win->height - 1; j++ ) {
-        mvwaddch( win_, point( win->width - 1, j ), border_rs );
-    }
-    for( i = 1; i < win->width - 1; i++ ) {
-        mvwaddch( win_, point( i, 0 ), border_ts );
-    }
-    for( i = 1; i < win->width - 1; i++ ) {
-        mvwaddch( win_, point( i, win->height - 1 ), border_bs );
-    }
-    mvwaddch( win_, point_zero, border_tl );
-    mvwaddch( win_, point( win->width - 1, 0 ), border_tr );
-    mvwaddch( win_, point( 0, win->height - 1 ), border_bl );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwvline( win_, point( 0,               1 ), border_ls, win->height - 2 );
+    mvwvline( win_, point( win->width - 1,  1 ), border_rs, win->height - 2 );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( win_, point( 1,               0 ), border_ts, win->width - 2 );
+    mvwhline( win_, point( 1, win->height - 1 ), border_bs, win->width - 2 );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwaddch( win_, point( 0,                            0 ), border_tl );
+    mvwaddch( win_, point( win->width - 1,               0 ), border_tr );
+    mvwaddch( win_, point( 0,              win->height - 1 ), border_bl );
     mvwaddch( win_, point( win->width - 1, win->height - 1 ), border_br );
 
     // methods above move the cursor, put it back
@@ -163,22 +156,18 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 
 void catacurses::mvwhline( const window &win, const point &p, chtype ch, int n )
 {
-    wattron( win, BORDER_COLOR );
     const chtype hline_char = ch ? ch : LINE_OXOX;
     for( int i = 0; i < n; i++ ) {
         mvwaddch( win, p + point( i, 0 ), hline_char );
     }
-    wattroff( win, BORDER_COLOR );
 }
 
 void catacurses::mvwvline( const window &win, const point &p, chtype ch, int n )
 {
-    wattron( win, BORDER_COLOR );
     const chtype vline_char = ch ? ch : LINE_XOXO;
     for( int j = 0; j < n; j++ ) {
         mvwaddch( win, p + point( 0, j ), vline_char );
     }
-    wattroff( win, BORDER_COLOR );
 }
 
 void catacurses::wnoutrefresh( const window &win_ )
@@ -392,7 +381,7 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, point_zero );
+    wmove( win_, point::zero );
 }
 
 //erases the main window of all text and attributes

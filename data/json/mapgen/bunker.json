@@ -41,7 +41,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "----------------------- ",
+        "||||||||||||||||||||||| ",
         "|                     | ",
         "|        aaaa         | ",
         "|        aaaa         | ",
@@ -62,7 +62,7 @@
         "|                     | ",
         "|                     | ",
         "|                     | ",
-        "--------++++++--------- ",
+        "||||||||++++++||||||||| ",
         "                        ",
         "                        "
       ],
@@ -74,7 +74,6 @@
         "*": "t_door_c",
         "+": "t_chaingate_l",
         ",": "t_floor",
-        "-": "t_chainfence_h",
         "/": "t_concrete_wall",
         "0": "t_window",
         "6": "t_card_military",
@@ -82,7 +81,7 @@
         "D": "t_door_metal_locked",
         "I": "t_ballistic_glass",
         "M": "t_wall_metal",
-        "|": "t_chainfence_v",
+        "|": "t_chainfence",
         "a": "t_pit_corpsed"
       },
       "furniture": { "#": "f_table", "H": "f_sandbag_half", "t": "f_table", "f": "f_30gal_firebarrel" },
@@ -161,7 +160,7 @@
         "g": "f_glass_fridge",
         "{": "f_bookcase",
         "}": "f_pinball_machine",
-        "%": "f_floor_canvas",
+        "%": "f_punching_bag",
         "2": "f_air_conditioner",
         "3": "f_speaker_cabinet",
         "U": "f_utility_shelf"

@@ -651,8 +651,8 @@
   {
     "id": "kelvinist_extinguish_fire_emit_cold",
     "type": "SPELL",
-    "name": "Extinguish Cold Emit",
-    "description": "The cold emit from the Extinguish spell.  It's a bug if you have it directly.",
+    "name": { "str": "Extinguish Cold Emit", "//~": "NO_I18N" },
+    "description": { "str": "The cold emit from the Extinguish spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "flags": [ "ENERVATION_SPELL", "SILENT" ],
     "valid_targets": [ "ground" ],
     "max_level": 20,

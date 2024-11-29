@@ -55,12 +55,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_CHAIR_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "300" ] },
+        "condition": { "math": [ "u_val('mana') >= 300" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_CHAIR_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "3" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a wooden chair all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -82,7 +82,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -105,12 +105,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_WARDROBE_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "750" ] },
+        "condition": { "math": [ "u_val('mana') >= 750" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_WARDROBE_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "6" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a wardrobe all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -132,7 +132,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -155,12 +155,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_TABLE_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "400" ] },
+        "condition": { "math": [ "u_val('mana') >= 400" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_TABLE_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "4" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a table all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -182,7 +182,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -205,12 +205,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_BEDFRAME_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "200" ] },
+        "condition": { "math": [ "u_val('mana') >= 200" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_BEDFRAME_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "2" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a bed frame all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -232,7 +232,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -256,12 +256,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_HELM_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "500" ] },
+        "condition": { "math": [ "u_val('mana') >= 500" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_HELM_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "5" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a helmet all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -283,7 +283,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -307,12 +307,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_CUIRASS_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "950" ] },
+        "condition": { "math": [ "u_val('mana') >= 950" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_CUIRASS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "8" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 8" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a cuirass all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -334,7 +334,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -358,12 +358,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_GAUNTLETS_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "850" ] },
+        "condition": { "math": [ "u_val('mana') >= 850" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_GAUNTLETS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "7" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 7" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of gauntlets all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -385,7 +385,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -409,12 +409,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_BOOTS_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "750" ] },
+        "condition": { "math": [ "u_val('mana') >= 750" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_BOOTS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "6" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of boots all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -436,7 +436,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -460,12 +460,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_CLOAK_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "500" ] },
+        "condition": { "math": [ "u_val('mana') >= 500" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_CLOAK_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "5" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a cloak all made of a living leaves woven together with thin branches, as though it had grown that way in the depths of the forest.",
@@ -487,7 +487,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]

@@ -417,10 +417,22 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "distance": 30,
+              "descriptions": [
+                {
+                  "id": "moving_creature",
+                  "symbol": "?",
+                  "color": "c_white",
+                  "text": "Your halo register potential hazard from this direction."
+                }
+              ]
+            }
+          ],
           "values": [
             { "value": "BONUS_DODGE", "add": 1 },
             { "value": "PERCEPTION", "add": 2 },
-            { "value": "MOTION_VISION_RANGE", "add": 30 },
             { "value": "RANGED_DAMAGE", "multiply": 0.33 },
             { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
           ]
@@ -539,6 +551,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
+    "melee_damage": { "electric": 10 },
     "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
@@ -565,12 +578,7 @@
     ],
     "relic_data": {
       "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
-          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
-        }
+        { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
       ]
     },
     "material_thickness": 0.3,
@@ -638,7 +646,7 @@
     "id": "wolf_mask_act",
     "type": "TOOL_ARMOR",
     "copy-from": "wolf_mask",
-    "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
+    "name": { "str": "wolf's mask (on)", "str_pl": "wolf's masks (on)" },
     "power_draw": "5 W",
     "environmental_protection": 25,
     "revert_to": "wolf_mask",

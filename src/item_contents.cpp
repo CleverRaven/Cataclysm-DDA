@@ -1746,6 +1746,7 @@ content_newness item_contents::get_content_newness( const std::set<itype_id> &re
                     return content_newness::NEW;
                 case content_newness::MIGHT_BE_HIDDEN:
                     ret = content_newness::MIGHT_BE_HIDDEN;
+                    break;
                 case content_newness::SEEN:
                     break;
             }

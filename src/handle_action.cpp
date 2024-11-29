@@ -134,6 +134,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const flag_id json_flag_MOP( "MOP" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
+static const gun_mode_id gun_mode_BURST( "BURST" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
@@ -333,7 +334,7 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
-            if( g->uquit == QUIT_EXIT ) {
+            if( are_we_quitting() ) {
                 break;
             }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
@@ -566,7 +567,7 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    veh->pldrive( get_avatar(), p.xy(), p.z );
+    veh->pldrive( get_avatar(), p.x, p.y, p.z );
 }
 
 static void pldrive( point d )
@@ -722,8 +723,9 @@ static void grab()
         return;
     }
 
+    const optional_vpart_position &vp = here.veh_at( grabp );
     // Object might not be on the same z level if on a ramp.
-    if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
+    if( !( vp || here.has_furn( grabp ) ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
             here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos_bub() ) ) {
             grabp.z() += 1;
@@ -733,7 +735,7 @@ static void grab()
         }
     }
 
-    if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
+    if( vp ) {
         std::string veh_name = vp->vehicle().name;
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
@@ -750,8 +752,8 @@ static void grab()
                 return;
             }
             get_player_character().pause();
-            vp->vehicle().separate_from_grid( vp.value().mount() );
-            if( const optional_vpart_position split_vp = here.veh_at( grabp ) ) {
+            vp->vehicle().separate_from_grid( vp.value().mount_pos() );
+            if( const optional_vpart_position &split_vp = here.veh_at( grabp ) ) {
                 veh_name = split_vp->vehicle().name;
             } else {
                 debugmsg( "Lost the part to drag after splitting power grid!" );
@@ -761,7 +763,7 @@ static void grab()
         //solid vehicles can't be grabbed while boarded
         const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
         if( vp_boarded ) {
-            const std::set<tripoint> grabbed_veh_points = vp->vehicle().get_points();
+            const std::set<tripoint_bub_ms> grabbed_veh_points = vp->vehicle().get_points();
             if( &vp_boarded->vehicle() == &vp->vehicle() &&
                 !empty( vp->vehicle().get_avail_parts( VPFLAG_OBSTACLE ) ) ) {
                 add_msg( m_info, _( "You can't move the %s while you're boarding it." ), veh_name );
@@ -905,6 +907,12 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
+static bool is_smashable_corpse( const item &maybe_corpse )
+{
+    return maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
+           maybe_corpse.can_revive();
+}
+
 static void smash()
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -914,7 +922,17 @@ static void smash()
     }
     tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
 
-    if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+    // Little hack: If there's a smashable corpse, it'll always be bashed first. So don't bother warning about
+    // terrain smashing unless it's actually possible.
+    bool smashable_corpse_at_target = false;
+    for( const item &maybe_corpse : get_map().i_at( smashp ) ) {
+        if( is_smashable_corpse( maybe_corpse ) ) {
+            smashable_corpse_at_target = true;
+            break;
+        }
+    }
+
+    if( !smashable_corpse_at_target && !g->warn_player_maybe_anger_local_faction( true ) ) {
         return; // player declined to smash faction's stuff
     }
 
@@ -975,30 +993,31 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         }
     }
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
-        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
-        if( bash_info.str_min == -1 ) {
+        const std::optional<map_fd_bash_info> &bash_info = fd_to_smsh.first->bash_info;
+        if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
-        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
-            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
+        } else if( smashskill >= rng( bash_info->str_min, bash_info->str_max ) ) {
+            sounds::sound( smashp, bash_info->sound_vol, sounds::sound_t::combat, bash_info->sound, true,
+                           "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
-            here.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
-            mod_moves( - bash_info.fd_bash_move_cost );
-            add_msg( m_info, bash_info.field_bash_msg_success.translated() );
+            here.spawn_items( smashp, item_group::items_from( bash_info->drop_group, calendar::turn ) );
+            mod_moves( - bash_info->fd_bash_move_cost );
+            add_msg( m_info, bash_info->field_bash_msg_success.translated() );
             ret.did_smash = true;
             ret.success = true;
             return ret;
         } else {
-            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+            sounds::sound( smashp, bash_info->sound_fail_vol, sounds::sound_t::combat, bash_info->sound_fail,
                            true, "smash",
                            "field" );
 
-            ret.resistance = bash_info.str_min;
+            ret.resistance = bash_info->str_min;
             ret.did_smash = true;
             return ret;
         }
@@ -1006,8 +1025,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 
     bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
-        if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-            maybe_corpse.can_revive() ) {
+        if( is_smashable_corpse( maybe_corpse ) ) {
             if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
                 !is_immune_field( fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
@@ -1106,7 +1124,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
             // Bash not effective
             g->draw_async_anim( smashp, "bash_ineffective" );
             if( one_in( 10 ) ) {
-                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash ) {
                     // %s is the smashed furniture
                     add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
                 } else {
@@ -1751,7 +1769,7 @@ static void fire()
     }
     // try firing turrets
     if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
-        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
+        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos_bub() ) ) {
             if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
                 return;
             }
@@ -2118,14 +2136,14 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
         case ACTION_SHIFT_W:
         case ACTION_SHIFT_NW: {
             static const std::map<action_id, std::pair<point, point>> shift_delta = {
-                { ACTION_SHIFT_N, { point_north, point_north_east } },
-                { ACTION_SHIFT_NE, { point_north_east, point_east } },
-                { ACTION_SHIFT_E, { point_east, point_south_east } },
-                { ACTION_SHIFT_SE, { point_south_east, point_south } },
-                { ACTION_SHIFT_S, { point_south, point_south_west } },
-                { ACTION_SHIFT_SW, { point_south_west, point_west } },
-                { ACTION_SHIFT_W, { point_west, point_north_west } },
-                { ACTION_SHIFT_NW, { point_north_west, point_north } },
+                { ACTION_SHIFT_N, { point::north, point::north_east } },
+                { ACTION_SHIFT_NE, { point::north_east, point::east } },
+                { ACTION_SHIFT_E, { point::east, point::south_east } },
+                { ACTION_SHIFT_SE, { point::south_east, point::south } },
+                { ACTION_SHIFT_S, { point::south, point::south_west } },
+                { ACTION_SHIFT_SW, { point::south_west, point::west } },
+                { ACTION_SHIFT_W, { point::west, point::north_west } },
+                { ACTION_SHIFT_NW, { point::north_west, point::north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
             player_character.view_offset += g->is_tileset_isometric()
@@ -2299,7 +2317,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 // so no rotation needed
                 pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
             } else {
-                point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
+                point_rel_ms dest_delta = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
@@ -2316,13 +2334,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         }
                     }
                     act = player_character.get_next_auto_move_direction();
-                    const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
-                    if( dest_next == point_zero ) {
+                    const point_rel_ms dest_next = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
+                    if( dest_next == point_rel_ms::zero ) {
                         player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, dest_delta ) ) {
+                if( !avatar_action::move( player_character, m, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.abort_automove();
                 }
@@ -2363,7 +2381,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint_below );
+                    pldrive( tripoint::below );
                     break;
                 }
             }
@@ -2413,7 +2431,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint_above );
+                    pldrive( tripoint::above );
                 }
             }
             break;
@@ -2597,10 +2615,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_FIRE_BURST: {
             if( weapon ) {
-                gun_mode_id original_mode = weapon->gun_get_mode_id();
-                if( weapon->gun_set_mode( gun_mode_AUTO ) ) {
+                if( weapon->gun_set_mode( gun_mode_BURST ) || weapon->gun_set_mode( gun_mode_AUTO ) ) {
                     avatar_action::fire_wielded_weapon( player_character );
-                    weapon->gun_set_mode( original_mode );
                 }
             }
             break;
@@ -3102,7 +3118,7 @@ bool game::handle_action()
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
 
-    if( uquit == QUIT_EXIT ) {
+    if( are_we_quitting() ) {
         return false;
     }
 
