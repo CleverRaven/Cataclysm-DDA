@@ -42,7 +42,7 @@
     "id": "EOC_SLEEP_ADDICTION",
     "//": "Actual effects processed in player::can_sleep().  Here, only prolong this addiction longer than usual.",
     "condition": { "and": [ { "one_in_chance": 2 }, { "math": [ "u_addiction_turns('sleeping pill') < 0" ] } ] },
-    "effect": { "math": [ "u_addiction_turns('sleeping pill')", "++" ] }
+    "effect": { "math": [ "u_addiction_turns('sleeping pill')++" ] }
   },
   {
     "type": "effect_on_condition",

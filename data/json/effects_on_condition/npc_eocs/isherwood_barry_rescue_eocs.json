@@ -434,7 +434,7 @@
     "deactivate_condition": { "math": [ "isherwood_luke_truck_status > 1" ] },
     "effect": [
       { "mapgen_update": "LUKE_REMOVE_TRUCK", "om_terrain": "trailhead_shack_z0" },
-      { "math": [ "isherwood_luke_truck_status", "++" ] }
+      { "math": [ "isherwood_luke_truck_status++" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
   },

@@ -258,7 +258,7 @@
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
         "effect": [
           { "npc_add_var": "general_none_Alonso_accent", "value": "accepted" },
-          { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+          { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
         ]
       },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
