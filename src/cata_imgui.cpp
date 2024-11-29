@@ -3,6 +3,7 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+#include <imgui/imgui_stdlib.h>
 #undef IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui_freetype.h>
 
@@ -564,7 +565,7 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
@@ -816,7 +817,7 @@ class cataimgui::window_impl
 class cataimgui::filter_box_impl
 {
     public:
-        std::array<char, 255> text;
+        std::string text;
         ImGuiID id;
 };
 
@@ -985,7 +986,6 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
     if( !filter_impl ) {
         filter_impl = std::make_unique<cataimgui::filter_box_impl>();
         filter_impl->id = 0;
-        filter_impl->text[0] = '\0';
     }
 
     if( !filtering_active ) {
@@ -1000,8 +1000,7 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
         ImGui::SameLine();
     }
     ImGui::BeginDisabled( !filtering_active );
-    ImGui::InputText( "##FILTERBOX", filter_impl->text.data(),
-                      filter_impl->text.size() );
+    ImGui::InputText( "##FILTERBOX", &filter_impl->text );
     ImGui::EndDisabled();
     if( !filter_impl->id ) {
         filter_impl->id = GImGui->LastItemData.ID;
@@ -1011,7 +1010,7 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
 std::string cataimgui::window::get_filter()
 {
     if( filter_impl ) {
-        return std::string( filter_impl->text.data() );
+        return filter_impl->text;
     } else {
         return std::string();
     }
@@ -1023,7 +1022,7 @@ void cataimgui::window::clear_filter()
         ImGuiInputTextState *input_state = ImGui::GetInputTextState( filter_impl->id );
         if( input_state ) {
             input_state->ClearText();
-            filter_impl->text[0] = '\0';
+            filter_impl->text.clear();
         }
     }
 }

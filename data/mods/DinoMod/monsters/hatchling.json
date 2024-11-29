@@ -171,7 +171,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",
@@ -196,7 +195,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",
@@ -232,7 +230,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",
@@ -747,7 +744,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",

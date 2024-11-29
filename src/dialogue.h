@@ -280,7 +280,6 @@ struct dialogue: public const_dialogue {
         dialogue() = default;
         ~dialogue() = default;
         dialogue( const dialogue &d );
-        explicit dialogue( const_dialogue const &d );
         dialogue( dialogue && ) = default;
         dialogue &operator=( const dialogue & );
         dialogue &operator=( dialogue && ) = default;

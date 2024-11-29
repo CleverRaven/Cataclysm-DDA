@@ -234,12 +234,12 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         }
     }
     REQUIRE( faucet.has_value() );
-    get_map().board_vehicle( faucet->pos_bub() + tripoint_east, &character );
+    get_map().board_vehicle( faucet->pos_bub() + tripoint::east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( itype_water_clean ) );
         menu.reset();
-        veh.build_interact_menu( menu, faucet->pos(), false );
+        veh.build_interact_menu( menu, faucet->pos_bub().raw(), false );
         const std::vector<veh_menu_item> items = menu.get_items();
         const bool stomach_should_be_full = i == water_charges - 1;
         const auto drink_item_it = std::find_if( items.begin(), items.end(),

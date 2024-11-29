@@ -43,7 +43,12 @@ struct directed_path {
  */
 template<typename Point>
 struct simple_path {
+    //points along the path, typically starting with the last point of the path
     std::vector<Point> points;
+    //total distance of the path, possibly measured in tiles/meters depending on the pathing operation
+    int dist;
+    //total cost of the path, possibly measured in seconds depending on the scoring function
+    int cost;
 };
 
 // Data structure returned by a node scoring function.

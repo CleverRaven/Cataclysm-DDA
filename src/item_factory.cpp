@@ -3574,6 +3574,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
     assign( jo, "min_str_required_mod", slot.min_str_required_mod );
+    assign( jo, "min_str_required_mod_if_prone", slot.min_str_required_mod_if_prone );
     if( jo.has_array( "add_mod" ) ) {
         slot.add_mod.clear();
         for( JsonArray curr : jo.get_array( "add_mod" ) ) {
@@ -4225,10 +4226,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         if( jrel.has_object( "melee_damage" ) ) {
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
+        if( jrel.has_int( "to_hit" ) ) {
+            def.m_to_hit += jrel.get_int( "to_hit" );
+        }
     }
     def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
     if( jo.has_int( "to_hit" ) ) {
-        assign( jo, "to_hit", def.m_to_hit, strict );
+        mandatory( jo, false, "to_hit", def.m_to_hit );
         def.using_legacy_to_hit = true;
     } else if( jo.has_object( "to_hit" ) ) {
         io::acc_data temp;

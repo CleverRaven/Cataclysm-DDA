@@ -1870,7 +1870,6 @@
     "fungalize_into": "mon_zpinosaurus_fungus",
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "POISON",
       "STUMBLES",
@@ -1921,7 +1920,6 @@
     "fungalize_into": "mon_zorvosaurus_fungus",
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "POISON",
       "STUMBLES",
@@ -1957,19 +1955,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "NIGHT_INVISIBILITY" ],
     "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
@@ -2193,7 +2179,6 @@
     "fungalize_into": "mon_zyrannosaurus_fungus",
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "PET_MOUNTABLE",
       "POISON",
@@ -2245,7 +2230,6 @@
     "fungalize_into": "mon_zallimimus_fungus",
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "GRABS",
       "PET_MOUNTABLE",
@@ -2474,19 +2458,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GRABS",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "BASHES",
-      "NIGHT_INVISIBILITY"
-    ],
+    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ],
     "armor": { "bash": 16, "cut": 21, "bullet": 7 }
@@ -2530,7 +2502,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2552,7 +2524,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2574,7 +2546,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2596,7 +2568,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2618,7 +2590,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2640,7 +2612,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2662,7 +2634,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2684,7 +2656,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2706,7 +2678,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2728,7 +2700,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2750,7 +2722,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2772,7 +2744,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2794,7 +2766,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2816,7 +2788,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2838,7 +2810,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2860,7 +2832,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2880,7 +2852,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2902,7 +2874,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2924,7 +2896,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2946,7 +2918,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2968,7 +2940,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -2990,7 +2962,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -3012,7 +2984,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -3078,7 +3050,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -3100,7 +3072,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
     "upgrades": false,
     "categories": [ "DINOSAUR" ]
   },
@@ -5678,7 +5650,6 @@
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "BASHES",
       "GROUP_BASH",
@@ -5731,7 +5702,6 @@
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "BASHES",
       "GROUP_BASH",

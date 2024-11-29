@@ -406,8 +406,8 @@ bool computer_session::can_activate( computer_action action )
                 if( !mon ) {
                     continue;
                 }
-                const ter_id &t_north = here.ter( p + tripoint_north );
-                const ter_id &t_south = here.ter( p + tripoint_south );
+                const ter_id &t_north = here.ter( p + tripoint::north );
+                const ter_id &t_south = here.ter( p + tripoint::south );
                 if( ( t_north == ter_t_reinforced_glass &&
                       t_south == ter_t_concrete_wall ) ||
                     ( t_south == ter_t_reinforced_glass &&
@@ -586,8 +586,8 @@ void computer_session::action_terminate()
         if( !mon ) {
             continue;
         }
-        const ter_id &t_north = here.ter( p + tripoint_north );
-        const ter_id &t_south = here.ter( p + tripoint_south );
+        const ter_id &t_north = here.ter( p + tripoint::north );
+        const ter_id &t_south = here.ter( p + tripoint::south );
         if( ( t_north == ter_t_reinforced_glass &&
               t_south == ter_t_concrete_wall ) ||
             ( t_south == ter_t_reinforced_glass &&
@@ -749,7 +749,7 @@ void computer_session::action_miss_launch()
     // Target Acquisition.
     const tripoint_abs_omt target( ui::omap::choose_point(
                                        _( "Choose a target for the nuclear missile." ), 0 ) );
-    if( target == overmap::invalid_tripoint ) {
+    if( target.is_invalid() ) {
         add_msg( m_info, _( "Target acquisition canceled." ) );
         return;
     }
@@ -1679,17 +1679,17 @@ void computer_session::failure_pump_leak()
         const int leak_size = rng( 4, 10 );
         for( int i = 0; i < leak_size; i++ ) {
             std::vector<tripoint_bub_ms> next_move;
-            if( here.passable( p + point_north ) ) {
-                next_move.push_back( p + point_north );
+            if( here.passable( p + point::north ) ) {
+                next_move.push_back( p + point::north );
             }
-            if( here.passable( p + point_east ) ) {
-                next_move.push_back( p + point_east );
+            if( here.passable( p + point::east ) ) {
+                next_move.push_back( p + point::east );
             }
-            if( here.passable( p + point_south ) ) {
-                next_move.push_back( p + point_south );
+            if( here.passable( p + point::south ) ) {
+                next_move.push_back( p + point::south );
             }
-            if( here.passable( p + point_west ) ) {
-                next_move.push_back( p + point_west );
+            if( here.passable( p + point::west ) ) {
+                next_move.push_back( p + point::west );
             }
             if( next_move.empty() ) {
                 break;

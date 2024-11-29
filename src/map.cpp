@@ -29,7 +29,6 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
 #include "creature.h"
@@ -415,7 +414,7 @@ void map::invalidate_map_cache( const int zlev )
 const_maptile map::maptile_at( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
-        return const_maptile( &null_submap, point_sm_ms_zero );
+        return const_maptile( &null_submap, point_sm_ms::zero );
     }
 
     return maptile_at_internal( p );
@@ -429,7 +428,7 @@ maptile map::maptile_at( const tripoint &p )
 maptile map::maptile_at( const tripoint_bub_ms &p )
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, point_sm_ms_zero );
+        return maptile( &null_submap, point_sm_ms::zero );
     }
 
     return maptile_at_internal( p );
@@ -780,7 +779,7 @@ static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
 
 vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tileray &facing )
 {
-    if( dp == tripoint_rel_ms_zero ) {
+    if( dp == tripoint_rel_ms::zero ) {
         debugmsg( "Empty displacement vector" );
         return &veh;
     } else if( std::abs( dp.x() ) > 1 || std::abs( dp.y() ) > 1 || std::abs( dp.z() ) > 1 ) {
@@ -788,7 +787,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
         return &veh;
     }
     // Split the movement into horizontal and vertical for easier processing
-    if( dp.xy() != point_rel_ms_zero && dp.z() != 0 ) {
+    if( dp.xy() != point_rel_ms::zero && dp.z() != 0 ) {
         vehicle *const new_pointer = move_vehicle( veh, tripoint_rel_ms( dp.xy(), 0 ), facing );
         if( !new_pointer ) {
             return nullptr;
@@ -804,7 +803,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     }
     const bool vertical = dp.z() != 0;
     // Ensured by the splitting above
-    cata_assert( vertical == ( dp.xy() == point_rel_ms_zero ) );
+    cata_assert( vertical == ( dp.xy() == point_rel_ms::zero ) );
 
     const int target_z = dp.z() + veh.sm_pos.z;
     // limit vehicles to at most OVERMAP_HEIGHT - 1; this mitigates getting to zlevel 10 easily
@@ -1256,7 +1255,7 @@ bool map::deregister_vehicle_zone( zone_data &zone ) const
     const tripoint_bub_ms pos = bub_from_abs( zone.get_start_point() );
     if( const std::optional<vpart_reference> vp = veh_at( pos ).cargo() ) {
         vehicle &veh = vp->vehicle();
-        auto bounds = veh.loot_zones.equal_range( vp->mount() );
+        auto bounds = veh.loot_zones.equal_range( vp->mount_pos() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
             if( &zone == &( it->second ) ) {
                 veh.loot_zones.erase( it );
@@ -1283,7 +1282,7 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
             continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
         }
         for( const vpart_reference &vpr : v.v->get_all_parts() ) {
-            const tripoint_bub_ms vppos = static_cast<tripoint_bub_ms>( vpr.pos() );
+            const tripoint_bub_ms vppos = vpr.pos_bub();
             if( rl_dist( zpos, vppos ) > max_range ) {
                 continue;
             }
@@ -1478,7 +1477,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
     }
 
     const tripoint_bub_ms dst =
-        src + ( adjust_pos ? ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_rel_ms_zero );
+        src + ( adjust_pos ? ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_rel_ms::zero );
 
     if( !inbounds( src ) ) {
         add_msg_debug( debugmode::DF_MAP,
@@ -1605,7 +1604,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
     }
 
     veh.shed_loose_parts( trinary::SOME, &dst );
-    smzs = veh.advance_precalc_mounts( dst_offset.raw(), src.raw(), dp.raw(), ramp_offset,
+    smzs = veh.advance_precalc_mounts( dst_offset, src, dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
 
@@ -2988,12 +2987,12 @@ void map::drop_furniture( const tripoint_bub_ms &p )
         bash( current, dmg, false, false, true );
     } else if( last_state == SS_BAD_SUPPORT || last_state == SS_GOOD_SUPPORT ) {
         bash( current, dmg, false, false, false );
-        tripoint_bub_ms below{ current + tripoint_rel_ms_below };
+        tripoint_bub_ms below{ current + tripoint::below };
         bash( below, dmg, false, false, false );
     } else if( last_state == SS_CREATURE ) {
         const std::string &furn_name = frn_obj.name();
         bash( current, dmg, false, false, false );
-        tripoint_bub_ms below{ current + tripoint_rel_ms_below };
+        tripoint_bub_ms below{ current + tripoint::below };
         Creature *critter = get_creature_tracker().creature_at( below );
         if( critter == nullptr ) {
             debugmsg( "drop_furniture couldn't find creature at %d,%d,%d",
@@ -3162,7 +3161,7 @@ void map::drop_fields( const tripoint_bub_ms &p )
         return;
     }
 
-    const tripoint_bub_ms below = p + tripoint_below;
+    const tripoint_bub_ms below = p + tripoint::below;
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
         // For now only drop cosmetic fields, which don't warrant per-turn check
@@ -3762,7 +3761,7 @@ point_bub_ms map::random_outdoor_tile() const
             options.emplace_back( temp );
         }
     }
-    return random_entry( options, point_bub_ms( point_north_west ) );
+    return random_entry( options, point_bub_ms::zero );
 }
 
 bool map::has_adjacent_furniture_with( const tripoint_bub_ms &p,
@@ -3857,7 +3856,7 @@ bool map::terrain_moppable( const tripoint_bub_ms &p )
     // Moppable vehicles ( blood splatter )
     if( const optional_vpart_position ovp = veh_at( p ) ) {
         vehicle *const veh = &ovp->vehicle();
-        for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+        for( const int elem : veh->parts_at_relative( ovp->mount_pos(), true ) ) {
             const vehicle_part &vp = veh->part( elem );
             if( vp.blood > 0 ) {
                 return true;
@@ -3902,7 +3901,7 @@ bool map::mop_spills( const tripoint_bub_ms &p )
 
     if( const optional_vpart_position ovp = veh_at( p ) ) {
         vehicle *const veh = &ovp->vehicle();
-        for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+        for( const int elem : veh->parts_at_relative( ovp->mount_pos(), true ) ) {
             vehicle_part &vp = veh->part( elem );
             if( vp.blood > 0 ) {
                 vp.blood = 0;
@@ -3937,7 +3936,7 @@ int map::collapse_check( const tripoint_bub_ms &p ) const
     int num_supports = p.z() == OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
     if( p.z() > -OVERMAP_DEPTH ) {
-        const tripoint_bub_ms &pbelow = p + tripoint_below;
+        const tripoint_bub_ms &pbelow = p + tripoint::below;
         for( const tripoint_bub_ms &tbelow : points_in_radius( pbelow, 1 ) ) {
             if( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, tbelow ) ) {
                 num_supports += 1;
@@ -3996,7 +3995,7 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
     if( supports && !still_supports ) {
         for( const tripoint_bub_ms &t : points_in_radius( p, 1 ) ) {
             // If z-levels are off, tz == t, so we end up skipping a lot of stuff to avoid bugs.
-            const tripoint_bub_ms &tz = t + tripoint_above;
+            const tripoint_bub_ms &tz = t + tripoint::above;
             const bool collapse_above = one_in( collapse_check( tz ) );
 
             if( zlevels && wall_tree && collapse_above ) {
@@ -4206,7 +4205,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     map_ter_bash_info ter_bash;
     map_furn_bash_info furn_bash;
 
-    tripoint_bub_ms below = p + tripoint_rel_ms_below;
+    tripoint_bub_ms below = p + tripoint_rel_ms::below;
     ter_str_id below_tile_roof = ter_t_dirt;
     bool roof_of_below_tile = false;
 
@@ -4285,7 +4284,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         }
 
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
-            tripoint_bub_ms below = p + tripoint_rel_ms_below;
+            tripoint_bub_ms below = p + tripoint_rel_ms::below;
             if( !zlevels || has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, below ) ) {
                 if( bash->str_min_supported != -1 ) {
                     smin = bash->str_min_supported;
@@ -5447,17 +5446,17 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
     };
 
     if( item_is_blacklisted( obj.typeId() ) ) {
-        return { &null_item_reference(), tripoint_bub_ms_min };
+        return { &null_item_reference(), tripoint_bub_ms::invalid };
     }
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( flag_NO_DROP ) ) {
-        return { &null_item_reference(), tripoint_bub_ms_min };
+        return { &null_item_reference(), tripoint_bub_ms::invalid };
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return { &null_item_reference(), tripoint_bub_ms_min };
+        return { &null_item_reference(), tripoint_bub_ms::invalid };
     }
 
     std::optional<std::pair<item *, tripoint_bub_ms>> first_added;
@@ -5469,7 +5468,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
-                return { &null_item_reference(), tripoint_bub_ms_min };
+                return { &null_item_reference(), tripoint_bub_ms::invalid };
             }
         }
         // If tile can contain items place here...
@@ -5499,7 +5498,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
             if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
                     return first_added ? first_added.value() : std::make_pair( &null_item_reference(),
-                            tripoint_bub_ms_min );
+                            tripoint_bub_ms::invalid );
                 }
             }
 
@@ -5516,7 +5515,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
 
     // If first_added has no value, no items were added due to lack of space at target tile (+/- overflow tiles)
     return first_added ? first_added.value() : std::make_pair( &null_item_reference(),
-            tripoint_bub_ms_min );
+            tripoint_bub_ms::invalid );
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
@@ -6029,7 +6028,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         }
         const auto it = std::find_if( begin( cargo_parts ),
         end( cargo_parts ), [&]( const vpart_reference & part ) {
-            return active_item_ref.location.raw() == part.mount();
+            return active_item_ref.location == part.mount_pos();
         } );
 
         if( it == end( cargo_parts ) ) {
@@ -7000,7 +6999,7 @@ void map::add_splatter( const field_type_id &type, const tripoint_bub_ms &where,
         if( const optional_vpart_position vp = veh_at( where ) ) {
             vehicle *const veh = &vp->vehicle();
             // Might be -1 if all the vehicle's parts at where are marked for removal
-            const int part = veh->part_displayed_at( vp->mount(), true );
+            const int part = veh->part_displayed_at( vp->mount_pos(), true );
             if( part != -1 ) {
                 veh->part( part ).blood += 200 * std::min( intensity, 3 ) / 3;
                 return;
@@ -7324,8 +7323,8 @@ void map::draw( const catacurses::window &w, const tripoint_bub_ms &center )
             if( draw_maptile( w, p, curr_maptile, params ) ) {
                 continue;
             }
-            const maptile tile_below = maptile_at_internal( p + tripoint_below );
-            draw_from_above( w, p + tripoint_below, tile_below, params );
+            const maptile tile_below = maptile_at_internal( p + tripoint::below );
+            draw_from_above( w, p + tripoint::below, tile_below, params );
         }
     }
 
@@ -7391,7 +7390,7 @@ void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
         return;
     }
 
-    tripoint_bub_ms below( p + tripoint_below );
+    tripoint_bub_ms below( p + tripoint::below );
     const const_maptile tile_below = maptile_at( below );
     draw_from_above( w, below, tile_below, params );
 }
@@ -7632,7 +7631,7 @@ void map::draw_from_above( const catacurses::window &w, const tripoint_bub_ms &p
         tercol = curr_furn.color();
     } else if( ( veh = veh_at_internal( p, part_below ) ) != nullptr ) {
         const vpart_position vpp( const_cast<vehicle &>( *veh ), part_below );
-        const vpart_display vd = veh->get_display_of_tile( vpp.mount(), true, true, true );
+        const vpart_display vd = veh->get_display_of_tile( vpp.mount_pos(), true, true, true );
         const int roof = veh->roof_at_part( part_below );
         sym = vd.symbol_curses;
         tercol = roof >= 0 || vpp.obstacle_at_part() ? c_light_gray : c_light_gray_cyan;
@@ -8357,7 +8356,7 @@ void map::shift( const point_rel_sm &sp )
     }
 
     // Special case of 0-shift; refresh the map
-    if( sp == point_rel_sm_zero ) {
+    if( sp == point_rel_sm::zero ) {
         return; // Skip this?
     }
 
@@ -9050,7 +9049,7 @@ void map::actualize( const tripoint_rel_sm &grid )
         // spill out items too large, MIGRATION pockets etc from vehicle parts
         for( const vpart_reference &vp : veh->get_all_parts() ) {
             const item &base_const = vp.part().get_base();
-            const_cast<item &>( base_const ).overflow( vp.pos() );
+            const_cast<item &>( base_const ).overflow( vp.pos_bub().raw() );
         }
         veh->refresh();
     }
@@ -9120,7 +9119,7 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
 
     bool check_tree_tops = grid.z() > -OVERMAP_DEPTH;
 
-    submap *const sub_below = check_tree_tops ? get_submap_at_grid( grid + tripoint_rel_sm_below ) :
+    submap *const sub_below = check_tree_tops ? get_submap_at_grid( grid + tripoint_rel_sm::below ) :
                               nullptr;
 
     if( check_tree_tops && sub_below == nullptr ) {
@@ -9291,6 +9290,8 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
                 // Give monster a random point near horde's expected destination
                 const tripoint_sm_ms pos_in_sm( rng( 0, SEEX ), rng( 0, SEEY ), local_pos.z() );
                 const tripoint_abs_ms rand_dest = project_combine( group.target, pos_in_sm );
+
+                // The monster will wander to the rand_dest for several turns which is determined by the distance and interest
                 const int turns = rl_dist( abs_pos, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
                 add_msg_debug( debugmode::DF_MAP, "%s targeting %s", tmp.disp_name(),
@@ -9557,7 +9558,7 @@ fake_map::~fake_map() = default;
 
 small_fake_map::small_fake_map( const ter_id &ter_type )
 {
-    set_abs_sub( tripoint_abs_sm( tripoint_zero ) );
+    set_abs_sub( tripoint_abs_sm::zero );
 
     for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
         for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
@@ -10218,12 +10219,12 @@ void map::draw_fill_background( const ter_id &type )
 
 void map::draw_fill_background( ter_id( *f )() )
 {
-    draw_square_ter( f, point_bub_ms_zero, point_bub_ms( SEEX * my_MAPSIZE - 1,
+    draw_square_ter( f, point_bub_ms::zero, point_bub_ms( SEEX * my_MAPSIZE - 1,
                      SEEY * my_MAPSIZE - 1 ) );
 }
 void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 {
-    draw_square_ter( f, point_bub_ms_zero, point_bub_ms( SEEX * my_MAPSIZE - 1,
+    draw_square_ter( f, point_bub_ms::zero, point_bub_ms( SEEX * my_MAPSIZE - 1,
                      SEEY * my_MAPSIZE - 1 ) );
 }
 
@@ -10578,8 +10579,8 @@ tripoint_range<tripoint_bub_ms> map::points_on_zlevel( const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         // TODO: need a default constructor that creates an empty range.
-        return tripoint_range<tripoint_bub_ms>( tripoint_bub_ms_zero,
-                                                tripoint_bub_ms_zero - tripoint_rel_ms_above );
+        return tripoint_range<tripoint_bub_ms>( tripoint_bub_ms::zero,
+                                                tripoint_bub_ms::zero - tripoint_rel_ms::above );
     }
     return tripoint_range<tripoint_bub_ms>(
     { 0, 0, z }, { SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1, z } );
@@ -10908,7 +10909,7 @@ bool map::is_cornerfloor( const tripoint_bub_ms &p ) const
     }
     if( !impassable_adjacent.empty() ) {
         //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
-        std::set< tripoint_bub_ms> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
+        std::set< tripoint_bub_ms> diagonals = { p + tripoint::north_east, p + tripoint::north_west, p + tripoint::south_east, p + tripoint::south_west };
         for( const tripoint_bub_ms &impassable_diagonal : diagonals ) {
             if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
                 //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
@@ -11017,7 +11018,7 @@ std::vector<item_location> map::get_haulable_items( const tripoint_bub_ms &pos )
 
 tripoint_bub_ms drawsq_params::center() const
 {
-    if( view_center.raw() == tripoint_min ) {
+    if( view_center.raw() == tripoint::min ) {
         avatar &player_character = get_avatar();
         return player_character.pos_bub() + player_character.view_offset;
     } else {

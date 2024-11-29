@@ -474,8 +474,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_rel_ms_zero, vpart_frame );
-                veh->install_part( point_rel_ms_zero, vpart_seat );
+                veh->install_part( point_rel_ms::zero, vpart_frame );
+                veh->install_part( point_rel_ms::zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -562,7 +562,7 @@ TEST_CASE( "npc_can_target_player" )
     set_time_to_day();
 
     Character &player_character = get_player_character();
-    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point_south, "thug" );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point::south, "thug" );
     REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";

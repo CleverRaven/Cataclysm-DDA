@@ -97,11 +97,11 @@
         "                        "
       ],
       "palettes": [
+        "parametrized_carpets_palette",
         "afs_habitat_structure",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_habitat_exterior",
-        "parametrized_carpets_palette"
+        "afs_habitat_exterior"
       ],
       "terrain": { " ": "t_open_air", "1": { "param": "carpet_color_type", "fallback": "t_carpet_red" } },
       "furniture": { "2": "f_dishwasher", "á": "f_bookcase" },

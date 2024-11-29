@@ -381,7 +381,7 @@
           "u_vitamin('creative_spark') * floor( (base_difficulty_1 + base_difficulty_2 + base_difficulty_3 + energy_difficulty_1 + energy_difficulty_2 + energy_difficulty_3 + AI_difficulty_1 + dimension_difficulty_1) / 8 )"
         ]
       },
-      { "math": [ "u_vitamin('creative_spark')", "=", "0" ] },
+      { "math": [ "u_vitamin('creative_spark') = 0" ] },
       {
         "u_message": "creative_spark_research = <u_val:creative_spark_research>,\n base_difficulty_1 = <u_val:base_difficulty_1>,\n base_difficulty_2 = <u_val:base_difficulty_2>,\n base_difficulty_3 = <u_val:base_difficulty_3>,\n energy_difficulty_1 = <u_val:energy_difficulty_1>,\n energy_difficulty_2 = <u_val:energy_difficulty_2>,\n energy_difficulty_3 = <u_val:energy_difficulty_3>,\n dimension_sparks = <u_val:dimension_sparks>,\n dimension_difficulty_1 = <u_val:dimension_difficulty_1>.",
         "type": "debug"

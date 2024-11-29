@@ -84,6 +84,10 @@ void mongroup::clear()
     monsters.clear();
 }
 
+/**
+ * The average speed of the monsters in the group.
+ * If monsters vector is empty, the average speed of the group is calculated.
+ */
 float mongroup::avg_speed() const
 {
     float avg_speed = 0.0f;

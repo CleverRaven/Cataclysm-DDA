@@ -1403,7 +1403,7 @@ static void change_spells( Character &character )
     struct win_info w_name;
     w_name.border = &borders.add_border();
     w_name.width = spname_len + 1;
-    w_name.start = point_zero;
+    w_name.start = point::zero;
 
     struct win_info w_level;
     w_level.border = &borders.add_border();
@@ -1437,7 +1437,7 @@ static void change_spells( Character &character )
         w_descborder.border->set( w_descborder.start, { w_descborder.width, TERMY } );
 
         scrllbr.viewport_size( TERMY - 2 );
-        ui.position( point_zero, { TERMX, TERMY } );
+        ui.position( point::zero, { TERMX, TERMY } );
     } );
     spellsui.mark_resize();
 
@@ -1516,7 +1516,7 @@ static void change_spells( Character &character )
         }
 
         nc_color gray = c_light_gray;
-        print_colored_text( w_desc.window, point_zero, gray, gray,
+        print_colored_text( w_desc.window, point::zero, gray, gray,
                             std::get<2>( *spells_relative[spell_selected] ) );
 
         wnoutrefresh( w_name.window );
@@ -1753,7 +1753,7 @@ static void teleport_long()
 {
     const tripoint_abs_omt where( ui::omap::choose_point( _( "Choose a teleport destination." ),
                                   true ) );
-    if( where == overmap::invalid_tripoint ) {
+    if( where.is_invalid() ) {
         return;
     }
     g->place_player_overmap( where );
@@ -3527,7 +3527,7 @@ static void map_extra()
     if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
         const tripoint_abs_omt where_omt( ui::omap::choose_point(
                                               _( "Select location to spawn map extra." ), true ) );
-        if( where_omt != overmap::invalid_tripoint ) {
+        if( !where_omt.is_invalid() ) {
             smallmap mx_map;
             mx_map.load( where_omt, false );
             MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );

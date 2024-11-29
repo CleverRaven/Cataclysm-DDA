@@ -1187,13 +1187,13 @@ void Creature::messaging_projectile_attack( const Creature *source,
             if( source->is_avatar() ) {
                 //player hits monster ranged
                 SCT.add( point( posx(), posy() ),
-                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                         direction_from( point::zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                          get_hp_bar( total_damage, get_hp_max(), true ).first,
                          m_good, hit_selection.message, hit_selection.gmtSCTcolor );
 
                 if( get_hp() > 0 ) {
                     SCT.add( point( posx(), posy() ),
-                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                             direction_from( point::zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
                              _( "HP" ), m_neutral, "hp" );
@@ -1561,9 +1561,9 @@ bool Creature::attack_air( const tripoint &p )
 
     // Attack animation
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        std::map<tripoint, nc_color> area_color;
-        area_color[p] = c_black;
-        explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
+        std::map<tripoint_bub_ms, nc_color> area_color;
+        area_color[tripoint_bub_ms( p )] = c_black;
+        explosion_handler::draw_custom_explosion( area_color, "animation_hit" );
     }
 
     // Chance to remove last known location

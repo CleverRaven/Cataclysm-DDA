@@ -2667,10 +2667,6 @@ dialogue::dialogue( const dialogue &d ) : const_dialogue( d )
     }
 }
 
-dialogue::dialogue( const_dialogue const &d ) : const_dialogue( d )
-{
-}
-
 const_dialogue::const_dialogue( std::unique_ptr<const_talker> alpha_in,
                                 std::unique_ptr<const_talker> beta_in,
                                 const std::unordered_map<std::string, std::function<bool( const_dialogue const & )>> &cond,
@@ -4373,7 +4369,7 @@ talk_effect_fun_t::func f_place_override( const JsonObject &jo, std::string_view
         get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-                                -1, tripoint_abs_ms( tripoint_zero ), -1, new_place.evaluate( d ), key.evaluate( d ) );
+                                -1, tripoint_abs_ms::zero, -1, new_place.evaluate( d ), key.evaluate( d ) );
     };
 }
 
@@ -4498,8 +4494,8 @@ talk_effect_fun_t::func f_npc_goal( const JsonObject &jo, std::string_view membe
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params, d );
             guy->goal = destination;
             guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
-                            overmap_path_params::for_npc() );
-            if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+                            overmap_path_params::for_npc() ).points;
+            if( destination == tripoint_abs_omt() || destination.is_invalid() ||
                 guy->omt_path.empty() ) {
                 guy->goal = npc::no_goal_point;
                 guy->omt_path.clear();
@@ -5467,7 +5463,7 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                 if( target_var.has_value() ) {
                     tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
                     if( get_map().inbounds( target_pos ) ) {
-                        guy->invoke_item( it->get_item(), method_str, get_map().bub_from_abs( target_pos ).raw() );
+                        guy->invoke_item( it->get_item(), method_str, get_map().bub_from_abs( target_pos ) );
                         return;
                     }
                 }
@@ -5486,7 +5482,7 @@ talk_effect_fun_t::func f_math( const JsonObject &jo, std::string_view member,
                                 const std::string_view )
 {
     eoc_math math;
-    math.from_json( jo, member, eoc_math::type_t::assign );
+    math.from_json( jo, member, math_type_t::assign );
     return [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };

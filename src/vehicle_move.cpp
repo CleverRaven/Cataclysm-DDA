@@ -15,7 +15,6 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -720,7 +719,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     if( dp.z() == -1 && !bash_floor ) {
         // First check current level, then the one below if current had no collisions
         // Bash floors on the current one, but not on the one below.
-        if( collision( colls, tripoint_rel_ms_zero, just_detect, true ) ) {
+        if( collision( colls, tripoint_rel_ms::zero, just_detect, true ) ) {
             return true;
         }
     }
@@ -1358,7 +1357,7 @@ bool vehicle::check_heli_descend( Character &p ) const
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &pt : get_points( true ) ) {
-        tripoint_bub_ms below( pt + tripoint_below );
+        tripoint_bub_ms below( pt + tripoint::below );
         if( pt.z() < -OVERMAP_DEPTH || !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) {
             p.add_msg_if_player( _( "You are already landed!" ) );
             return false;
@@ -1398,7 +1397,7 @@ bool vehicle::check_heli_ascend( Character &p ) const
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &pt : get_points( true ) ) {
-        tripoint_bub_ms above( pt + tripoint_above );
+        tripoint_bub_ms above( pt + tripoint::above );
         const optional_vpart_position ovp = here.veh_at( above );
         if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_INDOORS, pt ) ||
             here.impassable_ter_furn( above ) ||
@@ -2005,7 +2004,7 @@ bool vehicle::level_vehicle()
         }
         if( no_support[part_pos.z()] ) {
             no_support[part_pos.z()] = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, part_pos ) &&
-                                       !here.supports_above( part_pos + tripoint_below );
+                                       !here.supports_above( part_pos + tripoint::below );
         }
         if( !is_on_ramp &&
             ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint_bub_ms( part_pos.x(), part_pos.y(),
@@ -2035,7 +2034,7 @@ bool vehicle::level_vehicle()
         }
     }
     if( adjust_level ) {
-        here.displace_vehicle( *this, tripoint_rel_ms_below, center_drop, dropped_parts );
+        here.displace_vehicle( *this, tripoint_rel_ms::below, center_drop, dropped_parts );
         return false;
     } else {
         return true;

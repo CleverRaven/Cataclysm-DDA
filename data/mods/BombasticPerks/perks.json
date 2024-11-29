@@ -413,7 +413,26 @@
     "purifiable": false,
     "valid": false,
     "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": 4,
+            "precise": true,
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

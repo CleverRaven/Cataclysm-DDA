@@ -44,9 +44,9 @@ TEST_CASE( "avatar_does_healing", "[activity][firstaid][avatar]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( point_bub_ms( point_east ), "test_talker" );
+    npc &dunsel = spawn_npc( point_bub_ms( point::east ), "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
-    dunsel.pos() = dummy.pos() + point_east;
+    dunsel.pos() = dummy.pos() + point::east;
     dummy.set_skill_level( skill_firstaid, 10 );
     int moves = 500;
     item_location bandages = dummy.i_add( item( itype_bandages ) );
@@ -99,9 +99,9 @@ TEST_CASE( "npc_does_healing", "[activity][firstaid][npc]" )
     clear_avatar();
     clear_map();
     const bodypart_id right_arm( "arm_r" );
-    npc &dunsel = spawn_npc( point_bub_ms( point_east ), "test_talker" );
+    npc &dunsel = spawn_npc( point_bub_ms( point::east ), "test_talker" );
     set_time( calendar::turn_zero + 12_hours );
-    dunsel.pos() = dummy.pos() + point_east;
+    dunsel.pos() = dummy.pos() + point::east;
     dunsel.set_skill_level( skill_firstaid, 10 );
     int moves = 500;
     item_location bandages = dunsel.i_add( item( itype_bandages ) );

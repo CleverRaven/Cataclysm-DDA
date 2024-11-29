@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_RESET_DREAM_COUNTER",
     "//": "used to prevent multiple dreams at the same sleep",
-    "effect": [ { "math": [ "dream_counter", "=", "0" ] } ]
+    "effect": [ { "math": [ "dream_counter = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -14,7 +14,7 @@
     "effect": [
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "dream_counter", "=", "1" ] },
+      { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   },
@@ -49,7 +49,7 @@
           { "case": 200, "effect": { "u_message": "health_great", "snippet": true, "type": "good" } }
         ]
       },
-      { "math": [ "dream_counter", "=", "1" ] },
+      { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   }

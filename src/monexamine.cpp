@@ -512,10 +512,10 @@ void milk_source( monster &source_mon )
 
     else if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint> coords{};
+        std::vector<tripoint_abs_ms> coords{};
         std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
-        coords.push_back( get_map().getglobal( source_mon.pos_bub() ).raw() );
+        coords.push_back( get_map().getglobal( source_mon.pos_bub() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
@@ -548,7 +548,7 @@ void shear_animal( monster &z )
         z.add_effect( effect_tied, 1_turns, true );
     }
 
-    guy.assign_activity( shearing_activity_actor( z.pos(), !monster_tied ) );
+    guy.assign_activity( shearing_activity_actor( z.pos_bub(), !monster_tied ) );
 }
 
 void remove_battery( monster &z )

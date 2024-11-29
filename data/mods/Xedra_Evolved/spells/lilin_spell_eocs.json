@@ -22,7 +22,7 @@
         "else": { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] }
       },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
-      { "math": [ "u_lilin_ruach_drained_recently", "=", "1" ] },
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
       { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS" },
       {
         "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },
@@ -72,7 +72,7 @@
           "else": {
             "if": { "u_has_species": "NETHER" },
             "then": [
-              { "math": [ "u_ruach_random_nether_amount", "=", "rng(-800,800)" ] },
+              { "math": [ "u_ruach_random_nether_amount = rng(-800,800)" ] },
               {
                 "if": { "math": [ "u_ruach_random_nether_amount > 0" ] },
                 "then": [ { "npc_message": "You feel a moment of white heat as you absorb the ruach.", "type": "good" } ],
@@ -497,7 +497,7 @@
                 "else": {
                   "if": { "or": [ { "u_has_species": "BIRD" } ] },
                   "then": [
-                    { "math": [ "u_lilin_mesmerize_duration", "=", "u_lilin_mesmerize_duration * 2" ] },
+                    { "math": [ "u_lilin_mesmerize_duration = u_lilin_mesmerize_duration * 2" ] },
                     { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
                     {
                       "u_add_effect": "effect_lilin_mesmerize_tracker",
@@ -517,7 +517,7 @@
                       ]
                     },
                     "then": [
-                      { "math": [ "u_lilin_mesmerize_duration", "=", "u_lilin_mesmerize_duration * 0.75" ] },
+                      { "math": [ "u_lilin_mesmerize_duration = u_lilin_mesmerize_duration * 0.75" ] },
                       { "u_add_effect": "stunned", "duration": { "math": [ "u_lilin_mesmerize_duration" ] } },
                       {
                         "u_add_effect": "effect_lilin_mesmerize_tracker",
@@ -666,8 +666,8 @@
     "effect": [
       { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "300 * lilin_has_ruach_efficiency()" ] },
       { "math": [ "u_val('sleepiness')", "-=", "rng(200,350)" ] },
-      { "if": { "math": [ "u_val('sleepiness') < 0" ] }, "then": { "math": [ "u_val('sleepiness')", "=", "0" ] } },
-      { "math": [ "u_val('sleep_deprivation')", "=", "0" ] },
+      { "if": { "math": [ "u_val('sleepiness') < 0" ] }, "then": { "math": [ "u_val('sleepiness') = 0" ] } },
+      { "math": [ "u_val('sleep_deprivation') = 0" ] },
       { "u_message": "As a cool breeze touches your skin, you feel much more awake.", "type": "good" }
     ],
     "false_effect": [ { "u_message": "You don't have enough ruach to spare any to alleviate your tiredness.", "type": "bad" } ]
@@ -685,7 +685,7 @@
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240 * lilin_has_ruach_efficiency()" ] },
               { "u_message": "A thick fog begins to rise.", "type": "neutral" },
-              { "math": [ "magic_weather_dense_fog", "=", "1" ] },
+              { "math": [ "magic_weather_dense_fog = 1" ] },
               { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
               { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
               {
@@ -711,7 +711,7 @@
     ],
     "false_effect": [
       { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
-      { "math": [ "magic_weather_dense_fog", "=", "0" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
       { "u_lose_effect": "effect_controlling_weather_fog" },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
@@ -724,7 +724,7 @@
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
-      { "math": [ "magic_weather_dense_fog", "=", "0" ] }
+      { "math": [ "magic_weather_dense_fog = 0" ] }
     ]
   },
   {

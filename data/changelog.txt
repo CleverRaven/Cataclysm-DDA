@@ -186,6 +186,10 @@ No lit cigs in inventory anymore, only in hands or in mouth
 Assign bodysuit_lycra a fallback sprite
 Safe crackers guess combinations more accurately
 Fleeing NPCs will now attack player that got too close
+Increase helicopter autotravel speed
+items with POST_UP use_action can be put up on walls 
+Items salvaged from cutting will now be placed in vehicle, if you're cutting them in vehicle
+tile layering supports item variants
 
 
 ## Content:
@@ -392,6 +396,12 @@ Make field stone a bit more common, which can now also be turned into rocks. Plu
 Allow Motorbike Battery Appliances
 Allow using a heavy training dummy where a light one will suffice
 Buckwheat can no longer be foraged but may still be found where seeds spawn
+Walls now have a chance of having graffiti on them
+Houses sometimes have alarms
+The walls of most buildings vary more
+New scenario: Moonlit Night
+Added chokeberries and spicebush
+Wildlife foods adjust morale
 
 
 ## Interface:
@@ -511,6 +521,11 @@ Crafting GUI Search: cancel the search with ESC
 use the monospaced font for the ascii art on the end screen
 Increased available space for skills chapter in description tab of character creation menu
 ImGui inherits theme colors
+Sidebar widget to show faction territory
+Revert horizontal separator color back to dark gray
+shorten `memorize` hint in crafting GUI search
+some little improvements to the AIM drop menu
+Allow fine user customization of ImGui colors
 
 
 ## Mods:
@@ -833,6 +848,18 @@ Make the cryptid mission assigning less likely to hang
 Aftershock: Disable portal storms in Exoplanet
 Martial Mastery: Add three new defensive perks.
 [Magiclysm] Fix demonic possession causing starvation penalties
+[Xedra Evolved] More Ierde powers
+Add more Lilin traits and features
+Reviewed Magiclysm Monsters and added proficiency families and weakpoints when missing.
+Allow Lilin to drain ruach while under the effects of NO_SPELLCASTING
+[MoM] Add the PATIENT MOSAIC research room to skyscraper lab
+[MoM] Parameterize PHAVIAN skyscraper lab
+[MoM] Add the Gamma Sterilization photokinetic power
+[Magiclysm] Fix soul afterburner granting infinite moves
+[MoM] Update creature mindsight to be variable, apply to Eater
+[Xedra Evolved] Add Lilit ruach gauge using custom variable functionality
+[Magiclysm] Add the mana-shackled challenge trait
+[Xedra Evolved] Arvore Cleanup
 
 
 ## Balance:
@@ -950,6 +977,15 @@ Nerf atlatls, a lot.
 Martial arts manuals spawn in libraries and houses
 Lower Stream Item Spawns
 Audit Lead Acid Batteries breaks_into
+Add missing longest_side
+Mining solid rock now results in a lot more rock and very rarely, you can find a bit of limestone while digging in soil
+No Hope: Reduce spawn chance of broken cyborgs in bionic basements
+Food price scales with freshness
+Aftershock: Reduce spawn chance of broken cyborgs in bionic basements
+Dry stone walls now need to be climbed over
+Change spear techniques from impaling strike to penetrating strike
+Changed Survivor Hood Materials and Added Filtration to Cowls
+Rework faction camp mission travel calculations
 
 
 ## Bugfixes:
@@ -1288,6 +1324,28 @@ Fix duplicate an in exterminatron description
 [Xedra Evolved] Add dinomod check for lilit kcal drain
 remove debug message in add_profession_items()
 Fix nunez bullet trailer appearing out of nowhere
+[Xedra Evolved] Gracken can't learn dream magick either
+Enable Other Anvils for Isherwood Quest
+Fix mining using a pickaxe always causes an error
+Rural church no longer spawns water heaters in walls
+Resolve Milling Issues/Errors
+NECC mapgen wrong symbol fix
+Evac shelter no longer has dirt walls
+Fix camp expansion recipes not being available
+drying_rate test displays weather, clears map
+Decreased volume of pillows but made them a little bit heavier
+fix archery_damage_test CI occasional failure
+Fix `bio_blindfold` not working correctly after a save & load cycle
+Make wood axe usable for great axe proficiency practice instead of hand axe proficiency practice
+Don't run item::on_pickup when the item is wielded
+Autodrive doesn't stop due to driving over sludge etc
+better margin of error for test shot_custom_damage_type
+Fix format mismatches in tripoint item vars
+Fix crashing in CURSES without ASCII title art
+Fix penetrating strike
+ALLOWS_TALONS is about talons for feet, not for hands
+Fix headlamp to accept medium batteries akin to a flashlight
+Toggle bionics/deactivate mutations causes bonus stats ignored until next turn
 
 
 ## Performance:
@@ -1325,6 +1383,8 @@ Backport Don't unnecessarily copy items in a tight loop in get_uncraft_component
 Reduce unnecessary/duplicate checks for dangerous tiles
 Cache the absolute map square position of the first submap
 Cache mutation trait flags
+Cache item info for crafting GUI full-text search
+Vehicles are slightly more efficient
 
 
 ## Infrastructure:
@@ -1425,6 +1485,12 @@ Roof palette has more built-in nests
 obsolete unused generic NPC classes
 abstractify basic walls
 u_/npc_forget_recipe can use categories and subcategories in place of individual ids
+Add std::string wrappers for ImGui::InputText* methods
+Adds a guide to the development process
+Allow variable objects and math expressions to be used as widget variables
+fill_ter accepts parameters
+Merge commits from 0-H-Branch into master and update appstream file
+Traps can directly trigger EoCs as their action
 
 ## Build:
 Support Mac arm64 build
@@ -1451,6 +1517,8 @@ Fix CMake build after adding freetype
 Fixes broken Windows build due to missing ImGui Freetype-related files and map::get_field function deletion
 Fixed broken Android build due to missing FreeType library
 Allow the game to build on OSX
+Fix mac builds post freetype dependency addition
+Add imgui_stdlib to CMake
 
 
 ## I18N and A11Y:
@@ -1472,6 +1540,9 @@ Obsolete strings now have a comment with an explanation
 Make Portugal Portugues appear in Options
 [AFS] Add NO_I18N/PREFIX_XL
 [Magiclysm] NO_I18N, dont extract monster/fake spells
+[Xedra Evolved] NO_I18N, dont extract monster/fake spells
+Restructure the template file
+[MoM] Dont extract monster/fake spells/effects for translation
 
 
 # 0.G (Gaiman)

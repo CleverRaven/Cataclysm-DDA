@@ -25,7 +25,7 @@
     "condition": { "not": { "u_has_any_effect": [ "weary_7", "weary_8" ] } },
     "effect": [
       { "u_message": "You spend some time meditating and contemplating your powers.", "type": "good" },
-      { "math": [ "u_psi_studying_tick_experience_counter", "=", "0" ] },
+      { "math": [ "u_psi_studying_tick_experience_counter = 0" ] },
       { "u_add_effect": "effect_psi_studying_power", "duration": "24 hours" },
       { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "24 hours" },
       { "run_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }

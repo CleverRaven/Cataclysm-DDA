@@ -88,6 +88,7 @@ static const itype_id fuel_type_none( "null" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_EMP_ENERGYDRAIN_IMMUNE( "EMP_ENERGYDRAIN_IMMUNE" );
 static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
@@ -285,7 +286,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
     // Draw the explosion, but only if the explosion center is within the reality bubble
     map &bubble_map = get_map();
     if( bubble_map.inbounds( m->getglobal( p ) ) ) {
-        std::map<tripoint, nc_color> explosion_colors;
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : closed ) {
             const tripoint_bub_ms bubble_pos( bubble_map.bub_from_abs( m->getglobal( pt ) ) );
 
@@ -304,10 +305,10 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                 col = c_yellow;
             }
 
-            explosion_colors[bubble_pos.raw()] = col;
+            explosion_colors[bubble_pos] = col;
         }
 
-        draw_custom_explosion( get_player_character().pos(), explosion_colors );
+        draw_custom_explosion( explosion_colors );
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -433,7 +434,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
     const tripoint_range<tripoint_bub_ms> area = m->points_on_zlevel( src.z() );
 
-    m->build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
+    m->build_obstacle_cache( area.min(), area.max() + tripoint::south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -801,7 +802,8 @@ void emp_blast( const tripoint &p )
     if( player_character.posx() == p.x && player_character.posy() == p.y &&
         player_character.posz() == p.z ) {
         if( player_character.get_power_level() > 0_kJ &&
-            !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+            !player_character.has_flag( json_flag_EMP_IMMUNE ) &&
+            !player_character.has_flag( json_flag_EMP_ENERGYDRAIN_IMMUNE ) ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   player_character.get_power_level() ) );

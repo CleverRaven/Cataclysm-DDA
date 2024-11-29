@@ -665,7 +665,7 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      { "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
+      { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
       { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
       { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
@@ -695,7 +695,7 @@
         "decay_start": "24 hours"
       },
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_madness", "=", "0" ] },
+      { "math": [ "u_madness = 0" ] },
       {
         "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
       }
@@ -901,9 +901,7 @@
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            {
-              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
-            },
+            { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
             { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
@@ -911,9 +909,7 @@
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            {
-              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
-            },
+            { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
             { "math": [ "portal_dungeon_reflect_strength", "++" ] }
           ]
         },
@@ -1138,7 +1134,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sloth_attack",
     "effect": [
-      { "math": [ "portal_dungeon_slow_strength", "=", "max(portal_dungeon_slow_strength - 1, -75)" ] },
+      { "math": [ "portal_dungeon_slow_strength = max(portal_dungeon_slow_strength - 1, -75)" ] },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
@@ -1163,7 +1159,7 @@
     "type": "effect_on_condition",
     "id": "EOC_guilt_attack",
     "effect": [
-      { "math": [ "portal_dungeon_carry_strength", "=", "max(portal_dungeon_carry_strength - 1, -75)" ] },
+      { "math": [ "portal_dungeon_carry_strength = max(portal_dungeon_carry_strength - 1, -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
