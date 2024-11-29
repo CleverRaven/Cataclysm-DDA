@@ -16,7 +16,7 @@
         }
       ]
     },
-    "effect": { "math": [ "u_changeling_advancement_dreams_counter", "++" ] }
+    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
   },
   {
     "type": "effect_on_condition",

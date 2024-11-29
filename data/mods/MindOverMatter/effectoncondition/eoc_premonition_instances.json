@@ -157,7 +157,7 @@
         "max_radius": 25,
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -172,7 +172,7 @@
         "max_radius": 40,
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -231,7 +231,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -247,7 +247,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -305,7 +305,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -321,7 +321,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {

@@ -139,7 +139,7 @@
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_HYBRID_FORM_healing",
     "effect": [
-      { "math": [ "u_werewolf_healing_tick_counter", "++" ] },
+      { "math": [ "u_werewolf_healing_tick_counter++" ] },
       {
         "if": { "math": [ "u_werewolf_healing_tick_counter >= 6" ] },
         "then": [
