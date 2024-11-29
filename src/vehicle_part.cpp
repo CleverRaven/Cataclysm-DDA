@@ -361,7 +361,7 @@ void vehicle_part::ammo_unset()
     }
 }
 
-int vehicle_part::ammo_consume( int qty, const tripoint &pos )
+int vehicle_part::ammo_consume( int qty, const tripoint_bub_ms &pos )
 {
     if( is_tank() && !base.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
@@ -457,7 +457,7 @@ bool vehicle_part::can_reload( const item &obj ) const
     return ammo_capacity( obj.ammo_type() ) > 0;
 }
 
-void vehicle_part::process_contents( map &here, const tripoint &pos, const bool e_heater )
+void vehicle_part::process_contents( map &here, const tripoint_bub_ms &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
@@ -553,10 +553,11 @@ void vehicle_part::unset_crew()
     crew_id = character_id();
 }
 
-void vehicle_part::reset_target( const tripoint &pos )
+void vehicle_part::reset_target( const tripoint_bub_ms &pos )
 {
-    target.first = pos;
-    target.second = pos;
+    const tripoint_abs_ms tgt = get_map().getglobal( pos );
+    target.first = tgt;
+    target.second = tgt;
 }
 
 bool vehicle_part::is_engine() const
@@ -672,7 +673,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos_bub() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

@@ -15,7 +15,7 @@
     "id": "TALK_RC_SURVIVOR_1",
     "dynamic_line": "Hey there.  Do you work here, or what?",
     "speaker_effect": {
-      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] } ]
+      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction = rand(3)" ] } ]
     },
     "responses": [
       { "text": "Me?  No, I'm just passing through, how about you?", "topic": "TALK_RC_SURVIVOR_Story" },
@@ -52,19 +52,19 @@
     "type": "talk_topic",
     "id": "TALK_RC_SURVIVOR_Tips",
     "dynamic_line": {
-      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
+      "math": [ "npc_randomize_dialogue_direction == 0" ],
       "yes": {
         "gendered_line": "Sure.  Seen more'n I'd like to think about honestly.  Like, I think these zombies are evolving?  I've seen new things come out that I swear aren't natural.  One of them looked like it was sparking with electricity.",
         "relevant_genders": [ "npc" ]
       },
       "no": {
-        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
+        "math": [ "npc_randomize_dialogue_direction == 1" ],
         "yes": "Come to think of it, yeah.  The other day, I met this weird old man in the woods.  Obsessed with rabbits.  He seemed like a nice fellow, open to visitors, if you'd like I can send you his way to trade.",
         "no": {
-          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
+          "math": [ "npc_randomize_dialogue_direction == 2" ],
           "yes": "I could point you to some acquaintances of mine that have a farm, they're decent folk, if you have goods to trade.  Be careful around them, I get a vibe like they don't like visitors too much, and honestly it makes me nervous that they made it through this so together.  Kinda of ominous, you know?",
           "no": {
-            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
+            "math": [ "npc_randomize_dialogue_direction == 3" ],
             "yes": {
               "gendered_line": "There's so much weird stuff out there in the wilderness now.  A while back, I found this weird cartoon sign with a map on it, pointing to some kind of trade center.  Haven't been there yet but I can show you my copy of the map if you want.",
               "relevant_genders": [ "npc" ]
@@ -80,7 +80,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 1" ] },
             { "not": { "compare_string": [ "lapin", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
@@ -92,7 +92,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 2" ] },
             { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
@@ -104,7 +104,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 3" ] },
             { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },

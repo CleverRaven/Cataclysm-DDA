@@ -9,7 +9,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_mesmerize')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_mesmerize')" ] }
             ]
           }
         },
@@ -17,9 +17,9 @@
       ]
     },
     "effect": [
-      { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telepathy_mesmer_power_level", "=", "n_spell_level('telepathic_mesmerize')" ] },
-      { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telepathy_mesmer_power_level = n_spell_level('telepathic_mesmerize')" ] },
+      { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_telepath_mesmerism_duration",
@@ -31,7 +31,7 @@
         "run_eocs": [
           {
             "id": "EOC_TELEPATH_MESMERIZE_2",
-            "condition": "npc_is_character",
+            "condition": "u_is_character",
             "//": "If you're not totally immune, there's always a chance mesmerism will work",
             "effect": [
               {
@@ -138,9 +138,9 @@
             "id": "EOC_TELEPATH_MORALE_INITIATE_NPC_CHECK",
             "condition": "u_is_npc",
             "effect": [
-              { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-              { "math": [ "u_telepathy_power_level", "=", "n_spell_level('telepathic_morale')" ] },
-              { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+              { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+              { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_morale')" ] },
+              { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
               {
                 "math": [
                   "u_mood_stabilized_power_level",
@@ -151,9 +151,9 @@
               { "run_eocs": "EOC_TELEPATH_MORALE_MODIFY_NPC_VALUES" }
             ],
             "false_effect": [
-              { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-              { "math": [ "u_telepathy_power_level", "=", "n_spell_level('telepathic_morale')" ] },
-              { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+              { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+              { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_morale')" ] },
+              { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
               {
                 "math": [
                   "u_mood_stabilized_power_level",
@@ -179,9 +179,9 @@
             "id": "EOC_TELEPATH_MORALE_MODIFY_NPC_VALUES_2",
             "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
             "effect": [
-              { "math": [ "u_npc_fear()", "=", "max(-10, (u_npc_fear() - (u_mood_stabilized_power_level / 2)))" ] },
-              { "math": [ "u_npc_anger()", "=", "max(-10, (u_npc_anger() - (u_mood_stabilized_power_level / 2)))" ] },
-              { "math": [ "u_npc_trust()", "=", "min(20, (u_npc_trust() + (u_mood_stabilized_power_level / 4)))" ] },
+              { "math": [ "u_npc_fear() = max(-10, (u_npc_fear() - (u_mood_stabilized_power_level / 2)))" ] },
+              { "math": [ "u_npc_anger() = max(-10, (u_npc_anger() - (u_mood_stabilized_power_level / 2)))" ] },
+              { "math": [ "u_npc_trust() = min(20, (u_npc_trust() + (u_mood_stabilized_power_level / 4)))" ] },
               {
                 "npc_message": "You reach in and, with a deft touch, sooth your target's negative emotions.",
                 "type": "good"
@@ -257,7 +257,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "u_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_fear')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_fear')" ] }
             ]
           }
         },
@@ -265,9 +265,9 @@
       ]
     },
     "effect": [
-      { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telepathy_power_level", "=", "n_spell_level('telepathic_fear')" ] },
-      { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_fear')" ] },
+      { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
       {
         "u_add_effect": "psi_stunned",
         "duration": {

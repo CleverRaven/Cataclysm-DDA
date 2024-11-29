@@ -797,7 +797,7 @@ void npc::assess_danger()
             continue;
         }
 
-        if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+        if( has_faction_relationship( guy, npc_factions::relationship::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
         } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos_bub() ) ) {
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
@@ -1144,6 +1144,7 @@ void npc::act_on_danger_assessment()
                 add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s upgrades reposition to flat out retreat.", name );
                 mem_combat.repositioning = false; // we're not just moving, we're running.
                 warn_about( "run_away", run_away_for );
+                set_attitude( NPCATT_FLEE_TEMP );
                 if( mem_combat.panic > 5 && is_player_ally() && sees( player_character.pos_bub() ) ) {
                     // consider warning player about panic
                     int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
@@ -1368,7 +1369,11 @@ void npc::move()
         action = method_of_fleeing();
     } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
                has_effect( effect_npc_run_away ) ) {
-        action = method_of_fleeing();
+        if( hp_percentage() > 30 && target && rl_dist( pos(), target->pos() ) <= 1 ) {
+            action = method_of_attack();
+        } else {
+            action = method_of_fleeing();
+        }
     } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
                has_charges( itype_oxygen_tank, 1 ) ||
                has_charges( itype_smoxygen_tank, 1 ) ) ) {
@@ -1785,9 +1790,9 @@ void npc::execute_action( npc_action action )
 
             // Try to find the last destination
             // This is mount point, not actual position
-            point last_dest( INT_MIN, INT_MIN );
+            point_rel_ms last_dest( INT_MIN, INT_MIN );
             if( !path.empty() && veh_pointer_or_null( here.veh_at( path[path.size() - 1] ) ) == veh ) {
-                last_dest = vp->mount();
+                last_dest = vp->mount_pos();
             }
 
             // Prioritize last found path, then seats
@@ -1816,7 +1821,7 @@ void npc::execute_action( npc_action action )
 
                 int priority = 0;
 
-                if( vp.mount() == last_dest ) {
+                if( vp.mount_pos() == last_dest ) {
                     // Shares mount point with last known path
                     // We probably wanted to go there in the last turn
                     priority = 4;
@@ -2326,8 +2331,8 @@ void outfit::activate_combat_items( npc &guy )
             if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
-            if( transform->can_use( guy, candidate, tripoint_zero ).success() ) {
-                transform->use( &guy, candidate, tripoint_zero );
+            if( transform->can_use( guy, candidate, tripoint::zero ).success() ) {
+                transform->use( &guy, candidate, tripoint::zero );
                 guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
             }
         }
@@ -2346,8 +2351,8 @@ void outfit::deactivate_combat_items( npc &guy )
             candidate.active ) {
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
                                               ( candidate.type->get_use( "transform" )->get_actor_ptr() );
-            if( transform->can_use( guy, candidate, tripoint_zero ).success() ) {
-                transform->use( &guy, candidate, tripoint_zero );
+            if( transform->can_use( guy, candidate, tripoint::zero ).success() ) {
+                transform->use( &guy, candidate, tripoint::zero );
                 guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }
         }
@@ -3285,7 +3290,7 @@ void npc::worker_downtime()
     //  this is a bit of behind the scene omniscience for the npc, since ideally the npc
     //  should walk to the chair and then change their destination due to the seat being taken.
     tripoint_bub_ms local_chair_pos = chair_pos ? here.bub_from_abs( *chair_pos ) :
-                                      tripoint_bub_ms_zero;
+                                      tripoint_bub_ms::zero;
     if( chair_pos && !creatures.creature_at( local_chair_pos ) ) {
         if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, local_chair_pos ) ) {
             update_path( local_chair_pos );
@@ -3823,7 +3828,7 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
             would_always_steal = true;
         }
         // Anyone willing to kill you no longer cares for your property rights
-        if( has_faction_relationship( player, npc_factions::kill_on_sight ) ) {
+        if( has_faction_relationship( player, npc_factions::relationship::kill_on_sight ) ) {
             would_always_steal = true;
         }
         if( would_always_steal ) {
@@ -4889,8 +4894,9 @@ void npc::set_omt_destination()
             cache.omt_loc = surface_omt_loc;
         }
         omt_path.clear();
-        if( goal != overmap::invalid_tripoint ) {
-            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+        if( !goal.is_invalid() ) {
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal,
+                       overmap_path_params::for_npc() ).points;
         }
         if( !omt_path.empty() ) {
             dest_type = overmap_buffer.ter( goal )->get_type_id().str();
@@ -4899,13 +4905,15 @@ void npc::set_omt_destination()
     }
 
     // couldn't find any places to go, so go somewhere.
-    if( goal == overmap::invalid_tripoint || omt_path.empty() ) {
+    if( goal.is_invalid() || omt_path.empty() ) {
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal,
+                   overmap_path_params::for_npc() ).points;
         // try one more time
         if( omt_path.empty() ) {
             goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal,
+                       overmap_path_params::for_npc() ).points;
         }
         if( omt_path.empty() ) {
             goal = no_goal_point;

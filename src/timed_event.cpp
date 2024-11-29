@@ -145,8 +145,8 @@ void timed_event::actualize()
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_fault ) {
                     fault_point = p;
-                    horizontal = here.ter( p + tripoint_east ) == ter_t_fault ||
-                                 here.ter( p + tripoint_west ) == ter_t_fault;
+                    horizontal = here.ter( p + tripoint::east ) == ter_t_fault ||
+                                 here.ter( p + tripoint::west ) == ter_t_fault;
                     break;
                 }
             }
@@ -226,7 +226,8 @@ void timed_event::actualize()
                 } else if( here.ter( p ) == ter_t_rock_floor ) {
                     bool flood = false;
                     for( const tripoint_bub_ms &w : points_in_radius( p, 1 ) ) {
-                        if( here.ter( w ) == ter_t_water_dp || here.ter( w ) == ter_t_water_sh ) {
+                        const ter_id &t = here.ter( w );
+                        if( t == ter_t_water_dp || t == ter_t_water_sh ) {
                             flood = true;
                             break;
                         }
@@ -255,7 +256,7 @@ void timed_event::actualize()
                     get_memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    avatar_action::swim( here, player_character, player_character.pos() );
+                    avatar_action::swim( here, player_character, player_character.pos_bub() );
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to here

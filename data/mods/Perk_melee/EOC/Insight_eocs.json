@@ -4,31 +4,31 @@
     "type": "effect_on_condition",
     "recurrence": "1 seconds",
     "condition": {
-      "and": [ { "u_has_flag": "MELEE_PERK_INSIGHT" }, { "x_in_y_chance": { "x": { "math": [ "u_val('perception')" ] }, "y": 20 } } ]
+      "and": [
+        { "u_has_flag": "MELEE_PERK_INSIGHT" },
+        { "u_using_martial_art": "style_none" },
+        { "x_in_y_chance": { "x": { "math": [ "u_val('perception')" ] }, "y": 20 } }
+      ]
     },
     "effect": [
       {
-        "if": {
-          "and": [ { "u_has_flag": "MELEE_PERK_SIXTH_SENSE" }, { "math": [ "u_effect_intensity('perk_insight')", "<", "20" ] } ]
-        },
+        "if": { "and": [ { "u_has_flag": "MELEE_PERK_SIXTH_SENSE" }, { "math": [ "u_effect_intensity('perk_insight') < 20" ] } ] },
         "then": [
           {
-            "if": { "math": [ "u_monsters_nearby('radius': 15)", ">", "0" ] },
-            "then": [ { "run_eoc_with": "EOC_GAIN_INSIGHT", "beta_talker": "avatar" } ]
+            "if": { "math": [ "u_monsters_nearby('radius': 15) > 0" ] },
+            "then": [ { "run_eocs": "EOC_GAIN_INSIGHT", "beta_talker": "avatar" } ]
           }
         ],
         "else": [ { "u_cast_spell": { "id": "perk_insight_spell" }, "targeted": true } ]
       }
-    ]
+    ],
+    "false_effect": [ { "if": { "not": { "u_using_martial_art": "style_none" } }, "then": [ { "u_lose_effect": "perk_insight" } ] } ]
   },
   {
     "id": "EOC_PERK_SPEND_INSIGHT",
     "type": "effect_on_condition",
     "condition": { "u_has_flag": "MELEE_PERK_INSIGHT" },
-    "effect": [
-      { "math": [ "u_perk_last_insight", "=", "u_effect_intensity('perk_insight')" ] },
-      { "u_lose_effect": "perk_insight" }
-    ]
+    "effect": [ { "math": [ "u_perk_last_insight = u_effect_intensity('perk_insight')" ] }, { "u_lose_effect": "perk_insight" } ]
   },
   {
     "type": "effect_on_condition",
@@ -49,7 +49,7 @@
   {
     "id": "EOC_PERK_CLEAR_INSIGHT",
     "type": "effect_on_condition",
-    "condition": { "math": [ "u_monsters_nearby('radius': 20)", "==", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': 20) == 0" ] },
     "deactivate_condition": { "not": { "u_has_flag": "MELEE_PERK_INSIGHT" } },
     "recurrence": "20 seconds",
     "effect": [ { "u_lose_effect": "perk_insight" } ]
@@ -79,7 +79,7 @@
     "effect": [
       {
         "if": {
-          "or": [ { "npc_has_flag": "MELEE_PERK_INSIGHT_INFINITE" }, { "math": [ "n_effect_intensity('perk_insight')", "<", "20" ] } ]
+          "or": [ { "npc_has_flag": "MELEE_PERK_INSIGHT_INFINITE" }, { "math": [ "n_effect_intensity('perk_insight') < 20" ] } ]
         },
         "then": [
           {

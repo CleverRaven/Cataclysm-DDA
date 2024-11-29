@@ -1,6 +1,7 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <chrono>
 #include <iterator>
 #include <memory>
 #include <unordered_map>
@@ -166,6 +167,24 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
+// Cache for the search function
+static std::map<const itype_id, std::string> item_info_cache;
+static time_point cache_valid_turn;
+
+static std::string cached_item_info( const itype_id &item_type )
+{
+    if( cache_valid_turn != calendar::turn ) {
+        cache_valid_turn = calendar::turn;
+        item_info_cache.clear();
+    }
+    if( item_info_cache.count( item_type ) > 0 ) {
+        return item_info_cache.at( item_type );
+    }
+    const item result( item_type );
+    item_info_cache[item_type] = result.info( true );
+    return item_info_cache.at( item_type );
+}
+
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -211,8 +230,8 @@ std::vector<const recipe *> recipe_subset::search(
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result( r->result() );
-                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                    // Info is always rendered for avatar anyway, no need to cache per Character then.
+                    return lcmatch( remove_color_tags( cached_item_info( r->result() ) ), txt );
                 }
             }
 
@@ -285,7 +304,15 @@ std::vector<const recipe *> recipe_subset::search(
 
     std::vector<const recipe *> res;
     size_t i = 0;
+    ctxt.register_action( "QUIT" );
+    std::chrono::steady_clock::time_point next_input_check = std::chrono::steady_clock::now();
     for( const recipe *r : recipes ) {
+        if( std::chrono::steady_clock::now() > next_input_check ) {
+            next_input_check = std::chrono::steady_clock::now() + std::chrono::milliseconds( 250 );
+            if( ctxt.handle_input( 1 ) == "QUIT" ) {
+                return res;
+            }
+        }
         if( progress_callback ) {
             progress_callback( i, recipes.size() );
         }

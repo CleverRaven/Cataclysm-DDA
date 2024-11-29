@@ -227,18 +227,20 @@ bool map::build_vision_transparency_cache( int zlev )
         }
     }
 
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    // We don't need to deal with cache dirtying, because that was handled when the terrain was changed.
     for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
         if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) && loc != p ) {
-            dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
-            solid_tiles.emplace_back( loc );
+            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
         }
     }
 
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
-
     // The tile player is standing on should always be visible
-    vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    if( inbounds( p ) ) {
+        vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    }
 
     for( const tripoint_bub_ms loc : solid_tiles ) {
         vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
@@ -345,7 +347,7 @@ void map::build_sunlight_cache( int pzlev )
         const float sight_penalty = get_weather().weather_id->sight_penalty;
         // TODO: Replace these with a lookup inside the four_quadrants class.
         constexpr std::array<point, 5> cardinals = {
-            {point_zero, point_north, point_west, point_east, point_south}
+            { point::zero, point::north, point::west, point::east, point::south }
         };
         constexpr std::array<std::array<quadrant, 2>, 5> dir_quadrants = {{
                 {{quadrant::NE, quadrant::NW}},
@@ -486,11 +488,11 @@ void map::generate_lightmap( const int zlev )
                         add_light_from_items( p, i_at( p ) );
                     }
 
-                    const ter_id terrain = cur_submap->get_ter( { sx, sy } );
+                    const ter_id &terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
                         add_light_source( p, terrain->light_emitted );
                     }
-                    const furn_id furniture = cur_submap->get_furn( {sx, sy } );
+                    const furn_id &furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
                         add_light_source( p, furniture->light_emitted );
                     }
@@ -720,14 +722,14 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             std::array<quadrant, 2> quadrants;
         };
         static constexpr std::array<offset_and_quadrants, 8> adjacent_offsets = {{
-                { point_south,      {{ quadrant::SE, quadrant::SW }} },
-                { point_north,      {{ quadrant::NE, quadrant::NW }} },
-                { point_east,       {{ quadrant::SE, quadrant::NE }} },
-                { point_south_east, {{ quadrant::SE, quadrant::SE }} },
-                { point_north_east, {{ quadrant::NE, quadrant::NE }} },
-                { point_west,       {{ quadrant::SW, quadrant::NW }} },
-                { point_south_west, {{ quadrant::SW, quadrant::SW }} },
-                { point_north_west, {{ quadrant::NW, quadrant::NW }} },
+                { point::south,      {{ quadrant::SE, quadrant::SW }} },
+                { point::north,      {{ quadrant::NE, quadrant::NW }} },
+                { point::east,       {{ quadrant::SE, quadrant::NE }} },
+                { point::south_east, {{ quadrant::SE, quadrant::SE }} },
+                { point::north_east, {{ quadrant::NE, quadrant::NE }} },
+                { point::west,       {{ quadrant::SW, quadrant::NW }} },
+                { point::south_west, {{ quadrant::SW, quadrant::SW }} },
+                { point::north_west, {{ quadrant::NW, quadrant::NW }} },
             }
         };
 
@@ -902,7 +904,7 @@ void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
                 current_transparency = input_array[ current.x ][ current.y ];
             }
 
-            const int dist = rl_dist( tripoint_zero, delta ) + offsetDistance;
+            const int dist = rl_dist( tripoint::zero, delta ) + offsetDistance;
             last_intensity = calc( numerator, cumulative_transparency, dist );
 
             T new_transparency = input_array[ current.x ][ current.y ];

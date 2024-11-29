@@ -172,7 +172,7 @@ Effect                 | Description
 `charm_monster`        | Charms a monster that has less hp than damage() for approximately duration().
 `dash`                 | Dashes forward up to range and hits targets in a cone at the target.
 `directed_push`        | Pushes `valid_targets` in aoe away from the target location, with a distance of damage().  Negative values pull instead.
-`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster.
+`effect_on_condition`  | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster and a context val location variable `spell_location` for the target primarily useful if the target isn't a creature.
 `emit`                 | Causes an `emit` at the target.
 `explosion`            | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
 `flashbang`            | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
@@ -655,6 +655,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
     "intermittent_activation": {
       "effects": [
         {
@@ -665,6 +666,49 @@ There are two possible syntaxes.  The first is by defining an enchantment object
         }
       ]
     }
+    "special_vision": [   // defines creatures (monsters or NPC) you can see in some irregular ways, thermal, supernatural, you name it
+      {
+        "condition": { "and": [ { "npc_has_flag": "ELECTRIC" }, "u_see_npc" ] },   // this need to return true to see the critter; u is character, npc is critter being watched
+        "distance": 20, // how far special_vision is applied. for technical reasons special_vision do not stack, having multiple special_visions of the same nature will not result in special_visions of bigger distance
+        "precise": true,  // if true, you can aim the critter as if it's visible, if false, your ability to aim it would be limited.  Default false
+        "ignores_aiming_cone": true, // if true, aiming the gun do not obscure sensing the creature.  Default false
+        "descriptions": [ // if condition is true, this will assign a dedicated id (used for tiles) and text, depending on text_condition
+          { 
+            "id": "infrared_creature_tiny", 
+            "text_condition": { "math": [ "n_val('size') == 1" ] }, // optional condition for this specific id to be used. Default true.  Be sure to not use condition that can change in between moves (like any math with random result, `rand(1)` etc); 
+                        // while text with tags is stored and re-evaluated only when cursor changes its position, tiles are re-evaluated every frame, even on pause
+            "text": "Message 1.",
+            "symbol": "@",  // symbol, that would be used in ascii.  Optional, default is `?`
+            "color": "c_magenta" // color of symbol, that would be used in ascii.  Optional, default is `c_red`
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "text": "Message 2."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "text": "Message 3. <fuck_you>" // tags are also supported
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "text": "Message 4."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "text": "Message 5."
+          },
+          {
+            "id": "infrared_creature_medium",
+             "text": "Last message."  // descriptions are read in order they are in json, adding dummy condition that always return true can be used as a fallback if none previous condition matches;
+             // otherwise default description is `You sense a creature here.`, and default id is `infrared_creature`
+          }
+        ]
+      }
+    ]
   }
 ```
 
@@ -781,7 +825,7 @@ First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks
     "type": "enchantment",
     "id": "BITE_STR",
     "has": "WIELD",
-    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] },
+    "condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso') > 1"] },
     "values": [ { "value": "STRENGTH", "add": 5 } ]
   }
 ```
@@ -855,12 +899,12 @@ Character status value  | Description
 `MAX_MANA`              | 
 `MAX_STAMINA`           | 
 `MELEE_DAMAGE`          | Adds damage to melee attacks
+`MELEE_TO_HIT`          | Modifies melee attacks' `to_hit`. `add` is recommended since `to_hit` can be below 0 and has a small typical range.
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
 `METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never weary.
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
-`MOTION_VISION_RANGE`   | Reveals all monsters as a red `?` within the specified radius.
 `MOVE_COST`             | 
 `MUT_INSTABILITY_MOD`   | Modifies your instability score, which affects the chance to get bad mutation (scales with amount of good mutations you have, capping at 67%, check `Character::roll_bad_mutation` for more information). `add: 1` would be equal to having 1 good mutation more, increasing the chance to get bad mutation, `add: -1` would be like you have one good mutation less, decreasing the chance to get bad mutation.
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
@@ -895,10 +939,6 @@ Character status value  | Description
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
-`SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
-`SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
-`SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
-`SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
 `SKILL_RUST_RESIST`     | when `add`, chance / 100 to resist skill rust; when `multiply`, multiplier for skill rust amount - the smaller, the less experience you will rust
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
@@ -919,21 +959,6 @@ Character status value  | Description
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
 `WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
-
-
-Melee-only enchantment values | Description
----                           |---
-`ITEM_DAMAGE_ACID`            | 
-`ITEM_DAMAGE_BASH`            | 
-`ITEM_DAMAGE_BIO`             | 
-`ITEM_DAMAGE_BULLET`          | 
-`ITEM_DAMAGE_COLD`            | 
-`ITEM_DAMAGE_CUT`             | 
-`ITEM_DAMAGE_ELEC`            | 
-`ITEM_DAMAGE_HEAT`            | 
-`ITEM_DAMAGE_PURE`            | 
-`ITEM_DAMAGE_STAB`            | 
-
 
 Enchanted item value | Description
 ---                  |---

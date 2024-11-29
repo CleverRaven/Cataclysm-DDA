@@ -159,7 +159,7 @@ tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, missio
                                 bool must_see, int target_z = 0 );
 tripoint_abs_omt target_om_ter_random(
     const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,
-    tripoint_abs_omt loc = overmap::invalid_tripoint );
+    tripoint_abs_omt loc = tripoint_abs_omt::invalid );
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
@@ -229,7 +229,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( struct dialogue & )> goal_condition;
+        std::function<bool( const_dialogue const & )> goal_condition;
 
         mission_type() = default;
 

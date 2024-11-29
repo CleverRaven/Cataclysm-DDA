@@ -760,7 +760,7 @@
     "volume": "70 ml",
     "longest_side": "12 cm",
     "price": "30 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "3 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
@@ -1193,8 +1193,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },

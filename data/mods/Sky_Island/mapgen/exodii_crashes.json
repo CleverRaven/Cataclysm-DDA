@@ -1,0 +1,25 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_building_big_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "|||||",
+        "||A||",
+        "|_C_|",
+        "||M||",
+        "||m||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "exodii_crash_palette" ],
+      "terrain": { "A": "t_metal_floor", "C": "t_metal_floor" },
+      "furniture": { "A": "f_autodoc", "C": "f_autodoc_couch" },
+      "items": {
+        "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 40 }, { "item": "si_exodii_cbms_high_value", "chance": 33 } ]
+      },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_6x6_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  }
+]

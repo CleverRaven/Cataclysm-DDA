@@ -37,7 +37,7 @@
         "condition": { "compare_string": [ "alternate", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]

@@ -899,7 +899,7 @@
     "weapon_category": [ "GREAT_HAMMERS" ],
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
-    "melee_damage": { "bash": 16, "cut": 30 }
+    "melee_damage": { "bash": 16, "cut": 12 }
   },
   {
     "type": "GENERIC",

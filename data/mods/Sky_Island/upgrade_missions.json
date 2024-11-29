@@ -21,7 +21,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "1" ] },
+        { "math": [ "scoutingdistancetargets = 1" ] },
         { "u_forget_recipe": "upgradekey_scouting1" },
         {
           "u_message": "Your vision expands.  Future missions and exits will be scouted just a little better.",
@@ -92,7 +92,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "2" ] },
+        { "math": [ "scoutingdistancetargets = 2" ] },
         { "u_forget_recipe": "upgradekey_scouting2" },
         {
           "u_message": "Your vision expands.  Future missions and exits will provide better map scouting.",
@@ -157,7 +157,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "4" ] },
+        { "math": [ "scoutingdistancetargets = 4" ] },
         { "u_forget_recipe": "upgradekey_scouting3" },
         {
           "u_message": "Your vision expands.  Future missions and exits will provide even better scouting on your map.",
@@ -222,7 +222,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "6" ] },
+        { "math": [ "scoutingdistancetargets = 6" ] },
         { "u_forget_recipe": "upgradekey_scouting4" },
         {
           "u_message": "Your vision expands.  Future missions and exits will be provide exceptional scouting.",
@@ -288,7 +288,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancetargets", "=", "10" ] },
+        { "math": [ "scoutingdistancetargets = 10" ] },
         { "u_forget_recipe": "upgradekey_scouting5" },
         {
           "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
@@ -354,8 +354,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "4" ] },
-        { "math": [ "invistime", "=", "70" ] },
+        { "math": [ "scoutingdistancelanding = 4" ] },
+        { "math": [ "invistime = 70" ] },
         { "u_forget_recipe": "upgradekey_landing1" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 70 seconds at the beginning of every expedition.",
@@ -419,8 +419,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "8" ] },
-        { "math": [ "invistime", "=", "80" ] },
+        { "math": [ "scoutingdistancelanding = 8" ] },
+        { "math": [ "invistime = 80" ] },
         { "u_forget_recipe": "upgradekey_landing2" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 80 seconds at the beginning of every expedition.",
@@ -486,8 +486,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "12" ] },
-        { "math": [ "invistime", "=", "90" ] },
+        { "math": [ "scoutingdistancelanding = 12" ] },
+        { "math": [ "invistime = 90" ] },
         { "u_forget_recipe": "upgradekey_landing3" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 90 seconds at the beginning of every expedition.",
@@ -552,8 +552,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "16" ] },
-        { "math": [ "invistime", "=", "100" ] },
+        { "math": [ "scoutingdistancelanding = 16" ] },
+        { "math": [ "invistime = 100" ] },
         { "u_forget_recipe": "upgradekey_landing4" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 100 seconds at the beginning of every expedition.",
@@ -619,8 +619,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "scoutingdistancelanding", "=", "24" ] },
-        { "math": [ "invistime", "=", "120" ] },
+        { "math": [ "scoutingdistancelanding = 24" ] },
+        { "math": [ "invistime = 120" ] },
         { "u_forget_recipe": "upgradekey_landing5" },
         {
           "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 120 seconds at the beginning of every expedition.",
@@ -686,7 +686,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "1" ] },
+        { "math": [ "bonuspulses = 1" ] },
         { "u_forget_recipe": "upgradekey_stability1" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -752,7 +752,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "2" ] },
+        { "math": [ "bonuspulses = 2" ] },
         { "u_forget_recipe": "upgradekey_stability2" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -820,7 +820,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "3" ] },
+        { "math": [ "bonuspulses = 3" ] },
         { "u_forget_recipe": "upgradekey_stability3" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -896,7 +896,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonuspulses", "=", "4" ] },
+        { "math": [ "bonuspulses = 4" ] },
         { "u_forget_recipe": "upgradekey_stability4" },
         {
           "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
@@ -961,7 +961,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "slaughterunlocked", "=", "1" ] },
+        { "math": [ "slaughterunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_slaughter" },
         {
           "u_message": "Bloodthirst surges through you like electricity.  The clarity of the world and its natural flow pierces your mind.\nIn every future expedition, you will be tasked to find and extinguish living entities that have absorbed warp.  Do this and you will be rewarded.",
@@ -1019,7 +1019,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusexits", "=", "1" ] },
+        { "math": [ "bonusexits = 1" ] },
         { "u_forget_recipe": "upgradekey_exit1" },
         {
           "u_message": "You close your eyes and through the flow of turbulent warpstream, an invisible maze manifests.  A thousand potential passages brush smooth stone across your consciousness, and the meaning of this reality glimmers faintly, a dancing splinter of light in the distance.  You've been here before, you are here now, and you will be here again.\nWhen you open your eyes, you're back where you began.  You haven't moved, but it feels as though the world has.\n\nIn every future expedition, you will now be able to find two different locations you can exit from.",
@@ -1088,7 +1088,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusexits", "=", "2" ] },
+        { "math": [ "bonusexits = 2" ] },
         { "u_forget_recipe": "upgradekey_exit2" },
         {
           "u_message": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find three different locations you can exit from.",
@@ -1152,7 +1152,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusmissions", "=", "1" ] },
+        { "math": [ "bonusmissions = 1" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions1" },
         {
           "u_message": "The island speaks in your head using words you cannot translate yet already understand.  Its wishes are your commands.\nIn every future expedition, you will now be given a randomly generated mission, from which you can earn valuable warp shards.",
@@ -1220,7 +1220,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusmissions", "=", "2" ] },
+        { "math": [ "bonusmissions = 2" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions2" },
         {
           "u_message": "Those who disturb the warpstream must be put down.  There is no cruelty in this.  It is the order of the Island, and it will be kept.\nIn every future expedition, you will now be given 2 random missions.",
@@ -1289,7 +1289,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "bonusmissions", "=", "3" ] },
+        { "math": [ "bonusmissions = 3" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions3" },
         {
           "u_message": "Your strength is an extension of the island's will.  Let order be maintained.\nIn every future expedition, you will now be given 3 random missions.",
@@ -1367,8 +1367,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "hardmissions", "=", "10" ] },
-        { "math": [ "hardermissions", "=", "5" ] },
+        { "math": [ "hardmissions = 10" ] },
+        { "math": [ "hardermissions = 5" ] },
         { "u_forget_recipe": "upgradekey_hardmissions1" },
         {
           "u_message": "Greater trespasses against the flow of the warpstream reveal themselves to you.  This interference cannot go unpunished.\nThe missions you are randomly assigned in each expedition are more varied, and can now pull from harder and more rewarding challenges.",
@@ -1433,9 +1433,9 @@
     },
     "end": {
       "effect": [
-        { "math": [ "hardmissions", "=", "15" ] },
-        { "math": [ "hardermissions", "=", "15" ] },
-        { "math": [ "hardestmissions", "=", "10" ] },
+        { "math": [ "hardmissions = 15" ] },
+        { "math": [ "hardermissions = 15" ] },
+        { "math": [ "hardestmissions = 10" ] },
         { "u_forget_recipe": "upgradekey_hardmissions2" },
         {
           "u_message": "The greatest trespasses against the island now glimmer in the dark, guiding your hand as a tool of order.  Return these chaotic energies to the tranquility of the warpstream.\nThe missions you are randomly assigned in each expedition are even more varied, and can now pull from the hardest and most rewarding challenges.",
@@ -1501,7 +1501,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "islandrank", "=", "2" ] },
+        { "math": [ "islandrank = 2" ] },
         { "u_forget_recipe": "upgradekey_rankup1" },
         { "u_learn_recipe": "warp_carrier" },
         { "u_learn_recipe": "recipe_craft_random_artifact" },
@@ -1578,7 +1578,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "islandrank", "=", "4" ] },
+        { "math": [ "islandrank = 4" ] },
         { "u_forget_recipe": "upgradekey_rankup2" },
         { "u_learn_recipe": "warphome" },
         { "u_learn_recipe": "warp_autodoc_inert" },
@@ -1652,7 +1652,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "longerraids", "=", "1" ] },
+        { "math": [ "longerraids = 1" ] },
         { "u_forget_recipe": "upgradekey_raidlength1" },
         {
           "u_message": "You are ready for a longer haul.\nLarge Expeditions are now available at the warp obelisk.  Exits and missions will be farther away, but you will have twice as long to spend earthside.  Use this time wisely, and set your sights on bigger targets.  What will you do with your newfound time?",
@@ -1716,7 +1716,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "longerraids", "=", "2" ] },
+        { "math": [ "longerraids = 2" ] },
         { "u_forget_recipe": "upgradekey_raidlength2" },
         {
           "u_message": "You're in it to win it, and are prepared to take a long time exploring the world below.\nExtended Expeditions are now available at the warp obelisk.  Exits and missions will be much farther away, but you will have three times as long to spend earthside.  Pack supplies for a day trip and be sure to bring plenty of storage space.  Where will you go with your newfound time?",
@@ -1780,7 +1780,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "basementsunlocked", "=", "1" ] },
+        { "math": [ "basementsunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_basementsunlock" },
         {
           "u_message": "When leaving from the warp obelisk, you can now guarantee you will begin your expedition in a basement.  Not glamorous, but at least it ensures you won't be stranded out in some desolate field.",
@@ -1854,7 +1854,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "roofsunlocked", "=", "1" ] },
+        { "math": [ "roofsunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_roofsunlock" },
         {
           "u_message": "When leaving from the warp obelisk, you can now guarantee you will begin your expedition on some rooftop.  Dangerous, perhaps, but it ensures proximity to points of interest, and besides, there are all kinds of buildings this might land you on.",
@@ -1921,7 +1921,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "labsunlocked", "=", "1" ] },
+        { "math": [ "labsunlocked = 1" ] },
         { "u_forget_recipe": "upgradekey_labsunlock" },
         { "u_learn_recipe": "warp_labs_catalyst" },
         {
@@ -1987,7 +1987,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_base", "=", "1" ] },
+        { "math": [ "skyisland_build_base = 1" ] },
         { "u_forget_recipe": "buildkey_base1" },
         { "run_eocs": "EOC_skyisland_build_base1" },
         {
@@ -2053,7 +2053,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "1" ] },
+        { "math": [ "skyisland_build_bigroom = 1" ] },
         { "u_forget_recipe": "buildkey_bigroom1" },
         { "run_eocs": "EOC_skyisland_build_bigroom1" },
         {
@@ -2120,7 +2120,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "2" ] },
+        { "math": [ "skyisland_build_bigroom = 2" ] },
         { "u_forget_recipe": "buildkey_bigroom2" },
         { "run_eocs": "EOC_skyisland_build_bigroom2" },
         { "u_message": "Construction complete.  The central room has grown.", "popup": true }
@@ -2182,7 +2182,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "3" ] },
+        { "math": [ "skyisland_build_bigroom = 3" ] },
         { "u_forget_recipe": "buildkey_bigroom3" },
         { "run_eocs": "EOC_skyisland_build_bigroom3" },
         { "u_message": "Construction complete.  The central room has grown even further.", "popup": true }
@@ -2247,7 +2247,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_bigroom", "=", "4" ] },
+        { "math": [ "skyisland_build_bigroom = 4" ] },
         { "u_forget_recipe": "buildkey_bigroom4" },
         { "run_eocs": "EOC_skyisland_build_bigroom4" },
         { "u_message": "Construction complete.  The central room is now at its maximum size.", "popup": true }
@@ -2318,7 +2318,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_centralskylight", "=", "1" ] },
+        { "math": [ "skyisland_build_centralskylight = 1" ] },
         { "u_forget_recipe": "buildkey_centralskylight2" },
         { "run_eocs": "EOC_skyisland_build_centralskylight2" },
         { "u_message": "Construction complete.  The skylight above the central room has expanded.", "popup": true }
@@ -2381,7 +2381,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_centralskylight", "=", "2" ] },
+        { "math": [ "skyisland_build_centralskylight = 2" ] },
         { "u_forget_recipe": "buildkey_centralskylight3" },
         { "run_eocs": "EOC_skyisland_build_centralskylight3" },
         { "u_message": "Construction complete.  The skylight over the central room has grown.", "popup": true }
@@ -2445,7 +2445,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_centralskylight", "=", "3" ] },
+        { "math": [ "skyisland_build_centralskylight = 3" ] },
         { "u_forget_recipe": "buildkey_centralskylight4" },
         { "run_eocs": "EOC_skyisland_build_centralskylight4" },
         { "u_message": "Construction complete.  The central skylight has grown even further.", "popup": true }
@@ -2509,7 +2509,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_bunker_temperature_adaptation", "=", "1" ] },
+        { "math": [ "skyisland_bunker_temperature_adaptation = 1" ] },
         { "u_forget_recipe": "buildkey_climatecontrol" },
         { "run_eocs": "EOC_skyisland_build_climatecontrol" },
         { "u_message": "Construction complete.  The bunker's temperature is now controlled.", "popup": true }
@@ -2575,7 +2575,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "1" ] },
+        { "math": [ "skyisland_build_westroom = 1" ] },
         { "u_forget_recipe": "buildkey_westroom1" },
         { "run_eocs": "EOC_skyisland_build_westroom1" },
         {
@@ -2642,7 +2642,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "2" ] },
+        { "math": [ "skyisland_build_westroom = 2" ] },
         { "u_forget_recipe": "buildkey_westroom2" },
         { "run_eocs": "EOC_skyisland_build_westroom2" },
         { "u_message": "Construction complete.  The western room has grown.", "popup": true }
@@ -2704,7 +2704,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "3" ] },
+        { "math": [ "skyisland_build_westroom = 3" ] },
         { "u_forget_recipe": "buildkey_westroom3" },
         { "run_eocs": "EOC_skyisland_build_westroom3" },
         { "u_message": "Construction complete.  The western room has grown even further.", "popup": true }
@@ -2769,7 +2769,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_westroom", "=", "4" ] },
+        { "math": [ "skyisland_build_westroom = 4" ] },
         { "u_forget_recipe": "buildkey_westroom4" },
         { "run_eocs": "EOC_skyisland_build_westroom4" },
         { "u_message": "Construction complete.  The western room has now has a viewing gallery.", "popup": true }
@@ -2837,7 +2837,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_west_side_rooms", "=", "1" ] },
+        { "math": [ "skyisland_build_west_side_rooms = 1" ] },
         { "u_forget_recipe": "buildkey_west_side_rooms" },
         { "run_eocs": "EOC_skyisland_build_west_side_rooms" },
         {
@@ -2880,19 +2880,20 @@
     ],
     "components": [
       [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
-      [ [ "wood_beam", 12 ] ],
+      [ [ "wood_beam", 8 ] ],
       [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
       [
-        [ "box_small", 600 ],
-        [ "box_medium", 120 ],
-        [ "box_large", 20 ],
-        [ "box_small_metal", 150 ],
-        [ "box_medium_metal", 60 ],
-        [ "box_large_metal", 10 ],
-        [ "box_small_wood", 200 ],
-        [ "box_medium_wood", 60 ],
-        [ "box_large_wood", 10 ]
-      ]
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {
@@ -2917,7 +2918,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "1" ] },
+        { "math": [ "skyisland_build_eastroom = 1" ] },
         { "u_forget_recipe": "buildkey_eastroom1" },
         { "run_eocs": "EOC_skyisland_build_eastroom1" },
         {
@@ -2984,7 +2985,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "2" ] },
+        { "math": [ "skyisland_build_eastroom = 2" ] },
         { "u_forget_recipe": "buildkey_eastroom2" },
         { "run_eocs": "EOC_skyisland_build_eastroom2" },
         { "u_message": "Construction complete.  The eastern room has grown.", "popup": true }
@@ -3046,7 +3047,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "3" ] },
+        { "math": [ "skyisland_build_eastroom = 3" ] },
         { "u_forget_recipe": "buildkey_eastroom3" },
         { "run_eocs": "EOC_skyisland_build_eastroom3" },
         { "u_message": "Construction complete.  The eastern room has grown even further.", "popup": true }
@@ -3111,7 +3112,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_eastroom", "=", "4" ] },
+        { "math": [ "skyisland_build_eastroom = 4" ] },
         { "u_forget_recipe": "buildkey_eastroom4" },
         { "run_eocs": "EOC_skyisland_build_eastroom4" },
         { "u_message": "Construction complete.  The eastern room has now has a viewing gallery.", "popup": true }
@@ -3179,7 +3180,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_east_side_rooms", "=", "1" ] },
+        { "math": [ "skyisland_build_east_side_rooms = 1" ] },
         { "u_forget_recipe": "buildkey_east_side_rooms" },
         { "run_eocs": "EOC_skyisland_build_east_side_rooms" },
         {
@@ -3222,19 +3223,20 @@
     ],
     "components": [
       [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
-      [ [ "wood_beam", 12 ] ],
+      [ [ "wood_beam", 8 ] ],
       [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
       [
-        [ "box_small", 600 ],
-        [ "box_medium", 120 ],
-        [ "box_large", 20 ],
-        [ "box_small_metal", 150 ],
-        [ "box_medium_metal", 60 ],
-        [ "box_large_metal", 10 ],
-        [ "box_small_wood", 200 ],
-        [ "box_medium_wood", 60 ],
-        [ "box_large_wood", 10 ]
-      ]
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {
@@ -3259,7 +3261,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "1" ] },
+        { "math": [ "skyisland_build_northroom = 1" ] },
         { "u_forget_recipe": "buildkey_northroom1" },
         { "run_eocs": "EOC_skyisland_build_northroom1" },
         {
@@ -3331,7 +3333,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "2" ] },
+        { "math": [ "skyisland_build_northroom = 2" ] },
         { "u_forget_recipe": "buildkey_northroom2" },
         { "run_eocs": "EOC_skyisland_build_northroom2" },
         { "u_message": "Construction complete.  The northern room has grown.", "popup": true }
@@ -3399,7 +3401,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "3" ] },
+        { "math": [ "skyisland_build_northroom = 3" ] },
         { "u_forget_recipe": "buildkey_northroom3" },
         { "run_eocs": "EOC_skyisland_build_northroom3" },
         { "u_message": "Construction complete.  The northern room has grown even further.", "popup": true }
@@ -3468,7 +3470,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_northroom", "=", "4" ] },
+        { "math": [ "skyisland_build_northroom = 4" ] },
         { "u_forget_recipe": "buildkey_northroom4" },
         { "run_eocs": "EOC_skyisland_build_northroom4" },
         { "u_message": "Construction complete.  The northern room is now larger.", "popup": true }
@@ -3538,7 +3540,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "skyisland_build_north_side_rooms", "=", "1" ] },
+        { "math": [ "skyisland_build_north_side_rooms = 1" ] },
         { "u_forget_recipe": "buildkey_north_side_rooms" },
         { "run_eocs": "EOC_skyisland_build_north_side_rooms" },
         {
@@ -3581,19 +3583,20 @@
     ],
     "components": [
       [ [ "block_and_tackle", 1 ], [ "block_and_tackle_wood", 1 ] ],
-      [ [ "wood_beam", 12 ] ],
+      [ [ "wood_beam", 8 ] ],
       [ [ "sheet_metal", 24 ] ],
+      [ [ "box_medium_wood", 3 ], [ "box_medium_metal", 2 ] ],
       [
-        [ "box_small", 600 ],
-        [ "box_medium", 120 ],
-        [ "box_large", 20 ],
-        [ "box_small_metal", 150 ],
-        [ "box_medium_metal", 60 ],
-        [ "box_large_metal", 10 ],
-        [ "box_small_wood", 200 ],
-        [ "box_medium_wood", 60 ],
-        [ "box_large_wood", 10 ]
-      ]
+        [ "backpack", 3 ],
+        [ "net_backpack", 5 ],
+        [ "backpack_denim", 3 ],
+        [ "backpack_hiking", 3 ],
+        [ "backpack_leather", 3 ]
+      ],
+      [ [ "golf_bag", 1 ] ],
+      [ [ "bag_body_bag", 2 ] ],
+      [ [ "bag_canvas", 2 ] ],
+      [ [ "bag_garbage_reinforced", 1 ] ]
     ]
   },
   {
@@ -3618,7 +3621,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "1" ] },
+        { "math": [ "securitylevel = 1" ] },
         { "u_forget_recipe": "secure_container_1" },
         { "u_add_trait": "mut_secure_container_1" },
         {
@@ -3664,7 +3667,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "2" ] },
+        { "math": [ "securitylevel = 2" ] },
         { "u_forget_recipe": "secure_container_2" },
         { "u_lose_trait": "mut_secure_container_1" },
         { "u_add_trait": "mut_secure_container_2" },
@@ -3711,7 +3714,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "3" ] },
+        { "math": [ "securitylevel = 3" ] },
         { "u_forget_recipe": "secure_container_3" },
         { "u_lose_trait": "mut_secure_container_2" },
         { "u_add_trait": "mut_secure_container_3" },
@@ -3758,7 +3761,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "4" ] },
+        { "math": [ "securitylevel = 4" ] },
         { "u_forget_recipe": "secure_container_4" },
         { "u_lose_trait": "mut_secure_container_3" },
         { "u_add_trait": "mut_secure_container_4" },
@@ -3805,7 +3808,7 @@
     },
     "end": {
       "effect": [
-        { "math": [ "securitylevel", "=", "5" ] },
+        { "math": [ "securitylevel = 5" ] },
         { "u_forget_recipe": "secure_container_5" },
         { "u_lose_trait": "mut_secure_container_4" },
         { "u_add_trait": "mut_secure_container_5" },

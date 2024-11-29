@@ -27,10 +27,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_SEE_ELECTRIC",
     "condition": {
-      "and": [
-        { "u_has_trait": "AFS_ELECTROKINETIC" },
-        { "math": [ "u_spell_level('afs_electrokinetic_see_electric')", ">=", "0" ] }
-      ]
+      "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_see_electric') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_see_electric" } ]
   },
@@ -38,10 +35,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_SHOCK_TOUCH",
     "condition": {
-      "and": [
-        { "u_has_trait": "AFS_ELECTROKINETIC" },
-        { "math": [ "u_spell_level('afs_electrokinetic_shock_touch')", ">=", "0" ] }
-      ]
+      "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_shock_touch') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_shock_touch" } ]
   },
@@ -49,10 +43,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_ZAP_ENEMIES",
     "condition": {
-      "and": [
-        { "u_has_trait": "AFS_ELECTROKINETIC" },
-        { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies')", ">=", "0" ] }
-      ]
+      "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_zap_enemies" } ]
   },
@@ -62,7 +53,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "AFS_ELECTROKINETIC" },
-        { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface')", ">=", "0" ] }
+        { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface') >= 0" ] }
       ]
     },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_hacking_interface" } ]
@@ -71,10 +62,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
     "condition": {
-      "and": [
-        { "u_has_trait": "AFS_ELECTROKINETIC" },
-        { "math": [ "u_spell_level('afs_electrokinetic_personal_battery')", ">=", "0" ] }
-      ]
+      "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_personal_battery') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_personal_battery" } ]
   },
@@ -82,10 +70,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_RECHARGE_VEHICLE",
     "condition": {
-      "and": [
-        { "u_has_trait": "AFS_ELECTROKINETIC" },
-        { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle')", ">=", "0" ] }
-      ]
+      "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle') >= 0" ] } ]
     },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_recharge_vehicle" } ]
   },
@@ -115,35 +100,31 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_TELEPATH_RECIPE_SHIELD",
-    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_shield')", ">=", "0" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_shield') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_afs_telepathic_shield" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_TELEPATH_RECIPE_MIND_SENSE",
-    "condition": {
-      "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_mind_sense')", ">=", "0" ] } ]
-    },
+    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_mind_sense') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_afs_telepathic_mind_sense" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_TELEPATH_RECIPE_SUGGESTION",
-    "condition": {
-      "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_suggestion')", ">=", "0" ] } ]
-    },
+    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_suggestion') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_afs_telepathic_suggestion" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_TELEPATH_RECIPE_CONFUSION",
-    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_confusion')", ">=", "0" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_confusion') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_afs_telepathic_confusion" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_TELEPATH_RECIPE_BLAST",
-    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_blast')", ">=", "0" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "AFS_TELEPATH" }, { "math": [ "u_spell_level('afs_telepathic_blast') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_afs_telepathic_blast" } ]
   }
 ]

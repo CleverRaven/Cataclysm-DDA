@@ -9656,6 +9656,7 @@
         { "id": "welding_wire_alloy", "fg": 1918 },
         { "id": "welding_wire_steel", "fg": 1919 },
         { "id": "well_pump", "fg": 1920 },
+        { "id": "wire_barbed_baseball", "fg": 1922 },
         { "id": "wood_block", "fg": 1924 },
         { "id": "wooden_post", "fg": 1926 },
         { "id": "wooden_post_short", "fg": 1927 },

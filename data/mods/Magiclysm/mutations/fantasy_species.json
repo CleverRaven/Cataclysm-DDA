@@ -196,7 +196,7 @@
     "points": 5,
     "starting_trait": false,
     "purifiable": false,
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
   },
@@ -748,8 +748,7 @@
     "category": [ "SPECIES_RAVENFOLK" ],
     "purifiable": false,
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
-    "flags": [ "TOUGH_FEET" ]
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
   },
   {
     "type": "mutation",

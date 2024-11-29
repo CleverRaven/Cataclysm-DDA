@@ -45,7 +45,7 @@
         "...../c /         =>}..-",
         ".....//!-%-]]-///-------",
         ".....}##---00-..........",
-        ".....}##/-e00-..........",
+        ".....}##/-300-..........",
         ".....}##/------.........",
         ".....////-....-.........",
         "........................",
@@ -62,7 +62,7 @@
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
       "terrain": {
         ".": "t_open_air",
-        "e": "t_elevator_control",
+        "3": "t_elevator_control",
         "=": "t_wall_glass",
         "#": "t_bridge",
         "0": "t_elevator",
@@ -116,7 +116,7 @@
       "palettes": [ "afs_habitat_structure" ],
       "terrain": {
         ".": "t_open_air",
-        "=": "t_wall_clearcrete_h_alarm",
+        "=": "t_wall_clearcrete_alarm",
         " ": "t_metal_floor",
         "1": "t_metal_floor",
         "_": "t_grass",
@@ -164,7 +164,7 @@
         ".": "t_open_air",
         "5": "t_ramp_down_high",
         "4": "t_ramp_down_low",
-        "=": "t_wall_clearcrete_h_alarm",
+        "=": "t_wall_clearcrete_alarm",
         "_": "t_clearcrete_roof"
       }
     }
@@ -244,7 +244,7 @@
         "¡": "t_door_metal_locked",
         "4": "t_afs_industrial_card_reader",
         "1": "t_reinforced_glass",
-        "=": "t_wall_clearcrete_h_alarm",
+        "=": "t_wall_clearcrete_alarm",
         "_": "t_metal_floor_no_roof",
         " ": "t_metal_floor_no_roof",
         "}": "t_metal_railing"

@@ -194,6 +194,11 @@
     "id": "clairsentience_telepathy_matrix_technology",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "collection_mindsight_and_note", "prob": 1 }, { "item": "psionic_telepathic_dampener", "prob": 1 } ]
+    "items": [
+      { "group": "collection_mindsight_and_note", "prob": 1 },
+      { "item": "psionic_telepathic_dampener", "prob": 1 },
+      { "item": "schematics_telepathic_focusing_tool", "prob": 1 },
+      { "item": "telepathic_focusing_tool", "prob": 1 }
+    ]
   }
 ]

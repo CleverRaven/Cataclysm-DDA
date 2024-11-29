@@ -96,8 +96,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing", "afs_habitat_life_support", "afs_habitat_exterior" ],
-      "terrain": { " ": "t_open_air", "1": "t_carpet_red" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "afs_habitat_structure",
+        "afs_habitat_residential_furnishing",
+        "afs_habitat_life_support",
+        "afs_habitat_exterior"
+      ],
+      "terrain": { " ": "t_open_air", "1": { "param": "carpet_color_type", "fallback": "t_carpet_red" } },
       "furniture": { "2": "f_dishwasher", "á": "f_bookcase" },
       "place_item": [ { "item": "television", "repeat": 1, "x": 11, "y": 15 } ],
       "items": { "á": { "item": "homebooks", "repeat": [ 2, 3 ] }, "q": { "item": "afs_old_food_storage", "chance": 60 } },

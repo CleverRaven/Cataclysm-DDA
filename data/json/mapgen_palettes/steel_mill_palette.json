@@ -10,7 +10,7 @@
       "+": "t_door_metal_c",
       "x": "t_door_metal_locked",
       "*": "t_wall_glass",
-      "R": "t_reinforced_glass_h",
+      "R": "t_reinforced_glass",
       "v": "t_chainfence",
       ",": "t_pavement_y",
       "-": "t_sidewalk",

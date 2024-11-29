@@ -750,6 +750,8 @@ ifeq ($(TILES), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags freetype2)
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs freetype2)
   else ifneq ($(NATIVE),emscripten)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2)
     CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf)
@@ -961,9 +963,8 @@ ASTYLE_SOURCES := $(sort \
 # Third party sources should not be astyle'd
 SOURCES += $(THIRD_PARTY_SOURCES)
 
-IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
+IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_stdlib.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 ifeq ($(SDL), 1)
-	DEFINES += -DIMGUI_DISABLE_OBSOLETE_KEYIO
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_freetype.cpp
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_impl_sdl2.cpp $(IMGUI_DIR)/imgui_impl_sdlrenderer2.cpp
 else
@@ -1287,11 +1288,7 @@ ifeq ($(SOUND), 1)
 endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
-
-ifndef FRAMEWORK
-	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/	
-endif  # ifndef FRAMEWORK
-
+	dylibbundler -of -b -x $(APPRESOURCESDIR)/$(APPTARGET) -d $(APPRESOURCESDIR)/ -p @executable_path/
 
 dmgdistclean:
 	rm -rf Cataclysm

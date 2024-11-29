@@ -171,7 +171,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",
@@ -196,7 +195,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",
@@ -232,7 +230,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",
@@ -651,6 +648,12 @@
     "upgrades": { "age_grow": 30, "into": "mon_zuniceratops_juvenile" }
   },
   {
+    "id": "mon_lokiceratops_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_leptoceratops_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_lokiceratops_juvenile" }
+  },
+  {
     "id": "mon_styracosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_leptoceratops_hatchling",
@@ -741,7 +744,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "ANIMAL",
       "PATH_AVOID_DANGER",
       "WARM",

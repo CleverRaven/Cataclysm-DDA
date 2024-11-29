@@ -23,7 +23,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -98,9 +97,7 @@ static const material_id material_veggy( "veggy" );
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
@@ -354,7 +351,7 @@ void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_sp
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( p.z() > -OVERMAP_DEPTH ) {
-        const tripoint_bub_ms down = p + tripoint_rel_ms_below;
+        const tripoint_bub_ms down = p + tripoint_rel_ms::below;
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile, down );
@@ -405,7 +402,7 @@ void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_sp
             }
         }
     } else if( p.z() < OVERMAP_HEIGHT ) {
-        const tripoint_bub_ms up = p + tripoint_rel_ms_above;
+        const tripoint_bub_ms up = p + tripoint_rel_ms::above;
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile, up );
@@ -477,7 +474,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     scent_block sblk( submap.raw(), get_scent() );
 
     // Initialize the map tile wrapper
-    maptile map_tile( current_submap, point_sm_ms_zero );
+    maptile map_tile( current_submap, point_sm_ms::zero );
     int &locx = map_tile.pos_.x();
     int &locy = map_tile.pos_.y();
     const point_bub_ms sm_offset = coords::project_to<coords::ms>( submap.xy() );
@@ -891,7 +888,7 @@ static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
         int num_bolts = rng( 3, 6 );
         for( int i = 0; i < num_bolts; i++ ) {
             point dir;
-            while( dir == point_zero ) {
+            while( dir == point::zero ) {
                 dir = { rng( -1, 1 ), rng( -1, 1 ) };
             }
             int dist = rng( 4, 12 );
@@ -1116,19 +1113,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                here.bash( p, 999, false, true, true );
                 here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
-                if( p.z > 0 ) {
-                    // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
-                    here.furn_set( p, furn_str_id::NULL_ID() );
-                    here.ter_set( p, ter_t_open_air );
-                } else if( p.z < -1 ) {
-                    // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
-                    here.ter_set( p, ter_t_rock_floor );
-                } else {
-                    // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
-                    here.furn_set( p, furn_str_id::NULL_ID() );
-                    here.ter_set( p, ter_t_dirt );
-                }
             }
 
         } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1310,8 +1296,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Consume adjacent fuel / terrain / webs to spread.
     // Allow raging fires (and only raging fires) to spread up
     // Spreading down is achieved by wrecking the walls/floor and then falling
-    if( cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
-        const tripoint_bub_ms dst_p = tripoint_bub_ms( p.x, p.y, p.z + 1 );
+    if( ( cur.get_field_intensity() == 3 ||
+          here.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) && p.z < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms dst_p = tripoint_bub_ms( p + tripoint::above );
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
         const ter_t &dst_ter = dst.get_ter_t();
@@ -1453,7 +1440,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
         bool smoke_up = p.z < OVERMAP_HEIGHT;
         if( smoke_up ) {
-            tripoint_bub_ms up{p + tripoint_above};
+            tripoint_bub_ms up{p + tripoint::above};
             if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, up ) ) {
                 here.add_field( up, fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns, false );
             } else {
@@ -1626,10 +1613,10 @@ void map::player_in_field( Character &you )
                                 parts_burned.emplace_back( "hand_r" );
                                 parts_burned.emplace_back( "arm_l" );
                                 parts_burned.emplace_back( "arm_r" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 2:
                                 parts_burned.emplace_back( "torso" );
-                            /* fallthrough */
+                                [[fallthrough]];
                             case 1:
                                 parts_burned.emplace_back( "foot_l" );
                                 parts_burned.emplace_back( "foot_r" );
@@ -2139,15 +2126,15 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
 {
     static const std::array<std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >>, 9>
     outputs = { {
-            { 330, std::make_tuple( point_rel_ms_east, point_rel_ms_north_east, point_rel_ms_south_east ) },
-            { 301, std::make_tuple( point_rel_ms_south_east, point_rel_ms_east, point_rel_ms_south ) },
-            { 240, std::make_tuple( point_rel_ms_south, point_rel_ms_south_west, point_rel_ms_south_east ) },
-            { 211, std::make_tuple( point_rel_ms_south_west, point_rel_ms_west, point_rel_ms_south ) },
-            { 150, std::make_tuple( point_rel_ms_west, point_rel_ms_north_west, point_rel_ms_south_west ) },
-            { 121, std::make_tuple( point_rel_ms_north_west, point_rel_ms_north, point_rel_ms_west ) },
-            { 60, std::make_tuple( point_rel_ms_north, point_rel_ms_north_west, point_rel_ms_north_east ) },
-            { 31, std::make_tuple( point_rel_ms_north_east, point_rel_ms_east, point_rel_ms_north ) },
-            { 0, std::make_tuple( point_rel_ms_east, point_rel_ms_north_east, point_rel_ms_south_east ) }
+            { 330, std::make_tuple( point_rel_ms::east, point_rel_ms::north_east, point_rel_ms::south_east ) },
+            { 301, std::make_tuple( point_rel_ms::south_east, point_rel_ms::east, point_rel_ms::south ) },
+            { 240, std::make_tuple( point_rel_ms::south, point_rel_ms::south_west, point_rel_ms::south_east ) },
+            { 211, std::make_tuple( point_rel_ms::south_west, point_rel_ms::west, point_rel_ms::south ) },
+            { 150, std::make_tuple( point_rel_ms::west, point_rel_ms::north_west, point_rel_ms::south_west ) },
+            { 121, std::make_tuple( point_rel_ms::north_west, point_rel_ms::north, point_rel_ms::west ) },
+            { 60, std::make_tuple( point_rel_ms::north, point_rel_ms::north_west, point_rel_ms::north_east ) },
+            { 31, std::make_tuple( point_rel_ms::north_east, point_rel_ms::east, point_rel_ms::north ) },
+            { 0, std::make_tuple( point_rel_ms::east, point_rel_ms::north_east, point_rel_ms::south_east ) }
         }
     };
 

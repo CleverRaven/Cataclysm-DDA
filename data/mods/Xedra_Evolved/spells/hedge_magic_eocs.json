@@ -116,7 +116,7 @@
                 "u_message": "As you finish the words of the charm, the magic takes hold.  (E)xamine a nearby crop to fertilize it.",
                 "type": "good"
               },
-              { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
+              { "run_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
             ],
             "false_effect": [ { "u_message": "You must complete the charm within one hour of noon for it to be effective.", "type": "bad" } ]
           }
@@ -227,9 +227,8 @@
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_ACTIVITY_LEVEL_BREAKS_INCREASE_HEALING_RATE",
     "recurrence": 1,
-    "condition": {
-      "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level')", ">=", "3" ] } ]
-    },
+    "condition": { "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level') >= 3" ] } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "HEDGE_MAGIC" } },
     "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
   },
   {
@@ -255,7 +254,7 @@
         "u_message": "As you put the mantle on, your skin writhes, your limbs twist, and thick fur sprouts from your body as you fall onto all fours.",
         "type": "neutral"
       },
-      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
@@ -272,7 +271,7 @@
         "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
         "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_set_flag": "SEMITANGIBLE" } ] } ]
       },
-      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
+      { "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
     ]
   },
   {
@@ -286,12 +285,12 @@
         "intensity": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') + 1" ] }
       },
       {
-        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
         "time_in_future": [ "15 minutes", "45 minutes" ]
       },
-      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] },
+      { "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] },
       {
-        "if": { "math": [ "u_val('intelligence')", "<=", "3" ] },
+        "if": { "math": [ "u_val('intelligence') <= 3" ] },
         "then": [
           { "u_add_effect": "effect_skinchanged_animalistic_mind", "duration": "7 days" },
           {
@@ -308,7 +307,7 @@
     "//": "The below EoC is for quick decrementing of the effect after skinchanging ends.",
     "condition": { "and": [ { "not": { "u_has_worn_with_flag": "SKINCHANGED" } }, { "u_has_effect": "effect_skinchanged_penalties" } ] },
     "effect": [
-      { "math": [ "u_skinchanged_penalty", "=", "u_effect_intensity('effect_skinchanged_penalties')" ] },
+      { "math": [ "u_skinchanged_penalty = u_effect_intensity('effect_skinchanged_penalties')" ] },
       { "u_lose_effect": "effect_skinchanged_penalties" },
       {
         "u_add_effect": "effect_skinchanged_penalties",
@@ -316,9 +315,7 @@
         "intensity": { "math": [ "u_skinchanged_penalty - 1" ] }
       },
       {
-        "if": {
-          "and": [ { "math": [ "u_val('intelligence')", ">=", "4" ] }, { "u_has_effect": "effect_skinchanged_animalistic_mind" } ]
-        },
+        "if": { "and": [ { "math": [ "u_val('intelligence') >= 4" ] }, { "u_has_effect": "effect_skinchanged_animalistic_mind" } ] },
         "then": [
           { "u_lose_effect": "effect_skinchanged_animalistic_mind" },
           {
@@ -328,7 +325,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "run_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
         "time_in_future": [ "15 minutes", "45 minutes" ]
       }
     ]
@@ -380,7 +377,7 @@
             "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
             "effect": [
               {
-                "if": { "math": [ "u_effect_duration('effect_hedge_walk_on_water')", "<=", "2" ] },
+                "if": { "math": [ "u_effect_duration('effect_hedge_walk_on_water') <= 2" ] },
                 "then": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 2 } ],
                 "else": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 } ]
               }
@@ -445,7 +442,7 @@
     "//": "This same EoC will account for other weapons with the BLESSED_WEAPON flag--it also requires the presence of the HEDGE_ENCHANTED flag to trigger damage removing the enchantment",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
-    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits", "!=", "false" ] } ] },
+    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits != false" ] } ] },
     "effect": [
       {
         "run_eocs": [
@@ -484,7 +481,7 @@
         "true_eocs": [
           {
             "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_ATTACKS_CHECK_DAMAGE",
-            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null') * 0.90" ] },
+            "condition": { "math": [ "n_hp('ALL') < n_hp_max('bp_null') * 0.90" ] },
             "effect": [
               { "npc_unset_flag": "BLESSED_WEAPON" },
               { "npc_unset_flag": "HEDGE_ENCHANTED" },
@@ -568,7 +565,7 @@
         "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and a bottle of wine appears before you."
       },
       {
-        "if": { "math": [ "rand(1)", "==", "1" ] },
+        "if": { "math": [ "rand(1) == 1" ] },
         "then": [ { "u_spawn_item": "wine_riesling", "container": "bottle_glass", "count": 3, "suppress_message": true } ],
         "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
       }

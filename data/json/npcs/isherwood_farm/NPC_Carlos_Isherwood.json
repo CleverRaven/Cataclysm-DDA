@@ -302,12 +302,12 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE2",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", "<=", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) <= time('5 d')" ] }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE3",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", ">", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
       },
       {
         "text": "Where can I find Chris?",
@@ -327,10 +327,17 @@
     "id": "MISSION_ISHERWOOD_CARLOS_1",
     "type": "mission_definition",
     "name": { "str": "Find an anvil" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "value": 50000,
-    "item": "anvil",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "anvil" },
+        { "u_has_item": "anvil_crude" },
+        { "u_has_item": "anvil_heavy" },
+        { "u_has_item": "anvil_bronze" }
+      ]
+    },
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -349,9 +356,22 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
+        {
+          "if": { "u_has_item": "anvil" },
+          "then": { "u_consume_item": "anvil", "popup": true },
+          "else": {
+            "if": { "u_has_item": "anvil_crude" },
+            "then": { "u_consume_item": "anvil_crude", "popup": true },
+            "else": {
+              "if": { "u_has_item": "anvil_heavy" },
+              "then": { "u_consume_item": "anvil_heavy", "popup": true },
+              "else": { "u_consume_item": "anvil_bronze", "popup": true }
+            }
+          }
+        },
         { "u_spawn_item": "leather_armor_horse", "count": 1 },
         { "npc_add_var": "carlos_has_anvil", "value": "yes" },
-        { "math": [ "timer_carlos_has_anvil", "=", "time('now')" ] }
+        { "math": [ "timer_carlos_has_anvil = time('now')" ] }
       ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }

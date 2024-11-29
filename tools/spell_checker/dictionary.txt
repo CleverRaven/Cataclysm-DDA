@@ -877,6 +877,7 @@ Bulgarian
 Bullard
 bullpup
 bullseye
+bullshit
 Buluotuo
 Bulwer
 Bundahis
@@ -1100,6 +1101,8 @@ chk
 Chloe
 Cho
 chode
+chokeberry
+chokeberries
 chokepoints
 Chol
 chonker
@@ -3462,6 +3465,7 @@ locs
 Locutus
 Loew
 Loki
+lokiceratops
 lolita
 London
 longarm
@@ -4128,6 +4132,8 @@ namele
 Namibian
 Nana
 Nani
+nannyberry
+nannyberries
 nano
 nanobots
 nanocompound
@@ -5913,6 +5919,7 @@ streetwear
 stressfully
 striders
 strigoi
+strix
 strobing
 strobus
 Stromer
@@ -6407,6 +6414,7 @@ tumescences
 Tunguska
 Tunisian
 tuno
+tupelo
 tupperware
 tupperwares
 Turing

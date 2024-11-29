@@ -319,5 +319,12 @@
     "flags": [ "FREEZERBURN", "INEDIBLE" ],
     "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
     "melee_damage": { "bash": 2 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pigeon_passenger",
+    "name": { "str": "feral pigeon egg" },
+    "copy-from": "egg_pigeon",
+    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 }
   }
 ]
