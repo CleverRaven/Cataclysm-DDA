@@ -694,7 +694,7 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "charges_per_use": 150,
+    "charges_per_use": 300,
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Reverse your last injury.",
