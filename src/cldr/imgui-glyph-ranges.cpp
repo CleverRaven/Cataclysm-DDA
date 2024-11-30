@@ -16,15 +16,16 @@
 #define NOUNROLL
 #endif
 
-static NOINLINE void AddGlyphs( ImFontGlyphRangesBuilder *b, ImWchar const *glyphp,
-                                ImWchar const *end )
+namespace
+{
+NOINLINE void AddGlyphs( ImFontGlyphRangesBuilder *b, ImWchar const *glyphp, ImWchar const *end )
 {
     NOUNROLL
     for( ; glyphp != end; ++glyphp ) {
         b->AddChar( *glyphp );
     }
 }
-
+} // namespace
 static void AddGlyphRangesFromCLDRForEN( ImFontGlyphRangesBuilder *b )
 {
     static constexpr ImWchar glyphs[] = {
@@ -1580,4 +1581,5 @@ static void AddGlyphRangesFromCLDRForZH_HANT( ImFontGlyphRangesBuilder *b )
     };
     AddGlyphs( b, glyphs, glyphs + std::extent_v<decltype( glyphs )> );
 }
-// NOLINTEND(cata-static-declarations,readability-function-size)
+// NOLINTEND(cata-static-declarations,readability-function-size,modernize-avoid-c-arrays)
+
