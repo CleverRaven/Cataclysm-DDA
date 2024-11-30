@@ -174,9 +174,9 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         target_1.add_effect( effect_downed, 1_days );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                          false ).has_value() );
-        // test sweeping a big zomb (success)
-        REQUIRE( target_2.get_size() == 4 );
-        CHECK( dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
+        // test sweeping a big zomb (fail)
+        REQUIRE( target_2.get_size() == 5 );
+        CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
                                         false ).has_value() );
         // test sweeping a slime (fail)
         REQUIRE( target_3.get_size() == 3 );
@@ -229,9 +229,9 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         target_1.add_effect( effect_downed, 1_days );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                          false ).has_value() );
-        // test throwing a large target (success)
-        REQUIRE( target_2.get_size() == 4 );
-        CHECK( dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
+        // test throwing a large target (fail)
+        REQUIRE( target_2.get_size() == 5 );
+        CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
                                         false ).has_value() );
         // test throwing a monster grabbing you (succeed)
         dude.add_effect( effect_grabbed, 1_days );
