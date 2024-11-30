@@ -2459,7 +2459,6 @@ void veh_interact::display_stats() const
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
     bool is_rotorcraft = veh->is_rotorcraft() && veh->is_flying_in_air();
-    bool is_abstracted_aircraft = veh->is_abstracted_aircraft() && veh->is_flying_in_air();
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
@@ -2479,58 +2478,39 @@ void veh_interact::display_stats() const
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
-        if( is_abstracted_aircraft ) {
+        if( is_ground ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                            _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                            vel_to_int( veh->safe_air_velocity( false ) ),
-                            vel_to_int( veh->max_air_velocity( false ) ),
+                        _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                        vel_to_int( veh->safe_ground_velocity( false ) ),
+                        vel_to_int( veh->max_ground_velocity( false ) ),
+                        velocity_units( VU_VEHICLE ) );
+            i += 1;
+            // TODO: extract accelerations units to its own function
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                        //~ /t means per turn
+                        _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                        vel_to_int( veh->ground_acceleration( false ) ),
+                        velocity_units( VU_VEHICLE ) );
+        i += 1;
+    } else {
+        i += 2;
+    }
+        if( is_boat ) {
+            fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
+                            _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            vel_to_int( veh->safe_water_velocity( false ) ),
+                            vel_to_int( veh->max_water_velocity( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
-                            _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                            vel_to_int( veh->air_acceleration( false ) ),
+                            _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
+                            vel_to_int( veh->water_acceleration( false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
-        }
-
-
-        else {
-            if( is_ground ) {
-                fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                                _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                                vel_to_int( veh->safe_ground_velocity( false ) ),
-                                vel_to_int( veh->max_ground_velocity( false ) ),
-                                velocity_units( VU_VEHICLE ) );
-                i += 1;
-                // TODO: extract accelerations units to its own function
-                fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                                //~ /t means per turn
-                                _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                                vel_to_int( veh->ground_acceleration( false ) ),
-                                velocity_units( VU_VEHICLE ) );
-                i += 1;
-            } else {
-                i += 2;
-            }
-            if( is_boat ) {
-                fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                                _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                                vel_to_int( veh->safe_water_velocity( false ) ),
-                                vel_to_int( veh->max_water_velocity( false ) ),
-                                velocity_units( VU_VEHICLE ) );
-                i += 1;
-                // TODO: extract accelerations units to its own function
-                fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                                //~ /t means per turn
-                                _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
-                                vel_to_int( veh->water_acceleration( false ) ),
-                                velocity_units( VU_VEHICLE ) );
-                i += 1;
-            } else {
-                i += 2;
-            }
+        } else {
+            i += 2;
         }
     }
     fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,

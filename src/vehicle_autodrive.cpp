@@ -302,7 +302,6 @@ struct auto_navigation_data {
 
     bool land_ok;
     bool water_ok;
-    bool air_ok;
     bool is_flying;
     // the maximum speed to consider driving at, in tiles/s
     int max_speed_tps;
@@ -729,7 +728,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
             if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
-                if( !( data.air_ok && here.ter( pt ) == ter_t_open_air ) ) {
+                if( !( data.is_flying && here.ter( pt ) == ter_t_open_air ) ) {
                     return false;
                 }
             }
@@ -762,7 +761,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     // open air is an obstacle to non-flying vehicles; it is drivable
     // for flying vehicles
     if( terrain == ter_t_open_air ) {
-        return data.air_ok;
+        return data.is_flying;
     }
     const ter_t &terrain_type = terrain.obj();
     // watercraft can drive on water
@@ -930,7 +929,6 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = (driven_veh.has_sufficient_rotorlift() || driven_veh.has_sufficient_airlift());
         data.is_flying = (driven_veh.is_rotorcraft() || driven_veh.is_abstracted_aircraft()) && driven_veh.is_flying_in_air();
         data.max_speed_tps = std::min(
                                  data.is_flying ? MAX_AIR_SPEED_TPS : MAX_SPEED_TPS,

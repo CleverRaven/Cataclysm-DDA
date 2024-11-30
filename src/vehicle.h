@@ -1743,8 +1743,6 @@ class vehicle
         bool is_flyable() const;
         void set_flyable( bool val );
         // abstracted aircraft is any flying vehicle without a real-world equivalent (for modded content)
-        double lift_thrust_of_abstracted_aircraft( bool fuelled, bool safe = false ) const;
-        bool has_sufficient_airlift() const;
         bool is_abstracted_aircraft() const;
         // Would interacting with this part prevent the vehicle from being flyable?
         bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;

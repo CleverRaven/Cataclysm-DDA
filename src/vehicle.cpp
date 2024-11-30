@@ -3993,17 +3993,6 @@ int vehicle::rotor_acceleration( const bool fueled, int at_vel_in_vmi ) const
     return cmps_to_vmiph( accel_at_vel );
 }
 
-int vehicle::air_acceleration( const bool fueled, int at_vel_in_vmi ) const
-{
-    ( void )at_vel_in_vmi;
-    if( !( engine_on || is_flying ) ) {
-        return 0;
-    }
-    const int accel_at_vel = 100 * lift_thrust_of_abstracted_aircraft( fueled ) / to_kilogram(
-                                 total_mass() );
-    return cmps_to_vmiph( accel_at_vel );
-}
-
 int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( !( engine_on || skidding ) ) {
@@ -4060,16 +4049,14 @@ static double simple_cubic_solution( double a, double b, double c, double d )
     }
 }
 
-int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
+int vehicle::acceleration(const bool fueled, int at_vel_in_vmi) const
 {
-    if( is_watercraft() ) {
-        return water_acceleration( fueled, at_vel_in_vmi );
-    } else if( is_rotorcraft() && is_flying ) {
-        return rotor_acceleration( fueled, at_vel_in_vmi );
-    } else if( is_abstracted_aircraft() && is_flying ) {
-        return air_acceleration( fueled, at_vel_in_vmi );
+    if (is_watercraft()) {
+        return water_acceleration(fueled, at_vel_in_vmi);
+    } else if (is_rotorcraft() && is_flying) {
+        return rotor_acceleration(fueled, at_vel_in_vmi);
     }
-    return ground_acceleration( fueled, at_vel_in_vmi );
+    return ground_acceleration(fueled, at_vel_in_vmi);
 }
 
 int vehicle::current_acceleration( const bool fueled ) const
@@ -4145,24 +4132,14 @@ int vehicle::max_rotor_velocity( const bool fueled ) const
     return std::min( 25501, mps_to_vmiph( max_air_mps ) );
 }
 
-int vehicle::max_air_velocity( const bool fueled ) const
+int vehicle::max_velocity(const bool fueled) const
 {
-    const double max_air_mps = std::sqrt( lift_thrust_of_abstracted_aircraft(
-            fueled ) / coeff_air_drag() );
-    // air vehicles have their speed capped the same way helicopters do.
-    return std::min( 25501, mps_to_vmiph( max_air_mps ) );
-}
-
-int vehicle::max_velocity( const bool fueled ) const
-{
-    if( is_flying && is_rotorcraft() ) {
-        return max_rotor_velocity( fueled );
-    } else if( is_flying && is_abstracted_aircraft() ) {
-        return max_air_velocity( fueled );
-    } else if( is_watercraft() ) {
-        return max_water_velocity( fueled );
+    if (is_flying && is_rotorcraft()) {
+        return max_rotor_velocity(fueled);
+    } else if (is_watercraft()) {
+        return max_water_velocity(fueled);
     } else {
-        return max_ground_velocity( fueled );
+        return max_ground_velocity(fueled);
     }
 }
 
@@ -4196,13 +4173,6 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
 
-int vehicle::safe_air_velocity( const bool fueled ) const
-{
-    const double max_air_mps = std::sqrt( lift_thrust_of_abstracted_aircraft( fueled,
-                                          true ) / coeff_air_drag() );
-    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
-}
-
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
@@ -4212,16 +4182,14 @@ int vehicle::safe_water_velocity( const bool fueled ) const
     return mps_to_vmiph( safe_in_mps );
 }
 
-int vehicle::safe_velocity( const bool fueled ) const
+int vehicle::safe_velocity(const bool fueled) const
 {
-    if( is_flying && is_rotorcraft() ) {
-        return safe_rotor_velocity( fueled );
-    } else if( is_flying && is_abstracted_aircraft() ) {
-        return safe_air_velocity( fueled );
-    } else if( is_watercraft() ) {
-        return safe_water_velocity( fueled );
+    if (is_flying && is_rotorcraft()) {
+        return safe_rotor_velocity(fueled);
+    } else if (is_watercraft()) {
+        return safe_water_velocity(fueled);
     } else {
-        return safe_ground_velocity( fueled );
+        return safe_ground_velocity(fueled);
     }
 }
 
@@ -4639,27 +4607,9 @@ bool vehicle::is_rotorcraft() const
            has_sufficient_rotorlift();
 }
 
-double vehicle::lift_thrust_of_abstracted_aircraft( const bool fuelled, const bool safe ) const
-{
-
-    double engine_power_in_hp = 0.00134102 * units::to_watt( total_power( fuelled, safe ) );
-    double lift_thrust = 8.8658 * engine_power_in_hp;
-    add_msg_debug( debugmode::DF_VEHICLE,
-                   "lift thrust in lbs of %s = %f, engine power in hp %f, thrust in newtons : %f",
-                   name, lift_thrust, engine_power_in_hp, lift_thrust * 4.45 );
-    return lift_thrust * 4.45;
-}
-
-bool vehicle::has_sufficient_airlift() const
-{
-    // comparison of newton to newton - convert kg to newton.
-    return lift_thrust_of_abstracted_aircraft( true ) > to_kilogram( total_mass() ) * 9.8;
-}
-
 bool vehicle::is_abstracted_aircraft() const
 {
-    return !abstracted_aircraft.empty() && has_driver() &&
-           has_sufficient_airlift();
+    return !abstracted_aircraft.empty() && has_driver();
 }
 
 bool vehicle::is_flyable() const
