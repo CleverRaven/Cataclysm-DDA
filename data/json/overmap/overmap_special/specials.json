@@ -1334,7 +1334,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1523,8 +1523,8 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 2, 100 ],
-    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "occurrences": [ 20, 100 ],
+    "flags": [ "LAB", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3751,7 +3751,7 @@
     "occurrences": [ 33, 100 ],
     "priority": 1,
     "rotate": false,
-    "flags": [ "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
