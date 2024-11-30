@@ -98,7 +98,14 @@
         { "item": "drugs_rare", "chance": 60, "repeat": [ 0, 2 ] },
         { "item": "surgery", "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "full_ifak", "chance": 40 }
-      ]
+      ],
+      "l": [
+        { "item": "SUS_utensils", "chance": 60 },
+        { "item": "SUS_silverware", "chance": 60 },
+        { "item": "SUS_dishes", "chance": 60 },
+        { "item": "SUS_appliances_cupboard", "chance": 60 }
+      ],
+      "S": { "item": "public_sink", "chance": 60 }
     },
     "vehicles": {
       "^": { "vehicle": "hospital_bed", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
