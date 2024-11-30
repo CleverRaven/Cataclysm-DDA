@@ -2,7 +2,6 @@
   {
     "id": "fd_short_halflife",
     "type": "field_type",
-    "legacy_enum_id": 19,
     "intensity_levels": [
       { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01 },
       { "//": "repeat last entry", "light_emitted": 1 },

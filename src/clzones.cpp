@@ -743,7 +743,7 @@ void zone_data::refresh_display() const
 
     zone_type_id type = this->get_type();
 
-    field_type_str_id field = fd_null;
+    field_type_str_id field = field_type_str_id::NULL_ID();
     static const std::vector<zone_type> &all_zone_types = zone_type::get_all();
     for( const zone_type &zone : all_zone_types ) {
         if( zone.id == type ) {
@@ -752,7 +752,7 @@ void zone_data::refresh_display() const
         }
     }
 
-    if( field != fd_null ) {
+    if( field != field_type_str_id::NULL_ID() ) {
         tripoint_omt_ms start_ms;
         tripoint_omt_ms end_ms;
 

@@ -14,7 +14,6 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enum_conversions.h"
-#include "field_type.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -32,6 +31,8 @@
 class item;
 
 static const efftype_id effect_bleed( "bleed" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const ter_str_id ter_t_curtains( "t_curtains" );
 static const ter_str_id ter_t_door_boarded( "t_door_boarded" );
@@ -543,7 +544,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     }
     std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3 );
+        m.add_field( valid[i], field_fd_fire, 3 );
     }
     m.save();
 }

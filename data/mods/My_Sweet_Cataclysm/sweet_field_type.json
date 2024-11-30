@@ -2,7 +2,6 @@
   {
     "id": "fd_gum_web",
     "type": "field_type",
-    "legacy_enum_id": 5,
     "immune_mtypes": [ "mon_spider_gum" ],
     "decrease_intensity_on_contact": true,
     "intensity_levels": [

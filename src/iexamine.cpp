@@ -35,7 +35,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "field_type.h"
 #include "flag.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -129,6 +128,8 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
@@ -3530,7 +3531,7 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
             return;
         }
         case 2: {
-            if( !here.get_field( examp, fd_fire ) && here.add_field( examp, fd_fire, 1 ) ) {
+            if( !here.get_field( examp, field_fd_fire ) && here.add_field( examp, field_fd_fire, 1 ) ) {
                 you.mod_power_level( -bio_lighter->power_activate );
                 you.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
@@ -3552,7 +3553,7 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
             return;
         }
         case 4: {
-            here.remove_field( examp, fd_fire );
+            here.remove_field( examp, field_fd_fire );
             you.mod_moves( -200 );
             you.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
                                    here.furnname( examp ) );

@@ -11,7 +11,6 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
-#include "field_type.h"
 #include "game.h"
 #include "item.h"
 #include "item_stack.h"
@@ -29,6 +28,8 @@
 
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_fungal_haze( "fd_fungal_haze" );
 
 static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
 static const furn_str_id furn_f_fungal_clump( "f_fungal_clump" );
@@ -184,7 +185,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint_bub_ms &p, const int
         }
     } else if( here.has_flag( ter_furn_flag::TFLAG_YOUNG, p ) ) {
         if( x_in_y( growth * 10, 500 ) ) {
-            if( here.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
+            if( here.get_field_intensity( p, field_fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     here.ter_set( p, ter_t_fungus );
                     if( g->place_critter_at( mon_fungal_blossom, p ) ) {
@@ -200,7 +201,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint_bub_ms &p, const int
         }
     } else if( here.has_flag( ter_furn_flag::TFLAG_TREE, p ) ) {
         if( one_in( 10 ) ) {
-            if( here.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
+            if( here.get_field_intensity( p, field_fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     here.ter_set( p, ter_t_fungus );
                     if( g->place_critter_at( mon_fungal_blossom, p ) ) {

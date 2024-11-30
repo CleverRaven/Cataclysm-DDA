@@ -34,7 +34,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"

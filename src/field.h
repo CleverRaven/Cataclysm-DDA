@@ -20,10 +20,10 @@
 class field_entry
 {
     public:
-        field_entry() : type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) ), intensity( 1 ), age( 0_turns ),
-            is_alive( false ) { }
+        field_entry() : type( field_type_str_id::NULL_ID().id_or( field_type_id( -1 ) ) ),
+            intensity( 1 ), age( 0_turns ), is_alive( false ) {}
         field_entry( const field_type_id &t, const int i, const time_duration &a ) : type( t ),
-            intensity( i ), age( a ), is_alive( true ) { }
+            intensity( i ), age( a ), is_alive( true ) {}
 
         nc_color color() const;
 
