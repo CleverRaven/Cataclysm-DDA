@@ -2480,21 +2480,21 @@ void veh_interact::display_stats() const
     } else {
         if( is_ground ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                        _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                        vel_to_int( veh->safe_ground_velocity( false ) ),
-                        vel_to_int( veh->max_ground_velocity( false ) ),
-                        velocity_units( VU_VEHICLE ) );
+                            _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
+                            vel_to_int( veh->safe_ground_velocity( false ) ),
+                            vel_to_int( veh->max_ground_velocity( false ) ),
+                            velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
-                        //~ /t means per turn
-                        _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                        vel_to_int( veh->ground_acceleration( false ) ),
-                        velocity_units( VU_VEHICLE ) );
-        i += 1;
-    } else {
-        i += 2;
-    }
+                            //~ /t means per turn
+                            _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
+                            vel_to_int( veh->ground_acceleration( false ) ),
+                            velocity_units( VU_VEHICLE ) );
+            i += 1;
+        } else {
+            i += 2;
+        }
         if( is_boat ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
