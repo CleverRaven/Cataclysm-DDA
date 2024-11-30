@@ -51,6 +51,8 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_id json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -831,6 +833,7 @@ static void terrain_collision_data( const tripoint_bub_ms &p, bool bash_floor,
 veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
                                        bool just_detect, bool bash_floor )
 {
+    add_msg("vehicle::part_collision");
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
     const bool vert_coll = bash_floor || p.z() != sm_pos.z;
@@ -878,6 +881,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
     }
 
     if( is_body_collision ) {
+        add_msg("is_body_collision");
         // critters on a BOARDABLE part in this vehicle aren't colliding
         if( ovp && ( &ovp->vehicle() == this ) && get_monster( ovp->part_index() ) ) {
             return ret;
@@ -1113,13 +1117,15 @@ veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
                                   critter->get_armor_type( damage_bash, bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
-                if( vpi.has_flag( "SHARP" ) ) {
-                    critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
+                if( !critter->has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+                    if( vpi.has_flag( "SHARP" ) ) {
+                        critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
                                          critter->get_random_body_part_of_type( body_part_type::type::torso ) );
-                } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
-                    //low chance of lighter bleed even with non sharp objects.
-                    critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
+                    } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
+                        //low chance of lighter bleed even with non sharp objects.
+                        critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
                                          critter->get_random_body_part_of_type( body_part_type::type::torso ) );
+                    }
                 }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }

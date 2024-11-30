@@ -11898,6 +11898,11 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return false;
     }
 
+    if( c->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+        // cannot fling creatures that cannot move.
+        return false;
+    }
+
     // Target creature shouldn't be grabbed if thrown
     // It should also not be thrown if the throw is weaker than the grab
     for( const effect &eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
