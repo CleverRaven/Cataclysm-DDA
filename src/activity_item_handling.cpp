@@ -2093,7 +2093,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( mgr.has( zone_type_LOOT_IGNORE, src, _fac_id( you ) ) ||
                 ignore_contents ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
-                !here.can_put_items_ter_furn( src_loc ) ) {
+                !here.can_put_items_ter_furn( src_loc ) || here.impassable_field_at( src_loc ) ) {
                 continue;
             }
 
