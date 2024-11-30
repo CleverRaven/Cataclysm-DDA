@@ -301,7 +301,6 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_telepad( "tr_telepad" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
@@ -4616,9 +4615,7 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( can_not_be_disarmed() ) {
-        if( id != tr_ledge ) {
-            add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
-        }
+        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
     }
 
@@ -5471,7 +5468,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
     tripoint_bub_ms jump_target( you.posx() + 2 * sgn( examp.x() - you.posx() ),
                                  you.posy() + 2 * sgn( examp.y() - you.posy() ),
                                  you.posz() );
-    bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+    bool jump_target_valid = !here.is_open_air( jump_target );
     point_rel_ms jd( examp.xy() - you.pos_bub().xy() );
     int jump_direction = 0;
 

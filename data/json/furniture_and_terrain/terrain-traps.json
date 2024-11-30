@@ -1,13 +1,13 @@
 [
   {
     "type": "terrain",
+    "//": "TODO: Remove",
     "id": "t_hole",
     "name": "empty space",
     "description": "An area of empty space.",
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
-    "trap": "tr_ledge",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
