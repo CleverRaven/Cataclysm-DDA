@@ -3346,6 +3346,23 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_sedcolbertia",
+    "name": { "str_sp": "skeletal nedcolbertia" },
+    "copy-from": "mon_silophosaurus",
+    "description": "Monstrous columns of dense bone covering feathers and claws, cracks dripping black goo.",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 120,
+    "attack_cost": 118,
+    "hp": 50,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "upgrades": { "half_life": 15, "into": "mon_sallimimus_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sallimimus",
     "name": { "str_sp": "skeletal gallimimus" },
     "copy-from": "mon_silophosaurus",
