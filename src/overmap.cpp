@@ -4211,8 +4211,8 @@ void overmap::flood_fill_city_tiles()
             bool enclosed = true;
             // Predicate for flood-fill. Also detects if any point flood-filled to borders the edge
             // of the overmap and is thus not enclosed
-            const auto is_unchecked = [&enclosed, &visited, &omap_bounds, this]( const point_om_omt & pt ) {
-                if( city_tiles.find( pt ) != visited.end() ) {
+            const auto is_unchecked = [&enclosed, &omap_bounds, this]( const point_om_omt & pt ) {
+                if( city_tiles.find( pt ) != city_tiles.end() ) {
                     return false;
                 }
                 // We hit the edge of the overmap! We're free!

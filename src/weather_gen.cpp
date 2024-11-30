@@ -223,6 +223,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
     cata_default_random_engine &wind_dir_gen = rng_get_engine();
     // Assign chance to angle direction
     if( season == SPRING ) {
+        //TODO: Unhardcode?
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
         return distribution( wind_dir_gen );
     } else if( season == SUMMER ) {
