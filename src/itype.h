@@ -929,6 +929,9 @@ struct islot_gunmod : common_ranged_data {
     /** Modifies base strength required */
     int min_str_required_mod = 0;
 
+    /** Modifies base strength required if user is prone */
+    int min_str_required_mod_if_prone = 0;
+
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
