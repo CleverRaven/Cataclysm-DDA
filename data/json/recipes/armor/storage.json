@@ -2571,6 +2571,38 @@
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
+  "result": "backpack_crude",
+  "type": "recipe",
+  "activity_level": "LIGHT_EXERCISE",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": "10 h",
+  "autolearn": true,
+  "using": [
+    [
+      "tailoring_cotton_patchwork",
+      12
+    ],
+    [
+      "fastener_large",
+      2
+    ]
+  ],
+  "byproducts": [
+    [
+      "cotton_patchwork",
+      1
+    ]
+  ],
+  "proficiencies": [
+    {
+      "proficiency": "prof_closures"
+    }
+  ]
+  },
+  {
     "result": "bigframe_pack",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2586,3 +2618,4 @@
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ] ]
   }
 ]
+
