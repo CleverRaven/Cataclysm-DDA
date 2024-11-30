@@ -10454,10 +10454,6 @@ bool map::ledge( const tripoint &p, Creature *c )
     if( c == nullptr ) {
         return false;
     }
-    monster *m = dynamic_cast<monster *>( c );
-    if( m != nullptr && m->flies() ) {
-        return false;
-    }
 
     if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent ) ) {
         return false;

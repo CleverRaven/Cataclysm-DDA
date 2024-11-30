@@ -318,6 +318,7 @@ class Creature : public viewer
         inline int posz() const {
             return get_location().z();
         }
+        virtual void gravity_check();
         // TODO: Get rid of untyped overload
         void setpos( const tripoint &p );
         void setpos( const tripoint_bub_ms &p );

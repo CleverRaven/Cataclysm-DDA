@@ -219,6 +219,7 @@ void Creature::setpos( const tripoint &p )
     const tripoint_abs_ms old_loc = get_location();
     set_pos_only( p );
     on_move( old_loc );
+    gravity_check();
 }
 
 void Creature::setpos( const tripoint_bub_ms &p )
@@ -315,6 +316,10 @@ std::vector<std::string> Creature::get_grammatical_genders() const
 {
     // Returning empty list means we use the language-specified default
     return {};
+}
+
+void Creature::gravity_check()
+{
 }
 
 void Creature::normalize()
