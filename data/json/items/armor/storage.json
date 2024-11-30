@@ -3359,6 +3359,54 @@
       { "encumbrance": [ 10, 50 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
   },
+{
+  "id": "backpack_crude",
+  "type": "ARMOR",
+  "name": {
+    "str": "crude backpack"
+  },
+  "description": "A crooked, hastily sewn backpack. Can hold quite a lot of stuff, but not as good as normal backpacks.",
+  "weight": "1440 g",
+  "volume": "4 L",
+  "price": "1 USD",
+  "price_postapoc": "10 cent",
+  "material": [
+    "cotton"
+  ],
+  "symbol": "[",
+  "looks_like": "ragpouch",
+  "color": "light_gray",
+  "pocket_data": [
+    {
+      "pocket_type": "CONTAINER",
+      "max_contains_volume": "18 L",
+      "max_contains_weight": "25 kg",
+      "max_item_length": "50 cm",
+      "magazine_well": "3 L",
+      "moves": 300
+    }
+  ],
+  "warmth": 10,
+  "material_thickness": 1,
+  "flags": [
+    "OVERSIZE",
+    "BELTED",
+    "WATER_FRIENDLY"
+  ],
+  "armor": [
+    {
+      "encumbrance": 5,
+      "volume_encumber_modifier": 0.4,
+      "coverage": 60,
+      "covers": [
+        "torso"
+      ],
+      "specifically_covers": [
+        "torso_hanging_back"
+      ]
+    }
+  ]
+},
   {
     "id": "bigframe_pack",
     "type": "ARMOR",
