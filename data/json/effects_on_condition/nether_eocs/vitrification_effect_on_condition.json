@@ -33,13 +33,18 @@
     "id": "EOC_vitrified_farm_init",
     "condition": {
       "and": [
-        { "not": { "u_has_effect": "VITRIFYING" } },
-        { "not": { "u_has_trait": "NOT_GLASS" } },
-        { "not": { "u_is_on_terrain": "t_quietfarm_border_ground" } },
-        { "not": { "u_is_on_terrain": "t_quietfarm_border_fence" } },
-        { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } },
-        { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
-        { "math": [ "u_vitri_glass_entered < 2" ] }
+        { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] },
+        {
+          "and": [
+            { "not": { "u_has_effect": "VITRIFYING" } },
+            { "not": { "u_has_trait": "NOT_GLASS" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_ground" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_fence" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } },
+            { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
+            { "math": [ "u_vitri_glass_entered < 2" ] }
+          ]
+        }
       ]
     },
     "false_effect": [
