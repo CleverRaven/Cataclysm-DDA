@@ -44,6 +44,7 @@
     "type": "ARMOR",
     "name": { "str": "beaded necklace" },
     "description": "A simple necklace made of string and wooden beads.  Also doubles as a set of prayer beads, if you're so inclined.",
+    "ascii_picture": "bead_necklace",
     "looks_like": "silver_necklace",
     "weight": "18 g",
     "volume": "30 ml",
@@ -1000,6 +1001,7 @@
     "type": "ARMOR",
     "name": { "str": "gold necklace" },
     "description": "A shiny, unadorned gold necklace.",
+    "ascii_picture": "gold_necklace",
     "weight": "50 g",
     "volume": "25 ml",
     "price": "400 USD",
@@ -3680,6 +3682,7 @@
     "type": "ARMOR",
     "name": { "str": "onyx and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an onyx pendant.",
+    "ascii_picture": "onyx_silver_pendant_necklace",
     "variant_type": "generic",
     "variants": [
       {
