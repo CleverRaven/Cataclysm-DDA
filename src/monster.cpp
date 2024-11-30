@@ -417,7 +417,7 @@ void monster::gravity_check()
 {
     map &here = get_map();
     if( here.is_open_air( pos_bub() ) && !flies() ) {
-        here.ledge( pos(), this );
+        here.try_fall( pos_bub(), this );
     }
 }
 

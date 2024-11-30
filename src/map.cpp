@@ -10447,9 +10447,7 @@ void map::maybe_trigger_prox_trap( const tripoint_bub_ms &pos, Creature &c,
 }
 
 // TODO: Should be moved to submap or Creature?
-// TODO: Typify
-// TODO: Rename to try_fall or similar, or maybe drop the return?
-bool map::ledge( const tripoint &p, Creature *c )
+bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
 {
     if( c == nullptr ) {
         return false;
@@ -10459,13 +10457,11 @@ bool map::ledge( const tripoint &p, Creature *c )
         return false;
     }
 
-    map &here = get_map();
-
     int height = 0;
     tripoint_bub_ms where( p );
     tripoint_bub_ms below( where + tripoint::below );
     creature_tracker &creatures = get_creature_tracker();
-    while( here.valid_move( where, below, false, true ) ) {
+    while( valid_move( where, below, false, true ) ) {
         where.z()--;
         if( get_creature_tracker().creature_at( where ) != nullptr ) {
             where.z()++;
@@ -10484,7 +10480,7 @@ bool map::ledge( const tripoint &p, Creature *c )
         }
 
         std::vector<tripoint_bub_ms> valid;
-        for( const tripoint_bub_ms &pt : here.points_in_radius( below, 1 ) ) {
+        for( const tripoint_bub_ms &pt : points_in_radius( below, 1 ) ) {
             if( g->is_empty( pt ) ) {
                 valid.push_back( pt );
             }
@@ -10567,7 +10563,7 @@ bool map::ledge( const tripoint &p, Creature *c )
         you->impact( height * 30, where.raw() );
     }
 
-    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
+    if( has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
         you->set_underwater( true );
         g->water_affect_items( *you );
         you->add_msg_player_or_npc( _( "You dive into water." ), _( "<npcname> dives into water." ) );
