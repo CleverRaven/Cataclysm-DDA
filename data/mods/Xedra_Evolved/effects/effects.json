@@ -1675,7 +1675,9 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
@@ -1683,12 +1685,9 @@
       {
         "condition": {
           "or": [
-            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] }
-            { 
-              "and": [ 
-                { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-                { "u_has_trait": "ARVORE" }
-              ]
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
             }
           ]
         },
@@ -1702,7 +1701,9 @@
           {
             "value": "DODGE_CHANCE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)" ]
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
             }
           }
         ]
@@ -1710,12 +1711,9 @@
       {
         "condition": {
           "or": [
-            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] }
-            { 
-              "and": [ 
-                { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } },
-                { "u_has_trait": "ARVORE" }
-              ]
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
             }
           ]
         },
@@ -1729,7 +1727,9 @@
           {
             "value": "DODGE_CHANCE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5" ]
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1740,7 +1740,9 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_2",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
@@ -1748,12 +1750,9 @@
       {
         "condition": {
           "or": [
-            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] }
-            { 
-              "and": [ 
-                { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-                { "u_has_trait": "ARVORE" }
-              ]
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
             }
           ]
         },
@@ -1767,7 +1766,9 @@
           {
             "value": "DODGE_CHANCE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)" ]
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
             }
           }
         ]
@@ -1775,12 +1776,9 @@
       {
         "condition": {
           "or": [
-            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] }
-            { 
-              "and": [ 
-                { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } },
-                { "u_has_trait": "ARVORE" }
-              ]
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
             }
           ]
         },
@@ -1794,7 +1792,9 @@
           {
             "value": "DODGE_CHANCE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5" ]
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1806,7 +1806,9 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_3",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
@@ -1814,12 +1816,9 @@
       {
         "condition": {
           "or": [
-            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] }
-            { 
-              "and": [ 
-                { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
-                { "u_has_trait": "ARVORE" }
-              ]
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
             }
           ]
         },
@@ -1833,7 +1832,9 @@
           {
             "value": "DODGE_CHANCE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)" ]
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
             }
           }
         ]
@@ -1841,12 +1842,9 @@
       {
         "condition": {
           "or": [
-            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] }
-            { 
-              "and": [ 
-                { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } },
-                { "u_has_trait": "ARVORE" }
-              ]
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
             }
           ]
         },
@@ -1860,7 +1858,9 @@
           {
             "value": "DODGE_CHANCE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5" ]
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
