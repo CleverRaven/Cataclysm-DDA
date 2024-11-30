@@ -177,7 +177,7 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         // test sweeping a big zomb (fail)
         REQUIRE( target_2.get_size() == 5 );
         CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
-                                        false ).has_value() );
+                                         false ).has_value() );
         // test sweeping a slime (fail)
         REQUIRE( target_3.get_size() == 3 );
         REQUIRE( target_3.type->bodytype == "blob" );
@@ -232,7 +232,7 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         // test throwing a large target (fail)
         REQUIRE( target_2.get_size() == 5 );
         CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
-                                        false ).has_value() );
+                                         false ).has_value() );
         // test throwing a monster grabbing you (succeed)
         dude.add_effect( effect_grabbed, 1_days );
         target_3.add_effect( effect_grabbing, 1_days );
