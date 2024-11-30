@@ -4049,14 +4049,14 @@ static double simple_cubic_solution( double a, double b, double c, double d )
     }
 }
 
-int vehicle::acceleration(const bool fueled, int at_vel_in_vmi) const
+int vehicle::acceleration(const bool fueled, int at_vel_in_vmi ) const
 {
-    if (is_watercraft()) {
-        return water_acceleration(fueled, at_vel_in_vmi);
-    } else if (is_rotorcraft() && is_flying) {
-        return rotor_acceleration(fueled, at_vel_in_vmi);
+    if( is_watercraft() ) {
+        return water_acceleration( fueled, at_vel_in_vmi );
+    } else if( is_rotorcraft() && is_flying ) {
+        return rotor_acceleration( fueled, at_vel_in_vmi );
     }
-    return ground_acceleration(fueled, at_vel_in_vmi);
+    return ground_acceleration( fueled, at_vel_in_vmi );
 }
 
 int vehicle::current_acceleration( const bool fueled ) const
@@ -4132,14 +4132,14 @@ int vehicle::max_rotor_velocity( const bool fueled ) const
     return std::min( 25501, mps_to_vmiph( max_air_mps ) );
 }
 
-int vehicle::max_velocity(const bool fueled) const
+int vehicle::max_velocity( const bool fueled ) const
 {
-    if (is_flying && is_rotorcraft()) {
-        return max_rotor_velocity(fueled);
-    } else if (is_watercraft()) {
-        return max_water_velocity(fueled);
+    if( is_flying && is_rotorcraft() ) {
+        return max_rotor_velocity( fueled );
+    } else if( is_watercraft() ) {
+        return max_water_velocity( fueled );
     } else {
-        return max_ground_velocity(fueled);
+        return max_ground_velocity( fueled );
     }
 }
 
@@ -4182,14 +4182,14 @@ int vehicle::safe_water_velocity( const bool fueled ) const
     return mps_to_vmiph( safe_in_mps );
 }
 
-int vehicle::safe_velocity(const bool fueled) const
+int vehicle::safe_velocity( const bool fueled ) const
 {
-    if (is_flying && is_rotorcraft()) {
-        return safe_rotor_velocity(fueled);
+    if ( is_flying && is_rotorcraft() ) {
+        return safe_rotor_velocity( fueled );
     } else if (is_watercraft()) {
-        return safe_water_velocity(fueled);
+        return safe_water_velocity( fueled );
     } else {
-        return safe_ground_velocity(fueled);
+        return safe_ground_velocity( fueled );
     }
 }
 
