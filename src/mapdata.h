@@ -746,6 +746,19 @@ class ter_furn_migrations
         static void check();
 };
 
+class trap_migrations
+{
+    public:
+        /** Handler for loading "trap_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
 class field_type_migrations
 {
     public:
