@@ -29,8 +29,8 @@ def main():
           "//   ./build-scripts/get_translation_characters.py en ar cs da de "
           "el es fr hu id is it ja ko nb nl pl pt ru sr tr uk_UA zh_Hans "
           "zh_Hant > src/cldr/imgui-glyph-ranges.cpp\n\n"
-          "// NOLINTBEGIN(cata-static-declarations,readability-function-size)"
-          "\n")
+          "// NOLINTBEGIN(cata-static-declarations,readability-function-size,"
+          "modernize-avoid-c-arrays)\n")
     add_preprocessor()
     print("static NOINLINE void AddGlyphs( ImFontGlyphRangesBuilder *b, "
           "ImWchar const *glyphp, ImWchar const *end) {\n"
