@@ -4049,7 +4049,7 @@ static double simple_cubic_solution( double a, double b, double c, double d )
     }
 }
 
-int vehicle::acceleration(const bool fueled, int at_vel_in_vmi ) const
+int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
@@ -4184,9 +4184,9 @@ int vehicle::safe_water_velocity( const bool fueled ) const
 
 int vehicle::safe_velocity( const bool fueled ) const
 {
-    if ( is_flying && is_rotorcraft() ) {
+    if( is_flying && is_rotorcraft() ) {
         return safe_rotor_velocity( fueled );
-    } else if (is_watercraft()) {
+    } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
     } else {
         return safe_ground_velocity( fueled );
