@@ -600,11 +600,11 @@ class map
         */
         // TODO: fix point types (remove the first overload)
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr,
-                       const bool ignore_fields = false ) const;
+                       bool ignore_fields = false ) const;
         int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
-                       const bool ignore_fields = false ) const;
+                       bool ignore_fields = false ) const;
         int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
-                       const bool ignore_fields = false ) const {
+                       bool ignore_fields = false ) const {
             return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields );
         }
         // TODO: fix point types (remove the first overload)
@@ -652,7 +652,7 @@ class map
         int combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                                const vehicle *ignored_vehicle = nullptr,
                                int modifier = 0, bool flying = false, bool via_ramp = false,
-                               const bool ignore_fields = false ) const;
+                               bool ignore_fields = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
