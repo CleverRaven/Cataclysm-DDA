@@ -176,7 +176,7 @@
     "responses": [
       {
         "text": "Great.  I'll see you there.",
-        "effect": { "math": [ "isherwood_lisa_coming", "=", "1" ] },
+        "effect": { "math": [ "isherwood_lisa_coming = 1" ] },
         "//": "This is temporary.  Lisa should join Chris at the tower with an EOC spawn.",
         "topic": "TALK_DONE"
       }

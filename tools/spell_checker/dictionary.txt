@@ -2633,6 +2633,8 @@ HMS
 HMTD
 hnefatafl
 Hobbes
+hobblebush
+hobbleberries
 hoc
 Hockomock
 hodag
@@ -4132,6 +4134,8 @@ namele
 Namibian
 Nana
 Nani
+nannyberry
+nannyberries
 nano
 nanobots
 nanocompound
@@ -5604,6 +5608,7 @@ Sikorsky
 Silat
 siloed
 siloing
+silverberry
 Silvergram
 Silvergrams
 Silverhawk
@@ -6412,6 +6417,7 @@ tumescences
 Tunguska
 Tunisian
 tuno
+tupelo
 tupperware
 tupperwares
 Turing

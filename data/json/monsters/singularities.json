@@ -157,7 +157,7 @@
         "min_radius": 5,
         "max_radius": 10
       },
-      { "math": [ "ltnt_transform_radius", "=", "10" ] },
+      { "math": [ "ltnt_transform_radius = 10" ] },
       {
         "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 10 },
         "ter_furn_transform": "ltnt_grass_drain",
@@ -327,7 +327,7 @@
     "run_for_npcs": false,
     "condition": { "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active < 1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
-    "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
+    "effect": [ { "math": [ "Lieutenants_active = 1" ] }, { "math": [ "Shadow_Lurking = 1" ] } ],
     "deactivate_condition": { "math": [ "Lieutenants_active >= 1" ] }
   },
   {
@@ -462,7 +462,7 @@
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
     "effect": [
-      { "math": [ "Shadow_Lurking", "=", "1" ] },
+      { "math": [ "Shadow_Lurking = 1" ] },
       { "u_add_effect": "blind_no_msg", "duration": "0 second" },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {

@@ -205,6 +205,7 @@ static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 
+static const skill_id skill_archery( "archery" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
@@ -2502,7 +2503,16 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // Display any minimal stat or skill requirements for the item
         std::vector<std::string> req;
         if( get_min_str() > 0 ) {
-            req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+            int min_str = 0;
+            for( const item *mod : gunmods() ) {
+                min_str += mod->type->gunmod->min_str_required_mod_if_prone;
+            }
+            if( min_str != 0 && !get_player_character().is_prone() ) {
+                req.push_back( string_format( "%s %d (%d %s)", _( "strength" ), get_min_str(),
+                                              get_min_str() + min_str, _( "if prone" ) ) );
+            } else {
+                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+            }
         }
         if( type->min_dex > 0 ) {
             req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
@@ -6597,7 +6607,8 @@ int item::on_wield_cost( const Character &you ) const
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
-        mv += penalty;
+        // arbitrary no more than 7 second of penalty
+        mv += std::min( penalty, 700 );
     }
 
     // firearms with a folding stock or tool/melee without collapse/retract iuse
@@ -15056,10 +15067,17 @@ int item::get_min_str() const
     const Character &p = get_player_character();
     if( type->gun ) {
         int min_str = type->min_str;
-        min_str -= p.get_proficiency_bonus( "archery", proficiency_bonus_type::strength );
-
+        // we really need some better check for bows than its skill
+        if( type->gun->skill_used == skill_archery ) {
+            min_str -= p.get_proficiency_bonus( "archery", proficiency_bonus_type::strength );
+        }
         for( const item *mod : gunmods() ) {
             min_str += mod->type->gunmod->min_str_required_mod;
+        }
+        if( p.is_prone() ) {
+            for( const item *mod : gunmods() ) {
+                min_str += mod->type->gunmod->min_str_required_mod_if_prone;
+            }
         }
         return min_str > 0 ? min_str : 0;
     } else {

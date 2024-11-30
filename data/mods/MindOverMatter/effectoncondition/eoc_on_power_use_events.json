@@ -550,7 +550,7 @@
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-    "effect": [ { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] }, { "run_eocs": "EOC_PSIONICS_KCAL_COST" } ]
+    "effect": [ { "math": [ "u_latest_channeled_power_difficulty = _difficulty" ] }, { "run_eocs": "EOC_PSIONICS_KCAL_COST" } ]
   },
   {
     "type": "effect_on_condition",

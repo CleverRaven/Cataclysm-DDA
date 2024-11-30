@@ -175,8 +175,8 @@
       { "u_lose_trait": "MUTE_BIRD_OK" },
       { "u_lose_trait": "MUTE_CEPH" },
       { "u_lose_trait": "MUTE_CEPH_OK" },
-      { "math": [ "u_progress_unmute_bird", "=", "0" ] },
-      { "math": [ "u_progress_unmute_ceph", "=", "0" ] },
+      { "math": [ "u_progress_unmute_bird = 0" ] },
+      { "math": [ "u_progress_unmute_ceph = 0" ] },
       {
         "u_message": "You grasp at the base of your beak and feel the familiar contours of your old mouth.  You give it a try and your voice sounds almost like before."
       }
@@ -208,7 +208,7 @@
       { "u_lose_trait": "MUTE_GASTROPOD" },
       { "u_lose_trait": "MUTE_GASTROPOD_OK" },
       { "u_message": "You cough up a lot of off-color blood, but you swear in your own old voice again afterwards." },
-      { "math": [ "u_progress_unmute_gastropod", "=", "0" ] }
+      { "math": [ "u_progress_unmute_gastropod = 0" ] }
     ]
   },
   {

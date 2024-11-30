@@ -230,7 +230,7 @@
           { "u_add_faction_trust": 2 },
           { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "-=", "2" ] },
           { "u_add_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
-          { "math": [ "u_timer_blobpsychosis_u_declined_exodization", "=", "time('now')" ] }
+          { "math": [ "u_timer_blobpsychosis_u_declined_exodization = time('now')" ] }
         ]
       }
     ],
