@@ -46,7 +46,7 @@
         "scope": "overmap_special",
         "//": "Determines if house has alarm",
         "//2": "Couldn't find an exact value of houses with alarms so estimated 25%, change if you have any good source",
-        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 1 ] ] }
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 3 ] ] }
       }
     },
     "palettes": [
@@ -63,7 +63,13 @@
     "terrain": {
       "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
       ":": "t_wall_glass_alarm",
-      "o": "t_window_alarm"
+      "o": [
+        [ "t_window_domestic_alarm", 10 ],
+        "t_window_no_curtains_alarm",
+        "t_window_open_alarm",
+        "t_window_no_curtains_open_alarm",
+        [ "t_curtains_alarm", 5 ]
+      ]
     }
   },
   {

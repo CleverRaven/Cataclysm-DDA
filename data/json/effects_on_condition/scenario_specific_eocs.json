@@ -321,7 +321,7 @@
     "type": "effect_on_condition",
     "eoc_type": "ACTIVATION",
     "id": "EOC_deactivate_moonlit",
-    "effect": [ { "math": [ "is_moonlit_scenario", "=", "0" ] }, "next_weather" ]
+    "effect": [ { "math": [ "is_moonlit_scenario = 0" ] }, "next_weather" ]
   },
   {
     "type": "effect_on_condition",
@@ -329,7 +329,7 @@
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_message": "The moon shines brightly." },
-      { "math": [ "is_moonlit_scenario", "=", "1" ] },
+      { "math": [ "is_moonlit_scenario = 1" ] },
       "next_weather",
       { "run_eocs": "EOC_deactivate_moonlit", "time_in_future": "4 hours" }
     ]

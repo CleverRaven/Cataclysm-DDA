@@ -10,7 +10,7 @@
         "furniture": "f_magiclysm_translocator_gate",
         "target_max_radius": 26
       },
-      { "math": [ "searched_forge", "=", "1" ] }
+      { "math": [ "searched_forge = 1" ] }
     ]
   },
   {

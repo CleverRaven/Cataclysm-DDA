@@ -143,7 +143,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_you]->get_active_column().on_deactivate();
 
     _header_ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        _header_w = catacurses::newwin( header_size, TERMX, point_zero );
+        _header_w = catacurses::newwin( header_size, TERMX, point::zero );
         ui.position_from_window( _header_w );
         ui.invalidate_ui();
         resize();

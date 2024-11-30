@@ -5,8 +5,8 @@
     "eoc_type": "SCENARIO_SPECIFIC",
     "deactivate_condition": { "math": [ "wave_number >= 1" ] },
     "effect": [
-      { "math": [ "diffulty_modifier", "=", "1" ] },
-      { "math": [ "wave_money_modifier", "=", "-1000" ] },
+      { "math": [ "diffulty_modifier = 1" ] },
+      { "math": [ "wave_money_modifier = -1000" ] },
       { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
       {
         "u_location_variable": { "global_val": "your_spawnpoint" },
@@ -84,24 +84,24 @@
       { "u_lose_effect": "staggered" },
       { "u_lose_effect": "bite" },
       { "u_lose_effect": "bleed" },
-      { "math": [ "u_calories()", "=", "u_calories()" ] },
-      { "math": [ "u_val('pkill')", "=", "u_val('pkill')" ] },
-      { "math": [ "u_val('stim')", "=", "u_val('stim')" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('sleepiness')", "=", "0" ] },
-      { "math": [ "u_val('stamina')", "=", "8500" ] },
+      { "math": [ "u_calories() = u_calories()" ] },
+      { "math": [ "u_val('pkill') = u_val('pkill')" ] },
+      { "math": [ "u_val('stim') = u_val('stim')" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('sleepiness') = 0" ] },
+      { "math": [ "u_val('stamina') = 8500" ] },
       { "math": [ "revivication_counter", "--" ] },
       { "u_cast_spell": { "id": "remove_opponents" } },
       {
         "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
         "popup": true
       },
-      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 100)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 100)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 100)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 100)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 100)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 100)" ] }
+      { "math": [ "u_hp('torso') = max( u_hp('torso'), 100)" ] },
+      { "math": [ "u_hp('head') = max( u_hp('head'), 100)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_hp('arm_l'), 100)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_hp('arm_r'), 100)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_hp('leg_l'), 100)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_hp('leg_r'), 100)" ] }
     ]
   }
 ]

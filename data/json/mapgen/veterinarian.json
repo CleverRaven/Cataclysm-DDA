@@ -5,7 +5,7 @@
     "om_terrain": [ "veterinarian" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "~~~                  ~~~",
         "~*~                  ~*~",
@@ -32,15 +32,15 @@
         "------------------------",
         "------------------------"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_pavement",
         "*": "t_region_shrub_decorative",
         "-": "t_region_groundcover_urban",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        ".": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "C": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "l": "t_thconc_floor",
         ":": "t_door_glass_c",
         ";": "t_door_locked",

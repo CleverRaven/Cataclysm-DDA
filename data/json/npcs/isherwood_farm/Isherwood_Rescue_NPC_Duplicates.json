@@ -38,7 +38,7 @@
           { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
           { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
           { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
-          { "math": [ "barry_travelling_home", "=", "1" ] },
+          { "math": [ "barry_travelling_home = 1" ] },
           {
             "u_run_npc_eocs": [
               {

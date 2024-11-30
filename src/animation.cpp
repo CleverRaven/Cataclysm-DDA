@@ -397,10 +397,10 @@ void explosion_handler::draw_custom_explosion(
         const tripoint_bub_ms &pt = pr.first;
         explosion_neighbors &ngh = pr.second.neighborhood;
 
-        set_neighbors( pt + point_west, ngh, N_WEST, N_EAST );
-        set_neighbors( pt + point_east, ngh, N_EAST, N_WEST );
-        set_neighbors( pt + point_north, ngh, N_NORTH, N_SOUTH );
-        set_neighbors( pt + point_south, ngh, N_SOUTH, N_NORTH );
+        set_neighbors( pt + point::west, ngh, N_WEST, N_EAST );
+        set_neighbors( pt + point::east, ngh, N_EAST, N_WEST );
+        set_neighbors( pt + point::north, ngh, N_NORTH, N_SOUTH );
+        set_neighbors( pt + point::south, ngh, N_SOUTH, N_NORTH );
     }
 
     // We need to save the layers because we will draw them in reverse order
@@ -424,10 +424,10 @@ void explosion_handler::draw_custom_explosion(
             const tripoint_bub_ms &pt = pr.first;
             const explosion_neighbors ngh = pr.second.neighborhood;
 
-            unset_neighbor( pt + point_west, ngh, N_WEST, N_EAST );
-            unset_neighbor( pt + point_east, ngh, N_EAST, N_WEST );
-            unset_neighbor( pt + point_north, ngh, N_NORTH, N_SOUTH );
-            unset_neighbor( pt + point_south, ngh, N_SOUTH, N_NORTH );
+            unset_neighbor( pt + point::west, ngh, N_WEST, N_EAST );
+            unset_neighbor( pt + point::east, ngh, N_EAST, N_WEST );
+            unset_neighbor( pt + point::north, ngh, N_NORTH, N_SOUTH );
+            unset_neighbor( pt + point::south, ngh, N_SOUTH, N_NORTH );
             neighbors.erase( pr.first );
         }
 
@@ -840,10 +840,10 @@ void game::draw_cursor( const tripoint &p ) const
 void game::draw_cursor_unobscuring( const tripoint_bub_ms &p ) const
 {
     const tripoint_rel_ms rp = relative_view_pos( *this, p );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_north_east ).raw(), c_cyan, "↙" );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_south_east ).raw(), c_cyan, "↖" );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_north_west ).raw(), c_cyan, "↘" );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_south_west ).raw(), c_cyan, "↗" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::north_east ).raw(), c_cyan, "↙" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::south_east ).raw(), c_cyan, "↖" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::north_west ).raw(), c_cyan, "↘" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::south_west ).raw(), c_cyan, "↗" );
 #if defined(TILES)
     tilecontext->init_draw_cursor( p );
 #endif
@@ -906,7 +906,8 @@ namespace
 void draw_sct_curses( const game &g )
 {
     avatar &player_character = get_avatar();
-    const tripoint_rel_ms off = relative_view_pos( player_character, tripoint_bub_ms_zero );
+    const tripoint_rel_ms off = relative_view_pos( player_character,
+                                tripoint_bub_ms::zero );
 
     for( const scrollingcombattext::cSCT &text : SCT.vSCT ) {
         const int dy = off.y() + text.getPosY();

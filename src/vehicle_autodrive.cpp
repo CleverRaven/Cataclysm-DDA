@@ -619,8 +619,8 @@ Tripoint auto_navigation_data::adjust_z( const Tripoint &p ) const
 
 void vehicle::autodrive_controller::compute_coordinates()
 {
-    data.view_bounds = { point_zero, {NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y} };
-    data.nav_bounds = { point_zero, {NAV_MAP_SIZE_X, NAV_MAP_SIZE_Y} };
+    data.view_bounds = { point::zero, {NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y} };
+    data.nav_bounds = { point::zero, {NAV_MAP_SIZE_X, NAV_MAP_SIZE_Y} };
     data.next_omt_bounds = { {OMT_SIZE, 0}, {OMT_SIZE * 2, OMT_SIZE} };
 
     const tripoint_rel_omt omt_diff = data.next_omt - data.current_omt;
@@ -628,7 +628,7 @@ void vehicle::autodrive_controller::compute_coordinates()
     point mid_omt( OMT_SIZE / 2, OMT_SIZE / 2 );
     const tripoint_abs_ms abs_mid_omt = project_to<coords::ms>( data.current_omt ) + mid_omt;
 
-    data.nav_to_view = { point_zero, quad_rotation::d0, {NAV_VIEW_PADDING, NAV_VIEW_PADDING} } ;
+    data.nav_to_view = { point::zero, quad_rotation::d0, {NAV_VIEW_PADDING, NAV_VIEW_PADDING} } ;
     data.nav_to_map = { mid_omt, next_dir, abs_mid_omt.raw().xy() };
     data.view_to_map = data.nav_to_map;
     data.view_to_map.pre_offset += data.nav_to_view.post_offset;
@@ -818,10 +818,10 @@ void vehicle::autodrive_controller::enqueue_if_ramp( point_queue &ramp_points,
     }
     ramp_points.visited.emplace( p );
     if( p.z() < OVERMAP_HEIGHT && here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, p ) ) {
-        ramp_points.enqueue( p + tripoint_above );
+        ramp_points.enqueue( p + tripoint::above );
     }
     if( p.z() > -OVERMAP_DEPTH && here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p ) ) {
-        ramp_points.enqueue( p + tripoint_below );
+        ramp_points.enqueue( p + tripoint::below );
     }
 }
 
@@ -861,7 +861,7 @@ void vehicle::autodrive_controller::compute_obstacles_from_enqueued_ramp_points(
 
 void vehicle::autodrive_controller::compute_valid_positions()
 {
-    const coord_transformation veh_rot = {point_zero, -data.nav_to_map.rotation, point_zero};
+    const coord_transformation veh_rot = { point::zero, -data.nav_to_map.rotation, point::zero };
     for( orientation facing : all_orientations() ) {
         const vehicle_profile &profile = data.profile( data.nav_to_map.transform( facing ) );
         for( int mx = 0; mx < NAV_MAP_SIZE_X; mx++ ) {
@@ -870,7 +870,7 @@ void vehicle::autodrive_controller::compute_valid_positions()
                 bool valid = true;
                 for( const point &veh_pt : profile.occupied_zone ) {
                     const point view_pt = data.nav_to_view.transform( nav_pt ) + veh_rot.transform(
-                                              veh_pt ) - veh_rot.transform( point_zero );
+                                              veh_pt ) - veh_rot.transform( point::zero );
                     if( !data.view_bounds.contains( view_pt ) || data.is_obstacle[view_pt.x][view_pt.y] ) {
                         valid = false;
                         break;
@@ -896,7 +896,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
     } else {
         // set the goal at the edge of cur_omt and next_omt (in next_omt space,
         // pointing away from cur_omt)
-        goal_transform = { point( OMT_SIZE - 1, 0 ), quad_rotation::d0, point_zero };
+        goal_transform = { point( OMT_SIZE - 1, 0 ), quad_rotation::d0, point::zero };
     }
     constexpr int max_turns = NUM_ORIENTATIONS / 8 + 1;
     const int x = 2 * OMT_SIZE - 1;
@@ -984,7 +984,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
         return ret;
     }
     static constexpr std::array<point, 4> neighbor_deltas = {
-        point_east, point_south, point_west, point_north
+        point::east, point::south, point::west, point::north
     };
     for( const point &neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
@@ -1276,7 +1276,7 @@ std::vector<std::tuple<point_rel_ms, int, std::string>> vehicle::get_debug_overl
     ret.reserve( collision_check_points.size() );
 
     const tripoint_abs_ms veh_pos = global_square_location();
-    if( autodrive_local_target != tripoint_abs_ms_zero ) {
+    if( autodrive_local_target != tripoint_abs_ms::zero ) {
         ret.emplace_back( ( autodrive_local_target - veh_pos ).xy(), catacurses::red, "T" );
     }
     for( const point_abs_ms &pt_elem : collision_check_points ) {
@@ -1344,7 +1344,7 @@ std::vector<std::tuple<point_rel_ms, int, std::string>> vehicle::get_debug_overl
             }
         } else if( debug_str == "omt" ) {
             const point_rel_ms offset = ( project_to<coords::ms>( data.current_omt ) - veh_pos ).xy();
-            static const std::vector<point> corners = {point_zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1}};
+            static const std::vector<point> corners = { point::zero, {0, OMT_SIZE - 1}, {OMT_SIZE - 1, 0}, {OMT_SIZE - 1, OMT_SIZE - 1} };
             for( point corner : corners ) {
                 ret.emplace_back( corner + offset, catacurses::cyan, "+" );
             }
@@ -1450,7 +1450,7 @@ void vehicle::stop_autodriving( bool apply_brakes )
     is_patrolling = false;
     is_following = false;
     autopilot_on = false;
-    autodrive_local_target = tripoint_abs_ms_zero;
+    autodrive_local_target = tripoint_abs_ms::zero;
     collision_check_points.clear();
     active_autodrive_controller.reset();
 }

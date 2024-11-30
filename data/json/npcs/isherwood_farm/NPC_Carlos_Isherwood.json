@@ -371,7 +371,7 @@
         },
         { "u_spawn_item": "leather_armor_horse", "count": 1 },
         { "npc_add_var": "carlos_has_anvil", "value": "yes" },
-        { "math": [ "timer_carlos_has_anvil", "=", "time('now')" ] }
+        { "math": [ "timer_carlos_has_anvil = time('now')" ] }
       ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }

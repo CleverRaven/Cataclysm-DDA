@@ -250,7 +250,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_nobarter",
     "dynamic_line": "Hey, I appreciate that, but I know what I've got, and I can make good money with that time.  Sorry, my price stands.",
-    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail", "=", "time('now')" ] } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail = time('now')" ] } },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

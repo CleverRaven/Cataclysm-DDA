@@ -324,7 +324,7 @@ void avatar::reset_all_missions()
 tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
-        return overmap::invalid_tripoint;
+        return tripoint_abs_omt::invalid;
     }
     return active_mission->get_target();
 }
@@ -1302,7 +1302,9 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         // Enchantments based on move modes can stack inappropriately without a recalc here
         recalculate_enchantment_cache();
         // crouching affects visibility
-        get_map().set_seen_cache_dirty( pos().z );
+        //TODO: Replace with dirtying vision_transparency_cache
+        get_map().set_transparency_cache_dirty( pos_bub() );
+        get_map().set_seen_cache_dirty( pos_bub().z() );
         recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );

@@ -17,12 +17,12 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "evac_center_13" },
-      { "math": [ "u_timer_RC_Shoppers_RandEnc", "=", "time('now')" ] },
+      { "math": [ "u_timer_RC_Shoppers_RandEnc = time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_shoppers_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
       },
-      { "math": [ "RC_Shoppers_visiting", "=", "1" ] }
+      { "math": [ "RC_Shoppers_visiting = 1" ] }
     ]
   },
   {
@@ -43,7 +43,7 @@
         "om_terrain": "evac_center_13",
         "target_var": { "global_val": "randenc_shoppers_loc" }
       },
-      { "math": [ "RC_Shoppers_visiting", "=", "0" ] }
+      { "math": [ "RC_Shoppers_visiting = 0" ] }
     ]
   },
   {
@@ -64,12 +64,12 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_RC_JohnBailey_add", "om_terrain": "evac_center_13" },
-      { "math": [ "u_timer_JohnBailey_RandEnc", "=", "time('now')" ] },
+      { "math": [ "u_timer_JohnBailey_RandEnc = time('now')" ] },
       {
         "u_location_variable": { "global_val": "randenc_johnbailey_loc" },
         "target_params": { "om_terrain": "evac_center_13" }
       },
-      { "math": [ "RC_JohnBailey_visiting", "=", "1" ] }
+      { "math": [ "RC_JohnBailey_visiting = 1" ] }
     ]
   },
   {
@@ -90,7 +90,7 @@
         "om_terrain": "evac_center_13",
         "target_var": { "global_val": "randenc_johnbailey_loc" }
       },
-      { "math": [ "RC_JohnBailey_visiting", "=", "0" ] }
+      { "math": [ "RC_JohnBailey_visiting = 0" ] }
     ]
   },
   {

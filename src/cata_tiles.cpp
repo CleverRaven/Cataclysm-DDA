@@ -682,7 +682,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
-        ts.max_tile_extent = half_open_rectangle<point>( point_zero, { ts.tile_width, ts.tile_height } );
+        ts.max_tile_extent = half_open_rectangle<point>( point::zero, { ts.tile_width, ts.tile_height } );
         ts.zlevel_height = curr_info.get_int( "zlevel_height", 0 );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
@@ -848,8 +848,8 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
     } else {
         sprite_width = ts.tile_width;
         sprite_height = ts.tile_height;
-        sprite_offset = point_zero;
-        sprite_offset_retracted = point_zero;
+        sprite_offset = point::zero;
+        sprite_offset_retracted = point::zero;
         sprite_pixelscale = 1.0;
         R = -1;
         G = -1;
@@ -1930,7 +1930,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         if( do_draw_async_anim ) {
             draw_async_anim();
         }
-    } else if( you.view_offset != tripoint_rel_ms_zero && !you.in_vehicle ) {
+    } else if( you.view_offset != tripoint_rel_ms::zero && !you.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
                              tripoint( g->ter_view_p.xy(), center.z ), 0, 0, lit_level::LIT,
@@ -2075,7 +2075,7 @@ half_open_rectangle<point> cata_tiles::get_window_full_base_tile_range( const po
         // when checking which tiles are fully on-screen.
         const int columns = divide_round_down( size.x, tile_width );
         const int rows = divide_round_down( size.y, tile_height );
-        return { point_zero, { columns, rows } };
+        return { point::zero, { columns, rows } };
     }
 }
 
@@ -3275,7 +3275,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         return false;
     }
 
-    tripoint_bub_ms pbelow = tripoint_bub_ms( p + tripoint_below );
+    tripoint_bub_ms pbelow = tripoint_bub_ms( p + tripoint::below );
     nc_color col = c_dark_gray;
 
     const ter_t &curr_ter = here.ter( pbelow ).obj();
@@ -3413,10 +3413,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     const furn_id &f = here.furn( p );
     if( f && !invisible[0] ) {
         const std::array<int, 4> neighborhood = {
-            static_cast<int>( here.furn( p + point_south ) ),
-            static_cast<int>( here.furn( p + point_east ) ),
-            static_cast<int>( here.furn( p + point_west ) ),
-            static_cast<int>( here.furn( p + point_north ) )
+            static_cast<int>( here.furn( p + point::south ) ),
+            static_cast<int>( here.furn( p + point::east ) ),
+            static_cast<int>( here.furn( p + point::west ) ),
+            static_cast<int>( here.furn( p + point::north ) )
         };
         int subtile = 0;
         int rotation = 0;
@@ -3454,10 +3454,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
                 ( !overridden || !invis ) ? here.furn( q ) : furn_str_id::NULL_ID().id();
             };
             const std::array<int, 4> neighborhood = {
-                static_cast<int>( furn( p + point_south, invisible[1] ) ),
-                static_cast<int>( furn( p + point_east, invisible[2] ) ),
-                static_cast<int>( furn( p + point_west, invisible[3] ) ),
-                static_cast<int>( furn( p + point_north, invisible[4] ) )
+                static_cast<int>( furn( p + point::south, invisible[1] ) ),
+                static_cast<int>( furn( p + point::east, invisible[2] ) ),
+                static_cast<int>( furn( p + point::west, invisible[3] ) ),
+                static_cast<int>( furn( p + point::north, invisible[4] ) )
             };
             int subtile = 0;
             int rotation = 0;
@@ -3515,10 +3515,10 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     const trap &tr = here.tr_at( p );
     if( !tr.is_null() && !invisible[0] && tr.can_see( p, you ) ) {
         const std::array<int, 4> neighborhood = {
-            static_cast<int>( here.tr_at( p + point_south ).loadid ),
-            static_cast<int>( here.tr_at( p + point_east ).loadid ),
-            static_cast<int>( here.tr_at( p + point_west ).loadid ),
-            static_cast<int>( here.tr_at( p + point_north ).loadid )
+            static_cast<int>( here.tr_at( p + point::south ).loadid ),
+            static_cast<int>( here.tr_at( p + point::east ).loadid ),
+            static_cast<int>( here.tr_at( p + point::west ).loadid ),
+            static_cast<int>( here.tr_at( p + point::north ).loadid )
         };
         int subtile = 0;
         int rotation = 0;
@@ -3548,10 +3548,10 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
                 ( !overridden || !invis ) ? here.tr_at( q ).loadid : tr_null;
             };
             const std::array<int, 4> neighborhood = {
-                static_cast<int>( tr_at( p + point_south, invisible[1] ) ),
-                static_cast<int>( tr_at( p + point_east, invisible[2] ) ),
-                static_cast<int>( tr_at( p + point_west, invisible[3] ) ),
-                static_cast<int>( tr_at( p + point_north, invisible[4] ) )
+                static_cast<int>( tr_at( p + point::south, invisible[1] ) ),
+                static_cast<int>( tr_at( p + point::east, invisible[2] ) ),
+                static_cast<int>( tr_at( p + point::west, invisible[3] ) ),
+                static_cast<int>( tr_at( p + point::north, invisible[4] ) )
             };
             int subtile = 0;
             int rotation = 0;
@@ -3747,10 +3747,10 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 };
                 // for rotation information
                 const std::array<int, 4> neighborhood = { {
-                        static_cast<int>( has_field( fld, p + point_south, invisible[1] ) ),
-                        static_cast<int>( has_field( fld, p + point_east, invisible[2] ) ),
-                        static_cast<int>( has_field( fld, p + point_west, invisible[3] ) ),
-                        static_cast<int>( has_field( fld, p + point_north, invisible[4] ) )
+                        static_cast<int>( has_field( fld, p + point::south, invisible[1] ) ),
+                        static_cast<int>( has_field( fld, p + point::east, invisible[2] ) ),
+                        static_cast<int>( has_field( fld, p + point::west, invisible[3] ) ),
+                        static_cast<int>( has_field( fld, p + point::north, invisible[4] ) )
                     }
                 };
 
@@ -3787,10 +3787,10 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             };
             // for rotation information
             const std::array<int, 4> neighborhood = {
-                static_cast<int>( field_at( p + point_south, invisible[1] ) ),
-                static_cast<int>( field_at( p + point_east, invisible[2] ) ),
-                static_cast<int>( field_at( p + point_west, invisible[3] ) ),
-                static_cast<int>( field_at( p + point_north, invisible[4] ) )
+                static_cast<int>( field_at( p + point::south, invisible[1] ) ),
+                static_cast<int>( field_at( p + point::east, invisible[2] ) ),
+                static_cast<int>( field_at( p + point::west, invisible[3] ) ),
+                static_cast<int>( field_at( p + point::north, invisible[4] ) )
             };
 
             int subtile = 0;
@@ -4175,7 +4175,7 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
         return false;
     }
 
-    tripoint_bub_ms scan_p( p + tripoint_above );
+    tripoint_bub_ms scan_p( p + tripoint::above );
     map &here = get_map();
     Character &you = get_player_character();
     const Creature *pcritter = nullptr;
@@ -4994,10 +4994,10 @@ void cata_tiles::get_terrain_orientation( const tripoint_bub_ms &p, int &rota, i
 
     // get terrain neighborhood
     const std::array<ter_id, 4> neighborhood = {
-        ter( p + point_south, invisible[1] ),
-        ter( p + point_east, invisible[2] ),
-        ter( p + point_west, invisible[3] ),
-        ter( p + point_north, invisible[4] )
+        ter( p + point::south, invisible[1] ),
+        ter( p + point::east, invisible[2] ),
+        ter( p + point::west, invisible[3] ),
+        ter( p + point::north, invisible[4] )
     };
 
     char val = 0;

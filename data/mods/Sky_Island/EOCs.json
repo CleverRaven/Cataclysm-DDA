@@ -101,7 +101,7 @@
         ]
       },
       { "alter_timed_events": "return_portal_close" },
-      { "math": [ "timeawayfromhome", "=", "0 - bonuspulses" ] }
+      { "math": [ "timeawayfromhome = 0 - bonuspulses" ] }
     ]
   },
   {
@@ -110,8 +110,8 @@
     "//": "If you got home via an exit portal, award material tokens based on raid length.",
     "condition": { "math": [ "gettokens == 1" ] },
     "effect": [
-      { "math": [ "gettokens", "=", "0" ] },
-      { "math": [ "owed_material_tokens", "=", "lengthofthisraid * 75 + 50" ] },
+      { "math": [ "gettokens = 0" ] },
+      { "math": [ "owed_material_tokens = lengthofthisraid * 75 + 50" ] },
       {
         "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
@@ -132,7 +132,7 @@
         "u_message": "You've proved you can survive a few excursions to the world below.  Something in the warp pulls at you, quickening your pulse and turning your vision red.  The sensation is indescribable.  You feel… powerful.\nThe Heart of the Island may have further use for you.\n\nHealing at the Heart of the Island is no longer free.  Be cautious in your future endeavors.",
         "popup": true
       },
-      { "math": [ "islandrank", "=", "1" ] }
+      { "math": [ "islandrank = 1" ] }
     ]
   },
   {
@@ -145,7 +145,7 @@
         "u_message": "You've drank deep of the warpstream and survived to tell the tale, though your unique isolation makes finding ears to listen difficult.  The fragments of this reality have risen against you, and you have weathered the storm… for now.\nYou feel confident, powerful.  Your mouth tastes of blood.  As the familiar world takes shape around you once more, you understand the Heart of the Island will surely be interested in your continued growth.",
         "popup": true
       },
-      { "math": [ "islandrank", "=", "3" ] }
+      { "math": [ "islandrank = 3" ] }
     ]
   },
   {
@@ -199,11 +199,7 @@
       "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
       "default": false
     },
-    "effect": [
-      { "math": [ "raidswon", "++" ] },
-      { "math": [ "gettokens", "=", "1" ] },
-      { "run_eocs": [ "EOC_return_OM_teleport_item" ] }
-    ]
+    "effect": [ { "math": [ "raidswon", "++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport_item" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -222,7 +218,7 @@
     },
     "effect": [
       { "math": [ "raidswon", "++" ] },
-      { "math": [ "gettokens", "=", "1" ] },
+      { "math": [ "gettokens = 1" ] },
       { "u_consume_item": "warp_vortex_token", "count": 1 },
       { "run_eocs": [ "EOC_return_OM_teleport_item" ] }
     ]
@@ -235,11 +231,7 @@
       "u_query": "This will teleport you back to your sky island.  Any items not on your person WILL BE LOST.  Are you ready to leave?",
       "default": false
     },
-    "effect": [
-      { "math": [ "raidswon", "++" ] },
-      { "math": [ "gettokens", "=", "1" ] },
-      { "run_eocs": [ "EOC_return_OM_teleport" ] }
-    ]
+    "effect": [ { "math": [ "raidswon", "++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -344,7 +336,7 @@
       {
         "u_message": "Your body mends itself in the blink of an eye.  Underlying health issues may persist, but your structural integrity is restored."
       },
-      { "math": [ "u_hp('ALL')", "=", "999" ] },
+      { "math": [ "u_hp('ALL') = 999" ] },
       { "run_eocs": [ "EOC_healextras" ] }
     ],
     "false_effect": [
@@ -358,14 +350,14 @@
     "id": "EOC_healextras",
     "//": "Clears up various conditions beyond just your hp.  Should cover most diseases and infections, prevent extreme thirst and starvation, wipe pain, and even cure a few edge cases like being covered in acid.",
     "effect": [
-      { "math": [ "u_calories()", "=", "max( u_calories(), 9000)" ] },
-      { "math": [ "u_val('thirst')", "=", "min( u_val('thirst'), 800)" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
-      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
-      { "math": [ "u_vitamin('blood')", "=", "0" ] },
-      { "math": [ "u_vitamin('instability')", "=", "0" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('rad')", "=", "0" ] },
+      { "math": [ "u_calories() = max( u_calories(), 9000)" ] },
+      { "math": [ "u_val('thirst') = min( u_val('thirst'), 800)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_vitamin('instability') = 0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('rad') = 0" ] },
       { "u_add_effect": "cureall", "duration": "1 s", "intensity": 1 },
       { "u_add_effect": "panacea", "duration": "30 s", "intensity": 1 },
       { "u_lose_effect": "corroding" },
@@ -390,23 +382,19 @@
     "type": "effect_on_condition",
     "id": "EOC_death_heal",
     "//": "This is the heal that is called when you die to make sure you have enough health to not-die.  It also lowers your hunger and thirst slightly if they're above an extreme limit.  Finally it sets your sub-parts to full health since they will otherwise get totally ruined and don't seem to have any natural way to heal.",
-    "effect": [
-      { "math": [ "u_hp('ALL')", "=", "999" ] },
-      { "math": [ "u_hp('ALL_MAJOR')", "=", "15" ] },
-      { "run_eocs": [ "EOC_healextras" ] }
-    ]
+    "effect": [ { "math": [ "u_hp('ALL') = 999" ] }, { "math": [ "u_hp('ALL_MAJOR') = 15" ] }, { "run_eocs": [ "EOC_healextras" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_return_heal",
     "//": "Similar to the death heal, but only increases health, never reduces it.  This is to make sure you don't wind up in a scenario where your health is WORSE than if you had died.  To permit some recovery on the island, you are not cured of any afflictions, so warping home while, for example, on fire, means you can still die at home, at which point you WILL be penalized.  This is intended, because even here the worst case scenario is not worse than dying, which it previously was.",
     "effect": [
-      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 15)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 15)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 15)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 15)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 15)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 15)" ] }
+      { "math": [ "u_hp('torso') = max( u_hp('torso'), 15)" ] },
+      { "math": [ "u_hp('head') = max( u_hp('head'), 15)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_hp('arm_l'), 15)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_hp('arm_r'), 15)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_hp('leg_l'), 15)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_hp('leg_r'), 15)" ] }
     ]
   },
   {
@@ -421,36 +409,36 @@
       },
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
       { "run_eocs": "EOC_difficulty_DEFAULTS" },
-      { "math": [ "currentpulselength", "=", "sicknessintervals" ] },
-      { "math": [ "timeawayfromhome", "=", "0" ] },
-      { "math": [ "raidstotal", "=", "0" ] },
-      { "math": [ "raidswon", "=", "0" ] },
-      { "math": [ "raidslost", "=", "0" ] },
-      { "math": [ "islandrank", "=", "0" ] },
-      { "math": [ "missionswon", "=", "0" ] },
-      { "math": [ "slaughterswon", "=", "0" ] },
-      { "math": [ "hardmissions", "=", "0" ] },
-      { "math": [ "hardermissions", "=", "0" ] },
-      { "math": [ "hardestmissions", "=", "0" ] },
-      { "math": [ "scoutingdistancetargets", "=", "0" ] },
-      { "math": [ "scoutingdistancelanding", "=", "0" ] },
-      { "math": [ "missiondistancemax", "=", "30" ] },
-      { "math": [ "missiondistancemin", "=", "5" ] },
-      { "math": [ "exfildistancemax", "=", "35" ] },
-      { "math": [ "exfildistancemin", "=", "10" ] },
-      { "math": [ "invistime", "=", "60" ] },
-      { "math": [ "bonusexits", "=", "0" ] },
-      { "math": [ "versionupdate", "=", "1" ] },
-      { "math": [ "slaughterunlocked", "=", "0" ] },
-      { "math": [ "bonusmissions", "=", "0" ] },
-      { "math": [ "bonuspulses", "=", "0" ] },
-      { "math": [ "longerraids", "=", "0" ] },
-      { "math": [ "basementsunlocked", "=", "0" ] },
-      { "math": [ "roofsunlocked", "=", "0" ] },
-      { "math": [ "labsunlocked", "=", "0" ] },
-      { "math": [ "goingtolabs", "=", "0" ] },
-      { "math": [ "skyisland_build_base", "=", "0" ] },
-      { "math": [ "skyisland_build_bigroom", "=", "0" ] }
+      { "math": [ "currentpulselength = sicknessintervals" ] },
+      { "math": [ "timeawayfromhome = 0" ] },
+      { "math": [ "raidstotal = 0" ] },
+      { "math": [ "raidswon = 0" ] },
+      { "math": [ "raidslost = 0" ] },
+      { "math": [ "islandrank = 0" ] },
+      { "math": [ "missionswon = 0" ] },
+      { "math": [ "slaughterswon = 0" ] },
+      { "math": [ "hardmissions = 0" ] },
+      { "math": [ "hardermissions = 0" ] },
+      { "math": [ "hardestmissions = 0" ] },
+      { "math": [ "scoutingdistancetargets = 0" ] },
+      { "math": [ "scoutingdistancelanding = 0" ] },
+      { "math": [ "missiondistancemax = 30" ] },
+      { "math": [ "missiondistancemin = 5" ] },
+      { "math": [ "exfildistancemax = 35" ] },
+      { "math": [ "exfildistancemin = 10" ] },
+      { "math": [ "invistime = 60" ] },
+      { "math": [ "bonusexits = 0" ] },
+      { "math": [ "versionupdate = 1" ] },
+      { "math": [ "slaughterunlocked = 0" ] },
+      { "math": [ "bonusmissions = 0" ] },
+      { "math": [ "bonuspulses = 0" ] },
+      { "math": [ "longerraids = 0" ] },
+      { "math": [ "basementsunlocked = 0" ] },
+      { "math": [ "roofsunlocked = 0" ] },
+      { "math": [ "labsunlocked = 0" ] },
+      { "math": [ "goingtolabs = 0" ] },
+      { "math": [ "skyisland_build_base = 0" ] },
+      { "math": [ "skyisland_build_bigroom = 0" ] }
     ]
   },
   {
@@ -478,12 +466,12 @@
       {
         "u_message": "All difficulty settings set to default.  You can speak to the Heart of the Island to change these at any time."
       },
-      { "math": [ "sicknessintervals", "=", "time('15 minutes')" ] },
-      { "math": [ "roomteleportselector", "=", "1" ] },
-      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
-      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
+      { "math": [ "sicknessintervals = time('15 minutes')" ] },
+      { "math": [ "roomteleportselector = 1" ] },
+      { "math": [ "u_spell_level('warp_home') = -1" ] },
+      { "math": [ "u_spell_level('warped_return') = -1" ] },
       { "u_learn_recipe": "warp_skyward_beacon" },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "math": [ "has_set_difficulty = 1" ] }
     ]
   },
   {
@@ -491,7 +479,7 @@
     "id": "EOC_difficulty0",
     "effect": [
       { "u_message": "Difficulty set to Casual.  You can speak to the Heart of the Island to change this at any time." },
-      { "math": [ "sicknessintervals", "=", "time('30 minutes')" ] },
+      { "math": [ "sicknessintervals = time('30 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -500,7 +488,7 @@
     "id": "EOC_difficulty1",
     "effect": [
       { "u_message": "Difficulty set to Normal.  You can speak to the Heart of the Island to change this at any time." },
-      { "math": [ "sicknessintervals", "=", "time('15 minutes')" ] },
+      { "math": [ "sicknessintervals = time('15 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -509,7 +497,7 @@
     "id": "EOC_difficulty2",
     "effect": [
       { "u_message": "Difficulty set to Hard.  You can speak to the Heart of the Island to change this at any time." },
-      { "math": [ "sicknessintervals", "=", "time('10 minutes')" ] },
+      { "math": [ "sicknessintervals = time('10 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -518,7 +506,7 @@
     "id": "EOC_difficulty3",
     "effect": [
       { "u_message": "Difficulty set to Impossible.  You can speak to the Heart of the Island to change this at any time." },
-      { "math": [ "sicknessintervals", "=", "time('5 minutes')" ] },
+      { "math": [ "sicknessintervals = time('5 minutes')" ] },
       { "run_eocs": "EOC_difficultycheck_2" }
     ]
   },
@@ -546,7 +534,7 @@
       {
         "u_message": "Warp home behavior set to whole room.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "roomteleportselector", "=", "0" ] },
+      { "math": [ "roomteleportselector = 0" ] },
       { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
@@ -558,7 +546,7 @@
       {
         "u_message": "Warp home behavior set to whole room at a cost.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "roomteleportselector", "=", "1" ] },
+      { "math": [ "roomteleportselector = 1" ] },
       { "u_learn_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
@@ -570,7 +558,7 @@
       {
         "u_message": "Warp home behavior set to self only.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "roomteleportselector", "=", "2" ] },
+      { "math": [ "roomteleportselector = 2" ] },
       { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
@@ -600,11 +588,11 @@
       {
         "u_message": "Warp Home spell granted.  You may find it in your spellcasting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
+      { "math": [ "u_spell_level('warped_return') = -1" ] },
       { "u_forget_recipe": "warp_skyward_beacon" },
-      { "math": [ "u_spell_level('warp_home')", "=", "0" ] },
-      { "math": [ "u_spell_exp('warp_home')", "=", "0" ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "math": [ "u_spell_level('warp_home') = 0" ] },
+      { "math": [ "u_spell_exp('warp_home') = 0" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
     ]
   },
   {
@@ -614,11 +602,11 @@
       {
         "u_message": "Warped Return spell granted.  You may find it in your spellcasting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
+      { "math": [ "u_spell_level('warp_home') = -1" ] },
       { "u_forget_recipe": "warp_skyward_beacon" },
-      { "math": [ "u_spell_level('warped_return')", "=", "0" ] },
-      { "math": [ "u_spell_exp('warped_return')", "=", "0" ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "math": [ "u_spell_level('warped_return') = 0" ] },
+      { "math": [ "u_spell_exp('warped_return') = 0" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
     ]
   },
   {
@@ -628,10 +616,10 @@
       {
         "u_message": "Warped Skyward Beacon recipe granted.  You may find it in the Warp crafting menu.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
-      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
+      { "math": [ "u_spell_level('warp_home') = -1" ] },
+      { "math": [ "u_spell_level('warped_return') = -1" ] },
       { "u_learn_recipe": "warp_skyward_beacon" },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "math": [ "has_set_difficulty = 1" ] }
     ]
   },
   {
@@ -641,10 +629,10 @@
       {
         "u_message": "All additional returning options removed.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
-      { "math": [ "u_spell_level('warp_home')", "=", "-1" ] },
+      { "math": [ "u_spell_level('warp_home') = -1" ] },
       { "u_forget_recipe": "warp_skyward_beacon" },
-      { "math": [ "u_spell_level('warped_return')", "=", "-1" ] },
-      { "math": [ "has_set_difficulty", "=", "1" ] }
+      { "math": [ "u_spell_level('warped_return') = -1" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
     ]
   },
   {
@@ -674,23 +662,23 @@
       {
         "switch": { "math": [ "islandrank" ] },
         "cases": [
-          { "case": 0, "effect": [ { "math": [ "islandrank_readable", "=", "0" ] } ] },
-          { "case": 1, "effect": [ { "math": [ "islandrank_readable", "=", "0" ] } ] },
-          { "case": 2, "effect": [ { "math": [ "islandrank_readable", "=", "1" ] } ] },
-          { "case": 3, "effect": [ { "math": [ "islandrank_readable", "=", "1" ] } ] },
-          { "case": 4, "effect": [ { "math": [ "islandrank_readable", "=", "2" ] } ] }
+          { "case": 0, "effect": [ { "math": [ "islandrank_readable = 0" ] } ] },
+          { "case": 1, "effect": [ { "math": [ "islandrank_readable = 0" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "islandrank_readable = 1" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "islandrank_readable = 1" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "islandrank_readable = 2" ] } ] }
         ]
       },
       {
         "switch": { "math": [ "hardmissions" ] },
         "cases": [
-          { "case": 0, "effect": [ { "math": [ "hardmissions_readable", "=", "1" ] } ] },
-          { "case": 10, "effect": [ { "math": [ "hardmissions_readable", "=", "2" ] } ] },
-          { "case": 15, "effect": [ { "math": [ "hardmissions_readable", "=", "3" ] } ] }
+          { "case": 0, "effect": [ { "math": [ "hardmissions_readable = 1" ] } ] },
+          { "case": 10, "effect": [ { "math": [ "hardmissions_readable = 2" ] } ] },
+          { "case": 15, "effect": [ { "math": [ "hardmissions_readable = 3" ] } ] }
         ]
       },
-      { "math": [ "totalstarts", "=", "1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
-      { "math": [ "totalexits", "=", "1 + bonusexits" ] },
+      { "math": [ "totalstarts = 1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
+      { "math": [ "totalexits = 1 + bonusexits" ] },
       {
         "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 5\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
         "popup": true
@@ -702,8 +690,8 @@
     "id": "EOC_statcheck",
     "//": "Displays the player's expedition stats.",
     "effect": [
-      { "math": [ "readablepulselimit", "=", "8 + bonuspulses" ] },
-      { "math": [ "readabledisintegrationlimit", "=", "12 + bonuspulses" ] },
+      { "math": [ "readablepulselimit = 8 + bonuspulses" ] },
+      { "math": [ "readabledisintegrationlimit = 12 + bonuspulses" ] },
       {
         "u_message": "Total expeditions: <global_val:raidstotal>\nWins: <global_val:raidswon>\nLosses: <global_val:raidslost>\nMissions complete: <u_val:missionswon>\nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: <global_val:readablepulselimit> pulses.\nDisintegration at: <global_val:readabledisintegrationlimit> pulses.\nDefault pulse length: <global_val:readablesicknessintervals> minutes.",
         "popup": true
@@ -771,12 +759,12 @@
           { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subsw" } },
           { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subs" } },
           { "mapgen_update": "mx_skyisland_solidstoneoverride", "target_var": { "global_val": "OM_island_subse" } },
-          { "math": [ "versionupdate", "=", "1" ] },
-          { "math": [ "missiondistancemax", "=", "30" ] },
-          { "math": [ "missiondistancemin", "=", "5" ] },
-          { "math": [ "exfildistancemax", "=", "35" ] },
-          { "math": [ "exfildistancemin", "=", "10" ] },
-          { "math": [ "invistime", "=", "60" ] },
+          { "math": [ "versionupdate = 1" ] },
+          { "math": [ "missiondistancemax = 30" ] },
+          { "math": [ "missiondistancemin = 5" ] },
+          { "math": [ "exfildistancemax = 35" ] },
+          { "math": [ "exfildistancemin = 10" ] },
+          { "math": [ "invistime = 60" ] },
           { "u_spawn_item": "warp_folded_heart", "count": 1 },
           {
             "u_message": "Milestone 1 applied.  You have been given a Heartseed.  Activate it while on your island to create the new Heart of the Island.  Interact with the Heart to access new upgrade options.",
@@ -785,7 +773,7 @@
           {
             "if": { "math": [ "raidswon > 0" ] },
             "then": [
-              { "math": [ "owed_material_tokens", "=", "50 * raidswon" ] },
+              { "math": [ "owed_material_tokens = 50 * raidswon" ] },
               {
                 "u_spawn_item": "warptoken_material",
                 "count": { "global_val": "var", "var_name": "owed_material_tokens", "default": 50 }
@@ -794,7 +782,7 @@
                 "u_message": "You have been retroactively awarded <global_val:owed_material_tokens> material tokens for your past successful expeditions.",
                 "popup": true
               },
-              { "math": [ "backpaid_raids", "=", "raidswon" ] }
+              { "math": [ "backpaid_raids = raidswon" ] }
             ]
           },
           {

@@ -768,6 +768,6 @@
     "recurrence": "10 m",
     "condition": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
     "deactivate_condition": { "not": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] } },
-    "effect": [ { "math": [ "u_vitamin('mutagen_human')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_vitamin('mutagen_human') = 0" ] } ]
   }
 ]

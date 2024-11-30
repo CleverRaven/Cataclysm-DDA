@@ -1125,10 +1125,10 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     map &here = get_map();
 
     tripoint_bub_ms where = pnt;
-    tripoint_bub_ms below = pnt + tripoint_below;
+    tripoint_bub_ms below = pnt + tripoint::below;
     while( here.valid_move( where, below, false, true ) ) {
-        where += tripoint_below;
-        below += tripoint_below;
+        where += tripoint::below;
+        below += tripoint::below;
     }
 
     const int height = pnt.z() - where.z();
@@ -1530,6 +1530,18 @@ std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoin
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return std::nullopt;
+    }
+
+    const item &to_cut = *item_loc;
+    if( !to_cut.is_owned_by( *p, true ) ) {
+        if( !query_yn( _( "Cutting the %s may anger the people who own it, continue?" ),
+                       to_cut.tname() ) ) {
+            return false;
+        } else {
+            if( to_cut.get_owner() ) {
+                g->on_witness_theft( to_cut );
+            }
+        }
     }
 
     return salvage_actor::try_to_cut_up( *p, cutter, item_loc );
@@ -3902,8 +3914,8 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
         return false;
     }
     if( needs_solid_neighbor ) {
-        if( !is_solid_neighbor( pos, point_east ) && !is_solid_neighbor( pos, point_south ) &&
-            !is_solid_neighbor( pos, point_south_east ) && !is_solid_neighbor( pos, point_north_east ) ) {
+        if( !is_solid_neighbor( pos, point::east ) && !is_solid_neighbor( pos, point::south ) &&
+            !is_solid_neighbor( pos, point::south_east ) && !is_solid_neighbor( pos, point::north_east ) ) {
             p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name );
             return false;
         }

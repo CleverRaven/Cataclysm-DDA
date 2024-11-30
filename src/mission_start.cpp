@@ -60,7 +60,7 @@ void mission_start::kill_nemesis( mission * )
 
     // Force z = 0 for overmapbuffer::find_random. (spawning on a rooftop is valid!)
     const tripoint_abs_omt center = { get_player_character().global_omt_location().xy(), 0 };
-    tripoint_abs_omt site = overmap::invalid_tripoint;
+    tripoint_abs_omt site = tripoint_abs_omt::invalid;
 
     static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};
 
@@ -72,7 +72,7 @@ void mission_start::kill_nemesis( mission * )
         }
         int range = rng( 40, 80 ) * attempts_multipliers[attempt - 1];
         site = overmap_buffer.find_random( center, "field", range, false );
-    } while( site == overmap::invalid_tripoint );
+    } while( site.is_invalid() );
     overmap_buffer.add_nemesis( site );
 }
 
@@ -201,11 +201,11 @@ void mission_start::place_deposit_box( mission *miss )
     p->set_attitude( NPCATT_FOLLOW );
     tripoint_abs_omt site =
         overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
-    if( site == overmap::invalid_tripoint ) {
+    if( site.is_invalid() ) {
         site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
     }
 
-    if( site == overmap::invalid_tripoint ) {
+    if( site.is_invalid() ) {
         site = p->global_omt_location();
         debugmsg( "Couldn't find a place for deposit box" );
     }

@@ -228,6 +228,7 @@
     "id": "EOC_HEDGE_ACTIVITY_LEVEL_BREAKS_INCREASE_HEALING_RATE",
     "recurrence": 1,
     "condition": { "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level') >= 3" ] } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "HEDGE_MAGIC" } },
     "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
   },
   {
@@ -253,7 +254,7 @@
         "u_message": "As you put the mantle on, your skin writhes, your limbs twist, and thick fur sprouts from your body as you fall onto all fours.",
         "type": "neutral"
       },
-      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
@@ -306,7 +307,7 @@
     "//": "The below EoC is for quick decrementing of the effect after skinchanging ends.",
     "condition": { "and": [ { "not": { "u_has_worn_with_flag": "SKINCHANGED" } }, { "u_has_effect": "effect_skinchanged_penalties" } ] },
     "effect": [
-      { "math": [ "u_skinchanged_penalty", "=", "u_effect_intensity('effect_skinchanged_penalties')" ] },
+      { "math": [ "u_skinchanged_penalty = u_effect_intensity('effect_skinchanged_penalties')" ] },
       { "u_lose_effect": "effect_skinchanged_penalties" },
       {
         "u_add_effect": "effect_skinchanged_penalties",
