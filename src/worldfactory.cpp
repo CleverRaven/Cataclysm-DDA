@@ -2071,11 +2071,10 @@ void load_external_option( const JsonObject &jo )
     std::string stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
-        translation sinfo;
-        jo.get_member( "info" ).read( sinfo );
-        opts.add_external( name, "external_options", stype, sinfo, sinfo );
+        opts.add_external( name, "external_options", stype );
     }
     options_manager::cOpt &opt = opts.get_option( name );
+    // TODO: Hook up to cata_variant instead?
     if( stype == "float" ) {
         opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
     } else if( stype == "int" ) {
@@ -2090,10 +2089,6 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
-    }
-    // Just visit this member if it exists
-    if( jo.has_member( "info" ) ) {
-        jo.get_string( "info" );
     }
     options_manager::update_options_cache();
 }
