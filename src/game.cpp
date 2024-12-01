@@ -10678,7 +10678,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
     const std::vector<field_type_id> impassable_field_ids = m.get_impassable_field_type_ids_at(
                 dest_loc );
 
-    if( ( !m.passable_skip_fields( dest_loc ) || ( impassable_field_ids.size() > 0 &&
+    if( ( !m.passable_skip_fields( dest_loc ) || ( !impassable_field_ids.empty() &&
             !u.is_immune_fields( impassable_field_ids ) ) ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( u ) ) {
@@ -10746,7 +10746,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
     const int mcost = m.combined_movecost( u.pos_bub(), tripoint_bub_ms( dest_loc ), grabbed_vehicle,
                                            modifier,
-                                           via_ramp, false, impassable_field_ids.size() > 0 && u.is_immune_fields( impassable_field_ids ) );
+                                           via_ramp, false, !impassable_field_ids.empty() && u.is_immune_fields( impassable_field_ids ) );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos_bub(), via_ramp ) ) {
         return true;
