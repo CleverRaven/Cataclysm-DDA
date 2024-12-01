@@ -1181,7 +1181,7 @@
     "type": "effect_type",
     "id": "effect_arvore_seedbearer_available",
     "name": [ "Seed-Bearer" ],
-    "desc": [ "You bear a fine crop of seeds, ready for planting." ]
+    "desc": [ "You canb bring forth a fine bunch of seeds, ready for planting." ]
   },
   {
     "type": "effect_type",
