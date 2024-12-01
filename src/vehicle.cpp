@@ -802,7 +802,7 @@ void vehicle::drive_to_local_target( const tripoint_abs_ms &target, bool follow_
         if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
             accel_y = 1;
         }
-        if( ( velocity < std::min( safe_velocity(), ( is_rotorcraft() || is_rotorlike_aircraft() ) &&
+        if( ( velocity < std::min( safe_velocity(), is_rotorlike_aircraft() &&
                                    is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
             accel_y = -1;
         }
@@ -4601,15 +4601,17 @@ bool vehicle::has_sufficient_rotorlift() const
     return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
 }
 
-bool vehicle::is_rotorcraft() const
-{
-    return !rotors.empty() && has_driver() &&
-           has_sufficient_rotorlift();
-}
-
 bool vehicle::is_rotorlike_aircraft() const
 {
-    return !rotorlike_aircraft.empty() && has_driver();
+    // checks if the aircraft is a helicopter or works like one
+    return (!rotorlike_aircraft.empty() && has_driver() || !rotors.empty() && has_driver() &&
+        has_sufficient_rotorlift() );
+}
+
+bool vehicle::is_rotorcraft() const
+{
+    // checks if the aircraft is a helicopter
+    return !rotors.empty() && has_driver() && has_sufficient_rotorlift();
 }
 
 bool vehicle::is_flyable() const
@@ -4782,11 +4784,11 @@ float vehicle::k_traction( float wheel_traction_area ) const
     if( in_deep_water ) {
         return can_float() ? 1.0f : -1.0f;
     }
-    if( is_flying && ( is_rotorcraft() || is_rotorlike_aircraft() ) ) {
+    if( is_flying && is_rotorlike_aircraft() ) {
         // I'M IN THE AIR
         return 1.0f;
     }
-    if( is_flying && !is_rotorcraft() && !is_rotorlike_aircraft() ) {
+    if( is_flying && !is_rotorlike_aircraft() ) {
         // I'M IN THE AIR BUT I CAN'T FLY
         return 0.0f;
     }
@@ -4998,11 +5000,11 @@ float vehicle::steering_effectiveness() const
         // I'M ON A BOAT
         return can_float() ? 1.0f : 0.0f;
     }
-    if( is_flying && ( is_rotorcraft() || is_rotorlike_aircraft() ) ) {
+    if( is_flying && is_rotorlike_aircraft() ) {
         // I'M IN THE AIR
         return 1.0f;
     }
-    if( is_flying && !is_rotorcraft() && !is_rotorlike_aircraft() ) {
+    if( is_flying && !is_rotorlike_aircraft() ) {
         // I'M IN THE AIR BUT I CAN'T FLY
         return -1.0f;
     }
@@ -6367,7 +6369,7 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_velocity != velocity ) {
         thrust( cruise_velocity > velocity ? 1 : -1 );
-    } else if( ( is_rotorcraft() || is_rotorlike_aircraft() ) && velocity == 0 ) {
+    } else if( is_rotorlike_aircraft() && velocity == 0 ) {
         // air vehicles uses fuel for hover
         // whether it's flying or not is checked inside thrust function
         thrust( 0 );
@@ -6571,7 +6573,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_ROTORLIKE_AIRCRAFT ) ) {
+        if( vpi.has_flag(VPFLAG_ROTOR) || vpi.has_flag( VPFLAG_ROTORLIKE_AIRCRAFT ) ) {
             rotorlike_aircraft.push_back( p );
         }
         if( vp.part().is_battery() ) {
@@ -7793,7 +7795,7 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
             set_flyable( false );
         }
 
-        if( is_flyable() && !rotorlike_aircraft.empty() && vpi.has_flag( flag_ROTORLIKE_AIRCRAFT ) ) {
+        if( is_flyable() && rotors.empty() && vpi.has_flag( flag_ROTORLIKE_AIRCRAFT ) ) {
             // If the part that grants flyworthiness is broken, remove flyworthiness.
             set_flyable( false );
         }
