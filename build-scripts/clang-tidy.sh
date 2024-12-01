@@ -97,9 +97,16 @@ else
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed | grep -v third-party ) ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed ) ) || \
         echo unknown )"
 
+    tidyable_cpp_files="$(echo -n "$tidyable_cpp_files" | grep -v )"
+    if [ -n "$tidyable_cpp_files" ]
+    then
+	echo "No files to tidy, exiting";
+	set -x
+	exit 0
+    fi
     if [ "$tidyable_cpp_files" == "unknown" ]
     then
         echo "Unable to determine affected files, tidying all files"
