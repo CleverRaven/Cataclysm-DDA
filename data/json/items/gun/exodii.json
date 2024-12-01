@@ -171,7 +171,7 @@
       [ "underbarrel", 1 ]
     ],
     "barrel_volume": "1200 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -205,7 +205,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -225,5 +225,43 @@
         "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.  This one has been modified for use in vehicle turrets on Earth."
       }
     ]
+  },
+  {
+    "id": "ree_33",
+    "copy-from": "rifle_semi",
+    "looks_like": "m2browning",
+    "type": "GUN",
+    "name": { "str": "exodii naval rifle" },
+    "description": "Originally designed for naval defense of a small island country, this gun served Exodii as long as they existed, being one of its reliable tools in later stages of world decay.  Cheap ammunition, a simple mechanism, and immense power output would make it a great weapon for any survivor who is able to carry nearly a hundred kilo of its weight and is in need to penetrate a small bunker.  Unless your body is compatible with Exodii Standard Combat Bodyframe, you can only use it with a heavy-duty tripod, and only while prone.  Due to the size of a top-mounted magazine, the user needs to use a scope mounted on the side of a gun.",
+    "//": "effectively a weird single-shot self-loading Oerlikon KBA (but longer, and of course not an autocannon) with a 23x152mm round",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ree_33",
+        "name": {
+          "str_sp": "Ree 3.3 exodii rifle",
+          "ctxt": "`Ree` in this case is butchered `Roe`, to carry some sort of nautical vibe"
+        },
+        "description": "Originally designed for naval defense of a small island country, this gun served Exodii as long as they existed, being one of its reliable tools in later stages of world decay.  Cheap ammunition, a simple mechanism, and immense power output would make it a great weapon for any survivor who is able to carry nearly a hundred kilo of its weight and is in need to penetrate a small bunker.  Unless your body is compatible with Exodii Standard Combat Bodyframe, you can only use it with a heavy-duty tripod, and only while prone.  Due to the size of a top-mounted magazine, the user needs to use a scope mounted on the side of a gun."
+      }
+    ],
+    "min_strength": 90,
+    "weight": "77000 g",
+    "volume": "151425 ml",
+    "longest_side": "3365 mm",
+    "barrel_length": "2890 mm",
+    "price_postapoc": "200 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel" ],
+    "ammo": [ "33naval" ],
+    "range": 100,
+    "dispersion": 130,
+    "durability": 8,
+    "min_cycle_recoil": 80000,
+    "default_mods": [ "ree_33_tripod", "rifle_scope" ],
+    "flags": [ "NEVER_JAMS" ],
+    "//2": "desired to be single shot or with attachable mag, but because MAGAZINE and MAGAZINE_WELL are mortal enemies, 4 round magazine is used instead.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ree_33_4_mag", "ree_33_53_mag" ] } ],
+    "melee_damage": { "bash": 7 }
   }
 ]

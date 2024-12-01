@@ -96,12 +96,10 @@
     "type": "monstergroup",
     "name": "GROUP_SUBWAY",
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
-    "default": "mon_spider_jumping_small",
+    "default": "mon_silverfish_small",
     "monsters": [
       { "group": "GROUP_NETHER_UNVIABLE", "weight": 300, "cost_multiplier": 0 },
-      { "monster": "mon_woodlouse", "weight": 300, "pack_size": [ 1, 3 ] },
-      { "group": "GROUP_SLUG", "weight": 180 },
-      { "group": "GROUP_SPIDER_BASEMENT", "weight": 300, "pack_size": [ 2, 5 ] },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 750 },
       {
         "monster": "mon_mutant_experimental",
         "weight": 50,
@@ -160,6 +158,7 @@
     "default": "mon_kreck",
     "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
     "monsters": [
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 75 },
       { "monster": "mon_kreck", "weight": 200 },
       { "monster": "mon_unseen_hunter", "weight": 200, "starts": "6 hours", "ends": "15 days" },
       { "monster": "mon_unseen_hunter", "weight": 200, "pack_size": [ 1, 2 ], "starts": "15 days" },
@@ -211,7 +210,7 @@
       { "monster": "mon_dog_dachshund", "weight": 2, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dog_gshepherd", "weight": 3, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dog_samoyed", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_chicken", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 50, "cost_multiplier": 5, "pack_size": [ 1, 12 ] },
       { "group": "GROUP_COWS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "group": "GROUP_HORSES", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
@@ -221,7 +220,6 @@
       { "group": "GROUP_PIGS", "weight": 10, "cost_multiplier": 25, "ends": "90 days", "pack_size": [ 1, 6 ] },
       { "group": "GROUP_SHEEPS", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_goat", "weight": 25, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
-      { "monster": "mon_goose", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
       { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
@@ -237,6 +235,29 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_BIRD_DOMESTIC",
+    "default": "mon_chicken",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_chicken", "weight": 14, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_duck_domestic", "weight": 6, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_goose", "weight": 3, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_turkey_domestic", "weight": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_guinea_fowl", "weight": 1, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BIRD_DOMESTIC_WATERFOWL",
+    "default": "mon_duck_domestic",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_duck_domestic", "weight": 2, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_goose", "weight": 1, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SAFE",
     "is_safe": true,
     "is_animal": true,
@@ -244,7 +265,7 @@
       { "monster": "mon_null", "weight": 679 },
       { "monster": "mon_bat", "weight": 10 },
       { "monster": "mon_bobcat", "weight": 10 },
-      { "monster": "mon_chicken", "weight": 10 },
+      { "group": "GROUP_BIRD_DOMESTIC", "weight": 20 },
       { "monster": "mon_chipmunk", "weight": 10 },
       { "monster": "mon_crow", "weight": 10 },
       { "monster": "mon_raven", "weight": 10 },
@@ -271,15 +292,12 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_sewer_rat", "weight": 10 },
       { "monster": "mon_black_rat", "weight": 10 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
       { "group": "GROUP_COWS", "weight": 10 },
       { "group": "GROUP_HORSES", "weight": 10 },
       { "group": "GROUP_PIGS", "weight": 10 },
       { "group": "GROUP_SHEEPS", "weight": 10 },
       { "monster": "mon_goat", "weight": 10 },
       { "monster": "mon_lemming", "weight": 10 },
-      { "monster": "mon_goose", "weight": 10 },
-      { "monster": "mon_goose_golden", "weight": 1 },
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
       { "monster": "mon_cicada_nymph", "weight": 10 },
@@ -302,6 +320,8 @@
     "monsters": [
       { "monster": "mon_null", "weight": 378 },
       { "group": "GROUP_FLY", "weight": 100 },
+      { "group": "GROUP_ROACH", "weight": 50 },
+      { "group": "GROUP_MOTH_FLY", "weight": 50 },
       { "monster": "mon_crow", "weight": 75 },
       { "monster": "mon_raven", "weight": 75 },
       {
@@ -316,8 +336,6 @@
       { "monster": "mon_black_rat", "weight": 100 },
       { "monster": "mon_opossum", "weight": 15 },
       { "monster": "mon_raccoon", "weight": 15 },
-      { "monster": "mon_rattlesnake", "weight": 10 },
-      { "monster": "mon_rattlesnake_giant", "weight": 5, "cost_multiplier": 2 },
       { "group": "GROUP_WORM", "weight": 20 },
       { "monster": "mon_wasp_small", "weight": 10 }
     ]
@@ -325,7 +343,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_PEST",
-    "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "weight": 760 },
       {
@@ -336,7 +353,9 @@
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "group": "GROUP_SPIDER_WIDOW", "weight": 30, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_giant_cockroach", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_ROACH", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_FLY", "weight": 50, "pack_size": [ 1, 3 ] },
+      { "group": "GROUP_MOTH_FLY", "weight": 35, "pack_size": [ 1, 3 ] },
       { "monster": "mon_black_rat", "weight": 30, "pack_size": [ 4, 8 ] },
       { "monster": "mon_wasp_small", "weight": 50, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_child", "weight": 20, "pack_size": [ 2, 6 ] },
@@ -353,10 +372,9 @@
       { "monster": "mon_null", "weight": 370, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 75, "cost_multiplier": 0 },
       { "monster": "mon_raccoon", "weight": 100, "cost_multiplier": 0 },
-      { "group": "GROUP_FLY", "weight": 100 },
+      { "group": "GROUP_BUGS_SUBTERRANEAN", "weight": 175 },
       { "monster": "mon_blob_sewer", "weight": 100 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "group": "GROUP_ROACH", "weight": 75 },
       { "group": "GROUP_STRAY_CATS", "weight": 20 },
       { "group": "GROUP_TADPOLES_SEWER", "weight": 5 },
       { "group": "GROUP_FROGS_SEWER", "weight": 5 },
@@ -381,7 +399,6 @@
     "name": "GROUP_BUNKER",
     "monsters": [
       { "monster": "mon_zombie_armored", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_bio_op", "weight": 150, "cost_multiplier": 10 },
       { "monster": "mon_zombie_soldier", "weight": 600, "cost_multiplier": 3 }
     ]
   },
@@ -446,7 +463,6 @@
       { "monster": "mon_skeleton_hulk" },
       { "monster": "mon_zombie_kevlar_2" },
       { "monster": "mon_zombie_soldier_blackops_1" },
-      { "monster": "mon_zombie_bio_op" },
       { "monster": "mon_zombie_survivor_elite" },
       { "monster": "mon_zombear" },
       { "monster": "mon_zoose" },
@@ -457,11 +473,6 @@
       { "monster": "mon_spawn_raptor" },
       { "monster": "mon_spawn_raptor_shady" }
     ]
-  },
-  {
-    "name": "GROUP_MUTATION_SNAIL",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 85 }, { "monster": "mon_snail_forest", "weight": 15 } ]
   },
   {
     "type": "monstergroup",
@@ -493,12 +504,18 @@
     "monsters": [ { "monster": "mon_jabberwock" } ]
   },
   {
+    "name": "GROUP_RATTLESNAKE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_rattlesnake", "weight": 19 }, { "monster": "mon_rattlesnake_big", "weight": 1 } ],
+    "//": "Normally for the time until mutants start spawning we take the growth time of a mutant baby with default evolution rates. But because rattlesnakes follow the mutation logic of invertebrates, we assume there were some mildly oversized variations at the start of the Cataclysm already."
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_CAMP_HUNTING",
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
     "monsters": [
-      { "monster": "mon_beaver", "weight": 10 },
+      { "group": "GROUP_BEAVER", "weight": 10 },
       { "monster": "mon_fox_red", "weight": 10 },
       { "monster": "mon_fox_gray", "weight": 10 },
       { "monster": "mon_mink", "weight": 5 },
@@ -521,7 +538,6 @@
       { "monster": "mon_opossum", "weight": 10 },
       { "monster": "mon_squirrel", "weight": 20 },
       { "monster": "mon_weasel", "weight": 20 },
-      { "monster": "mon_chicken", "weight": 10 },
       { "monster": "mon_grouse", "weight": 10 },
       { "monster": "mon_pheasant", "weight": 10 },
       { "monster": "mon_turkey", "weight": 20 }
@@ -533,7 +549,6 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
     "monsters": [
-      { "monster": "mon_chicken", "weight": 20 },
       { "monster": "mon_grouse", "weight": 2 },
       { "monster": "mon_pheasant", "weight": 2 },
       { "monster": "mon_turkey", "weight": 10 },

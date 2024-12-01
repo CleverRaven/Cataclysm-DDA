@@ -23,28 +23,29 @@ struct tripoint;
 
 struct mutation_variant;
 
+namespace npc_factions
+{
+enum class relationship : int;
+} // namespace npc_factions
+
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_character_const: public talker_cloner<talker_character_const>
+class talker_character_const: virtual public const_talker
 {
     public:
-        explicit talker_character_const( const Character *new_me ): me_chr_const( new_me ) {
-        }
+        talker_character_const( const talker_character_const & ) = default;
+        talker_character_const( talker_character_const && ) = delete;
+        talker_character_const &operator=( const talker_character_const & ) = default;
+        talker_character_const &operator=( talker_character_const && ) = delete;
+        explicit talker_character_const( const Character *new_me ) : me_chr_const( new_me ) {};
         ~talker_character_const() override = default;
 
-        // underlying element accessor functions
-        Character *get_character() override {
-            return nullptr;
-        }
-        const Character *get_character() const override {
+        Character const *get_const_character() const override {
             return me_chr_const;
         }
-        Creature *get_creature() override {
-            return nullptr;
-        }
-        const Creature *get_creature() const override {
+        Creature const *get_const_creature() const override {
             return me_chr_const;
         }
 
@@ -70,6 +71,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &dam ) const override;
         int pain_cur() const override;
         int perceived_pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
@@ -88,6 +91,11 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
+        int get_total_in_category( const mutation_category_id &categ,
+                                   mut_count_type count_type ) const override;
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const override;
+        bool is_trait_purifiable( const trait_id &trait_to_check ) const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool has_species( const species_id &species ) const override;
@@ -117,22 +125,22 @@ class talker_character_const: public talker_cloner<talker_character_const>
 
         // stats, skills, traits, bionics, magic, and proficiencies
         std::vector<skill_id> skills_teacheable() const override;
-        std::vector<skill_id> skills_offered_to( const talker &student ) const override;
+        std::vector<skill_id> skills_offered_to( const_talker const &student ) const override;
         std::string skill_seminar_text( const skill_id &s ) const override;
-        std::string skill_training_text( const talker &, const skill_id & ) const override;
+        std::string skill_training_text( const_talker const &, const skill_id & ) const override;
         std::vector<proficiency_id> proficiencies_teacheable() const override;
-        std::vector<proficiency_id> proficiencies_offered_to( const talker &student ) const override;
+        std::vector<proficiency_id> proficiencies_offered_to( const_talker const &student ) const override;
         std::string proficiency_seminar_text( const proficiency_id & ) const override;
-        std::string proficiency_training_text( const talker &student,
+        std::string proficiency_training_text( const_talker const &student,
                                                const proficiency_id &proficiency ) const override;
         std::vector<matype_id> styles_teacheable() const override;
-        std::vector<matype_id> styles_offered_to( const talker &student ) const override;
+        std::vector<matype_id> styles_offered_to( const_talker const &student ) const override;
         std::string style_seminar_text( const matype_id & ) const override;
-        std::string style_training_text( const talker &, const matype_id & ) const override;
+        std::string style_training_text( const_talker const &, const matype_id & ) const override;
         std::vector<spell_id> spells_teacheable() const override;
-        std::vector<spell_id> spells_offered_to( talker &student ) const override;
+        std::vector<spell_id> spells_offered_to( const_talker const &student ) const override;
         std::string spell_seminar_text( const spell_id & ) const override;
-        std::string spell_training_text( talker &, const spell_id & ) const override;
+        std::string spell_training_text( const_talker const &, const spell_id & ) const override;
 
         // inventory, buying, and selling
         bool is_wearing( const itype_id &item_id ) const override;
@@ -146,7 +154,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         const override;
         bool unarmed_attack() const override;
         bool can_stash_weapon() const override;
-        bool has_stolen_item( const talker &guy ) const override;
+        bool has_stolen_item( const_talker const &guy ) const override;
 
         // factions and alliances
         faction *get_faction() const override;
@@ -168,8 +176,16 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool wielded_with_weapon_category( const weapon_category_id &w_cat ) const override;
+        bool wielded_with_weapon_skill( const skill_id &w_skill ) const override;
+        bool wielded_with_item_ammotype( const ammotype &w_ammotype ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
+
+        std::vector<bodypart_id> get_all_body_parts( get_body_part_flags flags ) const override;
+        int get_part_hp_cur( const bodypart_id &id ) const override;
+        int get_part_hp_max( const bodypart_id &id ) const override;
+        bool get_is_alive() const override;
+        bool is_warm() const override;
 
         bool can_see() const override;
         bool can_see_location( const tripoint &pos ) const override;
@@ -187,6 +203,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_height() const override;
         int get_bmi_permil() const override;
         int get_weight() const override;
+        int get_volume() const override;
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
@@ -196,34 +213,37 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool using_martial_art( const matype_id &id ) const override;
         int climate_control_str_heat() const override;
         int climate_control_str_chill() const override;
+        matec_id get_random_technique( Creature const &t, bool crit, bool dodge_counter,
+                                       bool block_counter,
+                                       const std::vector<matec_id> &blacklist = {} ) const override;
+
+    private:
+        const Character *me_chr_const{};
     protected:
         talker_character_const() = default;
-        const Character *me_chr_const;
 };
 
 /*
  * Talker wrapper class for mutable Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_character: public talker_cloner<talker_character, talker_character_const>
+class talker_character: virtual public talker
 {
     public:
-        explicit talker_character( Character *new_me );
+        talker_character( const talker_character & ) = default;
+        talker_character( talker_character && ) = delete;
+        talker_character &operator=( const talker_character & ) = default;
+        talker_character &operator=( talker_character && ) = delete;
+        explicit talker_character( Character *new_me ) : me_chr( new_me ) {};
         ~talker_character() override = default;
 
-        // underlying element accessor functions
         Character *get_character() override {
             return me_chr;
-        }
-        const Character *get_character() const override {
-            return me_chr_const;
         }
         Creature *get_creature() override {
             return me_chr;
         }
-        const Creature *get_creature() const override {
-            return me_chr_const;
-        }
+
         void set_pos( tripoint new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
@@ -245,6 +265,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
                              const bool &use_vitamins ) override;
+        void set_trait_purifiability( const trait_id &trait, const bool &purifiable ) override;
         void set_mutation( const trait_id &new_trait, const mutation_variant * = nullptr ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void activate_mutation( const trait_id &trait ) override;
@@ -261,7 +282,6 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void remove_value( const std::string &var_name ) override;
 
         // inventory, buying, and selling
-        std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
         std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
@@ -270,6 +290,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;
+        void mod_stored_kcal( int value, bool ignore_weariness ) override;
         void set_thirst( int value ) override;
 
         // speaking
@@ -279,6 +300,8 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void set_fac_relation( const Character *guy, npc_factions::relationship rule,
+                               bool should_set_value ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;
@@ -294,22 +317,18 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
-        std::vector<bodypart_id> get_all_body_parts( get_body_part_flags flags ) const override;
-        int get_part_hp_cur( const bodypart_id &id ) const override;
-        int get_part_hp_max( const bodypart_id &id ) const override;
-        void set_all_parts_hp_cur( int ) const override;
-        void set_part_hp_cur( const bodypart_id &id, int set ) const override;
-        bool get_is_alive() const override;
+        void set_all_parts_hp_cur( int ) override;
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
         void die() override;
         void attack_target( Creature &t, bool allow_special, const matec_id &force_technique,
                             bool allow_unarmed, int forced_movecost ) override;
-        matec_id get_random_technique( Creature &t, bool crit, bool dodge_counter, bool block_counter,
-                                       const std::vector<matec_id> &blacklist = {} )
-        const override;
-        void learn_martial_art( const matype_id &id ) const override;
-        void forget_martial_art( const matype_id &id ) const override;
+        void learn_martial_art( const matype_id &id ) override;
+        void forget_martial_art( const matype_id &id ) override;
+        std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) override;
+
+    private:
+        Character *me_chr{};
     protected:
         talker_character() = default;
-        Character *me_chr;
 };
 #endif // CATA_SRC_TALKER_CHARACTER_H

@@ -5,21 +5,27 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_profession": "shifter_druid" },
-    "effect": [ { "queue_eocs": "EOC_DRUID_SHIFTER_GIVE_FORM_2", "time_in_future": 0 } ]
+    "effect": [ { "run_eocs": "EOC_DRUID_SHIFTER_GIVE_FORM_2", "time_in_future": 0 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_2",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_DRUID_SHIFTER_GIVE_FORM_BEAR", "EOC_DRUID_SHIFTER_GIVE_FORM_DEER", "EOC_DRUID_SHIFTER_GIVE_FORM_RAVEN" ],
+        "run_eoc_selector": [
+          "EOC_DRUID_SHIFTER_GIVE_FORM_BEAR",
+          "EOC_DRUID_SHIFTER_GIVE_FORM_COUGAR",
+          "EOC_DRUID_SHIFTER_GIVE_FORM_DEER",
+          "EOC_DRUID_SHIFTER_GIVE_FORM_RAVEN"
+        ],
         "title": "Which form did you learn how to shift into?",
-        "names": [ "Bear Form", "Deer Form", "Raven Form" ],
-        "keys": [ "a", "b", "c" ],
+        "names": [ "Bear Form", "Cougar Form", "Deer Form", "Raven Form" ],
+        "keys": [ "a", "b", "c", "d" ],
         "descriptions": [
-          "You learned how to transform into a bear",
-          "You learned how to transform into a deer",
-          "You learned how to transform into a raven"
+          "You learned how to transform into a bear.",
+          "You learned how to transform into a cougar.",
+          "You learned how to transform into a deer.",
+          "You learned how to transform into a raven."
         ]
       }
     ]
@@ -28,6 +34,11 @@
     "type": "effect_on_condition",
     "id": "EOC_DRUID_SHIFTER_GIVE_FORM_BEAR",
     "effect": [ { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_SHIFTER_GIVE_FORM_COUGAR",
+    "effect": [ { "u_add_trait": "DRUID_SHIFTER_COUGAR_FORM" } ]
   },
   {
     "type": "effect_on_condition",

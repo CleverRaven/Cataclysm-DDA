@@ -8,7 +8,6 @@
     "volume": "2 L",
     "price": "50 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "towel",
@@ -17,11 +16,42 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "use_action": [ "POST_UP" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "debug_energy_shield",
+    "type": "ARMOR",
+    "name": { "str": "weak energy shield" },
+    "description": "A weak energy shield that protects against ballistic damage.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "ballistic_shield" ],
+    "material_thickness": 0.3,
+    "max_energy_shield_hp": 4,
+    "flags": [
+      "AURA",
+      "ENERGY_SHIELD",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
   },
@@ -51,7 +81,7 @@
       {
         "id": "agender_pride_flag",
         "name": { "str": "agender flag" },
-        "description": "A large green grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.",
+        "description": "A large green gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.",
         "weight": 2
       },
       {
@@ -81,13 +111,13 @@
       {
         "id": "asexual_pride_flag",
         "name": { "str": "asexual flag" },
-        "description": "A large purple, white, grey and black asexual flag.  Black for asexuality (feeling no sexual attraction), grey for grey-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
+        "description": "A large purple, white, gray and black asexual flag.  Black for asexuality (feeling no sexual attraction), gray for gray-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
         "weight": 2
       },
       {
         "id": "aromantic_pride_flag",
         "name": { "str": "aromantic flag" },
-        "description": "A large black, grey, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "description": "A large black, gray, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
         "weight": 2
       },
       {
@@ -117,7 +147,7 @@
       {
         "id": "agender_pride_flag",
         "name": { "str": "agender flag" },
-        "description": "A large green, white, grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
+        "description": "A large green, white, gray and black agender flag.  The black and white stripes represent complete absence of gender, gray represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
         "weight": 2
       },
       {
@@ -233,7 +263,7 @@
       },
       {
         "id": "bahamanian_flag",
-        "name": { "str": "Bahamanain flag" },
+        "name": { "str": "Bahamanian flag" },
         "description": "It has three stripes of light blue and yellow, with a black triangle on the far-left side.",
         "weight": 10,
         "append": true
@@ -408,7 +438,7 @@
       },
       {
         "id": "columbian_flag",
-        "name": { "str": "Columbian flag" },
+        "name": { "str": "Colombian flag" },
         "description": "It has a yellow, navy blue, and red stripe running horizontally.",
         "weight": 10,
         "append": true
@@ -1424,7 +1454,7 @@
       {
         "id": "ugandan_flag",
         "name": { "str": "Ugandan flag" },
-        "description": "A flag that features six equal horizontal bands of black, yellow, red, black, yellow, and red, a white disc is superimposed at the center with a grey crowned crane, facing the hoist side.",
+        "description": "A flag that features six equal horizontal bands of black, yellow, red, black, yellow, and red, a white disc is superimposed at the center with a gray crowned crane, facing the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -1565,7 +1595,6 @@
     "volume": "3 L",
     "price": "50 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "]",
     "looks_like": "cloak",
@@ -1641,7 +1670,6 @@
     "volume": "1600 ml",
     "price": "20 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1669,7 +1697,6 @@
     "volume": "3 L",
     "price": "107 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_rain",
@@ -1700,7 +1727,6 @@
     "price": "200 USD",
     "price_postapoc": "15 USD",
     "material": [ "denim" ],
-    "to_hit": -3,
     "looks_like": "coat_rain",
     "symbol": "[",
     "color": "light_blue",
@@ -1727,7 +1753,6 @@
     "volume": "2500 ml",
     "price": "108 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1776,7 +1801,6 @@
     "volume": "2000 ml",
     "price": "90 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1804,7 +1828,6 @@
     "volume": "4 L",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "cloak_leather",
@@ -1833,7 +1856,6 @@
     "volume": "3500 ml",
     "price": "245 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1862,7 +1884,6 @@
     "volume": "3750 ml",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1891,7 +1912,6 @@
     "volume": "2500 ml",
     "price": "225 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1920,7 +1940,6 @@
     "volume": "3500 ml",
     "price": "55 kUSD",
     "price_postapoc": "250 USD",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -1976,7 +1995,6 @@
     "volume": "1250 ml",
     "price": "120 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2016,7 +2034,6 @@
     "material": [ "vinyl" ],
     "weight": "30 g",
     "volume": "50 ml",
-    "to_hit": -1,
     "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
@@ -2085,7 +2102,6 @@
     "volume": "3 L",
     "price": "36 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "blanket",

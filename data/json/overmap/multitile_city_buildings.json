@@ -63,7 +63,7 @@
       { "point": [ 1, 1, 2 ], "overmap": "deserter_city_office_3fb_north" },
       { "point": [ 1, 1, 3 ], "overmap": "deserter_city_office_roofb_north" }
     ],
-    "flags": [ "GLOBALLY_UNIQUE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "city_building",
@@ -1375,6 +1375,25 @@
   },
   {
     "type": "city_building",
+    "id": "urban_library",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ -1, 0, 0 ], "overmap": "urban_library_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_library_2_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "urban_library_3_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "urban_library_4_north" },
+      { "point": [ -1, 0, 1 ], "overmap": "urban_library_5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_library_6_north" },
+      { "point": [ -1, 1, 1 ], "overmap": "urban_library_7_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "urban_library_8_north" },
+      { "point": [ -1, 0, 2 ], "overmap": "urban_library_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_library_roof_2_north" },
+      { "point": [ -1, 1, 2 ], "overmap": "urban_library_roof_3_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "urban_library_roof_4_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "furniture",
     "locations": [ "land" ],
     "overmaps": [
@@ -1564,6 +1583,15 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_gun_4_looted_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_gun_2ndfloor_4_north" },
       { "point": [ 0, 0, 2 ], "overmap": "s_gun_roof_4_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_weldingstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_weldingstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_weldingstore_roof_north" }
     ]
   },
   {
@@ -2424,6 +2452,7 @@
       { "point": [ 0, 0, 5 ], "overmap": "apartments_con_tower_002_south" },
       { "point": [ 1, 1, 6 ], "overmap": "apartments_con_tower_114_south" },
       { "point": [ 0, 1, 6 ], "overmap": "apartments_con_tower_014_south" },
+      { "point": [ 1, 1, 7 ], "overmap": "apartments_con_tower_115_south" },
       { "point": [ 0, 1, 7 ], "overmap": "apartments_con_tower_015_south" },
       { "point": [ 1, 0, 6 ], "overmap": "apartments_con_tower_104_south" },
       { "point": [ 0, 0, 6 ], "overmap": "apartments_con_tower_004_south" }
@@ -5370,6 +5399,15 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_fabricstore_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_fabricstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_fungus_01",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_fungus_01_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_fungus_roof_01_north" }
     ]
   }
 ]

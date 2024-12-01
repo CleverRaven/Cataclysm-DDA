@@ -96,7 +96,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
     map &here = get_map();
     avatar dummy;
     dummy.set_body();
-    const tripoint avatar_pos( 60, 60, 0 );
+    const tripoint_bub_ms avatar_pos( 60, 60, 0 );
     dummy.setpos( avatar_pos );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
@@ -160,8 +160,8 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
     }
 
     GIVEN( "a table and chair are nearby" ) {
-        here.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
-        here.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
+        here.furn_set( avatar_pos + tripoint::north, furn_id( "f_table" ) );
+        here.furn_set( avatar_pos + tripoint::east, furn_id( "f_chair" ) );
         REQUIRE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
         REQUIRE( here.has_nearby_chair( dummy.pos_bub(), 1 ) );
 

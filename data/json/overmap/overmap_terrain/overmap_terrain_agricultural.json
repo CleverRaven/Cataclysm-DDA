@@ -6,7 +6,7 @@
     "color": "brown",
     "vision_levels": "blends_till_details",
     "travel_cost_type": "dirt_road",
-    "see_cost": 2,
+    "see_cost": "none",
     "mondensity": 2,
     "extras": "agricultural"
   },
@@ -142,7 +142,7 @@
     "copy-from": "generic_rural_building",
     "name": "farm field",
     "vision_levels": "farm_field",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "agricultural",
     "looks_like": "farm_5",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
@@ -154,7 +154,7 @@
     "name": "hay field",
     "color": "brown",
     "vision_levels": "farm_field",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "agricultural",
     "looks_like": "ranch_camp_76",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 2 ], "chance": 15 }
@@ -312,7 +312,7 @@
     "name": "dairy farm",
     "sym": "w",
     "color": "brown",
-    "see_cost": 1,
+    "see_cost": "low",
     "extend": { "flags": [ "SOURCE_DRINK", "SOURCE_ANIMALS" ] }
   },
   {

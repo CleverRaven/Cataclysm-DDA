@@ -90,9 +90,10 @@ void add_fallback_zone( npc &guy )
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
         tripoint_bub_ms const t_here = here.bub_from_abs( t );
-        if( here.has_furn( t_here ) &&
-            ( here.furn( t_here )->max_volume > ter_t_floor->max_volume ||
-              here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
+        const furn_id &f = here.furn( t_here );
+        if( f != furn_str_id::NULL_ID() &&
+            ( f->max_volume > ter_t_floor->max_volume ||
+              f->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
             !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
                          guy.get_path_avoid() )
@@ -103,7 +104,7 @@ void add_fallback_zone( npc &guy )
 
     if( points.empty() ) {
         zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
-                  loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
+                  loc.raw() + tripoint::north_west, loc.raw() + tripoint::south_east );
     } else {
         for( tripoint_abs_ms const &t : points ) {
             zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),
@@ -135,12 +136,12 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
-            tripoint const dpoint_here = here.getlocal( dpoint );
+            tripoint_bub_ms const dpoint_here = here.bub_from_abs( dpoint );
             std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
-                leftover = _to_map( it, here, dpoint_here );
+                leftover = _to_map( it, here, dpoint_here.raw() );
             }
             if( !leftover ) {
                 break;

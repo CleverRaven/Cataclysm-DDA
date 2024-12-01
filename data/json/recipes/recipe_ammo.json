@@ -71,21 +71,8 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ],
+    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "super_glue", 5 ], [ "bone_glue", 1 ] ] ],
     "//": "Essentially a ball of glued-together string with some leather around it"
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "wire_barbed_baseball",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
-    "components": [ [ [ "baseball", 1 ] ], [ [ "wire_barbed", 1 ] ] ]
   },
   {
     "type": "recipe",

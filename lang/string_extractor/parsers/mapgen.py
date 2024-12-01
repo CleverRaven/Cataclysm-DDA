@@ -71,3 +71,9 @@ def parse_mapgen_object(json, origin, om):
                 write_text(m["name"], origin,
                            comment="Name of the monster {} placed on map {}"
                            .format(desc, om))
+
+    if "place_graffiti" in json:
+        for graffiti in json["place_graffiti"]:
+            if "text" in graffiti:
+                write_text(graffiti["text"], origin,
+                           comment="Graffiti placed on map {}".format(om))

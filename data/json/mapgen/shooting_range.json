@@ -8,15 +8,15 @@
       "rows": [
         "........................",
         "........................",
-        "..--W--/................",
+        "..##W##/................",
         "..W&Cf+.................",
-        "..-ddXW...s..s..........",
-        "..--W--.................",
+        "..#ddXW...s..s..........",
+        "..##W##.................",
         "_aaaaaaaaaaaaaaaaaaaaaa_",
         "_wwwwwwwwwwwwwwwwwwwwww_",
-        "_|ww|ww|ww|ww|ww|ww|ww|_",
-        "_|cc|cc|cc|cc|cc|cc|cc|_",
-        "_######################_",
+        "_#ww#ww#ww#ww#ww#ww#ww#_",
+        "_#cc#cc#cc#cc#cc#cc#cc#_",
+        "_----------------------_",
         "_                      _",
         "_                      _",
         "_                      _",
@@ -55,6 +55,7 @@
         ".______________________.",
         ".....______________....."
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "furniture": {
         "&": "f_trashcan",
         "@": "f_target",
@@ -67,10 +68,9 @@
         "/": "f_wooden_flagpole"
       },
       "terrain": {
-        "#": "t_thconc_floor",
+        "-": "t_thconc_floor",
         "&": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall_w",
         ".": "t_region_groundcover",
         "s": "t_region_groundcover",
         "/": "t_region_groundcover",
@@ -86,7 +86,6 @@
         "d": "t_floor",
         "f": "t_floor",
         "w": "t_thconc_floor",
-        "|": "t_wall_wood",
         "O": "t_dirtmound"
       },
       "place_items": [
@@ -102,10 +101,8 @@
         { "chance": 75, "item": "guns_milspec", "x": 5, "y": 4 },
         { "chance": 5, "item": "ammo_smg_common", "x": 12, "y": 9 },
         { "chance": 5, "item": "ammo_smg_common", "x": 9, "y": 9 },
-        { "chance": 5, "item": "guns_smg_common", "x": 11, "y": 9 },
-        { "chance": 5, "item": "guns_smg_common", "x": 8, "y": 9 },
-        { "chance": 10, "item": "guns_pistol_common", "x": 5, "y": 9 },
-        { "chance": 5, "item": "guns_pistol_common", "x": 2, "y": 9 },
+        { "chance": 15, "item": "guns_pistol_common", "x": 5, "y": 9 },
+        { "chance": 10, "item": "guns_pistol_common", "x": 2, "y": 9 },
         { "chance": 25, "item": "office", "x": [ 3, 4 ], "y": 4 }
       ],
       "place_item": [ { "chance": 100, "item": "american_flag", "x": 7, "y": 2 } ],

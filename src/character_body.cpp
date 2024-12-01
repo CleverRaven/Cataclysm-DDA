@@ -147,6 +147,7 @@ void Character::update_body_wetness( const w_point &weather )
     for( const bodypart_id &bp : get_all_body_parts() ) {
 
         const units::temperature temp_conv = get_part_temp_conv( bp );
+        const int drench_cap = get_part_drench_capacity( bp );
         // do sweat related tests assuming not underwater
         if( !is_underwater() ) {
             const int wetness = get_part_wetness( bp );
@@ -177,7 +178,6 @@ void Character::update_body_wetness( const w_point &weather )
             const time_duration drying = average_drying * trait_mult * weather_mult *
                                          temp_mult / clothing_mult;
             const float turns_to_dry = to_turns<float>( drying ) / drying_rate;
-            const int drench_cap = get_part_drench_capacity( bp );
             const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
             mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
 
@@ -193,14 +193,14 @@ void Character::update_body_wetness( const w_point &weather )
         // Safety measure to keep wetness within bounds
         if( get_part_wetness( bp ) <= 0 ) {
             // if we are hot still we should always be a bit wet (still sweating), this is a small hack to make sure we don't miss cooling ticks with good breathability clothing
-            if( temp_conv >= BODYTEMP_HOT && get_part_drench_capacity( bp ) > 0 ) {
+            if( temp_conv >= BODYTEMP_HOT && drench_cap > 0 ) {
                 set_part_wetness( bp, 1 );
             } else {
                 set_part_wetness( bp, 0 );
             }
         }
-        if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
-            set_part_wetness( bp, get_part_drench_capacity( bp ) );
+        if( get_part_wetness( bp ) > drench_cap ) {
+            set_part_wetness( bp, drench_cap );
         }
 
         // Add effects to track wetness
@@ -472,7 +472,7 @@ void Character::update_bodytemp()
     const int climate_control_heat = climate_control.first;
     const int climate_control_chill = climate_control.second;
     const bool use_floor_warmth = can_use_floor_warmth();
-    const furn_id furn_at_pos = here.furn( pos_bub() );
+    const furn_id &furn_at_pos = here.furn( pos_bub() );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
@@ -1150,7 +1150,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
-    bmenu.textwidth = 60;
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;

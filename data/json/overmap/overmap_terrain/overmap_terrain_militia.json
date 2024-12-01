@@ -31,6 +31,6 @@
     "vision_levels": "isolated_building",
     "sym": "L",
     "color": "brown",
-    "see_cost": 5
+    "see_cost": "high"
   }
 ]

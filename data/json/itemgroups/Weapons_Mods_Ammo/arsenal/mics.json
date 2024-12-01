@@ -20,7 +20,7 @@
       { "item": "binoculars" },
       { "item": "two_way_radio", "count": 2 },
       { "item": "flashlight" },
-      { "item": "light_disposable_cell", "count": [ 1, 3 ] },
+      { "item": "light_battery_cell", "count": [ 1, 3 ] },
       { "item": "mask_gas" },
       { "item": "gasfilter_med", "count": [ 1, 3 ] }
     ]

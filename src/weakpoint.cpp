@@ -11,6 +11,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -277,9 +278,16 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
     if( !( rng_float( 0.0f, 100.f ) < chance ) ) {
         return;
     }
-    target.add_effect( effect_source( attack.source ), effect,
-                       time_duration::from_turns( rng( duration.first, duration.second ) ),
-                       permanent, rng( intensity.first, intensity.second ) );
+    if( effect && !effect.is_empty() ) {
+        target.add_effect( effect_source( attack.source ), effect,
+                           time_duration::from_turns( rng( duration.first, duration.second ) ),
+                           permanent, rng( intensity.first, intensity.second ) );
+    }
+    for( const effect_on_condition_id &eoc : effect_on_conditions ) {
+        dialogue d( attack.source == nullptr ? nullptr : get_talker_for( *attack.source ),
+                    get_talker_for( target ) );
+        eoc->activate( d );
+    }
 
     if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
         add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
@@ -288,8 +296,12 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
 
 void weakpoint_effect::load( const JsonObject &jo )
 {
-    assign( jo, "effect", effect );
-
+    if( jo.has_string( "effect" ) ) {
+        assign( jo, "effect", effect );
+    }
+    if( jo.has_array( "effect_on_conditions" ) ) {
+        assign( jo, "effect_on_conditions", effect_on_conditions );
+    }
     if( jo.has_float( "chance" ) ) {
         assign( jo, "chance", chance, false, 0.0f, 100.0f );
     }
@@ -402,6 +414,9 @@ void weakpoint::load( const JsonObject &jo )
     assign( jo, "id", id );
     assign( jo, "name", name );
     assign( jo, "coverage", coverage, false, 0.0f, 100.0f );
+    if( jo.has_bool( "is_good" ) ) {
+        assign( jo, "is_good", is_good );
+    }
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_map( jo.get_object( "armor_mult" ) );
     }
@@ -417,11 +432,9 @@ void weakpoint::load( const JsonObject &jo )
         // Default to damage multiplier, if crit multipler is not specified.
         crit_mult = damage_mult;
     }
-    if( jo.has_array( "required_effects" ) ) {
-        assign( jo, "required_effects", required_effects );
-    }
-    if( jo.has_array( "disabled_by" ) ) {
-        assign( jo, "disabled_by", disabled_by );
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
     }
     if( jo.has_array( "effects" ) ) {
         for( const JsonObject effect_jo : jo.get_array( "effects" ) ) {
@@ -510,26 +523,32 @@ void weakpoint::apply_effects( Creature &target, int total_damage,
 
 float weakpoint::hit_chance( const weakpoint_attack &attack ) const
 {
-    // Check for required effects
-    for( const auto &effect : required_effects ) {
-        if( !attack.target->has_effect( effect ) ) {
+    // Evaluate condition
+    if( has_condition ) {
+        dialogue d( attack.source == nullptr ? nullptr : get_talker_for( *attack.source ),
+                    get_talker_for( *attack.target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MONSTER, "Attack conditionals failed" );
             return 0.0f;
         }
     }
-    // Effects that disable this weakpoint
-    for( const auto &effect : disabled_by ) {
-        if( attack.target->has_effect( effect ) ) {
-            return 0.0f;
-        }
-    }
+
     // Retrieve multipliers.
     float constant_mult = coverage_mult.of( attack );
     // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
     // exceeding the difficulty.
     float diff = attack.wp_skill - difficulty.of( attack );
     float difficulty_mult = 0.5f * ( 1.0f + erf( diff / ( 2.0f * sqrt( 2.0f ) ) ) );
-    // Compute the total value
-    return constant_mult * difficulty_mult * coverage;
+    float final_coverage;
+
+    if( attack.source && attack.source->as_character() && is_good ) {
+        final_coverage = attack.source->as_character()->enchantment_cache->modify_value(
+                             enchant_vals::mod::WEAKPOINT_ACCURACY, coverage );
+    } else {
+        final_coverage = coverage;
+    }
+
+    return constant_mult * difficulty_mult * final_coverage;
 }
 
 // Reweighs the probability distribution of hitting a weakpoint.

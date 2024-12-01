@@ -516,6 +516,6 @@
     "name": "nuclear plant",
     "sym": "N",
     "color": "red",
-    "see_cost": 5
+    "see_cost": "full_high"
   }
 ]

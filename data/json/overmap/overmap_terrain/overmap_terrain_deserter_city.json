@@ -17,7 +17,7 @@
     "name": "deserter outpost",
     "sym": "D",
     "color": "brown",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SIDEWALK" ]
   }
 ]

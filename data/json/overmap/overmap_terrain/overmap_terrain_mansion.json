@@ -6,7 +6,7 @@
     "name": "mansion",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
   },

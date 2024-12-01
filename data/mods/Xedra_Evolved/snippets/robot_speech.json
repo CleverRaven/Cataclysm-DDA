@@ -1,7 +1,7 @@
 [
   {
     "type": "speech",
-    "//": "The theme for thses snippets is that the automaton's inerts remains are possessed by an unknown entity with electrical powers.  Said entity is very protective of the remains, need them to exist and is perpetually exhausted by all the effort required to keep the remains in one piece and defend them.  Due to that, it considers everything it percieves as a threat to eliminate.",
+    "//": "The theme for thses snippets is that the automaton's inerts remains are possessed by an unknown entity with electrical powers.  Said entity is very protective of the remains, need them to exist and is perpetually exhausted by all the effort required to keep the remains in one piece and defend them.  Due to that, it considers everything it perceives as a threat to eliminate.",
     "speaker": [ "mon_dreamforged_automaton" ],
     "sound": "\"Do not…\"",
     "volume": 10

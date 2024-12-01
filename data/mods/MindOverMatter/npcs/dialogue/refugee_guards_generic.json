@@ -6,7 +6,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_GUARD_GENERIC_REFUGEE_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
@@ -34,7 +34,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EVAC_GUARD1_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
@@ -81,7 +81,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EVAC_GUARD2_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",

@@ -21,6 +21,7 @@ struct configurable_distraction {
     bool *state;
     std::string name;
     std::string description;
+    bool is_toggle = false;
 };
 
 static const std::vector<configurable_distraction> &get_configurable_distractions()
@@ -41,6 +42,7 @@ static const std::vector<configurable_distraction> &get_configurable_distraction
         {&uistate.distraction_mutation,        translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
         {&uistate.distraction_oxygen,          translate_marker( "Asphyxiation" ),                 translate_marker( "This distraction will interrupt your activity when you can't breathe." )},
         {&uistate.distraction_withdrawal,      translate_marker( "Withdrawal" ),                  translate_marker( "This distraction will interrupt your activity when you have withdrawals." )},
+        {&uistate.distraction_all,             translate_marker( "Toggle all" ),                   translate_marker( "Toggle all distractions" ), true }
     };
     return configurable_distractions;
 }
@@ -65,7 +67,7 @@ void distraction_manager_gui::show()
                                        iOffset );
 
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
+                                       iOffset + point::south_east );
 
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                 iOffset + point( 1, iHeaderHeight + 1 ) );
@@ -87,38 +89,30 @@ void distraction_manager_gui::show()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Draw border
         draw_border( w_border, BORDER_COLOR, _( "Distractions manager" ) );
-        mvwputch( w_border, point( 0, iHeaderHeight - 1 ), c_light_gray, LINE_XXXO );
-        mvwputch( w_border, point( 79, iHeaderHeight - 1 ), c_light_gray, LINE_XOXX );
-        mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
+        wattron( w_border, c_light_gray );
+        mvwaddch( w_border, point( 0, iHeaderHeight - 1 ), LINE_XXXO );
+        mvwaddch( w_border, point( 79, iHeaderHeight - 1 ), LINE_XOXX );
+        mvwaddch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        wattroff( w_border, c_light_gray );
         wnoutrefresh( w_border );
 
         // Draw header
         werase( w_header );
-        fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white,
+        fold_and_print( w_header, point::zero, getmaxx( w_header ), c_white,
                         _( get_configurable_distractions()[currentLine].description.c_str() ) );
 
         // Draw horizontal line and corner pieces of the table
-        for( int x = 0; x < 78; x++ ) {
-            if( x == 60 ) {
-                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXXX );
-                mvwputch( w_header, point( x, iHeaderHeight - 1 ), c_light_gray, LINE_XOXO );
-            } else {
-                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXOX );
-            }
-        }
+        wattron( w_header, c_light_gray );
+        mvwhline( w_header, point( 0, iHeaderHeight - 2 ), LINE_OXOX, 78 );
+        mvwaddch( w_header, point( 60, iHeaderHeight - 2 ), LINE_OXXX );
+        mvwaddch( w_header, point( 60, iHeaderHeight - 1 ), LINE_XOXO );
+        wattroff( w_header, c_light_gray );
 
         wnoutrefresh( w_header );
 
         // Clear table
-        for( int y = 0; y < iContentHeight; y++ ) {
-            for( int x = 0; x < 79; x++ ) {
-                if( x == 60 ) {
-                    mvwputch( w, point( x, y ), c_light_gray, LINE_XOXO );
-                } else {
-                    mvwputch( w, point( x, y ), c_black, ' ' );
-                }
-            }
-        }
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
+        mvwvline( w, point( 60, 0 ), c_light_gray, LINE_XOXO, iContentHeight ) ;
 
         draw_scrollbar( w_border, currentLine, iContentHeight, number_of_distractions, point( 0,
                         iHeaderHeight + 1 ) );
@@ -155,9 +149,28 @@ void distraction_manager_gui::show()
             break;
         }
 
+        bool toggle_state;
         if( navigate_ui_list( action, currentLine, 5, number_of_distractions, true ) ) {
         } else if( action == "CONFIRM" || action == "LEFT" || action == "RIGHT" ) {
             *( get_configurable_distractions()[currentLine].state ) ^= true;
+            if( get_configurable_distractions()[currentLine].is_toggle ) {
+                toggle_state = uistate.distraction_all;
+                uistate.distraction_noise = toggle_state;
+                uistate.distraction_pain = toggle_state;
+                uistate.distraction_attack = toggle_state;
+                uistate.distraction_hostile_close = toggle_state;
+                uistate.distraction_hostile_spotted = toggle_state;
+                uistate.distraction_conversation = toggle_state;
+                uistate.distraction_asthma = toggle_state;
+                uistate.distraction_dangerous_field = toggle_state;
+                uistate.distraction_weather_change = toggle_state;
+                uistate.distraction_hunger = toggle_state;
+                uistate.distraction_thirst = toggle_state;
+                uistate.distraction_temperature = toggle_state;
+                uistate.distraction_mutation = toggle_state;
+                uistate.distraction_oxygen = toggle_state;
+                uistate.distraction_withdrawal = toggle_state;
+            }
         }
     }
 }

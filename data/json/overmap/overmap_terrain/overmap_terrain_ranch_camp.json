@@ -6,7 +6,7 @@
     "name": "ranch field",
     "sym": "┌",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -27,7 +27,7 @@
     "sym": "─",
     "vision_levels": "open_land",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -36,7 +36,7 @@
     "vision_levels": "open_land",
     "sym": "┐",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -61,7 +61,7 @@
     "vision_levels": "open_land",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -114,7 +114,7 @@
     "vision_levels": "open_land",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -123,7 +123,7 @@
     "name": "pond",
     "sym": "P",
     "color": "blue",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -132,7 +132,7 @@
     "name": "silo",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -141,7 +141,7 @@
     "name": "silo",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -150,7 +150,7 @@
     "name": "silo cap",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -159,7 +159,7 @@
     "name": "barn roof",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -168,7 +168,7 @@
     "name": "barn",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -177,7 +177,7 @@
     "name": "barn roof",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -186,7 +186,7 @@
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -195,7 +195,7 @@
     "name": "garage roof",
     "sym": "O",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -204,7 +204,7 @@
     "name": "ranch",
     "sym": "v",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -213,7 +213,7 @@
     "name": "ranch roof",
     "sym": "v",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -222,7 +222,7 @@
     "name": "ranch field",
     "sym": "┘",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -231,7 +231,7 @@
     "name": "lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -247,6 +247,6 @@
     "name": "ranch field",
     "sym": "└",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   }
 ]

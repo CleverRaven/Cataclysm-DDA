@@ -180,10 +180,12 @@
   - "**/**mapgen**"
   - "**/mapgen**"
   - "**/mapgen/**"
+  - "**/**palette**"
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
   - "data/json/regional_map_settings.json"
+  - "**/mapgen_palettes/**"
 
 "Martial Arts":
   - "**/martialart**"
@@ -275,12 +277,11 @@
 "Mods: Sky Island":
   - data/mods/Sky_Island/**/*
 
-"Isolation Protocols ☣":
+"Mods: Isolation Protocol ☣":
   - data/mods/Isolation-Protocol/**/*
 
 "Mods":
-  - any: [ 'data/mods/**' ]
-    all: [ '!data/mods/TEST_DATA/**' ]
+  - all: [ 'data/mods/**', '!data/mods/TEST_DATA/**', '!data/mods/dda/**', '!data/mods/dda_tutorial/**' ]
 
 "Mechanics: Enchantments / Spells":
   - "**/**enchantment**"
@@ -298,8 +299,11 @@
   - "**/vehicle**"
   - "src/veh_**"
  
-"Game: Defense Mode":
+"Mods: Defense Mode":
   - "data/mods/Defense_Mode/**"
+
+"Tutorial":
+  - "data/mods/dda_tutorial/**"
 
 "ImGui":
   - "src/third-party/imgui/**"

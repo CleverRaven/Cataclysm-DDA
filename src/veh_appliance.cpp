@@ -1,5 +1,6 @@
 #include "game.h"
 #include "handle_liquid.h"
+#include "imgui/imgui.h"
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"
@@ -53,7 +54,8 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
+bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+                      const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
@@ -61,8 +63,8 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
-        return;
+        debugmsg( "error constructing appliance" );
+        return false;
     }
 
     veh->add_tag( flag_APPLIANCE );
@@ -70,9 +72,18 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     int partnum = -1;
     if( base ) {
         item copied = *base;
-        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
+        if( vpinfo.base_item != copied.typeId() ) {
+            // transform the deploying item into what it *should* be before storing it
+            copied.convert( vpinfo.base_item );
+        }
+        partnum = veh->install_part( point_rel_ms::zero, vpart, std::move( copied ) );
     } else {
-        partnum = veh->install_part( point_zero, vpart );
+        partnum = veh->install_part( point_rel_ms::zero, vpart );
+    }
+    if( partnum == -1 ) {
+        // unrecoverable, failed to be installed somehow
+        here.destroy_vehicle( veh );
+        return false;
     }
     veh->name = vpart->name();
 
@@ -88,7 +99,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Connect to any neighbouring appliances or wires once
     std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
         const optional_vpart_position vp = here.veh_at( trip );
         if( !vp ) {
             continue;
@@ -112,23 +123,11 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
         orient_part( veh, vpinfo, partnum );
     }
+    veh->set_owner( owner );
+    return true;
 }
 
-// uilist_callback whose sole responsibility is to draw the
-// connecting borders between the uilist and the info window.
-class app_uilist_handler : public uilist_callback
-{
-        void refresh( uilist *imenu ) override {
-            //NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( imenu->window, point( 0, 0 ), c_white, LINE_XXXO );
-            mvwputch( imenu->window, point( win_width - 1, 0 ), c_white, LINE_XOXX );
-            wnoutrefresh( imenu->window );
-        }
-};
-
-static app_uilist_handler app_callback;
-
-player_activity veh_app_interact::run( vehicle &veh, const point &p )
+player_activity veh_app_interact::run( vehicle &veh, const point_rel_ms &p )
 {
     veh_app_interact ap( veh, p );
     ap.app_loop();
@@ -136,7 +135,7 @@ player_activity veh_app_interact::run( vehicle &veh, const point &p )
 }
 
 // Registers general appliance actions from keybindings
-veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
+veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
     : a_point( p ), veh( &veh ), ctxt( "APP_INTERACT", keyboard_mode::keycode )
 {
     ctxt.register_directions();
@@ -187,22 +186,26 @@ void veh_app_interact::init_ui_windows()
     }
     const int width_info = win_width - 2;
     const int height_input = app_actions.size();
-    const int width_input = win_width;
-    const int height = height_info + height_input + 2;
+    const int win_height = height_info + 2;
+    const int full_height = win_height + height_input;
 
     // Center the UI
-    point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - height / 2 );
-    w_border = catacurses::newwin( height, win_width, topleft );
+    point topleft( TERMX / 2 - win_width / 2, TERMY / 2 - full_height / 2 );
+    w_border = catacurses::newwin( win_height, win_width, topleft );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
-    // Setup modifications to the uilist to integrate it into the UI
-    imenu.w_width_setup = width_input;
-    imenu.w_x_setup = topleft.x;
-    imenu.w_y_setup = topleft.y + height_info;
+    ImVec2 text_metrics = { ImGui::CalcTextSize( "X" ).x, ImGui::GetTextLineHeight() };
+    ImVec2 origin = text_metrics * ImVec2{ static_cast<float>( topleft.x ), static_cast<float>( topleft.y + win_height ) };
+    ImVec2 size = text_metrics * ImVec2{ static_cast<float>( win_width ), static_cast<float>( height_input ) };
+    imenu.desired_bounds = { origin.x,
+                             origin.y,
+                             size.x,
+                             size.y + 4.0f * ( ImGui::GetStyle().FramePadding.y + ImGui::GetStyle().WindowBorderSize )
+                           };
+
     imenu.allow_cancel = true;
     imenu.border_color = c_white;
-    imenu.callback = &app_callback;
     imenu.setup();
 }
 
@@ -292,8 +295,8 @@ void veh_app_interact::draw_info()
     }
 
     // Other power output
-    if( !veh->accessories.empty() ) {
-        units::power rate = veh->total_accessory_epower();
+    if( !veh->accessories.empty() || veh->has_part( "RECHARGE" ) ) {
+        units::power rate = veh->total_accessory_epower() + veh->recharge_epower_this_turn;
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
@@ -398,17 +401,17 @@ void veh_app_interact::refill()
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().id.str() );
-        const point q = veh->coord_translate( pt->mount );
+        const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
-        for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
-        act.values.push_back( a_point.x );
-        act.values.push_back( a_point.y );
-        act.values.push_back( -a_point.x );
-        act.values.push_back( -a_point.y );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
+        act.values.push_back( a_point.x() );
+        act.values.push_back( a_point.y() );
+        act.values.push_back( -a_point.x() );
+        act.values.push_back( -a_point.y() );
         act.values.push_back( veh->index_of_part( pt ) );
     }
 }
@@ -457,7 +460,7 @@ void veh_app_interact::rename()
 void veh_app_interact::remove()
 {
     map &here = get_map();
-    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+    const tripoint_bub_ms a_point_bub( veh->mount_to_tripoint( a_point ) );
 
     vehicle_part *vp;
     if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
@@ -489,16 +492,16 @@ void veh_app_interact::remove()
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
-        for( const tripoint &p : veh->get_points( true ) ) {
-            act.coord_set.insert( here.getabs( p ) );
+        for( const tripoint_bub_ms &p : veh->get_points( true ) ) {
+            act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        const tripoint a_point_abs( here.getabs( a_point_bub ) );
+        const tripoint a_point_abs( here.getglobal( a_point_bub ).raw() );
         act.values.push_back( a_point_abs.x );
         act.values.push_back( a_point_abs.y );
-        act.values.push_back( a_point.x );
-        act.values.push_back( a_point.y );
-        act.values.push_back( -a_point.x );
-        act.values.push_back( -a_point.y );
+        act.values.push_back( a_point.x() );
+        act.values.push_back( a_point.y() );
+        act.values.push_back( -a_point.x() );
+        act.values.push_back( -a_point.y() );
         act.values.push_back( veh->index_of_part( vp ) );
     }
 }
@@ -523,7 +526,7 @@ void veh_app_interact::disconnect()
 void veh_app_interact::plug()
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
-    const tripoint pos = veh->global_part_pos3( part );
+    const tripoint_bub_ms pos = veh->bub_part_pos( part );
     item cord( "power_cord" );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
@@ -535,7 +538,7 @@ void veh_app_interact::populate_app_actions()
 {
     map &here = get_map();
     vehicle_part *vp;
-    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+    const tripoint_bub_ms a_point_bub( veh->mount_to_tripoint( a_point ) );
     if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
@@ -594,7 +597,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ).raw(), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
@@ -633,7 +636,7 @@ void veh_app_interact::app_loop()
             ui.reset();
             shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
             ui_manager::redraw();
-            shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> input_ui = imenu.create_or_get_ui();
             imenu.query();
         }
 

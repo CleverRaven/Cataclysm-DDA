@@ -5,6 +5,7 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
+    "see_cost": "all_clear",
     "vision_levels": "roof_or_air",
     "travel_cost_type": "air",
     "flags": [ "NO_ROTATE" ]
@@ -17,7 +18,7 @@
     "sym": ".",
     "color": "brown",
     "vision_levels": "always_full",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "travel_cost_type": "field",
@@ -30,7 +31,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 3,
+    "see_cost": "spaced_high",
     "extras": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "travel_cost_type": "forest",
@@ -43,7 +44,7 @@
     "name": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 4,
+    "see_cost": "spaced_high",
     "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
@@ -57,7 +58,7 @@
     "sym": "F",
     "color": "cyan",
     "vision_levels": "forested_swampy",
-    "see_cost": 4,
+    "see_cost": "spaced_high",
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
@@ -71,7 +72,7 @@
     "sym": "O",
     "color": "dark_gray",
     "vision_levels": "open_land",
-    "see_cost": 3,
+    "see_cost": "medium",
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
   },
@@ -83,7 +84,7 @@
     "vision_levels": "open_land",
     "sym": "T",
     "color": "pink",
-    "see_cost": 5,
+    "see_cost": "none",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -93,7 +94,7 @@
     "name": "strange temple",
     "sym": "T",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -103,7 +104,7 @@
     "name": "cave",
     "sym": "C",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -113,7 +114,7 @@
     "name": "cave",
     "sym": "C",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -124,7 +125,7 @@
     "vision_levels": "underground_dirt",
     "sym": "C",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -135,40 +136,8 @@
     "looks_like": "cave",
     "sym": "C",
     "color": "dark_gray",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "slimepit",
-    "vision_levels": "underground_stone",
-    "name": "slime pit",
-    "sym": "~",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "slimepit_down",
-    "vision_levels": "underground_stone",
-    "name": "slime pit",
-    "sym": "~",
-    "color": "light_green",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rock",
-    "//": "This is old rock type replaced by empty_rock/deep_rock, now only used for edges of slimepits",
-    "vision_levels": "always_full",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -177,35 +146,8 @@
     "vision_levels": "always_full",
     "sym": "%",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "opaque",
     "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial_roof",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial_underground",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   }
 ]

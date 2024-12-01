@@ -38,7 +38,7 @@
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
-      { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Nothing.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Nothing.  Let's get back to work.", "topic": "TALK_DONE" }
     ]
@@ -48,7 +48,7 @@
     "type": "talk_topic",
     "dynamic_line": { "list_faction_camp_sites": true },
     "responses": [
-      { "text": "Interesting.  Let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Interesting.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "Well, until we go there, let's talk about camps more.", "topic": "TALK_NONE" },
       { "text": "Well, then.  Let's get back to work.", "topic": "TALK_DONE" }
     ]
@@ -66,8 +66,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -83,8 +83,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -98,8 +98,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -114,8 +114,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -141,8 +141,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -157,8 +157,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -173,8 +173,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -189,8 +189,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -205,8 +205,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -221,8 +221,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -237,8 +237,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -253,8 +253,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -269,8 +269,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -285,8 +285,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -301,8 +301,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -317,8 +317,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -333,8 +333,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -349,8 +349,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -362,14 +362,14 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_CAMP_TUTORIAL_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "Starting a camp doesn't take much time, and you can use a faction camp to keep your companions fed without needing to regularly give them food, so it's a good idea to establish a minimal camp anywhere you intend to be for a while.\n  How much you want to expand your camps is up to you.  A modular field camp can be very resource intensive, but building one up allows you to send companions off to hunt and farm for you, so there's quite the pay-off.  What kind of camp (or camps) you want to build depends both on what you intend to focus on and whether you want to be stationary or roaming with stops in areas only for some time before moving on.  If nothing else, you should consider building a water well as soon as you can, which may require you to perform construction prerequisites.\n  If you have access to a fire station or evac shelter, you may want to build your camp in them.  Both of those camps are are very compact, but have much of the same functionality as an upgraded field camp without requiring so many resources.\n  If you are adding expansions to your camp, consider starting with a farm, canteen, or fabrication workshop.  The farm makes it easy to grow your own food if you don't have any ready plowed farms nearby, the canteen provides you with a well and root cellars after some upgrades, while the fabrication workshop can allow you to craft some of the resources you need to upgrade your camp.\n  The livestock area, storage area, and saltworks probably shouldn't be your first expansions, but they all have their uses.",
+    "dynamic_line": "Starting a camp doesn't take much time, and you can use a faction camp to keep your companions fed without needing to regularly give them food, so it's a good idea to establish a minimal camp anywhere you intend to be for a while.\n  How much you want to expand your camps is up to you.  A modular field camp can be very resource intensive, but building one up allows you to send companions off to hunt and farm for you, so there's quite the pay-off.  What kind of camp (or camps) you want to build depends both on what you intend to focus on and whether you want to be stationary or roaming with stops in areas only for some time before moving on.  If nothing else, you should consider building a water well as soon as you can, which may require you to perform construction prerequisites.\n  If you have access to a fire station or evac shelter, you may want to build your camp in them.  Both of those camps are very compact, but have much of the same functionality as an upgraded field camp without requiring so many resources.\n  If you are adding expansions to your camp, consider starting with a farm, canteen, or fabrication workshop.  The farm makes it easy to grow your own food if you don't have any ready plowed farms nearby, the canteen provides you with a well and root cellars after some upgrades, while the fabrication workshop can allow you to craft some of the resources you need to upgrade your camp.\n  The livestock area, storage area, and saltworks probably shouldn't be your first expansions, but they all have their uses.",
     "responses": [
       { "text": "Give me an overview of how camps work.", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
       { "text": "I want to go to the list of possible camps.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
@@ -378,8 +378,8 @@
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -395,8 +395,8 @@
       { "text": "Tell me about evac shelter camps.", "topic": "TALK_CAMP_TUTORIAL_EVAC_SHELTER" },
       { "text": "Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
       { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {

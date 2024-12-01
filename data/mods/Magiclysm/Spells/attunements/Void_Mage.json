@@ -7,16 +7,16 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "SOMATIC", "IGNORE_WALLS", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "SOMATIC", "IGNORE_WALLS", "NO_LEGS" ],
     "min_damage": 0,
     "max_damage": 0,
     "min_range": 5,
     "max_range": 25,
     "range_increment": 0.7,
     "damage_type": "necrotic",
-    "min_dot": { "math": [ "evocation_proficiency_bonus_calculate(5, 0.5)" ] },
-    "max_dot": { "math": [ "evocation_proficiency_bonus_calculate(55, 0.5)" ] },
-    "dot_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.03)" ] },
+    "min_dot": 5,
+    "max_dot": 55,
+    "dot_increment": 1.5,
     "max_level": 35,
     "min_duration": 500,
     "max_duration": 5000,
@@ -33,9 +33,13 @@
   {
     "id": "voidmage_final_grasp_slowdown",
     "type": "SPELL",
-    "name": "Final Grasp Slowdown",
-    "description": "Removes some moves from an enemy.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Final Grasp Slowdown", "//~": "NO_I18N" },
+    "description": {
+      "str": "Removes some moves from an enemy.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
+    "flags": [ "EVOCATION_SPELL" ],
     "effect": "mod_moves",
     "shape": "blast",
     "max_level": 35,
@@ -52,7 +56,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SILENT", "SOMATIC", "WONDER", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "SOMATIC", "WONDER", "NO_LEGS", "RANDOM_DAMAGE" ],
     "min_damage": 5,
     "max_damage": 35,
     "damage_increment": 1,
@@ -81,10 +85,13 @@
     ]
   },
   {
-    "abstract": "horizon_vortex_abstract",
-    "name": "Horizon Vortex Abstract",
     "type": "SPELL",
-    "description": "Causes some damage in the Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "abstract": "horizon_vortex_abstract",
+    "name": { "str": "Horizon Vortex Abstract", "//~": "NO_I18N" },
+    "description": {
+      "str": "Causes some damage in the Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "LOUD", "RANDOM_TARGET" ],
     "message": "",
@@ -101,7 +108,7 @@
     "id": "horizon_vortex_fire",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Heat Damage",
+    "name": { "str": "Horizon Vortex Heat Damage", "//~": "NO_I18N" },
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "heat"
   },
@@ -109,7 +116,7 @@
     "id": "horizon_vortex_acid",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Acid Damage",
+    "name": { "str": "Horizon Vortex Acid Damage", "//~": "NO_I18N" },
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "acid"
   },
@@ -117,7 +124,7 @@
     "id": "horizon_vortex_bash",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Bash Damage",
+    "name": { "str": "Horizon Vortex Bash Damage", "//~": "NO_I18N" },
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "bash"
   },
@@ -125,7 +132,7 @@
     "id": "horizon_vortex_nether",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Pure Damage",
+    "name": { "str": "Horizon Vortex Pure Damage", "//~": "NO_I18N" },
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "nether"
   },
@@ -133,7 +140,7 @@
     "id": "horizon_vortex_cold",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Cold Damage",
+    "name": { "str": "Horizon Vortex Cold Damage", "//~": "NO_I18N" },
     "damage_type": "cold",
     "max_level": 35
   },
@@ -141,7 +148,7 @@
     "id": "horizon_vortex_cut",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Cut Damage",
+    "name": { "str": "Horizon Vortex Cut Damage", "//~": "NO_I18N" },
     "damage_type": "cut",
     "max_level": 35
   },
@@ -149,7 +156,7 @@
     "id": "horizon_vortex_electric",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Electric Damage",
+    "name": { "str": "Horizon Vortex Electric Damage", "//~": "NO_I18N" },
     "damage_type": "electric",
     "max_level": 35
   },
@@ -157,7 +164,7 @@
     "id": "horizon_vortex_stab",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex Stab Damage",
+    "name": { "str": "Horizon Vortex Stab Damage", "//~": "NO_I18N" },
     "damage_type": "stab",
     "max_level": 35
   }

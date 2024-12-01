@@ -6,7 +6,7 @@
     "name": "ravine",
     "sym": ".",
     "color": "blue",
-    "see_cost": 1
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",

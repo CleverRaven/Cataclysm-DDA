@@ -7,7 +7,7 @@
     "sym": "G",
     "color": "i_light_gray",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -17,6 +17,6 @@
     "sym": "G",
     "color": "i_light_gray",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": 5
+    "see_cost": "spaced_high"
   }
 ]

@@ -334,7 +334,7 @@
     "type": "start_location",
     "id": "sloc_library",
     "name": "Library",
-    "terrain": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ]
+    "terrain": [ "s_library", "s_library_1", "s_library_2", "s_library_3", "urban_library" ]
   },
   {
     "type": "start_location",
@@ -346,7 +346,7 @@
     "type": "start_location",
     "id": "sloc_cabin",
     "name": "Cabin",
-    "terrain": [ "cabin" ]
+    "terrain": [ "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7" ]
   },
   {
     "type": "start_location",
@@ -358,7 +358,7 @@
     "type": "start_location",
     "id": "sloc_hospital",
     "name": "Hospital",
-    "terrain": [ { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ]
+    "terrain": [ "hospital_5" ]
   },
   {
     "type": "start_location",
@@ -561,15 +561,9 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_zoo_giftshop",
-    "name": "Zoo (Giftshop)",
+    "id": "sloc_zoo_cafeteria",
+    "name": "Zoo (Cafeteria)",
     "terrain": [ "zoo_0_1" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_zoo_cages",
-    "name": "Zoo (Cages)",
-    "terrain": [ "zoo_1_1" ]
   },
   {
     "type": "start_location",
@@ -699,7 +693,8 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
-    "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ]
+    "city_distance": [ 10, -1 ],
+    "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "TYPE" } ]
   },
   {
     "type": "start_location",
@@ -771,7 +766,7 @@
     "type": "start_location",
     "id": "sloc_motel",
     "name": "Motel",
-    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2" ]
+    "terrain": [ "motel_twd_1_f1" ]
   },
   {
     "type": "start_location",
@@ -829,6 +824,17 @@
     "id": "sloc_nesw_manhole",
     "name": "Intersection",
     "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_town_in_the_open",
+    "name": "Town, in the open",
+    "terrain": [
+      { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "playground", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "park", "om_terrain_match_type": "TYPE" }
+    ],
     "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

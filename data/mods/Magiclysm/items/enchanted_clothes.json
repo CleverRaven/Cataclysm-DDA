@@ -95,7 +95,7 @@
     "type": "ARMOR",
     "name": { "str": "parabolan wool gambeson" },
     "description": "A padded greatcoat assembled by quilting rarely available iridescent wool that was intended as standalone armor, this is half the thickness of a historical gambeson due to the quality of its material.  Famed for its resistance to arrows in olden times, one might wonder how effective it might be against modern projectiles.",
-    "weight": "7110 g",
+    "weight": "1664 g",
     "volume": "3750 ml",
     "price": "4 kUSD",
     "price_postapoc": "3 kUSD",
@@ -140,26 +140,26 @@
     "id": "xl_gambeson_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL parabolan wool gambeson" },
+    "name": { "str": "parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_parabolan",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS parabolan wool gambeson" },
+    "name": { "str": "parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_parabolan_thinsleeved",
     "type": "ARMOR",
     "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "description": "A thick iridescent wool greatcoat famed for its resistance to arrows in olden times.  Compared to conventional wool, this is much lighter and less warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
-    "weight": "6288 g",
+    "weight": "3147 g",
     "volume": "3750 ml",
     "price_postapoc": "1 kUSD 500 USD",
     "to_hit": -5,
@@ -207,26 +207,26 @@
     "id": "xl_gambeson_parabolan_thinsleeved",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL thin-sleeved parabolan wool gambeson" },
+    "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_thinsleeved",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_parabolan_thinsleeved",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS thin-sleeved parabolan wool gambeson" },
+    "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_thinsleeved",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_parabolan_vest",
     "type": "ARMOR",
     "name": { "str": "sleeveless parabolan wool gambeson" },
     "description": "A thick iridescent wool surcoat famed for its resistance to arrows in the olden times.  Compared to conventional wool, this is much lighter and less warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
-    "weight": "5472 g",
+    "weight": "2340 g",
     "volume": "3000 ml",
     "price_postapoc": "1 kUSD",
     "to_hit": -5,
@@ -263,26 +263,26 @@
     "id": "xl_gambeson_parabolan_vest",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL sleeveless parabolan wool gambeson" },
+    "name": { "str": "sleeveless parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_vest",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_parabolan_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS sleeveless parabolan wool gambeson" },
+    "name": { "str": "sleeveless parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_vest",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_pants_parabolan",
     "type": "ARMOR",
     "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "description": "Tough, fairly thick iridescent wool pants worn on their own alongside a gambeson.  These are made of layered wool quilting offering very solid protection, specifically for the purposes of stopping arrows.",
-    "weight": "1641 g",
+    "weight": "1404 g",
     "volume": "1875 ml",
     "price_postapoc": "1 kUSD",
     "to_hit": -5,
@@ -310,26 +310,26 @@
     "id": "xl_gambeson_pants_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL parabolan wool heavy arming pants", "str_pl": "pairs of XL parabolan wool heavy arming pants" },
+    "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "copy-from": "gambeson_pants_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_pants_parabolan",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS parabolan wool heavy arming pants", "str_pl": "pairs of XS parabolan wool heavy arming pants" },
+    "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "copy-from": "gambeson_pants_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_gloves_parabolan",
     "type": "ARMOR",
     "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "description": "Thick iridescent wool gauntlets worn in lieu of metal or leather armor.  These are much less encumbering and warm than conventional wool, but they offer excellent protection against arrows.",
-    "weight": "348 g",
+    "weight": "174 g",
     "volume": "250 ml",
     "price_postapoc": "400 USD",
     "to_hit": -1,
@@ -374,19 +374,19 @@
     "id": "xl_gambeson_gloves_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL parabolan wool arming mittens", "str_pl": "pairs of XL parabolan wool arming mittens" },
+    "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "copy-from": "gambeson_gloves_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_gloves_parabolan",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS parabolan wool arming mittens", "str_pl": "pairs of XS parabolan wool arming mittens" },
+    "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "copy-from": "gambeson_gloves_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_lab_plus_one",

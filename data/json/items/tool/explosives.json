@@ -31,7 +31,8 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
-    "flags": [ "TRADER_AVOID" ]
+    "countdown_interval": "6 seconds",
+    "flags": [ "NPC_THROW_NOW" ]
   },
   {
     "id": "dynamite",
@@ -408,6 +409,7 @@
     "color": "green",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
+    "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
     "melee_damage": { "bash": 6 }
   },
@@ -541,8 +543,7 @@
     "price_postapoc": "0 cent",
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
     "emits": [ "emit_tear_gas_stream" ],
-    "countdown_interval": "50 seconds",
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
   {
@@ -599,8 +600,16 @@
     "id": "LAW_Packed",
     "type": "GENERIC",
     "category": "guns",
-    "name": { "str": "packed M72 LAW" },
-    "description": "An M72 LAW, packed in its storage form.  Activate it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
+    "name": { "str": "packed disposable rocket launcher" },
+    "description": "A packed, disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.  Activate it to pop it out and make it ready to fire.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "LAW_Packed",
+        "name": { "str": "M72 LAW (packed)", "str_pl": "M72 LAWs (packed)" },
+        "description": "The M72 LAW (Light Anti-armor Weapon) is a one-time use lightweight rocket launcher, meant to take out tanks and other armored vehicles.  Designed to replace the earlier Bazookas, it features a shaped-charge warhead to pierce armor.  Though weaker than the more modern and heavier AT4, it's still in service to this day.  Due to its design, you must unpack it to use it, and it cannot be reloaded.  Activate to unpack."
+      }
+    ],
     "weight": "2500 g",
     "volume": "1500 ml",
     "longest_side": "63 cm",
@@ -778,7 +787,7 @@
     "name": { "str": "armed smoke bomb" },
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -1309,9 +1318,9 @@
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "half_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1333,7 +1342,7 @@
     "use_action": {
       "type": "message",
       "message": "You've already activated the bomb - clear the area immediately!",
-      "name": "Activate fuze"
+      "name": "Activate fuse"
     },
     "explode_in_fire": true,
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
@@ -1358,9 +1367,9 @@
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "full_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1382,7 +1391,7 @@
     "use_action": {
       "type": "message",
       "message": "You've already activated the bomb - clear the area immediately!",
-      "name": "Activate fuze"
+      "name": "Activate fuse"
     },
     "explode_in_fire": true,
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },

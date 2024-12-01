@@ -198,6 +198,8 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 10 ],
       [ "fastener_small", 1 ],
@@ -220,6 +222,7 @@
     "skill_used": "tailor",
     "time": "1 h 30 m",
     "autolearn": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
@@ -233,7 +236,8 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 1 ] ],
+    "reversible": { "time": "5 m" },
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "scrap", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ]
@@ -247,9 +251,9 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "time": "8 h",
-    "reversible": { "time": "20 m" },
+    "reversible": { "time": "5 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_nylon_patchwork", 8 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "scrap", 2 ] ],
@@ -266,9 +270,9 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
-    "reversible": { "time": "20 m" },
+    "reversible": { "time": "5 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 6 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "scrap", 2 ] ],
@@ -300,7 +304,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "2 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "7 m" },
     "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
@@ -331,7 +335,7 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "adhesive", 1 ], [ "tailoring_leather_small", 5 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "nail", 4 ], [ "bronze_nail", 4 ] ] ]
@@ -855,6 +859,8 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": "3 h",
     "autolearn": true,
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [
       [ "tailoring_nylon_patchwork", 1 ],
       [ "fastener_small", 1 ],
@@ -1266,7 +1272,8 @@
     "time": "8 h 30 m",
     "autolearn": false,
     "book_learn": [ [ "manual_gun", 2 ] ],
-    "reversible": { "time": "10 m" },
+    "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "using": [ [ "tailoring_nylon_patchwork", 6 ], [ "fastener_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_small", 2, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
@@ -1569,6 +1576,19 @@
     "reversible": true,
     "book_learn": [ [ "recipe_arrows", 2 ] ],
     "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "duct_tape", 30 ] ], [ [ "pipe", 3 ] ] ]
+  },
+  {
+    "result": "quiver_simple_cloth",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "45 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork_simple", 1 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "ragpouch",

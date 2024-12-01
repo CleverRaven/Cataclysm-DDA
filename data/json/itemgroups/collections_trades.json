@@ -82,7 +82,7 @@
       { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "30gal_drum_aluminum", "prob": 2 },
       [ "cu_pipe", 5 ],
-      [ "eyedrops", 4 ],
+      [ "steroid_eyedrops", 10 ],
       [ "survnote", 1 ]
     ]
   }

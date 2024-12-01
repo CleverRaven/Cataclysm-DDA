@@ -72,7 +72,16 @@
       "palettes": [ "bunker_ext" ],
       "place_nested": [
         {
-          "chunks": [ [ "residential_1x2_solar", 3 ], [ "residential_2x2_solar", 1 ], [ "residential_1x3_solar", 2 ], [ "null", 94 ] ],
+          "//": "6% chance of solar, 20% chance it's v2",
+          "chunks": [
+            [ "residential_1x2_solar", 12 ],
+            [ "residential_2x2_solar", 4 ],
+            [ "residential_1x3_solar", 8 ],
+            [ "residential_1x2_solar_v2", 3 ],
+            [ "residential_2x2_solar_v2", 1 ],
+            [ "residential_1x3_solar_v2", 2 ],
+            [ "null", 470 ]
+          ],
           "x": 11,
           "y": 10
         }

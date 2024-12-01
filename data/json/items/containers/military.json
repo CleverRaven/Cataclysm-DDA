@@ -82,13 +82,6 @@
         "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-892-2150\n200 CARTRIDGES 7.62 mm\n4 BALL M80\n1 TRACER M62\nON LINK M13</color>"
       },
       {
-        "id": "ammunition_can_30_338fmjbt_200",
-        "name": { "str": "200 .338 ammo can" },
-        "weight": 0,
-        "//": "completely made up",
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>\n1305-01-618-1847 AB98\n200 CARTRIDGES .338 LAPUA MAG\nSWISS P Styx Action\nHPBT</color>"
-      },
-      {
         "id": "ammunition_can_30_shot_120",
         "name": { "str": "120 slug ammo can" },
         "weight": 0,
@@ -152,23 +145,10 @@
         "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-559-3333 AB57\n840 CARTRIDGES 5.56 MM\nBALL M855A1\n10 ROUND CLIPS</color>"
       },
       {
-        "id": "ammunition_can_50_300AAC_otm_840",
-        "name": { "str": "840 .300 AAC ammo can" },
-        "weight": 0,
-        "//": "dodic code is unknown",
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-651-3479 A002\n840 CARTRIDGES 7.62 x 35mm (300AAC)\n125 OTM OPEN TIP MATCH SUPERSONIC</color>"
-      },
-      {
         "id": "ammunition_can_50_308_600",
         "name": { "str": "600 7.62mm ammo can" },
         "weight": 0,
         "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-00-257-1089 A143\n600 CARTRIDGES\n7.62MM BALL M80\nON LINK M13</color>"
-      },
-      {
-        "id": "ammunition_can_50_338fmjbt_400",
-        "name": { "str": "400 .338 ammo can" },
-        "weight": 0,
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-618-1846 AB97\n400 CARTRIDGES .338 LAPUA MAG\nSWISS P Styx Action\nHPBT</color>"
       },
       {
         "id": "ammunition_can_50_shot_160",
@@ -415,8 +395,8 @@
   {
     "abstract": "ammo_box_1",
     "type": "GENERIC",
-    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
-    "description": "A small, cardboard box for ammo.",
+    "name": { "str": "ammo box", "str_pl": "ammo boxes", "//~": "NO_I18N" },
+    "description": { "str": "A small, cardboard box for ammo.", "//~": "NO_I18N" },
     "category": "container",
     "symbol": "#",
     "color": "brown",
@@ -505,7 +485,7 @@
     "type": "GENERIC",
     "name": { "str": "ammo box", "str_pl": "ammo boxes" },
     "//": "20x308mm, 100x9mm, ex ammunition_box_308",
-    "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
+    "description": "A lightweight box, labeled with a big, shiny image of an ammunition cartridge.",
     "category": "container",
     "symbol": "#",
     "color": "brown",
@@ -555,9 +535,9 @@
   {
     "abstract": "ammo_box_3",
     "type": "GENERIC",
-    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
+    "name": { "str": "ammo box", "str_pl": "ammo boxes", "//~": "NO_I18N" },
     "//": "30x223 clips or 50x223 or 20x300",
-    "description": "A small, cardboard box for ammo.",
+    "description": { "str": "A small, cardboard box for ammo.", "//~": "NO_I18N" },
     "category": "container",
     "symbol": "#",
     "color": "brown",
@@ -658,7 +638,7 @@
     "type": "GENERIC",
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "//": "10x50bmg, 20x12 gauge, ex ammunition_box_50bmg",
-    "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
+    "description": "A lightweight box, labeled with a big, shiny image of an ammunition cartridge.",
     "category": "container",
     "symbol": "#",
     "color": "brown",
@@ -674,26 +654,6 @@
         "max_contains_volume": "470 ml",
         "max_contains_weight": "4000 g",
         "max_item_length": "14 cm"
-      }
-    ]
-  },
-  {
-    "id": "ammo_box_army_20_338",
-    "type": "GENERIC",
-    "copy-from": "ammo_box_4",
-    "name": { "str": "20 .338 Lapua ammo box", "str_pl": "20 .338 Lapua ammo boxes" },
-    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"20 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT\"",
-    "color": "brown",
-    "symbol": "#",
-    "weight": "33 g",
-    "volume": "335 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "330 ml",
-        "max_contains_weight": "4000 g",
-        "max_item_length": "100 mm"
       }
     ]
   },

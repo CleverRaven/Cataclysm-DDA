@@ -24,7 +24,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -108,6 +107,9 @@ static const morale_type morale_shave( "morale_shave" );
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
+
+static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 struct itype;
 
@@ -378,10 +380,10 @@ void talk_function::goto_location( npc &p )
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    if( !player_character.omt_path.empty() ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My destination" ) );
-    }
+    selection_menu.addentry( i++, p.global_omt_location() != player_character.global_omt_location(),
+                             MENU_AUTOASSIGN, _( "My current location" ) );
+    selection_menu.addentry( i++, !player_character.omt_path.empty(), MENU_AUTOASSIGN,
+                             _( "My destination" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
@@ -400,8 +402,8 @@ void talk_function::goto_location( npc &p )
     }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
-                 overmap_path_params::for_npc() );
-    if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+                 overmap_path_params::for_npc() ).points;
+    if( destination == tripoint_abs_omt() || destination.is_invalid() ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -869,7 +871,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
-        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms_zero, false ) );
+        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms::zero, false ) );
         p.say( "<acknowledged>" );
     } else {
         p.say( _( "I don't have anything to drop off." ) );
@@ -883,6 +885,9 @@ void talk_function::follow( npc &p )
     p.set_fac( faction_your_followers );
     get_player_character().cash += p.cash;
     p.cash = 0;
+    if( !p.custom_profession.empty() ) {
+        p.custom_profession.clear();
+    }
 }
 
 void talk_function::follow_only( npc &p )
@@ -941,6 +946,7 @@ void talk_function::leave( npc &p )
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
+    new_fac_id += std::to_string( p.getID().get_value() );
     p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
@@ -1253,7 +1259,6 @@ npc *pick_follower()
     uilist menu;
     menu.text = _( "Select a follower" );
     menu.callback = &callback;
-    menu.w_y_setup = 2;
 
     for( const npc *p : followers ) {
         menu.addentry( -1, true, MENU_AUTOASSIGN, p->get_name() );
@@ -1265,6 +1270,43 @@ npc *pick_follower()
     }
 
     return followers[ menu.ret ];
+}
+
+void talk_function::distribute_food_auto( npc &p )
+{
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    if( !bcp ) {
+        debugmsg( "distribute_food_auto called without a basecamp, aborting." );
+        return;
+    }
+    basecamp *npc_camp = *bcp;
+    if( !npc_camp->allowed_access_by( p ) ) {
+        debugmsg( "distribute_food_auto called on npc that isn't allowed to access local basecamp storage, aborting." );
+        return;
+    }
+
+    zone_manager &mgr = zone_manager::get_manager();
+    const tripoint_abs_ms &npc_abs_loc = p.get_location();
+    // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
+    // TODO: fix point types; Awful hack, zones want the raw value
+    const tripoint top_left = npc_abs_loc.raw() + point::north_west;
+    const tripoint bottom_right = npc_abs_loc.raw() + point::south_east;
+    std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
+    const faction_id &fac_id = p.get_fac_id();
+    mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );
+    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left, bottom_right );
+    npc_camp->distribute_food( false );
+    // Now we clean up all camp zones, though there SHOULD only be the two we just made
+    auto lambda_remove_zones = [&mgr, &fac_id]( zone_type_id type_to_remove ) {
+        std::vector<zone_manager::ref_zone_data> p_zones = mgr.get_zones( fac_id );
+        for( zone_data &a_zone : p_zones ) {
+            if( a_zone.get_type() == type_to_remove ) {
+                mgr.remove( a_zone );
+            }
+        }
+    };
+    lambda_remove_zones( zone_type_CAMP_FOOD );
+    lambda_remove_zones( zone_type_CAMP_STORAGE );
 }
 
 void talk_function::copy_npc_rules( npc &p )
@@ -1290,7 +1332,8 @@ void talk_function::npc_thankful( npc &p )
     if( p.chatbin.first_topic != p.chatbin.talk_friend ) {
         p.chatbin.first_topic = p.chatbin.talk_stranger_friendly;
     }
-    p.personality.aggression -= 1;
+    int8_t &aggro = p.personality.aggression;
+    aggro = std::clamp<int8_t>( aggro - 1, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
 }
 

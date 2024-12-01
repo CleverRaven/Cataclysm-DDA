@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "game.h"
 #include "item.h"
+#include "loading_ui.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -49,21 +50,8 @@ static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
 static const ter_str_id ter_t_window( "t_window" );
 
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
-static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
-static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
 static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
-static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
 static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
-static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
-static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
-static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
-static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
-static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
-static const trap_str_id tr_tutorial_5( "tr_tutorial_5" );
-static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
-static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
-static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
-static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
 
 namespace io
 {
@@ -132,6 +120,7 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
 
 bool tutorial_game::init()
 {
+    loading_ui::done();
     // TODO: clean up old tutorial
 
     // Start at noon at the end of the spring and set a fixed temperature of 20 degrees to prevent freezing
@@ -150,6 +139,18 @@ bool tutorial_game::init()
     player_character.dex_cur = player_character.dex_max;
 
     player_character.set_all_parts_hp_to_max();
+    player_character.clear_effects();
+    player_character.clear_morale();
+    player_character.clear_vitamins();
+    player_character.set_sleepiness( 0 );
+    player_character.set_focus( 100 );
+    player_character.set_hunger( 0 );
+    player_character.set_pain( 0 );
+    player_character.set_rad( 0 );
+    player_character.set_sleep_deprivation( 0 );
+    player_character.set_stamina( player_character.get_stamina_max() );
+    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
+    player_character.set_thirst( 0 );
 
     //~ default name for the tutorial
     player_character.name = _( "John Smith" );
@@ -218,26 +219,27 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
-        if( here.ter( p ) == ter_t_door_c ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+        const ter_id &t = here.ter( p );
+        if( t == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == ter_t_door_o ) {
+        } else if( t == ter_t_door_o ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == ter_t_door_locked_interior ) {
+        } else if( t == ter_t_door_locked_interior ) {
             add_message( tut_lesson::LESSON_LOCKED_DOOR );
             break;
-        } else if( here.ter( p ) == ter_t_window ) {
+        } else if( t == ter_t_window ) {
             add_message( tut_lesson::LESSON_WINDOW );
             break;
         } else if( here.furn( p ) == furn_f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( here.ter( p ) == ter_t_stairs_down ) {
+        } else if( t == ter_t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == ter_t_water_dispenser ) {
+        } else if( t == ter_t_water_dispenser ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         } else if( here.tr_at( p ).id == tr_bubblewrap ) {
@@ -250,38 +252,12 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_PICKUP );
     }
 
-    if( here.tr_at( player_character.pos() ) == tr_tutorial_1 ) {
-        add_message( tut_lesson::LESSON_LOOK );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_2 ) {
-        add_message( tut_lesson::LESSON_MOVEMENT_MODES );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_3 ) {
-        add_message( tut_lesson::LESSON_MONSTER_SIGHTED );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_4 ) {
-        add_message( tut_lesson::LESSON_REACH_ATTACK );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_5 ) {
-        add_message( tut_lesson::LESSON_HOLSTERS_WEAR );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_6 ) {
-        add_message( tut_lesson::LESSON_GUN_LOAD );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_7 ) {
-        add_message( tut_lesson::LESSON_INVENTORY );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_8 ) {
-        add_message( tut_lesson::LESSON_FLASHLIGHT );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_9 ) {
-        add_message( tut_lesson::LESSON_INTERACT );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_10 ) {
-        add_message( tut_lesson::LESSON_REMOTE_USE );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_11 ) {
+    const trap &tr = here.tr_at( player_character.pos_bub() );
+    if( tr == tr_tutorial_11 ) {
         player_character.set_hunger( 100 );
         player_character.stomach.empty();
-        add_message( tut_lesson::LESSON_CRAFTING_FOOD );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_12 ) {
-        add_message( tut_lesson::LESSON_CONSTRUCTION );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_13 ) {
+    } else if( tr == tr_tutorial_13 ) {
         player_character.set_pain( 20 );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_14 ) {
-        add_message( tut_lesson::LESSON_THROWING );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_15 ) {
-        add_message( tut_lesson::LESSON_FINALE );
     }
 }
 
@@ -353,7 +329,6 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
-        /* fallthrough */
         case ACTION_PICKUP: {
             item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
@@ -372,6 +347,10 @@ void tutorial_game::post_action( action_id act )
 
         }
         break;
+
+        case ACTION_SAVE:
+            get_weather().forced_temperature.reset();
+            break;
 
         default:
             // TODO: add more actions here

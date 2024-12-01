@@ -29,8 +29,8 @@
   {
     "type": "SPELL",
     "id": "firmament_driver_damage",
-    "name": "Firmament-driver Damage",
-    "description": "Deal some damage to the pushed enemy.",
+    "name": { "str": "Firmament-driver Damage", "//~": "NO_I18N" },
+    "description": { "str": "Deal some damage to the pushed enemy.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
@@ -52,6 +52,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
+    "skill": "deduction",
     "flags": [ "SOMATIC" ],
     "max_level": 25,
     "min_damage": 10,

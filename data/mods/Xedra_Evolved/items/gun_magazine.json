@@ -48,6 +48,7 @@
     "color": "dark_gray",
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_BULKY" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 32 } } ]
   },
   {
@@ -65,6 +66,7 @@
     "color": "dark_gray",
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_BULKY" ],
+    "mag_jam_mult": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 64 } } ]
   }
 ]

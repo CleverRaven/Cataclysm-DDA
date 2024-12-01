@@ -7,7 +7,7 @@
     "name": "lake",
     "sym": "#",
     "color": "blue",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK", "WATER" ]
   },
   {
@@ -48,7 +48,7 @@
     "name": "ocean",
     "sym": "#",
     "color": "blue",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "OCEAN" ]
   },
   {

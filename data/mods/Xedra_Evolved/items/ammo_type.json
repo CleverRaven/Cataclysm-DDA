@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "scrap_shadowstuff",
+    "name": "scraps of shadowstuff",
+    "default": "scrap_shadowstuff"
+  },
+  {
+    "type": "ammunition_type",
     "id": "glamour_charge",
     "name": "glamour",
     "default": "glamour_charge"

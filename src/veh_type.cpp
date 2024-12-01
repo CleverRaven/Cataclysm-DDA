@@ -432,11 +432,13 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         JsonObject jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
-        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
-        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
+        if( jttd.has_string( "post_field" ) ) {
+            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
+            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
+            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
+        }
     }
 }
 
@@ -950,6 +952,12 @@ void vpart_info::check() const
                       id.c_str() );
         }
     }
+    if( !!transform_terrain_info && !( transform_terrain_info->post_terrain ||
+                                       transform_terrain_info->post_furniture ||
+                                       transform_terrain_info->post_field ) ) {
+        debugmsg( "transform_terrain_info must contain at least one of post_terrain, post_furniture and post_field for vehicle part %s",
+                  id.c_str() );
+    }
 }
 
 void vehicles::parts::reset()
@@ -1268,7 +1276,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );
 
-    const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
+    const auto add_part_obj = [&]( const JsonObject & part, point_rel_ms pos ) {
         const auto [id, variant] = get_vpart_str_variant( part.get_string( "part" ) );
         part_def pt;
         pt.part = vpart_id( id );
@@ -1284,7 +1292,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
         parts.emplace_back( pt );
     };
 
-    const auto add_part_string = [&]( const std::string & part, point pos ) {
+    const auto add_part_string = [&]( const std::string & part, point_rel_ms pos ) {
         const auto [id, variant] = get_vpart_str_variant( part );
         part_def pt;
         pt.part = vpart_id( id );
@@ -1299,7 +1307,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     }
 
     for( JsonObject part : jo.get_array( "parts" ) ) {
-        point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
+        point_rel_ms pos{ part.get_int( "x" ), part.get_int( "y" ) };
 
         if( part.has_string( "part" ) ) {
             add_part_obj( part, pos );
@@ -1320,13 +1328,13 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 
     for( JsonObject spawn_info : jo.get_array( "items" ) ) {
         vehicle_item_spawn next_spawn;
-        next_spawn.pos.x = spawn_info.get_int( "x" );
-        next_spawn.pos.y = spawn_info.get_int( "y" );
+        next_spawn.pos.x() = spawn_info.get_int( "x" );
+        next_spawn.pos.y() = spawn_info.get_int( "y" );
 
         next_spawn.chance = spawn_info.get_int( "chance" );
         if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
             debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
+                      name, next_spawn.pos.x(), next_spawn.pos.y(), next_spawn.chance );
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
@@ -1363,7 +1371,7 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
         zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
         std::string name;
         std::string filter;
-        point pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
+        point_rel_ms pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
 
         if( jzi.has_string( "name" ) ) {
             name = jzi.get_string( "name" );
@@ -1390,26 +1398,20 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.member( "id", "/TO_BE_REPLACED/" );
     json.member( "type", "vehicle" );
     json.member( "name", "/TO_BE_REPLACED/" );
-    std::map<point, std::list<const vehicle_part *>> vp_map;
+    std::map<point_rel_ms, std::list<const vehicle_part *>> vp_map;
     int mount_min_y = 123;
     int mount_max_y = -123;
     // Form a map of existing real parts
-    // Structural parts first
+    // get_all_parts() gets all non-fake parts
+    // The parts are already in installation order
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const vehicle_part &p = vpr.part();
-        if( p.is_fake ) {
-            continue;
-        }
-        if( p.info().location == part_location_structure ) {
-            vp_map[p.mount].push_front( &p );
-            continue;
-        }
-        mount_max_y = mount_max_y < p.mount.y ? p.mount.y : mount_max_y;
-        mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
+        mount_max_y = mount_max_y < p.mount.y() ? p.mount.y() : mount_max_y;
+        mount_min_y = mount_min_y > p.mount.y() ? p.mount.y() : mount_min_y;
         vp_map[p.mount].push_back( &p );
     }
-    int mount_min_x = vp_map.begin()->first.x;
-    int mount_max_x = vp_map.rbegin()->first.x;
+    int mount_min_x = vp_map.begin()->first.x();
+    int mount_max_x = vp_map.rbegin()->first.x();
 
     // print the vehicle's blueprint.
     json.member( "blueprint" );
@@ -1418,11 +1420,11 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     for( int x = mount_max_x; x >= mount_min_x; x-- ) {
         std::string row;
         for( int y = mount_min_y; y <= mount_max_y; y++ ) {
-            if( veh.part_displayed_at( point( x, y ), false, true, true ) == -1 ) {
+            if( veh.part_displayed_at( point_rel_ms( x, y ), false, true, true ) == -1 ) {
                 row += " ";
                 continue;
             }
-            const vpart_display &c = veh.get_display_of_tile( point( x, y ), false, false, true, true );
+            const vpart_display &c = veh.get_display_of_tile( point_rel_ms( x, y ), false, false, true, true );
             row += utf32_to_utf8( c.symbol );
         }
         json.write( row );
@@ -1443,35 +1445,9 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         return;
     };
     for( auto &vp_pos : vp_map ) {
-        auto fake = make_shared_fast<vehicle>( vproto_id() );
-        vehicle &fakev = *fake;
-        auto iter = vp_pos.second.begin();
-        // Ensure that the entries in the list can be installed in order.
-        // Might be a infinite loop if debug hammerspace created improper parts combination.
-        // So add a iteration limit to avoid this.
-        int iteration = 0;
-        for( ; iter != vp_pos.second.end(); ) {
-            vehicle_part g = **iter;
-            if( fakev.can_mount( point_zero, g.info() ).success() ) {
-                fakev.install_part( point_zero, std::move( g ) );
-                iter++;
-                continue;
-            }
-            iteration++;
-            auto iter2 = std::next( iter, 1 );
-            vp_pos.second.splice( vp_pos.second.end(), vp_pos.second, iter );
-            iter = iter2;
-            // It's impossible to hit this limit when a single mount point has fewer than 50 parts.
-            // So we can assume only infinite loop hits this limit.
-            if( iteration > 1250 ) {
-                debugmsg( "Error exporting vehicle: mount point (%d,%d) has illegal vehicle part sequence.",
-                          vp_pos.first.x, vp_pos.first.y );
-                return;
-            }
-        }
         json.start_object();
-        json.member( "x", vp_pos.first.x );
-        json.member( "y", vp_pos.first.y );
+        json.member( "x", vp_pos.first.x() );
+        json.member( "y", vp_pos.first.y() );
 
         json.member( "parts" );
         json.start_array();
@@ -1528,8 +1504,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         const vehicle_stack &stack = veh.get_items( vp.part() );
         if( !stack.empty() ) {
             json.start_object();
-            json.member( "x", vp.mount().x );
-            json.member( "y", vp.mount().y );
+            json.member( "x", vp.mount_pos().x() );
+            json.member( "y", vp.mount_pos().y() );
             json.member( "chance", 100 );
             json.member( "items" );
             json.start_array();
@@ -1546,8 +1522,8 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     json.start_array();
     for( auto const &z : veh.loot_zones ) {
         json.start_object();
-        json.member( "x", z.first.x );
-        json.member( "y", z.first.y );
+        json.member( "x", z.first.x() );
+        json.member( "y", z.first.y() );
         json.member( "type", z.second.get_type().str() );
         json.end_object();
     }
@@ -1564,7 +1540,7 @@ void vehicles::finalize_prototypes()
     vehicle_prototype_factory.finalize();
     for( const vehicle_prototype &const_proto : vehicles::get_all_prototypes() ) {
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
-        std::unordered_set<point> cargo_spots;
+        std::unordered_set<point_rel_ms> cargo_spots;
 
         // Calling the constructor with empty vproto_id as parameter
         // makes constructor bypass copying the (non-existing) blueprint.
@@ -1590,7 +1566,7 @@ void vehicles::finalize_prototypes()
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
-                          blueprint.part_count(), pt.pos.x, pt.pos.y );
+                          blueprint.part_count(), pt.pos.x(), pt.pos.y() );
             } else {
                 vehicle_part &vp = blueprint.part( part_idx );
                 const vpart_info &vpi = vp.info();
@@ -1681,7 +1657,7 @@ void vehicles::finalize_prototypes()
         for( vehicle_item_spawn &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                          proto.name, i.pos.x, i.pos.y, i.chance );
+                          proto.name, i.pos.x(), i.pos.y(), i.chance );
             }
             for( auto &j : i.item_ids ) {
                 if( !item::type_is_defined( j ) ) {
@@ -1729,10 +1705,10 @@ void vpart_category::reset()
 void vpart_migration::load( const JsonObject &jo )
 {
     vpart_migration migration;
-    mandatory( jo, /* was_loaded = */ true, "from", migration.part_id_old );
-    mandatory( jo, /* was_loaded = */ true, "to", migration.part_id_new );
-    optional( jo, /* was_loaded = */ true, "variant", migration.variant );
-    optional( jo, /* was_loaded = */ true, "add_veh_tools", migration.add_veh_tools );
+    mandatory( jo, false, "from", migration.part_id_old );
+    mandatory( jo, false, "to", migration.part_id_new );
+    optional( jo, false, "variant", migration.variant );
+    optional( jo, false, "add_veh_tools", migration.add_veh_tools );
     vpart_migrations.emplace( migration.part_id_old, migration );
 }
 

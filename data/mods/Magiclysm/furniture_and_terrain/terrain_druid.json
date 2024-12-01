@@ -18,7 +18,7 @@
     "looks_like": "t_triffid_wood_wall",
     "name": "solid wood wall",
     "description": "A solid wall of naturally grown wood.  Likely very flammable.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,

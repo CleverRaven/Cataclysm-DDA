@@ -492,7 +492,11 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
+      "items": [
+        { "item": "wooden_post", "count": 1 },
+        { "item": "nail", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal", "count": 1 }
+      ]
     },
     "max_volume": "10 L",
     "bash": {
@@ -501,9 +505,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": 1 },
         { "item": "nail", "charges": [ 1, 5 ] },
-        { "item": "splinter", "count": 2 },
+        { "item": "splinter", "count": [ 4, 16 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "scrap", "count": [ 4, 10 ] }
       ]
@@ -1019,7 +1022,7 @@
     "id": "f_displaycase",
     "name": "display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.",
+    "description": "A secure wooden case at about waist-height, with glass paneling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -1046,7 +1049,7 @@
     "id": "f_displaycase_o",
     "name": "open display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.  This one has had its lock picked and is open.",
+    "description": "A secure wooden case at about waist-height, with glass paneling on top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.  This one has had its lock picked and is open.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -1070,7 +1073,7 @@
     "id": "f_displaycase_b",
     "name": "broken display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.  Careful not to cut yourself when looting.",
+    "description": "A secure wooden case at about waist-height, with glass paneling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.  Careful not to cut yourself when looting.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost_mod": 2,

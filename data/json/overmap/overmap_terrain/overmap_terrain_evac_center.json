@@ -4,13 +4,14 @@
     "abstract": "generic_evac_center",
     "vision_levels": "large_building",
     "name": "refugee center",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_fence",
     "vision_levels": "open_land",
+    "see_cost": "low",
     "name": "fence",
     "color": "light_gray"
   },
@@ -51,12 +52,12 @@
     "vision_levels": "roof_or_air",
     "sym": "┼",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "refctr_field",
-    "see_cost": 2,
+    "see_cost": "none",
     "name": "field",
     "looks_like": "field",
     "vision_levels": "open_land",

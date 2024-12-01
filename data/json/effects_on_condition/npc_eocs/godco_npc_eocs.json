@@ -37,7 +37,7 @@
         }
       ]
     },
-    "deactivate_condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+    "deactivate_condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
     "effect": [ { "u_add_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
   },
   {
@@ -47,11 +47,11 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_has_var": "general_completed_theresa_going_away", "value": "yes" },
+        { "compare_string": [ "yes", { "u_val": "general_completed_theresa_going_away" } ] },
         { "u_near_om_location": "godco_3", "range": 12 }
       ]
     },
-    "deactivate_condition": { "u_has_var": "general_completed_theresa_gone", "value": "yes" },
+    "deactivate_condition": { "compare_string": [ "yes", { "u_val": "general_completed_theresa_gone" } ] },
     "effect": [
       { "mapgen_update": "theresa_remove", "om_terrain": "godco_3" },
       { "u_lose_var": "general_completed_theresa_going_away" },
@@ -65,16 +65,16 @@
     "global": false,
     "condition": {
       "and": [
-        { "math": [ "godco_met_merchants", "==", "0" ] },
+        { "math": [ "godco_met_merchants == 0" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
     },
-    "deactivate_condition": { "math": [ "godco_met_merchants", "==", "1" ] },
+    "deactivate_condition": { "math": [ "godco_met_merchants == 1" ] },
     "effect": [
       { "mapgen_update": "godco_permanent_trader_predatory_add", "om_terrain": "godco_enter" },
-      { "math": [ "godco_met_merchants", "=", "1" ] }
+      { "math": [ "godco_met_merchants = 1" ] }
     ]
   },
   {
@@ -84,15 +84,15 @@
     "global": false,
     "condition": {
       "and": [
-        { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
+        { "math": [ "freemerch_godco_trader_investigated == 1" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
     },
-    "deactivate_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "2" ] },
+    "deactivate_condition": { "math": [ "freemerch_godco_trader_investigated == 2" ] },
     "effect": [
       { "mapgen_update": "godco_permanent_trader_change", "om_terrain": "godco_enter" },
-      { "math": [ "freemerch_godco_trader_investigated", "=", "2" ] }
+      { "math": [ "freemerch_godco_trader_investigated = 2" ] }
     ]
   },
   {
@@ -100,7 +100,7 @@
     "id": "GODCO_TRADER_MISSION_DEATHFAIL",
     "eoc_type": "NPC_DEATH",
     "effect": [
-      { "math": [ "godco_freemerch_representative_dead", "=", "0" ] },
+      { "math": [ "godco_freemerch_representative_dead = 0" ] },
       { "u_lose_var": "general_trade_u_think_suspicious_price" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]
@@ -110,11 +110,11 @@
     "id": "GODCO_EDDIE_CANNING_MISSION_ADD",
     "condition": {
       "and": [
-        { "math": [ "godco_has_canningpots", "==", "1" ] },
-        { "not": { "npc_has_var": "dialogue_missions_got_mission", "value": "yes" } }
+        { "math": [ "godco_has_canningpots == 1" ] },
+        { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_missions_got_mission" } ] } }
       ]
     },
-    "deactivate_condition": { "npc_has_var": "dialogue_missions_got_mission", "value": "yes" },
+    "deactivate_condition": { "compare_string": [ "yes", { "npc_val": "dialogue_missions_got_mission" } ] },
     "effect": [
       { "offer_mission": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP" },
       { "npc_add_var": "dialogue_missions_got_mission", "value": "yes" }

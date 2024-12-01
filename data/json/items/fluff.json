@@ -828,7 +828,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate leveling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": "70 USD 50 cent",
@@ -904,7 +904,7 @@
     "use_action": [ "PLAY_GAME" ],
     "variants": [
       {
-        "id": "terraforming_mars",
+        "id": "terraforming_mercury",
         "name": { "str": "Terraforming - Mercury", "str_pl": "sets of Terraforming - Mercury" },
         "description": "This board game is set in the 4300s, where corporations are working together to terraform the planet Mercury, the smallest and innermost planet in our solar system.  Each player (or just the player) will have unique abilities and resources at their disposal, and they will need to strategize and cooperate with one another to achieve their goals."
       },
@@ -945,7 +945,7 @@
       },
       {
         "id": "terraforming_earth",
-        "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
+        "name": { "str": "Terraforming - Earth", "str_pl": "sets of Terraforming - Earth" },
         "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet's ecosystems, atmosphere, and climate while also competing for resources and prestige."
       }
     ]
@@ -1243,7 +1243,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str_sp": "Snakes and Ladders" },
-    "description": "A board game for two or more players, regarded before the Cataclysm as as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
+    "description": "A board game for two or more players, regarded before the Cataclysm as a worldwide classic.  The objective of the game is to navigate one's game piece to the goal on the board, helped by climbing ladders but hindered by sliding down snakes.",
     "weight": "300 g",
     "volume": "1800 ml",
     "price": "25 cent",
@@ -1586,7 +1586,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "id": "glass_apple",
@@ -1602,7 +1602,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "id": "glass_boat",
@@ -1617,7 +1617,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -1721,6 +1721,7 @@
     "color": "light_gray",
     "name": { "str": "stone sculpture" },
     "description": "A medium-sized stone sculpture.",
+    "category": "other",
     "material": "stone",
     "weight": "7884 g",
     "volume": "20813 ml",
@@ -1770,6 +1771,7 @@
     "color": "brown",
     "name": { "str": "clay sculpture" },
     "description": "A small clay sculpture.",
+    "category": "other",
     "material": "clay",
     "weight": "150 g",
     "volume": "94 ml",

@@ -47,8 +47,6 @@ static const oter_str_id oter_river_se( "river_se" );
 static const oter_str_id oter_river_south( "river_south" );
 static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
-static const oter_str_id oter_slimepit( "slimepit" );
-static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
 static const ter_str_id ter_t_buffer_stop( "t_buffer_stop" );
 static const ter_str_id ter_t_clay( "t_clay" );
@@ -116,16 +114,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            // Old rock behavior, only used around slime pits
-            { "rock", &mapgen_rock_partial },
-
             { "subway_straight",    &mapgen_subway },
             { "subway_curved",      &mapgen_subway },
             // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "subway_end",         &mapgen_subway },
             { "subway_tee",         &mapgen_subway },
             { "subway_four_way",    &mapgen_subway },
-
             { "lake_shore", &mapgen_lake_shore },
             { "ocean_shore", &mapgen_ocean_shore },
             { "ravine_edge", &mapgen_ravine_edge },
@@ -340,7 +334,7 @@ void mapgen_subway( mapgendata &dat )
     switch( num_dirs ) {
         case 4:
             // 4-way intersection
-            mapf::formatted_set_simple( m, point_zero,
+            mapf::formatted_set_simple( m, point::zero,
                                         "..^/D^^/D^....^D/^^D/^..\n"
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "^/D^X/D^X......X^D/X^D/^\n"
@@ -382,7 +376,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 3:
             // tee
-            mapf::formatted_set_simple( m, point_zero,
+            mapf::formatted_set_simple( m, point::zero,
                                         "..^/D^^/D^...^/D^^/D^...\n"
                                         ".^/D^^/D^...^/D^^/D^....\n"
                                         "^/D^^/D^...^/D^^/D^.....\n"
@@ -429,7 +423,7 @@ void mapgen_subway( mapgendata &dat )
         case 2:
             // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, point_zero,
+                mapf::formatted_set_simple( m, point::zero,
                                             "...^DD^^DD^...^DD^^DD^..\n"
                                             "....^DD^^DD^...^DD^^DD^.\n"
                                             ".....^DD^^DD^...^DD^^DD^\n"
@@ -465,7 +459,7 @@ void mapgen_subway( mapgendata &dat )
                                                     furn_str_id::NULL_ID(),
                                                     furn_str_id::NULL_ID() ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, point_zero,
+                mapf::formatted_set_simple( m, point::zero,
                                             "...^X^^^X^....^X^^^X^...\n"
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -508,7 +502,7 @@ void mapgen_subway( mapgendata &dat )
             break;
         case 1:
             // dead end
-            mapf::formatted_set_simple( m, point_zero,
+            mapf::formatted_set_simple( m, point::zero,
                                         "...^X^^^X^..../D^^/D^...\n"
                                         "...-x---x-.../DX^/DX^...\n"
                                         "...^X^^^X^../D^X/D^X^...\n"
@@ -679,28 +673,6 @@ void mapgen_river_curved( mapgendata &dat )
     m->rotate( rot );
 }
 
-void mapgen_rock_partial( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    fill_background( m, ter_t_rock );
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] == oter_slimepit || dat.t_nesw[i] == oter_slimepit_down ) {
-            dat.dir( i ) = 6;
-        } else {
-            dat.dir( i ) = 0;
-        }
-    }
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( rng( 0, dat.n_fac ) > j || rng( 0, dat.s_fac ) > SEEY * 2 - 1 - j ||
-                rng( 0, dat.w_fac ) > i || rng( 0, dat.e_fac ) > SEEX * 2 - 1 - i ) {
-                m->ter_set( point( i, j ), ter_t_rock_floor );
-            }
-        }
-    }
-}
-
 void mapgen_forest( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -804,7 +776,8 @@ void mapgen_forest( mapgendata &dat )
     for( int bd_x = 0; bd_x < 2; bd_x++ ) {
         for( int bd_y = 0; bd_y < 2; bd_y++ ) {
             // Use the corners of the overmap tiles as hash seeds.
-            point global_corner = m->getabs( point( bd_x * SEEX * 2, bd_y * SEEY * 2 ) );
+            point global_corner = m->getglobal( tripoint_bub_ms( bd_x * SEEX * 2, bd_y * SEEY * 2,
+                                                m->get_abs_sub().z() ) ).xy().raw();
             uint32_t net_hash = std::hash<uint32_t> {}( global_corner.x ) ^ ( std::hash<int> {}( global_corner.y )
                                 << 1 );
             uint32_t h_hash = net_hash;
@@ -1156,7 +1129,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
+                        point_bub_ms::zero, point_bub_ms( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 
@@ -1330,79 +1303,79 @@ void mapgen_lake_shore( mapgendata &dat )
     const int sector_length = SEEX * 2 / 3;
 
     // Define the corners of the map. These won't change.
-    static constexpr point nw_corner{};
-    static constexpr point ne_corner( SEEX * 2 - 1, 0 );
-    static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
-    static constexpr point sw_corner( 0, SEEY * 2 - 1 );
+    static constexpr point_bub_ms nw_corner{};
+    static constexpr point_bub_ms ne_corner( SEEX * 2 - 1, 0 );
+    static constexpr point_bub_ms se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
+    static constexpr point_bub_ms sw_corner( 0, SEEY * 2 - 1 );
 
     // Define the four points that make up our polygon that we'll later pull line segments from for
     // the actual shoreline.
-    point nw = nw_corner;
-    point ne = ne_corner;
-    point se = se_corner;
-    point sw = sw_corner;
+    point_bub_ms nw = nw_corner;
+    point_bub_ms ne = ne_corner;
+    point_bub_ms se = se_corner;
+    point_bub_ms sw = sw_corner;
 
-    std::vector<std::vector<point>> line_segments;
+    std::vector<std::vector<point_bub_ms>> line_segments;
 
     // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
     if( n_lake ) {
-        nw.y += sector_length;
-        ne.y += sector_length;
+        nw.y() += sector_length;
+        ne.y() += sector_length;
     }
 
     if( s_lake ) {
-        sw.y -= sector_length;
-        se.y -= sector_length;
+        sw.y() -= sector_length;
+        se.y() -= sector_length;
     }
 
     if( w_lake ) {
-        nw.x += sector_length;
-        sw.x += sector_length;
+        nw.x() += sector_length;
+        sw.x() += sector_length;
     }
 
     if( e_lake ) {
-        ne.x -= sector_length;
-        se.x -= sector_length;
+        ne.x() -= sector_length;
+        se.x() -= sector_length;
     }
 
     // This section is about pushing the corners inward when adjacent to a lake that curves into a river bank.
     if( n_river_bank ) {
         if( w_lake && nw_lake ) {
-            nw.x += sector_length;
+            nw.x() += sector_length;
         }
 
         if( e_lake && ne_lake ) {
-            ne.x -= sector_length;
+            ne.x() -= sector_length;
         }
     }
 
     if( e_river_bank ) {
         if( s_lake && se_lake ) {
-            se.y -= sector_length;
+            se.y() -= sector_length;
         }
 
         if( n_lake && ne_lake ) {
-            ne.y += sector_length;
+            ne.y() += sector_length;
         }
     }
 
     if( s_river_bank ) {
         if( w_lake && sw_lake ) {
-            sw.x += sector_length;
+            sw.x() += sector_length;
         }
 
         if( e_lake && se_lake ) {
-            se.x -= sector_length;
+            se.x() -= sector_length;
         }
     }
 
     if( w_river_bank ) {
         if( s_lake && sw_lake ) {
-            sw.y -= sector_length;
+            sw.y() -= sector_length;
         }
 
         if( n_lake && nw_lake ) {
-            nw.y += sector_length;
+            nw.y() += sector_length;
         }
     }
 
@@ -1412,17 +1385,17 @@ void mapgen_lake_shore( mapgendata &dat )
     // our original set--we end up cutting the corner off our polygonal box.
     if( nw_lake ) {
         if( n_lake && w_lake ) {
-            nw.x += sector_length / 2;
-            nw.y += sector_length / 2;
+            nw.x() += sector_length / 2;
+            nw.y() += sector_length / 2;
         } else if( ( n_shore || n_river_bank ) && ( w_shore || w_river_bank ) ) {
-            point n = nw_corner;
-            point w = nw_corner;
+            point_bub_ms n = nw_corner;
+            point_bub_ms w = nw_corner;
 
-            n.x += sector_length * ( n_river_bank ? 2 : 1 );
-            w.y += sector_length * ( w_river_bank ? 2 : 1 );
+            n.x() += sector_length * ( n_river_bank ? 2 : 1 );
+            w.y() += sector_length * ( w_river_bank ? 2 : 1 );
 
-            n.y += n_river_bank ? sector_length / 2 : 0;
-            w.x += w_river_bank ? sector_length / 2 : 0;
+            n.y() += n_river_bank ? sector_length / 2 : 0;
+            w.x() += w_river_bank ? sector_length / 2 : 0;
 
             if( w_river_bank ) {
                 line_segments.push_back( { sw, w } );
@@ -1438,17 +1411,17 @@ void mapgen_lake_shore( mapgendata &dat )
 
     if( ne_lake ) {
         if( n_lake && e_lake ) {
-            ne.x -= sector_length / 2;
-            ne.y += sector_length / 2;
+            ne.x() -= sector_length / 2;
+            ne.y() += sector_length / 2;
         } else if( ( n_shore || n_river_bank ) && ( e_shore || e_river_bank ) ) {
-            point n = ne_corner;
-            point e = ne_corner;
+            point_bub_ms n = ne_corner;
+            point_bub_ms e = ne_corner;
 
-            n.x -= sector_length * ( n_river_bank ? 2 : 1 );
-            e.y += sector_length * ( e_river_bank ? 2 : 1 );
+            n.x() -= sector_length * ( n_river_bank ? 2 : 1 );
+            e.y() += sector_length * ( e_river_bank ? 2 : 1 );
 
-            n.y += n_river_bank ? sector_length / 2 : 0;
-            e.x -= e_river_bank ? sector_length / 2 : 0;
+            n.y() += n_river_bank ? sector_length / 2 : 0;
+            e.x() -= e_river_bank ? sector_length / 2 : 0;
 
             if( e_river_bank ) {
                 line_segments.push_back( { se, e } );
@@ -1464,17 +1437,17 @@ void mapgen_lake_shore( mapgendata &dat )
 
     if( sw_lake ) {
         if( s_lake && w_lake ) {
-            sw.x += sector_length / 2;
-            sw.y -= sector_length / 2;
+            sw.x() += sector_length / 2;
+            sw.y() -= sector_length / 2;
         } else if( ( s_shore || s_river_bank ) && ( w_shore || w_river_bank ) ) {
-            point s = sw_corner;
-            point w = sw_corner;
+            point_bub_ms s = sw_corner;
+            point_bub_ms w = sw_corner;
 
-            s.x += sector_length * ( s_river_bank ? 2 : 1 );
-            w.y -= sector_length * ( w_river_bank ? 2 : 1 );
+            s.x() += sector_length * ( s_river_bank ? 2 : 1 );
+            w.y() -= sector_length * ( w_river_bank ? 2 : 1 );
 
-            s.y -= s_river_bank ? sector_length / 2 : 0;
-            w.x += w_river_bank ? sector_length / 2 : 0;
+            s.y() -= s_river_bank ? sector_length / 2 : 0;
+            w.x() += w_river_bank ? sector_length / 2 : 0;
 
             if( w_river_bank ) {
                 line_segments.push_back( { nw, w } );
@@ -1490,17 +1463,17 @@ void mapgen_lake_shore( mapgendata &dat )
 
     if( se_lake ) {
         if( s_lake && e_lake ) {
-            se.x -= sector_length / 2;
-            se.y -= sector_length / 2;
+            se.x() -= sector_length / 2;
+            se.y() -= sector_length / 2;
         } else if( ( s_shore || s_river_bank ) && ( e_shore || e_river_bank ) ) {
-            point s = se_corner;
-            point e = se_corner;
+            point_bub_ms s = se_corner;
+            point_bub_ms e = se_corner;
 
-            s.x -= sector_length * ( s_river_bank ? 2 : 1 );
-            e.y -= sector_length * ( e_river_bank ? 2 : 1 );
+            s.x() -= sector_length * ( s_river_bank ? 2 : 1 );
+            e.y() -= sector_length * ( e_river_bank ? 2 : 1 );
 
-            s.y -= s_river_bank ? sector_length / 2 : 0;
-            e.x -= e_river_bank ? sector_length / 2 : 0;
+            s.y() -= s_river_bank ? sector_length / 2 : 0;
+            e.x() -= e_river_bank ? sector_length / 2 : 0;
 
             if( e_river_bank ) {
                 line_segments.push_back( { ne, e } );
@@ -1519,31 +1492,31 @@ void mapgen_lake_shore( mapgendata &dat )
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
-    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+    if( nw.y() != nw_corner.y() || ne.y() != ne_corner.y() ) {
         line_segments.push_back( { nw, ne } );
     }
 
-    if( ne.x != ne_corner.x || se.x != se_corner.x ) {
+    if( ne.x() != ne_corner.x() || se.x() != se_corner.x() ) {
         line_segments.push_back( { ne, se } );
     }
 
-    if( se.y != se_corner.y || sw.y != sw_corner.y ) {
+    if( se.y() != se_corner.y() || sw.y() != sw_corner.y() ) {
         line_segments.push_back( { se, sw } );
     }
 
-    if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
+    if( sw.x() != sw_corner.x() || nw.x() != nw_corner.x() ) {
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle<point_bub_ms> map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
-    const auto draw_shallow_water = [&]( const point & from, const point & to ) {
-        std::vector<point> points = line_to( from, to );
-        for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, 1 ) ) {
+    const auto draw_shallow_water = [&]( const point_bub_ms & from, const point_bub_ms & to ) {
+        std::vector<point_bub_ms> points = line_to( from, to );
+        for( point_bub_ms &p : points ) {
+            for( const point_bub_ms &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -1557,10 +1530,10 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
-    const auto jittered_midpoint = [&]( const point & from, const point & to ) {
+    const auto jittered_midpoint = [&]( const point_bub_ms & from, const point_bub_ms & to ) {
         const int jitter = rl_dist( from, to ) / 4;
-        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
-                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        const point_bub_ms midpoint( ( from.x() + to.x() ) / 2 + rng( -jitter, jitter ),
+                                     ( from.y() + to.y() ) / 2 + rng( -jitter, jitter ) );
         return midpoint;
     };
 
@@ -1568,9 +1541,9 @@ void mapgen_lake_shore( mapgendata &dat )
     // set of line segments by splitting the line into four segments with jittered
     // midpoints, and then draw shallow water for four each of those.
     for( auto &ls : line_segments ) {
-        const point mp1 = jittered_midpoint( ls[0], ls[1] );
-        const point mp2 = jittered_midpoint( ls[0], mp1 );
-        const point mp3 = jittered_midpoint( mp1, ls[1] );
+        const point_bub_ms mp1 = jittered_midpoint( ls[0], ls[1] );
+        const point_bub_ms mp2 = jittered_midpoint( ls[0], mp1 );
+        const point_bub_ms mp3 = jittered_midpoint( mp1, ls[1] );
 
         draw_shallow_water( ls[0], mp2 );
         draw_shallow_water( mp2, mp1 );
@@ -1581,19 +1554,19 @@ void mapgen_lake_shore( mapgendata &dat )
     // Now that we've done our ground mapgen and laid down a contiguous shoreline of shallow water,
     // we'll floodfill the sections adjacent to the lake with deep water. As before, we also clear
     // out any furniture that we placed by the extended mapgen.
-    std::unordered_set<point> visited;
+    std::unordered_set<point_bub_ms> visited;
 
-    const auto should_fill = [&]( const point & p ) {
+    const auto should_fill = [&]( const point_bub_ms & p ) {
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
         return m->ter( p ) != ter_str_id::NULL_ID();
     };
 
-    const auto fill_deep_water = [&]( const point & starting_point ) {
-        std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
-                                          should_fill );
-        for( point &wp : water_points ) {
+    const auto fill_deep_water = [&]( const point_bub_ms & starting_point ) {
+        std::vector<point_bub_ms> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
+                should_fill );
+        for( point_bub_ms &wp : water_points ) {
             m->ter_set( wp, ter_t_water_dp );
             m->furn_set( wp, furn_str_id::NULL_ID() );
         }
@@ -1730,96 +1703,96 @@ void mapgen_ocean_shore( mapgendata &dat )
     const int sector_length = SEEX - 1;
 
     // Define the corners of the map. These won't change.
-    static constexpr point nw_corner{};
-    static constexpr point ne_corner( SEEX * 2 - 1, 0 );
-    static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
-    static constexpr point sw_corner( 0, SEEY * 2 - 1 );
+    static constexpr point_bub_ms nw_corner{};
+    static constexpr point_bub_ms ne_corner( SEEX * 2 - 1, 0 );
+    static constexpr point_bub_ms se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
+    static constexpr point_bub_ms sw_corner( 0, SEEY * 2 - 1 );
 
     // Define the four points that make up our polygon that we'll later pull line segments from for
     // the actual shoreline.
-    point nw = nw_corner;
-    point ne = ne_corner;
-    point se = se_corner;
-    point sw = sw_corner;
+    point_bub_ms nw = nw_corner;
+    point_bub_ms ne = ne_corner;
+    point_bub_ms se = se_corner;
+    point_bub_ms sw = sw_corner;
 
-    std::vector<std::vector<point>> line_segments;
+    std::vector<std::vector<point_bub_ms>> line_segments;
     int ns_direction_adjust = 0;
     int ew_direction_adjust = 0;
     int sand_margin = dat.region.overmap_ocean.sandy_beach_width / 2;
     // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual ocean.
     if( n_ocean ) {
-        nw.y += sector_length;
-        ne.y += sector_length;
+        nw.y() += sector_length;
+        ne.y() += sector_length;
     }
 
     if( s_ocean ) {
-        sw.y -= sector_length;
-        se.y -= sector_length;
+        sw.y() -= sector_length;
+        se.y() -= sector_length;
     }
 
     if( w_ocean ) {
-        nw.x += sector_length;
-        sw.x += sector_length;
+        nw.x() += sector_length;
+        sw.x() += sector_length;
     }
 
     if( e_ocean ) {
-        ne.x -= sector_length;
-        se.x -= sector_length;
+        ne.x() -= sector_length;
+        se.x() -= sector_length;
     }
 
     if( n_river_bank ) {
         if( w_ocean && nw_ocean ) {
-            nw.x += sector_length;
+            nw.x() += sector_length;
         }
 
         if( e_ocean && ne_ocean ) {
-            ne.x -= sector_length;
+            ne.x() -= sector_length;
         }
     }
 
     if( e_river_bank ) {
         if( s_ocean && se_ocean ) {
-            se.y -= sector_length;
+            se.y() -= sector_length;
         }
 
         if( n_ocean && ne_ocean ) {
-            ne.y += sector_length;
+            ne.y() += sector_length;
         }
     }
 
     if( s_river_bank ) {
         if( w_ocean && sw_ocean ) {
-            sw.x += sector_length;
+            sw.x() += sector_length;
         }
 
         if( e_ocean && se_ocean ) {
-            se.x -= sector_length;
+            se.x() -= sector_length;
         }
     }
 
     if( w_river_bank ) {
         if( s_ocean && sw_ocean ) {
-            sw.y -= sector_length;
+            sw.y() -= sector_length;
         }
 
         if( n_ocean && nw_ocean ) {
-            nw.y += sector_length;
+            nw.y() += sector_length;
         }
     }
 
     if( nw_ocean ) {
         if( n_ocean && w_ocean ) {
-            nw.x += sector_length / 2;
-            nw.y += sector_length / 2;
+            nw.x() += sector_length / 2;
+            nw.y() += sector_length / 2;
         } else if( ( n_shore || n_river_bank ) && ( w_shore || w_river_bank ) ) {
-            point n = nw_corner;
-            point w = nw_corner;
+            point_bub_ms n = nw_corner;
+            point_bub_ms w = nw_corner;
 
-            n.x += sector_length * ( n_river_bank ? 2 : 1 );
-            w.y += sector_length * ( w_river_bank ? 2 : 1 );
+            n.x() += sector_length * ( n_river_bank ? 2 : 1 );
+            w.y() += sector_length * ( w_river_bank ? 2 : 1 );
 
-            n.y += n_river_bank ? sector_length / 2 : 0;
-            w.x += w_river_bank ? sector_length / 2 : 0;
+            n.y() += n_river_bank ? sector_length / 2 : 0;
+            w.x() += w_river_bank ? sector_length / 2 : 0;
 
             if( w_river_bank ) {
                 line_segments.push_back( { sw, w } );
@@ -1840,17 +1813,17 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     if( ne_ocean ) {
         if( n_ocean && e_ocean ) {
-            ne.x -= sector_length / 2;
-            ne.y += sector_length / 2;
+            ne.x() -= sector_length / 2;
+            ne.y() += sector_length / 2;
         } else if( ( n_shore || n_river_bank ) && ( e_shore || e_river_bank ) ) {
-            point n = ne_corner;
-            point e = ne_corner;
+            point_bub_ms n = ne_corner;
+            point_bub_ms e = ne_corner;
 
-            n.x -= sector_length * ( n_river_bank ? 2 : 1 );
-            e.y += sector_length * ( e_river_bank ? 2 : 1 );
+            n.x() -= sector_length * ( n_river_bank ? 2 : 1 );
+            e.y() += sector_length * ( e_river_bank ? 2 : 1 );
 
-            n.y += n_river_bank ? sector_length / 2 : 0;
-            e.x -= e_river_bank ? sector_length / 2 : 0;
+            n.y() += n_river_bank ? sector_length / 2 : 0;
+            e.x() -= e_river_bank ? sector_length / 2 : 0;
 
             if( e_river_bank ) {
                 line_segments.push_back( { se, e } );
@@ -1872,17 +1845,17 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     if( sw_ocean ) {
         if( s_ocean && w_ocean ) {
-            sw.x += sector_length / 2;
-            sw.y -= sector_length / 2;
+            sw.x() += sector_length / 2;
+            sw.y() -= sector_length / 2;
         } else if( ( s_shore || s_river_bank ) && ( w_shore || w_river_bank ) ) {
-            point s = sw_corner;
-            point w = sw_corner;
+            point_bub_ms s = sw_corner;
+            point_bub_ms w = sw_corner;
 
-            s.x += sector_length * ( s_river_bank ? 2 : 1 );
-            w.y -= sector_length * ( w_river_bank ? 2 : 1 );
+            s.x() += sector_length * ( s_river_bank ? 2 : 1 );
+            w.y() -= sector_length * ( w_river_bank ? 2 : 1 );
 
-            s.y -= s_river_bank ? sector_length / 2 : 0;
-            w.x += w_river_bank ? sector_length / 2 : 0;
+            s.y() -= s_river_bank ? sector_length / 2 : 0;
+            w.x() += w_river_bank ? sector_length / 2 : 0;
 
             if( w_river_bank ) {
                 line_segments.push_back( { nw, w } );
@@ -1903,17 +1876,17 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     if( se_ocean ) {
         if( s_ocean && e_ocean ) {
-            se.x -= sector_length / 2;
-            se.y -= sector_length / 2;
+            se.x() -= sector_length / 2;
+            se.y() -= sector_length / 2;
         } else if( ( s_shore || s_river_bank ) && ( e_shore || e_river_bank ) ) {
-            point s = se_corner;
-            point e = se_corner;
+            point_bub_ms s = se_corner;
+            point_bub_ms e = se_corner;
 
-            s.x -= sector_length * ( s_river_bank ? 2 : 1 );
-            e.y -= sector_length * ( e_river_bank ? 2 : 1 );
+            s.x() -= sector_length * ( s_river_bank ? 2 : 1 );
+            e.y() -= sector_length * ( e_river_bank ? 2 : 1 );
 
-            s.y -= s_river_bank ? sector_length / 2 : 0;
-            e.x -= e_river_bank ? sector_length / 2 : 0;
+            s.y() -= s_river_bank ? sector_length / 2 : 0;
+            e.x() -= e_river_bank ? sector_length / 2 : 0;
 
             if( e_river_bank ) {
                 line_segments.push_back( { ne, e } );
@@ -1939,49 +1912,49 @@ void mapgen_ocean_shore( mapgendata &dat )
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
 
-    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+    if( nw.y() != nw_corner.y() || ne.y() != ne_corner.y() ) {
         ns_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { nw, ne } );
     }
 
-    if( ne.x != ne_corner.x || se.x != se_corner.x ) {
+    if( ne.x() != ne_corner.x() || se.x() != se_corner.x() ) {
         ew_direction_adjust += sand_margin * 2;
         line_segments.push_back( { ne, se } );
     }
 
-    if( se.y != se_corner.y || sw.y != sw_corner.y ) {
+    if( se.y() != se_corner.y() || sw.y() != sw_corner.y() ) {
         ns_direction_adjust += sand_margin * 2;
         line_segments.push_back( { se, sw } );
     }
 
-    if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
+    if( sw.x() != sw_corner.x() || nw.x() != nw_corner.x() ) {
         ew_direction_adjust -= sand_margin * 2;
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle<point_bub_ms> map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
-    const auto draw_shallow_water = [&]( const point & from, const point & to ) {
-        point from_mod = from;
-        point to_mod = to;
-        if( from.x != 0 && from.x != SEEX * 2 - 1 ) {
-            from_mod.x += ew_direction_adjust;
+    const auto draw_shallow_water = [&]( const point_bub_ms & from, const point_bub_ms & to ) {
+        point_bub_ms from_mod = from;
+        point_bub_ms to_mod = to;
+        if( from.x() != 0 && from.x() != SEEX * 2 - 1 ) {
+            from_mod.x() += ew_direction_adjust;
         }
-        if( from.y != 0 && from.y != SEEX * 2 - 1 ) {
-            from_mod.y += ns_direction_adjust;
+        if( from.y() != 0 && from.y() != SEEX * 2 - 1 ) {
+            from_mod.y() += ns_direction_adjust;
         }
-        if( to.x != 0 && to.x != SEEX * 2 - 1 ) {
-            to_mod.x += ew_direction_adjust;
+        if( to.x() != 0 && to.x() != SEEX * 2 - 1 ) {
+            to_mod.x() += ew_direction_adjust;
         }
-        if( to.y != 0 && to.y != SEEX * 2 - 1 ) {
-            to_mod.y += ns_direction_adjust;
+        if( to.y() != 0 && to.y() != SEEX * 2 - 1 ) {
+            to_mod.y() += ns_direction_adjust;
         }
-        std::vector<point> points = line_to( from_mod, to_mod );
-        for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, sand_margin ) ) {
+        std::vector<point_bub_ms> points = line_to( from_mod, to_mod );
+        for( point_bub_ms &p : points ) {
+            for( const point_bub_ms &bp : closest_points_first( p, sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -1991,10 +1964,10 @@ void mapgen_ocean_shore( mapgendata &dat )
         }
     };
     // This will draw our sandy beach coastline from the "from" point to the "to" point.
-    const auto draw_sand = [&]( const point & from, const point & to ) {
-        std::vector<point> points = line_to( from, to );
-        for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, sand_margin ) ) {
+    const auto draw_sand = [&]( const point_bub_ms & from, const point_bub_ms & to ) {
+        std::vector<point_bub_ms> points = line_to( from, to );
+        for( point_bub_ms &p : points ) {
+            for( const point_bub_ms &bp : closest_points_first( p, sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -2003,7 +1976,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 m->ter_set( bp, ter_str_id::NULL_ID() );
                 m->furn_set( bp, furn_str_id::NULL_ID() );
             }
-            for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
+            for( const point_bub_ms &bp : closest_points_first( p, sand_margin + 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -2016,10 +1989,10 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
-    const auto jittered_midpoint = [&]( const point & from, const point & to ) {
+    const auto jittered_midpoint = [&]( const point_bub_ms & from, const point_bub_ms & to ) {
         const int jitter = rl_dist( from, to ) / 5;
-        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
-                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        const point_bub_ms midpoint( ( from.x() + to.x() ) / 2 + rng( -jitter, jitter ),
+                                     ( from.y() + to.y() ) / 2 + rng( -jitter, jitter ) );
         return midpoint;
     };
 
@@ -2029,9 +2002,9 @@ void mapgen_ocean_shore( mapgendata &dat )
     // Draw water after the sand to make sure we don't get too much sand.  Everyone hates sand,
     // it's coarse and - you know what, never mind.
     for( auto &ls : line_segments ) {
-        const point mp1 = jittered_midpoint( ls[0], ls[1] );
-        const point mp2 = jittered_midpoint( ls[0], mp1 );
-        const point mp3 = jittered_midpoint( mp1, ls[1] );
+        const point_bub_ms mp1 = jittered_midpoint( ls[0], ls[1] );
+        const point_bub_ms mp2 = jittered_midpoint( ls[0], mp1 );
+        const point_bub_ms mp3 = jittered_midpoint( mp1, ls[1] );
 
         draw_shallow_water( ls[0], mp2 );
         draw_shallow_water( mp2, mp1 );
@@ -2046,9 +2019,9 @@ void mapgen_ocean_shore( mapgendata &dat )
     // Now that we've done our ground mapgen and laid down a contiguous shoreline of shallow water,
     // we'll floodfill the sections adjacent to the ocean with deep water. As before, we also clear
     // out any furniture that we placed by the extended mapgen.
-    std::unordered_set<point> visited;
+    std::unordered_set<point_bub_ms> visited;
 
-    const auto should_fill = [&]( const point & p ) {
+    const auto should_fill = [&]( const point_bub_ms & p ) {
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
@@ -2056,10 +2029,10 @@ void mapgen_ocean_shore( mapgendata &dat )
                m->ter( p ) != ter_t_swater_surf;
     };
 
-    const auto fill_deep_water = [&]( const point & starting_point ) {
-        std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
-                                          should_fill );
-        for( point &wp : water_points ) {
+    const auto fill_deep_water = [&]( const point_bub_ms & starting_point ) {
+        std::vector<point_bub_ms> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
+                should_fill );
+        for( point_bub_ms &wp : water_points ) {
             m->ter_set( wp, ter_t_swater_dp );
             m->furn_set( wp, furn_str_id::NULL_ID() );
         }
@@ -2228,7 +2201,7 @@ void mremove_trap( map *m, const tripoint_bub_ms &p, trap_id type )
 void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( p ) ), true );
+        Creature *c = get_creature_tracker().creature_at( m->getglobal( p ), true );
         if( c ) {
             return;
         }
@@ -2239,37 +2212,37 @@ void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creat
 void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
-                      m->get_abs_sub().z() ) ) ), true );
+        Creature *c = get_creature_tracker().creature_at( m->getglobal( tripoint_omt_ms( p.x, p.y,
+                      m->get_abs_sub().z() ) ), true );
         if( c ) {
             return;
         }
     }
-    tripoint actual_location( p, m->get_abs_sub().z() );
+    tripoint_omt_ms actual_location( point_omt_ms( p ), m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }
 
 void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
+    tripoint_bub_ms actual_location( point_bub_ms( p ), m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 
 void mremove_fields( map *m, const tripoint_bub_ms &p )
 {
-    m->clear_fields( p.raw() );
+    m->clear_fields( p );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )
 {
-    for( const tripoint &p : dat.m.points_on_zlevel() ) {
-        const ter_id tid_before = dat.m.ter( p );
-        const ter_id tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
+    for( const tripoint_bub_ms &p : dat.m.points_on_zlevel() ) {
+        const ter_id &tid_before = dat.m.ter( p );
+        const ter_id &tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
         if( tid_after != tid_before ) {
             dat.m.ter_set( p, tid_after );
         }
-        const furn_id fid_before = dat.m.furn( p );
-        const furn_id fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
+        const furn_id &fid_before = dat.m.furn( p );
+        const furn_id &fid_after = dat.region.region_terrain_and_furniture.resolve( fid_before );
         if( fid_after != fid_before ) {
             dat.m.furn_set( p, fid_after );
         }

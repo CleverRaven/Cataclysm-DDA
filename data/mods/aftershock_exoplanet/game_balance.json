@@ -1,15 +1,20 @@
 [
   {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
+    "recurrence": [ "10 days", "11 days" ],
+    "global": true,
+    "effect": [  ]
+  },
+  {
     "type": "EXTERNAL_OPTION",
     "name": "GENERIC_PROFESSION_ID",
-    "info": "The profession selected by default in the character creator menu.",
     "stype": "string_input",
     "value": "afs_rating"
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "GENERIC_SCENARIO_ID",
-    "info": "The scenario selected by default in the character creator menu.",
     "stype": "string_input",
     "value": "escape_pod"
   }
