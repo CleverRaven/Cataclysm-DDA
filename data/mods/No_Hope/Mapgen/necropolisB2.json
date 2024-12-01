@@ -368,7 +368,7 @@
         "|EE|                  |EE|.|/////|..........|---|G  h6   G|..|k6k   a 6k"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
+      "terrain": { "R": "t_open_air" },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "density": 0.25 },
