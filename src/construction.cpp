@@ -124,7 +124,6 @@ static const skill_id skill_fabrication( "fabrication" );
 
 static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
 static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
@@ -1870,7 +1869,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
             get_event_bus().send<event_type::digs_into_lava>();
-            here.ter_set( p, ter_t_hole );
+            here.ter_set( p, ter_t_open_air );
         }
 
         return;

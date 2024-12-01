@@ -10,7 +10,7 @@
       ",": "t_region_groundcover_urban",
       ".": "t_metal_floor_no_roof",
       "=": "t_metal_ventilation_shutter",
-      "`": "t_hole",
+      "`": "t_open_air",
       "w": "t_bridge",
       "~": "t_water_pool_shallow",
       "<": "t_ladder_up",
