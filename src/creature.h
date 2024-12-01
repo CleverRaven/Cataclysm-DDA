@@ -581,7 +581,7 @@ class Creature : public viewer
         }
 
         // Returns if the creature is immune to every given field type.
-        bool is_immune_fields( const std::vector<field_type_id> fields ) const;
+        bool is_immune_fields( std::vector<field_type_id> fields ) const;
 
         // check if the creature is immune to the effect / field based on the immunity data
         virtual bool check_immunity_data( const field_immunity_data & ) const {
