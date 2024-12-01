@@ -214,17 +214,19 @@ tripoint_bub_ms Creature::pos_bub() const
     return get_map().bub_from_abs( location );
 }
 
-void Creature::setpos( const tripoint &p )
+void Creature::setpos( const tripoint &p, const bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = get_location();
     set_pos_only( p );
     on_move( old_loc );
-    gravity_check();
+    if( check_gravity ) {
+        gravity_check();
+    }
 }
 
-void Creature::setpos( const tripoint_bub_ms &p )
+void Creature::setpos( const tripoint_bub_ms &p, const bool check_gravity/* = true*/ )
 {
-    Creature::setpos( p.raw() );
+    Creature::setpos( p.raw(), check_gravity );
 }
 
 bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const

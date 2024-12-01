@@ -12514,10 +12514,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
-    // Upon force movement, traps can not be avoided.
-    if( !wall_cling && ( get_map().is_open_air( u.pos_bub() ) && !u.has_effect( effect_gliding ) ) ) {
-        here.creature_on_trap( u, !force );
-    }
 
     u.recoil = MAX_RECOIL;
 
@@ -13909,7 +13905,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     float weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
     you.mod_moves( -to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult );
-    you.setpos( examp );
+    you.setpos( examp, false );
 
     // Pre-descent message.
     if( !aid.down.msg_before.empty() ) {
@@ -13962,7 +13958,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
         you.mod_thirst( aid.down.cost.thirst );
     }
 
-    // vertical_move with force=true triggers traps (ie, fall) at the end of the move.
+    // vertical_move with force=true triggers traps at the end of the move.
     g->vertical_move( -descended_levels, true );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() ) ) {
