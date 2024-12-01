@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "TALK_FRIEND_Luo", "TALK_FRIEND_Luo_Abilities", "TALK_RADIO" ],
+    "id": [ "TALK_FRIEND_Luo", "TALK_FRIEND_Luo_Abilities" ],
     "type": "talk_topic",
     "dynamic_line": {
       "is_by_radio": " *pshhhttt* Hey stinkyface.  It's your favorite mushroom girl.  Over.",

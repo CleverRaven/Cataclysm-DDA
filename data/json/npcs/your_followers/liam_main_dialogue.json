@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns", "TALK_RADIO" ],
+    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns" ],
     "type": "talk_topic",
     "dynamic_line": {
       "is_by_radio": " *pshhhttt* This is big turtle, I read you loud and clear, red burrito.",
