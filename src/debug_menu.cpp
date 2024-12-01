@@ -3157,7 +3157,7 @@ static void debug_menu_spawn_vehicle()
             if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 4 ) {
                 // TODO: Allow picking this when add_vehicle has 3d argument
                 vehicle *veh = here.add_vehicle(
-                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
+                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1, true, true );
                 if( veh != nullptr ) {
                     here.board_vehicle( dest, &player_character );
                 }
