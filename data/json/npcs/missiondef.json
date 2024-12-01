@@ -970,10 +970,7 @@
     "deadline": { "math": [ "time_between_succession" ] },
     "invisible_on_complete": true,
     "start": {
-      "effect": [
-        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
-        { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
-      ]
+      "effect": [ { "math": [ "u_timer_time_of_last_succession = time('now')" ] }, { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" } ]
     }
   },
   {
@@ -1029,7 +1026,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
-    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession = time(' 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",

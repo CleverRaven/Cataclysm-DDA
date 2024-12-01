@@ -187,65 +187,88 @@ bool map::build_transparency_cache( const int zlev )
             }
         }
     }
-    map_cache.transparency_cache_dirty.reset();
+    //build_vision_transparency_cache copies the transparency_cache so don't reset transparency_cache_dirty until it's resolved
     return true;
 }
 
 bool map::build_vision_transparency_cache( int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
-    cata::mdarray<float, point_bub_ms> &transparency_cache = map_cache.transparency_cache;
-    cata::mdarray<float, point_bub_ms> &vision_transparency_cache = map_cache.vision_transparency_cache;
 
-    Character &player_character = get_player_character();
-    const tripoint_bub_ms p = player_character.pos_bub();
-
-    if( p.z() != zlev ) {
-        // Just copy the transparency cache and be done with it.
-        memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+    // We copy the transparency_cache so we need to recalc if it's dirty
+    if( map_cache.transparency_cache_dirty.none() /*&& map_cache.vision_transparency_cache_dirty.none()*/ ) {
         return false;
     }
 
+    const cata::mdarray<float, point_bub_ms> &transparency_cache = map_cache.transparency_cache;
+    cata::mdarray<float, point_bub_ms> &vision_transparency_cache = map_cache.vision_transparency_cache;
+
+    // TODO: Should only copy if transparency_cache was dirty
+    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
+
+    const Character &player_character = get_player_character();
+    const tripoint_bub_ms p = player_character.pos_bub();
+    const bool is_player_z = p.z() == zlev;
+
     bool dirty = false;
 
-    std::vector<tripoint_bub_ms> solid_tiles;
-
-    // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
-    // If you change this, also consider creature::sees and map::obstacle_coverage.
-    const bool is_crouching = player_character.is_crouching();
-    const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
-                             player_character.is_running();
-    const bool is_prone = player_character.is_prone();
-
-    if( is_crouching || is_prone || low_profile ) {
-        for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
-            if( loc != p && coverage( loc ) >= 30 ) {
-                // If we're crouching or prone behind an obstacle, we can't see past it.
-                dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
-                solid_tiles.emplace_back( loc );
+    if( is_player_z ) {
+        // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
+        // If you change this, also consider creature::sees and map::obstacle_coverage.
+        // TODO: Is fairly nonsense because it changes vision for everyone only (eg if you @ crouch behind the window W then the NPC N and monster M can't see each other bc the window is counted as opaque)
+        // .N.
+        // .@.
+        // #W#
+        // .M.
+        const bool is_crouching = player_character.is_crouching();
+        const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
+                                 player_character.is_running();
+        const bool is_prone = player_character.is_prone();
+        if( is_crouching || is_prone || low_profile ) {
+            for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
+                if( loc != p && coverage( loc ) >= 30 ) {
+                    // If we're crouching or prone behind an obstacle, we can't see past it.
+                    dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
+                    vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
+                }
             }
         }
     }
 
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
-
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
-    // We don't need to deal with cache dirtying, because that was handled when the terrain was changed.
-    for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
-        if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) && loc != p ) {
-            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
+    // Traverse the submaps in order (else map::ter() calls get_submap each time)
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{smx, smy, zlev} );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev );
+                continue;
+            }
+            if( !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
+                continue;
+            }
+            for( int smi = 0; smi < SEEX; smi++ ) {
+                for( int smj = 0; smj < SEEY; smj++ ) {
+                    if( cur_submap->get_ter( point_sm_ms{smi, smj} ).obj().has_flag(
+                            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
+                        const int i = smi + ( smx * SEEX );
+                        const int j = smj + ( smy * SEEY );
+                        dirty |= vision_transparency_cache[i][j] != LIGHT_TRANSPARENCY_SOLID;
+                        vision_transparency_cache[i][j] = LIGHT_TRANSPARENCY_SOLID;
+                    }
+                }
+            }
         }
     }
 
     // The tile player is standing on should always be visible
-    if( inbounds( p ) ) {
+    // Shouldn't this be handled in the player's seen cache instead??
+    if( is_player_z && inbounds( p ) ) {
         vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
     }
 
-    for( const tripoint_bub_ms loc : solid_tiles ) {
-        vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
-    }
-
+    map_cache.transparency_cache_dirty.reset();
     return dirty;
 }
 

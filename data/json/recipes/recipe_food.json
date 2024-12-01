@@ -7455,7 +7455,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "components": [
-      [ [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "autumn_olive", 1 ] ],
       [ [ "salt", 2 ], [ "salt_water", 1 ], [ "saline", 2 ], [ "seasoning_salt", 2 ], [ "soysauce", 1 ] ],
       [ [ "vinegar", 1 ] ]
     ]

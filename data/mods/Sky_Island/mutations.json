@@ -21,7 +21,7 @@
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "mut_skyisland_temperature_adaptation" } },
-    "effect": [ { "math": [ "weather('temperature')", "=", "from_fahrenheit( 70 )" ] } ]
+    "effect": [ { "math": [ "weather('temperature') = from_fahrenheit( 70 )" ] } ]
   },
   {
     "type": "effect_on_condition",

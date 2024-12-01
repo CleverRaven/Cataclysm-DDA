@@ -181,7 +181,7 @@
           "topic": "TALK_DONE",
           "effect": [
             "hostile",
-            { "math": [ "n_hp('head')", "=", "80 - (6 * (u_spell_level('telepathic_blast')))" ] },
+            { "math": [ "n_hp('head') = 80 - (6 * (u_spell_level('telepathic_blast')))" ] },
             { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },

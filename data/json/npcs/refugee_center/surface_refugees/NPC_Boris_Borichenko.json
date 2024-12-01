@@ -387,7 +387,7 @@
       "gendered_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
       "relevant_genders": [ "u" ]
     },
-    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach", "=", "time('now')" ] } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach = time('now')" ] } },
     "responses": [
       { "text": "Great!  Let's get started.", "topic": "TALK_TRAIN" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },

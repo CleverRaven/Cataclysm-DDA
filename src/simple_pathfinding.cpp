@@ -456,8 +456,10 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
                 addr = addr.displace( node.get_prev_dir() );
             }
             ret.points.emplace_back( addr.to_tripoint( source ) );
-            ret.dist += omt_cost_to_cross( 24, direction::CENTER,
-                                           next_node->get_prev_dir() ); // this direction is reversed but that doesn't change the result
+            if( next_node != nullptr ) {
+                ret.dist += omt_cost_to_cross( 24, direction::CENTER,
+                                               next_node->get_prev_dir() ); // this direction is reversed but that doesn't change the result
+            }
             // total path cost is the cost to reach an edge of the final node plus the cost to reach the center of that node
             ret.cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost, direction::CENTER,
                        cur_node.get_prev_dir() );
