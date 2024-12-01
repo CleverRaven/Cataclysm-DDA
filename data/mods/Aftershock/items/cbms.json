@@ -246,7 +246,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "HawkingCorps Mark V Shield CBM" },
-    "description": "Powerful and covert, the Mark V Shield is a military grade shielding system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse engineered from.  A.\n\nActivating the shield will create an energy barrier capable of withstanding a modest amount of melee and ranged damage.",
+    "description": "Powerful and covert, the Mark V Shield is a military-grade shielding system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse-engineered from.  A.\n\nActivating the shield will create an energy barrier capable of withstanding a modest amount of melee and ranged damage.",
     "price": "220 kUSD",
     "price_postapoc": "220 kUSD",
     "difficulty": 10
