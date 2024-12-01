@@ -4188,7 +4188,9 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, float> &enc : mut->encumbrance_multiplier_always ) {
-            total_enc[enc.first] *= enc.second;
+            if( total_enc[enc.first] > 0 ) {
+                total_enc[enc.first] *= enc.second;
+            }
         }
     }
 
