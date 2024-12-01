@@ -1742,8 +1742,8 @@ class vehicle
         // of non-simple parts
         bool is_flyable() const;
         void set_flyable( bool val );
-        // abstracted aircraft is any flying vehicle without a real-world equivalent (for modded content)
-        bool is_abstracted_aircraft() const;
+        // rotorlike aircraft is any flying vehicle that behaves akin to a helicopter without rotors (for modded content)
+        bool is_rotorlike_aircraft() const;
         // Would interacting with this part prevent the vehicle from being flyable?
         bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
         bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
@@ -2267,7 +2267,7 @@ class vehicle
         std::vector<int> loose_parts; // NOLINT(cata-serialize)
         std::vector<int> wheelcache; // NOLINT(cata-serialize)
         std::vector<int> rotors; // NOLINT(cata-serialize)
-        std::vector<int> abstracted_aircraft; // NOLINT(cata-serialize)
+        std::vector<int> rotorlike_aircraft; // NOLINT(cata-serialize)
         std::vector<int> rail_wheelcache; // NOLINT(cata-serialize)
         std::vector<int> steering; // NOLINT(cata-serialize)
         // Intended to be a misc list, but currently only security systems.

@@ -929,7 +929,7 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.is_flying = (driven_veh.is_rotorcraft() || driven_veh.is_abstracted_aircraft()) && driven_veh.is_flying_in_air();
+        data.is_flying = (driven_veh.is_rotorcraft() || driven_veh.is_rotorlike_aircraft()) && driven_veh.is_flying_in_air();
         data.max_speed_tps = std::min(
                                  data.is_flying ? MAX_AIR_SPEED_TPS : MAX_SPEED_TPS,
                                  driven_veh.safe_velocity() / VMIPH_PER_TPS

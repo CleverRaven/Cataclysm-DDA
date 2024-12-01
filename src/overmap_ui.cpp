@@ -1764,7 +1764,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         }
         player_veh = &vp->vehicle();
         // for now we can only handle flyers if already in the air
-        const bool can_fly = ( player_veh->is_rotorcraft() || player_veh->is_abstracted_aircraft() ) &&
+        const bool can_fly = ( player_veh->is_rotorcraft() || player_veh->is_rotorlike_aircraft() ) &&
                              player_veh->is_flying_in_air();
         const bool can_float = player_veh->can_float();
         const bool can_drive = player_veh->valid_wheel_config();

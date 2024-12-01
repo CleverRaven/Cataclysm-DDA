@@ -1605,7 +1605,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 
 Note: Vehicle parts requiring other parts is defined by setting a `requires_flag` field with the flag requirement (i.e. the `ON_ROOF` flag contains the field `"requires_flag": "ROOF"`).
 
-- ```ABSTRACTED_AIRCRAFT``` This vehicle part makes the vehicle an abstracted aircraft (any flying vehicle without real-world equivalent).  It will be able to fly in a manner similar to most of these flying vehicles.
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
 - ```AIRCRAFT_REPAIRABLE_NOPROF``` Allows the player to safely remove part from an aircraft without any proficiency.
 - ```AISLE_LIGHT``` This part lightens up surroundings.
@@ -1703,6 +1702,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```REMOTE_CONTROLS``` Once installed, allows using vehicle through remote controls.
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick.
 - ```ROOF``` Covers a section of the vehicle.  Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside.  Otherwise they're outside.
+- ```ROTORLIKE_AIRCRAFT``` This vehicle part makes the vehicle a rotorlike aircraft (any flying vehicle that flies as if it was an helicopter without rotors).  Having at least one part with this flag allows the vehicle to fly.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part.  Also mops up liquids.
 - ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.  Can only be installed on a part with `BELTABLE` flag.
 - ```SEAT``` A seat where the player can sit or sleep.
