@@ -32,18 +32,20 @@ def main():
           "// NOLINTBEGIN(cata-static-declarations,readability-function-size,"
           "modernize-avoid-c-arrays)\n")
     add_preprocessor()
-    print("static NOINLINE void AddGlyphs( ImFontGlyphRangesBuilder *b, "
+    print("namespace {\n"
+          "NOINLINE void AddGlyphs( ImFontGlyphRangesBuilder *b, "
           "ImWchar const *glyphp, ImWchar const *end) {\n"
           "  NOUNROLL\n"
           "  for( ; glyphp != end; ++glyphp ) {\n"
           "    b->AddChar(*glyphp);\n"
           "  }\n"
-          "}\n")
+          "}\n"
+          "} // namespace")
     try:
         for language in sys.argv[1:]:
             print_func(language)
         print("// NOLINTEND(cata-static-declarations,"
-              "readability-function-size)")
+              "readability-function-size,modernize-avoid-c-arrays)\n")
         return 0
     except KeyError as x:
         print(f"Unknown language code “{x.args[0]}”", file=sys.stderr)
