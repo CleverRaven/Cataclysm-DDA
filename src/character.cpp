@@ -6027,7 +6027,7 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     }
 
     if( amount == 0 ) {
-        add_msg_if_player( _( "%1$s can't to expand to add any more %2$s." ), container->tname(),
+        add_msg_if_player( _( "The %1$s can't expand to fit any more %2$s." ), container->tname(),
                            liquid.tname() );
         return false;
     }
