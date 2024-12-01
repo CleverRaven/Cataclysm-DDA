@@ -11,7 +11,7 @@
 #if defined(__clang__)
 #define NOUNROLL _Pragma("clang loop unroll(disable)")
 #elif defined(__GNUC__)
-#define NOUNROLL #pragma GCC unroll 0
+#define NOUNROLL _Pragma("GCC unroll 0")
 #else
 #define NOUNROLL
 #endif
