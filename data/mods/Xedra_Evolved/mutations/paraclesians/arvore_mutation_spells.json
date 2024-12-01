@@ -771,7 +771,7 @@
     "id": "arvore_summon_grass_field_spell",
     "type": "SPELL",
     "name": { "str": "Commanding the Grasses" },
-    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traversse.",
+    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "VERRBAL", "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
     "max_level": { "math": [ "int_to_level(1)" ] },
