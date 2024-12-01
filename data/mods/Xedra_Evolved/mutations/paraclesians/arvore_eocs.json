@@ -744,6 +744,7 @@
         }
       ]
     },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE" } },
     "effect": [
       {
         "u_roll_remainder": [

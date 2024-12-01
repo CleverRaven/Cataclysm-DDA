@@ -228,6 +228,7 @@
     "id": "EOC_HEDGE_ACTIVITY_LEVEL_BREAKS_INCREASE_HEALING_RATE",
     "recurrence": 1,
     "condition": { "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level') >= 3" ] } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "HEDGE_MAGIC" } },
     "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
   },
   {
