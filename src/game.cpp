@@ -3049,7 +3049,7 @@ void game::death_screen()
     gamemode->game_over();
     Messages::display_messages();
     u.get_avatar_diary()->death_entry();
-    show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+    show_scores_ui();
     disp_NPC_epilogues();
     follower_ids.clear();
     display_faction_epilogues();
