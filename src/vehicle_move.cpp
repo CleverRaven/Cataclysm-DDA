@@ -1908,7 +1908,8 @@ vehicle *vehicle::act_on_map()
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
     bool falling_only = false;
-    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) || !is_rotorlike_aircraft() ) ) {
+    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) ||
+                                  !is_rotorlike_aircraft() ) ) {
         if( !should_fall ) {
             of_turn_carry = of_turn;
             of_turn = 0;
