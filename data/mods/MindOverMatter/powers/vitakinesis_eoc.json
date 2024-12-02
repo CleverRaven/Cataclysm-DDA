@@ -262,12 +262,8 @@
     "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] },
     "effect": [ { "run_eocs": [ "EOC_VITAKIN_SLEEP_SLEEPINESS", "EOC_VITAKIN_SLEEP_DEPRIVATION" ] } ],
     "false_effect": [
-      {
-        "u_message": "You are fully refreshed, and can end your meditations now.",
-        "popup": true,
-        "popup_w_interrupt_query": true,
-        "interrupt_type": "eoc"
-      },
+      { "u_message": "You are fully refreshed, and end your meditations.", "type": "good" },
+      "u_cancel_activity",
       { "u_lose_effect": "effect_vitakin_wakeful_resting" }
     ]
   },
