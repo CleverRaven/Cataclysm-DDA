@@ -5649,6 +5649,8 @@ void effect_on_conditons_actor::load( const JsonObject &obj, const std::string &
 {
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
+    need_worn = obj.get_bool( "need_worn", false );
+    need_wielding = obj.get_bool( "need_wielding", false );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
@@ -5670,6 +5672,14 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint &point ) const
 {
+    if( need_worn && !p->is_worn( it ) ) {
+        p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return std::nullopt;
+    }
+    if( need_wielding && !p->is_wielding( it ) ) {
+        p->add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return std::nullopt;
+    }
     Character *char_ptr = nullptr;
     item_location loc;
     if( p ) {

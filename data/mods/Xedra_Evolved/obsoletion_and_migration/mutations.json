@@ -88,5 +88,11 @@
     "id": "UNDINE_WATER_FORM_CAMOUFLAGE_ON",
     "trait": "UNDINE_WATER_FORM_CAMOUFLAGE",
     "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_ROOTS_SPELL",
+    "trait": "ARVORE_SUMMON_GRASS_FIELD",
+    "//": "remove after 0.I"
   }
 ]

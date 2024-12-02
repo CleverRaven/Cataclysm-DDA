@@ -139,7 +139,9 @@
           "dreamforged_tsurugi_speed",
           "dreamforged_q_staff_exp",
           "dreamforged_armguard_plate_gunslinger",
-          "dreamforged_bed_of_restful_repose"
+          "dreamforged_bed_of_restful_repose",
+          "xedra_dreamsmith_time_trap",
+          "xedra_dreamsmith_time_watch"
         ],
         "type": "recipe",
         "true_eocs": {

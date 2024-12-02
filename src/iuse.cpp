@@ -3085,8 +3085,9 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint &pos,
     map &here = get_map();
     const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
     const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool impassable_fields = here.impassable_field_at( pnt );
     const int max_mining_ability = 70;
-    if( !mineable_furn && !mineable_ter ) {
+    if( ( !mineable_furn && !mineable_ter ) || impassable_fields ) {
         p->add_msg_if_player( m_info, fail );
         if( here.bash_resistance( pnt ) > max_mining_ability ) {
             p->add_msg_if_player( m_info,

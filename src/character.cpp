@@ -297,6 +297,9 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -1231,7 +1234,8 @@ ret_val<void> Character::can_try_dodge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( effect_winded ) || has_effect( effect_fearparalyze ) || is_driving() ) {
+        has_effect( effect_winded ) || has_effect( effect_fearparalyze ) || is_driving() ||
+        has_flag( json_flag_CANNOT_MOVE ) ) {
         add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
         return ret_val<void>::make_failure();
     }
@@ -4188,7 +4192,9 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
 
     for( const trait_id &mut : all_muts ) {
         for( const std::pair<const bodypart_str_id, float> &enc : mut->encumbrance_multiplier_always ) {
-            total_enc[enc.first] *= enc.second;
+            if( total_enc[enc.first] > 0 ) {
+                total_enc[enc.first] *= enc.second;
+            }
         }
     }
 
@@ -5644,6 +5650,9 @@ void Character::toolmod_add( item_location tool, item_location mod )
 
 void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
 {
+    if( has_flag( json_flag_CANNOT_CHANGE_TEMPERATURE ) ) {
+        return;
+    }
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
     const units::temperature_delta diff = ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
@@ -8093,7 +8102,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
 void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
                               const bool bypass_med )
 {
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
+    if( is_dead_state() || has_effect( effect_incorporeal ) ||
+        has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         // don't do any more damage if we're already dead
         // Or if we're debugging and don't want to die
         // Or we are intangible
@@ -8105,8 +8115,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         hurt = body_part_torso;
     }
 
+    int pain = 0;
     if( !hurt->has_flag( json_flag_BIONIC_LIMB ) ) {
-        mod_pain( dam / 2 );
+        pain = mod_pain( dam / 2 );
     }
 
     const bodypart_id &part_to_damage = hurt->main_part;
@@ -8115,10 +8126,12 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     if( source ) {
-        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart,
+                        part_to_damage.id(), pain );
         get_event_bus().send_with_talker( this, source, e );
     } else {
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart,
+                part_to_damage.id(), pain );
     }
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
@@ -8154,7 +8167,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d, const weakpoint_attack &attack )
 {
-    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
+    if( has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
     }
 
@@ -8325,27 +8338,31 @@ void Character::healall( int dam )
 
 void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 {
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ||
-        dam <= 0 ) {
+    if( is_dead_state() || has_effect( effect_incorporeal ) ||
+        dam <= 0 || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return;
     }
 
-    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    int pain = mod_pain( dam );
+
+    std::vector<bodypart_id> body_parts = get_all_body_parts( get_body_part_flags::only_main );
+    for( const bodypart_id &bp : body_parts ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
 
         if( source ) {
-            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart,
+                            bp.id(), pain / body_parts.size() );
             get_event_bus().send_with_talker( this, source == nullptr ? nullptr : source, e );
         } else {
-            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart, bp.id(),
+                    pain / body_parts.size() );
         }
 
     }
 
-    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
-    mod_pain( dam );
     on_hurt( source, disturb );
 }
 
@@ -8741,7 +8758,7 @@ void Character::start_hauling( const std::vector<item_location> &items_to_haul =
     } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ) {
         add_msg( m_info, _( "You cannot haul while in deep water." ) );
         return;
-    } else if( !here.can_put_items( pos_bub() ) ) {
+    } else if( !here.can_put_items( pos_bub() ) || here.impassable_field_at( pos_bub() ) ) {
         add_msg( m_info, _( "You cannot haul items here." ) );
         return;
     }
@@ -10579,7 +10596,8 @@ void Character::echo_pulse()
                 }
             }
             // It's not moving. Must be an obstacle
-            if( critter->has_flag( mon_flag_IMMOBILE ) ) {
+            if( critter->has_flag( mon_flag_IMMOBILE ) ||
+                critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
                 echo_string = _( "click." );
             }
             sounds::sound( origin, echo_volume, sounds::sound_t::sensory, _( echo_string ), false,
@@ -12363,8 +12381,8 @@ int Character::get_lift_assist() const
 
 bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
 {
-    if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ||
-        has_effect( effect_incorporeal ) ) {
+    if( is_immune_damage( dam.type ) ||
+        has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return true;
     }
 
@@ -12375,12 +12393,12 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
     return dam.amount <= 0;
 }
 
-void Character::mod_pain( int npain )
+int Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
         double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
         if( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) ) {
-            return;
+            return 0;
         }
         // if there is a positive multiplier we always want to add at least 1 pain
         if( mult > 0 ) {
@@ -12395,6 +12413,7 @@ void Character::mod_pain( int npain )
         npain = std::max( 0, npain );
     }
     Creature::mod_pain( npain );
+    return npain;
 }
 
 void Character::set_pain( int npain )
