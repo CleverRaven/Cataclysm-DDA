@@ -474,7 +474,8 @@
       { "type": "COMPONENT_ID", "condition": "hazelnut_shelled", "name": { "str_sp": "hazelnut butter" } },
       { "type": "COMPONENT_ID", "condition": "walnut_shelled", "name": { "str_sp": "walnut butter" } },
       { "type": "COMPONENT_ID", "condition": "butternut_shelled", "name": { "str_sp": "butternut butter" } },
-      { "type": "COMPONENT_ID", "condition": "acorns", "name": { "str_sp": "acorn butter" } }
+      { "type": "COMPONENT_ID", "condition": "acorns", "name": { "str_sp": "acorn butter" } },
+      { "type": "COMPONENT_ID", "condition": "soy_nuts", "name": { "str_sp": "soy nut butter" } }
     ],
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
     "price": "1 USD 95 cent",
