@@ -258,6 +258,7 @@
     "effect": [  ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_MONSTER_MAINTAINING_PSI_POWER",
     "condition": {
       "or": [
