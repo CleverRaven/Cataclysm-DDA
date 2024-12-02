@@ -4626,8 +4626,8 @@ bool vehicle::has_sufficient_rotorlift() const
 bool vehicle::is_rotorlike_aircraft() const
 {
     // checks if the aircraft is a helicopter or works like one
-    return (!rotorlike_aircraft.empty() && has_driver() || !rotors.empty() && has_driver() &&
-        has_sufficient_rotorlift() );
+    return ( ( !rotorlike_aircraft.empty() && has_driver() ) || ( !rotors.empty() && has_driver() &&
+             has_sufficient_rotorlift() ) );
 }
 
 bool vehicle::is_rotorcraft() const
