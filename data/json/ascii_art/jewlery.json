@@ -49,15 +49,6 @@
   },
   {
    "type": "ascii_art",
-   "id": "altered_necklace",
-   "picture": [
-   "  .--.    ",
-   "  `-. ;   ",
-   "     ♥    "
-  ]
-  },
-  {
-   "type": "ascii_art",
    "id": "ruby_silver_pendant_necklace",
    "picture": [
    "  .--.   ",
