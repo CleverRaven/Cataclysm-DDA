@@ -1179,9 +1179,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_seedbearer_available",
+    "name": [ "Seed-Bearer" ],
+    "desc": [ "You can bring forth a fine bunch of seeds, ready for planting." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_seedbearer_cooldown",
+    "//": "Hidden effect, used as a cooldown",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "arvore_perennial_rebirth_cooldown",
     "name": [ "Reborn" ],
-    "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+    "desc": [ "You were reborn and your soul and new body are still finding their balance." ]
   },
   {
     "type": "effect_type",

@@ -180,6 +180,10 @@
     "ugliness": 0,
     "description": "Arvore with this ability have a seed pocket on their body that over time fills with a set of from this region of the world.  Each time new seeds appear they will all be of the same type, but the types will vary at random.",
     "category": [ "ARVORE" ],
+    "active": true,
+    "mana": true,
+    "cost": 500,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_ARVORE_SEED_BEARER_activated" ],
     "//": "This is currently character creation only, ideally there will be ways to get this later in game."
   },
@@ -426,7 +430,7 @@
     "time": 120,
     "mana": true,
     "cost": 1,
-    "activation_msg": "Your skin itches",
+    "activation_msg": "Your skin itches.",
     "activated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_ON" ],
     "deactivated_eocs": [ "EOC_ARVORE_TOXIC_FLESH_OFF" ]
   },
