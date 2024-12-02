@@ -5169,6 +5169,16 @@ talk_effect_fun_t::func f_die( bool is_npc )
     };
 }
 
+talk_effect_fun_t::func f_cancel_activity( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->cancel_activity();
+        }
+    };
+}
+
 talk_effect_fun_t::func f_prevent_death( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -7426,6 +7436,17 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         set_effect( talk_effect_fun_t( talk_effect_fun::f_die( true ) ) );
         return;
     }
+
+    if( effect_id == "u_cancel_activity" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_cancel_activity( false ) ) );
+        return;
+    }
+
+    if( effect_id == "npc_cancel_activity" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_cancel_activity( true ) ) );
+        return;
+    }
+
 
     if( effect_id == "u_prevent_death" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_prevent_death( false ) ) );

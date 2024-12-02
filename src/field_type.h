@@ -222,6 +222,7 @@ struct field_type {
         bool display_items = true;
         bool display_field = false;
         bool legacy_make_rubble = false;
+        bool linear_half_life = false;
         field_type_str_id wandering_field;
         std::string looks_like;
 

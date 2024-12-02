@@ -2712,5 +2712,58 @@
         "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_freeze",
+    "name": [ "Frozen in Time" ],
+    "desc": [ "You are completely frozen in time." ],
+    "remove_message": "Everything is suddenly different.",
+    "rating": "neutral",
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE", "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_stabilize_reality",
+    "name": [ "Stabilized Reality" ],
+    "desc": [ "You are anchored in normal reality." ],
+    "remove_message": "You feel much more vulnerable.",
+    "rating": "good",
+    "flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_dreamer_generate_accelerated_time",
+    "name": [ "Accelerated Time Emission" ],
+    "desc": [ "You continuously generate fields of short-lived accelerated time." ],
+    "enchantments": [ { "emitter": "xedra_dreamer_emit_accelerated_time" } ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_dreamer_accelerated_time",
+    "name": [ "Time Accelerated" ],
+    "desc": [ "Your local time is far accelerated to the baseline, allowing you to act much quicker." ],
+    "remove_message": "Everything seems much quicker.",
+    "rating": "good",
+    "max_intensity": 1,
+    "max_duration": "2 seconds",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_erosion",
+    "name": [ "Erosion" ],
+    "desc": [ "You maintain a field of unstable time around you.  When you attack targets in melee they will degrade over time." ],
+    "remove_message": "Your field of unstable time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
   }
 ]
