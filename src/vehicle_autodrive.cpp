@@ -1141,7 +1141,7 @@ void vehicle::autodrive_controller::check_safe_speed()
     // However, sometimes the vehicle's safe speed may drop (e.g. amphibious vehicle entering
     // water), so this extra check is needed to adjust our max speed.
     int safe_speed_tps = driven_veh.safe_velocity() / VMIPH_PER_TPS;
-    if ( data.max_speed_tps > safe_speed_tps ); {
+    if( data.max_speed_tps > safe_speed_tps ) {
         data.max_speed_tps = safe_speed_tps;
     }
 }
