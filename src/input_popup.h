@@ -18,7 +18,7 @@ struct callback_input {
                     std::optional<translation> description = std::nullopt ) : action( action ), key( key ),
         description( std::move( description ) ) {};
     explicit callback_input( const std::string &action,
-                    std::optional<translation> description = std::nullopt ) : action( action ),
+                             std::optional<translation> description = std::nullopt ) : action( action ),
         description( std::move( description ) ) {};
     explicit callback_input( int key,
                              std::optional<translation> description = std::nullopt ) : key( key ),
@@ -34,13 +34,14 @@ class input_popup : public cataimgui::window
 {
     public:
         explicit input_popup( int width, const std::string &title = "", const point &pos = point::min,
-                     ImGuiWindowFlags flags = ImGuiWindowFlags_None );
+                              ImGuiWindowFlags flags = ImGuiWindowFlags_None );
 
         // todo: monofont is a hack for easy support of old descriptions and should be replaced by a more universal solution
         void set_description( const std::string &desc, const nc_color &default_color = c_green,
                               bool monofont = false );
         void set_label( const std::string &label, const nc_color &default_color = c_light_red );
         void set_max_input_length( int length );
+        int get_max_input_length() const;
         void add_callback( const callback_input &input, const std::function<bool()> &callback_func );
         bool cancelled() const;
 
@@ -73,8 +74,8 @@ class string_input_popup_imgui : public input_popup
 {
     public:
         explicit string_input_popup_imgui( int width, const std::string &old_input = "",
-                                  const std::string &title = "", const point &pos = point::min,
-                                  ImGuiWindowFlags flags = ImGuiWindowFlags_None );
+                                           const std::string &title = "", const point &pos = point::min,
+                                           ImGuiWindowFlags flags = ImGuiWindowFlags_None );
 
         std::string query();
         void set_identifier( const std::string &ident );
@@ -102,7 +103,7 @@ class number_input_popup : public input_popup
 {
     public:
         explicit number_input_popup( int width, T old_value = 0, const std::string &title = "",
-                            const point &pos = point::min, ImGuiWindowFlags flags = ImGuiWindowFlags_None );
+                                     const point &pos = point::min, ImGuiWindowFlags flags = ImGuiWindowFlags_None );
         T query();
         void set_step_size( std::optional<T> step, std::optional<T> fast_step );
     protected:

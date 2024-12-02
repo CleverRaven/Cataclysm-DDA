@@ -42,6 +42,11 @@ void input_popup::set_max_input_length( int length )
     max_input_length = length;
 }
 
+int input_popup::get_max_input_length() const
+{
+    return max_input_length;
+}
+
 static void register_input( input_context &ctxt, const callback_input &input )
 {
     if( input.description ) {
@@ -142,7 +147,13 @@ string_input_popup_imgui::string_input_popup_imgui( int width, const std::string
     ctxt.register_action( "HISTORY_UP" );
 }
 
-static int history_callback( ImGuiInputTextCallbackData *data )
+static void set_text( ImGuiInputTextCallbackData *data, const std::string &text )
+{
+    data->DeleteChars( 0, data->BufTextLen );
+    data->InsertChars( 0, text.c_str() );
+}
+
+static int input_callback( ImGuiInputTextCallbackData *data )
 {
     string_input_popup_imgui *popup = static_cast<string_input_popup_imgui *>( data->UserData );
 
@@ -150,29 +161,37 @@ static int history_callback( ImGuiInputTextCallbackData *data )
         popup->update_input_history( data );
     }
 
+    if( data->EventFlag == ImGuiInputTextFlags_CallbackEdit ) {
+        int max = popup->get_max_input_length();
+        if( max > 0 && data->BufTextLen > max ) {
+            data->BufTextLen = max;
+            data->SelectionStart = data->BufTextLen;
+            data->SelectionEnd = data->BufTextLen;
+            data->CursorPos = data->BufTextLen;
+            data->BufDirty = true;
+        }
+    }
+
     return 0;
 }
 
 void string_input_popup_imgui::draw_input_control()
 {
-    ImGuiInputTextCallback callback = nullptr;
-    void *data = nullptr;
-    ImGuiInputTextFlags flags = ImGuiInputTextFlags_None;
+    ImGuiInputTextFlags flags = ImGuiInputTextFlags_CallbackEdit;
 
     if( !is_uilist_history ) {
-        callback = history_callback;
-        data = this;
         flags |= ImGuiInputTextFlags_CallbackHistory;
     }
 
     // shrink width of input field if we only allow short inputs
+    // todo: use full available width for unrestricted inputs in wider windows
     float input_width = str_width_to_pixels( max_input_length + 1 );
-    if( input_width > 0 && input_width < ImGui::CalcItemWidth() ) {
+    if( max_input_length > 0 && input_width < ImGui::CalcItemWidth() ) {
         ImGui::SetNextItemWidth( input_width );
     }
 
     std::string input_label = "##string_input_" + label;
-    ImGui::InputText( input_label.c_str(), &text, flags, callback, data );
+    ImGui::InputText( input_label.c_str(), &text, flags, input_callback, this );
 }
 
 void string_input_popup_imgui::set_identifier( const std::string &ident )
@@ -223,12 +242,6 @@ void string_input_popup_imgui::show_history()
             }
         } while( !finished );
     }
-}
-
-static void set_text( ImGuiInputTextCallbackData *data, const std::string &text )
-{
-    data->DeleteChars( 0, data->BufTextLen );
-    data->InsertChars( 0, text.c_str() );
 }
 
 void string_input_popup_imgui::update_input_history( ImGuiInputTextCallbackData *data )
