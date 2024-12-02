@@ -9043,7 +9043,8 @@
         [ "hazelnut_shelled", 3 ],
         [ "walnut_shelled", 3 ],
         [ "butternut_shelled", 3 ],
-        [ "acorns", 3 ]
+        [ "acorns", 3 ],
+        [ "soy_nuts", 3 ]
       ],
       [ [ "sugar_standard", 2, "LIST" ] ]
     ]
