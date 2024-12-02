@@ -18,7 +18,7 @@ def add_preprocessor():
           "#if defined(__clang__)\n"
           "#define NOUNROLL _Pragma(\"clang loop unroll(disable)\")\n"
           "#elif defined(__GNUC__)\n"
-          "#define NOUNROLL #pragma GCC unroll 0\n"
+          "#define NOUNROLL _Pragma(\"GCC unroll 0\")\n"
           "#else\n"
           "#define NOUNROLL\n"
           "#endif\n")

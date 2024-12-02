@@ -280,6 +280,7 @@ static const efftype_id effect_winded( "winded" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
@@ -3049,7 +3050,7 @@ void game::death_screen()
     gamemode->game_over();
     Messages::display_messages();
     u.get_avatar_diary()->death_entry();
-    show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+    show_scores_ui();
     disp_NPC_epilogues();
     follower_ids.clear();
     display_faction_epilogues();
@@ -10674,7 +10675,11 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         u.grab( object_type::NONE );
     }
 
-    if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
+    const std::vector<field_type_id> impassable_field_ids = m.get_impassable_field_type_ids_at(
+                dest_loc );
+
+    if( ( !m.passable_skip_fields( dest_loc ) || ( !impassable_field_ids.empty() &&
+            !u.is_immune_fields( impassable_field_ids ) ) ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) &&
             vp_there->vehicle().handle_potential_theft( u ) ) {
             tripoint_rel_ms diff = dest_loc - u.pos_bub();
@@ -10741,7 +10746,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
     const int mcost = m.combined_movecost( u.pos_bub(), tripoint_bub_ms( dest_loc ), grabbed_vehicle,
                                            modifier,
-                                           via_ramp );
+                                           via_ramp, false, !impassable_field_ids.empty() && u.is_immune_fields( impassable_field_ids ) );
 
     if( !furniture_move && grabbed_move( dest_loc - u.pos_bub(), via_ramp ) ) {
         return true;
@@ -11893,6 +11898,11 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return false;
     }
 
+    if( c->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+        // cannot fling creatures that cannot move.
+        return false;
+    }
+
     // Target creature shouldn't be grabbed if thrown
     // It should also not be thrown if the throw is weaker than the grab
     for( const effect &eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
@@ -12108,6 +12118,10 @@ static std::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
 
 void game::vertical_move( int movez, bool force, bool peeking )
 {
+    if( u.has_flag( json_flag_CANNOT_MOVE ) ) {
+        return;
+    }
+
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
         if( mons->has_flag( mon_flag_RIDEABLE_MECH ) ) {

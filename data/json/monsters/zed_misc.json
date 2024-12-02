@@ -390,7 +390,7 @@
     "copy-from": "mon_zombie_base",
     "diff": 5,
     "volume": "875 L",
-    "weight": "200 kg",
+    "weight": "1000 kg",
     "hp": 480,
     "speed": 130,
     "color": "white_magenta",

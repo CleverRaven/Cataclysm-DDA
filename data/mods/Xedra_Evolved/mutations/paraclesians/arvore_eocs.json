@@ -286,7 +286,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SEED_BEARER",
+    "id": "EOC_ARVORE_SEED_BEARER_activated",
     "condition": {
       "and": [
         "u_is_outside",
@@ -294,8 +294,53 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_spawn_item": "farming_seeds", "count": 1, "use_item_group": true } ],
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_effect": "effect_arvore_seedbearer_cooldown" } }, { "not": { "is_season": "winter" } } ] },
+        "then": [
+          { "u_lose_effect": "effect_arvore_seedbearer_available" },
+          { "u_message": "You bring forth seeds.", "type": "good" },
+          {
+            "math": [ "u_arvore_seedbearer_iterations", "=", "1 + ( u_sum_traits_of_category_char_has('ARVORE') / 5)" ]
+          },
+          {
+            "run_eocs": "EOC_ARVORE_SEED_BEARER_GIVE_SEEDS",
+            "iterations": { "math": [ "u_arvore_seedbearer_iterations" ] }
+          },
+          { "u_add_effect": "effect_arvore_seedbearer_cooldown", "duration": { "math": [ "432000 + rand(432000)" ] } }
+        ],
+        "else": {
+          "if": { "is_season": "winter" },
+          "then": { "u_message": "Your seeds slumber and dream of spring.", "type": "mixed" },
+          "else": [ { "u_message": "You need more time before you can summon seeds again.", "type": "bad" } ]
+        }
+      }
+    ],
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth regional seeds.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_GIVE_SEEDS",
+    "effect": { "u_spawn_item": "farming_seeds", "use_item_group": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_arvore_seedbearer_cooldown", { "context_val": "effect" } ] },
+    "effect": {
+      "if": { "is_season": "winter" },
+      "then": { "run_eocs": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER", "time_in_future": "24 hours" },
+      "else": { "u_add_effect": "effect_arvore_seedbearer_available", "duration": "PERMANENT" }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER",
+    "condition": { "is_season": "winter" },
+    "effect": { "run_eocs": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER", "time_in_future": "24 hours" },
+    "false_effect": { "u_add_effect": "effect_arvore_seedbearer_available", "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
