@@ -9030,22 +9030,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
     "components": [
-      [
-        [ "peanut_shelled", 3],
-        [ "pine_nuts", 6 ],
-        [ "pecan_shelled", 3 ],
-        [ "cashews", 3 ],
-        [ "pistachio_shelled", 3 ],
-        [ "almond_shelled", 3 ],
-        [ "beech_nuts", 3 ],
-        [ "hickory_nut_shelled", 3 ],
-        [ "chestnut_shelled", 3 ],
-        [ "hazelnut_shelled", 3 ],
-        [ "walnut_shelled", 3 ],
-        [ "butternut_shelled", 3 ],
-        [ "acorns", 3 ],
-        [ "soy_nuts", 3 ]
-      ],
+      [ [ "any_nut", 3, "LIST" ] ],
       [ [ "sugar_standard", 2, "LIST" ] ]
     ]
   },
