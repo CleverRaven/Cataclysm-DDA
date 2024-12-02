@@ -6595,7 +6595,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
         }
-        if( vpi.has_flag(VPFLAG_ROTOR) || vpi.has_flag( VPFLAG_ROTORLIKE_AIRCRAFT ) ) {
+        if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTORLIKE_AIRCRAFT ) ) {
             rotorlike_aircraft.push_back( p );
         }
         if( vp.part().is_battery() ) {
