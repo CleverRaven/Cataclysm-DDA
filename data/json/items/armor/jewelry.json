@@ -3685,6 +3685,7 @@
     "type": "ARMOR",
     "name": { "str": "opal and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an opal pendant.",
+    "ascii_picture": "opal_silver_pendant_necklace",
     "color": "white"
   },
   {
