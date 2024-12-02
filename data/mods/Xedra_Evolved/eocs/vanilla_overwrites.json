@@ -14,7 +14,7 @@
     "effect": [
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "dream_counter", "=", "1" ] },
+      { "math": [ "dream_counter = 1" ] },
       { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   },
@@ -74,7 +74,7 @@
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
     "effect": [
-      { "math": [ "Shadow_Lurking", "=", "1" ] },
+      { "math": [ "Shadow_Lurking = 1" ] },
       { "u_add_effect": "blind_no_msg", "duration": "0 second" },
       { "remove_active_mission": "MISSION_KILL_SHADOW" },
       { "u_message": "The wind laughs through the night", "type": "bad" },

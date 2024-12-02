@@ -75,7 +75,7 @@
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
           "effect": [
-            { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
+            { "math": [ "n_time_survivors_wait = time('now')" ] },
             { "mapgen_update": "lighthouse_man_survivor", "om_terrain": "lighthouse_ground" }
           ]
         },
@@ -353,7 +353,7 @@
       "effect": [
         "follow_only",
         { "npc_first_topic": "TALK_lighthouse_man_cleaning" },
-        { "math": [ "n_count_cleaning_lighthouse_man", "=", "0" ] }
+        { "math": [ "n_count_cleaning_lighthouse_man = 0" ] }
       ]
     },
     "end": {
@@ -464,7 +464,7 @@
         "place_terrain": [ { "ter": "t_floor_olight", "x": 11, "y": 12 }, { "ter": "t_floor_olight", "x": 13, "y": 13 } ]
       },
       "effect": [
-        { "math": [ "n_time_survivors_wait", "=", "time('now')" ] },
+        { "math": [ "n_time_survivors_wait = time('now')" ] },
         { "u_add_var": "global_safe_space_lighthouse_fixed", "value": "yes" }
       ]
     },

@@ -152,7 +152,7 @@
               { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
               { "u_remove_item_with": "stormwrought_blood_itert" },
               { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
-              { "math": [ "u_stormwrought_blood_charge", "=", "0" ] }
+              { "math": [ "u_stormwrought_blood_charge = 0" ] }
             ],
             "false_effect": [
               {
@@ -290,7 +290,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MINIMUM_TIME_ASLEEP",
     "condition": { "math": [ "u_val('sleepiness') <= 100" ] },
-    "effect": [ { "math": [ "u_val('sleepiness')", "=", "100" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness') = 100" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -331,5 +331,63 @@
     "required_event": "character_wakes_up",
     "condition": { "u_has_effect": "effect_sleep_shield" },
     "effect": [ { "u_lose_effect": "effect_sleep_shield" }, { "u_teleport": { "u_val": "SLEEP_SHIELD_location" }, "force": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TRACK_LAST_HIT",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "//": "This value is intended to be used for time magic related powers.  It will get reset by their use, and should not be used for general purpose information.",
+    "effect": [
+      { "math": [ "u_xedra_last_damage_taken=_damage" ] },
+      { "math": [ "u_xedra_last_pain_taken=_pain" ] },
+      {
+        "set_string_var": { "context_val": "bodypart" },
+        "target_var": { "u_val": "xedra_last_damage_taken_bodypart" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_xedra_time_freeze_character_start_activity",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
+    "//": "Activity duration doesn't truly align with time stops potentially lasting indefinitely, but players should never be time stopped longer than a day or two anyways so 200 days should be good enough.  If truly important making the activity based on neither rather than time and adding a blank do_turn function should allow >200 day durations",
+    "effect": [
+      { "u_assign_activity": "act_xedra_time_freeze", "duration": "200 days" },
+      { "math": [ "u_pain_before_time_freeze", "=", "u_pain()" ] },
+      { "math": [ "u_kcal_before_time_freeze", "=", "u_calories()" ] },
+      { "math": [ "u_thirst_before_time_freeze", "=", "u_val('thirst')" ] },
+      { "math": [ "u_blood_before_time_freeze", "=", "u_vitamin('blood')" ] },
+      { "math": [ "u_redcells_before_time_freeze", "=", "u_vitamin('redcells')" ] },
+      { "math": [ "u_rad_before_time_freeze", "=", "u_val('rad')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_xedra_time_freeze_character_end_activity",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_freeze", { "context_val": "effect" } ] },
+    "effect": [
+      "u_cancel_activity",
+      { "math": [ "u_pain()", "=", "u_pain_before_time_freeze" ] },
+      { "math": [ "u_calories()", "=", "u_kcal_before_time_freeze" ] },
+      { "math": [ "u_val('thirst')", "=", "u_thirst_before_time_freeze" ] },
+      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_time_freeze" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "u_redcells_before_time_freeze" ] },
+      { "math": [ "u_val('rad')", "=", "u_rad_before_time_freeze" ] }
+    ]
+  },
+  {
+    "id": "act_xedra_time_freeze",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "frozen in time",
+    "based_on": "time",
+    "interruptable": false,
+    "interruptable_with_kb": false,
+    "can_resume": false
   }
 ]

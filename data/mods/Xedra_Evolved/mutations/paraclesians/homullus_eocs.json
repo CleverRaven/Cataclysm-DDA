@@ -17,8 +17,8 @@
                 { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
               ]
             },
-            "effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_homullus_is_in_civilization = 1" ] } ],
+            "false_effect": [ { "math": [ "u_homullus_is_in_civilization = 0" ] } ]
           }
         ]
       }
@@ -150,6 +150,7 @@
     "id": "EOC_HOMULLUS_GAIN_BIONIC_POWER_IN_CITIES",
     "recurrence": "30 seconds",
     "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } },
     "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
   },
   {
@@ -191,7 +192,7 @@
     "recurrence": "10 m",
     "condition": { "u_has_trait": "HOMULLUS_NO_DOLL_MUTATIONS" },
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS_NO_DOLL_MUTATIONS" } },
-    "effect": [ { "math": [ "u_vitamin('mutagen_dollkin')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_vitamin('mutagen_dollkin') = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -219,6 +220,7 @@
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER",
     "recurrence": "1 s",
     "condition": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } },
     "effect": [
       {
         "run_eocs": {
@@ -243,7 +245,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_RESETTER",
     "condition": { "math": [ "u_monsters_nearby('radius': 45, 'attitude': 'both') == 0" ] },
-    "effect": [ { "math": [ "u_doll_form_movement", "=", "0" ] }, { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
+    "effect": [ { "math": [ "u_doll_form_movement = 0" ] }, { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
   },
   {
     "type": "effect_on_condition",

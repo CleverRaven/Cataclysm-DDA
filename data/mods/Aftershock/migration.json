@@ -10,6 +10,21 @@
     "replace": "quilt_patchwork"
   },
   {
+    "id": [ "exo_forcefield" ],
+    "type": "MIGRATION",
+    "replace": "afs_backpack_shieldgen"
+  },
+  {
+    "id": [ "exo_forcefield_bash_cut" ],
+    "type": "MIGRATION",
+    "replace": "afs_backpack_shieldgen"
+  },
+  {
+    "id": [ "exo_forcefield_ballistic_pierce" ],
+    "type": "MIGRATION",
+    "replace": "afs_backpack_shieldgen"
+  },
+  {
     "id": [ "bio_trickle" ],
     "type": "MIGRATION",
     "//": "obsoleted from base game as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/70989",

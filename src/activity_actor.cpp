@@ -7292,7 +7292,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, fac_id ) ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
-                !here.can_put_items_ter_furn( src_loc ) ) {
+                !here.can_put_items_ter_furn( src_loc ) || here.impassable_field_at( src_loc ) ) {
                 continue;
             }
 

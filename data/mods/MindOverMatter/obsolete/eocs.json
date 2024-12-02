@@ -5,7 +5,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": { "math": [ "u_has_headblind_pr_set != 1" ] },
-    "effect": [ { "math": [ "u_has_headblind_pr_set", "=", "1" ] }, { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_has_headblind_pr_set = 1" ] }, { "math": [ "u_has_initial_awakening_countup_set = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -14,15 +14,15 @@
     "required_event": "game_load",
     "condition": { "math": [ "global_updated_power_learning_variables != 1" ] },
     "effect": [
-      { "math": [ "global_insight_power_learning_time_low", "=", "43200" ] },
-      { "math": [ "global_insight_power_learning_time_high", "=", "604800" ] },
-      { "math": [ "global_tier_one_power_learning_time_low", "=", "43200" ] },
-      { "math": [ "global_tier_one_power_learning_time_high", "=", "86400" ] },
-      { "math": [ "global_tier_two_power_learning_time_low", "=", "129600" ] },
-      { "math": [ "global_tier_two_power_learning_time_high", "=", "259200" ] },
-      { "math": [ "global_tier_three_power_learning_time_low", "=", "345600" ] },
-      { "math": [ "global_tier_three_power_learning_time_high", "=", "604800" ] },
-      { "math": [ "global_updated_power_learning_variables", "=", "1" ] }
+      { "math": [ "global_insight_power_learning_time_low = 43200" ] },
+      { "math": [ "global_insight_power_learning_time_high = 604800" ] },
+      { "math": [ "global_tier_one_power_learning_time_low = 43200" ] },
+      { "math": [ "global_tier_one_power_learning_time_high = 86400" ] },
+      { "math": [ "global_tier_two_power_learning_time_low = 129600" ] },
+      { "math": [ "global_tier_two_power_learning_time_high = 259200" ] },
+      { "math": [ "global_tier_three_power_learning_time_low = 345600" ] },
+      { "math": [ "global_tier_three_power_learning_time_high = 604800" ] },
+      { "math": [ "global_updated_power_learning_variables = 1" ] }
     ]
   },
   {

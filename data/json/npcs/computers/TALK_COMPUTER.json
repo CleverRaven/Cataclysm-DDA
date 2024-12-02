@@ -46,7 +46,7 @@
         "condition": { "math": [ "find_refugee_center != 1" ] },
         "text": "Make a note of the location.",
         "topic": "COMP_REFUGEE_CENTER_MAIN",
-        "effect": [ { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }, { "math": [ "find_refugee_center", "=", "1" ] } ]
+        "effect": [ { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" }, { "math": [ "find_refugee_center = 1" ] } ]
       },
       {
         "condition": { "math": [ "find_refugee_center == 1" ] },

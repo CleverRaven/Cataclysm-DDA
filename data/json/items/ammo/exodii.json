@@ -208,5 +208,31 @@
     "description": "A long 27.3 Diyua cartridge loaded with a propelling charge, attached to a large high explosive shaped charge grenade several times larger in diameter.  It was designed to be muzzle loaded into 27.3x44 Diyua guns.  Though the grenade's penetration and fragmentation were ultimately deemed insufficient, this was of no matter to the Exodii who saw value in the explosive potential the grenade added to the Brogyeki '23.",
     "damage": { "damage_type": "bullet", "amount": 220, "armor_penetration": 35 },
     "effects": [ "COOKOFF", "EXPLOSIVE_m433" ]
+  },
+  {
+    "id": "33naval_ball",
+    "type": "AMMO",
+    "name": { "str_sp": "3.3 naval, FMJ" },
+    "description": "Initially made for marine combat, this hefty projectile is a go-to round for late-stage Exodii fights.",
+    "//": "secretly just 23x152mm; 236 x 33 mm of size",
+    "weight": "450 g",
+    "volume": "201 ml",
+    "longest_side": "236 mm",
+    "price": "22 USD",
+    "price_postapoc": "25 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "steel", "brass", "lead", "powder" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 1,
+    "stack_size": 1,
+    "ammo_type": "33naval",
+    "casing": "33_naval_casing",
+    "range": 150,
+    "//2": "it has 90 kj of muzzle energy, but i just scaled .50 bmg stats.  TODO",
+    "damage": { "damage_type": "bullet", "amount": 589, "armor_penetration": 126 },
+    "dispersion": 150,
+    "recoil": 88917,
+    "effects": [ "COOKOFF" ]
   }
 ]

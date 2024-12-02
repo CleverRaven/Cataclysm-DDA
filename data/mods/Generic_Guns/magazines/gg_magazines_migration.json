@@ -359,6 +359,16 @@
     "replace": "rifle_sniper_mag_foreign"
   },
   {
+    "id": [ "ree_33_4_mag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_mag_cannon"
+  },
+  {
+    "id": [ "ree_33_53_mag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_mag_cannon_big"
+  },
+  {
     "id": [ "hk_g80mag" ],
     "type": "MIGRATION",
     "replace": "rifle_rail_mag"

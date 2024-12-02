@@ -256,9 +256,9 @@
     "condition": { "and": [ { "compare_string": [ "boomered", { "context_val": "effect" } ] } ] },
     "effect": [
       {
-        "math": [ "BILE_STINK_DURATION", "=", "u_effect_duration('bile_stink') > 0 ? u_effect_duration('bile_stink') + 300 : 600" ]
+        "math": [ "BILE_STINK_DURATION = u_effect_duration('bile_stink') > 0 ? u_effect_duration('bile_stink') + 300 : 600" ]
       },
-      { "math": [ "MORALE_MULTIPLIER", "=", "u_has_trait('SQUEAMISH') ? -2 : -1" ] },
+      { "math": [ "MORALE_MULTIPLIER = u_has_trait('SQUEAMISH') ? -2 : -1" ] },
       { "u_add_effect": "bile_stink", "duration": { "global_val": "BILE_STINK_DURATION" } },
       {
         "if": { "not": { "or": [ { "u_has_flag": "IRRITANT_IMMUNE" }, { "u_has_worn_with_flag": "IRRITANT_IMMUNE" } ] } },

@@ -75,7 +75,7 @@ set +x
 
 # Check for changes to any files that would require us to run clang-tidy across everything
 changed_global_files="$( ( cat ./files_changed || echo 'unknown' ) | \
-    egrep -i "clang-tidy|build-scripts|cmake|unknown" || true )"
+    egrep -i "clang-tidy.sh|clang-tidy-wrapper.sh|clang-tidy.yml|.clang-tidy|files_changed|get_affected_files.py|CMakeLists.txt|CMakePresets.json|unknown" || true )"
 if [ -n "$changed_global_files" ]
 then
     first_changed_file="$(echo "$changed_global_files" | head -n 1)"
@@ -97,9 +97,16 @@ else
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed | grep -v third-party ) ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed ) ) || \
         echo unknown )"
 
+    tidyable_cpp_files="$(echo -n "$tidyable_cpp_files" | grep -v third-party || true)"
+    if [ -z "$tidyable_cpp_files" ]
+    then
+	echo "No files to tidy, exiting";
+	set -x
+	exit 0
+    fi
     if [ "$tidyable_cpp_files" == "unknown" ]
     then
         echo "Unable to determine affected files, tidying all files"
