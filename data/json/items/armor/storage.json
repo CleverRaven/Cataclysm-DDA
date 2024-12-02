@@ -406,7 +406,7 @@
     "looks_like": "backpack",
     "color": "brown",
     "pocket_data": [
-    {
+      {
         "//": "tucked against back",
         "pocket_type": "CONTAINER",
         "holster": true,
