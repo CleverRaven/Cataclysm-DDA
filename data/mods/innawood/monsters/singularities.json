@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
     "recurrence": "1 second",
