@@ -401,7 +401,6 @@ static const species_id species_HUMAN( "HUMAN" );
 static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -11307,9 +11306,6 @@ bool Character::sees( const Creature &critter ) const
     const int dist = rl_dist( pos_bub(), critter.pos_bub() );
     if( std::abs( pos_bub().z() - critter.pos_bub().z() ) > fov_3d_z_range ) {
         return false;
-    }
-    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
-        return true;
     }
     if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
         return true;
