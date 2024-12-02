@@ -9,7 +9,7 @@
     "effect": [ { "math": [ "Lieutenants_active = 1" ] }, { "math": [ "Shadow_Lurking = 1" ] } ],
     "deactivate_condition": { "math": [ "Lieutenants_active >= 1" ] }
   },
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_WARN",
     "condition": {
