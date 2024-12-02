@@ -78,7 +78,6 @@
     "color": "dark_gray",
     "morale": 100,
     "aggression": -5,
-    "aggro_character": false,
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 1,
@@ -115,8 +114,9 @@
       {
         "id": "silent_one_detect_psionic_activity",
         "type": "spell",
-        "spell_data": { "id": "silent_one_detect_psi" },
+        "spell_data": { "id": "silent_one_detect_psionic_activity" },
         "cooldown": { "math": [ "3 + rand(5)" ] },
+        "allow_no_target": true,
         "monster_message": ""
       }
     ],
