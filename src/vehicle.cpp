@@ -4132,10 +4132,21 @@ int vehicle::max_rotor_velocity( const bool fueled ) const
     return std::min( 25501, mps_to_vmiph( max_air_mps ) );
 }
 
+// Needed for autodrive to handle vehicles with both wheels and flight.
+// Flying vehicles that lack rotors are currently based on ground vehicles
+// so ground speed is used here.
+int vehicle::max_rotorlike_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( max_ground_velocity( fueled ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 int vehicle::max_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return max_rotor_velocity( fueled );
+    } else if( is_flying && !is_rotorcraft() ) {
+        return max_rotorlike_velocity( fueled );
     } else if( is_watercraft() ) {
         return max_water_velocity( fueled );
     } else {
@@ -4173,6 +4184,15 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
 
+// Needed for autodrive to handle vehicles with both wheels and flight.
+// Flying vehicles that lack rotors are currently based on ground vehicles
+// so ground speed is used here.
+int vehicle::safe_rotorlike_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( safe_ground_velocity( fueled ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
@@ -4186,6 +4206,8 @@ int vehicle::safe_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return safe_rotor_velocity( fueled );
+    } else if( is_flying && !is_rotorcraft() ) {
+        return safe_rotorlike_velocity( fueled );
     } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
     } else {

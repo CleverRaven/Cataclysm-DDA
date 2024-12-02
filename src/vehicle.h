@@ -1615,9 +1615,6 @@ class vehicle
         // get air acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle hs fuel for are included
         int rotor_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
-        // get air acceleration gained by combined power of all engines. If fueled == true,
-        // then only engines which the vehicle hs fuel for are included
-        int air_acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
         // Get acceleration for the current movement mode
         int acceleration( bool fueled = true, int at_vel_in_vmi = -1 ) const;
 
@@ -1638,8 +1635,8 @@ class vehicle
         int max_water_velocity( bool fueled = true ) const;
         // get maximum air velocity based on rotor physics
         int max_rotor_velocity( bool fueled = true ) const;
-        // get maximum air velocity for non-rotors vehicles
-        int max_air_velocity( bool fueled = true ) const;
+        // get maximum air velocity for rotorless vehicles.  Needed for autodrive to handle them.
+        int max_rotorlike_velocity(bool fueled = true) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1653,7 +1650,7 @@ class vehicle
         int safe_rotor_velocity( bool fueled = true ) const;
         // get safe air velocity gained by combined power of all engines.
         // if fueled == true, then only the engines which the vehicle hs fuel for are included
-        int safe_air_velocity( bool fueled = true ) const;
+        int safe_rotorlike_velocity(bool fueled = true) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_water_velocity( bool fueled = true ) const;
