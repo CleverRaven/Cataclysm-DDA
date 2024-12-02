@@ -747,7 +747,7 @@ bool map::vehproceed( VehicleList &vehicle_list )
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
         for( wrapped_vehicle &vehs_v : vehicle_list ) {
-            if( vehs_v.v->is_falling || vehs_v.v->is_rotorlike_aircraft() && vehs_v.v->get_z_change() != 0 ) {
+            if( vehs_v.v->is_falling || ( vehs_v.v->is_rotorlike_aircraft() && vehs_v.v->get_z_change() != 0 ) ) {
                 cur_veh = &vehs_v;
                 break;
             }
