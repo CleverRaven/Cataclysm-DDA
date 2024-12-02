@@ -9032,18 +9032,18 @@
     "components": [
       [
         [ "peanut_shelled", 3],
-        [ "pine_nuts", 5 ],
-        [ "pecan_shelled", 5 ],
-        [ "cashews", 5 ],
-        [ "pistachio_shelled", 5 ],
-        [ "almond_shelled", 5 ],
-        [ "beech_nuts", 5 ],
-        [ "hickory_nut_shelled", 5 ],
-        [ "chestnut_shelled", 5 ],
-        [ "hazelnut_shelled", 5 ],
-        [ "walnut_shelled", 5 ],
-        [ "butternut_shelled", 5 ],
-        [ "acorns", 5 ]
+        [ "pine_nuts", 6 ],
+        [ "pecan_shelled", 3 ],
+        [ "cashews", 3 ],
+        [ "pistachio_shelled", 3 ],
+        [ "almond_shelled", 3 ],
+        [ "beech_nuts", 3 ],
+        [ "hickory_nut_shelled", 3 ],
+        [ "chestnut_shelled", 3 ],
+        [ "hazelnut_shelled", 3 ],
+        [ "walnut_shelled", 3 ],
+        [ "butternut_shelled", 3 ],
+        [ "acorns", 3 ]
       ],
       [ [ "sugar_standard", 2, "LIST" ] ]
     ]
