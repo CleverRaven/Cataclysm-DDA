@@ -52,7 +52,7 @@ void live_view::show( const tripoint &p )
             const visibility_variables &cache = get_map().get_visibility_variables_cache();
             int line_out = START_LINE;
             // HACK: using dummy window to get the window height without refreshing.
-            win = catacurses::newwin( 1, width, point_zero );
+            win = catacurses::newwin( 1, width, point::zero );
             g->pre_print_all_tile_info( mouse_position, win, line_out, line_limit, cache );
             const int live_view_box_height = std::min( max_height, std::max( line_out + 2, MIN_BOX_HEIGHT ) );
 

@@ -408,7 +408,7 @@ static bool check_butcher_dissect( const int roll )
     return !failed;
 }
 
-static bool butcher_dissect_item( item &what, const tripoint &pos,
+static bool butcher_dissect_item( item &what, const tripoint_bub_ms &pos,
                                   const time_point &age, const int roll )
 {
     if( roll < 0 ) {
@@ -1027,7 +1027,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             roll = roll < 0 ? 0 : roll;
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
-            butcher_dissect_item( *item, you.pos(), calendar::turn, roll );
+            butcher_dissect_item( *item, you.pos_bub(), calendar::turn, roll );
         }
         if( dissectable_num > 0 ) {
             practice += dissectable_practice / dissectable_num;
@@ -1780,7 +1780,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
             int req = game_item.ammo_required();
-            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_zero, you ) == 0;
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_bub_ms::zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 if( you->is_avatar() ) {
@@ -3485,7 +3485,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
     act->set_to_null();
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
-        it.ammo_consume( it.ammo_required(), tripoint_zero, you );
+        it.ammo_consume( it.ammo_required(), tripoint_bub_ms::zero, you );
     } else {
         debugmsg( "jackhammer activity targets empty" );
     }

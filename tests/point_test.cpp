@@ -120,7 +120,7 @@ TEST_CASE( "rectangle_containment_coord", "[point]" )
 
 TEST_CASE( "cuboid_shrinks", "[point]" )
 {
-    half_open_cuboid<tripoint> b( tripoint_zero, tripoint( 3, 3, 3 ) );
+    half_open_cuboid<tripoint> b( tripoint::zero, tripoint( 3, 3, 3 ) );
     CAPTURE( b );
     CHECK( b.contains( tripoint( 1, 0, 0 ) ) ); // NOLINT(cata-use-named-point-constants)
     CHECK( b.contains( tripoint( 2, 1, 2 ) ) );
@@ -157,7 +157,7 @@ TEST_CASE( "point_to_from_string", "[point]" )
     CAPTURE( std::locale().name() );
 
     SECTION( "points_from_string" ) {
-        CHECK( point_south.to_string() == "(0,1)" );
+        CHECK( point::south.to_string() == "(0,1)" );
         CHECK( tripoint( -1, 0, 1 ).to_string() == "(-1,0,1)" );
         CHECK( point( 77777, 0 ).to_string() == "(77777,0)" );
         CHECK( tripoint( 77777, 0, 0 ).to_string() == "(77777,0,0)" );

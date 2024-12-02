@@ -770,7 +770,7 @@ void outfit::sort_armor( Character &guy )
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
-        trim_and_print( w_sort_left, point_zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
+        trim_and_print( w_sort_left, point::zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_left, 0, 0, c_light_gray, storage_header );
         // Left list
@@ -843,13 +843,13 @@ void outfit::sort_armor( Character &guy )
                             _( "Nothing to see here!" ) );
         }
 
-        mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
+        mvwprintz( w_encumb, point::east, c_white, _( "Encumbrance and Warmth" ) );
         guy.print_encumbrance( ui, w_encumb, -1,
                                ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         std::string encumbrance_header = _( "Encumbrance" );
-        trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1,
+        trim_and_print( w_sort_right, point::zero, right_w - utf8_width( encumbrance_header ) - 1,
                         c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_right, 0, 0, c_light_gray, encumbrance_header );

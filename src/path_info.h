@@ -69,7 +69,6 @@ cata_path datadir_path();
 cata_path defaultsounddir();
 cata_path fontdata();
 cata_path gfxdir();
-cata_path help();
 cata_path jsondir();
 cata_path keybindings();
 cata_path keybindings_vehicle();

@@ -45,7 +45,7 @@
   {
     "type": "effect_on_condition",
     "id": "afs_motion_sensor_eoc_end_ping",
-    "effect": [ { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping = 0" ] } ]
   },
   {
     "type": "effect_on_condition",

@@ -541,10 +541,18 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
+        ( comest.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
+        ( comest.has_flag( flag_RABBIT ) && has_trait( trait_THRESH_RABBIT ) ) ||
+        ( comest.has_flag( flag_MOUSE ) && has_trait( trait_THRESH_MOUSE ) ) ||
+        ( comest.has_flag( flag_RAT ) && has_trait( trait_THRESH_RAT ) ) ||
+        ( comest.has_flag( flag_BIRD ) && has_trait( trait_THRESH_BIRD ) ) ||
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
         if( fun < 0 ) {
             fun = -fun;
             fun /= 2;
+        }
+        if( fun == 0 ) {
+            fun = 2;
         }
     }
 
@@ -582,7 +590,7 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( has_bionic( bio_faulty_grossfood ) && comest.is_food() ) {
-        fun = fun - 13;
+        fun -= 13;
     }
 
     if( fun < 0 && has_active_bionic( bio_taste_blocker ) &&
@@ -1511,10 +1519,10 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
-// Remove the water volume from the food, as that gets absorbed and used as water.
+// Separate the water volume from the food, as that gets absorbed and used as water.
 // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
 // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
-units::volume Character::masticated_volume( const item &food ) const
+std::pair<units::volume, units::volume> Character::masticated_volume( const item &food ) const
 {
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
@@ -1523,12 +1531,17 @@ units::volume Character::masticated_volume( const item &food ) const
     units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
     units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
 
-    if( units::to_milliliter( food_dry_volume ) != 0 &&
+    // Should not return minus volume.
+    if( units::to_milliliter( food_dry_volume ) <= 0 ) {
+        return { water_vol, 0_ml };
+    }
+
+    if( units::to_gram( food_dry_weight ) > 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
         food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
     }
 
-    return food_dry_volume;
+    return { water_vol, food_dry_volume };
 }
 
 // Used when displaying effective food satiation values.
@@ -1544,13 +1557,23 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal();
     }
-    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = food_vol * energy_density_ratio;
-    if( kcalories == 0 && effective_volume == 0.0 ) {
+    if( kcalories == 0 ) {
+        // Quick bail out if it does not cotain any energy.
         return 0;
     }
-    return std::round( kcalories / effective_volume );
+    units::volume water_volume = masticated_volume( food ).first;
+    units::volume dry_volume = masticated_volume( food ).second;
+    // Water is digested more quickly than solid mass, see get_digest_rates().
+    // stomach_ratio is 0.278 for a default character, will be higher for mutants.
+    const double stomach_ratio = stomach.capacity( *this ) / ( 36.000 * 250_ml );
+    water_volume *= stomach_ratio;
+    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+    dry_volume *= energy_density_ratio;
+    const int effective_volume = dry_volume.value() + water_volume.value();
+    if( effective_volume == 0 ) {
+        return 2000;
+    }
+    return std::round( kcalories * 1000 / effective_volume );
 }
 
 static void activate_consume_eocs( Character &you, item &target )
@@ -1666,10 +1689,8 @@ bool Character::consume_effects( item &food )
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
-    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
-                                    food.get_comestible()->quench *
-                                    5_ml : 0_ml;
-    units::volume food_vol = masticated_volume( food );
+    const units::volume water_vol = masticated_volume( food ).first;
+    units::volume food_vol = masticated_volume( food ).second;
     if( food.count() == 0 ) {
         debugmsg( "Tried to eat food with count of zero." );
         return false;
@@ -1824,22 +1845,7 @@ static bool query_consume_ownership( item &target, Character &p )
         if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
             return false;
         }
-        std::vector<npc *> witnesses;
-        for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) ) {
-                witnesses.push_back( &elem );
-            }
-        }
-        for( npc *elem : witnesses ) {
-            elem->say( "<witnessed_thievery>", 7 );
-        }
-        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-            if( p.add_faction_warning( target.get_owner() ) ) {
-                for( npc *elem : witnesses ) {
-                    elem->make_angry();
-                }
-            }
-        }
+        g->on_witness_theft( target );
     }
     return true;
 }

@@ -291,7 +291,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         .on_submit( [this] { control_doors(); } );
     }
 
-    if( camera_on || ( has_parts( {"CAMERA", "CAMERA_CONTROL"} ).all() ) ) {
+    if( camera_on || has_parts( {"CAMERA", "CAMERA_CONTROL"} ).all() ) {
         menu.add( camera_on
                   ? colorize( _( "Turn off camera system" ), c_pink )
                   : _( "Turn on camera system" ) )
@@ -372,7 +372,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_zero ); } );
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint::zero ); } );
             break;
         }
     }
@@ -524,7 +524,7 @@ void vehicle::toggle_autopilot()
         autopilot_on = false;
         is_patrolling = false;
         is_following = false;
-        autodrive_local_target = tripoint_abs_ms_zero;
+        autodrive_local_target = tripoint_abs_ms::zero;
         add_msg( _( "You turn the engine off." ) );
         stop_engines();
     } );
@@ -830,7 +830,7 @@ void vehicle::enable_patrol()
 {
     is_patrolling = true;
     autopilot_on = true;
-    autodrive_local_target = tripoint_abs_ms_zero;
+    autodrive_local_target = tripoint_abs_ms::zero;
     if( !engine_on ) {
         start_engines();
     }

@@ -83,6 +83,6 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_effect": "effect_perk_in_the_zone" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'PSIONIC')", "=", "-0.25" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('cost', 'flag_whitelist': 'PSIONIC') = -0.25" ] } ]
   }
 ]

@@ -104,7 +104,7 @@ void add_fallback_zone( npc &guy )
 
     if( points.empty() ) {
         zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
-                  loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
+                  loc.raw() + tripoint::north_west, loc.raw() + tripoint::south_east );
     } else {
         for( tripoint_abs_ms const &t : points ) {
             zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),

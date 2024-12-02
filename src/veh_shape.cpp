@@ -223,9 +223,9 @@ bool veh_shape::handle_cursor_movement( const std::string &action )
             set_cursor_pos( *mouse_pos );
         }
     } else if( action == "LEVEL_UP" ) {
-        set_cursor_pos( get_cursor_pos() + tripoint_above );
+        set_cursor_pos( get_cursor_pos() + tripoint::above );
     } else if( action == "LEVEL_DOWN" ) {
-        set_cursor_pos( get_cursor_pos() + tripoint_below );
+        set_cursor_pos( get_cursor_pos() + tripoint::below );
     } else {
         return false;
     }

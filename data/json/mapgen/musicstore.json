@@ -5,7 +5,7 @@
     "om_terrain": "s_music",
     "//": "Real decent place for a quick morale boost, relatively rare.",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "zs______,______,______sz",
         "zs______,______,______sz",
@@ -32,7 +32,7 @@
         " #H###H#sssss           ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_concrete_carpets_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "z": "t_region_shrub_decorative",
@@ -45,11 +45,11 @@
         "H": "t_curtains",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_linoleum_gray",
-        "g": "t_carpet_concrete_green",
-        "h": "t_carpet_concrete_green",
-        "K": "t_carpet_concrete_green",
-        "7": "t_carpet_concrete_green",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "g": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "K": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "7": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
         "<": "t_gutter_downspout"
       },
       "furniture": {

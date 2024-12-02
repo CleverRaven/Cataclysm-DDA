@@ -1447,7 +1447,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         // Draw borders
         wattron( w_data, BORDER_COLOR );
         mvwhline( w_data, point( 1, dataHeight - 1 ), LINE_OXOX, width - 2 );
-        mvwvline( w_data, point_zero, LINE_XOXO, dataHeight - 1 );
+        mvwvline( w_data, point::zero, LINE_XOXO, dataHeight - 1 );
         mvwvline( w_data, point( width - 1, 0 ), LINE_XOXO, dataHeight - 1 );
         mvwaddch( w_data, point( 0, dataHeight - 1 ), LINE_XXOO ); // |_
         mvwaddch( w_data, point( width - 1, dataHeight - 1 ), LINE_XOOX ); // _|
@@ -1545,14 +1545,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             werase( w_iteminfo );
             if( cur_recipe->is_practice() ) {
                 const std::string desc = practice_recipe_description( *cur_recipe, *crafter );
-                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
                 std::string desc = cur_recipe->description.translated() + "\n\n";
                 desc += list_nested( *crafter, cur_recipe, available_recipes );
-                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
@@ -1856,8 +1856,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             } else if( !available[line].can_craft ||
                        !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
-            } else if( !crafter->check_eligible_containers_for_crafting( *current[line],
-                       batch ? line + 1 : 1 ) ) {
+            } else if( available[line].inv_override == nullptr &&
+                       !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
                 popup( _( "Crafter can't see!" ) );
@@ -2448,7 +2448,7 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
     int width = getmaxx( w );
 
     wattron( w, BORDER_COLOR );
-    mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
+    mvwvline( w, point::zero, LINE_XOXO, getmaxy( w ) );  // |
     mvwvline( w, point( width - 1, 0 ), LINE_XOXO, getmaxy( w ) );  // |
     wattroff( w, BORDER_COLOR );
 
@@ -2498,7 +2498,7 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
         case BATCH:
             werase( w );
             wattron( w, BORDER_COLOR );
-            mvwvline( w, point_zero, LINE_XOXO, 3 ); // |
+            mvwvline( w, point::zero, LINE_XOXO, 3 ); // |
             mvwvline( w, point( width - 1, 0 ), LINE_XOXO, 3 ); // |
             wattroff( w, BORDER_COLOR );
             break;

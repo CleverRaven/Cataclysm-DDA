@@ -77,6 +77,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const flag_id json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -267,7 +269,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos_bub().z() && z_is_valid( pos_bub().z() ) ) {
-        const tripoint_bub_ms above = tripoint_bub_ms( p + tripoint_above );
+        const tripoint_bub_ms above = tripoint_bub_ms( p + tripoint::above );
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
             return true;
         }
@@ -845,34 +847,36 @@ void monster::move()
     // this into another monster type). Therefore we can not iterate over it
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
-    for( const auto &sp_type : type->special_attacks ) {
-        const std::string &special_name = sp_type.first;
-        const auto local_iter = special_attacks.find( special_name );
-        if( local_iter == special_attacks.end() ) {
-            continue;
-        }
-        mon_special_attack &local_attack_data = local_iter->second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
-
-        add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
-                       sp_type.first, local_attack_data.cooldown );
-
-        // Cooldowns are decremented in monster::process_turn
-
-        if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second->call( *this ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
+    if( !has_flag( json_flag_CANNOT_ATTACK ) ) {
+        for( const auto &sp_type : type->special_attacks ) {
+            const std::string &special_name = sp_type.first;
+            const auto local_iter = special_attacks.find( special_name );
+            if( local_iter == special_attacks.end() ) {
+                continue;
+            }
+            mon_special_attack &local_attack_data = local_iter->second;
+            if( !local_attack_data.enabled ) {
                 continue;
             }
 
-            // `special_attacks` might have changed at this point. Sadly `reset_special`
-            // doesn't check the attack name, so we need to do it here.
-            if( special_attacks.count( special_name ) == 0 ) {
-                continue;
+            add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
+                           sp_type.first, local_attack_data.cooldown );
+
+            // Cooldowns are decremented in monster::process_turn
+
+            if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
+                if( !sp_type.second->call( *this ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
+                    continue;
+                }
+
+                // `special_attacks` might have changed at this point. Sadly `reset_special`
+                // doesn't check the attack name, so we need to do it here.
+                if( special_attacks.count( special_name ) == 0 ) {
+                    continue;
+                }
+                reset_special( special_name );
             }
-            reset_special( special_name );
         }
     }
 
@@ -883,7 +887,8 @@ void monster::move()
     nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
-    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) ) {
+    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) &&
+        !has_flag( json_flag_CANNOT_MOVE ) ) {
         here.creature_on_trap( *this, false );
         if( is_dead() ) {
             return;
@@ -905,7 +910,8 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ||
+        has_flag( json_flag_CANNOT_MOVE ) ) {
         moves = 0;
         return;
     }
@@ -1195,10 +1201,10 @@ void monster::move()
             }
 
             // Try to shove vehicle out of the way
-            shove_vehicle( destination.raw(), candidate );
+            shove_vehicle( destination, tripoint_bub_ms( candidate ) );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
-                if( !can_bash ) {
+                if( !can_bash || has_flag( json_flag_CANNOT_ATTACK ) ) {
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
@@ -1721,7 +1727,7 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
-    if( has_flag( mon_flag_PACIFIST ) ) {
+    if( has_flag( mon_flag_PACIFIST ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -2042,7 +2048,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
-    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ) {
+    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ||
+        has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -2190,15 +2197,15 @@ void monster::stumble()
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_below );
+                valid_stumbles.emplace_back( dest + tripoint::below );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint_above );
+                valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint_below );
+    const tripoint_bub_ms below( pos_bub() + tripoint::below );
     if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
@@ -2313,7 +2320,8 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) &&
+    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ||
+          has_flag( json_flag_CANNOT_MOVE ) ) &&
         ( pos().xy() != p ) ) {
         return false;
     }
@@ -2366,8 +2374,8 @@ int monster::turns_to_reach( const point &p )
     return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
 }
 
-void monster::shove_vehicle( const tripoint &remote_destination,
-                             const tripoint &nearby_destination )
+void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
+                             const tripoint_bub_ms &nearby_destination )
 {
     map &here = get_map();
     if( this->has_flag( mon_flag_PUSH_VEH ) && !is_hallucination() ) {
@@ -2422,13 +2430,13 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
-                const tripoint_rel_ms destination_delta( -nearby_destination + remote_destination );
+                const tripoint_rel_ms destination_delta( remote_destination - nearby_destination );
                 const tripoint_rel_ms shove_destination( clamp( destination_delta.x(), -1, 1 ),
                         clamp( destination_delta.y(), -1, 1 ),
                         clamp( destination_delta.z(), -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
-                if( shove_destination != tripoint_rel_ms_zero ) {
+                if( shove_destination != tripoint_rel_ms::zero ) {
                     if( shove_destination.z() != 0 ) {
                         veh.vertical_velocity = shove_destination.z() < 0 ? -shove_velocity : +shove_velocity;
                     }

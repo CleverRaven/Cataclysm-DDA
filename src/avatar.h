@@ -17,7 +17,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -171,7 +170,7 @@ class avatar : public Character
          */
         mission *get_active_mission() const;
         /**
-         * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
+         * Returns the target of the active mission or @ref tripoint_abs_omt::invalid if there is
          * no active mission.
          */
         tripoint_abs_omt get_active_mission_target() const;
@@ -249,7 +248,7 @@ class avatar : public Character
 
         void wake_up() override;
         // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint_rel_ms &grab_point = tripoint_rel_ms_zero );
+        void grab( object_type grab_type, const tripoint_rel_ms &grab_point = tripoint_rel_ms::zero );
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
@@ -288,11 +287,11 @@ class avatar : public Character
 
         // checks if the point is blocked based on characters current aiming state
         // TODO Remove untyped overload
-        bool cant_see( const tripoint &p );
-        bool cant_see( const tripoint_bub_ms &p );
+        bool cant_see( const tripoint &p ) const;
+        bool cant_see( const tripoint_bub_ms &p ) const;
 
         // rebuilds the full aim cache for the character if it is dirty
-        void rebuild_aim_cache();
+        void rebuild_aim_cache() const;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -323,11 +322,9 @@ class avatar : public Character
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        // TODO: Get rid of untyped overload
-        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt,
+        bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
                           int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
@@ -385,7 +382,7 @@ class avatar : public Character
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        bool aim_cache_dirty = true;
+        mutable bool aim_cache_dirty = true;
 
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
@@ -443,7 +440,7 @@ class avatar : public Character
         std::unique_ptr<npc> shadow_npc;
 
         // true when the space is still visible when aiming
-        cata::mdarray<bool, point_bub_ms> aim_cache;
+        mutable cata::mdarray<bool, point_bub_ms> aim_cache;
 };
 
 avatar &get_avatar();

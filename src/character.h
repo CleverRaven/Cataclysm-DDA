@@ -1013,6 +1013,11 @@ class Character : public Creature, public visitable
         /** Returns character luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
+        /**
+        * return true if character is able to see creature in some nonstandard ways
+        * to be used only if we do not need to know anything but the fact we see it
+        * for anything more it's better to store and use enchant_cache::get_vision() struct
+        */
         bool sees_with_specials( const Creature &critter ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
@@ -1541,16 +1546,12 @@ class Character : public Creature, public visitable
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
     private:
-        /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
         void do_skill_rust();
-        /** Applies stat mods to character. */
-        void apply_mods( const trait_id &mut, bool add_remove );
 
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
@@ -1947,11 +1948,9 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        // TODO: Get rid of untyped overload
-        virtual bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves = -1 );
         virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        virtual bool invoke_item( item *, const std::string &, const tripoint &pt,
+        virtual bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
                                   int pre_obtain_moves = -1 );
         /** As above two, but with position equal to current position */
         virtual bool invoke_item( item * );
@@ -2617,7 +2616,7 @@ class Character : public Creature, public visitable
         bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
 
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        void mod_pain( int npain ) override;
+        int mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/
@@ -3402,8 +3401,8 @@ class Character : public Creature, public visitable
         void modify_health( const islot_comestible &comest );
         /** Used to compute how filling a food is.*/
         double compute_effective_food_volume_ratio( const item &food ) const;
-        /** Used to calculate dry volume of a chewed food **/
-        units::volume masticated_volume( const item &food ) const;
+        /** Used to calculate water and dry volume of a chewed food **/
+        std::pair<units::volume, units::volume> masticated_volume( const item &food ) const;
         /** Used to to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
@@ -3495,7 +3494,7 @@ class Character : public Creature, public visitable
         * @param clear_path True to select only items within view. False to select all within the radius.
         * @returns Craftable inventory items found.
         * */
-        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
+        const inventory &crafting_inventory( const tripoint &src_pos = tripoint::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
@@ -3504,7 +3503,7 @@ class Character : public Creature, public visitable
          * above 4.0 means these activities cannot be performed.
          * takes pos as a parameter so that remote spots can be judged
          * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_min ) const;
+        float fine_detail_vision_mod( const tripoint &p = tripoint::invalid ) const;
 
         // ---- CRAFTING ----
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
@@ -3558,7 +3557,8 @@ class Character : public Creature, public visitable
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
+        float lighting_craft_speed_multiplier( const recipe &rec,
+                                               const tripoint &p = tripoint::invalid ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
         // TODO: Get rid of untyped overload
         float workbench_crafting_speed_multiplier( const item &craft,
@@ -3711,7 +3711,7 @@ class Character : public Creature, public visitable
         bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            const tripoint &origin = tripoint::zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const std::vector<tripoint> &reachable_pts = {},   basecamp *bcp = nullptr );

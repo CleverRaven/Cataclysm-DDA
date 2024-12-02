@@ -54,7 +54,7 @@ point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
             return { std::max( tile_size.x - 1, 1 ), std::max( tile_size.y - 1, 1 ) };
 
         case pixel_minimap_mode::dots:
-            return { point_south_east };
+            return { point::south_east };
     }
 
     return {};

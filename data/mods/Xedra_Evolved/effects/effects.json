@@ -1179,9 +1179,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_seedbearer_available",
+    "name": [ "Seed-Bearer" ],
+    "desc": [ "You can bring forth a fine bunch of seeds, ready for planting." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_seedbearer_cooldown",
+    "//": "Hidden effect, used as a cooldown",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "arvore_perennial_rebirth_cooldown",
     "name": [ "Reborn" ],
-    "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+    "desc": [ "You were reborn and your soul and new body are still finding their balance." ]
   },
   {
     "type": "effect_type",
@@ -1293,7 +1306,14 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
+      {
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('strength') + u_val('perception')" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -1668,18 +1688,61 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": { "dodge_mod": [ 1 ] },
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') )" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') ) * 0.5" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1690,18 +1753,61 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_2",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": { "dodge_mod": [ 2 ] },
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
               "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') ) * 0.5" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1713,18 +1819,61 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_3",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": { "dodge_mod": [ 3 ] },
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
               "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') ) * 0.5" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1748,10 +1897,11 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_FAE",
-            "add": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] }
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
           }
         ]
       }
@@ -1770,7 +1920,19 @@
     "name": [ "Blood-and-Ash Paste" ],
     "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
     "rating": "mixed",
-    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 40 } ] } ],
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+            },
+            "distance": 40,
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          }
+        ]
+      }
+    ],
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.6 } ],
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 60 ], "pain_tick": [ 180 ] },
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -2692,5 +2854,58 @@
         "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_freeze",
+    "name": [ "Frozen in Time" ],
+    "desc": [ "You are completely frozen in time." ],
+    "remove_message": "Everything is suddenly different.",
+    "rating": "neutral",
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE", "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_stabilize_reality",
+    "name": [ "Stabilized Reality" ],
+    "desc": [ "You are anchored in normal reality." ],
+    "remove_message": "You feel much more vulnerable.",
+    "rating": "good",
+    "flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_dreamer_generate_accelerated_time",
+    "name": [ "Accelerated Time Emission" ],
+    "desc": [ "You continuously generate fields of short-lived accelerated time." ],
+    "enchantments": [ { "emitter": "xedra_dreamer_emit_accelerated_time" } ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_dreamer_accelerated_time",
+    "name": [ "Time Accelerated" ],
+    "desc": [ "Your local time is far accelerated to the baseline, allowing you to act much quicker." ],
+    "remove_message": "Everything seems much quicker.",
+    "rating": "good",
+    "max_intensity": 1,
+    "max_duration": "2 seconds",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_erosion",
+    "name": [ "Erosion" ],
+    "desc": [ "You maintain a field of unstable time around you.  When you attack targets in melee they will degrade over time." ],
+    "remove_message": "Your field of unstable time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
   }
 ]

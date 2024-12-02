@@ -659,13 +659,13 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "effect": { "math": [ "u_test_var_time_test_test = time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a npc_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "n_test_var_time_test_test", "=", "time('now')" ] },
+        "effect": { "math": [ "n_test_var_time_test_test = time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
@@ -885,7 +885,7 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "effect": { "math": [ "u_test_var_time_test_test = time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       { "text": "PC strength is five.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('strength') == 5" ] } },
@@ -1069,112 +1069,96 @@
       {
         "text": "Sets time since cataclysm to 1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "time('now')", "=", "time('cataclysm') + 1" ] }
+        "effect": { "math": [ "time('now') = time('cataclysm') + 1" ] }
       },
       {
         "text": "Sets temperature to 2.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('temperature')", "=", "from_fahrenheit( 2 )" ] }
+        "effect": { "math": [ "weather('temperature') = from_fahrenheit( 2 )" ] }
       },
-      {
-        "text": "Sets windpower to 3.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('windpower')", "=", "3" ] }
-      },
-      {
-        "text": "Sets humidity to 4.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('humidity')", "=", "4" ] }
-      },
-      {
-        "text": "Sets pressure to 5.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('pressure')", "=", "5" ] }
-      },
+      { "text": "Sets windpower to 3.", "topic": "TALK_DONE", "effect": { "math": [ "weather('windpower') = 3" ] } },
+      { "text": "Sets humidity to 4.", "topic": "TALK_DONE", "effect": { "math": [ "weather('humidity') = 4" ] } },
+      { "text": "Sets pressure to 5.", "topic": "TALK_DONE", "effect": { "math": [ "weather('pressure') = 5" ] } },
       {
         "text": "Sets base strength to 6.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('strength_base')", "=", "6" ] }
+        "effect": { "math": [ "u_val('strength_base') = 6" ] }
       },
       {
         "text": "Sets base dexterity to 7.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('dexterity_base')", "=", "7" ] }
+        "effect": { "math": [ "u_val('dexterity_base') = 7" ] }
       },
       {
         "text": "Sets base intelligence to 8.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('intelligence_base')", "=", "8" ] }
+        "effect": { "math": [ "u_val('intelligence_base') = 8" ] }
       },
       {
         "text": "Sets base perception to 9.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('perception_base')", "=", "9" ] }
+        "effect": { "math": [ "u_val('perception_base') = 9" ] }
       },
       {
         "text": "Sets custom var to 10.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_time_test_test", "=", "10" ] }
+        "effect": { "math": [ "u_test_var_time_test_test = 10" ] }
       },
-      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "n_val('owed')", "=", "12" ] } },
+      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "n_val('owed') = 12" ] } },
       {
         "text": "Sets skill level in driving to 10.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_skill('driving')", "=", "10" ] }
+        "effect": { "math": [ "u_skill('driving') = 10" ] }
       },
-      { "text": "Sets pos_x to -1.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_x')", "=", "-1" ] } },
-      { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y')", "=", "-2" ] } },
-      { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z')", "=", "-3" ] } },
-      { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain()", "=", "17" ] } },
-      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power')", "=", "18" ] } },
+      { "text": "Sets pos_x to -1.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_x') = -1" ] } },
+      { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y') = -2" ] } },
+      { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z') = -3" ] } },
+      { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain() = 17" ] } },
+      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power') = 18" ] } },
       {
         "text": "Sets power to 20%.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('power_percentage')", "=", "20" ] }
+        "effect": { "math": [ "u_val('power_percentage') = 20" ] }
       },
-      { "text": "Sets focus to 19.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('focus')", "=", "19" ] } },
-      { "text": "Sets mana to 21.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana')", "=", "21" ] } },
-      {
-        "text": "Sets mana to 25%.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('mana_percentage')", "=", "25" ] }
-      },
-      { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst')", "=", "22" ] } },
-      { "text": "Sets calories to 23.", "topic": "TALK_DONE", "effect": { "math": [ "u_calories()", "=", "23" ] } },
+      { "text": "Sets focus to 19.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('focus') = 19" ] } },
+      { "text": "Sets mana to 21.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana') = 21" ] } },
+      { "text": "Sets mana to 25%.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana_percentage') = 25" ] } },
+      { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst') = 22" ] } },
+      { "text": "Sets calories to 23.", "topic": "TALK_DONE", "effect": { "math": [ "u_calories() = 23" ] } },
       {
         "text": "Sets pew pew's level to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "-1" ] }
+        "effect": { "math": [ "u_spell_level('test_spell_pew') = -1" ] }
       },
       {
         "text": "Sets pew pew's level to 4.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "4" ] }
+        "effect": { "math": [ "u_spell_level('test_spell_pew') = 4" ] }
       },
       {
         "text": "Sets pew pew's exp to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_exp('test_spell_pew')", "=", "-1" ] }
+        "effect": { "math": [ "u_spell_exp('test_spell_pew') = -1" ] }
       },
       {
         "text": "Sets pew pew's exp to 11006.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_exp('test_spell_pew')", "=", "11006" ] }
+        "effect": { "math": [ "u_spell_exp('test_spell_pew') = 11006" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('12h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true) = time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "-1" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true) = -1" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('24h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true) = time('24h')" ] }
       },
       {
         "text": "Learns Test Proficiency for 1h",

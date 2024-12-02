@@ -572,7 +572,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
         wnoutrefresh( w_worlds_border );
 
         wattron( w_worlds_header, BORDER_COLOR );
-        mvwhline( w_worlds_header, point_zero, LINE_OXOX, getmaxx( w_worlds_border ) );
+        mvwhline( w_worlds_header, point::zero, LINE_OXOX, getmaxx( w_worlds_border ) );
         for( const int &mapLine : mapLines ) {
             mvwaddch( w_worlds_header, point( mapLine, 0 ), LINE_OXXX ); // ^|^
         }
@@ -581,11 +581,11 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
         wnoutrefresh( w_worlds_header );
 
         //Clear the lines
-        mvwrectf( w_worlds, point_zero, c_black, ' ', getmaxx( w_worlds ), iContentHeight );
+        mvwrectf( w_worlds, point::zero, c_black, ' ', getmaxx( w_worlds ), iContentHeight );
         for( const int &mapLine : mapLines ) {
             mvwvline( w_worlds, point( mapLine, 1 ), BORDER_COLOR, LINE_XOXO, iContentHeight - 2 );
         }
-        mvwrectf( w_worlds_tooltip, point_zero, c_black, ' ', getmaxx( w_worlds ), iTooltipHeight );
+        mvwrectf( w_worlds_tooltip, point::zero, c_black, ' ', getmaxx( w_worlds ), iTooltipHeight );
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
@@ -630,7 +630,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 
         wnoutrefresh( w_worlds_header );
 
-        fold_and_print( w_worlds_tooltip, point_zero, 78, c_white, _( "Pick a world to enter game" ) );
+        fold_and_print( w_worlds_tooltip, point::zero, 78, c_white, _( "Pick a world to enter game" ) );
         wnoutrefresh( w_worlds_tooltip );
 
         wnoutrefresh( w_worlds );
@@ -904,9 +904,10 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
     // Ensure that the scrollbar starts at zero position
     if( first_line_is_category && iActive == 1 ) {
-        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), point_zero );
+        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), point::zero );
     } else {
-        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), point_zero );
+        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ),
+                        point::zero );
     }
 
     wnoutrefresh( w );
@@ -2070,11 +2071,10 @@ void load_external_option( const JsonObject &jo )
     std::string stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
-        translation sinfo;
-        jo.get_member( "info" ).read( sinfo );
-        opts.add_external( name, "external_options", stype, sinfo, sinfo );
+        opts.add_external( name, "external_options", stype );
     }
     options_manager::cOpt &opt = opts.get_option( name );
+    // TODO: Hook up to cata_variant instead?
     if( stype == "float" ) {
         opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
     } else if( stype == "int" ) {
@@ -2089,10 +2089,6 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
-    }
-    // Just visit this member if it exists
-    if( jo.has_member( "info" ) ) {
-        jo.get_string( "info" );
     }
     options_manager::update_options_cache();
 }

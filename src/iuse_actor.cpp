@@ -1125,10 +1125,10 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     map &here = get_map();
 
     tripoint_bub_ms where = pnt;
-    tripoint_bub_ms below = pnt + tripoint_below;
+    tripoint_bub_ms below = pnt + tripoint::below;
     while( here.valid_move( where, below, false, true ) ) {
-        where += tripoint_below;
-        below += tripoint_below;
+        where += tripoint::below;
+        below += tripoint::below;
     }
 
     const int height = pnt.z() - where.z();
@@ -1530,6 +1530,18 @@ std::optional<int> salvage_actor::use( Character *p, item &cutter, const tripoin
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return std::nullopt;
+    }
+
+    const item &to_cut = *item_loc;
+    if( !to_cut.is_owned_by( *p, true ) ) {
+        if( !query_yn( _( "Cutting the %s may anger the people who own it, continue?" ),
+                       to_cut.tname() ) ) {
+            return false;
+        } else {
+            if( to_cut.get_owner() ) {
+                g->on_witness_theft( to_cut );
+            }
+        }
     }
 
     return salvage_actor::try_to_cut_up( *p, cutter, item_loc );
@@ -2138,6 +2150,7 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it, const trip
 {
     if( it.active ) {
         it.active = false;
+        p->remove_effect( effect_playing_instrument );
         p->add_msg_player_or_npc( _( "You stop playing your %s." ),
                                   _( "<npcname> stops playing their %s." ),
                                   it.display_name() );
@@ -2147,13 +2160,32 @@ std::optional<int> play_instrument_iuse::use( Character *p, item &it, const trip
                                   _( "<npcname> starts playing their %s." ),
                                   it.display_name() );
         it.active = true;
+        p->add_effect( effect_playing_instrument, 1_turns, false, 1 );
     }
     return std::nullopt;
 }
 
-ret_val<void> play_instrument_iuse::can_use( const Character &, const item &,
+ret_val<void> play_instrument_iuse::can_use( const Character &p, const item &it,
         const tripoint & ) const
 {
+    // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    if( p.is_underwater() ) {
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
+    }
+    if( p.is_mounted() ) {
+        return ret_val<void>::make_failure( _( "You can't do that while mounted." ) );
+    }
+    if( !p.is_worn( it ) && !p.is_wielding( it ) ) {
+        return ret_val<void>::make_failure( _( "You need to hold or wear %s to play it." ),
+                                            it.type_name() );
+    }
+    // No one-man band for now
+    // Remove/rework this check after we will be able to distinguish between wind, string, and percussion instruments
+    // TODO: allow playing several string/percussion instruments if you have additional arms
+    if( !it.active && p.has_effect( effect_playing_instrument ) ) {
+        return ret_val<void>::make_failure( _( "You can't play multiple musical instruments at once." ) );
+    }
+
     return ret_val<void>::make_success();
 }
 
@@ -3882,8 +3914,8 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
         return false;
     }
     if( needs_solid_neighbor ) {
-        if( !is_solid_neighbor( pos, point_east ) && !is_solid_neighbor( pos, point_south ) &&
-            !is_solid_neighbor( pos, point_south_east ) && !is_solid_neighbor( pos, point_north_east ) ) {
+        if( !is_solid_neighbor( pos, point::east ) && !is_solid_neighbor( pos, point::south ) &&
+            !is_solid_neighbor( pos, point::south_east ) && !is_solid_neighbor( pos, point::north_east ) ) {
             p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name );
             return false;
         }
@@ -4436,7 +4468,7 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
     if( prompt.ret >= 0 ) {
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
-        p->invoke_item( mods[prompt.ret], "transform", pnt );
+        p->invoke_item( mods[prompt.ret], "transform", tripoint_bub_ms( pnt ) );
         it.on_contents_changed();
         return 0;
     }
@@ -5228,19 +5260,19 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    const std::optional<tripoint> dir = choose_direction( string_format(
-                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( string_format(
+                _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return std::nullopt;
     }
-    const tripoint direction = *dir;
+    const tripoint_rel_ms direction = *dir;
 
     map &here = get_map();
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint_bub_ms center = p->pos_bub() + tripoint( ( radius + 1 ) * direction.x,
-                                   ( radius + 1 ) * direction.y, 0 );
+    const tripoint_bub_ms center = p->pos_bub() + point_rel_ms( ( radius + 1 ) * direction.x(),
+                                   ( radius + 1 ) * direction.y() );
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
@@ -5617,6 +5649,8 @@ void effect_on_conditons_actor::load( const JsonObject &obj, const std::string &
 {
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
+    need_worn = obj.get_bool( "need_worn", false );
+    need_wielding = obj.get_bool( "need_wielding", false );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
@@ -5638,6 +5672,14 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint &point ) const
 {
+    if( need_worn && !p->is_worn( it ) ) {
+        p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return std::nullopt;
+    }
+    if( need_wielding && !p->is_wielding( it ) ) {
+        p->add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return std::nullopt;
+    }
     Character *char_ptr = nullptr;
     item_location loc;
     if( p ) {

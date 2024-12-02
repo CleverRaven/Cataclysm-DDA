@@ -1072,7 +1072,7 @@ class npc : public Character
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint::zero );
         // return snippet strings by given range
         std::string distance_string( int range ) const;
 
@@ -1096,8 +1096,6 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
-        // TODO: Get rid of untyped overload
-        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
@@ -1374,16 +1372,23 @@ class npc : public Character
 
         std::vector<tripoint_bub_ms> path; // Our movement plans
 
-        // Personality & other defining characteristics
-        std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
+        //Set mission source or squad leader for a patrol
+        std::string companion_mission_role_id;
         //Mission leader use to determine item sorting, patrols use for points
         std::vector<tripoint_abs_omt> companion_mission_points;
-        time_point companion_mission_time; //When you left for ongoing/repeating missions
-        time_point
-        companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
-        inventory companion_mission_inv; //Inventory that is added and dropped on mission
+        //When you left for ongoing/repeating missions
+        time_point companion_mission_time;
+        //When you are expected to return for calculated/variable mission returns
+        time_point companion_mission_time_ret;
+        //Work exertion level of current mission
+        float companion_mission_exertion = 1.0f;
+        //Travel time for the current mission
+        time_duration companion_mission_travel_time = 0_hours;
+        //Inventory that is added and dropped on mission
+        inventory companion_mission_inv;
         npc_mission mission = NPC_MISSION_NULL;
         npc_mission previous_mission = NPC_MISSION_NULL;
+        // Personality & other defining characteristics
         npc_personality personality;
         npc_opinion op_of_u;
         npc_combat_memory_cache mem_combat;
@@ -1397,7 +1402,7 @@ class npc : public Character
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
-        static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
+        static constexpr const tripoint_abs_omt &no_goal_point = tripoint_abs_omt::invalid;
         job_data job;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.

@@ -32,7 +32,7 @@
         "      sssssU<U4#######  ",
         "           sUUs         "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_laminated_door_glass_c",
         "*": "t_door_c",
@@ -40,8 +40,8 @@
         " ": "t_region_groundcover_urban",
         "P": "t_laminated_glass",
         "_": "t_floor",
-        "T": "t_linoleum_gray",
-        "'": "t_linoleum_gray",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "p": "t_region_groundcover_urban",
         "s": "t_sidewalk",
         "U": "t_sidewalk",
@@ -182,12 +182,12 @@
         "    4#####S...hI#ssU<U  ",
         "         ########sssss  "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
-        "T": "t_linoleum_gray",
-        "'": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "*": "t_door_c",
         "-": "t_wall_glass_alarm",
         ".": "t_floor",

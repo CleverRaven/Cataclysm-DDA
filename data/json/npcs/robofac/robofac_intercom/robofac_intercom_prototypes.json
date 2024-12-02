@@ -293,7 +293,7 @@
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 8, "popup": true },
           { "u_add_faction_trust": 2 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun", "=", "time('now')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_gun = time('now')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_STARTED"
@@ -352,7 +352,7 @@
       "effect": [
         { "u_lose_var": "dialogue_hub_rnd_u_project_ongoing" },
         { "u_add_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" },
-        { "math": [ "hub01_uhmwpe_researched", "=", "1" ] }
+        { "math": [ "hub01_uhmwpe_researched = 1" ] }
       ]
     },
     "responses": [
@@ -389,7 +389,7 @@
           { "u_consume_item": "RobofacCoin", "count": 3, "popup": true },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] }
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED"
       },
@@ -400,7 +400,7 @@
           { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] }
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED"
       },
@@ -411,7 +411,7 @@
           { "u_consume_item": "RobofacCoin", "count": 4, "popup": true },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] }
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED"
       },
@@ -422,7 +422,7 @@
           { "u_consume_item": "RobofacCoin", "count": 4, "popup": true },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] }
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED"
       },
@@ -433,7 +433,7 @@
           { "u_consume_item": "RobofacCoin", "count": 4, "popup": true },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] }
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED"
       },
@@ -450,7 +450,7 @@
           { "u_consume_item": "RobofacCoin", "count": 12, "popup": true },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] }
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_STARTED"
       },
@@ -543,7 +543,7 @@
           { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
           { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('14 day')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('14 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
         ],
@@ -561,7 +561,7 @@
           { "u_consume_item": "RobofacCoin", "count": 12, "popup": true },
           { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('44 day')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('44 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
         ],
@@ -590,7 +590,7 @@
           { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
           { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('14 day')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('14 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
         ],
@@ -605,7 +605,7 @@
           { "u_consume_item": "RobofacCoin", "count": 12, "popup": true },
           { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('44 day')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('44 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
         ],
@@ -636,7 +636,7 @@
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 10, "popup": true },
           { "u_consume_item": "combat_exoskeleton_light_salvaged", "count": 1, "popup": true },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('14 day')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('14 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
         ],
@@ -653,7 +653,7 @@
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 12, "popup": true },
           { "u_consume_item": "combat_exoskeleton_light_salvaged", "count": 1, "popup": true },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('44 day')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now') + time('44 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
         ],
@@ -690,7 +690,7 @@
           { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
           { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "anchor_pt_1" }
         ],
@@ -744,7 +744,7 @@
           { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_consume_item": "robofac_armor_rig", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "anchor_pt_2" }
         ],
@@ -857,7 +857,7 @@
     "speaker_effect": {
       "effect": [
         { "u_add_faction_trust": 1 },
-        { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+        { "math": [ "u_timer_hub_rnd_u_waiting_on_hub = time('now')" ] },
         { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
         { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "hwp_exodii" }
       ],
@@ -889,7 +889,7 @@
     },
     "speaker_effect": {
       "condition": { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub) >= time('3 d')" ] },
-      "effect": [ { "math": [ "hub01_hwp_exotic_researched", "=", "1" ] } ]
+      "effect": [ { "math": [ "hub01_hwp_exotic_researched = 1" ] } ]
     },
     "responses": [
       {

@@ -155,5 +155,24 @@
       }
     },
     "terrain": { "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" } }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_concrete_carpets_palette",
+    "//": "Use to randomly assign carpet colors",
+    "parameters": {
+      "concrete_carpet_color_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_carpet_concrete_red", 1 ],
+            [ "t_carpet_concrete_green", 1 ],
+            [ "t_carpet_concrete_purple", 1 ],
+            [ "t_carpet_concrete_yellow", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_red" } }
   }
 ]

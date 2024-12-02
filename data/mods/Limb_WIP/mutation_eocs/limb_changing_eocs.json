@@ -4,7 +4,7 @@
     "id": "EOC_CHANGING_LIMB_SETUP",
     "//": "Get the timer started, it should be added to all first-level changing traits",
     "condition": { "math": [ "u_limb_progress_timer == 0" ] },
-    "effect": [ { "math": [ "u_limb_progress_timer", "=", "time('now')" ] } ]
+    "effect": [ { "math": [ "u_limb_progress_timer = time('now')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -73,7 +73,7 @@
         "if": { "u_has_trait": "EYES_INSECT" },
         "then": [
           { "u_message": "<insect_eye_success>", "popup": true },
-          { "math": [ "u_progress_pre_eyes_insect", "=", "0" ] },
+          { "math": [ "u_progress_pre_eyes_insect = 0" ] },
           { "u_lose_effect": "sleep" }
         ],
         "else": { "u_message": "<insect_failure>", "type": "bad", "snippet": true }
@@ -94,7 +94,7 @@
           { "u_message": "<insect_eye_dream>", "snippet": true },
           { "u_lose_effect": "sleep" },
           { "math": [ "u_progress_pre_eyes_insect", "++" ] },
-          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+          { "math": [ "u_limb_progress_timer = time('now')" ] }
         ],
         "else": [
           { "if": { "one_in_chance": 5 }, "then": { "u_message": "<insect_failure>", "type": "bad", "snippet": true } },
@@ -125,7 +125,7 @@
         "if": { "u_has_trait": "EYES_INSECT_2" },
         "then": [
           { "u_message": "<insect_eye_2_success>", "popup": true },
-          { "math": [ "u_progress_eyes_insect", "=", "0" ] },
+          { "math": [ "u_progress_eyes_insect = 0" ] },
           { "u_set_field": "fd_blood_insect", "radius": 0 },
           { "u_lose_effect": "sleep" }
         ],
@@ -147,7 +147,7 @@
           { "u_message": "<insect_eye_dream>", "snippet": true },
           { "u_lose_effect": "sleep" },
           { "math": [ "u_progress_eyes_insect", "++" ] },
-          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+          { "math": [ "u_limb_progress_timer = time('now')" ] }
         ],
         "else": [
           { "if": { "one_in_chance": 8 }, "then": { "u_message": "<insect_failure>", "type": "bad", "snippet": true } },
@@ -182,7 +182,7 @@
         "if": { "u_has_trait": "ARM_FEATHERS" },
         "then": [
           { "u_message": "<arm_feathers_success>", "popup": true },
-          { "math": [ "u_progress_pre_arm_feathers", "=", "0" ] },
+          { "math": [ "u_progress_pre_arm_feathers = 0" ] },
           { "u_lose_effect": "sleep" }
         ],
         "else": {
@@ -207,7 +207,7 @@
           { "u_message": "<arm_feathers_dream>", "snippet": true, "popup": true },
           { "u_lose_effect": "sleep" },
           { "math": [ "u_progress_pre_arm_feathers", "++" ] },
-          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+          { "math": [ "u_limb_progress_timer = time('now')" ] }
         ],
         "else": [
           {
@@ -245,7 +245,7 @@
         "if": { "u_has_trait": "WINGS_BIRD" },
         "then": [
           { "u_message": "<wings_bird_success>", "popup": true },
-          { "math": [ "u_progress_wings_bird", "=", "0" ] },
+          { "math": [ "u_progress_wings_bird = 0" ] },
           { "u_lose_effect": "sleep" }
         ],
         "else": { "u_message": "<bird_failure>", "type": "bad", "snippet": true }
@@ -266,7 +266,7 @@
           { "u_message": "<wings_bird_dream>", "snippet": true },
           { "u_lose_effect": "sleep" },
           { "math": [ "u_progress_wings_bird", "++" ] },
-          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+          { "math": [ "u_limb_progress_timer = time('now')" ] }
         ],
         "else": [
           {

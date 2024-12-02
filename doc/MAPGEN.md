@@ -297,24 +297,35 @@ Examples:
 
 # JSON object definition
 
-The JSON object for a mapgen entry must include either `"fill_ter"`, or `"rows"` and `"terrain"`. All other fields are
-optional.
-
-
 ## Fill terrain using "fill_ter"
 Fill with the given terrain.
 
-Value: `"string"`: Valid terrain id from data/json/terrain.json
+terrain id string or [mapgen value](#mapgen-values)
 
-Example: `"fill_ter": "t_region_groundcover"`
+### Examples
+
+Every tile lacking a terrain character definition will be `t_region_groundcover`
+`"fill_ter": "t_region_groundcover"`
+
+Every tile lacking a terrain character definition will the same one of `t_floor`, `t_pavement` and `t_concrete` across the omt, with `t_floor`being twice as likely to be picked
+```json
+"parameters": {
+  "floor_type": {
+    "type": "ter_str_id",
+    "scope": "omt",
+    "default": { "distribution": [ [ "t_floor", 2 ], [ "t_pavement", 1 ], [ "t_concrete", 1 ] ] }
+  }
+},
+"fill_ter": { "param": "floor_type" },
+```
 
 
 ## ASCII map using "rows" array
 
 Nested array usually of 24 strings, each 24 characters long but can vary for nests (in which case between 1 and 24)
 and defining multiple overmap terrains maps at once (in which case a multiple of 24),
-where each character is defined by "terrain" and optionally "furniture" or other entries below.
-Defaults to all spaces " " if unset.
+where each character can be defined by "terrain" and "furniture" or other entries below.
+`"rows"` can be omitted entirely in which case each row is set to all `" "` (of the appropriate size if used with nests).
 
 Usage:
 
@@ -325,19 +336,9 @@ Usage:
 Other parts can be linked with this map, for example one can place things like a gaspump (with gasoline) or a toilet
 (with water) or items from an item group or fields at the square given by a character.
 
-Any character used here must have some definition elsewhere to indicate its purpose.  Failing to do so is an error which
-will be caught by running the tests.  The tests will run automatically when you make a pull request for adding new maps
-to the game.  If you have defined `fill_ter` or you are writing nested mapgen, then there are a couple of exceptions.
-The space and period characters (` ` and `.`) are permitted to have no definition and be used for 'background' in the
-`rows`.
-
-As keys, you can use any Unicode characters which are not double-width.  This includes for example most European
-alphabets but not Chinese characters.  If you intend to take advantage of this, ensure that your editor is saving the
-file with a UTF-8 encoding.  Accents are acceptable, even when using [combining
-characters](https://en.wikipedia.org/wiki/Combining_character).  No normalization is performed; comparison is done at
-the raw bytes (code unit) level.  Therefore, there are literally an infinite number of mapgen key characters available.
-Please don't abuse this by using distinct characters that are visually indistinguishable, or which are so rare as to be
-unlikely to render correctly for other developers.
+If you specify one of `fill_ter`, `predecessor_mapgen`, `fallback_predecessor_mapgen` or you are writing nested mapgen
+then the space and period characters (` ` and `.`) are permitted to have no definition and be used for 'background' in the `rows`.
+Otherwise any character used must have some definition to indicate its purpose, whether directly in the mapgen or in a specified palette.
 
 Example:
 
@@ -374,7 +375,8 @@ Example:
 ### Row terrains in "terrain"
 **usually required by "rows"**
 
-Defines terrain ids for "rows", each key is a single character with a terrain id string
+Defines terrain ids for `"rows"`, each key is a single character with a terrain id string or [mapgen value](#mapgen-values)
+If you want to remove a terrain definition from a palette in preference of a fallback you can use `t_null`
 
 Value: `{object}: { "a", "t_identifier", ... }`
 
@@ -405,8 +407,8 @@ Example:
 ### Furniture symbols in "furniture" array
 **optional**
 
-Defines furniture ids for "rows" ( each character in rows is a terrain -or- terrain/furniture combo ). "f_null" means no
-furniture but the entry can be left out
+Defines furniture ids for `"rows"`, each key is a single character with a furniture id string or [mapgen value](#mapgen-values)
+If you want to remove a furniture definition from a palette you can use `f_null`
 
 Example:
 
@@ -425,6 +427,15 @@ Example:
   "d": "f_dumpster"
 },
 ```
+
+### Acceptable characters
+
+You should aim to make the rows as clear as possible with your character choice but
+you can use any Unicode characters which are not double-width.  This includes for example most European
+alphabets but not Chinese characters.  If you intend to take advantage of this, ensure that your editor is saving the
+file with a UTF-8 encoding.  Accents are acceptable, even when using [combining
+characters](https://en.wikipedia.org/wiki/Combining_character).  No normalization is performed; comparison is done at
+the raw bytes (code unit) level.  Therefore, there are literally an infinite number of mapgen key characters available.
 
 ## Mapgen flags
 `"flags"` may provide a list of flags to be applied to the mapgen.
