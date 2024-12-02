@@ -208,7 +208,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beech_nuts",
-    "name": { "str_sp": "beech nuts" },
+    "name": { "str_sp": "beechnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "90 days",
