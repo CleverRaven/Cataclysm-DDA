@@ -111,7 +111,7 @@
   {
     "type": "MONSTER",
     "id": "mon_nedcolbertia_bio_op",
-    "name": { "str_sp": "nedcolbertia bio-operator" },
+    "name": { "str": "nedcolbertia bio-operator" },
     "copy-from": "mon_nedcolbertia",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
