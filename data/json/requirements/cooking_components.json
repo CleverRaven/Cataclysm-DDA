@@ -92,6 +92,7 @@
         [ "butternut_roasted", 1 ],
         [ "acorns_cooked", 1 ],
         [ "acorn_roasted", 1 ],
+        [ "acorns_blanched", 1 ],
         [ "soy_nuts", 1 ]
       ]
     ]
