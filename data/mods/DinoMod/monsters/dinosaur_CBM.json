@@ -161,7 +161,7 @@
   {
     "type": "MONSTER",
     "id": "mon_struthiomimus_bio_op",
-    "name": { "str_sp": "struthiomimus bio-operator" },
+    "name": { "str": "struthiomimus bio-operator" },
     "copy-from": "mon_struthiomimus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
