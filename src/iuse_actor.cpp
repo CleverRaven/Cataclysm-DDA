@@ -2386,7 +2386,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-std::optional<int> learn_spell_actor::use( Character *p, item &it, const tripoint & ) const
+std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint & ) const
 {
     //TODO: combine/replace the checks below with "checks for conditions" from Character::check_read_condition
 
