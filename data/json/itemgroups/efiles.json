@@ -1,0 +1,8 @@
+[
+  {
+    "id": "laptop_files_work",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "computer_science", "prob": 100, "count": 1 } ]
+  }
+]

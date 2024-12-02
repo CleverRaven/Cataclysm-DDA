@@ -2358,6 +2358,41 @@
     "type": "json_flag"
   },
   {
+    "id": "E_FILE_DEVICE",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files"
+  },
+  {
+    "id": "E_STORABLE",
+    "type": "json_flag",
+    "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_COPIABLE",
+    "type": "json_flag",
+    "//": "Any item that can be electronically copied and scanned"
+  },
+  {
+    "id": "E_FILE_COLLECTION",
+    "type": "json_flag",
+    "//": "Any item that represents a collection of electronic files; this is to avoid making a file system for electronic devices"
+  },
+  {
+    "id": "E_FILE_DEVICE_UNREAD",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files but hasn't been read yet"
+  },
+  {
+    "id": "VIEW_RECIPES",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained recipes"
+  },
+  {
+    "id": "VIEW_PHOTOS",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained photos"
+  },
+  {
     "id": "AFS_CS_LOCKER_CARD",
     "type": "json_flag",
     "info": "ID card granting access to the crashing ship's locker room."

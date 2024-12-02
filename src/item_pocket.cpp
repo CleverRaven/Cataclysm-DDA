@@ -53,6 +53,7 @@ std::string enum_to_string<pocket_type>( pocket_type data )
     case pocket_type::EBOOK: return "EBOOK";
     case pocket_type::CABLE: return "CABLE";
     case pocket_type::MIGRATION: return "MIGRATION";
+    case pocket_type::E_FILE_STORAGE: return "E_FILE_STORAGE";
     case pocket_type::LAST: break;
     }
     cata_fatal( "Invalid valid_target" );
@@ -180,6 +181,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
     optional( jo, was_loaded, "inherits_flags", inherits_flags );
+    optional( jo, was_loaded, "ememory_max", ememory_max );
     // if ablative also flag as a holster so it only holds 1 item
     if( ablative ) {
         holster = true;
@@ -635,7 +637,7 @@ units::mass item_pocket::item_weight_modifier() const
 
 units::length item_pocket::item_length_modifier() const
 {
-    if( is_type( pocket_type::EBOOK ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::E_FILE_STORAGE ) ) {
         return 0_mm;
     }
     units::length total_length = 0_mm;
@@ -1337,6 +1339,15 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
+    if( data->type == pocket_type::E_FILE_STORAGE ) {
+        if( it.is_estorable() ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only books, e-scannable items can go into e-file pocket" ) );
+        }
+    }
+
     if( data->type == pocket_type::EBOOK ) {
         if( it.is_book() ) {
             return ret_val<item_pocket::contain_code>::make_success();
@@ -1784,7 +1795,8 @@ static void move_to_parent_pocket_recursive( const tripoint_bub_ms &pos, item &i
 void item_pocket::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
-        is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ) {
+        is_type( pocket_type::EBOOK ) || is_type( pocket_type::CABLE ) ||
+        is_type( pocket_type::E_FILE_STORAGE ) ) {
         return;
     }
     if( empty() ) {
@@ -1907,8 +1919,8 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint_bub_ms &pos )
 {
-    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ||
-        is_type( pocket_type::CABLE ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::E_FILE_STORAGE ) ||
+        is_type( pocket_type::CORPSE ) || is_type( pocket_type::CABLE ) ) {
         return false;
     }
 
