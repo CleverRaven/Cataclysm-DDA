@@ -133,6 +133,9 @@ static const efftype_id effect_zapped( "zapped" );
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
@@ -444,6 +447,16 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
 {
     // If it's dangerous and we're not immune return true, else return false
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
+}
+
+bool Creature::is_immune_fields( const std::vector<field_type_id> &fields ) const
+{
+    for( const field_type_id fi : fields ) {
+        if( !is_immune_field( fi ) ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vote )
@@ -889,7 +902,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    if( has_flag( mon_flag_IMMOBILE ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
         // miss a smaller target, especially when wielding a
@@ -1353,7 +1366,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam, const weakpoint_attack &attack )
 {
-    if( is_dead_state() ) {
+    if( is_dead_state() || has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
     }
     int total_damage = 0;
@@ -2021,6 +2034,11 @@ void Creature::process_effects()
     // Decay/removal of effects
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
+            // Do not freeze the effect with the FREEZE_EFFECTS flag.
+            if( has_effect_with_flag( json_flag_FREEZE_EFFECTS ) &&
+                !_it.second.has_flag( json_flag_FREEZE_EFFECTS ) ) {
+                continue;
+            }
             // Add any effects that others remove to the removal list
             for( const auto &removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
@@ -2104,9 +2122,10 @@ void Creature::clear_values()
     values.clear();
 }
 
-void Creature::mod_pain( int npain )
+int Creature::mod_pain( int npain )
 {
     mod_pain_noresist( npain );
+    return npain;
 }
 
 void Creature::mod_pain_noresist( int npain )

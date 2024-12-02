@@ -2616,7 +2616,7 @@ class Character : public Creature, public visitable
         bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
 
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        void mod_pain( int npain ) override;
+        int mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/

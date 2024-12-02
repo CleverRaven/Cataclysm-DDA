@@ -1165,13 +1165,10 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
     }
 }
 
-void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint_bub_ms & )
+void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
+                                        const tripoint_bub_ms &center )
 {
-    if( !caster.is_avatar() ) {
-        debugmsg( "Spells that spawn items are only supported for the avatar, not for %s.",
-                  caster.disp_name() );
-        return;
-    }
+    Character *const character_at_target = get_creature_tracker().creature_at<npc>( center );
 
     std::vector<item> granted;
 
@@ -1187,27 +1184,40 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     }
 
     avatar &player_character = get_avatar();
-    for( item &it : granted ) {
-        // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
-        if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
-            !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
-            it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
-            it.ethereal = true;
+    if( character_at_target == nullptr ) {
+        for( item &it : granted ) {
+            // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
+            if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
+                !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
+                it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+                it.ethereal = true;
+            }
+            get_map().add_item_or_charges( center, it );
         }
 
-        if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
-            // Ethereal equipment already exists so just update its duration
-            item *existing_item = player_character.item_worn_with_id( it.typeId() );
-            existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
-        } else if( player_character.can_wear( it ).success() ) {
-            it.set_flag( json_flag_FIT );
-            player_character.wear_item( it, false );
-        } else if( !player_character.has_wield_conflicts( it ) &&
-                   !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
-                   player_character.wield( it, 0 ) ) {
-            // nothing to do
-        } else {
-            player_character.i_add( it );
+    } else {
+        for( item &it : granted ) {
+            // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
+            if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
+                !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
+                it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+                it.ethereal = true;
+            }
+
+            if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
+                // Ethereal equipment already exists so just update its duration
+                item *existing_item = player_character.item_worn_with_id( it.typeId() );
+                existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+            } else if( player_character.can_wear( it ).success() ) {
+                it.set_flag( json_flag_FIT );
+                player_character.wear_item( it, false );
+            } else if( !player_character.has_wield_conflicts( it ) &&
+                       !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
+                       player_character.wield( it, 0 ) ) {
+                // nothing to do
+            } else {
+                player_character.i_add( it );
+            }
         }
     }
     sp.make_sound( caster.pos_bub(), caster );

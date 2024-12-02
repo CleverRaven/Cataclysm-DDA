@@ -271,7 +271,8 @@ void monmove()
 
     for( monster &critter : g->all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos_bub() ) &&
+        if( !critter.is_dead() && ( m.impassable( critter.pos_bub() ) &&
+                                    !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
             !critter.can_move_to( critter.pos_bub() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
                            << " can't move to its location!  (" << critter.posx()
@@ -491,7 +492,8 @@ bool do_turn()
     u.gravity_check();
 
     // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    if( m.impassable( u.pos_bub() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
+    if( ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
+        !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
         u.stagger();
     }
 
