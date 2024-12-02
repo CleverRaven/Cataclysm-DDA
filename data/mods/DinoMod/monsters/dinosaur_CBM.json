@@ -186,7 +186,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ornithomimus_bio_op",
-    "name": { "str_sp": "ornithomimus bio-operator" },
+    "name": { "str": "ornithomimus bio-operator" },
     "copy-from": "mon_ornithomimus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
