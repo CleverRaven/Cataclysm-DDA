@@ -482,7 +482,7 @@
     "variants": [
       {
         "id": "peanutbutter_preapoc",
-        "name": { "str_sp:" "peanut butter" },
+        "name": { "str_sp": "peanut butter" },
         "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
         "weight": 1
       }
