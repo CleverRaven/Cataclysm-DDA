@@ -1493,7 +1493,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
-| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` }, | character / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
+| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` },<br/> { "bodypart", `bodypart_id` },<br/> { "pain", `int` }, | character / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | monster_takes_damage | triggers when monster gets any damage from any creature. Includes damages from effects like bleeding | { "damage", `int` },<br/> { "dies", `bool` }, | monster / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
 | character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
@@ -4014,6 +4014,23 @@ NPC or character will start an activity
 You assign activity `ACT_GAME` for 45 minutes
 ```json
 { "u_assign_activity": "ACT_GAME", "duration": "45 minutes" }
+```
+
+#### `u_cancel_activity`, `npc_cancel_activity`
+
+NPC or character will stop their current activity
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You cancel activity `ACT_GAME` for 45 minutes
+```json
+{ "u_cancel_activity" }
 ```
 
 

@@ -23,6 +23,7 @@
       "SPAWN_ACTIVE",
       "ALLOWS_NATURAL_ATTACKS",
       "SEMITANGIBLE",
+      "POWERARMOR_COMPATIBLE",
       "UNRESTRICTED"
     ],
     "tick_action": {
@@ -63,7 +64,7 @@
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "POWERARMOR_COMPATIBLE" ],
     "use_action": {
       "type": "effect_on_conditions",
       "ammo_scale": 1,
