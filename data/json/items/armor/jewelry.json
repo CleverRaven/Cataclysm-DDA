@@ -3544,7 +3544,7 @@
     "type": "ARMOR",
     "name": { "str": "pearl and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a pearl pendant.",
-    "ascii_image": "pearl_gold_pendant_necklace",
+    "ascii_picture": "pearl_gold_pendant_necklace",
     "color": "white"
   },
   {
