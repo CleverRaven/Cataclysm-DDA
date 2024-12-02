@@ -4568,7 +4568,7 @@
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
     "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.",
-    "ascii_image": "simple_pistol_cartridge_necklace",
+    "ascii_picture": "simple_pistol_cartridge_necklace",
     "snippet_category": [
       {
         "id": "pistol_pendent1",
