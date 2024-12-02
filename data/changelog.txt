@@ -191,9 +191,7 @@ items with POST_UP use_action can be put up on walls
 Items salvaged from cutting will now be placed in vehicle, if you're cutting them in vehicle
 tile layering supports item variants
 Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
-Query the player on whether he really want to cut other people's stuff
-Added comments to mongroup.h and related functions.
-Adds a soaking spear shaft
+Query the player on whether they really want to cut up other people's stuff
 
 
 ## Content:
@@ -406,12 +404,9 @@ The walls of most buildings vary more
 New scenario: Moonlit Night
 Added chokeberries and spicebush
 Wildlife foods adjust morale
-Add TOUGH_FEET to BIRD_LEGS mutation
-Buildings using linoleum use both gray and white linoleum
 Add dormant zombies to more locations
-Add tupelo and nannyberry trees
+Add tupelo and nannyberry,  hobblebush and autumn olive trees
 New exodii rifle
-Add hobblebush and autumn olive
 
 
 ## Interface:
@@ -871,17 +866,13 @@ Allow Lilin to drain ruach while under the effects of NO_SPELLCASTING
 [Xedra Evolved] Add Lilit ruach gauge using custom variable functionality
 [Magiclysm] Add the mana-shackled challenge trait
 [Xedra Evolved] Arvore Cleanup
-[Xedra Evolved] Update Ierde stone fists to fix oddities
 [Innawoods] Removes man-made trash from stream loot spawns.
 [DinoMod] smell audit
 Mods can add categories to the help menu
 [MoM] Danger Sense senses danger
 Martial Mastery: Insight is cleared when using other martial arts
 [MoM] Change id of Sense Minds sensing effect to use new tileset sprite
-[Aftershock] Fix general store second floor spawning carpets instead of windows.
-[Aftershock] Fix Elevator Controls in Urban Greenhouse
 [MoM/XE] Add deactivate_conditions to recurring EoCs that don't need to recur for everyone
-[Magiclysm/Xedra Evolved] Update tree ter transforms for nannyberry/tupelo/spicebush/chokeberries
 
 
 ## Balance:
@@ -1372,19 +1363,14 @@ ALLOWS_TALONS is about talons for feet, not for hands
 Fix headlamp to accept medium batteries akin to a flashlight
 Toggle bionics/deactivate mutations causes bonus stats ignored until next turn
 Several tweaks for using musical instruments
-Don't spawn prison dog handler's utility stuff on counters in prison mess hall
 clear basecamps for tests in clear_map()
 Fix mana-using mutations
 Fixed crash that occurs after loading save and tying to move.
 Make Quenching/Tempered Steel recipes more consistent
 fix limb drying rate and related test data
 crash on keybind reset in UILIST
-add missing comma
 Fix broken macOS build due removed folder
-Fixed able to read books stored in smartphone through the read menu without enough charge to read.
 Fix an EOC that was looping infinitely and starting more loops as you travel
-Fix Shapeshifter attunement
-Increased weight of zombie hulk
 
 
 ## Performance:
