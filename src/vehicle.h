@@ -1636,7 +1636,7 @@ class vehicle
         // get maximum air velocity based on rotor physics
         int max_rotor_velocity( bool fueled = true ) const;
         // get maximum air velocity for rotorless vehicles.  Needed for autodrive to handle them.
-        int max_rotorlike_velocity(bool fueled = true) const;
+        int max_rotorlike_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1650,7 +1650,7 @@ class vehicle
         int safe_rotor_velocity( bool fueled = true ) const;
         // get safe air velocity gained by combined power of all engines.
         // if fueled == true, then only the engines which the vehicle hs fuel for are included
-        int safe_rotorlike_velocity(bool fueled = true) const;
+        int safe_rotorlike_velocity( bool fueled = true ) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_water_velocity( bool fueled = true ) const;
