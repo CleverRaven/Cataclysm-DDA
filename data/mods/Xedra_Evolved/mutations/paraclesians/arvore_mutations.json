@@ -829,7 +829,7 @@
     "prereqs": [ "ARVORE_EYES" ],
     "changes_to": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
-    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of nearby creatures.  While the forest can distinguish between a bird and a zombie, some fine distinctions are still lost to it.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_forest_detect_enemies" ]
   },
@@ -842,9 +842,9 @@
     "ugliness": 0,
     "prereqs": [ "ARVORE_FOREST_DETECT" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
-    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.  Also, you can see further when you're standing in a forest.",
+    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of nearby creatures.  While the forest can distinguish between a bird and a zombie, some fine distinctions are still lost to it.  Also, you can see further when you're standing in a forest.",
     "category": [ "ARVORE" ],
-    "enchantments": [ "arvore_forest_detect_enemies_and_overmap" ]
+    "enchantments": [ "arvore_forest_detect_enemies", "arvore_forest_see_overmap" ]
   },
   {
     "type": "mutation",
@@ -972,7 +972,6 @@
     "activated_is_setup": true,
     "activation_msg": "Your legs fuse together and your arms stretch toward the sky as you put down roots and transform into a towering tree.",
     "activated_eocs": [ "EOC_ARVORE_TREE_FORM_ON" ],
-    "processed_eocs": [ "EOC_ARVORE_TREE_FORM_IMMOBILE" ],
     "deactivated_eocs": [ "EOC_ARVORE_TREE_FORM_OFF" ]
   },
   {
@@ -986,7 +985,7 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "//": "Healing values copied from the Regeneration mutation",
     "override_look": { "id": "t_tree", "tile_category": "terrain" },
-    "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
+    "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING", "IMMUNE_HEARING_DAMAGE", "CANNOT_MOVE" ],
     "wet_protection": [
       { "part": "head", "ignored": 40 },
       { "part": "leg_l", "ignored": 40 },
@@ -1031,7 +1030,6 @@
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
     "enchantments": [
-      "ench_arvore_tree_form",
       {
         "values": [
           { "value": "ATTACK_SPEED", "multiply": 900 },
@@ -1039,7 +1037,9 @@
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
-          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 },
+          { "value": "SLEEPY", "add": 150 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
         ]
       }
     ]
