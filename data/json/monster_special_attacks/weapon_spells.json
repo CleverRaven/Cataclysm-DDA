@@ -150,5 +150,40 @@
     "max_pierce": 5,
     "pierce_increment": 1,
     "damage_type": "stab"
+  },
+  {
+    "type": "SPELL",
+    "id": "labyrinth_turret_charge_up",
+    "name": { "str": "Turret charge up" },
+    "description": "Charges up the main weapon of the turret.",
+    "flags": [ "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": "self",
+    "min_damage": 1,
+    "max_damage": 2,
+    "shape": "blast",
+    "effect": "targeted_polymorph",
+    "effect_str": "mon_labyrinth_turret_oneshot_charged"
+  },
+  {
+    "id": "labyrinth_turret_fire",
+    "type": "SPELL",
+    "name": { "str": "Labyrinth turret oneshot attack" },
+    "description": "Fires an attack and then destroys itself.  There should be a few different types of possible attack.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX", "WONDER" ],
+    "effect": "attack",
+    "shape": "blast",
+    "base_casting_time": 300,
+    "min_range": 1,
+    "max_range": 25,
+    "max_level": 2,
+    "min_damage": 1,
+    "max_damage": 1,
+    "//": "temporary weapon effects.  Should get some of its own.",
+    "extra_effects": [
+      { "id": "weaponpod_electric_blast" },
+      { "id": "weaponpod_heat_gun" }
+    ],
+    "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
   }
 ]
