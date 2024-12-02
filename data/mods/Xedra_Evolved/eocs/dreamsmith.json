@@ -115,7 +115,7 @@
       { "math": [ "DREAMSMITH_RECIPE_SCORE = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "25" ] }
     ],
-    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again, each attempt brings you closer to success.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
