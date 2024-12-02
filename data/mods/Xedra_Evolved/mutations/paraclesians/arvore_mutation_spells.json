@@ -93,7 +93,6 @@
             { "npc_has_species": "MIGO" },
             { "npc_has_species": "NETHER" },
             { "npc_has_species": "NETHER_BURROWING" },
-            { "npc_has_species": "PLANT" },
             { "npc_has_species": "VAMPIRE" },
             { "npc_has_species": "NIGHTMARE" },
             { "npc_has_species": "HORROR" },
