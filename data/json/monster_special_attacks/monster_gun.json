@@ -217,6 +217,17 @@
     "durability": 5
   },
   {
+    "id": "civilian_cop_glock22",
+    "copy-from": "glock_22",
+    "looks_like": "glock_22",
+    "flags": [ "PSEUDO" ],
+    "type": "GUN",
+    "name": { "str": "Cops' Glock 22", "//~": "NO_I18N" },
+    "description": { "str": "A gun carried by overconfident officer monsters, more inaccurate for balancing reasons.", "//~": "NO_I18N" },
+    "dispersion": 960,
+    "durability": 5
+  },
+  {
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",
