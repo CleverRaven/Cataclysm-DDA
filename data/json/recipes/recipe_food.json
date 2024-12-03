@@ -9029,10 +9029,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
-    "components": [
-      [ [ "any_nut", 3, "LIST" ] ],
-      [ [ "sugar_standard", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "any_nut", 3, "LIST" ] ], [ [ "sugar_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
