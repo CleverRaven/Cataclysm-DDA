@@ -1245,6 +1245,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_rooted_in_place",
+    "name": [ "The Root of the Mountain" ],
+    "desc": [ "Drawing on the immobility of the mountain, you are resilient but rooted in place." ],
+    "removes_effects": [ "stunned", "dazed", "downed" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_BASH", "multiply": -0.25 },
+          { "value": "ARMOR_BULLET", "multiply": -0.25 },
+          { "value": "ARMOR_CUT", "multiply": -0.25 },
+          { "value": "ARMOR_STAB", "multiply": -0.25 },
+          { "value": "ARMOR_HEAT", "multiply": -0.25 }
+        ]
+      }
+    ],
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_buff_armor_allies",
     "name": [ "Skin of the Mountains" ],
     "desc": [ "Your skin is much harder than it appears." ],
