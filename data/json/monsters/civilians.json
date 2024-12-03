@@ -71,10 +71,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "death_drops": {
       "subtype": "collection",
-      "items": [
-        { "group": "mon_zombie_cop_death_drops", "prob": 100 },
-        { "item": "steyr_aug", "prob": 100, "charges": [ 0, 6 ] }
-      ]
+      "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "steyr_aug", "prob": 100, "charges": [ 0, 6 ] } ]
     },
     "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO", "WIELDED_WEAPON" ] },
