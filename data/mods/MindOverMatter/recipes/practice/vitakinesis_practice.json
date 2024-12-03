@@ -172,12 +172,14 @@
               },
               { "math": [ "u_spell_level('vita_concentrated_healing') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -260,12 +262,14 @@
               },
               { "math": [ "u_spell_level('vita_stop_bleeding') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -348,12 +352,14 @@
               },
               { "math": [ "u_spell_level('vita_hurt_touch') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -436,12 +442,14 @@
               },
               { "math": [ "u_spell_level('vita_health_power_ally') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -524,12 +532,14 @@
               },
               { "math": [ "u_spell_level('vita_remove_poison') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -613,12 +623,14 @@
               },
               { "math": [ "u_spell_level('vita_sleeping_trance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -702,12 +714,14 @@
               },
               { "math": [ "u_spell_level('vita_cure_disease') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -791,12 +805,14 @@
               },
               { "math": [ "u_spell_level('vita_stop_infection') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -880,12 +896,14 @@
               },
               { "math": [ "u_spell_level('vita_healing_trance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1002,12 +1020,14 @@
               },
               { "math": [ "u_spell_level('vita_attack_touch') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1091,12 +1111,14 @@
               },
               { "math": [ "u_spell_level('vita_blood_purge') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1180,12 +1202,14 @@
               },
               { "math": [ "u_spell_level('vita_banish_illness') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1269,12 +1293,14 @@
               },
               { "math": [ "u_spell_level('vita_super_heal') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1392,12 +1418,14 @@
               },
               { "math": [ "u_spell_level('vita_return_from_death') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
