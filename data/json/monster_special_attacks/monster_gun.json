@@ -213,9 +213,9 @@
     "durability": 8,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 1 } } ],
     "melee_damage": { "bash": 3 }
-  },
   {
     "id": "feral_jackboot_gun",
+    "type": "GUN",
     "symbol": "R",
     "color": "dark_gray",
     "name": { "str": "feral bikers' shotgun" },
@@ -244,6 +244,7 @@
     "ascii_picture": "beretta_m9",
     "weight": "961 g",
     "volume": "570 ml",
+    "flags": [ "PSEUDO" ],
     "longest_side": "249 mm",
     "price": "650 USD",
     "price_postapoc": "25 USD",
