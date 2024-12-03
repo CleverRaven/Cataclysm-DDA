@@ -85,7 +85,7 @@
     "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ], [ "mag_electronics", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "cable", 20 ] ] ],
-    "tools": [ [ [ "two_way_radio", 25 ], [ "radiocontrol", 25 ] ] ]
+    "tools": [ [ [ "two_way_radio", 4 ], [ "radiocontrol", 4 ] ] ]
   },
   {
     "type": "recipe",
