@@ -353,8 +353,7 @@
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun" },
-    "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion."
-    },
+    "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
     "flags": [ "NEVER_JAMS", "NO_TURRET", "PSEUDO" ],
     "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
     "material": [ "flesh" ],
