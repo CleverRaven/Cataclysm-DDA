@@ -194,6 +194,7 @@
     "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
     "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
+  {
     "id": "feral_militia_gun",
     "type": "GUN",
     "symbol": "R",
@@ -213,7 +214,8 @@
     "durability": 8,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 1 } } ],
     "melee_damage": { "bash": 3 }
-  {
+  },
+  {  
     "id": "feral_jackboot_gun",
     "type": "GUN",
     "symbol": "R",
@@ -234,7 +236,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 3 }
   },
-  { 
+  {
     "id": "feral_m9",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
