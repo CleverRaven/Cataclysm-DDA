@@ -104,7 +104,7 @@
         "if": { "math": [ "u_vitamin('dermatik_larva_size') >= 1440" ] },
         "then": [
           { "if": { "u_has_effect": "sleep" }, "then": { "u_lose_effect": "sleep" } },
-          { "math": [ "NUM_LARVA", "=", "u_val('size')" ] },
+          { "math": [ "NUM_LARVA = u_val('size')" ] },
           {
             "u_message": "<global_val:NUM_LARVA> dermatik larvae bursts out of the bulge of flesh on your <global_val:IMPREGNATED_BODYPART>!",
             "type": "bad"
@@ -117,7 +117,7 @@
           },
           { "u_set_field": "fd_blood", "radius": 1, "intensity": 3 },
           { "turn_cost": "6 seconds" },
-          { "math": [ "HOW_MUCH_WILL_THIS_SUCK", "=", "rng(21, 30)" ] },
+          { "math": [ "HOW_MUCH_WILL_THIS_SUCK = rng(21, 30)" ] },
           { "math": [ "u_vitamin('blood')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
           { "math": [ "u_vitamin('redcells')", "-=", "HOW_MUCH_WILL_THIS_SUCK * 100" ] },
           {
@@ -131,7 +131,7 @@
         "else": { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size') / 3" ] }
       },
       { "u_lose_effect": "dermatik_visible" },
-      { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] }
+      { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] }
     ]
   },
   {

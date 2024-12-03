@@ -516,7 +516,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
             "ITEM_DAMAGE_PURE",
             "ITEM_DAMAGE_STAB",
             "ITEM_DAMAGE_BASH",
-            "SIGHT_RANGE_ELECTRIC"
+            "SIGHT_RANGE_ELECTRIC",
             "MOTION_VISION_RANGE",
             "SIGHT_RANGE_FAE",
             "SIGHT_RANGE_NETHER",

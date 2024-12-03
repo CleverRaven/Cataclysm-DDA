@@ -1459,7 +1459,11 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book() || loc->type->can_use( "learn_spell" );
+            const item_location p_loc = loc.parent_item();
+
+            return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
+                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
+                     p_loc->energy_remaining() >= 1_kJ );
         }
 
         std::string get_denial( const item_location &loc ) const override {

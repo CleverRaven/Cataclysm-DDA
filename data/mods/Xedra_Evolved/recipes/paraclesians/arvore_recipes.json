@@ -87,7 +87,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -137,7 +137,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -187,7 +187,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -237,7 +237,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -288,7 +288,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -339,7 +339,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -390,7 +390,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -492,7 +492,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -543,7 +543,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]

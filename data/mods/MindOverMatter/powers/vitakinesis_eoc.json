@@ -37,7 +37,7 @@
               { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size')" ] },
               { "u_lose_effect": "dermatik" },
               { "u_lose_effect": "dermatik_visible" },
-              { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] },
+              { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] },
               { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
             ],
             "false_effect": [
@@ -262,12 +262,8 @@
     "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] },
     "effect": [ { "run_eocs": [ "EOC_VITAKIN_SLEEP_SLEEPINESS", "EOC_VITAKIN_SLEEP_DEPRIVATION" ] } ],
     "false_effect": [
-      {
-        "u_message": "You are fully refreshed, and can end your meditations now.",
-        "popup": true,
-        "popup_w_interrupt_query": true,
-        "interrupt_type": "eoc"
-      },
+      { "u_message": "You are fully refreshed, and end your meditations.", "type": "good" },
+      "u_cancel_activity",
       { "u_lose_effect": "effect_vitakin_wakeful_resting" }
     ]
   },
@@ -327,7 +323,7 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       {
         "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
@@ -535,37 +531,37 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MUTAGEN_PURGE",
     "effect": [
-      { "math": [ "u_vitamin('mutagen')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_alpha')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_batrachian')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_beast')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_bird')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_cattle')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_cephalopod')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_chelator')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_chimera')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_crustacean')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_elfa')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_feline')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_fish')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_gastropod')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_human')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_insect')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_lizard')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_lupine')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_medical')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_mouse')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_plant')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_rabbit')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_raptor')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_rat')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_slime')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_spider')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_troglobite')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_ursine')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagenic_slurry')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutant_toxin')", "=", "0" ] },
-      { "math": [ "u_vitamin('mutagen_crustacean')", "=", "0" ] }
+      { "math": [ "u_vitamin('mutagen') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_alpha') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_batrachian') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_beast') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_bird') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_cattle') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_cephalopod') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_chelator') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_chimera') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_crustacean') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_elfa') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_feline') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_fish') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_gastropod') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_human') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_insect') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_lizard') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_lupine') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_medical') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_mouse') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_plant') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_rabbit') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_raptor') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_rat') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_slime') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_spider') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_troglobite') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_ursine') = 0" ] },
+      { "math": [ "u_vitamin('mutagenic_slurry') = 0" ] },
+      { "math": [ "u_vitamin('mutant_toxin') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_crustacean') = 0" ] }
     ]
   },
   {
@@ -1202,27 +1198,27 @@
     "effect": [
       {
         "if": { "math": [ "u_hp('torso') > 0" ] },
-        "then": { "math": [ "u_vitakinesis_return_from_death_hp_torso", "=", "u_hp('torso')" ] }
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_torso = u_hp('torso')" ] }
       },
       {
         "if": { "math": [ "u_hp('head') > 0" ] },
-        "then": { "math": [ "u_vitakinesis_return_from_death_hp_head", "=", "u_hp('head')" ] }
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_head = u_hp('head')" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_l') > 0" ] },
-        "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_l", "=", "u_hp('arm_l')" ] }
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_l = u_hp('arm_l')" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_r') > 0" ] },
-        "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_r", "=", "u_hp('arm_r')" ] }
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_arm_r = u_hp('arm_r')" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_l') > 0" ] },
-        "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_l", "=", "u_hp('leg_l')" ] }
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_l = u_hp('leg_l')" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_r') > 0" ] },
-        "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_r", "=", "u_hp('leg_r')" ] }
+        "then": { "math": [ "u_vitakinesis_return_from_death_hp_leg_r = u_hp('leg_r')" ] }
       }
     ]
   },
@@ -1231,17 +1227,17 @@
     "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH_START",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
-      { "math": [ "u_calories('dont_affect_weariness': true)", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
-      { "math": [ "u_hp('ALL_MINOR')", "=", "999" ] },
-      { "math": [ "u_hp('torso')", "=", "max( u_vitakinesis_return_from_death_hp_torso, 10)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_vitakinesis_return_from_death_hp_head, 10)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_vitakinesis_return_from_death_hp_arm_l, 10)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_vitakinesis_return_from_death_hp_arm_r, 10)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_vitakinesis_return_from_death_hp_leg_l, 10)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_vitakinesis_return_from_death_hp_leg_r, 10)" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
-      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
-      { "math": [ "u_vitamin('blood')", "=", "0" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true) = u_vitakin_return_from_death_kcal * 0.8" ] },
+      { "math": [ "u_hp('ALL_MINOR') = 999" ] },
+      { "math": [ "u_hp('torso') = max( u_vitakinesis_return_from_death_hp_torso, 10)" ] },
+      { "math": [ "u_hp('head') = max( u_vitakinesis_return_from_death_hp_head, 10)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_vitakinesis_return_from_death_hp_arm_l, 10)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_vitakinesis_return_from_death_hp_arm_r, 10)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_vitakinesis_return_from_death_hp_leg_l, 10)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_vitakinesis_return_from_death_hp_leg_r, 10)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "onfire" },
       { "u_lose_effect": "dazed" },

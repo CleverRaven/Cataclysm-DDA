@@ -113,7 +113,7 @@
     "type": "effect_on_condition",
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
-    "effect": [ { "math": [ "BERSERKER", "=", "max( 0, BERSERKER - 1)" ] } ]
+    "effect": [ { "math": [ "BERSERKER = max( 0, BERSERKER - 1)" ] } ]
   },
   {
     "id": "ench_verdant_helmet",

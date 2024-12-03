@@ -23,6 +23,7 @@
       "SPAWN_ACTIVE",
       "ALLOWS_NATURAL_ATTACKS",
       "SEMITANGIBLE",
+      "POWERARMOR_COMPATIBLE",
       "UNRESTRICTED"
     ],
     "tick_action": {
@@ -63,7 +64,7 @@
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "POWERARMOR_COMPATIBLE" ],
     "use_action": {
       "type": "effect_on_conditions",
       "ammo_scale": 1,
@@ -123,7 +124,7 @@
         {
           "id": "afs_backpack_shieldgen_tick",
           "condition": "has_alpha",
-          "effect": { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] },
+          "effect": { "math": [ "u_shield_power_ratio = n_val('power_percentage')" ] },
           "false_effect": { "transform_item": "afs_backpack_shieldgen" }
         }
       ]
@@ -156,12 +157,12 @@
           { "u_cast_spell": { "id": "spawn_shield", "hit_self": true } },
           { "u_message": { "context_val": "success_message" } },
           { "transform_item": { "context_val": "transform_target" }, "active": true },
-          { "math": [ "_shield_uid", "=", "rand(1200)" ] },
-          { "math": [ "n_shield_gen_uid", "=", "_shield_uid" ] },
+          { "math": [ "_shield_uid = rand(1200)" ] },
+          { "math": [ "n_shield_gen_uid = _shield_uid" ] },
           {
             "if": { "math": [ "_is_bionic" ] },
-            "then": [ { "math": [ "u_shield_power_ratio", "=", "u_val('power_percentage')" ] } ],
-            "else": [ { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] } ]
+            "then": [ { "math": [ "u_shield_power_ratio = u_val('power_percentage')" ] } ],
+            "else": [ { "math": [ "u_shield_power_ratio = n_val('power_percentage')" ] } ]
           },
           {
             "u_run_inv_eocs": "all",
@@ -170,15 +171,15 @@
               {
                 "id": "_SHIELD_SETUP",
                 "effect": [
-                  { "math": [ "n_shield_uid", "=", "_shield_uid" ] },
-                  { "math": [ "n_shield_turn", "=", "0" ] },
-                  { "math": [ "n_SHIELD_REGEN", "=", "0" ] },
-                  { "math": [ "n_SHIELD_REGEN_RATE", "=", "0" ] },
-                  { "math": [ "n_ENERGY_SHIELD_HP", "=", "_shield_max_hp*0.1" ] },
-                  { "math": [ "n_ENERGY_SHIELD_MAX_HP", "=", "_shield_max_hp" ] },
-                  { "math": [ "n_SHIELD_REGEN", "=", "_shield_regen" ] },
-                  { "math": [ "n_SHIELD_REGEN_RATE", "=", "shield_regen_rate" ] },
-                  { "math": [ "u_shield_ratio", "=", "n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP" ] }
+                  { "math": [ "n_shield_uid = _shield_uid" ] },
+                  { "math": [ "n_shield_turn = 0" ] },
+                  { "math": [ "n_SHIELD_REGEN = 0" ] },
+                  { "math": [ "n_SHIELD_REGEN_RATE = 0" ] },
+                  { "math": [ "n_ENERGY_SHIELD_HP = _shield_max_hp*0.1" ] },
+                  { "math": [ "n_ENERGY_SHIELD_MAX_HP = _shield_max_hp" ] },
+                  { "math": [ "n_SHIELD_REGEN = _shield_regen" ] },
+                  { "math": [ "n_SHIELD_REGEN_RATE = shield_regen_rate" ] },
+                  { "math": [ "u_shield_ratio = n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP" ] }
                 ]
               }
             ]
@@ -192,9 +193,9 @@
     "id": "EOC_afs_do_shield",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "u_proceed_shield", "=", "0" ] },
-      { "math": [ "_shield_uid", "=", "n_shield_uid" ] },
-      { "math": [ "u_shield_ratio", "=", "n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP*100" ] },
+      { "math": [ "u_proceed_shield = 0" ] },
+      { "math": [ "_shield_uid = n_shield_uid" ] },
+      { "math": [ "u_shield_ratio = n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP*100" ] },
       {
         "//": "We check if the shield generator that made this shield is still active.",
         "u_run_inv_eocs": "all",
@@ -203,7 +204,7 @@
           {
             "id": "_afs_actually_do_shield",
             "condition": { "math": [ "_shield_uid", "==", "n_shield_gen_uid" ] },
-            "effect": [ { "math": [ "u_proceed_shield", "=", "1" ] } ]
+            "effect": [ { "math": [ "u_proceed_shield = 1" ] } ]
           }
         ]
       },
@@ -216,7 +217,7 @@
               "and": [ { "math": [ "n_SHIELD_REGEN", "!=", "0" ] }, { "math": [ "n_shield_turn/n_SHIELD_REGEN_RATE", ">", "1" ] } ]
             },
             "then": [
-              { "math": [ "n_shield_turn", "=", "0" ] },
+              { "math": [ "n_shield_turn = 0" ] },
               { "math": [ "n_ENERGY_SHIELD_HP", "+=", "n_SHIELD_REGEN" ] },
               {
                 "math": [
@@ -228,7 +229,7 @@
             ]
           }
         ],
-        "else": [ { "u_remove_item_with": "afs_energy_shield" }, { "math": [ "u_shield_ratio", "=", "-1" ] } ]
+        "else": [ { "u_remove_item_with": "afs_energy_shield" }, { "math": [ "u_shield_ratio = -1" ] } ]
       }
     ]
   },
@@ -238,7 +239,7 @@
     "effect": [
       { "transform_item": { "context_val": "transform_target" } },
       { "u_remove_item_with": "afs_energy_shield" },
-      { "math": [ "u_shield_ratio", "=", "-1" ] }
+      { "math": [ "u_shield_ratio = -1" ] }
     ]
   },
   {
@@ -254,17 +255,12 @@
       ]
     },
     "effect": [
-      { "math": [ "u_shield_power_ratio", "=", "-1" ] },
+      { "math": [ "u_shield_power_ratio = -1" ] },
       {
         "//": "We check if we have another shield generator to update the UI power gauge.",
         "u_run_inv_eocs": "all",
         "search_data": [ { "worn_only": true, "flags": [ "SHIELD_GENERATOR" ] } ],
-        "true_eocs": [
-          {
-            "id": "_afs_drop_update_power",
-            "effect": [ { "math": [ "u_shield_power_ratio", "=", "n_val('power_percentage')" ] } ]
-          }
-        ]
+        "true_eocs": [ { "id": "_afs_drop_update_power", "effect": [ { "math": [ "u_shield_power_ratio = n_val('power_percentage')" ] } ] } ]
       }
     ]
   },
@@ -275,7 +271,7 @@
     "required_event": "character_armor_destroyed",
     "condition": { "and": [ { "compare_string": [ "afs_energy_shield", { "context_val": "itype" } ] } ] },
     "effect": [
-      { "math": [ "u_shield_ratio", "=", "-1" ] },
+      { "math": [ "u_shield_ratio = -1" ] },
       { "u_emit": "heavy_rad_glimmer", "chance_mult": 2 },
       { "u_message": "The shield blasts you with radiation as it dissipates.", "type": "bad" }
     ]

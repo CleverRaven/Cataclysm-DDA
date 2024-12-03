@@ -61,7 +61,7 @@
           "rng(((15 + (n_spell_level('teleport_banish') * 15)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling),((350 + (n_spell_level('teleport_banish') * 35)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling))"
         ]
       },
-      { "math": [ "u_health_comparison", "=", "u_hp('ALL')" ] },
+      { "math": [ "u_health_comparison = u_hp('ALL')" ] },
       {
         "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [

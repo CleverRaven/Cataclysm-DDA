@@ -19,7 +19,7 @@
         "popup": true
       },
       { "u_add_trait": "awayfromhome" },
-      { "math": [ "timeawayfromhome", "=", "0 - bonuspulses" ] },
+      { "math": [ "timeawayfromhome = 0 - bonuspulses" ] },
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_create_slaughter", "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
       {
@@ -43,7 +43,7 @@
       },
       {
         "if": { "math": [ "goingtolabs == 1" ] },
-        "then": [ { "u_consume_item": "warp_labs_catalyst", "count": 1 }, { "math": [ "goingtolabs", "=", "0" ] } ]
+        "then": [ { "u_consume_item": "warp_labs_catalyst", "count": 1 }, { "math": [ "goingtolabs = 0" ] } ]
       }
     ],
     "false_effect": [
@@ -392,7 +392,7 @@
           "random": true
         }
       },
-      { "math": [ "total_difficulty_bonus", "=", "lengthofthisraid" ] }
+      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
     ]
   },
   {
@@ -412,7 +412,7 @@
           "random": true
         }
       },
-      { "math": [ "total_difficulty_bonus", "=", "lengthofthisraid" ] }
+      { "math": [ "total_difficulty_bonus = lengthofthisraid" ] }
     ]
   },
   {
@@ -432,7 +432,7 @@
           "random": true
         }
       },
-      { "math": [ "total_difficulty_bonus", "=", "lengthofthisraid + 1" ] }
+      { "math": [ "total_difficulty_bonus = lengthofthisraid + 1" ] }
     ]
   },
   {
@@ -481,7 +481,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "3 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 3 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -510,7 +510,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "4 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 4 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -547,7 +547,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "4 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 4 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -584,7 +584,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "5 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 5 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -629,7 +629,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "5 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 5 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -674,7 +674,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "8 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 8 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -701,7 +701,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "10 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 10 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -730,7 +730,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "10 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 10 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -767,7 +767,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -804,7 +804,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -831,7 +831,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "9 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 9 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -861,7 +861,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -886,7 +886,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "9 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 9 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -911,7 +911,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "6 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 6 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"
@@ -942,7 +942,7 @@
     "end": {
       "effect": [
         { "math": [ "u_missionswon", "++" ] },
-        { "math": [ "totalbonus", "=", "12 + total_difficulty_bonus" ] },
+        { "math": [ "totalbonus = 12 + total_difficulty_bonus" ] },
         {
           "u_message": "It's done.  They're all dead.  Warp shards filter in from seams in reality.  Your reward rains down on you.",
           "type": "mixed"

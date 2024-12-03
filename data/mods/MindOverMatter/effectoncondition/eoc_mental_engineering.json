@@ -15,7 +15,7 @@
     "//": "minimum school sum required in the process of triggering this EOC is 100, making the chance of side effects at most 50%",
     "condition": { "x_in_y_chance": { "x": { "math": [ "max(200 - u_spell_level_sum('school': 'TELEPATH'), 20)" ] }, "y": 200 } },
     "effect": [
-      { "math": [ "u_mentality_picked", "=", "rng(1,33)" ] },
+      { "math": [ "u_mentality_picked = rng(1,33)" ] },
       {
         "switch": { "math": [ "u_mentality_picked" ] },
         "cases": [
@@ -1153,7 +1153,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "1" ] }
+      { "math": [ "u_mentality_picked = 1" ] }
     ]
   },
   {
@@ -1172,7 +1172,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "2" ] }
+      { "math": [ "u_mentality_picked = 2" ] }
     ]
   },
   {
@@ -1191,7 +1191,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "3" ] }
+      { "math": [ "u_mentality_picked = 3" ] }
     ]
   },
   {
@@ -1204,7 +1204,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "4" ] }
+      { "math": [ "u_mentality_picked = 4" ] }
     ]
   },
   {
@@ -1217,7 +1217,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "5" ] }
+      { "math": [ "u_mentality_picked = 5" ] }
     ]
   },
   {
@@ -1238,7 +1238,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "6" ] }
+      { "math": [ "u_mentality_picked = 6" ] }
     ]
   },
   {
@@ -1251,7 +1251,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "7" ] }
+      { "math": [ "u_mentality_picked = 7" ] }
     ]
   },
   {
@@ -1264,7 +1264,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "8" ] }
+      { "math": [ "u_mentality_picked = 8" ] }
     ]
   },
   {
@@ -1277,7 +1277,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "9" ] }
+      { "math": [ "u_mentality_picked = 9" ] }
     ]
   },
   {
@@ -1290,7 +1290,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "10" ] }
+      { "math": [ "u_mentality_picked = 10" ] }
     ]
   },
   {
@@ -1313,7 +1313,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "11" ] }
+      { "math": [ "u_mentality_picked = 11" ] }
     ]
   },
   {
@@ -1326,7 +1326,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "12" ] }
+      { "math": [ "u_mentality_picked = 12" ] }
     ]
   },
   {
@@ -1345,7 +1345,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "13" ] }
+      { "math": [ "u_mentality_picked = 13" ] }
     ]
   },
   {
@@ -1358,7 +1358,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "14" ] }
+      { "math": [ "u_mentality_picked = 14" ] }
     ]
   },
   {
@@ -1381,7 +1381,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "15" ] }
+      { "math": [ "u_mentality_picked = 15" ] }
     ]
   },
   {
@@ -1394,7 +1394,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "16" ] }
+      { "math": [ "u_mentality_picked = 16" ] }
     ]
   },
   {
@@ -1413,7 +1413,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "17" ] }
+      { "math": [ "u_mentality_picked = 17" ] }
     ]
   },
   {
@@ -1426,7 +1426,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "18" ] }
+      { "math": [ "u_mentality_picked = 18" ] }
     ]
   },
   {
@@ -1445,7 +1445,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "19" ] }
+      { "math": [ "u_mentality_picked = 19" ] }
     ]
   },
   {
@@ -1465,7 +1465,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "20" ] }
+      { "math": [ "u_mentality_picked = 20" ] }
     ]
   },
   {
@@ -1484,7 +1484,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "21" ] }
+      { "math": [ "u_mentality_picked = 21" ] }
     ]
   },
   {
@@ -1497,7 +1497,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "22" ] }
+      { "math": [ "u_mentality_picked = 22" ] }
     ]
   },
   {
@@ -1510,7 +1510,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "23" ] }
+      { "math": [ "u_mentality_picked = 23" ] }
     ]
   },
   {
@@ -1523,7 +1523,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "24" ] }
+      { "math": [ "u_mentality_picked = 24" ] }
     ]
   },
   {
@@ -1536,7 +1536,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "25" ] }
+      { "math": [ "u_mentality_picked = 25" ] }
     ]
   },
   {
@@ -1549,7 +1549,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "26" ] }
+      { "math": [ "u_mentality_picked = 26" ] }
     ]
   },
   {
@@ -1568,7 +1568,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "27" ] }
+      { "math": [ "u_mentality_picked = 27" ] }
     ]
   },
   {
@@ -1583,7 +1583,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "28" ] }
+      { "math": [ "u_mentality_picked = 28" ] }
     ]
   },
   {
@@ -1596,7 +1596,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "29" ] }
+      { "math": [ "u_mentality_picked = 29" ] }
     ]
   },
   {
@@ -1615,7 +1615,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "30" ] }
+      { "math": [ "u_mentality_picked = 30" ] }
     ]
   },
   {
@@ -1635,7 +1635,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "31" ] }
+      { "math": [ "u_mentality_picked = 31" ] }
     ]
   },
   {
@@ -1648,7 +1648,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "33" ] }
+      { "math": [ "u_mentality_picked = 33" ] }
     ]
   },
   {
@@ -1672,7 +1672,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "34" ] }
+      { "math": [ "u_mentality_picked = 34" ] }
     ]
   },
   {
@@ -1685,7 +1685,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "35" ] }
+      { "math": [ "u_mentality_picked = 35" ] }
     ]
   },
   {
@@ -1709,7 +1709,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "36" ] }
+      { "math": [ "u_mentality_picked = 36" ] }
     ]
   },
   {
@@ -1722,7 +1722,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "37" ] }
+      { "math": [ "u_mentality_picked = 37" ] }
     ]
   },
   {
@@ -1741,7 +1741,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "38" ] }
+      { "math": [ "u_mentality_picked = 38" ] }
     ]
   },
   {
@@ -1754,7 +1754,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "39" ] }
+      { "math": [ "u_mentality_picked = 39" ] }
     ]
   },
   {
@@ -1767,7 +1767,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "40" ] }
+      { "math": [ "u_mentality_picked = 40" ] }
     ]
   },
   {
@@ -1780,7 +1780,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "41" ] }
+      { "math": [ "u_mentality_picked = 41" ] }
     ]
   },
   {
@@ -1799,7 +1799,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "42" ] }
+      { "math": [ "u_mentality_picked = 42" ] }
     ]
   },
   {
@@ -1818,7 +1818,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "43" ] }
+      { "math": [ "u_mentality_picked = 43" ] }
     ]
   },
   {
@@ -1839,7 +1839,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "44" ] }
+      { "math": [ "u_mentality_picked = 44" ] }
     ]
   },
   {
@@ -1852,7 +1852,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "45" ] }
+      { "math": [ "u_mentality_picked = 45" ] }
     ]
   },
   {
@@ -1872,7 +1872,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "46" ] }
+      { "math": [ "u_mentality_picked = 46" ] }
     ]
   },
   {
@@ -1885,7 +1885,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "47" ] }
+      { "math": [ "u_mentality_picked = 47" ] }
     ]
   },
   {
@@ -1904,7 +1904,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "48" ] }
+      { "math": [ "u_mentality_picked = 48" ] }
     ]
   },
   {
@@ -1924,7 +1924,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "49" ] }
+      { "math": [ "u_mentality_picked = 49" ] }
     ]
   },
   {
@@ -1937,7 +1937,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "50" ] }
+      { "math": [ "u_mentality_picked = 50" ] }
     ]
   },
   {
@@ -1950,7 +1950,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "51" ] }
+      { "math": [ "u_mentality_picked = 51" ] }
     ]
   },
   {
@@ -1970,7 +1970,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "52" ] }
+      { "math": [ "u_mentality_picked = 52" ] }
     ]
   },
   {
@@ -1989,7 +1989,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "53" ] }
+      { "math": [ "u_mentality_picked = 53" ] }
     ]
   },
   {
@@ -2010,7 +2010,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "54" ] }
+      { "math": [ "u_mentality_picked = 54" ] }
     ]
   },
   {
@@ -2023,7 +2023,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "55" ] }
+      { "math": [ "u_mentality_picked = 55" ] }
     ]
   },
   {
@@ -2042,7 +2042,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "56" ] }
+      { "math": [ "u_mentality_picked = 56" ] }
     ]
   },
   {
@@ -2061,7 +2061,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "57" ] }
+      { "math": [ "u_mentality_picked = 57" ] }
     ]
   },
   {
@@ -2082,7 +2082,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "58" ] }
+      { "math": [ "u_mentality_picked = 58" ] }
     ]
   },
   {
@@ -2095,7 +2095,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "59" ] }
+      { "math": [ "u_mentality_picked = 59" ] }
     ]
   },
   {
@@ -2114,7 +2114,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "60" ] }
+      { "math": [ "u_mentality_picked = 60" ] }
     ]
   },
   {
@@ -2134,7 +2134,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "61" ] }
+      { "math": [ "u_mentality_picked = 61" ] }
     ]
   },
   {
@@ -2147,7 +2147,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "62" ] }
+      { "math": [ "u_mentality_picked = 62" ] }
     ]
   },
   {
@@ -2160,7 +2160,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "63" ] }
+      { "math": [ "u_mentality_picked = 63" ] }
     ]
   },
   {
@@ -2180,7 +2180,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "64" ] }
+      { "math": [ "u_mentality_picked = 64" ] }
     ]
   },
   {
@@ -2193,7 +2193,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "65" ] }
+      { "math": [ "u_mentality_picked = 65" ] }
     ]
   },
   {
@@ -2208,7 +2208,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "66" ] }
+      { "math": [ "u_mentality_picked = 66" ] }
     ]
   },
   {
@@ -2221,7 +2221,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "67" ] }
+      { "math": [ "u_mentality_picked = 67" ] }
     ]
   },
   {
@@ -2234,7 +2234,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "68" ] }
+      { "math": [ "u_mentality_picked = 68" ] }
     ]
   },
   {
@@ -2253,7 +2253,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "69" ] }
+      { "math": [ "u_mentality_picked = 69" ] }
     ]
   },
   {

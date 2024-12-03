@@ -40,8 +40,8 @@
                 { "u_at_om_location": "undine_genius_loci_SE" }
               ]
             },
-            "effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_undine_is_connected_to_waters = 1" ] } ],
+            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters = 0" ] } ]
           }
         ]
       }

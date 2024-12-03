@@ -849,13 +849,16 @@ bool input_context::action_reset( const std::string &action_id )
     std::vector<input_event> conflicting_events;
     std::array<std::reference_wrapper<const std::string>, 2> contexts = { default_context_id, category };
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                conflicting_events.emplace_back( event );
-            }
+        auto iter_basic = inp_mngr.basic_action_contexts.find( context );
+        if( iter_basic == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_basic->second.find( action_id );
+        if( iter_action == iter_basic->second.end() ) {
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            conflicting_events.emplace_back( event );
         }
     }
     if( !resolve_conflicts( conflicting_events, action_id ) ) {
@@ -864,20 +867,30 @@ bool input_context::action_reset( const std::string &action_id )
 
     // RESET KEY BINDINGS
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-        const input_manager::t_actions &cus = inp_mngr.action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        bool is_in_cus = cus.find( action_id ) != cus.end();
-
-        if( is_in_cus ) {
-            inp_mngr.remove_input_for_action( action_id, context );
+        // reset -> remove from user created keybindings
+        auto iter_cus = inp_mngr.action_contexts.find( context );
+        if( iter_cus != inp_mngr.action_contexts.end() ) {
+            if( iter_cus->second.find( action_id ) != iter_cus->second.end() ) {
+                inp_mngr.remove_input_for_action( action_id, context );
+            }
         }
 
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                inp_mngr.add_input_for_action( action_id, context, event );
-            }
+        // reset the original keybindings
+        auto iter_def = inp_mngr.basic_action_contexts.find( context );
+        if( iter_def == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_def->second.find( action_id );
+        if( iter_action == iter_def->second.end() ) {
+            continue;
+        }
+        if( iter_action->second.input_events.empty() ) {
+            // special case: reset to an empty local keybinding "Unbound locally!"
+            inp_mngr.get_or_create_event_list( action_id, context );
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            inp_mngr.add_input_for_action( action_id, context, event );
         }
     }
     return true;

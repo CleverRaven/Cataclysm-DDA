@@ -348,7 +348,7 @@
     "sym": "p",
     "color": "blue",
     "autonote": true,
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_forest",
@@ -357,7 +357,7 @@
     "description": "Small basin is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_forest_2",
@@ -365,7 +365,7 @@
     "copy-from": "mx_pond_forest",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_2" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_swamp",
@@ -374,7 +374,7 @@
     "description": "Small bog is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_swamp_2",
@@ -382,7 +382,7 @@
     "copy-from": "mx_pond_swamp",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_trees",
