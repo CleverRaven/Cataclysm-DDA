@@ -215,7 +215,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 1 } } ],
     "melee_damage": { "bash": 3 }
   },
-  {  
+  {
     "id": "feral_jackboot_gun",
     "type": "GUN",
     "symbol": "R",
