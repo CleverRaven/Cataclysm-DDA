@@ -104,7 +104,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                     }
                 }
             }
-            return [filter, filtered_bodyparts, filtered_sub_bodyparts]( const item & i ) {
+            return [filtered_bodyparts, filtered_sub_bodyparts]( const item & i ) {
                 return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
                 [&i]( const bodypart_id & bp ) {
                     return i.covers( bp );
