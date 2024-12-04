@@ -45,6 +45,19 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_CIVILIAN_GUNNER",
+    "dynamic_line": [
+      "I'm gonna kill all these <swear> things!",
+      "&They let out a bellowing warcry and wave their gun.",
+      "I'M INVINCIBLE!"
+    ],
+    "responses": [
+      { "text": "Are you crazy?  Get out of here!", "topic": "TALK_CIVILIAN_FIGHTER_EVAC" },
+      { "text": "[Leave them to their futile fight.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_CIVILIAN_ICU",
     "dynamic_line": "&They are still breathing but unable to move and speak.  You are unsure if they are even fully conscious and yet shudder at the thought of being trapped inside your body.",
     "responses": [ { "text": "[Leave them to their ultimate fate.]", "topic": "TALK_DONE" } ]
