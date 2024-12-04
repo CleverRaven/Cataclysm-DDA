@@ -8,17 +8,6 @@ on:
   pull_request:
     branches:
     - master
-    paths:
-    - '**.c'
-    - '**.cpp'
-    - '**.h'
-    - '**.hpp'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - 'build-scripts/clang-tidy.sh'
-    - 'build-scripts/clang-tidy-wrapper.sh'
-    - 'build-scripts/get_affected_files.py'
-    - '.github/workflows/clang-tidy.yml'
     types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
