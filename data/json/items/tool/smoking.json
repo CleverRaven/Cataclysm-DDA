@@ -85,7 +85,7 @@
     "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
-    "qualities": [ [ "SMOKE_PIPE", 1], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [ [ "SMOKE_PIPE", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "melee_damage": { "bash": 4 }
   },
   {
