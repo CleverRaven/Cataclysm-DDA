@@ -276,7 +276,7 @@
     "flags": [ "PSEUDO" ],
     "type": "GUN",
     "name": { "str_sp": "Fighters' Glock 19" },
-    "description": "A gun carried by civilian monsters, more inaccurate for balancing reasons.",
+    "description": { "str": "A gun carried by civilian monsters, more inaccurate for balancing reasons.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "dispersion": 960,
     "durability": 5
   },
