@@ -70,7 +70,7 @@
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE" ],
     "price": 2000,
     "price_postapoc": 100,
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
