@@ -66,8 +66,8 @@
     "description": "A mass-manufacured water-pipe, otherwise known as a 'bong.' Headshops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
     "weight": "750 g",
     "volume": "900 ml",
-	"longest_side": "30 cm",
-	"flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE" ],
+    "longest_side": "30 cm",
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE" ],
     "price": 2000,
     "price_postapoc": 100,
 	"pocket_data": [
