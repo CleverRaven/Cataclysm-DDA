@@ -62,7 +62,7 @@
     "id": "pipe_water",
     "type": "TOOL",
     "name": { "str": "water pipe" },
-	"looks_like": "bottle_plastic",
+    "looks_like": "bottle_plastic",
     "description": "A mass-manufacured water-pipe, otherwise known as a 'bong.' Headshops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
     "weight": "750 g",
     "volume": "900 ml",
