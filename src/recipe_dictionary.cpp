@@ -185,6 +185,10 @@ static std::string cached_item_info( const itype_id &item_type )
     return item_info_cache.at( item_type );
 }
 
+// keep data for one search cycle
+static std::unordered_set<bodypart_id> filtered_bodyparts;
+static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -224,6 +228,18 @@ std::vector<const recipe *> recipe_subset::search(
 
             case search_type::quality_result: {
                 return item::find_type( r->result() )->has_any_quality( txt );
+            }
+
+            case search_type::covers: {
+                const item result_item( r->result() );
+                return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
+                [&result_item]( const bodypart_id & bp ) {
+                    return result_item.covers( bp );
+                } )
+                || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
+                [&result_item]( const sub_bodypart_id & sbp ) {
+                    return result_item.covers( sbp );
+                } );
             }
 
             case search_type::description_result: {
@@ -302,6 +318,31 @@ std::vector<const recipe *> recipe_subset::search(
         }
     };
 
+    // prepare search
+    switch( key ) {
+        case search_type::covers: {
+            filtered_bodyparts.clear();
+            filtered_sub_bodyparts.clear();
+            for( const body_part &bp : all_body_parts ) {
+                const bodypart_str_id &bp_str_id = convert_bp( bp );
+                if( lcmatch( body_part_name( bp_str_id, 1 ), txt )
+                    || lcmatch( body_part_name( bp_str_id, 2 ), txt ) ) {
+                    filtered_bodyparts.insert( bp_str_id->id );
+                }
+                for( const sub_bodypart_str_id &sbp : bp_str_id->sub_parts ) {
+                    if( lcmatch( sbp->name.translated(), txt )
+                        || lcmatch( sbp->name_multiple.translated(), txt ) ) {
+                        filtered_sub_bodyparts.insert( sbp->id );
+                    }
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
+    // search
     std::vector<const recipe *> res;
     size_t i = 0;
     ctxt.register_action( "QUIT" );

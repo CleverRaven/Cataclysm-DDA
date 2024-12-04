@@ -149,6 +149,7 @@ class recipe_subset
             tool,
             quality,
             quality_result,
+            covers,
             description_result,
             proficiency,
             difficulty,
