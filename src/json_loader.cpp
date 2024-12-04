@@ -14,31 +14,31 @@ namespace
 {
 flexbuffer_cache &base_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::base_path() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::base_path() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::base_path() / "cache" ).get_unrelative_path(), PATH_INFO::base_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &config_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::config_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::config_dir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::config_dir_path() / "cache" ).get_unrelative_path(), PATH_INFO::config_dir_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &data_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::datadir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::datadir_path() / "cache" ).get_unrelative_path(), PATH_INFO::datadir_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &memorial_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::memorialdir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::memorialdir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::memorialdir_path() / "cache" ).get_unrelative_path(), PATH_INFO::memorialdir_path().get_unrelative_path() };
     return cache;
 }
 
 flexbuffer_cache &user_cache()
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::user_dir() ) / fs::u8path( "cache" ), fs::u8path( PATH_INFO::user_dir() ) };
+    static flexbuffer_cache cache{ ( PATH_INFO::user_dir_path() / "cache" ).get_unrelative_path(), PATH_INFO::user_dir_path().get_unrelative_path() };
     return cache;
 }
 

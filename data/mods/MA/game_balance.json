@@ -2,98 +2,84 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "SELECT_STARTING_CITY",
-    "info": "Allows to select starting city in new character menu.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PREGENERATED_PATH",
-    "info": "Path to pregenerated overmap files.  Should include mod folder name and folder where omap files are stored.",
     "stype": "string_input",
     "value": "MA/MA_overmap"
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS",
-    "info": "Allows to populate outside connections from neighbors.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_RIVERS",
-    "info": "Allows to place procgen rivers during overmap generation.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_LAKES",
-    "info": "Allows to place procgen lakes during overmap generation.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_OCEANS",
-    "info": "Allows to place oceans during overmap generation.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_FORESTS",
-    "info": "Allows to place procgen forests during overmap generation.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SWAMPS",
-    "info": "Allows to place procgen swamps during overmap generation.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_RAVINES",
-    "info": "Allows to place procgen ravines during overmap generation.",
     "stype": "bool",
     "value": false
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_CITIES",
-    "info": "Allows to place cities during overmap generation.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_FOREST_TRAILS",
-    "info": "Allows to place procgen forest trails during overmap generation.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_ROADS",
-    "info": "Allows to place procgen roads during overmap generation.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_SPECIALS",
-    "info": "Allows to place overmap specials during overmap generation.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
-    "info": "Allows to place procgen forest trailheads during overmap generation.",
     "stype": "bool",
     "value": true
   }

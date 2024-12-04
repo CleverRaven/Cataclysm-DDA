@@ -25,6 +25,7 @@
     "id": "EOC_vitrified_farm_entry_event",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
+    "condition": { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] },
     "effect": [ { "run_eocs": "EOC_vitrified_farm_init" } ]
   },
   {
@@ -48,7 +49,12 @@
     },
     "false_effect": [
       {
-        "if": { "not": { "u_has_trait": "NOT_GLASS" } },
+        "if": {
+          "and": [
+            { "not": { "u_has_trait": "NOT_GLASS" } },
+            { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] }
+          ]
+        },
         "then": { "run_eocs": [ "EOC_vitrified_farm_init" ], "time_in_future": "1 seconds" }
       }
     ],

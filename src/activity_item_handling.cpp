@@ -2093,7 +2093,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( mgr.has( zone_type_LOOT_IGNORE, src, _fac_id( you ) ) ||
                 ignore_contents ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
-                !here.can_put_items_ter_furn( src_loc ) ) {
+                !here.can_put_items_ter_furn( src_loc ) || here.impassable_field_at( src_loc ) ) {
                 continue;
             }
 
@@ -2404,7 +2404,8 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
     } );
     map &here = get_map();
     if( mining_inv.empty() || you.is_mounted() || you.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ) {
+        !here.has_flag( ter_furn_flag::TFLAG_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ||
+        here.impassable_field_at( src_loc ) ) {
         return false;
     }
     item *chosen_item = nullptr;

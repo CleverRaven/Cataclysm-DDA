@@ -93,6 +93,7 @@
       { "monster": "mon_albertosaurus_hatchling", "weight": 8 },
       { "monster": "mon_nanuqsaurus_hatchling", "weight": 8 },
       { "monster": "mon_daspletosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_nedcolbertia_hatchling", "weight": 20 },
       { "monster": "mon_gallimimus_hatchling", "weight": 20 },
       { "monster": "mon_struthiomimus_hatchling", "weight": 20 },
       { "monster": "mon_ornithomimus_hatchling", "weight": 20 },

@@ -76,12 +76,12 @@ int camp_reference::get_distance_from_bounds() const
 
 cata_path overmapbuffer::terrain_filename( const point_abs_om &p )
 {
-    return PATH_INFO::world_base_save_path_path() / string_format( "o.%d.%d", p.x(), p.y() );
+    return PATH_INFO::world_base_save_path() / string_format( "o.%d.%d", p.x(), p.y() );
 }
 
 cata_path overmapbuffer::player_filename( const point_abs_om &p )
 {
-    return PATH_INFO::player_base_save_path_path() + string_format( ".seen.%d.%d", p.x(), p.y() );
+    return PATH_INFO::player_base_save_path() + string_format( ".seen.%d.%d", p.x(), p.y() );
 }
 
 overmap &overmapbuffer::get( const point_abs_om &p )

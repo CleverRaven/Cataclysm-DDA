@@ -779,8 +779,8 @@ bool safemode::save( const bool is_character_in )
     cata_path file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -812,7 +812,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     cata_path file = PATH_INFO::safemode();
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
     fs::path file_path = file.get_unrelative_path();

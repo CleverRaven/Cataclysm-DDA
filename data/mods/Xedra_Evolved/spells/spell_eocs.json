@@ -67,6 +67,49 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_GENERATE_ACCELERATED_TIME_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" } },
+    "effect": [
+      { "u_message": "<color_light_gray>Grey</color> fields of time start seeping from your body.", "type": "good" },
+      { "u_add_effect": "effect_xedra_dreamer_generate_accelerated_time", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_dreamer_generate_accelerated_time" },
+      { "u_message": "The world regains color as it speeds up.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
+    "condition": {
+      "and": [ { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" }, { "math": [ "u_val('mana') >= 200" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "u_message": "The grayscale starts to recede from your vision before it quickly reverts.", "type": "good" },
+      {
+        "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)" ] }
+      },
+      {
+        "math": [
+          "u_spell_exp('xedra_dreamer_generate_accelerated_time')",
+          "+=",
+          "spell_exp_diff(u_spell_level('xedra_dreamer_generate_accelerated_time'))/spell_train_factor(200)"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_dreamer_generate_accelerated_time" },
+      { "u_message": "The world regains color as it speeds up.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ETHEREAL_WINGS_INITIATE",
     "condition": { "not": { "u_has_trait": "ethereal_wings" } },
     "effect": [

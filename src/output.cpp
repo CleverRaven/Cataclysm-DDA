@@ -2979,7 +2979,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
 std::string satiety_bar( const int calpereffv )
 {
     // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
-    constexpr float max_cal_per_effective_vol = 1500.0f;
+    constexpr float max_cal_per_effective_vol = 2000.0f;
     // Scaling the values.
     const float scaled_max = std::sqrt( max_cal_per_effective_vol );
     const float scaled_cal = std::sqrt( calpereffv );

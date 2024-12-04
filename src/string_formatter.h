@@ -12,6 +12,7 @@
 
 #include "demangle.h"
 
+class cata_path;
 class translation;
 
 namespace cata
@@ -75,6 +76,9 @@ constexpr bool is_cstring =
 // Test for class translation
 template<typename T>
 constexpr bool is_translation = std::is_same_v<std::decay_t<T>, translation>;
+// Test for class cata_path
+template<typename T>
+constexpr bool is_cata_path = std::is_same_v<std::decay_t<T>, cata_path>;
 
 template<typename RT, typename T>
 inline std::enable_if_t < is_integer<RT> &&is_integer<T>, RT >
@@ -127,6 +131,12 @@ convert( RT *, const string_formatter &sf, T &&value, int )
     return string_formatter_set_temp_buffer( sf, value.translated() );
 }
 template<typename RT, typename T>
+inline std::enable_if_t < std::is_same_v<RT, const char *> &&is_cata_path<T>, const char * >
+convert( RT *, const string_formatter &sf, T &&value, int )
+{
+    return string_formatter_set_temp_buffer( sf, value.generic_u8string() );
+}
+template<typename RT, typename T>
 inline std::enable_if_t <
 std::is_same_v<RT, const char *> &&is_numeric<T> &&
 !is_char<T>, const char * >
@@ -151,7 +161,7 @@ inline RT convert( RT *, const string_formatter &sf, T &&, ... )
     static_assert( std::is_pointer_v<std::decay_t<T>> ||
                    is_numeric<T> || is_string<T> || is_string_view<T> ||
                    is_char<T> || std::is_enum_v<std::decay_t<T>> ||
-                   is_cstring<T> || is_translation<T>, "Unsupported argument type" );
+                   is_cstring<T> || is_translation<T> || is_cata_path<T>, "Unsupported argument type" );
     throw_error( sf, "Tried to convert argument of type " +
                  demangle( typeid( T ).name() ) + " to " +
                  demangle( typeid( RT ).name() ) + ", which is not possible" );

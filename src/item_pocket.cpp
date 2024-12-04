@@ -889,8 +889,9 @@ std::string item_pocket::translated_sealed_prefix() const
 
 bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
 {
-    const auto new_end = std::remove_if( contents.begin(), contents.end(), [&pos, &drops]( item & it ) {
-        return it.detonate( pos, drops );
+    const tripoint_bub_ms p{pos}; // TODO: Remove when operation typified.
+    const auto new_end = std::remove_if( contents.begin(), contents.end(), [&p, &drops]( item & it ) {
+        return it.detonate( p, drops );
     } );
     if( new_end != contents.end() ) {
         contents.erase( new_end, contents.end() );
@@ -903,15 +904,16 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
 bool item_pocket::process( const itype &type, map &here, Character *carrier, const tripoint &pos,
                            float insulation, temperature_flag flag, bool watertight_container )
 {
+    const tripoint_bub_ms p{pos}; // TODO get rid of this when operation typified.
     bool processed = false;
     float spoil_multiplier = 1.0f;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
             spoil_multiplier = 0.0f;
         }
-        if( it->process( here, carrier, pos, type.insulation_factor * insulation, flag,
+        if( it->process( here, carrier, p, type.insulation_factor * insulation, flag,
                          spoil_multiplier, watertight_container ) ) {
-            it->spill_contents( pos );
+            it->spill_contents( p );
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1823,7 +1825,7 @@ void item_pocket::overflow( const tripoint &pos, const item_location &loc )
             item_location content_loc( loc, &it );
             content_loc.overflow();
         } else {
-            it.overflow( pos );
+            it.overflow( tripoint_bub_ms( pos ) );
         }
     }
 
@@ -1988,12 +1990,13 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
 void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
+    const tripoint_bub_ms p{ pos }; // TODO: Get rid of this when operation typified.
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( here, carrier, pos, insulation, flag,
+        if( iter->process( here, carrier, p, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ),
                            watertight_container || can_contain_liquid( false ) ) ) {
-            iter->spill_contents( pos );
+            iter->spill_contents( p );
             iter = contents.erase( iter );
         } else {
             ++iter;
@@ -2004,9 +2007,10 @@ void item_pocket::process( map &here, Character *carrier, const tripoint &pos, f
 void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
                         item_pocket *pocke )
 {
+    const tripoint_bub_ms p{pos}; // TODO: Get rid of this once the operation gets typified.
     std::vector<item *> erases;
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->leak( here, carrier, pos, this ) ) {
+        if( iter->leak( here, carrier, p, this ) ) {
             if( watertight() ) {
                 ++iter;
                 continue;
@@ -2021,8 +2025,8 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos,
                 pocke->add( *it );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
-                iter->on_drop( pos );
-                here.add_item_or_charges( pos, *iter );
+                iter->on_drop( p );
+                here.add_item_or_charges( p, *iter );
                 if( carrier != nullptr ) {
                     carrier->invalidate_weight_carried_cache();
                     carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),

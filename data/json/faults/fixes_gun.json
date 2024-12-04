@@ -88,7 +88,7 @@
     "type": "fault_fix",
     "id": "mend_fault_stovepipe_eject",
     "name": "Eject spent casing",
-    "success_msg": "You eject the spent casing, stuck in %s's slide.",
+    "success_msg": "You eject the spent casing stuck in the %s's slide.",
     "time": "10 s",
     "set_variables": { "u_know_round_in_chamber": "true" },
     "faults_removed": [ "fault_stovepipe" ]
@@ -97,7 +97,7 @@
     "type": "fault_fix",
     "id": "mend_fault_double_feed_clean",
     "name": "Clean double feed",
-    "success_msg": "You eject the second round stuck in %s's chamber.",
+    "success_msg": "You eject the second round stuck in the %s's chamber.",
     "time": "10 s",
     "set_variables": { "u_know_round_in_chamber": "true" },
     "faults_removed": [ "fault_double_feed" ]

@@ -32,7 +32,11 @@
         "......[.......[.........",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "=": "t_door_metal_locked",

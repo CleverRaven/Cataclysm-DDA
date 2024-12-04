@@ -97,7 +97,9 @@
               "spell_speed_wonder",
               "spell_weak",
               "spell_unbreakable",
-              "point_blank"
+              "point_blank",
+              "xedra_eater_stabilize_reality",
+              "xedra_eater_erosion"
             ],
             "target_var": { "var_val": "random_eater_spell" }
           }
@@ -139,7 +141,9 @@
               "spell_ethereal_wings",
               "spell_karma_arms",
               "spell_stalker_eyes",
-              "spell_devil_tail"
+              "spell_devil_tail",
+              "xedra_dreamer_time_bubble",
+              "xedra_dreamer_generate_accelerated_time"
             ],
             "target_var": { "var_val": "random_dreamer_spell" }
           }

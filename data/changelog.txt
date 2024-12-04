@@ -190,6 +190,8 @@ Increase helicopter autotravel speed
 items with POST_UP use_action can be put up on walls 
 Items salvaged from cutting will now be placed in vehicle, if you're cutting them in vehicle
 tile layering supports item variants
+Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
+Query the player on whether they really want to cut up other people's stuff
 
 
 ## Content:
@@ -402,6 +404,9 @@ The walls of most buildings vary more
 New scenario: Moonlit Night
 Added chokeberries and spicebush
 Wildlife foods adjust morale
+Add dormant zombies to more locations
+Add tupelo and nannyberry,  hobblebush and autumn olive trees
+New exodii rifle
 
 
 ## Interface:
@@ -526,6 +531,7 @@ Revert horizontal separator color back to dark gray
 shorten `memorize` hint in crafting GUI search
 some little improvements to the AIM drop menu
 Allow fine user customization of ImGui colors
+Migrate scores window to imgui
 
 
 ## Mods:
@@ -860,6 +866,13 @@ Allow Lilin to drain ruach while under the effects of NO_SPELLCASTING
 [Xedra Evolved] Add Lilit ruach gauge using custom variable functionality
 [Magiclysm] Add the mana-shackled challenge trait
 [Xedra Evolved] Arvore Cleanup
+[Innawoods] Removes man-made trash from stream loot spawns.
+[DinoMod] smell audit
+Mods can add categories to the help menu
+[MoM] Danger Sense senses danger
+Martial Mastery: Insight is cleared when using other martial arts
+[MoM] Change id of Sense Minds sensing effect to use new tileset sprite
+[MoM/XE] Add deactivate_conditions to recurring EoCs that don't need to recur for everyone
 
 
 ## Balance:
@@ -986,6 +999,9 @@ Dry stone walls now need to be climbed over
 Change spear techniques from impaling strike to penetrating strike
 Changed Survivor Hood Materials and Added Filtration to Cowls
 Rework faction camp mission travel calculations
+Long sticks can now be found in the forest trash group, too
+Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
+Washing kits are now craftable in the dark
 
 
 ## Bugfixes:
@@ -1346,6 +1362,15 @@ Fix penetrating strike
 ALLOWS_TALONS is about talons for feet, not for hands
 Fix headlamp to accept medium batteries akin to a flashlight
 Toggle bionics/deactivate mutations causes bonus stats ignored until next turn
+Several tweaks for using musical instruments
+clear basecamps for tests in clear_map()
+Fix mana-using mutations
+Fixed crash that occurs after loading save and tying to move.
+Make Quenching/Tempered Steel recipes more consistent
+fix limb drying rate and related test data
+crash on keybind reset in UILIST
+Fix broken macOS build due removed folder
+Fix an EOC that was looping infinitely and starting more loops as you travel
 
 
 ## Performance:
@@ -1385,6 +1410,7 @@ Cache the absolute map square position of the first submap
 Cache mutation trait flags
 Cache item info for crafting GUI full-text search
 Vehicles are slightly more efficient
+vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 
 
 ## Infrastructure:
@@ -1491,6 +1517,9 @@ Allow variable objects and math expressions to be used as widget variables
 fill_ter accepts parameters
 Merge commits from 0-H-Branch into master and update appstream file
 Traps can directly trigger EoCs as their action
+Replace point constants with static class members
+Upgrade ImGui to version to 1.91.5
+less verbose reading of layering.json
 
 ## Build:
 Support Mac arm64 build
@@ -1519,6 +1548,7 @@ Fixed broken Android build due to missing FreeType library
 Allow the game to build on OSX
 Fix mac builds post freetype dependency addition
 Add imgui_stdlib to CMake
+Fixes potential artifact poisoning route in CI
 
 
 ## I18N and A11Y:

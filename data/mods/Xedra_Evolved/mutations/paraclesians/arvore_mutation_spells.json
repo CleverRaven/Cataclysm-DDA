@@ -14,6 +14,7 @@
         "u_is_outside",
         {
           "or": [
+            { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
             { "u_is_on_terrain_with_flag": "SHRUB" },
             { "u_is_on_terrain_with_flag": "YOUNG" },
             { "u_is_on_terrain": "t_bamboo_tall" },
@@ -27,20 +28,97 @@
     "special_vision": [
       {
         "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                "npc_is_npc",
+                { "npc_has_species": "FERAL" },
+                { "npc_has_species": "HUMAN" },
+                { "npc_has_species": "RENFIELD" },
+                { "npc_has_flag": "HUMAN" }
+              ]
+            }
+          ]
+        },
         "descriptions": [
-          { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Forest whispers in your ears about menacings." }
+          {
+            "id": "moving_creature",
+            "symbol": "?",
+            "color": "c_white",
+            "text": "The forest nervously whispers to you about the presence of humans."
+          }
+        ]
+      },
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "npc_has_species": "MAMMAL" },
+                { "npc_has_species": "BIRD" },
+                { "npc_has_species": "REPTILE" },
+                { "npc_has_species": "MAMMAL" },
+                { "npc_has_species": "PLANT" },
+                { "npc_has_species": "AMPHIBIAN" },
+                { "npc_has_species": "FISH" },
+                { "npc_has_species": "INSECT" },
+                { "npc_has_species": "CENTIPEDE" },
+                { "npc_has_species": "SPIDER" },
+                { "npc_has_species": "INSECT_FLYING" },
+                { "npc_has_species": "MOLLUSK" },
+                { "npc_has_species": "ARVORE" }
+              ]
+            }
+          ]
+        },
+        "descriptions": [
+          {
+            "id": "infrared_creature_medium",
+            "symbol": "?",
+            "color": "c_green",
+            "text": "The forest gently whispers to you about the creatures of nature."
+          }
+        ]
+      },
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "condition": {
+          "or": [
+            { "npc_has_species": "ZOMBIE" },
+            { "npc_has_species": "FUNGUS" },
+            { "npc_has_species": "MIGO" },
+            { "npc_has_species": "NETHER" },
+            { "npc_has_species": "NETHER_BURROWING" },
+            { "npc_has_species": "VAMPIRE" },
+            { "npc_has_species": "NIGHTMARE" },
+            { "npc_has_species": "HORROR" },
+            { "npc_has_species": "ABERRATION" }
+          ]
+        },
+        "descriptions": [
+          {
+            "id": "alien_being_sense",
+            "symbol": "?",
+            "color": "c_red",
+            "text": "The forest whispers warnings of unnatural creatures nearby."
+          }
         ]
       }
     ]
   },
   {
     "type": "enchantment",
-    "id": "arvore_forest_detect_enemies_and_overmap",
+    "id": "arvore_forest_see_overmap",
     "condition": {
       "and": [
         "u_is_outside",
         {
           "or": [
+            { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
             { "u_is_on_terrain_with_flag": "SHRUB" },
             { "u_is_on_terrain_with_flag": "YOUNG" },
             { "u_is_on_terrain": "t_bamboo_tall" },
@@ -51,14 +129,6 @@
         }
       ]
     },
-    "special_vision": [
-      {
-        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
-        "descriptions": [
-          { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Forest whispers in your ears about menacings." }
-        ]
-      }
-    ],
     "values": [
       {
         "value": "OVERMAP_SIGHT",
@@ -331,7 +401,8 @@
     "energy_increment": -10,
     "base_casting_time": 150,
     "final_casting_time": 100,
-    "casting_time_increment": -4
+    "casting_time_increment": -4,
+    "learn_spells": { "arvore_roots_spell": 7 }
   },
   {
     "id": "arvore_summon_wood_spirit",
@@ -434,7 +505,7 @@
     "base_energy_cost": 550,
     "final_energy_cost": 250,
     "energy_increment": -15,
-    "learn_spells": { "arvore_tree_singing_spell": 12 }
+    "learn_spells": { "arvore_roots_spell": 8, "arvore_tree_singing_spell": 12 }
   },
   {
     "id": "arvore_summon_briars_arc",
@@ -739,7 +810,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "learn_spells": { "arvore_create_living_tent_spell": 10 }
+    "learn_spells": { "arvore_roots_spell": 8, "arvore_create_living_tent_spell": 10 }
   },
   {
     "type": "SPELL",
@@ -767,12 +838,49 @@
     "casting_time_increment": -150
   },
   {
+    "id": "arvore_summon_grass_field_spell",
+    "type": "SPELL",
+    "name": { "str": "Commanding the Grasses" },
+    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "VERRBAL", "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "skill": "deduction",
+    "teachable": false,
+    "difficulty": 1,
+    "spell_class": "ARVORE",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_command_grasses",
+    "shape": "blast",
+    "damage_type": "bash",
+    "min_range": {
+      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "max_range": {
+      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "min_aoe": {
+      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "max_aoe": {
+      "math": [ "( ( (u_spell_level('arvore_summon_grass_field_spell') * 0.5) + 5) * (scaling_factor(u_val('intelligence') ) ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4,
+    "base_energy_cost": 150,
+    "final_energy_cost": 75,
+    "energy_increment": -5,
+    "learn_spells": { "arvore_roots_spell": 6 }
+  },
+  {
     "id": "arvore_roots_spell",
     "type": "SPELL",
     "name": { "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.", "str": "Hungry Thirsty Roots" },
     "description": "Your command over plants allows you to call forth roots from the earth to clutch and grasp at your enemies.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "VERRBAL", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
     "skill": "deduction",
     "teachable": false,
@@ -782,15 +890,12 @@
     "effect_str": "effect_hungry_roots",
     "shape": "blast",
     "damage_type": "bash",
-    "min_aoe": 0,
-    "max_aoe": 3,
-    "aoe_increment": 0.25,
-    "min_range": 2,
-    "max_range": 70,
-    "range_increment": 0.65,
-    "min_dot": 0,
-    "max_dot": 5,
-    "dot_increment": 0.1,
+    "min_range": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.65) + 2) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_range": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.65) + 2) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "min_aoe": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.25) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_aoe": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.25) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "min_dot": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.1) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_dot": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 0.1) + 0) * (scaling_factor(u_val('perception') ) ) )" ] },
     "min_duration": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 50) + 300) * (scaling_factor(u_val('perception') ) ) )" ] },
     "max_duration": { "math": [ "( ( (u_spell_level('arvore_roots_spell') * 100) + 1000) * (scaling_factor(u_val('perception') ) ) )" ] },
     "energy_source": "MANA",

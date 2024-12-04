@@ -265,17 +265,17 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
-    "id": "mon_gallimimus_juvenile",
+    "id": "mon_nedcolbertia_juvenile",
     "type": "MONSTER",
     "name": "greenish yellow two-legged juvenile",
-    "description": "A small two-legged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "description": "A small two-legged dinosaur juvenile with feathers, it could be from a number of different species.",
     "default_faction": "herbivore_young",
     "categories": [ "DINOSAUR", "WILDLIFE" ],
     "species": [ "DINOSAUR" ],
-    "volume": "10 L",
-    "weight": "10 kg",
-    "hp": 10,
-    "speed": 60,
+    "volume": "25 L",
+    "weight": "25 kg",
+    "hp": 40,
+    "speed": 100,
     "material": [ "flesh" ],
     "symbol": "v",
     "color": "light_gray",
@@ -286,24 +286,48 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 2,
-    "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
+    "dodge": 6,
+    "upgrades": { "age_grow": 70, "into": "mon_nedcolbertia" },
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ],
-    "harvest": "bird_small"
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER",
+      "PET_MOUNTABLE",
+      "WARM",
+      "NO_BREED",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "EATS"
+    ],
+    "harvest": "dino_feather_leather"
+  },
+  {
+    "id": "mon_gallimimus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_nedcolbertia_juvenile",
+    "description": "A small bipedal dinosaur juvenile with feathers and a beak, it could be from a number of different species.",
+    "volume": "220 L",
+    "weight": "220 kg",
+    "hp": 55,
+    "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
+    "zombify_into": "mon_zallimimus_juvenile"
   },
   {
     "id": "mon_struthiomimus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_juvenile",
-    "upgrades": { "age_grow": 70, "into": "mon_struthiomimus" }
+    "upgrades": { "age_grow": 70, "into": "mon_struthiomimus" },
+    "zombify_into": "mon_ztruthiomimus_juvenile"
   },
   {
     "id": "mon_ornithomimus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" }
+    "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" },
+    "zombify_into": "mon_zornithomimus_juvenile"
   },
   {
     "id": "mon_falcarius_juvenile",
@@ -311,50 +335,63 @@
     "name": "green and magenta two-legged juvenile",
     "description": "A small bipedal plant-eating dinosaur juvenile, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_falcarius" }
+    "volume": "50 L",
+    "weight": "50 kg",
+    "hp": 75,
+    "upgrades": { "age_grow": 50, "into": "mon_falcarius" },
+    "zombify_into": "mon_zalcarius"
   },
   {
     "id": "mon_therizinosaurus_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_falcarius_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_therizinosaurus" }
+    "copy-from": "mon_therizinosaurus",
+    "hp": 250,
+    "upgrades": { "age_grow": 365, "into": "mon_therizinosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_nothronychus_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_falcarius_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_nothronychus" }
+    "copy-from": "mon_nothronychus",
+    "volume": "400 L",
+    "weight": "400 kg",
+    "hp": 80,
+    "upgrades": { "age_grow": 365, "into": "mon_nothronychus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_anzu_juvenile",
     "type": "MONSTER",
-    "description": "A small bipedal dinosaur juvenile with huge shiny eyes and a beak, it could be from a number of different species.",
-    "copy-from": "mon_falcarius_juvenile",
+    "copy-from": "mon_anzu",
+    "volume": "250 L",
+    "weight": "250 kg",
+    "hp": 60,
     "default_faction": "anzu_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_anzu" },
-    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_deinonychus_juvenile",
     "type": "MONSTER",
-    "name": "red and green two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "deinonychus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "red_green",
-    "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "dissect": "dissect_raptor_sample_single",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ]
+    "copy-from": "mon_deinonychus",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "hp": 30,
+    "upgrades": { "age_grow": 100, "into": "mon_deinonychus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_utahraptor_juvenile",
     "type": "MONSTER",
-    "name": "gray and white two-legged juvenile",
     "default_faction": "utahraptor_juvenile",
-    "copy-from": "mon_deinonychus_juvenile",
-    "color": "dark_gray_white",
-    "upgrades": { "age_grow": 80, "into": "mon_utahraptor" }
+    "copy-from": "mon_utahraptor",
+    "volume": "250 L",
+    "weight": "250 kg",
+    "hp": 75,
+    "upgrades": { "age_grow": 100, "into": "mon_utahraptor" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ] }
   },
   {
     "id": "mon_sarahsaurus_juvenile",

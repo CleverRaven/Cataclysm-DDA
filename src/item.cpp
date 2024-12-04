@@ -709,9 +709,9 @@ item &item::activate()
     return *this;
 }
 
-bool item::activate_thrown( const tripoint &pos )
+bool item::activate_thrown( const tripoint_bub_ms &pos )
 {
-    return type->invoke( nullptr, *this, pos ).value_or( 0 );
+    return type->invoke( nullptr, *this, pos.raw() ).value_or( 0 );
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -1497,11 +1497,11 @@ bool _stacks_weapon_mods( item const &lhs, item const &rhs )
 bool _stacks_location_hint( item const &lhs, item const &rhs )
 {
     static const std::string omt_loc_var = "spawn_location_omt";
-    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint::max ) );
-    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint::max ) );
+    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
+    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
     if( this_loc == that_loc ) {
         return true;
-    } else if( this_loc.raw() != tripoint::max && that_loc.raw() != tripoint::max ) {
+    } else if( this_loc != tripoint_abs_omt::max && that_loc != tripoint_abs_omt::max ) {
         const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
                                                get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
@@ -1893,12 +1893,13 @@ double item::get_var( const std::string &name, const double default_value ) cons
     return result;
 }
 
-void item::set_var( const std::string &name, const tripoint &value )
+void item::set_var( const std::string &name, const tripoint_abs_omt &value )
 {
     item_vars[name] = value.to_string();
 }
 
-tripoint item::get_var( const std::string &name, const tripoint &default_value ) const
+tripoint_abs_omt item::get_var( const std::string &name,
+                                const tripoint_abs_omt &default_value ) const
 {
     const auto it = item_vars.find( name );
     if( it == item_vars.end() ) {
@@ -1908,7 +1909,7 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
     // first is produced by tripoint::to_string, second was old custom format
     if( it->second[0] == '(' ) {
-        return tripoint::from_string( it->second );
+        return tripoint_abs_omt{tripoint::from_string( it->second )};
     }
 
     std::vector<std::string> values = string_split( it->second, ',' );
@@ -1922,9 +1923,9 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
             return 0;
         }
     };
-    return tripoint( convert_or_error( values[0] ),
-                     convert_or_error( values[1] ),
-                     convert_or_error( values[2] ) );
+    return tripoint_abs_omt( convert_or_error( values[0] ),
+                             convert_or_error( values[1] ),
+                             convert_or_error( values[2] ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -7053,11 +7054,10 @@ std::string item::display_name( unsigned int quantity ) const
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
-        // TODO: fix point types
-        tripoint map_pos_omt =
-            get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
+        tripoint_abs_omt map_pos_omt =
+            get_var( "reveal_map_center_omt", player_character.global_omt_location() );
         tripoint_abs_sm map_pos =
-            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
+            project_to<coords::sm>( map_pos_omt );
         const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
@@ -8072,7 +8072,7 @@ void item::calc_rot_while_processing( time_duration processing_duration )
     last_temp_check += processing_duration;
 }
 
-bool item::process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+bool item::process_decay_in_air( map &here, Character *carrier, const tripoint_bub_ms &pos,
                                  int max_air_exposure_hours,
                                  time_duration time_delta )
 {
@@ -8607,7 +8607,7 @@ bool item::can_revive() const
               has_flag( flag_SKINNED ) || has_flag( flag_PULPED ) );
 }
 
-bool item::ready_to_revive( map &here, const tripoint &pos ) const
+bool item::ready_to_revive( map &here, const tripoint_bub_ms &pos ) const
 {
     if( !can_revive() ) {
         return false;
@@ -8628,7 +8628,7 @@ bool item::ready_to_revive( map &here, const tripoint &pos ) const
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag( flag_REVIVE_SPECIAL );
         if( isReviveSpecial ) {
-            const int distance = rl_dist( pos, get_player_character().pos() );
+            const int distance = rl_dist( pos, get_player_character().pos_bub() );
             if( distance > 3 ) {
                 return false;
             }
@@ -10357,18 +10357,13 @@ bool item::spill_contents( Character &c )
     }
 
     if( c.is_npc() ) {
-        return spill_contents( c.pos() );
+        return spill_contents( c.pos_bub() );
     }
 
     contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
     return is_container_empty();
-}
-
-bool item::spill_contents( const tripoint &pos )
-{
-    return item::spill_contents( tripoint_bub_ms( pos ) );
 }
 
 bool item::spill_contents( const tripoint_bub_ms &pos )
@@ -10385,9 +10380,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint &pos, const item_location &loc )
+void item::overflow( const tripoint_bub_ms &pos, const item_location &loc )
 {
-    contents.overflow( pos, loc );
+    contents.overflow( pos.raw(), loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -11060,7 +11055,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     return ammo_sufficient( carrier, qty );
 }
 
-int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
+int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -11099,7 +11094,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, pos );
+        qty -= contents.ammo_consume( qty, pos.raw() );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -11143,12 +11138,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
-int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
-{
-    return item::ammo_consume( qty, pos.raw(), carrier );
-}
-
-units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &pos,
+                                    Character *carrier,
                                     float fuel_efficiency )
 {
     if( qty < 0_kJ ) {
@@ -11202,7 +11193,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     return wanted_energy - qty;
 }
 
-int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
+int item::activation_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
     return ammo_consume( qty * ammo_required(), pos, carrier );
 }
@@ -12557,7 +12548,7 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint &pos, const std::function<bool( const item & )> &filter,
+                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter,
                         Character *carrier, bool in_tools )
 {
     std::vector<item *> del;
@@ -12748,25 +12739,25 @@ bool item::will_explode_in_fire() const
     return false;
 }
 
-bool item::detonate( const tripoint &p, std::vector<item> &drops )
+bool item::detonate( const tripoint_bub_ms &p, std::vector<item> &drops )
 {
     const Creature *source = get_player_character().get_faction()->id == owner
                              ? &get_player_character()
                              : nullptr;
     if( type->explosion.power >= 0 ) {
-        explosion_handler::explosion( source, p, type->explosion );
+        explosion_handler::explosion( source, p.raw(), type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
         if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( nullptr, tripoint_bub_ms( p ), type->ammo->ammo_effects, 1 );
+            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects, 1 );
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
             float power = 3.0f * std::pow( rounds_exploded / 25.0f, 0.25f );
-            explosion_handler::explosion( nullptr, p, power, 0.0f, false, 0 );
+            explosion_handler::explosion( nullptr, p.raw(), power, 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -12913,7 +12904,7 @@ void item::apply_freezerburn()
     set_flag( flag_MUSHY );
 }
 
-bool item::process_temperature_rot( float insulation, const tripoint &pos, map &here,
+bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos, map &here,
                                     Character *carrier, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     const time_point now = calendar::turn;
@@ -12932,7 +12923,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         return false;
     }
 
-    units::temperature temp = get_weather().get_temperature( pos );
+    units::temperature temp = get_weather().get_temperature( pos.raw() );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
@@ -12978,8 +12969,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            temp_mod = get_heat_radiation( pos );
-            temp_mod += get_convection_temperature( pos );
+            temp_mod = get_heat_radiation( pos.raw() );
+            temp_mod += get_convection_temperature( pos.raw() );
             temp_mod += here.get_temperature_mod( pos );
         } else {
             temp_mod = units::from_kelvin_delta( 0 );
@@ -12998,8 +12989,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             // Get the environment temperature
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
-            if( pos.z >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
-                env_temperature = wgen.get_weather_temperature( pos, time, seed );
+            if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
+                env_temperature = wgen.get_weather_temperature( pos.raw(), time, seed );
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
@@ -13343,21 +13334,21 @@ void item::overwrite_relic( const relic &nrelic )
     this->relic_data = cata::make_value<relic>( nrelic );
 }
 
-bool item::use_relic( Character &guy, const tripoint &pos )
+bool item::use_relic( Character &guy, const tripoint_bub_ms &pos )
 {
-    return relic_data->activate( guy, pos );
+    return relic_data->activate( guy, pos.raw() );
 }
 
-void item::process_relic( Character *carrier, const tripoint &pos )
+void item::process_relic( Character *carrier, const tripoint_bub_ms &pos )
 {
     if( !is_relic() ) {
         return;
     }
 
-    relic_data->try_recharge( *this, carrier, pos );
+    relic_data->try_recharge( *this, carrier, pos.raw() );
 }
 
-bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
+bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms &pos )
 {
     // some corpses rez over time
     if( corpse == nullptr || damage() >= max_damage() ) {
@@ -13372,7 +13363,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
             here.trap_set( pos, trap_id( "tr_dormant_corpse" ) );
         } else if( trap_here->loadid != trap_id( "tr_dormant_corpse" ) ) {
             // if there is a trap, but it isn't the right one, we need to revive the zombie manually.
-            return g->revive_corpse( pos, *this, 3 );
+            return g->revive_corpse( pos.raw(), *this, 3 );
         }
         return false;
     }
@@ -13387,7 +13378,8 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
     if( !ready_to_revive( here, pos ) ) {
         return false;
     }
-    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
+    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt &&
+        g->revive_corpse( pos.raw(), *this ) ) {
         if( carrier == nullptr ) {
             if( corpse->in_species( species_ROBOT ) ) {
                 add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
@@ -13410,7 +13402,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint &pos )
+bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint_bub_ms &pos )
 {
     const furn_id &f = here.furn( pos );
     if( f != furn_f_wind_mill_active &&
@@ -13419,14 +13411,14 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
         return true; //destroy fake mill
     }
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::mill_finalize( get_avatar(), pos ); //activate effects when timers goes to zero
+        iexamine::mill_finalize( get_avatar(), pos.raw() ); //activate effects when timers goes to zero
         return true; //destroy fake mill item
     }
 
     return false;
 }
 
-bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoint &pos )
+bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoint_bub_ms &pos )
 {
     const furn_id &f = here.furn( pos );
     if( f != furn_f_smoking_rack_active &&
@@ -13436,14 +13428,14 @@ bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoin
     }
 
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
+        iexamine::on_smoke_out( pos.raw(), birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 
     return false;
 }
 
-bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
+bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms &pos )
 {
     // cig dies out
     if( item_counter == 0 ) {
@@ -13453,7 +13445,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         if( type->revert_to ) {
             convert( *type->revert_to, carrier );
         } else {
-            type->invoke( carrier, *this, pos, "transform" );
+            type->invoke( carrier, *this, pos.raw(), "transform" );
         }
         if( typeId() == itype_joint_lit && carrier != nullptr ) {
             carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
@@ -13473,7 +13465,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
                                             type_name() );
                 convert( *type->revert_to, carrier );
             } else {
-                type->invoke( carrier, *this, pos, "transform" );
+                type->invoke( carrier, *this, pos.raw(), "transform" );
             }
             active = false;
             return false;
@@ -13541,7 +13533,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_extinguish( map &here, Character *carrier, const tripoint &pos )
+bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub_ms &pos )
 {
     // checks for water
     bool extinguish = false;
@@ -13598,7 +13590,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     if( type->revert_to ) {
         convert( *type->revert_to, carrier );
     } else {
-        type->invoke( carrier, *this, pos, "transform" );
+        type->invoke( carrier, *this, pos.raw(), "transform" );
     }
     active = false;
     // Item remains
@@ -13684,11 +13676,6 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
     return link_to( first_linked_vp->vehicle(), first_linked_vp->mount_pos(), link_type );
 }
 
-ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_type )
-{
-    return item::link_to( veh, point_rel_ms( mount ), link_type );
-}
-
 ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state link_type )
 {
     if( !can_link_up() ) {
@@ -13737,8 +13724,8 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
         link().t_abs_pos = get_map().getglobal( link().t_veh->pos_bub() );
-        link().t_mount = mount.raw();
-        link().s_bub_pos = tripoint::min; // Forces the item to check the length during process_link.
+        link().t_mount = mount;
+        link().s_bub_pos = tripoint_bub_ms::min; // Forces the item to check the length during process_link.
 
         update_link_traits();
         return ret_val<void>::make_success();
@@ -13798,7 +13785,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         return ret_val<void>::make_failure();
     }
 
-    const point prev_mount = link().t_mount;
+    const point_rel_ms prev_mount = link().t_mount;
 
     const ret_val<void> can_mount1 = prev_veh->can_mount( prev_mount, *vpid );
     if( !can_mount1.success() ) {
@@ -13853,7 +13840,7 @@ void item::update_link_traits()
     link().max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
     link().efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
     // Reset s_bub_pos to force the item to check the length during process_link.
-    link().s_bub_pos = tripoint::min;
+    link().s_bub_pos = tripoint_bub_ms::min;
     link().last_processed = calendar::turn;
 
     for( const item *cable : cables() ) {
@@ -13899,7 +13886,7 @@ int item::link_sort_key() const
     return key - length;
 }
 
-bool item::process_link( map &here, Character *carrier, const tripoint &pos )
+bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &pos )
 {
     if( link_length() < 0 ) {
         return false;
@@ -13910,7 +13897,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     // Handle links to items in the inventory.
     if( link().source == link_state::solarpack ) {
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the solar pack." ),
+            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %s has come loose from the solar pack." ),
                                     link_name() );
             reset_link( true, carrier );
             return false;
@@ -13921,7 +13908,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     };
     if( link().source == link_state::ups ) {
         if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
-            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the UPS." ), link_name() );
+            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %s has come loose from the UPS." ), link_name() );
             reset_link( true, carrier );
             return false;
         }
@@ -13951,7 +13938,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
             if( carrier != nullptr ) {
                 carrier->add_msg_if_player( m_bad, _( "Your %s breaks loose!" ), cable_name );
             } else {
-                add_msg_if_player_sees( pos, m_bad, _( "Your %s breaks loose!" ), cable_name );
+                add_msg_if_player_sees( pos.raw(), m_bad, _( "Your %s breaks loose!" ), cable_name );
             }
             return true;
         } else if( link().length + M_SQRT2 >= link().max_length + 1 && carrier != nullptr ) {
@@ -13990,7 +13977,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
             return false;
         }
         link().length = rl_dist( here.getglobal( pos ), link().t_abs_pos ) +
-                        link().t_mount.abs().x + link().t_mount.abs().y;
+                        link().t_mount.abs().x() + link().t_mount.abs().y();
         if( check_length() ) {
             return reset_link( true, carrier );
         }
@@ -14001,14 +13988,14 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     int link_vp_index = -1;
     if( link().target == link_state::vehicle_port ) {
         for( int idx : t_veh->cable_ports ) {
-            if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
+            if( t_veh->part( idx ).mount == link().t_mount ) {
                 link_vp_index = idx;
                 break;
             }
         }
     } else if( link().target == link_state::vehicle_battery ) {
         for( int idx : t_veh->batteries ) {
-            if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
+            if( t_veh->part( idx ).mount == link().t_mount ) {
                 link_vp_index = idx;
                 break;
             }
@@ -14016,7 +14003,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( link_vp_index == -1 ) {
             // Check cable_ports, since that includes appliances
             for( int idx : t_veh->cable_ports ) {
-                if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
+                if( t_veh->part( idx ).mount == link().t_mount ) {
                     link_vp_index = idx;
                     break;
                 }
@@ -14031,7 +14018,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
     }
 
     if( link().last_processed <= t_veh->part( link_vp_index ).last_disconnected ) {
-        add_msg_if_player_sees( pos, m_warning, string_format( _( "You detached the %s." ), type_name() ) );
+        add_msg_if_player_sees( pos.raw(), m_warning, string_format( _( "You detached the %s." ),
+                                type_name() ) );
         return reset_link( true, carrier, -2 );
     }
     t_veh->part( link_vp_index ).set_flag( vp_flag::linked_flag );
@@ -14049,7 +14037,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
 
     // If either of the link's connected sides moved, check the cable's length.
     if( length_check_needed ) {
-        link().length = rl_dist( pos, t_veh_bub_pos.raw() + t_veh->part( link_vp_index ).precalc[0].raw() );
+        link().length = rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0].raw() );
         if( check_length() ) {
             return reset_link( true, carrier, link_vp_index );
         }
@@ -14138,7 +14126,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 }
 
 bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
-                       const bool loose_message, const tripoint cable_position )
+                       const bool loose_message, const tripoint_bub_ms cable_position )
 {
     if( !has_link_data() ) {
         return has_flag( flag_NO_DROP );
@@ -14154,14 +14142,14 @@ bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
             // Find the vp_part index the cable is linked to.
             if( link().target == link_state::vehicle_port ) {
                 for( int idx : t_veh->cable_ports ) {
-                    if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
+                    if( t_veh->part( idx ).mount == link().t_mount ) {
                         vpart_index = idx;
                         break;
                     }
                 }
             } else if( link().target == link_state::vehicle_battery ) {
                 for( int idx : t_veh->batteries ) {
-                    if( t_veh->part( idx ).mount.raw() == link().t_mount ) {
+                    if( t_veh->part( idx ).mount == link().t_mount ) {
                         vpart_index = idx;
                         break;
                     }
@@ -14179,7 +14167,8 @@ bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
         if( p != nullptr ) {
             p->add_msg_if_player( m_warning, _( "Your %s has come loose." ), link_name() );
         } else {
-            add_msg_if_player_sees( cable_position, m_warning, _( "The %s has come loose." ), link_name() );
+            add_msg_if_player_sees( cable_position.raw(), m_warning, _( "The %s has come loose." ),
+                                    link_name() );
         }
     }
 
@@ -14201,7 +14190,7 @@ bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
     return has_flag( flag_NO_DROP );
 }
 
-bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
+bool item::process_linked_item( Character *carrier, const tripoint_bub_ms & /*pos*/,
                                 const link_state required_state )
 {
     if( carrier == nullptr ) {
@@ -14220,7 +14209,7 @@ bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
     return false;
 }
 
-bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
+bool item::process_wet( Character *carrier, const tripoint_bub_ms & /*pos*/ )
 {
     if( item_counter == 0 ) {
         if( type->revert_to ) {
@@ -14245,7 +14234,7 @@ units::energy item::energy_per_second() const
     return energy_to_burn;
 }
 
-bool item::process_tool( Character *carrier, const tripoint &pos )
+bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
 {
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
     if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
@@ -14285,7 +14274,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         }
     }
 
-    type->tick( carrier, *this, pos );
+    type->tick( carrier, *this, pos.raw() );
     return false;
 }
 
@@ -14344,29 +14333,22 @@ bool item::process_gun_cooling( Character *carrier )
     return false;
 }
 
-bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
-{
-    return item::process( here, carrier, tripoint_bub_ms( pos ), insulation, flag,
-                          spoil_multiplier_parent, watertight_container, recursive );
-}
-
 bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
 {
-    process_relic( carrier, pos.raw() );
+    process_relic( carrier, pos );
     if( recursive ) {
         contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
                           spoil_multiplier_parent, watertight_container );
     }
-    return process_internal( here, carrier, pos.raw(), insulation, flag, spoil_multiplier_parent,
+    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
                              watertight_container );
 }
 
-bool item::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+bool item::leak( map &here, Character *carrier, const tripoint_bub_ms &pos, item_pocket *pocke )
 {
     if( is_container() ) {
-        contents.leak( here, carrier, pos, pocke );
+        contents.leak( here, carrier, pos.raw(), pocke );
         return false;
     } else if( this->made_of( phase_id::LIQUID ) && !this->is_frozen_liquid() ) {
         if( pocke ) {
@@ -14386,7 +14368,7 @@ void item::set_last_temp_check( const time_point &pt )
     last_temp_check = pt;
 }
 
-bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
+bool item::process_internal( map &here, Character *carrier, const tripoint_bub_ms &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
@@ -14509,7 +14491,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
                                      watertight_container ) ) {
             if( is_comestible() ) {
-                here.rotten_item_spawn( *this, tripoint_bub_ms( pos ) );
+                here.rotten_item_spawn( *this, pos );
             }
             if( is_corpse() ) {
                 here.handle_decayed_corpse( *this, here.getglobal( pos ) );
@@ -15010,14 +14992,9 @@ bool item::is_filthy() const
     return has_flag( flag_FILTHY );
 }
 
-bool item::on_drop( const tripoint &pos )
+bool item::on_drop( const tripoint_bub_ms &pos )
 {
     return on_drop( pos, get_map() );
-}
-
-bool item::on_drop( const tripoint &pos, map &m )
-{
-    return item::on_drop( tripoint_bub_ms( pos ), m );
 }
 
 bool item::on_drop( const tripoint_bub_ms &pos, map &m )

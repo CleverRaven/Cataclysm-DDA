@@ -679,5 +679,53 @@
     "use_action": { "type": "holster" },
     "flags": [ "MORPHIC", "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xedra_inventor_damage_reversal_device",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "Injury Reset Device" },
+    "description": "A bulky wristwatch that attaches to your arm.  Using it will revert the last injury that you have suffered.  Also tells the time.",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "looks_like": "wristwatch",
+    "ammo": [ "battery" ],
+    "material": [ "kevlar", "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "charges_per_use": 300,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Reverse your last injury.",
+      "effect_on_conditions": [ "EOC_XEDRA_INVENTOR_DAMAGE_REVERSAL" ],
+      "need_worn": true
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "flags": [
+      "MORPHIC",
+      "WATCH",
+      "ALARMCLOCK",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE",
+      "ELECTRONIC",
+      "INVENTOR_CRAFTED",
+      "STURDY",
+      "PADDED"
+    ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   }
 ]

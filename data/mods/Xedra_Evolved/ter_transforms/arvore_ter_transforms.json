@@ -65,6 +65,27 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "ter_arvore_command_grasses",
+    "terrain": [
+      {
+        "result": "t_grass_tall",
+        "valid_terrain": [ "t_grass_long" ],
+        "message": "The grass grows tall, reaching toward the sky."
+      },
+      {
+        "result": [ [ "t_grass_long", 100 ], [ "t_grass_tall", 25 ] ],
+        "valid_terrain": [ "t_grass" ],
+        "message": "The grass grows tall, reaching toward the sky."
+      },
+      {
+        "result": [ [ "t_grass", 50 ], [ "t_grass_long", 100 ], [ "t_grass_tall", 10 ] ],
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "The ground churns as blades of grass push out of the soil."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_arvore_wood_wall",
     "terrain": [
       {

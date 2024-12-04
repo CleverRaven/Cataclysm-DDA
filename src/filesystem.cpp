@@ -149,6 +149,11 @@ bool remove_file( const std::string &path )
     return remove_file( fs::u8path( path ) );
 }
 
+bool remove_file( const cata_path &path )
+{
+    return remove_file( path.get_unrelative_path() );
+}
+
 bool remove_file( const fs::path &path )
 {
     setFsNeedsSync();
@@ -159,6 +164,11 @@ bool remove_file( const fs::path &path )
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
     return rename_file( fs::u8path( old_path ), fs::u8path( new_path ) );
+}
+
+bool rename_file( const cata_path &old_path, const cata_path &new_path )
+{
+    return rename_file( old_path.get_unrelative_path(), new_path.get_unrelative_path() );
 }
 
 bool rename_file( const fs::path &old_path, const fs::path &new_path )

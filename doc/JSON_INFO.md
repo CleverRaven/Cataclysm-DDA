@@ -4519,8 +4519,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_charges": 1,                        // Number of charges the item needs to transform
   "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges
   "need_empty": true,                       // Whether the item must be empty to be transformed; false by default
-  "need_worn": true,                        // Whether the item must be worn to be transformed; false by default
-  "need_wielding": true,                    // Whether the item must be wielded to be transformed; false by default
+  "need_worn": true,                        // Whether the item must be worn to be transformed, cast spells, or use EOCs; false by default
+  "need_wielding": true,                    // Whether the item must be wielded to be transformed, cast spells, or use EOCs; false by default
   "qualities_needed": { "WRENCH_FINE": 1 }, // Tool qualities needed, e.g. "fine bolt turning 1"
   "target_charges": 3,                      // Number of charges the transformed item has
   "rand_target_charges": [ 10, 15, 25 ],    // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (endpoints are included)
@@ -6235,6 +6235,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "linear_half_life": "true", // If true the half life decay is converted to a non-random, linear wait based on the defined half_life time. 
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
     "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place

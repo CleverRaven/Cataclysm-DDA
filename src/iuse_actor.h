@@ -1177,6 +1177,10 @@ class effect_on_conditons_actor : public iuse_actor
         std::vector<effect_on_condition_id> eocs;
         translation description;
         translation menu_text;
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
         explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
                 type ) {}
 

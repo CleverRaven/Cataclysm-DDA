@@ -155,7 +155,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( effects.count( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.activate_thrown( attack.end_point.raw() );
+            do_drop = !dropped_item.activate_thrown( attack.end_point );
         }
 
         map &here = get_map();

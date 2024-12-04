@@ -32,7 +32,7 @@
         ".#########oo###########.",
         "............^..........."
       ],
-      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_construction_and_variant_palette" ],
       "terrain": {
         "!": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "8": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },

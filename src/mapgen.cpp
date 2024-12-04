@@ -6808,13 +6808,16 @@ void map::add_spawn(
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks,
+                           const bool force_status/* = false*/ )
 {
-    return map::add_vehicle( type, tripoint_bub_ms( p ), dir, veh_fuel, veh_status, merge_wrecks );
+    return map::add_vehicle( type, tripoint_bub_ms( p ), dir, veh_fuel, veh_status, merge_wrecks,
+                             force_status );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks,
+                           const bool force_status/* = false*/ )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6833,7 +6836,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
     veh->sm_pos = quotient.raw();
     veh->pos = remainder;
-    veh->init_state( *this, veh_fuel, veh_status );
+    veh->init_state( *this, veh_fuel, veh_status, force_status );
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;

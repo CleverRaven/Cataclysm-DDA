@@ -1256,6 +1256,11 @@ void item_contents::heat_up()
 
 int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_efficiency )
 {
+    return item_contents::ammo_consume( qty, tripoint_bub_ms( pos ), fuel_efficiency );
+}
+
+int item_contents::ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency )
+{
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {

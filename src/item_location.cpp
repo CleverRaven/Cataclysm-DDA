@@ -1007,7 +1007,7 @@ bool item_location::eventually_contains( item_location loc ) const
 
 void item_location::overflow()
 {
-    get_item()->overflow( position(), *this );
+    get_item()->overflow( pos_bub(), *this );
 }
 
 item_location::type item_location::where() const

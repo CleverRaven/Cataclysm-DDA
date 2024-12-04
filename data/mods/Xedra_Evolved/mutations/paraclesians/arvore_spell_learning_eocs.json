@@ -20,7 +20,7 @@
             "ARVORE_FOREST_TRANSLOCATION",
             "ARVORE_TURN_INTO_TREE",
             "ARVORE_VERDANT_INFUSION",
-            "ARVORE_ROOTS_SPELL",
+            "ARVORE_SUMMON_GRASS_FIELD",
             "ARVORE_CLIMBING_VINE_SPELL",
             "ARVORE_ANTI_PLANT_SPELL",
             "ARVORE_CULTIVATE_GOBLIN_FRUIT",
@@ -76,6 +76,7 @@
         { "math": [ "u_spell_level('arvore_forest_translocate') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_overgrowth_spell') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_verdant_infusion') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_summon_grass_field_spell') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_roots_spell') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_climbing_vine_spell') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_anti_plant_spell') < per_to_level(1)" ] },
@@ -102,6 +103,7 @@
         [ "EOC_LEVELER_ARVORE_FOREST_TRANSLOCATION", 2 ],
         [ "EOC_LEVELER_ARVORE_TURN_INTO_TREE", 3 ],
         [ "EOC_LEVELER_ARVORE_VERDANT_INFUSION", 6 ],
+        [ "EOC_LEVELER_ARVORE_SUMMON_GRASS_FIELD_SPELL", 10 ],
         [ "EOC_LEVELER_ARVORE_ROOTS_SPELL", 8 ],
         [ "EOC_LEVELER_ARVORE_CLIMBING_VINE_SPELL", 8 ],
         [ "EOC_LEVELER_ARVORE_LIVING_TENT_SPELL", 6 ],
@@ -346,6 +348,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('arvore_verdant_infusion')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_SUMMON_GRASS_FIELD_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_summon_grass_field_spell') >= 0" ] },
+        { "math": [ "u_spell_level('arvore_summon_grass_field_spell') < int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('arvore_summon_grass_field_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
