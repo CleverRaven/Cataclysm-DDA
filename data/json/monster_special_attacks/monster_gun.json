@@ -301,7 +301,7 @@
     "flags": [ "PSEUDO" ],
     "type": "GUN",
     "name": { "str_sp": "Cops' AR15" },
-    "//~": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
+    "//": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
     "dispersion": 960,
     "durability": 5
   },
