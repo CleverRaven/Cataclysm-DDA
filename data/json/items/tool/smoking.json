@@ -58,7 +58,7 @@
     "qualities": [ [ "SMOKE_PIPE", 1 ] ],
     "melee_damage": { "bash": 1 }
   },
-    {
+  {
     "id": "pipe_water",
     "type": "TOOL",
     "name": { "str": "water pipe" },
