@@ -58,6 +58,35 @@
     "qualities": [ [ "SMOKE_PIPE", 1 ] ],
     "melee_damage": { "bash": 1 }
   },
+    {
+    "id": "pipe_water",
+    "type": "TOOL",
+    "name": { "str": "water pipe" },
+	"looks_like": "bottle_plastic",
+    "description": "A mass-manufacured water-pipe, otherwise known as a 'bong.' Headshops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
+    "weight": "750 g",
+    "volume": "900 ml",
+	"longest_side": "30 cm",
+	"flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE" ],
+    "price": 2000,
+    "price_postapoc": 100,
+	"pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      } ],
+    "to_hit": -2,
+    "material": [ "glass" ],
+    "symbol": ",",
+    "color": "cyan",
+    "qualities": [ [ "SMOKE_PIPE", 1], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 4 }
+  },
   {
     "id": "pipe_tobacco",
     "type": "TOOL",
