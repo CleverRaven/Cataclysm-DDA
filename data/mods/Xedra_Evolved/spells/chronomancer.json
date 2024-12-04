@@ -272,12 +272,12 @@
     "energy_source": "MANA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_xedra_chronomancer_stabilize_timeline') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ) ), 250 ) "
+        "u_effect_intensity('effect_xedra_chronomancer_reverse_entropy') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ) ), 250 ) "
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_xedra_chronomancer_stabilize_timeline') > -1 ? 0 : max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_reverse_entropy') ) ), 50 )"
+        "u_effect_intensity('effect_xedra_chronomancer_reverse_entropy') > -1 ? 0 : max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_reverse_entropy') ) ), 50 )"
       ]
     }
   }

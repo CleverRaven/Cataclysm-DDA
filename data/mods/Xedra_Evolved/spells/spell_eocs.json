@@ -402,7 +402,7 @@
     "effect": [
       {
         "run_eocs": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER",
-        "time_in_future": 1
+        "time_in_future": { "math": [ "max( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), -2, 60 ), 1 )" ] }
       },
       {
         "u_run_inv_eocs": "all",
@@ -413,7 +413,7 @@
             "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
             "effect": [
               {
-                "math": [ "n_val('power') += 1" ]
+                "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), 0.1, 1 )" ]
               }
             ]
           }
@@ -421,13 +421,13 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "condition": { "math": [ "n_hp('ALL') < n_hp_max('ALL')" ] } }, { "uses_energy": true }, { "uses_energy": false } ],
+        "search_data": [ { "uses_energy": true }, { "uses_energy": false } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_DURABILITY",
             "effect": [
               {
-                "math": [ "n_hp('ALL') += 1" ]
+                "math": [ "n_hp('ALL') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_reverse_entropy'), 0.1, 1 )" ]
               }
             ]
           }

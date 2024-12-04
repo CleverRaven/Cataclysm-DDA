@@ -3010,7 +3010,7 @@
             "value": "MAX_MANA",
             "add": {
               "math": [
-                "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )"
+                "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ), 250 )"
               ]
             }
           }
