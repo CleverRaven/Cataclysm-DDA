@@ -401,7 +401,7 @@ void write_min_archive()
     tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
-    fs::path const save_root( PATH_INFO::world_base_save_path_path() );
+    fs::path const save_root( PATH_INFO::world_base_save_path() );
     std::string const ofile = save_root.string() + "-trimmed.tar.gz";
 
     tgz_archiver tgz( ofile );

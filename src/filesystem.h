@@ -8,6 +8,7 @@
 
 #include <ghc/fs_std_fwd.hpp>
 
+#include "cata_path.h"
 #include "catacharset.h"
 #include "compatibility.h"
 #include "path_info.h"
@@ -40,9 +41,11 @@ std::string as_norm_dir( const fs::path &path );
 // Remove a file, does not remove folders,
 // returns true on success
 bool remove_file( const fs::path &path );
+bool remove_file( const cata_path &path );
 bool remove_directory( const fs::path &path );
 // Rename a file, overriding the target!
 bool rename_file( const fs::path &old_path, const fs::path &new_path );
+bool rename_file( const cata_path &old_path, const cata_path &new_path );
 
 fs::path abs_path( const fs::path &path );
 
