@@ -50,6 +50,7 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+class const_talker;
 class translation;
 namespace catacurses
 {
@@ -502,7 +503,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string &name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint_bub_ms &p );
 
         /**
          * If training_level is anything but 0, the check will only train target's skill to that level
@@ -578,6 +579,9 @@ class Creature : public viewer
         virtual bool is_immune_field( const field_type_id & ) const {
             return false;
         }
+
+        // Returns if the creature is immune to every given field type.
+        bool is_immune_fields( const std::vector<field_type_id> &fields ) const;
 
         // check if the creature is immune to the effect / field based on the immunity data
         virtual bool check_immunity_data( const field_immunity_data & ) const {
@@ -694,7 +698,7 @@ class Creature : public viewer
         virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
-        virtual void mod_pain( int npain );
+        virtual int mod_pain( int npain );
         virtual void mod_pain_noresist( int npain );
         virtual void set_pain( int npain );
         virtual int get_pain() const;
@@ -966,12 +970,6 @@ class Creature : public viewer
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
-        /** Describe this creature as seen by the avatar via infrared vision. */
-        void describe_infrared( std::vector<std::string> &buf ) const;
-
-        /** Describe this creature as detected by the avatar's special senses. */
-        void describe_specials( std::vector<std::string> &buf ) const;
-
         // Message related stuff
         // These functions print to the sidebar message log. Unlike add_msg which prints messages
         // unconditionally, these only print messages when invoked for certain creature types:
@@ -1181,7 +1179,7 @@ class Creature : public viewer
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
-        virtual std::string extended_description() const = 0;
+        virtual std::vector<std::string> extended_description() const = 0;
 
         /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;
@@ -1343,8 +1341,9 @@ class Creature : public viewer
         // do messaging and SCT for projectile hit
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
+        void print_proj_avoid_msg( Creature *source, viewer &player_view ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
-std::unique_ptr<talker> get_talker_for( const Creature &me );
+std::unique_ptr<const_talker> get_const_talker_for( const Creature &me );
 std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

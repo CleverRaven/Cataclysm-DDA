@@ -1,0 +1,270 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_PSIONICS",
+    "dynamic_line": "Psionic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_clear_minded_channeling" } },
+        "text": "Gain [<trait_name:perk_clear_minded_channeling>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_clear_minded_channeling>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_clear_minded_channeling>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_clear_minded_channeling", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know the Concentration (Beginner) proficiency and must not have the Easily Distracted trait.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_proficiency": "prof_concentration_basic" }, { "not": { "u_has_trait": "CONCENTRATION_BAD" } } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_concussive_blasts" } },
+        "text": "Gain [<trait_name:perk_concussive_blasts>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_concussive_blasts>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_concussive_blasts>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_concussive_blasts", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know the Mindhammer or Wrecking Ball powers.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('telekinetic_hammer') >= 1" ] },
+                { "math": [ "u_spell_level('telekinetic_explosion') >= 1" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_efficient_slumber" } },
+        "text": "Gain [<trait_name:perk_efficient_slumber>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_efficient_slumber>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_efficient_slumber>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_efficient_slumber", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Biokinetic power Metabolic Hyperefficiency 6+ or the Vitakinetic power Wakeful Rest 5+.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 6" ] },
+                { "math": [ "u_spell_level('vita_sleeping_trance') >= 5" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_grace_under_pain" } },
+        "text": "Gain [<trait_name:perk_grace_under_pain>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_grace_under_pain>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_grace_under_pain>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_grace_under_pain", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Biokinetic Power Overcome Pain 5+, the Electrokinetic power Pain Suppression 6+ or the Telepathic power Mood Stabilization 8+.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 5" ] },
+                { "math": [ "u_spell_level('electrokinetic_reduce_pain') >= 6" ] },
+                { "math": [ "u_spell_level('telepathic_morale') >= 8" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_in_the_zone" } },
+        "text": "Gain [<trait_name:perk_in_the_zone>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_in_the_zone>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_in_the_zone>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_in_the_zone", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have at least 40 levels worth of powers in a single psionic path.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'CLAIRSENTIENT') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'PHOTOKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEPORTER') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'VITAKINETIC') >= 40" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_mastery_of_form" } },
+        "text": "Gain [<trait_name:perk_mastery_of_form>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_mastery_of_form>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_mastery_of_form>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_mastery_of_form", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know at least 100 levels of powers between Biokinesis and/or Vitakinesis.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') + u_spell_level_sum('school': 'VITAKINETIC') >= 100" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" } },
+        "text": "Gain [<trait_name:MOM_PSYCHIC_VAMPIRE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MOM_PSYCHIC_VAMPIRE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MOM_PSYCHIC_VAMPIRE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MOM_PSYCHIC_VAMPIRE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must be a telepath or a vitakinetic.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "u_has_trait": "VITAKINETIC" } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "PYROMANIA" } },
+        "text": "Gain [<trait_name:PYROMANIA>]",
+        "effect": [
+          { "set_string_var": "<trait_name:PYROMANIA>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_description:PYROMANIA>", "target_var": { "context_val": "trait_description" } },
+          { "set_string_var": "PYROMANIA", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know at least 30 levels of Pyrokinesis powers.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 30" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "text": "================== Psionic Playstyle perks are below this line ==================",
+        "topic": "TALK_PERK_MENU_PSIONICS"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_burning_bright" } },
+        "text": "Gain [<trait_name:perk_burning_bright>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_burning_bright>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_burning_bright>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_burning_bright", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Torrential Channeling trait.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_phoenix_rising" } },
+        "text": "Gain [<trait_name:perk_phoenix_rising>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_phoenix_rising>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_phoenix_rising>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_phoenix_rising", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have psionic powers.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "u_has_any_trait": [
+                "BIOKINETIC",
+                "CLAIRSENTIENT",
+                "ELECTROKINETIC",
+                "PHOTOKINETIC",
+                "PYROKINETIC",
+                "TELEKINETIC",
+                "TELEPATH",
+                "TELEPORTER",
+                "VITAKINETIC"
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]

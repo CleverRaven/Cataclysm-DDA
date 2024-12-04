@@ -16,5 +16,25 @@
     "id": "devil_tail_eff",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_temmporary_glorious",
+    "//": "typo id and non-typo id were both mentioned, so the typo id is being obsoleted",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_tree_immobility",
+    "name": [ "Rooted" ],
+    "desc": [ "Your roots sink into the ground and you are nearly immobile." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "mixed",
+    "max_intensity": 100000,
+    "show_intensity": false,
+    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
   }
 ]

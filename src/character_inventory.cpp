@@ -214,9 +214,11 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
     item_location ret = item_location::nowhere;
+    bool wielded = false;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
             ret = item_location( *this, &weapon );
+            wielded = true;
         } else {
             return ret;
         }
@@ -235,7 +237,9 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     if( keep_invlet ) {
         ret->invlet = it.invlet;
     }
-    ret->on_pickup( *this );
+    if( !wielded ) {
+        ret->on_pickup( *this );
+    }
     cached_info.erase( "reloadables" );
     return ret;
 }
@@ -447,7 +451,7 @@ item Character::i_rem( const item *it )
 
 void Character::i_rem_keep_contents( const item *const it )
 {
-    i_rem( it ).spill_contents( pos() );
+    i_rem( it ).spill_contents( pos_bub() );
 }
 
 bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
@@ -525,6 +529,7 @@ std::vector<item_location> Character::all_items_loc()
 std::vector<item_location> outfit::top_items_loc( Character &guy )
 {
     std::vector<item_location> ret;
+    ret.reserve( worn.size() );
     for( item &worn_it : worn ) {
         item_location worn_loc( guy, &worn_it );
         ret.push_back( worn_loc );
@@ -625,11 +630,14 @@ void Character::pick_up( const drop_locations &what )
     //todo: refactor pickup_activity_actor to just use drop_locations, also rename drop_locations
     std::vector<item_location> items;
     std::vector<int> quantities;
+    items.reserve( what.size() );
+    quantities.reserve( what.size() );
     for( const drop_location &dl : what ) {
         items.emplace_back( dl.first );
         quantities.emplace_back( dl.second );
     }
 
+    last_item = item( *items.back() ).typeId();
     assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 

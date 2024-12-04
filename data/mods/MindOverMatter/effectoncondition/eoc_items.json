@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ZENER_DECK",
-    "condition": { "math": [ "u_school_level('CLAIRSENTIENT')", ">=", "10" ] },
+    "condition": { "math": [ "u_school_level('CLAIRSENTIENT') >= 10" ] },
     "effect": [
       {
         "switch": { "math": [ "rand(4)" ] },
@@ -97,7 +97,7 @@
         "run_eocs": [
           {
             "id": "EOC_FORCE_FIELD_GENERATOR_ACTIVATION_2",
-            "condition": { "math": [ "rng(0,99)", ">=", "3" ] },
+            "condition": { "math": [ "rng(0,99) >= 3" ] },
             "effect": [
               { "u_consume_item": "matrix_crystal_drained", "count": 1 },
               { "u_message": "The matrix crystal cracks into pieces as the device activates!", "type": "mixed" },
@@ -128,11 +128,8 @@
     "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT",
     "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
     "effect": [
-      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
-      {
-        "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT",
-        "time_in_future": [ "4 minutes", "7 minutes" ]
-      }
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT", "time_in_future": [ "4 minutes", "7 minutes" ] }
     ]
   },
   {
@@ -142,7 +139,7 @@
     "effect": [
       { "u_message": "The transporter remote emits a small beep.", "type": "neutral" },
       { "u_make_sound": "a small beep", "volume": 2, "type": "music" },
-      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
@@ -229,5 +226,26 @@
         "true_eocs": [ { "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO_2", "effect": { "u_activate": "transform" } } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRINKING_NETHER_WATER_NIGHTMARES_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "or": [ { "compare_string": [ "effect_black_nether_water_disease", { "context_val": "effect" } ] } ] },
+    "effect": [ { "u_add_effect": "effect_black_nether_water_nightmares", "duration": "24 hours" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRINKING_NETHER_WATER_NIGHTMARES_OCCUR",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_effect": "effect_black_nether_water_nightmares" }, { "x_in_y_chance": { "x": 1, "y": 4 } } ] },
+    "effect": [
+      { "u_message": "black_nether_water_nightmares", "snippet": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
+      { "u_lose_effect": "effect_black_nether_water_nightmares" }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_black_nether_water_nightmares" } ]
   }
 ]

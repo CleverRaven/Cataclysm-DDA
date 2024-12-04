@@ -223,11 +223,7 @@ cata_path PATH_INFO::base_colors()
 {
     return config_dir_path_value / "base_colors.json";
 }
-std::string PATH_INFO::base_path()
-{
-    return base_path_value;
-}
-cata_path PATH_INFO::base_path_path()
+cata_path PATH_INFO::base_path()
 {
     return base_path_path_value;
 }
@@ -299,13 +295,9 @@ std::string PATH_INFO::user_font()
 {
     return user_dir_value + "font/";
 }
-std::string PATH_INFO::graveyarddir()
+cata_path PATH_INFO::graveyarddir_path()
 {
-    return user_dir_value + "graveyard/";
-}
-cata_path PATH_INFO::help()
-{
-    return datadir_path_value / "help" / "texts.json";
+    return user_dir_path_value / "graveyard";
 }
 cata_path PATH_INFO::keybindings()
 {

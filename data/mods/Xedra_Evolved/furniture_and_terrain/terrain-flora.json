@@ -411,17 +411,7 @@
     "coverage": 80,
     "floor_bedding_warmth": 2000,
     "comfort": 3,
-    "flags": [
-      "TRANSPARENT",
-      "CONTAINER",
-      "FLAMMABLE_ASH",
-      "THIN_OBSTACLE",
-      "REDUCE_SCENT",
-      "INDOORS",
-      "MOUNTABLE",
-      "HIDE_PLACE",
-      "EASY_DECONSTRUCT"
-    ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
     "bash": {
       "str_min": 12,
       "str_max": 60,

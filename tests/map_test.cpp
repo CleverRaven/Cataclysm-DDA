@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "itype.h"
@@ -25,16 +24,16 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     } );
 
     tripoint test_point =
-        GENERATE( tripoint_zero, tripoint_south, tripoint_east, tripoint_above, tripoint_below );
+        GENERATE( tripoint::zero, tripoint::south, tripoint::east, tripoint::above, tripoint::below );
     tripoint_bub_ms test_bub( test_point );
     int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
 
     // Make sure we're not in the 'easy' case where abs_sub is zero
     if( here.get_abs_sub().x() == 0 ) {
-        here.shift( point_rel_sm_east );
+        here.shift( point_rel_sm::east );
     }
     if( here.get_abs_sub().y() == 0 ) {
-        here.shift( point_rel_sm_south );
+        here.shift( point_rel_sm::south );
     }
     here.vertical_shift( z );
 
@@ -55,15 +54,6 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     CAPTURE( test_bub );
     CAPTURE( test_abs );
 
-    // Verify consistency between different implementations
-    CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
-    CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-    CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
-
-    CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-
     // Verify round-tripping
     CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
     CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
@@ -74,18 +64,18 @@ TEST_CASE( "destroy_grabbed_furniture" )
     clear_map();
     avatar &player_character = get_avatar();
     GIVEN( "Furniture grabbed by the player" ) {
-        const tripoint test_origin( 60, 60, 0 );
+        const tripoint_bub_ms test_origin( 60, 60, 0 );
         map &here = get_map();
         player_character.setpos( test_origin );
-        const tripoint grab_point = test_origin + tripoint_east;
+        const tripoint_bub_ms grab_point = test_origin + tripoint::east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
-        player_character.grab( object_type::FURNITURE, tripoint_rel_ms_east );
+        player_character.grab( object_type::FURNITURE, tripoint_rel_ms::east );
         REQUIRE( player_character.get_grab_type() == object_type::FURNITURE );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms::zero );
             }
         }
     }
@@ -108,9 +98,9 @@ TEST_CASE( "map_bounds_checking" )
                 if( x < 0 || x >= MAPSIZE_X ||
                     y < 0 || y >= MAPSIZE_Y ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_bub_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_bub_ms{ x, y, z } ) );
                 }
             }
         }
@@ -126,7 +116,7 @@ TEST_CASE( "tinymap_bounds_checking" )
     clear_map();
     tinymap m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
-    m.load( project_to<coords::omt>( point_away_from_real_map + point_east ),
+    m.load( project_to<coords::omt>( point_away_from_real_map + point::east ),
             false ); // Add submap to ensure to OMT lies beyond the reality bubble
     for( int x = -1; x <= SEEX * 2; ++x ) {
         for( int y = -1; y <= SEEY * 2; ++y ) {
@@ -135,9 +125,9 @@ TEST_CASE( "tinymap_bounds_checking" )
                 if( x < 0 || x >= SEEX * 2 ||
                     y < 0 || y >= SEEY * 2 ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_omt_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_omt_ms{ x, y, z } ) );
                 }
             }
         }
@@ -173,7 +163,7 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
     // Regression test for the situation where game::place_player would misuse
     // map::shift if the resulting shift exceeded a single submap, leading to a
     // broken active item cache.
-    g->place_player( tripoint_zero );
+    g->place_player( tripoint::zero );
     get_map().check_submap_active_item_consistency();
 }
 
@@ -184,7 +174,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
     REQUIRE( here.get_submaps_with_active_items().empty() );
     here.check_submap_active_item_consistency();
-    tripoint const test_loc;
+    tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
     item bottle_plastic( "bottle_plastic" );
@@ -198,7 +188,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
 
     item &bp = here.add_item( test_loc, bottle_plastic );
     here.update_submaps_with_active_items();
-    item_location bp_loc( map_cursor( tripoint_bub_ms( test_loc ) ), &bp );
+    item_location bp_loc( map_cursor( test_loc ), &bp );
     item_location dis_loc( bp_loc, &bp.only_item() );
 
     REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );
@@ -224,13 +214,13 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
     here.check_submap_active_item_consistency();
     REQUIRE( here.get_submaps_with_active_items().empty() );
-    tripoint const test_loc;
+    tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
     restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                 get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
-    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
+    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc.raw() ) ) == 21 );
 
     item almond_milk( "almond_milk" );
     item *bp = nullptr;
@@ -275,8 +265,8 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
     clear_map();
-    get_avatar().setpos( tripoint_zero );
-    tripoint start_loc = get_avatar().pos() + tripoint_east;
+    get_avatar().setpos( tripoint::zero );
+    tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint::east;
     map &here = get_map();
     restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                 get_weather().forced_temperature );

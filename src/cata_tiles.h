@@ -34,6 +34,7 @@ class JsonObject;
 class pixel_minimap;
 
 extern void set_displaybuffer_rendertarget();
+using ter_str_id = string_id<ter_t>;
 
 /** Structures */
 struct tile_type {
@@ -43,8 +44,8 @@ struct tile_type {
     bool rotates = false;
     bool animated = false;
     int height_3d = 0;
-    point offset = point_zero;
-    point offset_retracted = point_zero;
+    point offset = point::zero;
+    point offset_retracted = point::zero;
     float pixelscale = 1.0;
 
     std::vector<std::string> available_subtiles;
@@ -142,14 +143,21 @@ class texture
         }
 };
 
-class layer_variant
+/**
+* Holds weighted map of sprites for contextual tile layering
+* e.g. different sprites for item "pen" on "f_desk"
+*/
+class layer_context_sprites
 {
     public:
         std::string id;
         std::map<std::string, int> sprite;
+        //draw order is sorted by layer
         int layer;
         point offset;
         int total_weight;
+        //if set, appends to the sprite name for handling contexts
+        std::string append_suffix;
 };
 
 class tileset
@@ -200,8 +208,8 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<layer_variant>> item_layer_data;
-        std::unordered_map<std::string, std::vector<layer_variant>> field_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> item_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> field_layer_data;
 
         void clear();
 
@@ -280,7 +288,7 @@ class tileset_cache
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
                 const SDL_Renderer_Ptr &renderer, bool precheck,
-                bool force, bool pump_events );
+                bool force, bool pump_events, bool terrain );
     private:
         class loader;
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
@@ -379,8 +387,10 @@ class tileset_cache::loader
          * @param pump_events Handle window events and refresh the screen when necessary.
          *        Please ensure that the tileset is not accessed when this method is
          *        executing if you set it to true.
+         * @param terrain If true, this will be an overmap/terrain tileset
          */
-        void load( const std::string &tileset_id, bool precheck, bool pump_events = false );
+        void load( const std::string &tileset_id, bool precheck, bool pump_events = false,
+                   bool terrain = false );
 };
 
 enum class text_alignment : int {
@@ -628,7 +638,7 @@ class cata_tiles
         void void_sct();
 
         void init_draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                              const tripoint &offset );
+                              const tripoint_rel_ms &offset );
         void draw_zones_frame();
         void void_zones();
 
@@ -682,10 +692,11 @@ class cata_tiles
          * @param pump_events Handle window events and refresh the screen when necessary.
          *        Please ensure that the tileset is not accessed when this method is
          *        executing if you set it to true.
+         * @param terrain If true, this will be an overmap/terrain tileset
          * @throw std::exception On any error.
          */
         void load_tileset( const std::string &tileset_id, bool precheck = false,
-                           bool force = false, bool pump_events = false );
+                           bool force = false, bool pump_events = false, bool terrain = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.

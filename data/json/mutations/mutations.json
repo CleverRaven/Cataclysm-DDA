@@ -301,7 +301,7 @@
   {
     "type": "mutation",
     "id": "HUMAN_ACCLIMATIZATION",
-    "name": { "str": "Human ACCLIMATIZATION" },
+    "name": { "str": "Human Acclimatization" },
     "points": 0,
     "player_display": false,
     "dummy": true,
@@ -420,7 +420,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
+          "condition": { "math": [ "u_val('morale') < -50" ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
@@ -526,29 +526,10 @@
     "points": 2,
     "vitamin_cost": 160,
     "prereqs": [ "SLIT_NOSTRILS", "BLOODFEEDER" ],
-    "flags": [ "INFRARED" ],
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "not": {
-              "or": [
-                { "u_has_effect": "smoke", "bodypart": "mouth" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "tpollen" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "hay_fever" },
-                "u_is_underwater"
-              ]
-            }
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ]
+    "enchantments": [ "THERMAL_VISION_LEAFNOSE" ]
   },
   {
     "type": "mutation",
@@ -644,7 +625,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "math": [ "u_val('pos_z')", "<", "0" ] },
+        "condition": { "math": [ "u_val('pos_z') < 0" ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -767,7 +748,7 @@
     "description": "You always sleep better surrounded by earth.",
     "category": [ "BATRACHIAN" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
-    "enchantments": [ { "condition": { "math": [ "u_val('pos_z')", "<", "0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
+    "enchantments": [ { "condition": { "math": [ "u_val('pos_z') < 0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
   },
   {
     "type": "mutation",
@@ -1001,6 +982,7 @@
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 0.5 } ] } ],
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false
   },
   {
@@ -1033,9 +1015,10 @@
     "type": "mutation",
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
-    "points": 3,
-    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+    "points": 0,
+    "description": "You have an exceptional memory, and find it easy to remember things.  However, you don't benefit as much as other people from dropping a subject for a while and will thus end up learning slower.",
     "types": [ "MEMORY" ],
+    "mixed_effect": true,
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ],
     "starting_trait": true,
     "valid": false,
@@ -1132,7 +1115,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "LUPINE", "ELFA" ],
-    "changes_to": [ "ANIMALEMPATH2" ]
+    "changes_to": [ "ANIMALEMPATH2" ],
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",
@@ -1143,7 +1127,8 @@
     "description": "Something about your presence is calming to animals, and they will treat you with innate trust.  This only applies to natural animals such as woodland creatures.",
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "ELFA" ],
-    "prereqs": [ "ANIMALEMPATH" ]
+    "prereqs": [ "ANIMALEMPATH" ],
+    "flags": [ "ANIMALEMPATH2" ]
   },
   {
     "type": "mutation",
@@ -1239,6 +1224,7 @@
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false
   },
   {
@@ -1284,6 +1270,7 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "starting_trait": true,
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
     "enchantments": [ { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": 5 } ] } ]
@@ -1306,6 +1293,7 @@
     "points": 2,
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
@@ -1317,6 +1305,7 @@
     "points": 1,
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
@@ -1328,6 +1317,7 @@
     "points": 2,
     "description": "You don't feel any remorse or guilt for harming your fellow man.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
     "types": [ "HUMAN_EMPATHY" ],
@@ -1340,6 +1330,7 @@
     "points": 2,
     "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "social_modifiers": { "intimidate": 10 },
     "types": [ "HUMAN_EMPATHY" ],
@@ -1443,6 +1434,7 @@
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
     "purifiable": false,
     "starting_trait": true,
+    "player_display": false,
     "valid": false,
     "cancels": [ "XXXL" ]
   },
@@ -1454,6 +1446,7 @@
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
     "purifiable": false,
     "starting_trait": true,
+    "player_display": false,
     "valid": false,
     "cancels": [ "XS" ]
   },
@@ -1844,11 +1837,12 @@
     "type": "mutation",
     "id": "FORGETFUL",
     "name": { "str": "Forgetful" },
-    "points": -3,
+    "points": 0,
     "vitamin_cost": 160,
-    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
+    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you have trouble keeping your story straight when lying.",
     "types": [ "MEMORY" ],
     "social_modifiers": { "lie": -5 },
+    "mixed_effect": true,
     "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.33 } ] } ],
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ]
@@ -1909,6 +1903,7 @@
     "vitamin_cost": 160,
     "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "category": [ "SLIME", "MEDICAL", "CHIMERA", "ELFA" ]
   },
   {
@@ -1921,7 +1916,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
-    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ]
+    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD" ]
   },
   {
     "type": "mutation",
@@ -1932,7 +1928,8 @@
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
     "types": [ "ANIMAL_EMPATHY", "PREDATION" ],
     "prereqs": [ "ANIMALDISCORD" ],
-    "category": [ "MOUSE", "RABBIT" ]
+    "category": [ "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD2" ]
   },
   {
     "type": "mutation",
@@ -1953,6 +1950,7 @@
     "vitamin_cost": 160,
     "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -1963,6 +1961,7 @@
     "vitamin_cost": 160,
     "description": "You randomly fall asleep without any reason.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -2470,7 +2469,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "prereqs": [ "NIGHTVISION3" ],
     "cancels": [ "LIZ_IR" ],
     "category": [ "INSECT", "TROGLOBITE", "SPIDER" ],
@@ -2497,7 +2496,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "types": [ "VISION" ],
     "prereqs": [ "LIZ_EYE" ],
     "category": [ "LIZARD", "RAPTOR" ]
@@ -2634,7 +2633,7 @@
     "id": "FROG_EYES",
     "//": "Currently without the NV from URSINE_EYE",
     "name": { "str": "Frog Eyes" },
-    "points": 1,
+    "points": 0,
     "vitamin_cost": 60,
     "visibility": 8,
     "ugliness": 4,
@@ -2764,7 +2763,17 @@
       { "part": "torso", "ignored": 60 }
     ],
     "armor": [ { "part_types": [ "ALL" ], "cut": 3, "bash": 5 } ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "FUNGUS" } ],
+        "comfort": "very_comfortable",
+        "msg_try": {
+          "text": "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades.",
+          "rating": "good"
+        }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -3118,7 +3127,7 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 12,
-    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to Kevlar.",
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, and bone.",
     "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 }, { "value": "BODYTEMP_SLEEP", "add": 0.25 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -3199,7 +3208,7 @@
     "vitamin_cost": 160,
     "visibility": 6,
     "ugliness": 3,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 2 } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "bash", "add": 2 } ] } ],
     "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder.  Somewhat reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN" ],
@@ -3255,7 +3264,7 @@
     "visibility": 8,
     "ugliness": 5,
     "enchantments": [
-      { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 4 } ] },
+      { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "bash", "add": 4 } ] },
       { "values": [ { "value": "DEXTERITY", "add": -1 } ] }
     ],
     "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
@@ -3435,7 +3444,6 @@
     "visibility": 10,
     "ugliness": 9,
     "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
-    "valid": false,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
     "integrated_armor": [ "integrated_giant_pincer" ],
@@ -3592,7 +3600,7 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 4,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ],
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
     "prereqs": [ "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ]
@@ -3655,7 +3663,7 @@
     "vitamin_cost": 210,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
+    "description": "Your body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -3693,8 +3701,7 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
-    "social_modifiers": { "lie": 15, "persuade": 10 },
-    "player_display": false
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -3787,7 +3794,12 @@
     "points": 1,
     "vitamin_cost": 60,
     "visibility": 1,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 0.5 } ] } ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "math": [ "u_encumbrance('hand_l') + u_encumbrance('hand_r') <= 0" ] } ] },
+        "melee_damage_bonus": [ { "type": "stab", "add": 0.5 } ]
+      }
+    ],
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
@@ -4178,7 +4190,7 @@
     "vitamin_cost": 60,
     "visibility": 5,
     "ugliness": 4,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_ACID", "add": { "math": [ "rng(2, 3)" ] } } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "acid", "add": 3 } ] } ],
     "description": "The skin on your hands is now a mucous membrane that produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
     "prereqs": [ "SLIMY" ],
     "category": [ "SLIME" ],
@@ -4536,7 +4548,8 @@
     "category": [ "BIRD" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "allowed_items": [ "ALLOWS_TALONS" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -5206,7 +5219,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC1_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC1" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC1" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
     "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
@@ -5226,7 +5239,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC2_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC2" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC2" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
     "effect": [ { "math": [ "u_pain()", "-=", "4" ] } ]
   },
@@ -5245,7 +5258,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC3_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC3" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC3" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
     "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
   },
@@ -5498,7 +5511,7 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
@@ -5802,7 +5815,30 @@
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
     "flags": [ "WEBWALK" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "comfort": [
+      {
+        "conditions": [
+          { "type": "field", "id": "fd_web", "intensity": 3 },
+          { "type": "trait", "id": "WEB_SPINNER", "invert": true },
+          { "type": "trait", "id": "WEB_WEAVER", "invert": true }
+        ],
+        "comfort": "sleep_aid",
+        "use_better_comfort": true,
+        "add_sleep_aids": true,
+        "msg_try": { "text": "These thick webs support your weight, and are strangely comfortable…", "rating": "good" }
+      },
+      {
+        "conditions": [
+          { "type": "field", "id": "fd_web" },
+          { "type": "trait", "id": "WEB_SPINNER", "invert": true },
+          { "type": "trait", "id": "WEB_WEAVER", "invert": true }
+        ],
+        "add_human_comfort": true,
+        "add_sleep_aids": true,
+        "msg_try": { "text": "You try to sleep, but the webs get in the way.  You brush them aside.", "rating": "info" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5815,7 +5851,20 @@
     "prereqs": [ "WEB_WALKER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "changes_to": [ "WEB_WEAVER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3, "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "You try to sleep, but you feel exposed and your spinnerets keep twitching.", "rating": "bad" },
+        "msg_hint": { "text": "Maybe a nice thick web would help you sleep.", "rating": "info" }
+      },
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3 } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax into your web.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5833,7 +5882,20 @@
     "cost": 69,
     "time": "100 s",
     "kcal": true,
-    "thirst": true
+    "thirst": true,
+    "comfort": [
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3, "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "You try to sleep, but you feel exposed and your spinnerets keep twitching.", "rating": "bad" },
+        "msg_hint": { "text": "Maybe a nice thick web would help you sleep.", "rating": "info" }
+      },
+      {
+        "conditions": [ { "type": "field", "id": "fd_web", "intensity": 3 } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax into your web.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6649,6 +6711,7 @@
     "vitamin_cost": 60,
     "visibility": 8,
     "ugliness": 4,
+    "mixed_effect": true,
     "types": [ "EYES" ],
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
@@ -7933,6 +7996,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "attacks": [
       {
@@ -7957,6 +8021,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "active": true,
     "cost": 90,
@@ -8058,7 +8123,45 @@
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET", "ROOTS3" ]
+    "flags": [ "TOUGH_FEET", "ROOTS3" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "vehicle" } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "It's impossible to sleep in this wheeled pot!", "rating": "bad" }
+      },
+      {
+        "conditions": [ { "type": "furniture", "id": "f_null", "invert": true } ],
+        "comfort": "impossible",
+        "msg_try": { "text": "The humans' furniture blocks your roots.  You can't get comfortable.", "rating": "bad" }
+      },
+      {
+        "conditions": [
+          { "type": "terrain", "flag": "PLOWABLE", "invert": true },
+          { "type": "terrain", "flag": "PLANTABLE", "invert": true },
+          { "type": "terrain", "id": "t_pit", "invert": true },
+          { "type": "terrain", "id": "t_pit_shallow", "invert": true }
+        ],
+        "comfort": "impossible",
+        "msg_try": { "text": "Your roots scrabble ineffectively at the unyielding surface.", "rating": "bad" }
+      },
+      {
+        "conditions": [
+          { "type": "terrain", "flag": "PLANTABLE" },
+          { "type": "terrain", "id": "t_dirt" },
+          { "type": "terrain", "id": "t_pit" },
+          { "type": "terrain", "id": "t_pit_shallow" }
+        ],
+        "conditions_any": true,
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "PLOWABLE" } ],
+        "comfort": "comfortable",
+        "msg_try": { "text": "You relax as your roots embrace the soil.", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8505,7 +8608,14 @@
     "category": [ "CEPHALOPOD", "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
-    "integrated_armor": [ "integrated_shell2" ]
+    "integrated_armor": [ "integrated_shell2" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "trait", "id": "SHELL2", "active": true } ],
+        "comfort": "sleep_aid",
+        "add_sleep_aids": true
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8523,7 +8633,14 @@
     "category": [ "GASTROPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 45 } ],
     "active": true,
-    "integrated_armor": [ "integrated_shell3" ]
+    "integrated_armor": [ "integrated_shell3" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "trait", "id": "SHELL3", "active": true } ],
+        "comfort": "sleep_aid",
+        "add_sleep_aids": true
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8919,7 +9036,8 @@
     "points": -2,
     "vitamin_cost": 160,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
-    "starting_trait": true
+    "starting_trait": true,
+    "random_at_chargen": false
   },
   {
     "type": "mutation",
@@ -8955,9 +9073,21 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
-    "prereqs": [ "SEESLEEP", "FROG_EYES" ],
-    "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
+    "prereqs": [ "SEESLEEP", "FROG_EYES", "GILLS_CEPH" ],
+    "category": [ "FISH", "BATRACHIAN", "CEPHALOPOD" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CEPHALOPOD" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8989,10 +9119,7 @@
     "vitamin_cost": 160,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
-    "enchantments": [
-      { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] },
-      { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] }
-    ],
+    "enchantments": [ "ELECTRIC_VISION", { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] } ],
     "mixed_effect": true
   },
   {
@@ -9193,16 +9320,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_AUTODOC",
-    "name": { "str": "Autodoc Specialist" },
-    "points": 0,
-    "description": "You're trained in proper operation of the Autodoc, an advanced machine used for surgical procedures.  Operations involving it will be moderately more likely to succeed.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
     "id": "PROF_DICEMASTER",
     "name": { "str": "Dungeon Master" },
     "points": 0,
@@ -9398,10 +9515,10 @@
   {
     "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
-    "name": { "str": "Debug Night Vision" },
+    "name": { "str": "Debug Night and Map Vision" },
     "points": 99,
     "valid": false,
-    "description": "You can clearly see that this is for dev purposes only.",
+    "description": "Grants flawless night vision and the ability to see all of the overmaps without having to reveal them manually.  As such, you can clearly see that this is for dev purposes only.",
     "debug": true
   },
   {
@@ -9410,7 +9527,7 @@
     "name": { "str": "Debug Clairvoyance" },
     "points": 99,
     "valid": false,
-    "description": "You can clearly see that this is for dev purposes only.",
+    "description": "Being able to see through walls and the floor is clearly for dev purposes only.",
     "flags": [ "CLAIRVOYANCE_PLUS" ],
     "debug": true
   },
@@ -9420,7 +9537,7 @@
     "name": { "str": "Debug Clairvoyance Super" },
     "points": 99,
     "valid": false,
-    "description": "You can see all the bugs with this one.",
+    "description": "Much bigger range than the other Debug Clairvoyance trait.  Unsure which one to use?  Use them both!  You can see all the bugs with this one.",
     "flags": [ "SUPER_CLAIRVOYANCE" ],
     "debug": true
   },
@@ -9513,6 +9630,34 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE",
+    "name": { "str": "Debug Mana Furnace" },
+    "points": 99,
+    "valid": false,
+    "description": "Using mana to incinerate all bugs, activate to start burning.",
+    "active": true,
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE_active",
+      "msg_transform": "You start using mana to burning bugs.",
+      "active": true,
+      "moves": 0
+    },
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE_active",
+    "name": { "str": "Debug Mana Furnace (ON) " },
+    "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly.",
+    "copy-from": "DEBUG_MANA_FURNACE",
+    "cost": 100,
+    "time": "1 s",
+    "mana": true,
+    "lumination": [ [ "torso", 8 ] ],
+    "transform": { "target": "DEBUG_MANA_FURNACE", "msg_transform": "You stop incinerate bugs with mana.", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOTEMP",
     "name": { "str": "Debug HVAC" },
     "points": 99,
@@ -9527,6 +9672,7 @@
     "points": 99,
     "valid": false,
     "description": "Bug-repellent forcefield.",
+    "flags": [ "CANNOT_TAKE_DAMAGE" ],
     "debug": true
   },
   {
@@ -9871,7 +10017,18 @@
     "points": -4,
     "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "cancels": [ "GUNSHY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GUNSHY",
+    "name": { "str": "Gun-Shy" },
+    "points": -3,
+    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event.  You can still use bows and slings.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "BRAWLER" ]
   },
   {
     "type": "mutation",
@@ -10014,7 +10171,7 @@
     "id": "HAS_NEMESIS",
     "name": { "str": "Hunted" },
     "points": -1,
-    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "description": "Something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.",
     "valid": false,
     "starting_trait": false,
     "purifiable": false
@@ -10300,6 +10457,42 @@
     "mixed_effect": true,
     "flags": [ "SOCIAL2" ],
     "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AMOG",
+    "name": { "str": "Alpha Member of the Group" },
+    "points": 1,
+    "vitamin_cost": 160,
+    "types": [ "SOCIAL" ],
+    "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
+    "description": "You are the natural leader of any group.  It's just part of who you are, groups naturally form around you and you need these groups to energize you.  Sometimes however, you give in to your worst impulses and this trait will flip.",
+    "mixed_effect": true,
+    "purifiable": false,
+    "flags": [ "SOCIAL2" ],
+    "category": [ "ALPHA" ],
+    "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
+    "triggers": [
+      [ { "condition": { "or": [ { "math": [ "u_val('morale') < -75" ] }, { "math": [ "u_val('morale') < 75" ] } ] } } ],
+      [ { "condition": { "or": [ { "math": [ "u_val('stim') < -50" ] }, { "math": [ "u_val('stim') < 50" ] } ] } } ]
+    ],
+    "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "DARK_TRIAD",
+    "name": { "str": "Dark Triad" },
+    "types": [ "SOCIAL" ],
+    "cancels": [ "ASOCIAL1", "ASOCIAL2", "SOCIAL1", "SOCIAL2" ],
+    "description": "You are a god among mortals and they are all so very dissapointing.  Why should you even bother to hide your dissapointment in their failures?",
+    "valid": false,
+    "mixed_effect": true,
+    "points": -1,
+    "flags": [ "ASOCIAL2" ],
+    "category": [ "ALPHA" ],
+    "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time) > time('36 h')" ] } } ] ],
+    "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
+    "social_modifiers": { "intimidate": -10, "persuade": -25, "lie": -15 }
   },
   {
     "type": "mutation",

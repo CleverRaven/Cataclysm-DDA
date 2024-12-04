@@ -5,13 +5,13 @@
     "name": "Greater Banishment",
     "description": "A more advanced version of Banishment, which is a ritual spell that attempts to banish a monster.  Being closely related to blood magic, the Blood Mage is much more specialized to use a spell like this.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SOMATIC", "VERBAL", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "flags": [ "CONVEYANCE_SPELL", "SOMATIC", "VERBAL", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
+    "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
     "effect": "banishment",
     "shape": "blast",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(120, 1)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(15, 0.03)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(640, 1)" ] },
+    "min_damage": 120,
+    "damage_increment": 15,
+    "max_damage": 640,
     "min_range": 6,
     "max_range": 6,
     "min_aoe": 0,
@@ -46,7 +46,7 @@
             "DEMON_CLAWS",
             "DEMON_SKIN",
             "DEMON_TAIL",
-            "HUGE_OK",
+            "DEMON_HUGE",
             "NOPAIN",
             "FACIAL_HAIR_GOATEE"
           ]
@@ -59,22 +59,91 @@
     "type": "SPELL",
     "name": "Demonic Possession",
     "description": "You allow a demon to possess your body for a short time, giving you great combat abilities.  You still retain control, though lose your spellcasting abilities temporarily.",
-    "valid_targets": [ "none" ],
-    "flags": [ "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
-    "effect": "spawn_item",
+    "effect": "effect_on_condition",
     "shape": "blast",
-    "effect_str": "demon_possession_aura",
+    "effect_str": "EOC_DEMON_POSSESSION",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 2000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1440000, 2000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(30858, 0.03)" ] },
+    "min_duration": 360000,
+    "max_duration": 1440000,
+    "duration_increment": 30858,
     "spell_class": "BLOOD_MAGE",
     "difficulty": 5,
     "max_level": 35,
     "base_casting_time": 800,
     "base_energy_cost": 5,
     "energy_source": "HP"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEMON_POSSESSION",
+    "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
+    "effect": [
+      { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_cast_spell": { "id": "demonic_possession_real" } },
+      {
+        "run_eocs": "EOC_DEMON_POSSESSION_REMOVE",
+        "time_in_future": { "math": [ "(u_spell_level('demonic_possession') * 309) + 3600" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "Your body fills with demonic power!", "type": "good" },
+      { "u_cast_spell": { "id": "demonic_possession_real" } },
+      {
+        "run_eocs": "EOC_DEMON_POSSESSION_REMOVE",
+        "time_in_future": { "math": [ "(u_spell_level('demonic_possession') * 309) + 3600" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEMON_POSSESSION_REMOVE",
+    "effect": [
+      { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "demonic_possession_real",
+    "type": "SPELL",
+    "name": "Demonic Possession Real",
+    "description": "Grants the aura that gives the demon traits.  You're not supposed to see this.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "SILENT", "NO_EXPLOSION_SFX" ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "demon_possession_aura",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": { "math": [ "(u_spell_level('demonic_possession') * 30900) + 360000" ] },
+    "max_duration": { "math": [ "(u_spell_level('demonic_possession') * 30900) + 360000" ] },
+    "spell_class": "BLOOD_MAGE",
+    "difficulty": 5,
+    "max_level": 35,
+    "base_casting_time": 0
   }
 ]

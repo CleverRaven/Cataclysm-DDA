@@ -65,6 +65,7 @@ faction_template::faction_template()
     size = 0;
     power = 0;
     lone_wolf_faction = false;
+    limited_area_claim = false;
     currency = itype_id::NULL_ID();
 }
 
@@ -101,9 +102,10 @@ void faction_template::load_relations( const JsonObject &jsobj )
 {
     for( const JsonMember fac : jsobj.get_object( "relations" ) ) {
         JsonObject rel_jo = fac.get_object();
-        std::bitset<npc_factions::rel_types> fac_relation( 0 );
+        std::bitset<static_cast<size_t>( npc_factions::relationship::rel_types )> fac_relation( 0 );
         for( const auto &rel_flag : npc_factions::relation_strs ) {
-            fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
+            fac_relation.set( static_cast<size_t>( rel_flag.second ),
+                              rel_jo.get_bool( rel_flag.first, false ) );
         }
         relations[fac.name()] = fac_relation;
     }
@@ -142,6 +144,7 @@ faction_template::faction_template( const JsonObject &jsobj )
         currency = itype_id::NULL_ID();
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
+    limited_area_claim = jsobj.get_bool( "limited_area_claim", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
     optional( jsobj, false, "epilogues", epilogue_data );
@@ -461,7 +464,7 @@ bool faction::has_relationship( const faction_id &guy_id, npc_factions::relation
 {
     for( const auto &rel_data : relations ) {
         if( rel_data.first == guy_id.c_str() ) {
-            return rel_data.second.test( flag );
+            return rel_data.second.test( static_cast<size_t>( flag ) );
         }
     }
     return false;
@@ -558,6 +561,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.currency = fac_temp.currency;
                         elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
+                        elem.second.limited_area_claim = fac_temp.limited_area_claim;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
@@ -721,7 +725,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
+        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos_bub() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             if( !( player_character.pos().z >= 0 && pos().z >= 0 ) &&
                 !( player_character.pos().z == pos().z ) ) {
@@ -916,9 +920,7 @@ void faction_manager::display() const
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
 
-        for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-            mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_missions, point( 30, 3 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 4 );
 
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
             { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
@@ -930,9 +932,11 @@ void faction_manager::display() const
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
 
-        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
+        wattron( w_missions, BORDER_COLOR );
+        mvwaddch( w_missions, point( 30, 2 ),
                   tab == tab_mode::TAB_FOLLOWERS ? ' ' : LINE_OXXX ); // ^|^
-        mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwaddch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX ); // _|_
+        wattroff( w_missions, BORDER_COLOR );
         const nc_color col = c_white;
 
         // entries_per_page * page number
@@ -1054,6 +1058,7 @@ void faction_manager::display() const
                     fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
                 }
             }
+            break;
             default:
                 break;
         }

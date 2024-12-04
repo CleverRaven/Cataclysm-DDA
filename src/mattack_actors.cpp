@@ -60,6 +60,7 @@ static const efftype_id effect_vampire_virus( "vampire_virus" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 static const efftype_id effect_zombie_virus( "zombie_virus" );
 
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -122,7 +123,7 @@ bool leap_actor::call( monster &z ) const
         }
     }
 
-    std::vector<tripoint> options;
+    std::vector<tripoint_bub_ms> options;
     const tripoint_abs_ms target_abs = z.get_dest();
     // Calculate distance to target
     const float best_float = rl_dist( z.get_location(), target_abs );
@@ -140,22 +141,22 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
-    const tripoint target = here.getlocal( target_abs );
-    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %d,%d,%d",
-                   target.x, target.y, target.z );
+    const tripoint_bub_ms target = here.bub_from_abs( target_abs );
+    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %s",
+                   target.to_string_writable() );
 
-    std::multimap<int, tripoint> candidates;
-    for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
-        if( candidate == z.pos() ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %d,%d,%d",
-                           candidate.x, candidate.y, candidate.z );
+    std::multimap<int, tripoint_bub_ms> candidates;
+    for( const tripoint_bub_ms &candidate : here.points_in_radius( z.pos_bub(), max_range ) ) {
+        if( candidate == z.pos_bub() ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %s",
+                           candidate.to_string_writable() );
             continue;
         }
-        float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
-                          square_dist( z.pos(), candidate );
+        float leap_dist = trigdist ? trig_dist( z.pos_bub(), candidate ) :
+                          square_dist( z.pos_bub(), candidate );
         add_msg_debug( debugmode::DF_MATTACK,
-                       "Candidate coordinates %d,%d,%d, distance %.1f, min range %.1f, max range %.1f",
-                       candidate.x, candidate.y, candidate.z, leap_dist, min_range, max_range );
+                       "Candidate coordinates %s, distance %.1f, min range %.1f, max range %.1f",
+                       candidate.to_string_writable(), leap_dist, min_range, max_range );
         if( leap_dist > max_range || leap_dist < min_range ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate outside of allowed range, discarded" );
@@ -167,12 +168,12 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
-        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+        if( !ignore_dest_terrain && !z.will_move_to( candidate.raw() ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate place it can't enter, discarded" );
             continue;
         }
-        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+        if( !ignore_dest_danger && !z.know_danger_at( candidate.raw() ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate with dangerous conditions, discarded" );
             continue;
@@ -181,7 +182,7 @@ bool leap_actor::call( monster &z ) const
     }
     for( const auto &candidate : candidates ) {
         const int &cur_dist = candidate.first;
-        const tripoint &dest = candidate.second;
+        const tripoint_bub_ms &dest = candidate.second;
         if( cur_dist > best && !random_leap ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Distance %d larger than previous best %d, candidate discarded", cur_dist, best );
@@ -196,8 +197,8 @@ bool leap_actor::call( monster &z ) const
         }
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
-        std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( tripoint &i : line ) {
+        std::vector<tripoint_bub_ms> line = here.find_clear_path( z.pos_bub(), dest );
+        for( tripoint_bub_ms &i : line ) {
             if( here.impassable( i ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
@@ -224,7 +225,7 @@ bool leap_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
     viewer &player_view = get_player_view();
-    const tripoint chosen = random_entry( options );
+    const tripoint_bub_ms chosen = random_entry( options );
     bool seen = player_view.sees( z ); // We can see them jump...
     z.setpos( chosen );
     seen |= player_view.sees( z ); // ... or we can see them land
@@ -286,13 +287,13 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         }
     }
 
-    const tripoint target = ( spell_data.self ||
-                              allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
+    const tripoint_bub_ms target = ( spell_data.self ||
+                                     allow_no_target ) ? mon.pos_bub() : mon.attack_target()->pos_bub();
     spell spell_instance = spell_data.get_spell( mon );
     spell_instance.set_message( spell_data.trigger_message );
 
     // Bail out if the target is out of range.
-    if( !spell_data.self && rl_dist( mon.pos(), target ) > spell_instance.range( mon ) ) {
+    if( !spell_data.self && rl_dist( mon.pos_bub(), target ) > spell_instance.range( mon ) ) {
         return false;
     }
 
@@ -301,7 +302,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    add_msg_if_player_sees( target, spell_instance.message(), mon.disp_name(),
+    add_msg_if_player_sees( target.raw(), spell_instance.message(), mon.disp_name(),
                             spell_instance.name(), target_name );
 
     avatar fake_player;
@@ -521,17 +522,17 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     if( grab_data.pull_chance > -1 && x_in_y( grab_data.pull_chance, 100 ) ) {
         add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll succeeded" );
 
-        int pull_range = std::min( range, rl_dist( z.pos(), target->pos() ) + 1 );
-        tripoint pt = target->pos();
+        int pull_range = std::min( range, rl_dist( z.pos_bub(), target->pos_bub() ) + 1 );
+        tripoint_bub_ms pt = target->pos_bub();
         while( pull_range > 0 ) {
             // Recalculate the ray each step
             // We can't depend on either the target position being constant (obviously),
             // but neither on z pos staying constant, because we may want to shift the map mid-pull
-            const units::angle dir = coord_to_angle( target->pos(), z.pos() );
+            const units::angle dir = coord_to_angle( target->pos_bub(), z.pos_bub() );
             tileray tdir( dir );
             tdir.advance();
-            pt.x = target->posx() + tdir.dx();
-            pt.y = target->posy() + tdir.dy();
+            pt.x() = target->posx() + tdir.dx();
+            pt.y() = target->posy() + tdir.dy();
             //Cancel the grab if the space is occupied by something
             if( !g->is_empty( pt ) ) {
                 break;
@@ -542,9 +543,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                     here.unboard_vehicle( foe->pos_bub() );
                 }
 
-                if( foe->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
-                                          pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-                    g->update_map( pt.x, pt.y );
+                if( foe->is_avatar() && ( pt.x() < HALF_MAPSIZE_X || pt.y() < HALF_MAPSIZE_Y ||
+                                          pt.x() >= HALF_MAPSIZE_X + SEEX || pt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( pt.x(), pt.y() );
                 }
             }
 
@@ -594,40 +595,38 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         int distance = grab_data.drag_distance;
         while( distance > 0 ) {
             // Start with the opposite square
-            tripoint opposite_square = z.pos() - ( target->pos() - z.pos() );
+            tripoint_bub_ms opposite_square = z.pos_bub() - ( target->pos_bub() - z.pos_bub() );
             // Keep track of our neighbors (no leaping)
-            std::set<tripoint> neighbors;
-            for( const tripoint &trp : here.points_in_radius( z.pos(), 1 ) ) {
-                if( trp != z.pos() && trp != target->pos() ) {
+            std::set<tripoint_bub_ms> neighbors;
+            for( const tripoint_bub_ms &trp : here.points_in_radius( z.pos_bub(), 1 ) ) {
+                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
                     neighbors.insert( trp );
                 }
             }
             // Check where we get to consider dragging
-            std::set<tripoint> candidates;
-            for( const tripoint &trp : here.points_in_radius( opposite_square,
+            std::set<tripoint_bub_ms> candidates;
+            for( const tripoint_bub_ms &trp : here.points_in_radius( opposite_square,
                     grab_data.drag_deviation ) ) {
-                if( trp != z.pos() && trp != target->pos() ) {
+                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
                     candidates.insert( trp );
                 }
             }
             // Select a random square from the options
-            std::set<tripoint> intersect;
+            std::set<tripoint_bub_ms> intersect;
             std::set_intersection( neighbors.begin(), neighbors.end(), candidates.begin(), candidates.end(),
                                    std::inserter( intersect, intersect.begin() ) );
-            std::set<tripoint>::iterator intersect_iter = intersect.begin();
-            std::advance( intersect_iter, rng( 0, intersect.size() - 1 ) );
-            tripoint target_square = random_entry<std::set<tripoint>>( intersect );
+            tripoint_bub_ms target_square = random_entry<std::set<tripoint_bub_ms>>( intersect );
             if( z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
-                tripoint zpt = z.pos();
-                z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
+                tripoint_bub_ms zpt = z.pos_bub();
+                z.move_to( target_square.raw(), false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
                     return 0;
                 }
-                if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
-                                             zpt.y < HALF_MAPSIZE_Y ||
-                                             zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-                    g->update_map( zpt.x, zpt.y );
+                if( target->is_avatar() && ( zpt.x() < HALF_MAPSIZE_X ||
+                                             zpt.y() < HALF_MAPSIZE_Y ||
+                                             zpt.x() >= HALF_MAPSIZE_X + SEEX || zpt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( zpt.x(), zpt.y() );
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
@@ -686,7 +685,7 @@ bool melee_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
 
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
 
     // Add always-applied self effects
@@ -754,13 +753,14 @@ bool melee_actor::call( monster &z ) const
         if( target->has_effect_with_flag( json_flag_GRAB ) && grab_data.exclusive_grab ) {
             add_msg_debug( debugmode::DF_MATTACK, "Exclusive grab, begin filtering" );
             map &here = get_map();
-            const tripoint_range<tripoint> &surrounding = here.points_in_radius( target->pos(), 1, 0 );
+            const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( target->pos_bub(), 1,
+                    0 );
             creature_tracker &creatures = get_creature_tracker();
 
             for( const effect &eff : target->get_effects_with_flag( json_flag_GRAB ) ) {
                 monster *grabber = nullptr;
                 // Iterate through the target's surroundings to find the grabber of this grab
-                for( const tripoint loc : surrounding ) {
+                for( const tripoint_bub_ms loc : surrounding ) {
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
                         if( target->is_monster() || ( !target->is_monster() &&
@@ -883,7 +883,8 @@ bool melee_actor::call( monster &z ) const
             }
         }
     }
-    if( throw_strength > 0 ) {
+    if( throw_strength > 0 && !( target->has_flag( mon_flag_IMMOBILE ) ||
+                                 target->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                                throw_strength ) ) {
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
@@ -920,7 +921,7 @@ bool melee_actor::call( monster &z ) const
     //run EoCs
     for( const effect_on_condition_id &eoc : eoc ) {
         dialogue d( get_talker_for( z ), get_talker_for( target ) );
-        write_var_value( var_type::context, "npctalk_var_damage", &d, damage_total );
+        write_var_value( var_type::context, "damage", &d, damage_total );
         eoc->activate( d );
     }
 
@@ -930,7 +931,7 @@ bool melee_actor::call( monster &z ) const
 void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     if( target.is_avatar() ) {
-        sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
+        sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos_bub() ),
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
@@ -938,7 +939,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  Creature::Attitude::FRIENDLY ?
                                  m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     target.add_msg_player_or_npc( msg_type, hit_dmg_u,
                                   get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : translation(),
@@ -1113,7 +1114,7 @@ int gun_actor::get_max_range()  const
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
-    tripoint aim_at;
+    tripoint_bub_ms aim_at;
     bool untargeted = false;
 
     if( has_condition ) {
@@ -1139,10 +1140,10 @@ bool gun_actor::call( monster &z ) const
             }
             return false;
         }
-        aim_at = target->pos();
+        aim_at = target->pos_bub();
     } else {
         target = z.attack_target();
-        aim_at = target ? target->pos() : tripoint_zero;
+        aim_at = target ? target->pos_bub() : tripoint_bub_ms::zero;
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
                 return false;
@@ -1153,11 +1154,11 @@ bool gun_actor::call( monster &z ) const
             if( moving_veh_parts.empty() ) {
                 return false;
             }
-            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() ).raw();
+            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() );
         }
     }
 
-    const int dist = rl_dist( z.pos(), aim_at );
+    const int dist = rl_dist( z.pos_bub(), aim_at );
     if( target ) {
         add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
     } else {
@@ -1222,7 +1223,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
     return true;
 }
 
-bool gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );

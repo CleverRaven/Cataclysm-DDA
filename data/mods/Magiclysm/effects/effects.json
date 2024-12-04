@@ -116,6 +116,18 @@
   },
   {
     "type": "effect_type",
+    "id": "enchant_windrun_monster",
+    "name": [ "Windrunning" ],
+    "desc": [ "You are bolstered and pushed along by the power of the wind." ],
+    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "remove_message": "The wind at your back dies down.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 20 } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "dark_sight",
     "name": [ "Dark Sight" ],
     "desc": [ "You can see in the dark." ],
@@ -403,6 +415,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_catoblepas_gaze",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_catoblepas_gaze_monster",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 4 ], "hurt_max": [ 9 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 3 ], "hurt_max": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "biomancer_visceral_side_effects",
     "name": [ "Visceral Overexertion" ],
     "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],
@@ -478,7 +512,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
-    "max_duration": "1 d",
+    "max_duration": "2 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -511,7 +545,8 @@
     "remove_message": "Your communion with Mother Nature fades.",
     "rating": "good",
     "max_duration": "120 m",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] }
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] },
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "effect_type",
@@ -659,10 +694,7 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
-      }
+      { "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ], "melee_damage_bonus": [ { "type": "cut", "add": 17 } ] }
     ]
   },
   {
@@ -677,13 +709,13 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
+      "ELECTRIC_VISION",
       {
         "values": [
           { "value": "BONUS_BLOCK", "add": 1 },
           { "value": "BONUS_DODGE", "add": 1 },
           { "value": "DEXTERITY", "add": 2 },
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 }
+          { "value": "PERCEPTION", "add": 4 }
         ]
       }
     ]
@@ -901,7 +933,14 @@
     "max_duration": "50 minutes",
     "enchantments": [
       {
-        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] } } ]
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "not": { "npc_has_flag": "FLIES" } },
+            "distance": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
       }
     ]
   },
@@ -915,7 +954,15 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_spell_level('animist_sense_outsiders') * 2.5) + 3)" ] } } ]
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+            },
+            "distance": { "math": [ "( u_spell_level('animist_sense_outsiders') * 2.5) + 3" ] },
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          }
+        ]
       }
     ]
   },
@@ -932,6 +979,16 @@
         "values": [ { "value": "EVASION", "add": { "math": [ "(( u_spell_level('animist_add_evasion_spell') * 0.02) + 0.1)" ] } } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_animist_vocalize",
+    "name": [ "The Inner Voice" ],
+    "desc": [ "Your soul gives voice to your magical prowess." ],
+    "apply_message": "",
+    "remove_message": "Your soul no longer speaks directly.",
+    "rating": "good",
+    "flags": [ "SILENT_SPELL" ]
   },
   {
     "type": "effect_type",
@@ -1042,6 +1099,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_faerie_fire",
+    "name": [ "Faerie Fire" ],
+    "desc": [ "You are glowing." ],
+    "apply_message": "",
+    "remove_message": "The glow around you fades.",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biomancer_swim_speed",
     "name": [ "Frog Limbs" ],
     "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
@@ -1057,16 +1124,22 @@
     "type": "effect_type",
     "name": [ "Increased Stability" ],
     "desc": [
-      "You are overcoming the aftereffects of XE037 overexposure.",
-      "You were just overcoming the aftereffects of XE037 overexposure but now you feel awful!"
+      "You are defended against the possible effects of XE037 overexposure.",
+      "You are still defended against the effects of XE037 overexposure but now you feel awful!"
     ],
     "apply_message": "You feel…strange.",
     "remove_message": "The strange feeling passes and you feel more like yourself.",
     "rating": "good",
     "max_intensity": 2,
     "show_intensity": false,
-    "vitamins": [ { "vitamin": "instability", "rate": [ [ -1, -1 ] ], "tick": [ "30 m" ] } ],
     "scaling_mods": { "speed_mod": [ -25 ], "str_mod": [ -5 ], "dex_mod": [ -5 ], "int_mod": [ -5 ], "per_mod": [ -5 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MUT_INSTABILITY_MOD", "add": { "math": [ "-1 - ( u_spell_level('biomancer_remove_instability') / 5)" ] } }
+        ]
+      }
+    ],
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 1, "scaling": -0.3 },
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
@@ -1197,6 +1270,16 @@
     "removes_effects": [ "bleed" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') < u_hp_max('head')" ] }
+          ]
+        },
         "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ],
@@ -1268,8 +1351,10 @@
     "desc": [ "You are immune to heat and fire." ],
     "rating": "good",
     "show_in_info": true,
-    "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ "ench_heat_and_fire_immunity" ]
+    "blocks_effects": [ "blisters" ],
+    "removes_effects": [ "onfire" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ],
+    "flags": [ "HEAT_IMMUME" ]
   },
   {
     "type": "effect_type",
@@ -1302,6 +1387,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_silence",
+    "name": [ "Silence" ],
+    "desc": [ "You are completely silent." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your footsteps make noise again.",
+    "enchantments": [ { "values": [ { "value": "ATTACK_NOISE", "multiply": -1 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ],
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_traverse_the_wilds",
     "name": [ "Traverse the Wilds" ],
     "desc": [ "Nature is speeding your passage." ],
@@ -1331,7 +1427,7 @@
     "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING" ]
   },
   {
     "type": "effect_type",
@@ -1352,6 +1448,66 @@
     "type": "effect_type",
     "id": "telepathic_ignorance_self",
     "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mring_fire_protection",
+    "//": "Hidden effect, used so the ring of fire protection will stop you from being set on fire",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "onfire" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ring_of_flight",
+    "name": [ "Flying" ],
+    "desc": [ "You're flying." ],
+    "rating": "good",
+    "remove_message": "Your magical flight ends.",
+    "flags": [ "CLIMB_FLYING", "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mring_sustenance",
+    "//": "Hidden effect, used as an attunement period for the ring of sustenance",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bracers_of_the_blinding_strike",
+    "name": [ "Blinding Strikes" ],
+    "desc": [ "Your attacks come incredibly quickly." ],
+    "rating": "good",
+    "apply_message": "Your strikes speed up immensely.",
+    "remove_message": "Your quick strikes slow to normal speed.",
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_plus_two_to_hit",
+    "//": "Self-explanatory",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "base_mods": { "hit_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer",
+    "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer_cooldown",
+    "//": "Longer internal cooldown for feral stormshaper hammer",
     "name": [ "" ],
     "desc": [ "" ]
   },
@@ -1399,10 +1555,12 @@
       "earthshaper_fortitude_of_stone",
       "effect_tremorsense",
       "effect_sense_outsiders",
+      "effect_animist_vocalize",
       "effect_kelvinist_anti_cold",
       "effect_kelvinist_anti_heat",
       "effect_magus_slowfall",
       "effect_magus_spiderclimb",
+      "effect_magus_faerie_fire",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_biomancer_slow_bleeding_01",
@@ -1412,6 +1570,7 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_magus_silence",
       "effect_magus_ranged_increase",
       "magic_slowed",
       "effect_classless_watch",
@@ -1422,7 +1581,9 @@
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
-      "effect_technomancer_pain_ignore"
+      "effect_technomancer_pain_ignore",
+      "effect_feral_stormshaper_stormhammer",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1478,7 +1639,8 @@
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
-      { "u_remove_item_with": "technomancer_far_sight_lens" }
+      { "u_remove_item_with": "technomancer_far_sight_lens" },
+      { "u_remove_item_with": "thought_shield_item" }
     ]
   },
   {
@@ -1528,6 +1690,7 @@
       "effect_kelvinist_anti_heat",
       "effect_magus_slowfall",
       "effect_magus_spiderclimb",
+      "effect_magus_faerie_fire",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_classless_watch",
@@ -1537,6 +1700,7 @@
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
       "effect_animist_add_evasion",
+      "effect_animist_vocalize",
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
@@ -1544,6 +1708,7 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_magus_silence",
       "effect_magus_ranged_increase",
       "effect_spirit_walking",
       "effect_stormshaper_loud_voice",
@@ -1565,7 +1730,10 @@
       "gravity_mage_melee",
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
-      "effect_burning_trail"
+      "effect_burning_trail",
+      "effect_ring_of_flight",
+      "effect_feral_stormshaper_stormhammer",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1638,7 +1806,100 @@
       { "u_remove_item_with": "force_magical_armor" },
       { "u_remove_item_with": "subzero_talons" },
       { "u_remove_item_with": "aura_cold_energy" },
-      { "u_remove_item_with": "pocket_sun" }
+      { "u_remove_item_with": "pocket_sun" },
+      { "u_remove_item_with": "thought_shield_item" },
+      { "u_remove_item_with": "thought_shield_plus_item" }
     ]
+  },
+  {
+    "id": "effect_dust_reborn",
+    "type": "effect_type",
+    "name": [ "Divided" ],
+    "desc": [ "Your body was split before, which makes you really fragile, but allow you to accept more mana than before." ],
+    "remove_message": "Your body turns back to normal state.",
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.7 }, { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
+  },
+  {
+    "id": "golemancer_block",
+    "type": "effect_type",
+    "name": [ "Golemancer's block" ],
+    "desc": [ "Decrease any damage taken in the next 1 second." ],
+    "rating": "good",
+    "show_intensity": false,
+    "show_in_info": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_BASH", "add": -20 },
+          { "value": "ARMOR_CUT", "add": -20 },
+          { "value": "ARMOR_STAB", "add": -20 },
+          { "value": "ARMOR_BULLET", "add": -20 },
+          { "value": "ARMOR_HEAT", "add": -20 },
+          { "value": "ARMOR_COLD", "add": -20 },
+          { "value": "ARMOR_ELEC", "add": -20 },
+          { "value": "ARMOR_ACID", "add": -20 },
+          { "value": "ARMOR_BIO", "add": -20 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sun_mage_buff",
+    "type": "effect_type",
+    "name": [ "Sol" ],
+    "desc": [ "You feel your mana connected to the Sun, and it makes you better than ever." ],
+    "remove_message": "You don't feel Solar energy in your body anymore.",
+    "rating": "good",
+    "max_duration": "10 m",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 1, "multiply": 0.25 },
+          { "value": "DEXTERITY", "add": 1, "multiply": 0.25 },
+          { "value": "INTELLIGENCE", "add": 1, "multiply": 0.25 },
+          { "value": "PERCEPTION", "add": 1, "multiply": 0.25 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "freeze_aura",
+    "name": [ "Freeze burn" ],
+    "desc": [ "Your skin is frozen." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -25 ] },
+    "scaling_mods": { "speed_mod": [ -15 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "void_mage_night_vision",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 20 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vulcanist_no_smoke_or_blisters",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "blocks_effects": [ "smoke_eyes", "smoke_lungs", "blisters" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "withering_eff",
+    "name": [ "Withering" ],
+    "desc": [ "Consume their nature for your own purposes." ],
+    "apply_message": "You take a withering effect!",
+    "rating": "good",
+    "max_intensity": 30,
+    "int_add_val": 1,
+    "base_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] },
+    "scaling_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] }
   }
 ]

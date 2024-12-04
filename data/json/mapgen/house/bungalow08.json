@@ -5,7 +5,12 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         ".......!--!.............",
@@ -34,16 +39,15 @@
         ".................[......"
       ],
       "terrain": {
-        "`": "t_carpet_red",
+        "`": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "|": "t_wall",
         "?": "t_column",
         ";": "t_water_sh",
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        ",": "t_carpet_yellow",
-        "f": "t_carpet_yellow",
-        "&": "t_carpet_yellow",
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "-": "t_concrete"
       },
       "furniture": { "(": "f_table", "$": "f_piano", "&": "f_chair", "=": "f_rack" },

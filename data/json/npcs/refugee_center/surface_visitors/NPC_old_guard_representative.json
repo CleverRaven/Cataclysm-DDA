@@ -20,7 +20,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -36,7 +36,7 @@
         "condition": {
           "or": [
             { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            { "u_has_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" }
+            { "compare_string": [ "encountered_base", { "u_val": "factional_questline_mission_oldguard-exodii" } ] }
           ]
         }
       },
@@ -44,11 +44,14 @@
         "text": "I think I can already tell you what you want to know about those 'robots'.",
         "topic": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_OLD_GUARD_REP_3" }, { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } ]
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+          ]
         }
       },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ],
     "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
   },
@@ -119,9 +122,9 @@
       {
         "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
         "topic": "TALK_OLD_GUARD_REP_EXODII_2",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "<done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
@@ -130,7 +133,7 @@
     "dynamic_line": "Well, that's interesting.  It's not something I'm in a position to do something about, but you might want to take that information to one of the teamsters for the Free Merchants.  Maybe that's a way we could establish some friendlier relationships.",
     "responses": [
       { "text": "Good idea.  I'll go do that.", "topic": "TALK_DONE" },
-      { "text": "Huh, maybe.  Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
+      { "text": "Huh, maybe.  <done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" }
     ]
   },
   {
@@ -143,11 +146,8 @@
         "topic": "TALK_OLD_GUARD_REP_EXODII_2",
         "effect": [ { "u_spawn_item": "antibiotics" }, "mission_success", "clear_mission" ]
       },
-      {
-        "text": "I'll have to think about it.  Let's talk about something else, for now.",
-        "topic": "TALK_OLD_GUARD_REP"
-      },
-      { "text": "On second thought, I should go.", "topic": "TALK_DONE" }
+      { "text": "I'll have to think about it.  <done_conversation_section>", "topic": "TALK_OLD_GUARD_REP" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -181,15 +181,16 @@
       "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
       "update_mapgen": {
         "set": [
-          { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 5, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 7, "y": 6 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 5, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 8, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 0, "y": 11 }
         ],
         "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
       "describe": "We need help…",
@@ -221,6 +222,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
       "describe": "We need help…",
@@ -240,14 +242,15 @@
     "name": { "str": "Find Source of Robots" },
     "description": "Go to the supposed source of the weird robots marked on your map and report back to the Old Guard representative what you've seen.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "missions_old_guard_u_scouted_exodii", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "missions_old_guard_u_scouted_exodii" } ] },
     "difficulty": 2,
     "value": 10000,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
-      "effect": [ { "math": [ "old_guard_rep_scouting", "=", "1" ] } ]
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 800 },
+      "effect": [ { "math": [ "old_guard_rep_scouting = 1" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
       "describe": "Got a weird one for you this time…",
@@ -277,6 +280,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
@@ -316,6 +320,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER_BEGIN",
     "dialogue": {
       "describe": "We need help…",
@@ -338,6 +343,7 @@
     "difficulty": 5,
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER",
     "dialogue": {
       "describe": "I don't need anything major for now, Marshal.  Well, except…",
@@ -372,6 +378,7 @@
     "difficulty": 5,
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_OLD_GUARD_REPEATER",
     "dialogue": {
       "describe": "We need more help…",

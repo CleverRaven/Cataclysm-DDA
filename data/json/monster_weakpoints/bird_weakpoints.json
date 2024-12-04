@@ -34,7 +34,7 @@
         "difficulty": { "melee": 4, "ranged": 1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       },
       {
         "name": "the eye",

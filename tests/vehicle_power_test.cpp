@@ -32,7 +32,7 @@ static void reset_player()
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE( !player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( tripoint::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 }
@@ -44,15 +44,15 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
 
-    const auto connect_debug_cord = [&here]( const tripoint & source,
-    const tripoint & target ) {
+    const auto connect_debug_cord = [&here]( const tripoint_bub_ms & source,
+    const tripoint_bub_ms & target ) {
         const optional_vpart_position target_vp = here.veh_at( target );
         const optional_vpart_position source_vp = here.veh_at( source );
 
         item cord( "test_power_cord_25_loss" );
-        cord.set_var( "source_x", source.x );
-        cord.set_var( "source_y", source.y );
-        cord.set_var( "source_z", source.z );
+        cord.set_var( "source_x", source.x() );
+        cord.set_var( "source_y", source.y() );
+        cord.set_var( "source_z", source.z() );
         cord.set_var( "state", "pay_out_cable" );
         cord.active = true;
 
@@ -65,34 +65,34 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
             debugmsg( "source same as target" );
         }
 
-        tripoint target_global = here.getabs( target );
+        tripoint_abs_ms target_global = here.getglobal( target );
         const vpart_id vpid( cord.typeId().str() );
 
-        point vcoords = source_vp->mount();
+        point_rel_ms vcoords = source_vp->mount_pos();
         vehicle_part source_part( vpid, item( cord ) );
         source_part.target.first = target_global;
-        source_part.target.second = target_veh->global_square_location().raw();
+        source_part.target.second = target_veh->global_square_location();
         source_veh->install_part( vcoords, std::move( source_part ) );
 
-        vcoords = target_vp->mount();
+        vcoords = target_vp->mount_pos();
         vehicle_part target_part( vpid, item( cord ) );
-        tripoint source_global( cord.get_var( "source_x", 0 ),
-                                cord.get_var( "source_y", 0 ),
-                                cord.get_var( "source_z", 0 ) );
-        target_part.target.first = here.getabs( source_global );
-        target_part.target.second = source_veh->global_square_location().raw();
+        tripoint_bub_ms source_global( cord.get_var( "source_x", 0 ),
+                                       cord.get_var( "source_y", 0 ),
+                                       cord.get_var( "source_z", 0 ) );
+        target_part.target.first = here.getglobal( source_global );
+        target_part.target.second = source_veh->global_square_location();
         target_veh->install_part( vcoords, std::move( target_part ) );
     };
 
-    const std::vector<tripoint> placements { { 4, 10, 0 }, { 6, 10, 0 }, { 8, 10, 0 } };
+    const std::vector<tripoint_bub_ms> placements { { 4, 10, 0 }, { 6, 10, 0 }, { 8, 10, 0 } };
     std::vector<vpart_reference> batteries;
-    for( const tripoint &p : placements ) {
+    for( const tripoint_bub_ms &p : placements ) {
         REQUIRE( !here.veh_at( p ).has_value() );
         vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
-        const int frame_part_idx = veh->install_part( point_zero, vpart_frame );
+        const int frame_part_idx = veh->install_part( point_rel_ms::zero, vpart_frame );
         REQUIRE( frame_part_idx != -1 );
-        const int bat_part_idx = veh->install_part( point_zero, vpart_small_storage_battery );
+        const int bat_part_idx = veh->install_part( point_rel_ms::zero, vpart_small_storage_battery );
         REQUIRE( bat_part_idx != -1 );
         veh->refresh();
         here.add_vehicle_to_cache( veh );
@@ -138,7 +138,7 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
 
-    const tripoint solar_origin = tripoint( 5, 5, 0 );
+    const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin, 0_degrees, 0,
                                          0 );
     REQUIRE( veh_ptr != nullptr );
@@ -183,7 +183,7 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
     }
 
     SECTION( "2x 30 minutes produces same power as 1x 60 minutes" ) {
-        const tripoint solar_origin_2 = tripoint( 10, 10, 0 );
+        const tripoint_bub_ms solar_origin_2{ 10, 10, 0 };
         vehicle *veh_2_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin_2,
                                                0_degrees, 0,
                                                0 );
@@ -217,7 +217,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
     build_test_map( ter_id( "t_pavement" ) );
     map &here = get_map();
 
-    const tripoint solar_origin = tripoint( 5, 5, 0 );
+    const tripoint_bub_ms solar_origin{ 5, 5, 0 };
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin, 0_degrees, 0,
                                          0 );
     REQUIRE( veh_ptr != nullptr );
@@ -280,7 +280,7 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
     map &here = get_map();
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
-        const tripoint origin = tripoint( 10, 0, 0 );
+        const tripoint_bub_ms origin{ 10, 0, 0 };
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_test, origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 450 );
@@ -305,7 +305,7 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
     }
 
     GIVEN( "a scooter with an electric motor and charged battery" ) {
-        const tripoint origin = tripoint( 15, 0, 0 );
+        const tripoint_bub_ms origin{ 15, 0, 0 };
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_electric_test, origin,
                                              0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );

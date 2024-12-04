@@ -219,7 +219,7 @@
     "looks_like": "m134",
     "type": "GUN",
     "name": { "str": "salvaged CMES laser cannon" },
-    "description": "This gatling-laser has been stripped from its CMES mech-suit and is far too heavy to use on its own.  You will need to deploy it or mount it to a vehicle, but it could be devastating if you have deep battery reserves.",
+    "description": "This Gatling-laser has been stripped from its CMES mech-suit and is far too heavy to use on its own.  You will need to deploy it or mount it to a vehicle, but it could be devastating if you have deep battery reserves.",
     "valid_mod_locations": [ [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }

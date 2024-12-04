@@ -138,7 +138,7 @@
         [ "birchbark_funnel", 1 ],
         [ "leather_funnel", 1 ]
       ],
-      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
       [ [ "rock", 40 ] ]
@@ -177,7 +177,7 @@
         [ "birchbark_funnel", 1 ],
         [ "leather_funnel", 1 ]
       ],
-      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
       [ [ "rock", 40 ] ]
@@ -375,11 +375,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 20, "LIST" ] ]
-    ]
+    "using": [ [ "steel_chunk_any", 1 ] ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cordage_short", 2, "LIST" ], [ "filament", 20, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -682,47 +679,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wire",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "3 h",
-    "result_mult": 6,
-    "autolearn": true,
-    "using": [ [ "blacksmithing_scrap", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "wire",
-    "id_suffix": "wire_draw_machine",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h 30 m",
-    "result_mult": 6,
-    "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_wiremaking" }
-    ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "hotcut_any", 1, "LIST" ] ],
-      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
-      [ [ "wire_draw_machine", 100 ] ]
-    ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "lc_wire",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -947,7 +903,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "lc_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1113,7 +1069,7 @@
     "decomp_learn": 0,
     "flags": [ "BLIND_HARD" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
-    "components": [ [ [ "cable", 10 ], [ "wire", 1 ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
+    "components": [ [ [ "cable", 10 ], [ "any_wire", 1, "LIST" ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1185,7 +1141,7 @@
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
+    "components": [ [ [ "any_wire", 2, "LIST" ], [ "cable", 2 ] ], [ [ "yarn", 1 ], [ "cotton_ball", 1 ], [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1251,17 +1207,38 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "anvil",
+    "result": "glassblowers_crucible",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "6 h",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "drill_press_tool", 20 ] ], [ [ "angle_grinder", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "anvil_crude", 1 ] ] ]
+    "difficulty": 4,
+    "time": "3 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": false,
+    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "using": [ [ "welding_standard", 100 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_pottery" } ],
+    "components": [
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
+      [ [ "pot_canning_clay", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "fire_brick", 25 ] ],
+      [ [ "clay_lump", 10 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "pipe_fittings", 4 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "thermostat", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1624,7 +1601,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "steel_lump", 5 ], [ "steel_chunk", 20 ], [ "scrap", 60 ] ],
-      [ [ "metal_tank_little", 1 ] ],
+      [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
@@ -1641,12 +1618,11 @@
     "autolearn": true,
     "components": [
       [
-        [ "splinter", 40 ],
-        [ "2x4", 6 ],
-        [ "stick", 8 ],
-        [ "bone_any", 40, "LIST" ],
-        [ "skewer_bone", 1000 ],
-        [ "pine_bough", 20 ],
+        [ "splinter", 200 ],
+        [ "2x4", 12 ],
+        [ "stick", 20 ],
+        [ "bone_any", 156, "LIST" ],
+        [ "skewer_bone", 2000 ],
         [ "log", 1 ]
       ],
       [ [ "char_kiln", 1 ] ]
@@ -2149,10 +2125,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_demihumanleather", 1 ] ]
-    ]
+    "components": [ [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ], [ [ "raw_leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2207,10 +2180,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ]
-    ]
+    "components": [ [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ], [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2438,7 +2408,8 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "cotton_patchwork", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "cotton_patchwork", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "recipe",
@@ -2523,21 +2494,6 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "chain_link",
-    "id_suffix": "fabrication",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "5 m",
-    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
-    "components": [ [ [ "wire", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "lc_chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2609,21 +2565,6 @@
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "qt_wire", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
-    "result": "link_sheet",
-    "id_suffix": "fabrication",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "10 h",
-    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "chain_link", 2550 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2879,7 +2820,7 @@
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 18 ], [ "cu_pipe", 18 ], [ "frame", 3 ] ],
       [ [ "nails", 12, "LIST" ] ],
-      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "spike", 4 ] ],
       [ [ "pipe_fittings", 15 ] ]
@@ -2907,7 +2848,7 @@
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
       [ [ "nails", 12, "LIST" ] ],
-      [ [ "wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ],
       [ [ "pipe_fittings", 30 ] ]
     ]
@@ -3036,12 +2977,13 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "4 h",
+    "time": "10 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "angle_grinder", 200 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "railroad_track_item_half", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "angle_grinder", 220 ] ], [ [ "drill_press_tool", 20 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "railroad_track_item_half", 1 ] ] ],
+    "byproducts": [ [ "steel_lump", 15 ] ]
   },
   {
     "result": "anvil_bronze",

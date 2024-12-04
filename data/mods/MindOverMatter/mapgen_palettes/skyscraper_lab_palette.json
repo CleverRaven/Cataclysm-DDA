@@ -10,6 +10,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "*": "t_null",
       " ": "t_open_air",
@@ -34,12 +35,10 @@
       "1": "t_door_metal_interior_locked",
       "E": "t_elevator",
       "G": "t_door_glass_frosted_lab_c",
-      "R": "t_railing_v",
+      "R": "t_railing",
       "s": "t_sidewalk",
       "V": "t_reinforced_glass",
       "w": "t_window",
-      "-": "t_brick_wall",
-      "|": "t_brick_wall",
       "¥": "t_card_science"
     },
     "furniture": {
@@ -67,9 +66,7 @@
       "x": "f_console_broken",
       "X": "f_generator_broken",
       "y": "f_locker",
-      "Y": "f_rack_coat",
-      "Đ": "f_vending_c",
-      "Ƒ": "f_vending_c"
+      "Y": "f_rack_coat"
     },
     "items": {
       "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
@@ -83,7 +80,12 @@
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "vendingmachines": {
+      "8": { "item_group": "vending_drink", "lootable": true },
+      "9": { "item_group": "vending_food", "lootable": true },
+      "Đ": { "item_group": "vending_drink", "lootable": true },
+      "Ƒ": { "item_group": "vending_food", "lootable": true }
+    },
     "toilets": { "T": {  } }
   },
   {

@@ -70,7 +70,6 @@
     "//": "All of the different bird eggs",
     "components": [
       [
-        [ "egg_bird", 1 ],
         [ "egg_bird_unfert", 1 ],
         [ "egg_chicken", 1 ],
         [ "egg_grouse", 1 ],
@@ -80,21 +79,36 @@
         [ "egg_cardinal", 12 ],
         [ "egg_robin", 7 ],
         [ "egg_pigeon", 3 ],
-        [ "egg_sparrow", 20 ],
-        [ "egg_waxwing", 20 ],
-        [ "egg_chickadee", 50 ],
+        [ "egg_sparrow", 17 ],
+        [ "egg_waxwing", 17 ],
+        [ "egg_chickadee", 34 ],
         [ "egg_duck", 1 ],
+        [ "egg_duck_domestic", 1 ],
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
+        [ "egg_turkey_domestic", 1 ],
         [ "egg_pheasant", 1 ],
         [ "egg_goose", 1 ],
-        [ "egg_goose_golden", 1 ],
-        [ "egg_hummingbird", 5 ],
-        [ "egg_woodpecker", 5 ],
+        [ "egg_hummingbird", 100 ],
+        [ "egg_woodpecker", 17 ],
         [ "egg_coot", 1 ],
         [ "egg_cormorant", 1 ],
         [ "egg_moorhen", 1 ],
-        [ "egg_grebe", 1 ]
+        [ "egg_grebe", 1 ],
+        [ "egg_guinea_fowl", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_reptile",
+    "type": "requirement",
+    "//": "All of the different reptile eggs",
+    "components": [
+      [
+        [ "egg_turtle_painted", 4 ],
+        [ "egg_turtle_snapping_common", 4 ],
+        [ "egg_wormsnake", 17 ],
+        [ "egg_skink_fivelined", 17 ]
       ]
     ]
   },
@@ -105,20 +119,13 @@
     "components": [
       [
         [ "egg_leo_frog", 1 ],
-        [ "egg_pattern_frog", 1 ],
         [ "egg_bullfrog_frog", 1 ],
-        [ "egg_strange_frog", 1 ],
         [ "egg_fowler_toad", 1 ],
-        [ "egg_foul_toad", 1 ],
         [ "egg_freedom_toad", 1 ],
-        [ "egg_odd_toad", 1 ],
         [ "egg_peeper_frog", 1 ],
-        [ "egg_vocal_frog", 1 ],
         [ "egg_gray_frog", 1 ],
-        [ "egg_shift_frog", 1 ],
         [ "egg_mink_frog", 1 ],
         [ "egg_pickerel_frog", 1 ],
-        [ "egg_palette_frog", 1 ],
         [ "egg_green_frog", 1 ],
         [ "egg_wood_frog", 1 ],
         [ "egg_spade_frog", 1 ]
@@ -161,7 +168,10 @@
         [ "egg_moth", 4 ],
         [ "egg_cicada", 4 ],
         [ "egg_fly", 4 ],
-        [ "egg_mosquito", 4 ]
+        [ "egg_mosquito", 4 ],
+        [ "egg_moth_fly", 4 ],
+        [ "egg_silverfish", 4 ],
+        [ "egg_centipede_house", 4 ]
       ]
     ]
   },
@@ -241,7 +251,7 @@
     "id": "eggs_any_shape",
     "type": "requirement",
     "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
-    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "egg_reptile", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "eggs_reptile", 1, "LIST" ] ] ]
   },
   {
     "id": "milk_standard",
@@ -423,6 +433,7 @@
     "//": "Anything you might consider offal or intestines.",
     "components": [
       [
+        [ "meat_heart", 4, "LIST" ],
         [ "meat_lung", 4, "LIST" ],
         [ "meat_liver", 4, "LIST" ],
         [ "meat_kidney", 4, "LIST" ],
@@ -476,6 +487,13 @@
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
     "components": [ [ [ "lung", 1 ], [ "human_lung", 1 ], [ "demihuman_lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_heart",
+    "type": "requirement",
+    "components": [
+      [ [ "heart", 1 ], [ "human_heart", 1 ], [ "demihuman_heart", 1 ], [ "mutant_heart", 1 ], [ "mutant_human_heart", 1 ] ]
+    ]
   },
   {
     "id": "meat_liver",
@@ -664,7 +682,7 @@
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "spaghetti_raw", 1 ],
@@ -728,7 +746,7 @@
         [ "crackers", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_lentils", 1 ],
@@ -793,7 +811,7 @@
         [ "crackers", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_lentils", 1 ],
@@ -883,7 +901,7 @@
     "type": "requirement",
     "components": [
       [ [ "broth", 1 ], [ "broth_bone", 1 ], [ "broth_meat", 1 ], [ "pine_tea", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ],
       [
         [ "veggy_wild", 1 ],
         [ "veggy", 1 ],
@@ -992,6 +1010,7 @@
       [
         [ "hot_sauce", 1 ],
         [ "pepper", 1 ],
+        [ "spicebush_berries_smoked", 1 ],
         [ "seasoning_salt", 1 ],
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
@@ -1016,7 +1035,8 @@
         [ "honey_mustard", 1 ],
         [ "horseradish", 1 ],
         [ "sauerkraut", 1 ],
-        [ "butter", 1 ]
+        [ "butter", 1 ],
+        [ "raw_butter", 1 ]
       ]
     ]
   },
@@ -1074,6 +1094,10 @@
         [ "huckleberries", 1 ],
         [ "mulberries", 1 ],
         [ "elderberries", 1 ],
+        [ "nannyberries", 1 ],
+        [ "tupelo_fruit", 1 ],
+        [ "hobbleberries", 1 ],
+        [ "autumn_olive", 1 ],
         [ "watermelon_wedge", 1 ]
       ]
     ]
@@ -1238,6 +1262,8 @@
         [ "seasoning_salt", 4 ],
         [ "soysauce", 1 ],
         [ "pepper", 4 ],
+        [ "spicebush_berries_smoked", 4 ],
+        [ "spicebush_berries", 4 ],
         [ "garlic_clove", 2 ],
         [ "salt", 4 ]
       ]
@@ -1247,7 +1273,7 @@
     "id": "broth_meat_ingredients",
     "type": "requirement",
     "components": [
-      [ [ "meat_nofish", 1, "LIST" ], [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "meat_nofish", 1, "LIST" ], [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ],
       [
         [ "hot_sauce", 1 ],
         [ "seasoning_italian", 4 ],
@@ -1255,6 +1281,8 @@
         [ "seasoning_salt", 4 ],
         [ "soysauce", 1 ],
         [ "pepper", 4 ],
+        [ "spicebush_berries", 4 ],
+        [ "spicebush_berries_smoked", 4 ],
         [ "garlic_clove", 2 ],
         [ "salt", 4 ]
       ]
@@ -1275,7 +1303,7 @@
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
-        [ "egg_reptile", 1 ],
+        [ "eggs_reptile", 1, "LIST" ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],

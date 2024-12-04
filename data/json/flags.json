@@ -512,7 +512,8 @@
     "id": "FRAGILE",
     "type": "json_flag",
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
-    "conflicts": [ "STURDY" ]
+    "conflicts": [ "STURDY" ],
+    "inherit": false
   },
   {
     "id": "FRAGILE_MELEE",
@@ -591,6 +592,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POST_UP",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall, like a poster."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
@@ -661,7 +667,7 @@
   {
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -920,7 +926,8 @@
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
-    "conflicts": [ "FRAGILE" ]
+    "conflicts": [ "FRAGILE" ],
+    "inherit": false
   },
   {
     "id": "SUN_GLASSES",
@@ -1539,8 +1546,9 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
-    "id": "IR_EFFECT",
-    "type": "json_flag"
+    "id": "MORPHIC",
+    "type": "json_flag",
+    "info": "This is <info>naturally sized to the body</info>."
   },
   {
     "id": "IS_ARMOR",
@@ -1612,6 +1620,11 @@
     "id": "MUNDANE",
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
     "type": "json_flag"
   },
   {
@@ -2157,8 +2170,8 @@
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
-    "info": "This item fits in items that use heavy batteries.",
-    "name": "heavy battery"
+    "info": "This item fits in items that use tool batteries.",
+    "name": "tool battery"
   },
   {
     "id": "METHANOL_TANK",
@@ -2198,74 +2211,98 @@
     "info": "Allows movement in open air."
   },
   {
+    "id": "ALL_TERRAIN_NAVIGATION",
+    "type": "json_flag",
+    "info": "Allows movement over rough and sharp terrain without penalty."
+  },
+  {
     "id": "EXO_SMALL",
     "type": "json_flag",
-    "info": "This is meant for a small exosuit hardpoint."
+    "info": "This is meant for a small exosuit hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_LARGE",
     "type": "json_flag",
-    "info": "This is meant for a large exosuit hardpoint."
+    "info": "This is meant for a large exosuit hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_PSU",
     "type": "json_flag",
-    "info": "This is meant for an exosuit PSU hardpoint."
+    "info": "This is meant for an exosuit PSU hardpoint.",
+    "inherit": false
   },
   {
     "id": "EXO_SMALL_GADGET",
     "type": "json_flag",
-    "info": "This is meant for small exosuit gadgets, 1 L or less."
+    "info": "This is meant for small exosuit gadgets, 1 L or less.",
+    "inherit": false
   },
   {
     "id": "EXO_HELMET_GADGET",
     "type": "json_flag",
-    "info": "This is meant for helmet-specific gadgets."
+    "info": "This is meant for helmet-specific gadgets.",
+    "inherit": false
   },
   {
     "id": "EXO_MEDIUM_GADGET",
     "type": "json_flag",
-    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L."
+    "info": "This is meant for medium exosuit gadgets, between 1 L and 5 L.",
+    "inherit": false
   },
   {
     "id": "EXO_LARGE_GADGET",
     "type": "json_flag",
-    "info": "This is meant for large exosuit gadgets, larger than 5 L."
+    "info": "This is meant for large exosuit gadgets, larger than 5 L.",
+    "inherit": false
   },
   {
     "id": "EXO_UNDERLAYER",
     "type": "json_flag",
-    "info": "This is meant for exosuit underlayers."
+    "info": "This is meant for exosuit underlayers.",
+    "inherit": false
   },
   {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton helmet plating."
+    "info": "This is meant for exoskeleton helmet plating.",
+    "inherit": false
   },
   {
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton torso plating."
+    "info": "This is meant for exoskeleton torso plating.",
+    "inherit": false
   },
   {
     "id": "EXO_ARM_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton arm plating."
+    "info": "This is meant for exoskeleton arm plating.",
+    "inherit": false
   },
   {
     "id": "EXO_GLOVE_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton arm plating."
+    "info": "This is meant for exoskeleton arm plating.",
+    "inherit": false
   },
   {
     "id": "EXO_LEG_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton leg plating."
+    "info": "This is meant for exoskeleton leg plating.",
+    "inherit": false
   },
   {
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exoskeleton foot plating."
+    "info": "This is meant for exoskeleton foot plating.",
+    "inherit": false
+  },
+  {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
   },
   {
     "id": "ROBOFAC_ROBOT_MEDIUM",
@@ -2418,6 +2455,11 @@
     "info": "You feel like you would keep all your items if you somehow became incorporeal."
   },
   {
+    "id": "CLIMB_FLYING",
+    "type": "json_flag",
+    "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2431,6 +2473,31 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
+  },
+  {
+    "id": "ANIMALDISCORD",
+    "type": "json_flag",
+    "info": "The character is disliked by natural animals."
+  },
+  {
+    "id": "ANIMALDISCORD2",
+    "type": "json_flag",
+    "info": "The character is intensely disliked by natural animals."
+  },
+  {
+    "id": "ANIMALEMPATH",
+    "type": "json_flag",
+    "info": "The character is liked by natural animals."
+  },
+  {
+    "id": "ANIMALEMPATH2",
+    "type": "json_flag",
+    "info": "The character is intensely liked by natural animals."
   },
   {
     "id": "UNDERFED",
@@ -2541,5 +2608,33 @@
     "id": "WATERWALKING",
     "type": "json_flag",
     "info": "You can walk across the surface of water."
+  },
+  {
+    "id": "CRAFT_IN_DARKNESS",
+    "type": "json_flag",
+    "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "CANNOT_ATTACK",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."
+  },
+  {
+    "id": "CANNOT_MOVE",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot naturally move."
+  },
+  {
+    "id": "CANNOT_TAKE_DAMAGE",
+    "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
   }
 ]

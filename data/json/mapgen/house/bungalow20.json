@@ -6,10 +6,11 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -47,8 +48,8 @@
         "?": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "=": "t_carpet_red",
-        "L": "t_carpet_red"
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ],
       "furniture": { "£": "f_exercise", "$": "f_treadmill", "?": "f_bookcase" },

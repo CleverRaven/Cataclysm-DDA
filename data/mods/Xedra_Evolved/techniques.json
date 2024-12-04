@@ -2,7 +2,7 @@
   {
     "type": "technique",
     "id": "tec_devil_tail_puncture",
-    "name": "TAIL_SHOT",
+    "name": { "str": "TAIL_SHOT", "//~": "NO_I18N" },
     "messages": [
       "Your devil tail shoots itself into %s, penetrating its body like a bullet",
       "<npcname>'s devil tail shoots itself into %s, penetrating its body like a bullet"
@@ -21,7 +21,7 @@
   {
     "type": "technique",
     "id": "tec_devil_tail_wide",
-    "name": "TAIL_SWEEP",
+    "name": { "str": "TAIL_SWEEP", "//~": "NO_I18N" },
     "messages": [
       "Your devil tail makes a fast move, heavily cutting everybody in front",
       "<npcname>'s devil tail makes a fast move, heavily cutting everybody in front"
@@ -42,7 +42,7 @@
     "type": "technique",
     "id": "tec_devil_tail_grab",
     "//": "not an actual grab, but would be nice to be so",
-    "name": "TAIL_GRAB",
+    "name": { "str": "TAIL_GRAB", "//~": "NO_I18N" },
     "messages": [
       "Your devil tail grabs %s and throws them to the ground",
       "<npcname>'s devil tail grabs %s and throws them to the ground"
@@ -70,7 +70,7 @@
     "down_dur": 4,
     "knockback_dist": 3,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 }, { "stat": "movecost", "scale": 1.4 } ],
-    "condition": { "and": [ { "math": [ "u_val('size') -1", "<=", "n_val('size')" ] } ] },
+    "condition": { "and": [ { "math": [ "u_val('size') -1 <= n_val('size')" ] } ] },
     "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
     "messages": [ "You send %s reeling!", "<npcname> sends %s reeling!" ],
     "description": "Down 4 turns, knockback 3 tiles, 250% damage, 140% move, crit only, min 3 melee",
@@ -86,7 +86,7 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "aoe": "wide",
     "mult_bonuses": [ { "stat": "damage", "type": "heat", "scale": 1.5 }, { "stat": "movecost", "scale": 1.2 } ],
-    "condition": { "and": [ { "math": [ "u_val('size') -1", "<=", "n_val('size')" ] } ] },
+    "condition": { "and": [ { "math": [ "u_val('size') -1 <= n_val('size')" ] } ] },
     "condition_desc": "* Only works on target of <info>similar or bigger</info> size",
     "messages": [
       "In an instant you melt %s and those nearby with a sprawling attack!",

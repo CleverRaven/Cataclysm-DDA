@@ -490,9 +490,9 @@
         },
         { "item": "elbow_pads", "x": 37, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "knee_pads", "x": 36, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "light_disposable_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "light_battery_cell", "x": 45, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "light_plus_battery_cell", "x": 44, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "fully_loaded_medium_battery_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "fully_loaded_medium_battery_cell", "x": 45, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "fully_loaded_medium_battery_cell", "x": 44, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "hand_crank_charger", "x": 43, "y": 60, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "flashlight", "x": 42, "y": 60, "chance": 75, "repeat": [ 50, 200 ] },
         { "item": "heavy_flashlight", "x": 41, "y": 60, "chance": 75, "repeat": [ 25, 50 ] },
@@ -528,7 +528,7 @@
         { "item": "thermos", "x": 38, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mess_kit", "x": 37, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "water_purifier", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
-        { "group": "pur_tablets_bottle_plastic_small_15", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
+        { "group": "pur_tablets_bottle_plastic_small_50", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "group": "MRE", "x": [ 49, 55 ], "y": [ 53, 54 ], "chance": 75, "repeat": 1500 },
         { "group": "MRE", "x": [ 49, 55 ], "y": 48, "chance": 75, "repeat": 750 },
         { "group": "groce_pasta", "x": [ 44, 46 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
@@ -575,6 +575,11 @@
         { "vehicle": "forklift_vehicles", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
       ]
     }
+  },
+  {
+    "type": "item_group",
+    "id": "fully_loaded_medium_battery_cell",
+    "items": [ { "item": "medium_battery_cell", "prob": 100, "charges": 100 } ]
   },
   {
     "type": "mapgen",
@@ -907,7 +912,7 @@
         "x,,,,b ,,,                                      Xssssssssssss8888ssX     sss_______yy_______sss ",
         "x,,,,b,,,,                                      XssssssssssssssssssX     sss_______yy_______sss ",
         "x ,, b ,,,                                      XssssssssssssssssssX     sss________________sss ",
-        "x ,, b,,,,                                      XssssUsssssss8888ssX     sss_______yy_______sss ",
+        "x ,, b,,,,                                      Xssss№sssssss8888ssX     sss_______yy_______sss ",
         "x ,, b ,,,                                      XsssZssssZsssdJJ8ssX     sss_______yy_______sss ",
         "x,,, b,,,                                       Xssssssssssss8888ssX     sss_______yy_______sss ",
         "x,,,,b ,,,                                      XssssssssssssssssssX     sss________________sss ",
@@ -964,7 +969,7 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxG"
       ],
       "palettes": [ "mil_base_palette" ],
-      "terrain": { "U": "t_ladder_up" },
+      "terrain": { "№": "t_ladder_up" },
       "items": {
         "n": [ { "item": "mil_base_casing_hmg", "chance": 50, "repeat": [ 50, 100 ] } ],
         ";": [ { "item": "mil_base_bodybag", "chance": 90 } ],
@@ -1223,6 +1228,7 @@
         { "item": "medical_tape", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "mil_base_iv", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
         { "item": "eyedrops", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
+        { "item": "steroid_eyedrops", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "anesthetic_kit", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ], "ammo": 100 },
         { "item": "disinfectant", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "quikclot_bag_plastic_6", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

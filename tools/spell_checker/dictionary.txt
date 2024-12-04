@@ -336,6 +336,8 @@ asshat
 assistive
 asswagon
 asswipe
+astrodon
+astrodons
 astrolaspis
 astrolaspises
 Aśvaghosa
@@ -455,7 +457,8 @@ Bahá
 Baha'i
 Bahá'í
 Baha'is
-Bahamanain
+Bahamanian
+Bahamian
 Baha'u'llah
 Bahá'u'lláh
 Bahman
@@ -538,6 +541,7 @@ BBs
 BCE
 BDSM
 BDU
+Bealtaine
 bearcub
 bearmantle
 bearmantles
@@ -873,6 +877,7 @@ Bulgarian
 Bullard
 bullpup
 bullseye
+bullshit
 Buluotuo
 Bulwer
 Bundahis
@@ -1096,6 +1101,8 @@ chk
 Chloe
 Cho
 chode
+chokeberry
+chokeberries
 chokepoints
 Chol
 chonker
@@ -1178,6 +1185,7 @@ coipo
 coipos
 Col
 colada
+Colombian
 Colrain
 Columbia
 Columbian
@@ -1264,6 +1272,7 @@ Creighton
 creped
 crêpes
 crewmember
+crimsonite
 criniere
 CRISPR
 criss
@@ -1482,6 +1491,9 @@ dex
 Dhamma
 Dhammapada
 dharmachakra
+diaspora
+dichloroisocyanurate
+didn
 Dharmasastra
 dhyâna
 di
@@ -1494,6 +1506,8 @@ Didascalia
 Diego
 Diemaco
 dieselpunk
+direhound
+direhounds
 diggable
 Dighton
 DigiMart
@@ -1778,6 +1792,8 @@ EOCs
 EOD
 eolocanth
 eolocanths
+eolambia
+eolambias
 eoraptor
 eoraptors
 EPA
@@ -2348,6 +2364,7 @@ gravesite
 Gravol
 GravyField
 Grayfield
+grayscale
 greatbow
 greatbows
 greatclub
@@ -2617,6 +2634,8 @@ HMS
 HMTD
 hnefatafl
 Hobbes
+hobblebush
+hobbleberries
 hoc
 Hockomock
 hodag
@@ -2674,6 +2693,8 @@ Horayot
 horchata
 horks
 Hornblower
+hornero
+horneros
 Horrorpelta
 Horrorpeltas
 hosomaki
@@ -2802,6 +2823,7 @@ imager
 imagers
 Imaginifer
 Imaginifers
+Imbolc
 imbuement
 IMEs
 ImGui
@@ -3156,6 +3178,8 @@ kippahs
 Kippur
 kirpan
 kirpans
+kiskadee
+kiskadees
 Kitáb
 KITT
 kittel
@@ -3398,6 +3422,8 @@ Likvidator
 Likvidators
 lil
 Lila
+lilin
+Lilit
 lilypad
 Lima
 limbed
@@ -3442,6 +3468,7 @@ locs
 Locutus
 Loew
 Loki
+lokiceratops
 lolita
 London
 longarm
@@ -3483,6 +3510,7 @@ Ludlow
 Ludos
 Ludwig
 Luger
+Lughnasadh
 Luigi
 Luke
 Luliya
@@ -3861,7 +3889,7 @@ Milinda
 milkfat
 Milkor
 Millbury
-millenia
+millennia
 Millie
 Millis
 Millville
@@ -4107,6 +4135,8 @@ namele
 Namibian
 Nana
 Nani
+nannyberry
+nannyberries
 nano
 nanobots
 nanocompound
@@ -4172,6 +4202,7 @@ necrowolf
 nectivore
 Ned
 Nedarim
+nedcolbertia
 Needham
 needlelike
 Needletip
@@ -4382,6 +4413,7 @@ Ojibwe
 ok
 okie
 Okinawan
+Oklahoma
 Olaf
 Olam
 o'lantern
@@ -4760,6 +4792,8 @@ polymorphed
 polypous
 polysexual
 Pontius
+pooka
+pookas
 Popol
 populifolia
 Populus
@@ -5030,6 +5064,7 @@ Remington
 remodulator
 Remy
 rended
+René
 renfaire
 renfaires
 renfield
@@ -5181,6 +5216,7 @@ RPK
 RTG
 RTGs
 Ru
+ruach
 Rubaiyat
 rubbles
 Rubik
@@ -5246,6 +5282,7 @@ Sambal
 Sambucus
 samghati
 samghatis
+Samhain
 Sâmhita
 Sammarinese
 Sammy
@@ -5395,6 +5432,8 @@ segmentata
 Segway
 Seinerweisen
 seldomly
+selkie
+selkies
 selfie
 Semin
 semirural
@@ -5452,6 +5491,8 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifting
+shapeshifts
 shapeshifter
 Shardspray
 Shardstorm
@@ -5569,6 +5610,7 @@ Sikorsky
 Silat
 siloed
 siloing
+silverberry
 Silvergram
 Silvergrams
 Silverhawk
@@ -5882,6 +5924,7 @@ streetwear
 stressfully
 striders
 strigoi
+strix
 strobing
 strobus
 Stromer
@@ -6236,6 +6279,7 @@ tlatoani
 TNT
 Toby
 tock
+toco
 TODO
 Toffer
 toggleable
@@ -6346,6 +6390,7 @@ Trollope
 Troodon
 TropiCataclysm
 Trotsky
+trow
 TRS
 truckstop
 TrueFoodperson
@@ -6374,6 +6419,7 @@ tumescences
 Tunguska
 Tunisian
 tuno
+tupelo
 tupperware
 tupperwares
 Turing

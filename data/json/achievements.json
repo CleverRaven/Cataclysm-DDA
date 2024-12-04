@@ -1999,7 +1999,7 @@
         "is": "==",
         "target": [ "overmap_special_id", "New England Church Retreat" ],
         "visible": "when_achievement_completed",
-        "description": "Do you have a few minutes to talk about our lord and saviour Jesus Christ?"
+        "description": "Do you have a few minutes to talk about our lord and savior Jesus Christ?"
       }
     ]
   },

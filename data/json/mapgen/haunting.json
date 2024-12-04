@@ -22,7 +22,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HAUNTING",
-    "condition": { "or": [ { "math": [ "XEDRA_OFFICER_STATUS", "==", "1" ] }, "u_is_outside" ] },
+    "condition": { "or": [ { "math": [ "XEDRA_OFFICER_STATUS == 1" ] }, "u_is_outside" ] },
     "false_effect": [
       {
         "u_spawn_monster": "mon_XEDRA_soldier",
@@ -38,10 +38,10 @@
         "type": "speech",
         "target_var": { "global_val": "MERC_LOC" }
       },
-      { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "30 seconds", "50 seconds" ] }
+      { "run_eocs": "EOC_HAUNTING", "time_in_future": [ "30 seconds", "50 seconds" ] }
     ],
     "effect": [
-      { "math": [ "XEDRA_OFFICER_STATUS", "=", "0" ] },
+      { "math": [ "XEDRA_OFFICER_STATUS = 0" ] },
       { "u_message": "The sound of footsteps fade.  It's no longer tracking you.", "type": "good" }
     ]
   },
@@ -74,7 +74,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HAUNTING_STOP",
     "global": true,
-    "effect": [ { "math": [ "XEDRA_OFFICER_STATUS", "=", "1" ] } ]
+    "effect": [ { "math": [ "XEDRA_OFFICER_STATUS = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -82,7 +82,7 @@
     "global": true,
     "effect": [
       { "give_achievement": "achievement_officer_kill" },
-      { "queue_eocs": "EOC_HAUNTING_STOP", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_HAUNTING_STOP", "time_in_future": "1 seconds" }
     ]
   },
   {

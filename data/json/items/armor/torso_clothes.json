@@ -398,7 +398,6 @@
     "volume": "2250 ml",
     "price": "15 USD",
     "price_postapoc": "50 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -637,7 +636,6 @@
     "volume": "3500 ml",
     "price": "180 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -675,7 +673,7 @@
         "moves": 75
       }
     ],
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 0.8,
     "snippet_category": [
       { "id": "denim_shirt1", "text": "A long sleeved button-down blue shirt made from denim." },
@@ -722,7 +720,6 @@
     "volume": "18 L",
     "price": "590 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "dress",
@@ -736,32 +733,6 @@
     ]
   },
   {
-    "id": "flag_shirt",
-    "type": "ARMOR",
-    "name": { "str": "flag t-shirt" },
-    "description": "A t-shirt embroidered with an American flag pattern.",
-    "weight": "158 g",
-    "volume": "500 ml",
-    "price": "60 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "tshirt",
-    "color": "light_red",
-    "warmth": 10,
-    "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [
-      { "coverage": 90, "covers": [ "torso" ] },
-      {
-        "coverage": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
-      },
-      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
-    ]
-  },
-  {
     "id": "flotation_vest",
     "type": "ARMOR",
     "name": { "str": "flotation vest" },
@@ -770,7 +741,6 @@
     "volume": "9 L",
     "price": "110 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "plastic", "canvas" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -778,8 +748,7 @@
     "warmth": 3,
     "material_thickness": 4,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 2 }
+    "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "flotation_vest_ms",
@@ -790,7 +759,6 @@
     "volume": "9 L",
     "price": "110 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -798,8 +766,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 2 }
+    "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "gown",
@@ -828,7 +795,6 @@
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tank_top",
@@ -955,6 +921,7 @@
   {
     "id": "hoodie_cropped",
     "copy-from": "hoodie",
+    "delete": { "flags": [ "POCKETS" ] },
     "type": "ARMOR",
     "name": { "str": "cropped hoodie" },
     "description": "A sweatshirt with a hood, cropped to expose the stomach.",
@@ -962,6 +929,89 @@
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "hoodie_red",
+        "name": { "str": "red cropped hoodie" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_blue",
+        "name": { "str": "blue cropped hoodie" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_yellow",
+        "name": { "str": "yellow cropped hoodie" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_green",
+        "name": { "str": "green cropped hoodie" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_purple",
+        "name": { "str": "purple cropped hoodie" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_pink",
+        "name": { "str": "pink cropped hoodie" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_cyan",
+        "name": { "str": "cyan cropped hoodie" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_black",
+        "name": { "str": "black cropped hoodie" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_white",
+        "name": { "str": "white cropped hoodie" },
+        "color": "light_gray",
+        "description": "This one is colored white.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_brown",
+        "name": { "str": "brown cropped hoodie" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 1
+      }
     ]
   },
   {
@@ -1027,66 +1077,6 @@
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "linuxtshirt",
-    "type": "ARMOR",
-    "name": { "str": "Linux t-shirt" },
-    "description": "A t-shirt with a picture of the Tux mascot on it.  Underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
-    "weight": "110 g",
-    "volume": "500 ml",
-    "price": "20 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "tshirt",
-    "color": "dark_gray",
-    "warmth": 5,
-    "material_thickness": 0.1,
-    "snippet_category": [
-      {
-        "id": "tux",
-        "text": "A t-shirt with a picture of Tux, the Linux mascot!  It says \"You wouldn't buy a car with the hood welded shut.\""
-      },
-      {
-        "id": "ubuntusmartass",
-        "text": "A t-shirt with the Ubuntu logo on it, underneath it says \"Ubuntu is a South African word for 'I can't configure Debian'\""
-      },
-      {
-        "id": "arch",
-        "text": "A t-shirt with the Arch Linux logo on it, underneath it says \"Keep it Simple Stupid\""
-      },
-      {
-        "id": "ubuntu",
-        "text": "A t-shirt with the Ubuntu logo on it, underneath it says \"Linux for human beings\""
-      },
-      {
-        "id": "mint",
-        "text": "A t-shirt with the Linux Mint logo on it, underneath it says \"From freedom came elegance\""
-      },
-      {
-        "id": "fedora",
-        "text": "A t-shirt with the Fedora logo on it, underneath it says \"Freedom.  Friends.  Features.  First.\""
-      },
-      {
-        "id": "redhat",
-        "text": "A t-shirt with Red Hat's logo on it, underneath it says \"The World's Open Source Leader\""
-      },
-      {
-        "id": "debian",
-        "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
-      }
-    ],
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [
-      { "coverage": 90, "covers": [ "torso" ] },
-      {
-        "coverage": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
-      },
-      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
-    ]
   },
   {
     "id": "longshirt",
@@ -1392,7 +1382,6 @@
     "volume": "3500 ml",
     "price": "180 USD",
     "price_postapoc": "60 cent",
-    "to_hit": -5,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "dress",
@@ -1421,7 +1410,6 @@
     "volume": "3850 ml",
     "price": "250 USD",
     "price_postapoc": "90 cent",
-    "to_hit": -5,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "santa_dress",
@@ -1447,7 +1435,6 @@
     "volume": "2000 ml",
     "price": "160 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "sundress",
@@ -1633,7 +1620,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "dress",
@@ -1805,8 +1791,7 @@
         "name": { "str": "portal to the cat dimension t-shirt" },
         "description": "A black t-shirt with a picture of a woman standing in front of a yawning portal, with numerous cats exiting the portal and surrounding her.",
         "symbol": "c",
-        "color": "dark_gray",
-        "weight": 5
+        "color": "dark_gray"
       },
       {
         "id": "forbidden_futurama_tshirt",
@@ -1850,39 +1835,191 @@
         "description": "A short-sleeved cotton shirt with the logo of a local football team printed on its front and back."
       },
       {
+        "id": "allyourbase",
+        "name": { "str": "t-shirt" },
+        "description": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
+      },
+      {
+        "id": "fda_approved",
+        "name": { "str": "FDA-Approved t-shirt" },
+        "description": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
+      },
+      {
+        "id": "anxiety_superpower",
+        "name": { "str": "anxiety t-shirt" },
+        "description": "A t-shirt with the text 'Anxiety is my super power'."
+      },
+      {
+        "id": "visitryleh",
+        "name": { "str": "R'lyeh t-shirt" },
+        "description": "A t-shirt with the text 'Greetings from R'lyeh home of Cthulhu'."
+      },
+      {
+        "id": "robot_finds_kitten",
+        "name": { "str": "robotfindskitten t-shirt" },
+        "description": "A t-shirt with the text 'Play robotfindskitten today'."
+      },
+      {
+        "id": "survived_apocalypse",
+        "name": { "str": "apocalypse survivor t-shirt" },
+        "description": "A t-shirt with the text 'I survived the apocalypse and all I got was this lousy T-shirt?'"
+      },
+      {
+        "id": "zombiebelief",
+        "name": { "str": "zombie believer t-shirt" },
+        "description": "A t-shirt with the text 'Zombies don't care whether or not you believe.'"
+      },
+      {
+        "id": "cthulhuprez1",
+        "name": { "str": "Cthulhu for President t-shirt", "str_pl": "Cthulhu for President t-shirts" },
+        "description": "A t-shirt with the text 'Cthulhu for President: Why vote for the lesser evil'."
+      },
+      {
+        "id": "cthulhuprez2",
+        "name": { "str": "Cthulhu for President t-shirt", "str_pl": "Cthulhu for President t-shirts" },
+        "description": "A t-shirt with the text 'Cthulhu for President: This time the stars are right'."
+      },
+      {
+        "id": "flag_shirt",
+        "name": { "str": "flag t-shirt" },
+        "description": "A t-shirt embroidered with an American flag pattern.",
+        "symbol": "[",
+        "color": "light_red"
+      },
+      {
+        "id": "tux",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with a picture of Tux, the Linux mascot!  It says \"You wouldn't buy a car with the hood welded shut.\""
+      },
+      {
+        "id": "ubuntusmartass",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with the Ubuntu logo on it, underneath it says \"Ubuntu is a South African word for 'I can't configure Debian'\""
+      },
+      {
+        "id": "arch",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with the Arch Linux logo on it, underneath it says \"Keep it Simple Stupid\""
+      },
+      {
+        "id": "ubuntu",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with the Ubuntu logo on it, underneath it says \"Linux for human beings\""
+      },
+      {
+        "id": "mint",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with the Linux Mint logo on it, underneath it says \"From freedom came elegance\""
+      },
+      {
+        "id": "fedora",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with the Fedora logo on it, underneath it says \"Freedom.  Friends.  Features.  First.\""
+      },
+      {
+        "id": "redhat",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with Red Hat's logo on it, underneath it says \"The World's Open Source Leader\""
+      },
+      {
+        "id": "debian",
+        "name": { "str": "linux t-shirt" },
+        "description": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
+      },
+      {
+        "id": "death",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with a death metal band's spidery, indecipherable logo printed on the front."
+      },
+      {
+        "id": "power",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee."
+      },
+      {
+        "id": "thrash",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events."
+      },
+      {
+        "id": "prog",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+      },
+      {
+        "id": "mohawk",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with an image of a woman's face in portrait printed on the front.  She is wearing a large blue mohawk, her face is set in a snarl."
+      },
+      {
+        "id": "nuwave",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved black cotton shirt with a stylized representation of a radio wave printed on the front."
+      },
+      {
+        "id": "an_punk",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt, its front showing an image of an upside-down American flag covered in anarchist graffiti, its edges frayed and burned."
+      },
+      {
+        "id": "mil_punk",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
+      },
+      {
+        "id": "mc_chris",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved cotton shirt with an interstellar bounty hunter on the front.  'My backpack's got jets'."
+      },
+      {
+        "id": "cthulhupunk1",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved white cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'."
+      },
+      {
+        "id": "cthulhupunk2",
+        "name": { "str": "band t-shirt" },
+        "description": "A short-sleeved black cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and a snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
+      },
+      {
         "id": "red_tshirt",
         "name": { "str": "red t-shirt" },
         "description": "This one is colored red.",
         "color": "red",
-        "append": true
+        "append": true,
+        "weight": 24
       },
       {
         "id": "blue_tshirt",
         "name": { "str": "blue t-shirt" },
         "color": "blue",
         "description": "This one is colored blue.",
-        "append": true
+        "append": true,
+        "weight": 24
       },
       {
         "id": "yellow_tshirt",
         "name": { "str": "yellow t-shirt" },
         "color": "yellow",
         "description": "This one is colored yellow.",
-        "append": true
+        "append": true,
+        "weight": 24
       },
       {
         "id": "green_tshirt",
         "name": { "str": "green t-shirt" },
         "color": "green",
         "description": "This one is colored green.",
-        "append": true
+        "append": true,
+        "weight": 24
       },
       {
         "id": "purple_tshirt",
         "name": { "str": "purple t-shirt" },
         "color": "magenta",
         "description": "This one is colored purple.",
-        "append": true
+        "append": true,
+        "weight": 24
       },
       {
         "id": "pink_tshirt",
@@ -1943,114 +2080,86 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
       { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
-    ]
-  },
-  {
-    "id": "tshirt_text",
-    "type": "ARMOR",
-    "name": { "str": "t-shirt" },
-    "description": "A short-sleeved cotton shirt.",
-    "weight": "110 g",
-    "volume": "500 ml",
-    "price": "8 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "tshirt",
-    "color": "white",
-    "warmth": 5,
-    "material_thickness": 0.1,
-    "snippet_category": [
-      {
-        "id": "allyourbase",
-        "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
-      },
-      {
-        "id": "fda_approved",
-        "text": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
-      },
-      { "id": "anxiety_superpower", "text": "A t-shirt with the text 'Anxiety is my super power'." },
-      { "id": "visitryleh", "text": "A t-shirt with the text 'Greetings from R'lyeh home of Cthulhu'." },
-      { "id": "robot_finds_kitten", "text": "A t-shirt with the text 'Play robotfindskitten today'." },
-      {
-        "id": "survived_apocalypse",
-        "text": "A t-shirt with the text 'I survived the apocalypse and all I got was this lousy T-shirt?'"
-      },
-      { "id": "zombiebelief", "text": "A t-shirt with the text 'Zombies don't care whether or not you believe.'" },
-      {
-        "id": "cthulhuprez1",
-        "text": "A t-shirt with the text 'Cthulhu for President: Why vote for the lesser evil'."
-      },
-      {
-        "id": "cthulhuprez2",
-        "text": "A t-shirt with the text 'Cthulhu for President: This time the stars are right'."
-      }
     ],
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [
-      { "coverage": 90, "covers": [ "torso" ] },
+    "variant_type": "generic",
+    "variants": [
       {
-        "coverage": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
-      },
-      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
-    ]
-  },
-  {
-    "id": "tshirt_tour",
-    "type": "ARMOR",
-    "copy-from": "tshirt",
-    "name": { "str": "tour t-shirt" },
-    "description": "A short-sleeved cotton shirt.",
-    "price": "10 USD",
-    "price_postapoc": "50 cent",
-    "looks_like": "tshirt",
-    "color": "dark_gray",
-    "snippet_category": [
-      {
-        "id": "death",
-        "text": "A short-sleeved cotton shirt with a death metal band's spidery, indecipherable logo printed on the front."
+        "id": "generic_tshirt",
+        "name": { "str": "crop top" },
+        "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
+        "weight": 1
       },
       {
-        "id": "power",
-        "text": "A short-sleeved cotton shirt with a muscle-bound, long-haired man printed on the front.  He is riding a red dragon and wielding a flaming sword with malicious glee."
+        "id": "red_tshirt",
+        "name": { "str": "red crop top" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "thrash",
-        "text": "A short-sleeved cotton shirt with a gore-spattered, guitar-playing zombie printed on the front.  It's rather tasteless in light of current events."
+        "id": "blue_tshirt",
+        "name": { "str": "blue crop top" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "prog",
-        "text": "A short-sleeved cotton shirt with a pattern of complex geometric shapes and transcendental imagery printed on the front."
+        "id": "yellow_tshirt",
+        "name": { "str": "yellow crop top" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "mohawk",
-        "text": "A short-sleeved cotton shirt with an image of a woman's face in portrait printed on the front.  She is wearing a large blue mohawk, her face is set in a snarl."
+        "id": "green_tshirt",
+        "name": { "str": "green crop top" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "nuwave",
-        "text": "A short-sleeved black cotton shirt with a stylized representation of a radio wave printed on the front."
+        "id": "purple_tshirt",
+        "name": { "str": "purple crop top" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "an_punk",
-        "text": "A short-sleeved cotton shirt, its front showing an image of an upside-down American flag covered in anarchist graffiti, its edges frayed and burned."
+        "id": "pink_tshirt",
+        "name": { "str": "pink crop top" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "mil_punk",
-        "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
+        "id": "cyan_tshirt",
+        "name": { "str": "cyan crop top" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "mc_chris",
-        "text": "A short-sleeved cotton shirt with an interstellar bounty hunter on the front.  'My backpack's got jets'."
+        "id": "black_tshirt",
+        "name": { "str": "black crop top" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 1
       },
       {
-        "id": "cthulhupunk1",
-        "text": "A short-sleeved white cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'."
-      },
-      {
-        "id": "cthulhupunk2",
-        "text": "A short-sleeved black cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and a snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
+        "id": "brown_tshirt",
+        "name": { "str": "brown crop top" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 1
       }
     ]
   },
@@ -2108,7 +2217,6 @@
     "volume": "2500 ml",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest",
@@ -2403,5 +2511,25 @@
     "warmth": 25,
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
+    "id": "bunny_suit_playboy",
+    "type": "ARMOR",
+    "name": { "str": "bunny suit" },
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "weight": "136 g",
+    "volume": "750 ml",
+    "price": "50 USD",
+    "price_postapoc": "60 cent",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "wetsuit_spring",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 60 },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
 ]

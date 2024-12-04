@@ -36,6 +36,22 @@
     "components": [ [ [ "aluminum_foil", 37 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
   },
   {
+    "result": "mre_bag_dessert",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 111 ] ], [ [ "plastic_sheet_small", 4 ] ] ]
+  },
+  {
+    "result": "mre_bag_spread",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 37 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
     "result": "stirling_kit_box",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

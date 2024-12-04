@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "condition.h"
 #include "damage.h"
 #include "translation.h"
 #include "type_id.h"
@@ -33,9 +34,9 @@ struct weakpoint_attack {
     };
 
     // The source of the attack.
-    const Creature *source;
+    Creature *source;
     // The target of the attack.
-    const Creature *target;
+    Creature *target;
     // The weapon used to make the attack.
     const item *weapon;
     // The type of the attack.
@@ -58,6 +59,8 @@ struct weakpoint_attack {
 struct weakpoint_effect {
     // The type of the effect.
     efftype_id effect;
+    // Effect on condition, that would be run.
+    std::vector<effect_on_condition_id> effect_on_conditions;
     // The percent chance of causing the effect.
     float chance;
     // Whether the effect is permanent.
@@ -124,6 +127,8 @@ struct weakpoint {
     translation name;
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
+    // Separate wp that benefit attacker and hurt monster from wp that do not
+    bool is_good = true;
     // Multiplier for existing armor values. Defaults to 1.
     std::unordered_map<damage_type_id, float> armor_mult;
     // Flat penalty to armor values. Applied after the multiplier.
@@ -132,10 +137,9 @@ struct weakpoint {
     std::unordered_map<damage_type_id, float> damage_mult;
     // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::unordered_map<damage_type_id, float> crit_mult;
-    // A list of required effects.
-    std::vector<efftype_id> required_effects;
-    // A list of effects that will disable this weakpoint.
-    std::vector<efftype_id> disabled_by;
+    // Dialogue conditions of weakpoint
+    std::function<bool( const_dialogue const & )> condition;
+    bool has_condition = false;
     // A list of effects that may trigger by hitting this weak point.
     std::vector<weakpoint_effect> effects;
     // Constant coverage multipliers, depending on the attack type.

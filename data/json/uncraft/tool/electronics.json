@@ -14,5 +14,21 @@
       [ [ "plastic_chunk", 2 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
+  },
+  {
+    "result": "two_way_radio",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "amplifier", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "scrap_aluminum", 5 ] ],
+      [ [ "cable", 10 ] ]
+    ]
   }
 ]

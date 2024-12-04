@@ -53,6 +53,9 @@ class iuse_transform : public iuse_actor
         /** type of the resulting item */
         itype_id target;
 
+        /** or one of items from itemgroup */
+        item_group_id target_group;
+
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
 
@@ -1123,7 +1126,7 @@ class deploy_tent_actor : public iuse_actor
         std::optional<int> use( Character *, item &, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
-        bool check_intact( const tripoint &center ) const;
+        bool check_intact( const tripoint_bub_ms &center ) const;
 };
 
 /**
@@ -1174,6 +1177,10 @@ class effect_on_conditons_actor : public iuse_actor
         std::vector<effect_on_condition_id> eocs;
         translation description;
         translation menu_text;
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
         explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
                 type ) {}
 

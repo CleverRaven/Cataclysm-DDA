@@ -291,7 +291,7 @@
     "//1": "Average ichcahuipilli was around 1 inch (~2.5 cm) thick. As cotton padding constituted the majority of its protective qualities, I'll consider the quilted part 0.5 cm thick.",
     "//2": "This leaves us with 20 layers of cotton sheets, taking the thickness of a cotton sheet as 0.25 mm.",
     "//3": "Average length of a human male is around 170 cm. Average weight of a human (in North America) is 80 kg. BSA calculation and rule of the nines gives us about 0,68 m^2 or 7,3 sq feet.",
-    "//3.5": "I'll round that down to 7 for ease, as well as compensating for average woman being shorter and thinner and americans being exceptionally fat.",
+    "//3.5": "I'll round that down to 7 for ease, as well as compensating for average woman being shorter and thinner and Americans being exceptionally fat.",
     "//4": "Our cotton sheets are 1x2 feet. 20 layers x 7 sq ft / 2 sq ft of the sheets = 70 sheets. I know the outer layer of quilting would require more sheets because of the padding inbetween but I won't bother doing the maths for it",
     "//5": "Cotton padding inbetween would make 0.065 ft (2 cm of cotton) x 7 sq ft of torso = 0,455 cube ft which is about 12,88 liters of cotton. Once again this calculation is off but again, I can't do the maths.",
     "//5.5": "That's about… a lot of cotton, 1288 patches or 429 balls or 257 sheets to be precise. Byproducts I made up.",
@@ -439,7 +439,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 3 ] ],
-    "components": [ [ [ "wire", 1 ] ] ],
+    "components": [ [ [ "lc_wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -448,7 +448,7 @@
     "copy-from": "bra",
     "time": "3 h",
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 5 ] ],
-    "components": [ [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "xs_bra",
@@ -1625,7 +1625,7 @@
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
@@ -1742,7 +1742,7 @@
     "book_learn": [ [ "recipe_melee", 6 ] ],
     "using": [ [ "tailoring_nylon_patchwork", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
@@ -2026,7 +2026,7 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -2074,7 +2074,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "7 h 45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -2130,7 +2130,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "45 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
@@ -2217,7 +2217,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "45 m" },
     "using": [ [ "sewing_standard", 8 ], [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
@@ -2279,7 +2279,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h 30 m",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
@@ -2287,6 +2287,7 @@
     "copy-from": "maid_dress",
     "result": "maid_dress_xl",
     "type": "recipe",
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_cotton", 12 ] ]
   },
   {
@@ -2304,7 +2305,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "3 h",
-    "reversible": true,
+    "reversible": { "time": "7 m" },
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 6 ] ]
   },
@@ -2312,6 +2313,7 @@
     "copy-from": "maid_dress_short",
     "type": "recipe",
     "result": "maid_dress_short_xl",
+    "reversible": { "time": "10 m" },
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
   {
@@ -3230,7 +3232,7 @@
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -3247,7 +3249,7 @@
     "time": "12 d 23 h 52 m",
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_lc_chestplate",
@@ -3382,7 +3384,7 @@
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 20 ], [ "mc_steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -3399,7 +3401,7 @@
     "time": "14 d 7 h 4 m",
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_lc_heavy_chestplate",
@@ -3534,7 +3536,7 @@
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "fabric_leather_fur_hide", 1 ], [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -3551,7 +3553,7 @@
     "time": "15 d 14 h 15 m",
     "using": [ [ "fabric_leather_fur_hide", 2 ], [ "blacksmithing_standard", 28 ], [ "mc_steel_standard", 7 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "load_bearing_vest_sling",
@@ -3588,6 +3590,20 @@
     "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "water", -10 ] ] ],
     "components": [ [ [ "migo_plate_overgrown", 1 ] ] ]
+  },
+  {
+    "result": "migo_sideplate",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "book_learn": [ [ "recipe_migo_plate", 1 ] ],
+    "time": "10 m",
+    "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "tools": [ [ [ "water", -10 ] ] ],
+    "components": [ [ [ "migo_sideplate_overgrown", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3922,7 +3938,12 @@
       [ "strap_large", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -3946,7 +3967,12 @@
       [ "strap_large", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ]
   },
   {
     "result": "armor_qt_brigandine_xs",
@@ -3963,7 +3989,12 @@
       [ "strap_large", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ]
   },
   {
     "result": "armor_lc_coat_brigandine",
@@ -4227,7 +4258,12 @@
       [ "strap_large", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -4251,7 +4287,12 @@
       [ "strap_large", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ]
   },
   {
     "result": "armor_qt_coat_brigandine_xs",
@@ -4268,7 +4309,12 @@
       [ "strap_large", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ]
   },
   {
     "result": "armor_lc_brigandine_shoulders",
@@ -4755,7 +4801,12 @@
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "skill_penalty": 0.15 },
@@ -4774,7 +4825,12 @@
     "time": "20 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ]
   },
   {
     "result": "qt_shoulder_guards_xs",
@@ -4785,7 +4841,12 @@
     "time": "20 h",
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ]
   },
   {
     "result": "lc_mirror_armor",
@@ -4922,7 +4983,12 @@
     "book_learn": [ [ "textbook_weparabic", 7 ] ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "polisher", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "polisher", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "fur", 4 ], [ "leather", 4 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -4938,7 +5004,12 @@
     "copy-from": "qt_mirror_armor",
     "time": "11 h 12 m",
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "polisher", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
@@ -4949,7 +5020,12 @@
     "time": "12 h 5 m",
     "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "polisher", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
+    ],
     "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {

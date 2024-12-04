@@ -36,6 +36,7 @@
       { "group": "afs_tools_scavenging", "count": [ 6, 12 ] },
       { "group": "afs_tools_pocket", "count": [ 5, 10 ] },
       { "item": "afs_40g_plasma_civ", "count": [ 2, 5 ] },
+      { "item": "afs_heavy_suit_battery_cell", "count": [ 2, 5 ] },
       { "group": "afs_tools_welding_consumable", "count": [ 6, 8 ] },
       { "group": "afs_augustmoon_batteries_disposable", "count": [ 5, 10 ] },
       { "group": "afs_augustmoon_batteries_rechargeable", "count": [ 2, 3 ], "prob": 20 }
@@ -59,12 +60,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [
-      [ "heavy_disposable_cell", 1 ],
-      [ "medium_disposable_cell", 2 ],
-      [ "light_disposable_cell", 4 ],
-      [ "light_minus_disposable_cell", 1 ]
-    ]
+    "items": [ [ "light_battery_cell", 4 ], [ "light_minus_disposable_cell", 1 ] ]
   },
   {
     "id": "afs_augustmoon_batteries_rechargeable",

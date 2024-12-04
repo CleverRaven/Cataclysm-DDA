@@ -141,7 +141,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some aspirin.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
@@ -164,7 +164,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some ibuprofen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 216 ] ]
@@ -187,7 +187,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some naproxen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 18000 } ]
     },
     "vitamins": [ [ "vit_ibuprofen", 432 ] ]
@@ -210,7 +210,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some acetaminophen.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill1_acetaminophen", "duration": 9000 } ]
     }
   },
@@ -230,7 +230,7 @@
     "container": "bottle_plastic_pill_painkiller",
     "healthy": -1,
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take some metaprolol." },
+    "use_action": { "type": "consume_drug", "activation_message": "You take some %s." },
     "vitamins": [ [ "vit_betablocker", 864 ] ]
   },
   {
@@ -296,7 +296,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing tobacco" },
-    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite amongst baseball players, cowboys, and other macho types.",
+    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite among baseball players, cowboys, and other macho types.",
     "weight": "4 g",
     "volume": "4 ml",
     "price": "33 cent",
@@ -436,7 +436,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some codeine.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill2", "duration": 1080 }, { "id": "cough_suppress", "duration": 1000 } ]
     }
   },
@@ -514,7 +514,7 @@
           {
             "id": "EOC_myopia_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
             }
           }
@@ -541,7 +541,7 @@
           {
             "id": "EOC_myopia_transition_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
             }
           }
@@ -566,7 +566,7 @@
           {
             "id": "EOC_myopia_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
             }
           }
@@ -591,7 +591,7 @@
           {
             "id": "EOC_myopia_transition_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
             }
           }
@@ -615,7 +615,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_weekly",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
           }
         ]
       }
@@ -637,10 +637,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" } }
           }
         ]
       }
@@ -662,7 +659,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_daily",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
           }
         ]
       }
@@ -684,10 +681,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" } }
           }
         ]
       }
@@ -710,7 +704,7 @@
           {
             "id": "EOC_bifocal_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
             }
           }
@@ -735,7 +729,7 @@
           {
             "id": "EOC_bifocal_transition_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": {
                 "flag1": "MYOPIC",
                 "flag2": "MYOPIC_IN_LIGHT",
@@ -766,7 +760,7 @@
           {
             "id": "EOC_bifocal_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
             }
           }
@@ -791,7 +785,7 @@
           {
             "id": "EOC_bifocal_transition_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": {
                 "flag1": "MYOPIC",
                 "flag2": "MYOPIC_IN_LIGHT",
@@ -821,10 +815,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" } }
           }
         ]
       }
@@ -846,10 +837,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" } }
           }
         ]
       }
@@ -1107,6 +1095,26 @@
     "symbol": "!",
     "color": "light_blue",
     "use_action": [ "EYEDROPS" ],
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
+  },
+  {
+    "id": "steroid_eyedrops",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "steroid eyedrops" },
+    "description": "A topical corticosteroid in the form of eye drops.  Can be used to treat irritation and inflammation of the eyes.",
+    "volume": "1 ml",
+    "weight": "3 g",
+    "price": "7 USD 50 cent",
+    "price_postapoc": "65 cent",
+    "symbol": "!",
+    "color": "light_blue",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You put the anti-inflammatory eyedrops into your eyes.",
+      "effects": [ { "id": "steroid_eye", "duration": "3 h" } ],
+      "moves": 300
+    },
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
@@ -1448,7 +1456,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some oxycodone.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },
@@ -1505,7 +1513,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some poppy painkiller.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill2", "duration": 1080 } ]
     }
   },
@@ -1562,7 +1570,7 @@
     "weight": "40 g",
     "volume": "75 ml",
     "price": "10 USD",
-    "price_postapoc": "50 USD",
+    "price_postapoc": "25 USD",
     "symbol": "!",
     "color": "brown",
     "healthy": -1,
@@ -1750,7 +1758,7 @@
     "addiction_type": "opiate",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some tramadol.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "pkill_l", "duration": 27000 } ]
     }
   },
@@ -1764,7 +1772,7 @@
     "weight": "1 g",
     "volume": "5 ml",
     "price": "90 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "30 cent",
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
@@ -1773,7 +1781,10 @@
       "type": "consume_drug",
       "activation_message": "You take the %s.",
       "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
-    }
+    },
+    "//": "Yes, the vitamins are intentionally duplicated here. The consume/use/iteminfo UI needs them in use_action, but to actually pass on the vitamins they need to be in the comestible data, as below.",
+    "//2": "TODO: Fix this...",
+    "vitamins": [ [ "calcium", 36 ], [ "iron", 36 ], [ "vitC", 36 ] ]
   },
   {
     "id": "calcium_tablet",
@@ -1785,7 +1796,7 @@
     "weight": "1 g",
     "volume": "5 ml",
     "price": "20 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "9 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
@@ -1803,7 +1814,7 @@
     "volume": "12 ml",
     "price": "1 cent",
     "fun": -8,
-    "price_postapoc": "12 cent",
+    "price_postapoc": "2 cent",
     "healthy": -2,
     "symbol": "!",
     "color": "white",
@@ -1823,7 +1834,7 @@
     "volume": "11 ml",
     "price": "7 cent",
     "fun": -2,
-    "price_postapoc": "17 cent",
+    "price_postapoc": "3 cent",
     "healthy": -2,
     "symbol": "!",
     "color": "yellow",
@@ -1833,13 +1844,29 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
+    "id": "vitc_tablet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "vitamin C supplement" },
+    "description": "A small white tablet promising more vitamin C than a human can conceivably absorb.",
+    "material": [ "drug_filler" ],
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": "7 cent",
+    "price_postapoc": "15 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
+  },
+  {
     "id": "gummy_vitamins",
     "copy-from": "vitamins",
     "type": "COMESTIBLE",
     "name": { "str_sp": "gummy vitamin" },
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "material": [ "drug_filler" ],
-    "price_postapoc": "1 USD",
+    "price_postapoc": "40 cent",
     "fun": 4,
     "container": "null",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],

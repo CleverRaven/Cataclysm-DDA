@@ -60,8 +60,7 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
-                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) {
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
         }
 
     private:
@@ -139,6 +138,12 @@ void mission_ui_impl::draw_controls()
         selected_mission = 0;
         switch_tab = selected_tab;
         --switch_tab;
+    } else if( last_action == "PAGE_UP" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
+    } else if( last_action == "PAGE_DOWN" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        ImGui::SetScrollY( ImGui::GetScrollY() + ( window_height / 5.0f ) );
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -281,13 +286,11 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         }
         parse_tags( parsed_description, get_player_character(), get_player_character() );
     }
-    draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
+    cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
-        ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
         if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
-            // There's no point in displaying this for a completed/failed mission.
-            // @ TODO: But displaying when you completed it would be useful.
+            ImGui::TextWrapped( _( "Deadline: %s" ), to_string( deadline ).c_str() );
             const time_duration remaining = deadline - calendar::turn;
             std::string remaining_time;
             if( remaining <= 0_turns ) {
@@ -298,22 +301,41 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
                 remaining_time = to_string_approx( remaining );
             }
             ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
+        } else {
+            const time_duration time_in_past = calendar::turn - deadline;
+            std::string time_in_past_string;
+            if( get_player_character().has_watch() ) {
+                time_in_past_string = to_string( time_in_past );
+            } else {
+                time_in_past_string = to_string_approx( time_in_past );
+            }
+            if( deadline != calendar::turn_zero ) {
+                if( selected_tab == mission_ui_tab_enum::COMPLETED ) {
+                    cataimgui::draw_colored_text( string_format( _( "Completed: %s" ),
+                                                  to_string( deadline ) ), c_green );
+                } else if( selected_tab == mission_ui_tab_enum::FAILED ) {
+                    cataimgui::draw_colored_text( string_format( _( "Failed at: %s" ),
+                                                  to_string( deadline ).c_str() ), c_red );
+                }
+                cataimgui::draw_colored_text( string_format( _( "%s ago" ), time_in_past_string ), c_unset );
+            }
         }
     }
     if( miss->has_target() ) {
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
         const tripoint_abs_omt pos = get_player_character().global_omt_location();
-        draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ), c_white );
+        cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
+                                      c_white );
         // Below is done instead of a table for the benefit of right-to-left languages
         //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
-        draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
+        cataimgui::draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
         int omt_distance = rl_dist( pos, miss->get_target() );
         if( omt_distance > 0 ) {
             // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
             units::length actual_distance = omt_distance * 24_meter;
-            //~Paranthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
-            draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
-                                              omt_distance, length_to_string_approx( actual_distance ) ), c_white );
+            //~Parenthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
+            cataimgui::draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
+                                          omt_distance, length_to_string_approx( actual_distance ) ), c_white );
         }
     }
 }

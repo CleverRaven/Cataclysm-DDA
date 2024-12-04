@@ -4,7 +4,7 @@
     "id": "refugee_BorisBorichenko",
     "name_unique": "Boris Borichenko",
     "gender": "male",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Boris",
     "attitude": 0,
     "mission": 7,
@@ -86,7 +86,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1"
@@ -96,8 +96,8 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
-            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "2" ] }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } },
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1 == 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith2"
@@ -107,8 +107,8 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
-            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "3" ] }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } },
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1 == 3" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith3"
@@ -118,8 +118,8 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
-            { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "4" ] }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } },
+            { "math": [ "u_mission_cleanup_promises_Boris_mission_1 == 4" ] }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_MakeDoWith4"
@@ -127,30 +127,30 @@
       {
         "text": "Is there anything I can help you out with?",
         "topic": "TALK_REFUGEE_Boris_Work1",
-        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ] } }
       },
       {
         "text": "Got anything else I can help out with?",
         "topic": "TALK_MISSION_LIST",
         "condition": {
           "and": [
-            { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" },
-            { "not": { "u_has_var": "mission_completed_Boris_mission_3", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_3" } ] } }
           ]
         }
       },
       {
         "text": "So, have you had a chance to get that laptop working and look at it yet?",
         "topic": "TALK_REFUGEE_Boris_ReadLaptop1",
-        "condition": { "u_has_var": "mission_completed_Boris_mission_3", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_3" } ] }
       },
       {
         "text": "Now that you've got your tools and shop set up, do you think you could teach me a thing or two about construction?",
         "topic": "TALK_REFUGEE_Boris_Teach",
         "condition": {
           "and": [
-            { "u_has_var": "mission_completed_Boris_mission_2", "value": "yes" },
-            { "math": [ "time_since(n_timer_flag_Boris_teach)", ">", "time('1 d')" ] }
+            { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_2" } ] },
+            { "math": [ "time_since(n_timer_flag_Boris_teach) > time('1 d')" ] }
           ]
         }
       },
@@ -171,7 +171,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Boris.", "topic": "TALK_REFUGEE_Boris_1_firstmeet" },
-      { "text": "Hi Boris, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Boris, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -190,7 +190,7 @@
     "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
     "responses": [
       { "text": "Hi, Boris.  What's up?", "topic": "TALK_REFUGEE_Boris_2" },
-      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Boris.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -210,7 +210,7 @@
     "//": "Later meetings with Boris, after you've started doing quests for him",
     "responses": [
       { "text": "Good to see you, Boris.  Are things looking up for you at all?", "topic": "TALK_REFUGEE_Boris_3" },
-      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Boris.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -222,14 +222,14 @@
         "text": "I'm just a traveler, taking the chance to have some living human company.  What's up in your life these days?",
         "topic": "TALK_REFUGEE_Boris_2"
       },
-      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "I just wanted to say hi.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_2",
     "dynamic_line": "What is 'up'?  Less than I would like, it seems.  I am better when I am busy, and I am not at all busy.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -238,7 +238,7 @@
     "dynamic_line": "*forces a bit of a smile through his bushy beard, though it doesn't reach his eyes.  \"It is good to see you too.  I would not say things are looking 'up' yet, but they are not so much looking down perhaps.  I am keeping a bit busier.",
     "responses": [
       { "text": "Want to talk about it a little?", "topic": "TALK_REFUGEE_Boris_Son" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -250,25 +250,25 @@
       {
         "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
         "topic": "TALK_REFUGEE_Boris_Work1",
-        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ] } }
       },
       {
         "text": "Could you teach me something about carpentry?",
         "topic": "TALK_REFUGEE_Boris_NoTeach",
-        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_2", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_2" } ] } }
       },
       {
         "text": "Could you teach me something about carpentry?",
         "topic": "TALK_REFUGEE_Boris_Teach",
-        "condition": { "u_has_var": "mission_completed_Boris_mission_2", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_2" } ] }
       },
       {
         "text": "Now that things are cleaned up in the back, is there anything holding you back from working?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ] }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -277,8 +277,8 @@
     "dynamic_line": "No, not great.  Like all here, I have lost too much.  I do not feel I can ever come back from it.  Can anyone be strong enough?",
     "responses": [
       { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -286,8 +286,8 @@
     "id": "TALK_REFUGEE_Boris_Background_loss",
     "dynamic_line": "I would rather talk about what I have left: my husband, Stan, and his brother Garry, my best friend.  Without them, I'd be lost myself.  What we've lost is more than anyone should have to think about.",
     "responses": [
-      { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'm sorry.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm sorry.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'm sorry.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -300,8 +300,8 @@
         "text": "We've all lost a lot of people.  You can either let yourself die, or learn to survive.",
         "topic": "TALK_REFUGEE_Boris_Son_Tough"
       },
-      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
-      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm so sorry, man.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -314,8 +314,8 @@
         "text": "We've all lost a lot of people.  You can either let yourself die, or learn to survive.",
         "topic": "TALK_REFUGEE_Boris_Son_Tough"
       },
-      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
-      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm so sorry, man.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -330,27 +330,26 @@
     "dynamic_line": "No.  In the evacuation shelter, distracted by grief, I forgot it.  We were rushed onto the bus so quickly, and… well, I don't remember much of that time.  His work was all saved on the hard drive, we thought we could download it from the cloud when we arrived but, well, there is no cloud now.  Even if there were, it would only have his writing, not his little games, his silly voice recordings.",
     "//": "TK add a quest.",
     "responses": [
-      { "text": "I'm so sorry, man.  Let's talk about something else.", "topic": "TALK_NONE" },
-      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm so sorry, man.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'm sorry for your loss.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Work1",
     "dynamic_line": {
-      "u_has_var": "mission_flag_FMShopkeep_Mission1",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ],
       "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw… if… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
       "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
     },
     "responses": [
       {
         "text": "What do you need to get things cleaned up?  Can I help?",
-        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] },
         "topic": "TALK_REFUGEE_Boris_Work2"
       },
-      { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm sorry.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -359,7 +358,7 @@
     "dynamic_line": "We could put together a little clean up group, but everyone here has terrible memories of that place.  I could not ask anyone here to go back and see the leftovers of people we knew.  Still, it's a big job.  Who here might be able to do it?",
     "responses": [
       { "text": "I'm sure there's someone.  Would you like me to ask around?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -369,16 +368,16 @@
     "responses": [
       {
         "text": "Is there anything I can do to help?",
-        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ] } },
         "topic": "TALK_REFUGEE_Boris_Work1"
       },
       {
         "text": "Is there anything more I can do to help?",
-        "condition": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -388,11 +387,11 @@
       "gendered_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
       "relevant_genders": [ "u" ]
     },
-    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach", "=", "time('now')" ] } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach = time('now')" ] } },
     "responses": [
       { "text": "Great!  Let's get started.", "topic": "TALK_TRAIN" },
-      { "text": "Actually, what were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Let's do this later.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -402,23 +401,21 @@
       "concatenate": [
         "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
         {
-          "u_has_var": "mission_completed_Boris_mission_1",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
           "yes": ", but it is a bit better since we cleaned up our dead",
           "no": ", woken by zombies in the night"
         },
         ".  To me, though, that is all just a drop in the bucket",
         {
-          "u_has_var": "mission_completed_Boris_mission_3",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_3" } ],
           "yes": ".  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
           "no": ".  I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
         }
       ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -435,8 +432,8 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_ReadLaptop2",
     "dynamic_line": [
-      "&Boris boots up the laptop and opens a folder labelled 'ART'.  He shows you simple digital paintings, clearly done by an adolescent.  There's nothing terribly remarkable about them except the number: Ash was a prolific creator.  Boris goes through several, proudly showing how his son learned little lighting tricks, or reminiscing on the time his son showed him the art.  After a while, he stops commenting and just continues quietly clicking through photos.  He seems different in the glow of the screen, like several years dropped away from his face, despite the deep sadness still etched there.",
-      "&Boris boots up the laptop and opens a folder labelled 'STORY 1'.  In it are numerous text files containing smatterings of stream-of-conscious notes, copy-and-pasted bits of fanfictions, notes about how to write a novel, and more.  The story itself is a handful of poorly fleshed out chapters written with the quality level you'd expect from a grade schooler.  Nonetheless it's quite impressive that there's this much stuff on a single topic.  Boris talks for a while about dinner conversations for weeks that would focus on Ash's ideas for his stories.  After a while, he trails off and just continues flipping through the files, reading silently.",
+      "&Boris boots up the laptop and opens a folder labeled 'ART'.  He shows you simple digital paintings, clearly done by an adolescent.  There's nothing terribly remarkable about them except the number: Ash was a prolific creator.  Boris goes through several, proudly showing how his son learned little lighting tricks, or reminiscing on the time his son showed him the art.  After a while, he stops commenting and just continues quietly clicking through photos.  He seems different in the glow of the screen, like several years dropped away from his face, despite the deep sadness still etched there.",
+      "&Boris boots up the laptop and opens a folder labeled 'STORY 1'.  In it are numerous text files containing smatterings of stream-of-conscious notes, copy-and-pasted bits of fanfictions, notes about how to write a novel, and more.  The story itself is a handful of poorly fleshed out chapters written with the quality level you'd expect from a grade schooler.  Nonetheless it's quite impressive that there's this much stuff on a single topic.  Boris talks for a while about dinner conversations for weeks that would focus on Ash's ideas for his stories.  After a while, he trails off and just continues flipping through the files, reading silently.",
       "&Boris boots up the laptop and opens the videos folder.  He shows you several self-made videos that follow a loose blog style, of an awkward young man talking about his favorite games, interspersed with comments about art and writing.  Boris comments on little events and laughs a few times, before becoming engrossed in his reminiscence."
     ],
     "//": "I would like a specialized effect here that reduces the 'guilty about killing' morale penalty while also adding a small morale penalty of its own.",
@@ -512,9 +509,10 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "math": [ "u_mission_cleanup_promises_Boris_mission_1", ">=", "5" ] },
+    "goal_condition": { "math": [ "u_mission_cleanup_promises_Boris_mission_1 >= 5" ] },
     "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Find a few people able to help clean the back, people without too much trauma there.",
       "offer": "Yes, please.  If you can ask around for someone who can help, I can gather the tools they will need and some payment for them.",
@@ -547,6 +545,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "circsaw_off",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_REFUGEE_Boris_LAPTOP",
     "dialogue": {
       "describe": "Find a circular saw for Boris.",
@@ -578,6 +577,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "laptop_boris",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "start": {
       "assign_mission_target": {
         "om_terrain": "shelter_2_vandal",

@@ -2,8 +2,8 @@
   {
     "id": "vampire_suck",
     "type": "SPELL",
-    "name": { "str": "Sucking bite" },
-    "description": "Sucks blood from one foe.",
+    "name": { "str": "Sucking bite", "//~": "NO_I18N" },
+    "description": { "str": "Sucks blood from one foe.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
@@ -27,7 +27,7 @@
     "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
     "hitsize_min": 4,
     "hit_dmg_u": "%1$s bites and injects poison into your %2$s!",
-    "hit_dmg_npc": "%1$s bites and injects poison into your <npcname>!",
+    "hit_dmg_npc": "%1$s bites and injects poison into <npcname>!",
     "miss_msg_u": "%1$s tries to bite your %2$s, but you dodge!",
     "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s tries to bite your %2$s, but fails to penetrate your armor.",
@@ -39,8 +39,8 @@
   {
     "id": "xe_light_healing",
     "type": "SPELL",
-    "name": "Cure Light Wounds",
-    "description": "Heals a little bit of damage on the target.",
+    "name": { "str": "Cure Light Wounds", "//~": "NO_I18N" },
+    "description": { "str": "Heals a little bit of damage on the target.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": -5,
     "max_damage": -20,
@@ -90,5 +90,19 @@
     "miss_msg_u": "%1$s tries to curse your %2$s but you dodge!",
     "miss_msg_npc": "%s tries to curse and knock down <npcname>, but they dodge!",
     "effects": [ { "id": "downed", "duration": 3 }, { "id": "stunned", "duration": 100 } ]
+  },
+  {
+    "id": "death_ratking",
+    "type": "SPELL",
+    "name": { "str": "Rat King Death", "//~": "NO_I18N" },
+    "description": { "str": "Rat king dies.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally" ],
+    "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "remove_effect",
+    "effect_str": "rat",
+    "min_range": 48,
+    "max_range": 48,
+    "extra_effects": [ { "id": "ratking_summon_rats", "hit_self": true } ]
   }
 ]

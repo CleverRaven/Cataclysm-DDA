@@ -1,18 +1,16 @@
 [
   {
     "abstract": "base_toiletries",
-    "name": { "str_sp": "generic grooming" },
+    "name": { "str_sp": "generic grooming", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": "+",
     "color": "blue",
     "price": "2 USD",
     "price_postapoc": "0 cent",
     "weight": "100 g",
     "volume": "100 ml",
-    "material": [ "plastic" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 1 }
+    "material": [ "plastic" ]
   },
   {
     "id": "soap_holder",
@@ -177,7 +175,6 @@
     "volume": "400 ml",
     "longest_side": "24 cm",
     "price": "6 USD",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "hbrush1", "text": "An instrument of hair torture.  There are round safety tips on the bristles." },
       { "id": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
@@ -240,8 +237,8 @@
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
     "material": [ "wood", "rubber" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 5 }
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "plunger_futuristic",
@@ -254,9 +251,7 @@
     "price_postapoc": "10 cent",
     "weight": "680 g",
     "volume": "2400 ml",
-    "material": [ "plastic" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 2 }
+    "material": [ "plastic" ]
   },
   {
     "id": "toilet_paper",
@@ -305,8 +300,8 @@
     "charges_per_use": 35,
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 3 }
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "curling_iron",
@@ -320,7 +315,7 @@
     "volume": "250 ml",
     "weight": "590 g",
     "material": [ "ceramic", "steel" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -334,9 +329,7 @@
     "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "160 g",
-    "material": [ "steel", "plastic" ],
-    "to_hit": 1,
-    "melee_damage": { "bash": 3 }
+    "material": [ "steel", "plastic" ]
   },
   {
     "id": "comb_lice",

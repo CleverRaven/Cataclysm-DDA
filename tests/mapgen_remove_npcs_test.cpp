@@ -69,20 +69,21 @@ TEST_CASE( "mapgen_remove_npcs" )
         set_time( calendar::turn_zero + 12_hours );
 
         tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().get_location() );
-        tripoint_abs_omt const omt2 = omt + tripoint_east;
-        tripoint const loc = here.getlocal( project_to<coords::ms>( omt ) );
-        tripoint const loc2 = here.getlocal( project_to<coords::ms>( omt2 ) );
-        tripoint const loc3 = loc2 + tripoint_east;
+        tripoint_abs_omt const omt2 = omt + tripoint::east;
+        tripoint_bub_ms const loc = here.bub_from_abs( project_to<coords::ms>( omt ) );
+        tripoint_bub_ms const loc2 = here.bub_from_abs( project_to<coords::ms>( omt2 ) );
+        tripoint_bub_ms const loc3 = loc2 + tripoint::east;
         REQUIRE( get_map().inbounds( loc ) );
-        place_npc_and_check( here, loc, update_mapgen_test_update_place_npc, npc_template_test_npc_trader );
+        place_npc_and_check( here, loc.raw(), update_mapgen_test_update_place_npc,
+                             npc_template_test_npc_trader );
         REQUIRE( overmap_buffer.get_npcs_near_omt( omt, 0 ).size() == 1 );
-        place_npc_and_check( here, loc2, update_mapgen_test_update_place_npc,
+        place_npc_and_check( here, loc2.raw(), update_mapgen_test_update_place_npc,
                              npc_template_test_npc_trader );
         REQUIRE( overmap_buffer.get_npcs_near_omt( omt2, 0 ).size() == 1 );
         REQUIRE( get_avatar().sees( loc, true ) );
 
         WHEN( "removing NPC" ) {
-            remove_npc_and_check( here, loc, update_mapgen_test_update_remove_npc,
+            remove_npc_and_check( here, loc.raw(), update_mapgen_test_update_remove_npc,
                                   npc_template_test_npc_trader );
             THEN( "NPC of same class on different submap not affected" ) {
                 REQUIRE( overmap_buffer.get_npcs_near_omt( omt, 0 ).empty() );
@@ -90,12 +91,13 @@ TEST_CASE( "mapgen_remove_npcs" )
             }
 
             THEN( "NPC of different class on same submap not affected" ) {
-                place_npc_and_check( here, loc3, update_mapgen_test_update_place_npc_thug, npc_template_thug );
+                place_npc_and_check( here, loc3.raw(), update_mapgen_test_update_place_npc_thug,
+                                     npc_template_thug );
                 REQUIRE( overmap_buffer.get_npcs_near_omt( omt2, 0 ).size() == 2 );
-                remove_npc_and_check( here, loc2, update_mapgen_test_update_remove_npc,
+                remove_npc_and_check( here, loc2.raw(), update_mapgen_test_update_remove_npc,
                                       npc_template_test_npc_trader );
                 REQUIRE( overmap_buffer.get_npcs_near_omt( omt2, 0 ).size() == 1 );
-                check_creature( loc3, npc_template_thug, true );
+                check_creature( loc3.raw(), npc_template_thug, true );
             }
         }
     }

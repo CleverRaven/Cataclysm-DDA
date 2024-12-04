@@ -773,7 +773,7 @@
         "id": "toy_figure_caiman",
         "name": { "str": "lizardman figurine" },
         "description": "An expensive figurine of a buff man in streetwear with a lizard head, holding a pair of knives in his hands.",
-        "//": "yes this is a dorohedoro reference"
+        "//": "yes this is a Dorohedoro reference"
       },
       {
         "id": "toy_figure_anime",
@@ -783,7 +783,7 @@
       {
         "id": "toy_figure_heavyweapons",
         "name": { "str": "video game figurine" },
-        "description": "A large figurine of a videogame character, holding a massive gatling gun in his giant arms."
+        "description": "A large figurine of a video game character, holding a massive Gatling gun in his giant arms."
       },
       {
         "id": "toy_figurine_smoker",
@@ -911,7 +911,7 @@
       "description": "Hug the imperfect doll.",
       "effect_on_conditions": [ "EOC_queue_unvitrified_return" ]
     },
-    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "TRADER_AVOID" ]
+    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "id": "imperfect_doll_legs",
@@ -924,7 +924,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
   },
   {
     "id": "imperfect_doll_arms",
@@ -937,7 +937,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "cyan",
-    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
   },
   {
     "id": "imperfect_doll_features",
@@ -950,6 +950,6 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
   }
 ]

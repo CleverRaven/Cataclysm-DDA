@@ -4,7 +4,6 @@
     "//": "expected value 24, does not include shortswords",
     "//2": "arming_sword: heavier than a broadsword",
     "expected_dps": {
-      "blade_scythe": 5.25,
       "jian_fake": 8.792,
       "rapier_fake": 9.034,
       "broadsword_fake": 9.828,

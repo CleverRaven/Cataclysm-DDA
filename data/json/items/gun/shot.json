@@ -33,8 +33,8 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "12-gauge gatling gun" },
-    "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
+    "name": { "str": "12-gauge Gatling gun" },
+    "description": "An electrically driven six barrel Gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
     "weight": "4980 g",
     "volume": "4500 ml",
     "longest_side": "110 cm",
@@ -528,7 +528,7 @@
     "id": "shotgun_triple",
     "copy-from": "shotgun_s",
     "type": "GUN",
-    "name": { "str": "triple-barrelled shotgun" },
+    "name": { "str": "triple-barreled shotgun" },
     "description": "A pretty modern-looking shotgun that has three barrels.",
     "variant_type": "gun",
     "variants": [
@@ -640,14 +640,14 @@
     "id": "dp_12",
     "copy-from": "shotgun_pump",
     "type": "GUN",
-    "name": { "str": "double-barrelled pump shotgun" },
+    "name": { "str": "double-barreled pump shotgun" },
     "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "dp_12",
         "name": { "str": "DP-12" },
-        "description": "A bullpup, 12-gauge, pump-action, double-barrelled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
+        "description": "A bullpup, 12-gauge, pump-action, double-barreled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
       }
     ],
     "weight": "4989 g",
@@ -774,7 +774,7 @@
       {
         "id": "m2",
         "name": { "str": "Benelli M2 shotgun" },
-        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilizing the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-cataclysm survivor."
+        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilizing the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-Cataclysm survivor."
       },
       {
         "id": "sbe",
@@ -811,7 +811,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NO_TURRET" ],
+    "flags": [ "NO_TURRET", "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -820,13 +820,13 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "6-round tactical shotgun" },
-    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
+    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the Cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "m2_tac",
         "name": { "str": "Benelli M2 Tactical shotgun" },
-        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-cataclysm farming duties: seeding lead shot into fields of zombies."
+        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-Cataclysm farming duties: seeding lead shot into fields of zombies."
       },
       {
         "id": "mossberg_500_security",
@@ -902,7 +902,7 @@
         "id": "tar_12p",
         "name": { "str": "Tokarev TAR 12P" },
         "weight": 327,
-        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilise MKA 1919 magazines of different sizes."
+        "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
@@ -914,7 +914,7 @@
         "id": "boss25",
         "name": { "str": "BOSS 25" },
         "weight": 299,
-        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilise MKA 1919 magazines of different sizes."
+        "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12s",

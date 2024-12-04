@@ -92,43 +92,41 @@
     },
     "effect": [
       {
-        "u_run_inv_eocs": "random",
-        "search_data": [ { "wielded_only": true } ],
-        "true_eocs": [
-          {
-            "id": "injured_talk",
-            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
-            "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_damaged>\"" },
-            "false_effect": {
-              "run_eocs": {
-                "id": "you_injured_talk",
-                "//": "Weapon will be concerned for you if you're significantly injured.",
-                "condition": { "math": [ "(u_hp('ALL') * 1.4)", "<", "u_hp_max('bp_null')" ] },
-                "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
-                "false_effect": {
-                  "run_eocs": {
-                    "id": "monsters_nearby_talk",
-                    "condition": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
-                    "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
-                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" } } }
-                  }
-                }
-              }
-            }
-          }
-        ]
+        "if": "u_has_weapon",
+        "then": { "u_run_inv_eocs": "all", "search_data": [ { "wielded_only": true } ], "true_eocs": [ "item_talks_to_you" ] },
+        "else": { "run_eocs": "minor_hallucinations" }
       },
       {
         "run_eocs": {
           "id": "determine_if_coversation",
           "//": "85% chance for your weapon to make a conversation.  If not, try again some time later.",
           "condition": { "x_in_y_chance": { "x": 85, "y": 100 } },
-          "effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "10 seconds", "15 seconds" ] },
-          "false_effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "4 hours", "6 hours" ] }
+          "effect": { "run_eocs": "weapon_talk_hallucination", "time_in_future": [ "10 seconds", "15 seconds" ] },
+          "false_effect": { "run_eocs": "weapon_talk_hallucination", "time_in_future": [ "4 hours", "6 hours" ] }
         }
       }
     ],
     "false_effect": { "run_eocs": "minor_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "item_talks_to_you",
+    "effect": [
+      {
+        "if": { "math": [ "n_hp('ALL') < n_hp_max('bp_null')" ] },
+        "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_damaged>\"" },
+        "else": {
+          "if": { "math": [ "(u_hp('ALL') * 1.4) < u_hp_max('bp_null')" ] },
+          "//": "Weapon will be concerned for you if you're significantly injured.",
+          "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
+          "else": {
+            "if": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10) >= 1" ] } ] },
+            "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
+            "else": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" }
+          }
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -177,7 +175,7 @@
     "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
     "//": "If monsters are nearby, 3/4 chance to spawn some hallucinations of random monsters nearby and run again half the time, 1/4 chance to spawn some of YOUR_FEARS. If not, spawns some of YOUR_FEARS",
     "//2": "avatar check to prevent NPCs from spawning hallucinations, that player can see",
-    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] }, "u_is_avatar" ] },
+    "condition": { "and": [ { "math": [ "rand(3) < 3" ] }, { "math": [ "u_monsters_nearby() > 0" ] }, "u_is_avatar" ] },
     "effect": [
       {
         "u_spawn_monster": "",
@@ -213,7 +211,7 @@
   {
     "type": "effect_on_condition",
     "id": "hallucination_swarm",
-    "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby() > 1" ] },
     "effect": [
       {
         "u_spawn_monster": "",

@@ -73,7 +73,7 @@ Things to note:
 ```
 
 - due to not supporting component lists, and not remembering what items were used to craft the item that is being disassembled, uncraft recipes can be used to transmute resources by the players **if not used alongside reversible crafting recipes - more info on that in [Reversible crafting recipes](#reversible-crafting-recipes)**
-- it is technically possible to define proficencies for uncraft recipes, but they currently have no effect
+- it is technically possible to define proficiencies for uncraft recipes, but they currently have no effect
 - similarly, it is possible to define a ``skills_required`` field for uncraft recipes, but it has no effect either
 
 ## Reversible crafting recipes
@@ -84,7 +84,7 @@ Reversible crafting recipes also have their time, skills used, difficulty, and t
 
 Things to note:
 - **Reversible crafting recipes cannot have byproducts!** Trying to make a recipe with byproducts reversible will not work.
-- On the other hand, it is possible to make recipes using ``result_mult`` reversible, but this will inadvertantly cause infinite resource generation, as full recipe ingredients will be obtained from disassembling a single result item
+- On the other hand, it is possible to make recipes using ``result_mult`` reversible, but this will inadvertently cause infinite resource generation, as full recipe ingredients will be obtained from disassembling a single result item
 - All items used to craft the item will be obtained through the disassembly, with the exception of items with the ``UNRECOVERABLE`` flag
 - While unlike with uncraft recipes it is impossible to transmute materials through those, it is very easy to make nonsensical disassemblies through this method when it comes to required tools. Consider using the two methods alongside one another.
 - Making a recipe that crafts a specific item variant reversible will result in all variants of this item using the same disassembly
@@ -115,7 +115,7 @@ You should use reversible crafting recipes if:
 - The recipe for this item does not produce byproducts
 - **The tools needed for the craft make sense to be required for its disassembly as well.** This disqualifies most of blacksmithing and metalworking as a whole, because needing a crucible to take apart tongs is ridiculous
 
-If the following three are **NOT** true, you likely want a manually defined uncraft recipe, as you can ommit skills and define tools required as you please.
+If the following three are **NOT** true, you likely want a manually defined uncraft recipe, as you can omit skills and define tools required as you please.
 
 # Closing words (Or what you should remember when working with item disassembly in general)
 1. Conservation of mass is pretty damn important. You won't always be able to make sure there is no mass loss or generation - it is just not possible in more complex crafts due to our generic nature of resource items - but you should still try to minimize the amount of mass lost or generated whenever you're working on a recipe. After getting your recipe done, calculate the mass of the ingredients and compare it to the mass of the item to make sure you're not violating physics.

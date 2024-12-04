@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_games" ],
     "object": {
-      "fill_ter": "t_carpet_purple",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
       "rows": [
         "......fg____g____g____gf",
         "......fg____g____g____gf",
@@ -25,16 +25,15 @@
         ".#hhhhh|   Y||c|oo||||#.",
         ".##o#o###|c||D     |;r#.",
         ".,,,,,,9#;;;|  ll  c;q#.",
-        ".,,,,,,,c;;;| lkkl |###.",
+        ".,,,,,,,c;;;| lkkl |||#.",
         ".nn,,,,,#;;m| lkkl c;q#.",
         ".nn,,,,,#mmm|F ll  |;r#.",
         ".nn,,,,,######oooo#####.",
         "........................"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_palette", "parametrized_walls_palette" ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "terrain": {
-        "|": "t_wall_w",
-        "#": "t_brick_wall",
         "o": "t_window",
         "c": "t_door_c",
         "_": "t_pavement",
@@ -43,10 +42,10 @@
         "g": "t_pavement_y",
         "n": "t_concrete",
         ",": "t_concrete",
-        ";": "t_linoleum_gray",
-        "q": "t_linoleum_gray",
-        "r": "t_linoleum_gray",
-        "m": "t_linoleum_gray",
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "r": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "m": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "9": "t_gutter_downspout"
       },
       "furniture": {

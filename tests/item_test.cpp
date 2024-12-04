@@ -323,8 +323,8 @@ TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
     CHECK( i.get_var( "A", 0 ) == 17 );
     i.set_var( "B", 0.125 );
     CHECK( i.get_var( "B", 0.0 ) == 0.125 );
-    i.set_var( "C", tripoint( 2, 3, 4 ) );
-    CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
+    i.set_var( "C", tripoint_abs_omt( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint_abs_omt::zero ) == tripoint_abs_omt( 2, 3, 4 ) );
 }
 
 TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )
@@ -859,11 +859,11 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
 
     clear_avatar();
-    item miner_hat( "miner_hat" );
+    item hat_hard( "hat_hard" );
     item ear_muffs( "attachable_ear_muffs" );
-    REQUIRE( miner_hat.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
-    REQUIRE( !miner_hat.has_flag( json_flag_DEAF ) );
-    guy.wear_item( miner_hat );
+    REQUIRE( hat_hard.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
+    REQUIRE( !hat_hard.has_flag( json_flag_DEAF ) );
+    guy.wear_item( hat_hard );
     item_location worn_hat = guy.worn.top_items_loc( guy ).front();
     item_location worn_muffs( worn_hat, &worn_hat->only_item() );
     avatar_action::use_item( guy, worn_muffs, "transform" );

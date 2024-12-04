@@ -17,12 +17,14 @@
 #include <vector>
 
 #include "cached_options.h" // IWYU pragma: keep
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
 #include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "item.h"
@@ -123,10 +125,7 @@ std::string string_from_int( const catacurses::chtype ch )
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
     std::vector<std::string> lines;
-    if( width < 1 ) {
-        lines.push_back( str );
-        return lines;
-    }
+    bool should_wrap = width >= 1;
     std::stringstream sstr( str );
     std::string strline;
     std::vector<std::string> tags;
@@ -136,7 +135,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
             // if the line is empty.
             lines.emplace_back();
         } else {
-            std::string wrapped = word_rewrap( strline, width, split );
+            std::string wrapped = should_wrap ? word_rewrap( strline, width, split ) : strline;
             std::stringstream swrapped( wrapped );
             std::string wline;
             while( std::getline( swrapped, wline, '\n' ) ) {
@@ -419,9 +418,11 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
                     nc_color color = color_stack.empty() ? base_color : color_stack.top();
                     wprintz( w, color, l );
                 } else {
+                    wattron( w, c_dark_gray );
                     for( int i = 0; i < width; i++ ) {
-                        wputch( w, c_dark_gray, LINE_OXOX );
+                        waddch( w, LINE_OXOX ); // can't use mvwhline without cursor position
                     }
+                    wattroff( w, c_dark_gray );
                 }
             }
         }
@@ -580,58 +581,92 @@ int right_print( const catacurses::window &w, const int line, const int right_in
     return x;
 }
 
-void wputch( const catacurses::window &w, nc_color FG, int ch )
+void wputch( const catacurses::window &w, const nc_color &FG, int ch )
 {
     wattron( w, FG );
     waddch( w, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch )
+void mvwputch( const catacurses::window &w, const point &p, const nc_color &FG, int ch )
 {
     wattron( w, FG );
     mvwaddch( w, p, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch )
+void mvwputch( const catacurses::window &w, const point &p, const nc_color &FG,
+               const std::string &ch )
 {
     wattron( w, FG );
     mvwprintw( w, p, ch );
     wattroff( w, FG );
 }
 
-void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch )
+void mvwputch_inv( const catacurses::window &w, const point &p, const nc_color &FG, int ch )
 {
-    nc_color HC = invert_color( FG );
+    const nc_color HC = invert_color( FG );
     wattron( w, HC );
     mvwaddch( w, p, ch );
     wattroff( w, HC );
 }
 
-void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG,
+void mvwputch_inv( const catacurses::window &w, const point &p, const nc_color &FG,
                    const std::string &ch )
 {
-    nc_color HC = invert_color( FG );
+    const nc_color HC = invert_color( FG );
     wattron( w, HC );
     mvwprintw( w, p, ch );
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, int ch )
+void mvwputch_hi( const catacurses::window &w, const point &p, const nc_color &FG, int ch )
 {
-    nc_color HC = hilite( FG );
+    const nc_color HC = hilite( FG );
     wattron( w, HC );
     mvwaddch( w, p, ch );
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch )
+void mvwputch_hi( const catacurses::window &w, const point &p, const nc_color &FG,
+                  const std::string &ch )
 {
-    nc_color HC = hilite( FG );
+    const nc_color HC = hilite( FG );
     wattron( w, HC );
     mvwprintw( w, p, ch );
     wattroff( w, HC );
+}
+
+void mvwhline( const catacurses::window &win, const point &p, const nc_color &color, int ch, int n )
+{
+    wattron( win, color );
+    mvwhline( win, p, ch, n );
+    wattroff( win, color );
+}
+
+void mvwvline( const catacurses::window &win, const point &p, const nc_color &color, int ch, int n )
+{
+    wattron( win, color );
+    mvwvline( win, p, ch, n );
+    wattroff( win, color );
+}
+
+void mvwrectf( const catacurses::window &win, const point &p, int ch, int w, int h )
+{
+    ch = ch ? ch : ' ';
+    for( int y = 0; y < h; y++ ) {
+        for( int x = 0; x < w; x++ ) {
+            mvwaddch( win, p + point( x, y ), ch );
+        }
+    }
+}
+
+void mvwrectf( const catacurses::window &win, const point &p, const nc_color &color, int ch,
+               int w, int h )
+{
+    wattron( win, color );
+    mvwrectf( win, p, ch, w, h );
+    wattroff( win, color );
 }
 
 void draw_custom_border(
@@ -640,48 +675,43 @@ void draw_custom_border(
     const catacurses::chtype tr, const catacurses::chtype bl, const catacurses::chtype br,
     const nc_color &FG, const point &pos, int height, int width )
 {
-    wattron( w, FG );
-
     height = ( height == 0 ) ? getmaxy( w ) - pos.y : height;
     width = ( width == 0 ) ? getmaxx( w ) - pos.x : width;
 
-    for( int j = pos.y; j < height + pos.y - 1; j++ ) {
-        if( ls > 0 ) {
-            mvwputch( w, point( pos.x, j ), c_light_gray, ( ls > 1 ) ? ls : LINE_XOXO ); // |
-        }
-
-        if( rs > 0 ) {
-            mvwputch( w, point( pos.x + width - 1, j ), c_light_gray, ( rs > 1 ) ? rs : LINE_XOXO ); // |
-        }
+    wattron( w, FG );
+    wattron( w, c_light_gray );
+    if( ls > 0 ) {
+        mvwvline( w, pos, ( ls > 1 ) ? ls : LINE_XOXO, height );
     }
 
-    for( int j = pos.x; j < width + pos.x - 1; j++ ) {
-        if( ts > 0 ) {
-            mvwputch( w, point( j, pos.y ), c_light_gray, ( ts > 1 ) ? ts : LINE_OXOX ); // --
-        }
+    if( rs > 0 ) {
+        mvwvline( w, pos + point( width - 1, 0 ), ( rs > 1 ) ? rs : LINE_XOXO, height );
+    }
 
-        if( bs > 0 ) {
-            mvwputch( w, point( j, pos.y + height - 1 ), c_light_gray, ( bs > 1 ) ? bs : LINE_OXOX ); // --
-        }
+    if( ts > 0 ) {
+        mvwhline( w, pos, ( ts > 1 ) ? ts : LINE_OXOX, width );
+    }
+
+    if( bs > 0 ) {
+        mvwhline( w, pos + point( 0, height - 1 ), ( bs > 1 ) ? bs : LINE_OXOX, width );
     }
 
     if( tl > 0 ) {
-        mvwputch( w, pos, c_light_gray, ( tl > 1 ) ? tl : LINE_OXXO ); // |^
+        mvwaddch( w, pos, ( tl > 1 ) ? tl : LINE_OXXO ); // |^
     }
 
     if( tr > 0 ) {
-        mvwputch( w, pos + point( -1 + width, 0 ), c_light_gray, ( tr > 1 ) ? tr : LINE_OOXX ); // ^|
+        mvwaddch( w, pos + point( -1 + width, 0 ), ( tr > 1 ) ? tr : LINE_OOXX ); // ^|
     }
 
     if( bl > 0 ) {
-        mvwputch( w, pos + point( 0, -1 + height ), c_light_gray, ( bl > 1 ) ? bl : LINE_XXOO ); // |_
+        mvwaddch( w, pos + point( 0, -1 + height ), ( bl > 1 ) ? bl : LINE_XXOO ); // |_
     }
 
     if( br > 0 ) {
-        mvwputch( w, pos + point( -1 + width, -1 + height ), c_light_gray,
-                  ( br > 1 ) ? br : LINE_XOOX ); // _|
+        mvwaddch( w, pos + point( -1 + width, -1 + height ), ( br > 1 ) ? br : LINE_XOOX ); // _|
     }
-
+    wattroff( w, c_light_gray );
     wattroff( w, FG );
 }
 
@@ -701,15 +731,13 @@ void draw_border_below_tabs( const catacurses::window &w, nc_color border_color 
 {
     int width = getmaxx( w );
     int height = getmaxy( w );
-    for( int i = 1; i < width - 1; i++ ) {
-        mvwputch( w, point( i, height - 1 ), border_color, LINE_OXOX );
-    }
-    for( int i = 3; i < height - 1; i++ ) {
-        mvwputch( w, point( 0, i ), border_color, LINE_XOXO );
-        mvwputch( w, point( width - 1, i ), border_color, LINE_XOXO );
-    }
-    mvwputch( w, point( 0, height - 1 ), border_color, LINE_XXOO ); // |_
-    mvwputch( w, point( width - 1, height - 1 ), border_color, LINE_XOOX ); // _|
+    wattron( w, border_color );
+    mvwhline( w, point( 1,         height - 1 ), LINE_OXOX, width - 2 ); // -
+    mvwvline( w, point( 0,                  3 ), LINE_XOXO, height - 4 ); // |
+    mvwvline( w, point( width - 1,         3 ), LINE_XOXO, height - 4 );  // |
+    mvwaddch( w, point( 0,         height - 1 ), LINE_XXOO ); // |_
+    mvwaddch( w, point( width - 1, height - 1 ), LINE_XOOX ); // _|
+    wattroff( w, border_color );
 }
 
 border_helper::border_info::border_info( border_helper &helper )
@@ -765,12 +793,14 @@ void border_helper::draw_border( const catacurses::window &win, nc_color border_
     }
     const point win_beg( getbegx( win ), getbegy( win ) );
     const point win_end = win_beg + point( getmaxx( win ), getmaxy( win ) );
+    wattron( win, border_color );
     for( const std::pair<const point, border_connection> &conn : border_connection_map.value() ) {
         if( conn.first.x >= win_beg.x && conn.first.x < win_end.x &&
             conn.first.y >= win_beg.y && conn.first.y < win_end.y ) {
-            mvwputch( win, conn.first - win_beg, border_color, conn.second.as_curses_line() );
+            mvwaddch( win, conn.first - win_beg, conn.second.as_curses_line() );
         }
     }
+    wattroff( win, border_color );
 }
 
 int border_helper::border_connection::as_curses_line() const
@@ -907,6 +937,18 @@ std::vector<std::string> get_hotkeys( const std::string_view s )
         hotkeys.emplace_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
     }
     return hotkeys;
+}
+
+PopupFlags popup_flag_from_string( const std::string &str )
+{
+    if( str == "PF_GET_KEY" ) {
+        return PF_GET_KEY;
+    } else if( str == "PF_ON_TOP" ) {
+        return PF_ON_TOP;
+    } else if( str == "PF_FULLSCREEN" ) {
+        return PF_FULLSCREEN;
+    }
+    return PF_NONE;
 }
 
 int popup( const std::string &text, PopupFlags flags )
@@ -1098,9 +1140,7 @@ void draw_item_filter_rules( const catacurses::window &win, const int starty, co
 {
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
-    for( int i = 0; i < height; i++ ) {
-        mvwprintz( win, point( 1, starty + i ), c_black, std::string( len, ' ' ) );
-    }
+    mvwrectf( win, point( 1, starty ), c_black, ' ', len, height );
 
     fold_and_print( win, point( 1, starty ), len, c_white, "%s", item_filter_rule_string( type ) );
 
@@ -1185,6 +1225,105 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer;
 }
 
+static nc_color get_comparison_color( const iteminfo &i,
+                                      const std::vector<iteminfo> &vItemCompare )
+{
+    nc_color thisColor = c_yellow;
+    for( const iteminfo &k : vItemCompare ) {
+        if( k.sValue != "-999" ) {
+            if( i.sName == k.sName && i.sType == k.sType ) {
+                double iVal = i.dValue;
+                double kVal = k.dValue;
+                if( i.sFmt != k.sFmt ) {
+                    // Different units, compare unit adjusted vals
+                    iVal = i.dUnitAdjustedVal;
+                    kVal = k.dUnitAdjustedVal;
+                }
+                if( iVal > kVal - .01 &&
+                    iVal < kVal + .01 ) {
+                    thisColor = c_light_gray;
+                } else if( iVal > kVal ) {
+                    if( i.bLowerIsBetter ) {
+                        thisColor = c_light_red;
+                    } else {
+                        thisColor = c_light_green;
+                    }
+                } else if( iVal < kVal ) {
+                    if( i.bLowerIsBetter ) {
+                        thisColor = c_light_green;
+                    } else {
+                        thisColor = c_light_red;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    return thisColor;
+}
+
+void display_item_info( const std::vector<iteminfo> &vItemDisplay,
+                        const std::vector<iteminfo> &vItemCompare )
+{
+    bool bAlreadyHasNewLine = true;
+    for( const iteminfo &i : vItemDisplay ) {
+        if( i.bIsArt ) {
+            cataimgui::PushMonoFont();
+        }
+        if( i.sType == "DESCRIPTION" ) {
+            if( i.bDrawName ) {
+                if( i.sName == "--" ) {
+                    if( !bAlreadyHasNewLine ) {
+                        ImGui::NewLine();
+                        bAlreadyHasNewLine = true;
+                    }
+                    ImGui::Separator();
+                } else {
+                    if( i.sName.find( '\n' ) != std::string::npos ) {
+                        std::vector<std::string> lines = string_split( i.sName, '\n' );
+                        for( std::string &line : lines ) {
+                            cataimgui::TextColoredParagraph( c_white, line );
+                            ImGui::NewLine();
+                        }
+                        ImGui::SameLine();
+                    } else {
+                        cataimgui::TextColoredParagraph( c_white, i.sName );
+                    }
+                    bAlreadyHasNewLine = false;
+                }
+            }
+        } else {
+            if( i.bDrawName ) {
+                cataimgui::TextColoredParagraph( c_light_gray, i.sName );
+                bAlreadyHasNewLine = false;
+            }
+
+            if( !i.sFmt.empty() ) {
+                std::optional<cataimgui::Segment> value = std::nullopt;
+                if( i.sValue != "-999" ) {
+                    value = std::make_optional( cataimgui::Segment( i.sValue, get_comparison_color( i,
+                                                vItemCompare ) ) );
+                }
+                cataimgui::TextColoredParagraph( c_light_gray, i.sFmt, value );
+                bAlreadyHasNewLine = false;
+            } else if( i.sValue != "-999" ) {
+                cataimgui::TextColoredParagraph( get_comparison_color( i, vItemCompare ),
+                                                 i.sValue );
+                bAlreadyHasNewLine = false;
+            }
+        }
+
+        if( i.bIsArt ) {
+            ImGui::PopFont();
+        }
+
+        if( i.bNewLine && !bAlreadyHasNewLine ) {
+            ImGui::NewLine();
+            bAlreadyHasNewLine = true;
+        }
+    }
+}
+
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
 {
     return draw_item_info( [&]() -> catacurses::window {
@@ -1242,9 +1381,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
             const int idx = *data.ptr_selected + line;
             if( idx >= 0 && static_cast<size_t>( idx ) < folded.size() ) {
                 if( folded[idx] == "--" ) {
-                    for( int x = 0; x < width; x++ ) {
-                        mvwputch( win, point( b + x, line_num + line ), c_dark_gray, LINE_OXOX );
-                    }
+                    mvwhline( win, point( b, line_num + line ), c_dark_gray, LINE_OXOX, width );
                 } else {
                     trim_and_print( win, point( b, line_num + line ), width - 1, c_light_gray, folded[idx] );
                 }
@@ -1497,10 +1634,14 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 
-    mvwputch( w, point( iOffsetX, 0 ),      c_light_gray, LINE_OXXO ); // |^
-    mvwputch( w, point( iOffsetXRight, 0 ), c_light_gray, LINE_OOXX ); // ^|
-    mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
-    mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
+    wattron( w, c_light_gray );
+    mvwaddch( w, point( iOffsetX, 0 ),      LINE_OXXO ); // |^
+    mvwaddch( w, point( iOffsetXRight, 0 ), LINE_OOXX ); // ^|
+    mvwaddch( w, point( iOffsetX, 1 ),      LINE_XOXO ); // |
+    mvwaddch( w, point( iOffsetXRight, 1 ), LINE_XOXO ); // |
+
+    mvwhline( w, point( iOffsetX + 1, 0 ), LINE_OXOX, iOffsetXRight - iOffsetX - 1 ); // -
+    wattroff( w, c_light_gray );
 
     nc_color selected = h_white;
     nc_color not_selected = c_light_gray;
@@ -1510,17 +1651,11 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view
         print_colored_text( w, point( iOffsetX + 1, 1 ), not_selected, not_selected, sText );
     }
 
-    for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
-        mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
-    }
-
     if( bSelected ) {
         mvwputch( w, point( iOffsetX - 1, 1 ),      h_white, '<' );
         mvwputch( w, point( iOffsetXRight + 1, 1 ), h_white, '>' );
 
-        for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
-            mvwputch( w, point( i, 2 ), c_black, ' ' );
-        }
+        mvwhline( w, point( iOffsetX + 1, 2 ), c_black, ' ', iOffsetXRight - iOffsetX - 1 );
 
         mvwputch( w, point( iOffsetX, 2 ),      c_light_gray, LINE_XOOX ); // _|
         mvwputch( w, point( iOffsetXRight, 2 ), c_light_gray, LINE_XXOO ); // |_
@@ -1544,16 +1679,16 @@ inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffset
     }
 
     if( bSelected ) {
-        if( !bDisabled ) {
-            mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_white, '<' );
-            mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_white, '>' );
-        } else {
-            mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_dark_gray, '<' );
+        if( bDisabled ) {
+            mvwputch( w, point( iOffsetX - bDecorate,      0 ), h_dark_gray, '<' );
             mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_dark_gray, '>' );
+        } else {
+            mvwputch( w, point( iOffsetX - bDecorate,      0 ), h_white, '<' );
+            mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_white, '>' );
         }
 
-        for( int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++ ) {
-            mvwputch( w, point( i, 1 ), c_black, ' ' );
+        if( bDecorate ) {
+            mvwhline( w, point( iOffsetX + 1, 1 ), c_black, ' ', iOffsetXRight - iOffsetX - 1 );
         }
     }
     return inclusive_rectangle<point>( point( iOffsetX, 0 ), point( iOffsetXRight, 0 ) );
@@ -1566,12 +1701,12 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
     int width = getmaxx( w );
-    for( int i = 1; i < width - 1; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );  // ─
-    }
+    wattron( w, BORDER_COLOR );
+    mvwhline( w, point( 1,         2 ), LINE_OXOX, width - 2 ); // ─
 
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO );  // ┌
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX );  // ┐
+    mvwaddch( w, point( 0,         2 ), LINE_OXXO ); // ┌
+    mvwaddch( w, point( width - 1, 2 ), LINE_OOXX ); // ┐
+    wattroff( w, BORDER_COLOR );
 
     const int tab_step = 3;
     int x = 2;
@@ -1713,7 +1848,7 @@ void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
     .viewport_size( iContentHeight )
     .slot_color( bar_color )
     .scroll_to_last( !bDoNotScrollToEnd )
-    .apply( window );
+    .apply( window, true );
 }
 
 scrollbar::scrollbar()
@@ -1784,15 +1919,15 @@ scrollbar &scrollbar::scroll_to_last( bool scr2last )
     return *this;
 }
 
-void scrollbar::apply( const catacurses::window &window )
+void scrollbar::apply( const catacurses::window &window, const bool draw_unneeded )
 {
     scrollbar_area = inclusive_rectangle<point>( point( getbegx( window ) + offset_x_v,
                      getbegy( window ) + offset_y_v ), point( getbegx( window ) + offset_x_v,
                              getbegy( window ) + offset_y_v + viewport_size_v ) );
     if( viewport_size_v >= content_size_v || content_size_v <= 0 ) {
-        // scrollbar not needed, fill output area with borders
-        for( int i = offset_y_v; i < offset_y_v + viewport_size_v; ++i ) {
-            mvwputch( window, point( offset_x_v, i ), border_color_v, LINE_XOXO );
+        // scrollbar not needed, optionally fill output area with vertical border line
+        if( draw_unneeded ) {
+            mvwvline( window, point( offset_x_v, offset_y_v ), border_color_v, LINE_XOXO, viewport_size_v );
         }
     } else {
         mvwputch( window, point( offset_x_v, offset_y_v ), arrow_color_v, '^' );
@@ -1813,13 +1948,11 @@ void scrollbar::apply( const catacurses::window &window )
         int bar_end = bar_start + bar_size;
         nc_color temp_bar_color = dragging ? c_magenta_magenta : bar_color_v;
 
-        for( int i = 0; i < slot_size; ++i ) {
-            if( i >= bar_start && i < bar_end ) {
-                mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), temp_bar_color, LINE_XOXO );
-            } else {
-                mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), slot_color_v, LINE_XOXO );
-            }
-        }
+        mvwvline( window, point( offset_x_v, offset_y_v + 1 ), slot_color_v,   LINE_XOXO, bar_start );
+        mvwvline( window, point( offset_x_v, offset_y_v + 1 + bar_start ), temp_bar_color, LINE_XOXO,
+                  bar_end - bar_start );
+        mvwvline( window, point( offset_x_v, offset_y_v + 1 + bar_end ), slot_color_v,   LINE_XOXO,
+                  slot_size - bar_end );
     }
 }
 
@@ -2045,7 +2178,7 @@ bool multiline_list::handle_navigation( std::string &action, input_context &ctxt
 
 void multiline_list::print_entries()
 {
-    werase( w );
+    werase( w ); // this undesirably erases the left border of the larger window
     entry_map.clear();
 
     int ycurrent = 0;
@@ -2066,7 +2199,7 @@ void multiline_list::print_entries()
     .content_size( total_length )
     .viewport_pos( offset_position )
     .viewport_size( getmaxy( w ) )
-    .apply( w );
+    .apply( w, true );
 
     wnoutrefresh( w );
 }
@@ -2194,9 +2327,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
     } else {
         text_view_scrollbar = scrollbar();
         // No scrollbar; we need to draw the window edge instead
-        for( int i = 0; i < height; i++ ) {
-            mvwputch( w_, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_, point::zero, BORDER_COLOR, LINE_XOXO, height );
     }
 
     nc_color color = base_color;
@@ -2492,6 +2623,7 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
+// Legacy, moved to parse_tags
 void replace_keybind_tag( std::string &input )
 {
     std::string keybind_tag_start = "<keybind:";
@@ -2847,7 +2979,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
 std::string satiety_bar( const int calpereffv )
 {
     // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
-    constexpr float max_cal_per_effective_vol = 1500.0f;
+    constexpr float max_cal_per_effective_vol = 2000.0f;
     // Scaling the values.
     const float scaled_max = std::sqrt( max_cal_per_effective_vol );
     const float scaled_cal = std::sqrt( calpereffv );
@@ -2903,7 +3035,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     dir = pairDirXY;
 
-    if( dir == point_zero ) {
+    if( dir == point::zero ) {
         // This would cause infinite loop otherwise
         oDir = direction::WEST;
         dir.x = -1;

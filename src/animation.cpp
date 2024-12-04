@@ -50,7 +50,7 @@ class basic_animation
 {
     public:
         explicit basic_animation( const int scale ) :
-            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1'000'000L ) {
+            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -71,7 +71,7 @@ class basic_animation
             do {
                 const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
                                                  // Pump events every 100 ms
-                                                 std::chrono::nanoseconds( 100'000'000 ) );
+                                                 std::chrono::nanoseconds( 100000000 ) );
                 if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
                     std::this_thread::sleep_for( sleep_for );
                     inp_mngr.pump_events();
@@ -121,8 +121,7 @@ bool is_layer_visible( const std::map<tripoint_bub_ms, explosion_tile> &layer )
 //! Get p relative to u's current position and view
 tripoint_rel_ms relative_view_pos( const avatar &u, const tripoint_bub_ms &p ) noexcept
 {
-    return tripoint_rel_ms( p.raw() - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
-                            -u.posz() ) );
+    return p - u.pos_bub() - u.view_offset + point_rel_ms( POSX, POSY );
 }
 
 // Convert p to screen position relative to the current terrain view
@@ -145,30 +144,32 @@ void draw_explosion_curses( game &g, const tripoint_bub_ms &center, const int r,
     int frame = 0;
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
+        wattron( g.w_terrain, col );
         if( r == 0 ) {
-            mvwputch( g.w_terrain, point( p.y(), p.x() ), col, '*' );
+            mvwaddch( g.w_terrain, point( p.y(), p.x() ), '*' );
         }
 
         for( int i = 1; i <= frame; ++i ) {
             // corner: top left
-            mvwputch( g.w_terrain, p.xy().raw() + point( -i, -i ), col, '/' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( -i, -i ), '/' );
             // corner: top right
-            mvwputch( g.w_terrain, p.xy().raw() + point( i, -i ), col, '\\' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( i, -i ), '\\' );
             // corner: bottom left
-            mvwputch( g.w_terrain, p.xy().raw() + point( -i, i ), col, '\\' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( -i, i ), '\\' );
             // corner: bottom right
-            mvwputch( g.w_terrain, p.xy().raw() + point( i, i ), col, '/' );
+            mvwaddch( g.w_terrain, p.xy().raw() + point( i, i ), '/' );
             for( int j = 1 - i; j < 0 + i; j++ ) {
                 // edge: top
-                mvwputch( g.w_terrain, p.xy().raw() + point( j, -i ), col, '-' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( j, -i ), '-' );
                 // edge: bottom
-                mvwputch( g.w_terrain, p.xy().raw() + point( j, i ), col, '-' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( j, i ), '-' );
                 // edge: left
-                mvwputch( g.w_terrain, p.xy().raw() + point( -i, j ), col, '|' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( -i, j ), '|' );
                 // edge: right
-                mvwputch( g.w_terrain, p.xy().raw() + point( i, j ), col, '|' );
+                mvwaddch( g.w_terrain, p.xy().raw() + point( i, j ), '|' );
             }
         }
+        wattroff( g.w_terrain, col );
     } );
     g.add_draw_callback( explosion_cb );
 
@@ -317,16 +318,6 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 }
 #endif
 
-void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area, const std::optional<std::string> &tile_id )
-{
-    std::map<tripoint_bub_ms, nc_color> temp;
-    for( const auto &it : all_area ) {
-        temp.insert( std::pair<tripoint_bub_ms, nc_color>( tripoint_bub_ms( it.first ), it.second ) );
-    }
-    explosion_handler::draw_custom_explosion( temp, tile_id );
-}
-
 void explosion_handler::draw_custom_explosion(
     const std::map<tripoint_bub_ms, nc_color> &all_area, const std::optional<std::string> &tile_id )
 {
@@ -406,10 +397,10 @@ void explosion_handler::draw_custom_explosion(
         const tripoint_bub_ms &pt = pr.first;
         explosion_neighbors &ngh = pr.second.neighborhood;
 
-        set_neighbors( pt + point_west, ngh, N_WEST, N_EAST );
-        set_neighbors( pt + point_east, ngh, N_EAST, N_WEST );
-        set_neighbors( pt + point_north, ngh, N_NORTH, N_SOUTH );
-        set_neighbors( pt + point_south, ngh, N_SOUTH, N_NORTH );
+        set_neighbors( pt + point::west, ngh, N_WEST, N_EAST );
+        set_neighbors( pt + point::east, ngh, N_EAST, N_WEST );
+        set_neighbors( pt + point::north, ngh, N_NORTH, N_SOUTH );
+        set_neighbors( pt + point::south, ngh, N_SOUTH, N_NORTH );
     }
 
     // We need to save the layers because we will draw them in reverse order
@@ -433,10 +424,10 @@ void explosion_handler::draw_custom_explosion(
             const tripoint_bub_ms &pt = pr.first;
             const explosion_neighbors ngh = pr.second.neighborhood;
 
-            unset_neighbor( pt + point_west, ngh, N_WEST, N_EAST );
-            unset_neighbor( pt + point_east, ngh, N_EAST, N_WEST );
-            unset_neighbor( pt + point_north, ngh, N_NORTH, N_SOUTH );
-            unset_neighbor( pt + point_south, ngh, N_SOUTH, N_NORTH );
+            unset_neighbor( pt + point::west, ngh, N_WEST, N_EAST );
+            unset_neighbor( pt + point::east, ngh, N_EAST, N_WEST );
+            unset_neighbor( pt + point::north, ngh, N_NORTH, N_SOUTH );
+            unset_neighbor( pt + point::south, ngh, N_SOUTH, N_NORTH );
             neighbors.erase( pr.first );
         }
 
@@ -721,34 +712,27 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint &p, const tripoint &center,
                       const std::vector<tripoint> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
-        return;
-    }
-
-    std::vector<tripoint_bub_ms> temp;
-    temp.resize( points.size() );
-    for( const tripoint &it : points ) {
-        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
-        temp.emplace_back( tmp );
-    }
-
-    if( !use_tiles ) {
-        draw_line_curses( *this, tripoint_bub_ms( center ), temp, noreveal );
-        return;
-    }
-
-    tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_target", true );
+    std::vector<tripoint_bub_ms> bub_points;
+    std::transform( points.begin(), points.end(), std::back_inserter( bub_points ),
+    []( const tripoint & t ) {
+        return tripoint_bub_ms( t );
+    } );
+    draw_line( tripoint_bub_ms( p ), tripoint_bub_ms( center ), bub_points, noreveal );
 }
 
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    std::vector<tripoint> raw_points;
-    std::transform( points.begin(), points.end(), std::back_inserter( raw_points ),
-    []( const tripoint_bub_ms & t ) {
-        return t.raw();
-    } );
-    draw_line( p.raw(), center.raw(), raw_points, noreveal );
+    if( !u.sees( p ) ) {
+        return;
+    }
+
+    if( !use_tiles ) {
+        draw_line_curses( *this, center, points, noreveal );
+        return;
+    }
+
+    tilecontext->init_draw_line( p, points, "line_target", true );
 }
 
 #else
@@ -770,6 +754,7 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     }
 
     std::vector<tripoint_bub_ms> temp;
+    temp.reserve( points.size() );
     for( const tripoint &it : points ) {
         const tripoint_bub_ms tmp = tripoint_bub_ms( it );
         temp.push_back( tmp );
@@ -806,6 +791,11 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     draw_line_curses( *this, temp );
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_trail", false );
 }
+void game::draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points )
+{
+    draw_line_curses( *this, points );
+    tilecontext->init_draw_line( p, points, "line_trail", false );
+}
 #else
 void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
@@ -816,6 +806,10 @@ void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points
         temp.emplace_back( tmp );
     }
     draw_line_curses( *this, temp );
+}
+void game::draw_line( const tripoint_bub_ms &/*p*/, const std::vector<tripoint_bub_ms> &points )
+{
+    draw_line_curses( *this, points );
 }
 #endif
 
@@ -846,10 +840,10 @@ void game::draw_cursor( const tripoint &p ) const
 void game::draw_cursor_unobscuring( const tripoint_bub_ms &p ) const
 {
     const tripoint_rel_ms rp = relative_view_pos( *this, p );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_north_east ).raw(), c_cyan, "↙" );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_south_east ).raw(), c_cyan, "↖" );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_north_west ).raw(), c_cyan, "↘" );
-    mvwputch_inv( w_terrain, ( rp.xy() + point_south_west ).raw(), c_cyan, "↗" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::north_east ).raw(), c_cyan, "↙" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::south_east ).raw(), c_cyan, "↖" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::north_west ).raw(), c_cyan, "↘" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point::south_west ).raw(), c_cyan, "↗" );
 #if defined(TILES)
     tilecontext->init_draw_cursor( p );
 #endif
@@ -881,9 +875,12 @@ namespace
 {
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
+    wattron( win, w.colGlyph );
+    const std::string symbol = w.get_symbol();
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
+        mvwprintw( win, point( drop.first, drop.second ), symbol );
     }
+    wattroff( win, w.colGlyph );
 }
 } //namespace
 
@@ -909,7 +906,8 @@ namespace
 void draw_sct_curses( const game &g )
 {
     avatar &player_character = get_avatar();
-    const tripoint_rel_ms off = relative_view_pos( player_character, tripoint_bub_ms( tripoint_zero ) );
+    const tripoint_rel_ms off = relative_view_pos( player_character,
+                                tripoint_bub_ms::zero );
 
     for( const scrollingcombattext::cSCT &text : SCT.vSCT ) {
         const int dy = off.y() + text.getPosY();
@@ -950,25 +948,23 @@ namespace
 {
 void draw_zones_curses( const catacurses::window &w, const tripoint_bub_ms &start,
                         const tripoint_bub_ms &end,
-                        const tripoint &offset )
+                        const tripoint_rel_ms &offset )
 {
     if( end.x() < start.x() || end.y() < start.y() || end.z() < start.z() ) {
         return;
     }
 
     nc_color    const col = invert_color( c_light_green );
-    const std::string line( end.x() - start.x() + 1, '~' );
-    int         const x = start.x() - offset.x;
 
-    for( int y = start.y(); y <= end.y(); ++y ) {
-        mvwprintz( w, point( x, y - offset.y ), col, line );
-    }
+    wattron( w, col );
+    mvwrectf( w, ( start - offset ).xy().raw(), '~', end.x() - start.x() + 1, end.y() - start.y() + 1 );
+    wattroff( w, col );
 }
 } //namespace
 
 #if defined(TILES)
 void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                       const tripoint &offset ) const
+                       const tripoint_rel_ms &offset ) const
 {
     if( use_tiles ) {
         tilecontext->init_draw_zones( start, end, offset );
@@ -978,7 +974,7 @@ void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
 }
 #else
 void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                       const tripoint &offset ) const
+                       const tripoint_rel_ms &offset ) const
 {
     draw_zones_curses( w_terrain, start, end, offset );
 }

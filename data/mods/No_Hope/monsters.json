@@ -626,11 +626,11 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
     "vision_night": 3,
     "luminance": 8,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": {
       "subtype": "collection",
@@ -706,7 +706,7 @@
     "id": "mon_mech_combat",
     "type": "MONSTER",
     "name": { "str": "X-02: 'Grunt' Combat Mech" },
-    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated Gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
@@ -811,5 +811,31 @@
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid", "cooldown": 5 }
     ]
+  },
+  {
+    "id": "mon_zombie_bio_op",
+    "type": "MONSTER",
+    "name": { "str": "zombie bio-operator" },
+    "description": "This armored soldier zombie appears to have been some sort of special forces agent.  Its malfunctioning equipment sends out occasional showers of sparks.",
+    "copy-from": "mon_zombie_base",
+    "diff": 5,
+    "hp": 120,
+    "speed": 95,
+    "color": "red_cyan",
+    "melee_skill": 7,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "luminance": 4,
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "death_drops": "mon_zombie_bio_op_death_drops",
+    "armor": { "bash": 10, "cut": 18, "bullet": 14, "electric": 3 },
+    "dissect": "dissect_mon_zomborg",
+    "extend": {
+      "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+      "families": [ "prof_wp_syn_armored" ],
+      "flags": [ "ELECTRIC" ]
+    }
   }
 ]

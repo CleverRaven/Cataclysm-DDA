@@ -1,9 +1,9 @@
 [
   {
     "abstract": "base_silverware",
-    "name": { "str_sp": "generic silverware" },
+    "name": { "str_sp": "generic silverware", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
     "price": "1 USD",
@@ -11,14 +11,14 @@
     "weight": "48 g",
     "volume": "25 ml",
     "material": [ "steel" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 2, "cut": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
   },
   {
     "abstract": "base_utensil",
-    "name": { "str": "generic utensil" },
+    "name": { "str": "generic utensil", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
     "price": "2 USD",
@@ -26,27 +26,26 @@
     "weight": "158 g",
     "volume": "75 ml",
     "material": [ "steel" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 3, "cut": 2 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 2 }
   },
   {
     "abstract": "base_plastic_silverware",
-    "name": { "str_sp": "generic silverware" },
+    "name": { "str_sp": "generic plastic silverware", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
     "price": "10 cent",
     "price_postapoc": "0 cent",
     "weight": "28 g",
     "volume": "25 ml",
-    "material": [ "plastic" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "material": [ "plastic" ]
   },
   {
     "abstract": "base_ceramic_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic ceramic dish", "str_pl": "generic ceramic dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "yellow",
@@ -55,13 +54,14 @@
     "material": [ "ceramic" ],
     "weight": "375 g",
     "volume": "375 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
   },
   {
     "abstract": "base_glass_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic glass dish", "str_pl": "generic glass dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "cyan",
@@ -70,13 +70,14 @@
     "material": [ "glass" ],
     "weight": "322 g",
     "volume": "262 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 3 }
   },
   {
     "abstract": "base_tin_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic tin dish", "str_pl": "generic tin dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
@@ -85,13 +86,13 @@
     "material": [ "tin" ],
     "weight": "262 g",
     "volume": "262 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 2 }
   },
   {
     "abstract": "base_plastic_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic plastic dish", "str_pl": "generic plastic dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
@@ -99,14 +100,12 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "weight": "130 g",
-    "volume": "262 ml",
-    "to_hit": -1,
-    "melee_damage": { "bash": 1 }
+    "volume": "262 ml"
   },
   {
     "abstract": "base_cookpot",
-    "name": { "str": "generic cook pot" },
-    "description": "generic item template",
+    "name": { "str": "generic cook pot", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1256,12 +1255,12 @@
     "category": "tools",
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
-    "weight": "6000 g",
+    "weight": "6 kg",
     "volume": "1050 ml",
     "longest_side": "20 cm",
     "price": "2 USD",
     "price_postapoc": "5 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1277,7 +1276,7 @@
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "pot_makeshift_copper",
@@ -1290,7 +1289,7 @@
     "longest_side": "20 cm",
     "price": "2 USD",
     "price_postapoc": "5 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "copper" ],
     "symbol": ")",
     "color": "light_red",
@@ -1306,7 +1305,7 @@
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1400,10 +1399,8 @@
     "material": [ "steel" ],
     "weight": "300 g",
     "volume": "250 ml",
-    "to_hit": -1,
     "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "melee_damage": { "bash": 2 }
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",

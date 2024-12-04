@@ -17,7 +17,7 @@
     "id": "EOC_READ_LOCAL_FILES_XEDRA",
     "condition": {
       "and": [
-        { "math": [ "u_skill('computer')", ">=", "2" ] },
+        { "math": [ "u_skill('computer') >= 2" ] },
         { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 }
       ]
     },
@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WOLF_SLEDGE_TRHOW",
-    "condition": { "math": [ "u_val('stamina')", ">=", "3000" ] },
+    "condition": { "math": [ "u_val('stamina') >= 3000" ] },
     "effect": [
       {
         "u_run_inv_eocs": "all",
@@ -46,5 +46,36 @@
       }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RIP_TICKET_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "condition": { "or": [ { "compare_string": [ "rip_ticket", { "context_val": "spell" } ] } ] },
+    "effect": [ { "u_consume_item": "rip_ticket" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DAGWOOD",
+    "effect": [ { "u_cast_spell": { "id": "cosmic_dagwood_regeneration" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_INVENTOR_DAMAGE_REVERSAL",
+    "condition": { "math": [ "u_xedra_last_damage_taken > 0" ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "bp_null", "u_xedra_last_damage_taken_bodypart" ] },
+        "then": [ { "math": [ "u_hp('ALL')+=u_xedra_last_damage_taken" ] }, { "math": [ "u_xedra_last_damage_taken=0" ] } ],
+        "else": [
+          { "math": [ "u_hp(u_xedra_last_damage_taken_bodypart)+=u_xedra_last_damage_taken" ] },
+          { "math": [ "u_pain()-=u_xedra_last_pain_taken" ] },
+          { "math": [ "u_xedra_last_damage_taken=0" ] }
+        ]
+      },
+      { "u_message": "Your wound heals!", "type": "good" }
+    ],
+    "false_effect": [ { "u_message": "You don't have a previous wound to heal.", "type": "neutral" } ]
   }
 ]

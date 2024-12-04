@@ -69,6 +69,7 @@
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
+#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -125,35 +126,20 @@ static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
-static const ter_str_id ter_t_floor( "t_floor" );
-static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
-
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
-static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
-static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
-static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
@@ -224,7 +210,6 @@ void avatar::control_npc_menu( const bool debug )
         popup( _( "There's no one to take control of!" ) );
         return;
     }
-    charmenu.w_y_setup = 0;
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
@@ -265,12 +250,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -339,7 +324,7 @@ void avatar::reset_all_missions()
 tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
-        return overmap::invalid_tripoint;
+        return tripoint_abs_omt::invalid;
     }
     return active_mission->get_target();
 }
@@ -703,7 +688,7 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
                         memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }
@@ -933,6 +918,15 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
                                     get_name() ) - 1;
+}
+
+std::string avatar::display_name( bool possessive, bool capitalize_first ) const
+{
+    if( !possessive ) {
+        return capitalize_first ? _( "You" ) : _( "you" );
+    } else {
+        return capitalize_first ? _( "Your" ) : _( "your" );
+    }
 }
 
 mfaction_id avatar::get_monster_faction() const
@@ -1215,12 +1209,12 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p )
+bool avatar::cant_see( const tripoint &p ) const
 {
     return cant_see( tripoint_bub_ms( p ) );
 }
 
-bool avatar::cant_see( const tripoint_bub_ms &p )
+bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
     // calc based on recoil
@@ -1235,17 +1229,18 @@ bool avatar::cant_see( const tripoint_bub_ms &p )
     return aim_cache[p.x()][p.y()];
 }
 
-void avatar::rebuild_aim_cache()
+void avatar::rebuild_aim_cache() const
 {
     aim_cache_dirty =
         false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint local_last_target = get_map().bub_from_abs( last_target_pos.value() ).raw();
+    const tripoint_bub_ms local_last_target = get_map().bub_from_abs( tripoint_abs_ms(
+                last_target_pos.value() ) );
 
-    float base_angle = atan2f( local_last_target.y - posy(),
-                               local_last_target.x - posx() );
+    float base_angle = atan2f( local_last_target.y() - posy(),
+                               local_last_target.x() - posx() );
 
     // move from -pi to pi, to 0 to 2pi for angles
     if( base_angle < 0 ) {
@@ -1281,7 +1276,7 @@ void avatar::rebuild_aim_cache()
             }
 
             // some basic angle inclusion math, but also everything with 15 is still seen
-            if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {
+            if( rl_dist( tripoint_bub_ms( smx, smy, pos_bub().z() ), pos_bub() ) < 15 ) {
                 aim_cache[smx][smy] = false;
             } else if( lower_bound > upper_bound ) {
                 aim_cache[smx][smy] = !( current_angle >= lower_bound ||
@@ -1307,7 +1302,9 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         // Enchantments based on move modes can stack inappropriately without a recalc here
         recalculate_enchantment_cache();
         // crouching affects visibility
-        get_map().set_seen_cache_dirty( pos().z );
+        //TODO: Replace with dirtying vision_transparency_cache
+        get_map().set_transparency_cache_dirty( pos_bub() );
+        get_map().set_seen_cache_dirty( pos_bub().z() );
         recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );
@@ -1471,7 +1468,7 @@ item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
     return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
+bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1491,7 +1488,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     umenu.hilight_disabled = true;
 
     for( const auto &e : use_methods ) {
-        const auto res = e.second.can_call( *this, *used, pt );
+        const auto res = e.second.can_call( *this, *used, pt.raw() );
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
@@ -1521,17 +1518,12 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
-bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
-{
-    return avatar::invoke_item( used, pt.raw(), pre_obtain_moves );
-}
-
 bool avatar::invoke_item( item *used )
 {
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
@@ -1824,43 +1816,6 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
-void avatar::randomize_hobbies()
-{
-    hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
-    choices.erase( std::remove_if( choices.begin(), choices.end(),
-    [this]( const string_id<profession> &hobby ) {
-        return !prof->allows_hobby( hobby );
-    } ), choices.end() );
-    if( choices.empty() ) {
-        debugmsg( "Why would you blacklist all hobbies?" );
-        choices = profession::get_all_hobbies();
-    };
-
-    int random = rng( 0, 5 );
-
-    if( random >= 1 ) {
-        add_random_hobby( choices );
-    }
-    if( random >= 3 ) {
-        add_random_hobby( choices );
-    }
-    if( random >= 5 ) {
-        add_random_hobby( choices );
-    }
-}
-
-void avatar::add_random_hobby( std::vector<profession_id> &choices )
-{
-    const profession_id hobby = random_entry_removed( choices );
-    hobbies.insert( &*hobby );
-
-    // Add or remove traits from hobby
-    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
-        toggle_trait( cur.trait );
-    }
-}
-
 void avatar::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
@@ -1948,119 +1903,12 @@ bool avatar::wield_contents( item &container, item *internal_item, bool penaltie
 
 void avatar::try_to_sleep( const time_duration &dur )
 {
-    map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos_bub() );
-    const trap &trap_at_pos = here.tr_at( pos_bub() );
-    const ter_id ter_at_pos = here.ter( pos_bub() );
-    const furn_id furn_at_pos = here.furn( pos_bub() );
-    bool plantsleep = false;
-    bool fungaloid_cosplay = false;
-    bool websleep = false;
-    bool webforce = false;
-    bool websleeping = false;
-    bool in_shell = false;
-    bool watersleep = false;
-    if( has_trait( trait_CHLOROMORPH ) ) {
-        plantsleep = true;
-        const std::unordered_set<ter_str_id> comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_pit, ter_t_pit_shallow };
-        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp &&
-            furn_at_pos == furn_str_id::NULL_ID() ) {
-            add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
-        } else if( vp ) {
-            add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != furn_str_id::NULL_ID() ) {
-            add_msg_if_player( m_bad,
-                               _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
-        } else { // Floor problems
-            add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
-        }
-    } else if( has_trait( trait_M_SKIN3 ) ) {
-        fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() ) ) {
-            add_msg_if_player( m_good,
-                               _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
-        }
-    }
-    if( has_trait( trait_WEB_WALKER ) ) {
-        websleep = true;
-    }
-    // Not sure how one would get Arachnid w/o web-making, but Just In Case
-    if( has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
-            has_trait( trait_WEB_WEAVER ) ) ) {
-        webforce = true;
-    }
-    if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos_bub(), fd_web );
-        if( !webforce ) {
-            // At this point, it's kinda weird, but surprisingly comfy...
-            if( web >= 3 ) {
-                add_msg_if_player( m_good,
-                                   _( "These thick webs support your weight, and are strangely comfortable…" ) );
-                websleeping = true;
-            } else if( web > 0 ) {
-                add_msg_if_player( m_info,
-                                   _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                here.remove_field( pos(), fd_web );
-            }
-        } else {
-            // Here, you're just not comfortable outside a nice thick web.
-            if( web >= 3 ) {
-                add_msg_if_player( m_good, _( "You relax into your web." ) );
-                websleeping = true;
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to sleep, but you feel exposed and your spinnerets keep twitching." ) );
-                add_msg_if_player( m_info, _( "Maybe a nice thick web would help you sleep." ) );
-            }
-        }
-    }
-    if( has_active_mutation( trait_SHELL2 ) || has_active_mutation( trait_SHELL3 ) ) {
-        // Your shell's interior is a comfortable place to sleep.
-        in_shell = true;
-    }
-    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
-        if( underwater ) {
-            add_msg_if_player( m_good,
-                               _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
-            watersleep = true;
-        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) {
-            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
-            watersleep = true;
-        }
-    }
-    if( !plantsleep && ( furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         ter_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
-                         trap_at_pos.comfort > static_cast<int>( comfort_level::neutral ) ||
-                         in_shell || websleeping || watersleep ||
-                         vp.part_with_feature( "SEAT", true ) ||
-                         vp.part_with_feature( "BED", true ) ) ) {
-        add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
-    } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
-        if( !vp && ter_at_pos != ter_t_floor ) {
-            add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
-                               _( "It's a little hard to get to sleep on this %s." ) :
-                               _( "It's hard to get to sleep on this %s." ),
-                               ter_at_pos.obj().name() );
-        } else if( vp ) {
-            if( vp->part_with_feature( VPFLAG_AISLE, true ) ) {
-                add_msg_if_player(
-                    //~ %1$s: vehicle name, %2$s: vehicle part name
-                    _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
-                    vp->vehicle().disp_name(),
-                    vp->part_with_feature( VPFLAG_AISLE, true )->part().name( false ) );
-            } else {
-                add_msg_if_player(
-                    //~ %1$s: vehicle name
-                    _( "It's hard to get to sleep in %1$s." ),
-                    vp->vehicle().disp_name() );
-            }
-        }
-    }
+    get_comfort_at( pos_bub() ).add_try_msgs( *this );
+
     add_msg_if_player( _( "You start trying to fall asleep." ) );
     if( has_active_bionic( bio_soporific ) ) {
         bio_soporific_powered_at_last_sleep_check = has_power();
         if( bio_soporific_powered_at_last_sleep_check ) {
-            // The actual bonus is applied in sleep_spot( p ).
             add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
         } else {
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );

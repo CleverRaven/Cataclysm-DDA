@@ -57,8 +57,8 @@
   },
   {
     "id": "void_spider_empty",
-    "name": "Void spider emptiness",
-    "description": "Constantly empties the area around the spider.",
+    "name": { "str": "Void spider emptiness", "//~": "NO_I18N" },
+    "description": { "str": "Constantly empties the area around the spider.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "self", "hostile", "ground" ],
     "type": "SPELL",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
@@ -70,8 +70,8 @@
   },
   {
     "id": "void_spider_empty_revert",
-    "name": "Void spider revert emptiness",
-    "description": "Constantly empties the area around the spider.",
+    "name": { "str": "Void spider revert emptiness", "//~": "NO_I18N" },
+    "description": { "str": "Constantly empties the area around the spider.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "type": "SPELL",
     "effect": "ter_transform",
@@ -84,8 +84,8 @@
   {
     "id": "void_spider_control",
     "type": "SPELL",
-    "name": "Void spider control",
-    "description": "Void spiders control themselves using this one.",
+    "name": { "str": "Void spider control", "//~": "NO_I18N" },
+    "description": { "str": "Void spiders control themselves using this one.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -98,8 +98,8 @@
   {
     "type": "SPELL",
     "id": "place_void_spider",
-    "name": { "str": "Place Void Spider" },
-    "description": "Spawns a void spider.",
+    "name": { "str": "Place Void Spider", "//~": "NO_I18N" },
+    "description": { "str": "Spawns a void spider.", "//~": "NO_I18N" },
     "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground" ],
     "max_level": 1,
@@ -117,8 +117,8 @@
   {
     "type": "SPELL",
     "id": "mon_void_weaver_death",
-    "name": { "str": "Void Weaver Death" },
-    "description": "Ends the fight.",
+    "name": { "str": "Void Weaver Death", "//~": "NO_I18N" },
+    "description": { "str": "Ends the fight.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
@@ -142,12 +142,12 @@
         "run_eocs": [
           {
             "id": "seal_void_spider_lair",
-            "condition": { "math": [ "spider_lair_sealed", "!=", "1" ] },
+            "condition": { "math": [ "spider_lair_sealed != 1" ] },
             "effect": [
               { "mapgen_update": "void_spider_lair_entrance_shift", "om_terrain": "void_spider_lair_entrance" },
-              { "math": [ "spider_lair_sealed", "=", "1" ] },
-              { "queue_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
-              { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
+              { "math": [ "spider_lair_sealed = 1" ] },
+              { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
+              { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
             ]
           }
         ]
@@ -175,7 +175,7 @@
     },
     "effect": [
       { "place_override": { "global_val": "place_name", "default_str": "strange cavern" }, "length": "10 seconds" },
-      { "queue_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
       {
         "run_eocs": [
           {
@@ -184,8 +184,8 @@
               "and": [
                 { "u_has_effect": "webbed" },
                 { "one_in_chance": 6 },
-                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
-                { "math": [ "void_spider_killed", "!=", "1" ] }
+                { "math": [ "u_monsters_nearby('mon_void_spider') < 1" ] },
+                { "math": [ "void_spider_killed != 1" ] }
               ]
             },
             "effect": [
@@ -198,8 +198,8 @@
             "condition": {
               "and": [
                 { "one_in_chance": 120 },
-                { "math": [ "u_monsters_nearby('mon_void_spider')", "<", "1" ] },
-                { "math": [ "void_spider_killed", "!=", "1" ] }
+                { "math": [ "u_monsters_nearby('mon_void_spider') < 1" ] },
+                { "math": [ "void_spider_killed != 1" ] }
               ]
             },
             "effect": [
@@ -212,8 +212,8 @@
             "condition": {
               "and": [
                 { "or": [ { "u_has_effect": "webbed" }, { "u_has_effect": "grabbed" } ] },
-                { "math": [ "u_monsters_nearby('mon_void_spider')", "==", "1" ] },
-                { "math": [ "u_monsters_nearby('mon_void_spider_maw')", "<", "4" ] }
+                { "math": [ "u_monsters_nearby('mon_void_spider') == 1" ] },
+                { "math": [ "u_monsters_nearby('mon_void_spider_maw') < 4" ] }
               ]
             },
             "effect": [
@@ -238,11 +238,11 @@
         "run_eocs": [
           {
             "id": "void_spider_life_remaining",
-            "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "350" ] }, { "math": [ "u_void_spider_nest_disturbed", "!=", "1" ] } ] },
+            "condition": { "and": [ { "math": [ "u_hp('ALL') < 350" ] }, { "math": [ "u_void_spider_nest_disturbed != 1" ] } ] },
             "effect": [
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },
-              { "math": [ "u_void_spider_nest_disturbed", "=", "1" ] }
+              { "math": [ "u_void_spider_nest_disturbed = 1" ] }
             ]
           },
           {
@@ -274,7 +274,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_DISTURBED_NEST",
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('mon_void_spider')", ">=", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_void_spider') >= 1" ] },
     "effect": [
       { "u_message": "The shadows of frenzied limbs slip into reality", "type": "info" },
       {
@@ -298,23 +298,23 @@
           },
           {
             "id": "EOC_VOID_SPIDER_SPAWN_EGGS",
-            "condition": { "and": [ { "one_in_chance": 3 }, { "math": [ "void_spider_nest_eggs_spawned", "!=", "1" ] } ] },
+            "condition": { "and": [ { "one_in_chance": 3 }, { "math": [ "void_spider_nest_eggs_spawned != 1" ] } ] },
             "effect": [
               { "mapgen_update": "void_spider_lair_eggs", "om_terrain": "void_spider_lair_a2" },
-              { "math": [ "void_spider_nest_eggs_spawned", "=", "1" ] }
+              { "math": [ "void_spider_nest_eggs_spawned = 1" ] }
             ]
           },
           {
             "id": "EOC_VOID_SPIDER_SPAWN_CORPSES",
-            "condition": { "and": [ { "one_in_chance": 6 }, { "math": [ "void_spider_nest_corpses_spawned", "!=", "1" ] } ] },
+            "condition": { "and": [ { "one_in_chance": 6 }, { "math": [ "void_spider_nest_corpses_spawned != 1" ] } ] },
             "effect": [
               { "mapgen_update": "void_spider_lair_corpses", "om_terrain": "void_spider_lair_a1" },
-              { "math": [ "void_spider_nest_corpses_spawned", "=", "1" ] }
+              { "math": [ "void_spider_nest_corpses_spawned = 1" ] }
             ]
           }
         ]
       },
-      { "queue_eocs": "EOC_VOID_SPIDER_DISTURBED_NEST", "time_in_future": [ "8 seconds", "10 seconds" ] }
+      { "run_eocs": "EOC_VOID_SPIDER_DISTURBED_NEST", "time_in_future": [ "8 seconds", "10 seconds" ] }
     ]
   },
   {
@@ -340,16 +340,16 @@
     },
     "effect": [
       { "u_cast_spell": { "id": "void_spider_empty_revert", "hit_self": true } },
-      { "queue_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
+      { "run_eocs": "EOC_VOID_SPIDER_EMPTY_REVERT", "time_in_future": "25 seconds" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_ON_DEATH",
     "effect": [
-      { "queue_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
-      { "queue_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" },
-      { "queue_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
+      { "run_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
+      { "run_eocs": "EOC_VOID_SPIDER_RESET_VARS", "time_in_future": "2 hours" },
+      { "run_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
     ]
   },
   {
@@ -372,7 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
+    "effect": [ { "math": [ "void_spider_killed = 1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -380,10 +380,10 @@
     "global": true,
     "//": "Reset in case someone finds a second lair under some extraneous circumstances.",
     "effect": [
-      { "math": [ "spider_lair_sealed", "=", "0" ] },
-      { "math": [ "void_spider_killed", "=", "0" ] },
-      { "math": [ "void_spider_nest_eggs_spawned", "=", "0" ] },
-      { "math": [ "void_spider_nest_corpses_spawned", "=", "0" ] }
+      { "math": [ "spider_lair_sealed = 0" ] },
+      { "math": [ "void_spider_killed = 0" ] },
+      { "math": [ "void_spider_nest_eggs_spawned = 0" ] },
+      { "math": [ "void_spider_nest_corpses_spawned = 0" ] }
     ]
   }
 ]

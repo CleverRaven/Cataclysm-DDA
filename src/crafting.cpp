@@ -98,6 +98,7 @@ static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" )
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const limb_score_id limb_score_manip( "manip" );
@@ -170,6 +171,9 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec, const tripo
     float darkness = fine_detail_vision_mod( p ) - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
+    }
+    if( has_flag( json_flag_CRAFT_IN_DARKNESS ) ) {
+        return 1.0f; // through supernatural means, you can see in the dark and craft without a problem
     }
     bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
     if( darkness > 0 && !rec_blind ) {
@@ -267,18 +271,17 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
             debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
             return 0.0f;
         }
-    } else if( here.furn( *loc ).obj().workbench ) {
+    } else if( const auto &fw = here.furn( *loc ).obj().workbench ) {
         // Furniture workbench
-        const furn_t &f = here.furn( *loc ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        multiplier = fw->multiplier;
+        allowed_mass = fw->allowed_mass;
+        allowed_volume = fw->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = furn_f_ground_crafting_spot.obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
+        const auto &fg = furn_f_ground_crafting_spot.obj().workbench;
+        multiplier = fg->multiplier;
+        allowed_mass = fg->allowed_mass;
+        allowed_volume = fg->allowed_volume;
     }
 
     const units::mass &craft_mass = craft.weight();
@@ -650,14 +653,14 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
 
 const inventory &Character::crafting_inventory( bool clear_path ) const
 {
-    return crafting_inventory( tripoint_zero, PICKUP_RANGE, clear_path );
+    return crafting_inventory( tripoint::zero, PICKUP_RANGE, clear_path );
 }
 
 const inventory &Character::crafting_inventory( const tripoint &src_pos, int radius,
         bool clear_path ) const
 {
     tripoint inv_pos = src_pos;
-    if( src_pos == tripoint_zero ) {
+    if( src_pos == tripoint::zero ) {
         inv_pos = pos();
     }
     if( crafting_cache.valid
@@ -1721,7 +1724,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 buffer += tool_continue_reqs.list_missing();
                 popup( buffer, PF_NONE );
             } else {
-                add_msg_if_npc( _( "<npcname> don't have the necessary tools to continue crafting!" ) );
+                add_msg_if_npc( _( "<npcname> doesn't have the necessary tools to continue crafting!" ) );
             }
             return false;
         }
@@ -2174,7 +2177,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             it.spill_contents( *this );
         }
         // todo: make a proper solution that overflows with the proper item_location
-        it.overflow( pos() );
+        it.overflow( pos_bub() );
     }
     empty_buckets( *this );
     return ret;
@@ -2594,7 +2597,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         remove_ammo( orig_item, *this );
         remove_radio_mod( orig_item, *this );
         if( orig_item.is_container() ) {
-            orig_item.spill_contents( pos() );
+            orig_item.spill_contents( pos_bub() );
         }
         if( orig_item.count_by_charges() ) {
             //subtract selected number of rounds to disassemble
@@ -2656,22 +2659,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             return false;
         } else {
             if( obj.get_owner() ) {
-                std::vector<npc *> witnesses;
-                for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
-                        elem.say( "<witnessed_thievery>", 7 );
-                        npc *npc_to_add = &elem;
-                        witnesses.push_back( npc_to_add );
-                    }
-                }
-                if( !witnesses.empty() ) {
-                    if( player_character.add_faction_warning( obj.get_owner() ) ) {
-                        for( npc *elem : witnesses ) {
-                            elem->make_angry();
-                        }
-                    }
-                }
+                g->on_witness_theft( obj );
             }
         }
     }

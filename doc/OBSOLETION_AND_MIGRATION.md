@@ -44,6 +44,10 @@ Additionally, `COMESTIBLE` items have temperature and rot processing, and are th
 * In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
 * In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
 
+# Vehicle migration
+
+Vehicles do not need any migration, simple deletion is enough
+
 # Vehicle part migration
 Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
 For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.
@@ -196,7 +200,8 @@ Errorlessly obsolete an id
 
 # Overmap terrain migration
 
-Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
+Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated.
+If you need the map to be removed without alternative, use `omt_obsolete`. Mods can override replacement ids by specifying different new ids or cancel them entirely by making the new id the same as the old one.
 
 ```json
   {
@@ -240,6 +245,11 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
 }
 ```
 
+# Activity Migration
+See if it is mentioned in `src/savegame_legacy.cpp`.
+
+In `src/savegame_json.cpp` in `player_activity::deserialize( const JsonObject &data )` add to `std::set<std::string> obs_activities` the activity ID with comment to remove it after the next version (after 0.B when in 0.A experimental). There should always be at least one example left.
+
 # Ammo types
 
 Ammo types don't need an infrastructure to be obsoleted, but it is required to remove all items that use this ammo type
@@ -278,4 +288,19 @@ For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which pr
     "dependencies": [ "dda" ],
     "obsolete": true
   }
+```
+
+When declaring a mod obsolete, also consider adding its directory to the `lang/update_pot.sh` file via the `-D` argument to `extract_json_strings.py`:
+
+```diff
+echo "> Extracting strings from JSON"
+if ! lang/extract_json_strings.py \
+        -i data \
+        ...
+        -D data/mods/BlazeIndustries \
+        -D data/mods/desert_region \
++       -D data/mods/YOUR_DEPRECATED_MOD \
+        -n "$package $version" \
+        -r lang/po/gui.pot \
+        -o lang/po/json.pot
 ```

@@ -36,6 +36,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_DREAM_WOUND_SHADOW",
+    "default": "mon_dream_shadow",
+    "monsters": [
+      { "monster": "mon_dream_shadow", "weight": 500, "cost_multiplier": 0 },
+      { "monster": "mon_dream_shadowbeast", "weight": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
@@ -168,6 +177,14 @@
     "type": "monstergroup",
     "name": "GROUP_FERAL_AGENTS",
     "monsters": [ { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 1, 2 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE",
+    "monsters": [
+      { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_feral_zebra_agent_p90", "weight": 100, "pack_size": [ 0, 2 ] }
+    ]
   },
   {
     "type": "monstergroup",
@@ -329,6 +346,25 @@
     "monsters": [
       { "monster": "mon_mi_go_stalking_warper", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
+    "monsters": [
+      { "monster": "mon_hedge_armed_warrior_sword", "weight": 400 },
+      { "monster": "mon_hedge_armed_warrior_spear", "weight": 400 },
+      { "monster": "mon_hedge_armored_warrior_axe", "weight": 200 },
+      { "monster": "mon_hedge_armored_warrior_mace", "weight": 200 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HOSTS_OF_SAMHAIN",
+    "monsters": [
+      { "monster": "mon_samhain_ghost_mace", "weight": 333 },
+      { "monster": "mon_samhain_ghost_axe", "weight": 333 },
+      { "monster": "mon_samhain_ghost_spear", "weight": 333 }
     ]
   }
 ]

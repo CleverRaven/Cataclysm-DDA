@@ -267,7 +267,6 @@
     "volume": "35750 ml",
     "price": "1 kUSD",
     "price_postapoc": "10 USD",
-    "to_hit": -5,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "duffelbag",
@@ -339,109 +338,6 @@
     "flags": [ "UNDERSIZE", "PREFIX_XS", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
-    "id": "miner_hat",
-    "type": "TOOL_ARMOR",
-    "category": "armor",
-    "symbol": "[",
-    "color": "yellow",
-    "name": { "str": "mining helmet" },
-    "description": "A mining helmet with a heavy-duty LED flashlight.  Using this will turn the flashlight on and provide light, assuming it is charged with batteries.",
-    "flags": [ "WATERPROOF", "PADDED" ],
-    "price": "125 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic" ],
-    "weight": "1196 g",
-    "volume": "3 L",
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the helmet on.",
-      "target": "miner_hat_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The helmet's batteries are dead."
-    },
-    "techniques": [ "WBLOCK_1" ],
-    "warmth": 8,
-    "material_thickness": 4,
-    "environmental_protection": 1,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
-        "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "400 g",
-        "moves": 250,
-        "description": "Pocket for an ear attachment.",
-        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
-        "inherits_flags": true
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "250 g",
-        "moves": 250,
-        "description": "Pocket for a nape protector.",
-        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "400 g",
-        "moves": 250,
-        "description": "Pocket for a strapped mandible guard.",
-        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "400 g",
-        "moves": 250,
-        "description": "Pocket for a counterweight pouch.",
-        "flag_restriction": [ "HELMET_BACK_POUCH" ]
-      }
-    ],
-    "armor": [
-      { "encumbrance": 15, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] }
-    ],
-    "melee_damage": { "bash": 6 }
-  },
-  {
-    "id": "miner_hat_on",
-    "copy-from": "miner_hat",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "mining helmet (on)", "str_pl": "mining helmets (on)" },
-    "description": "A mining helmet with a heavy-duty LED flashlight.  The flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "WATERPROOF", "TRADER_AVOID", "PADDED" ],
-    "power_draw": "15 W",
-    "revert_to": "miner_hat",
-    "use_action": { "ammo_scale": 0, "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
-    "techniques": [ "WBLOCK_1" ]
-  },
-  {
     "id": "welding_mask",
     "type": "ARMOR",
     "name": { "str": "welding mask" },
@@ -451,7 +347,6 @@
     "longest_side": "34 cm",
     "price": "14 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "welding_mask_raised", "menu_text": "Raise" },
     "material": [ "plastic" ],
     "symbol": "[",
@@ -481,7 +376,7 @@
     "volume": "4 L",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": {
       "type": "transform",
       "msg": "You push your %s up your head.",
@@ -505,7 +400,8 @@
       },
       { "encumbrance": 0, "coverage": 30, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] },
       { "encumbrance": 45, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "welding_mask_crude_raised",
@@ -516,7 +412,7 @@
     "volume": "4 L",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "use_action": {
       "type": "transform",
       "msg": "You lower your crude welding mask over your face.",
@@ -528,7 +424,8 @@
     "color": "dark_gray",
     "warmth": 8,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 25, "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "welding_mask_raised",
@@ -540,7 +437,6 @@
     "longest_side": "34 cm",
     "price": "14 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "use_action": {
       "type": "transform",
       "msg": "You lower your welding mask over your face.",
@@ -562,7 +458,6 @@
     "volume": "250 ml",
     "description": "A waterproof digital watch with a built-in electronic game system, powered by standard batteries.  Activate to play.",
     "weight": "112 g",
-    "to_hit": -1,
     "color": "light_gray",
     "sided": true,
     "price": "60 USD",
@@ -591,7 +486,6 @@
     "volume": "125 ml",
     "description": "A touchscreen watch that comes with many uses, such as a calendar, alarm, and even a fitness app, for when you want to check your health on the go!",
     "weight": "61 g",
-    "to_hit": -1,
     "color": "light_gray",
     "sided": true,
     "price": "100 USD",
@@ -615,7 +509,7 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 80 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -626,7 +520,6 @@
     "volume": "100 ml",
     "description": "A fitness band that can track your heartbeat, exercise level, and calories, and also has a clock.  Activate to see your metrics.",
     "weight": "30 g",
-    "to_hit": -1,
     "color": "light_gray",
     "sided": true,
     "price": "50 USD",
@@ -644,9 +537,8 @@
     "category": "clothing",
     "volume": "150 ml",
     "description": "A proprietary wrist mount for a flashlight.  Not very useful on its own.",
-    "//": "Based on mount for this: https://www.amazon.com/Aqualite-Tauchlampe-schwarz-Lumen-12516/dp/B00DI5GMOM",
+    "//": "Based on mount for this: https://www.amazon.com/dp/B00DI5GMOM",
     "weight": "50 g",
-    "to_hit": -1,
     "color": "light_gray",
     "sided": true,
     "price": "25 USD",
@@ -687,11 +579,10 @@
     "volume": "3500 ml",
     "price": "55 kUSD",
     "price_postapoc": "100 USD",
-    "to_hit": -1,
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_atomic_battery_cell" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "light_battery_cell" ] } ],
     "ammo": "battery",
     "charges_per_use": 25,
     "warmth": 10,
@@ -821,7 +712,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
@@ -875,7 +766,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
@@ -929,7 +820,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "coverage": 100, "covers": [ "head", "mouth" ] } ]
@@ -971,7 +862,7 @@
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "material_thickness": 2,
     "armor": [ { "encumbrance": 2, "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
-    "melee_damage": { "bash": 4 },
+    "melee_damage": { "bash": 3 },
     "//": "Based on https://www.amazon.com/dp/B0798Q79RV"
   },
   {
@@ -982,12 +873,14 @@
     "color": "blue",
     "name": { "str": "headlamp" },
     "description": "An LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
-    "price": "40 USD",
+    "//": "reference: https://www.rei.com/product/202772/black-diamond-astro-300-headlamp",
+    "price": "20 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "aluminum" ],
     "flags": [ "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
-    "weight": "520 g",
-    "volume": "500 ml",
+    "weight": "150 g",
+    "volume": "141 ml",
+    "longest_side": "136 mm",
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -1003,8 +896,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [ { "coverage": 45, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
@@ -1017,24 +910,17 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "wearable camera" },
-    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.  This one can be worn over your neck.",
+    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  This one can be worn over your neck.",
     "price": "200 USD",
     "price_postapoc": "50 cent",
     "material": [ "plastic", "steel" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
     "weight": "520 g",
     "volume": "500 ml",
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "ammo": "battery",
-    "use_action": [ "CAMERA" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
-      }
-    ],
+    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
     "melee_damage": { "bash": 1 }
   },
@@ -1045,24 +931,27 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "wearable professional camera" },
-    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
+    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
     "price": "8 kUSD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "steel" ],
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "CAMERA_PRO",
+      "ALWAYS_TWOHAND",
+      "OVERSIZE",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_BREAK",
+      "ELECTRONIC"
+    ],
     "weight": "520 g",
     "volume": "500 ml",
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "ammo": "battery",
-    "use_action": [ "CAMERA" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
-      }
-    ],
+    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "50 W" } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
     "melee_damage": { "bash": 1 }
   },
@@ -1073,7 +962,7 @@
     "name": { "str": "headlamp (on)", "str_pl": "headlamps (on)" },
     "description": "An LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
-    "power_draw": "10 W",
+    "power_draw": "1560 mW",
     "revert_to": "wearable_light",
     "use_action": {
       "ammo_scale": 0,
@@ -1088,9 +977,9 @@
     "copy-from": "wearable_big_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "heavy-duty headlamp (on)", "str_pl": "heavy-duty headlamps (on)" },
-    "description": "A large and unwieldy homemade headlamp with an overpowered LED array and adjustable strap so as to be worn on your head or attached to your helmet while being as comfortable as possible.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-    "flags": [ "LIGHT_500", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
-    "power_draw": "15 W",
+    "description": "A heavy-duty LED headlamp with a durable polymer housing.  It's impact-resistant, chemical-resistant, waterproof and certified for use in hazardous environments.  Designed for firefighters, rescue personnel and miners.  Use it to turn it off.",
+    "flags": [ "LIGHT_650", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
+    "power_draw": "4 W",
     "revert_to": "wearable_big_light",
     "use_action": {
       "ammo_scale": 0,
@@ -1107,12 +996,13 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "heavy-duty headlamp" },
-    "description": "A large and unwieldy homemade headlamp with an overpowered LED array and adjustable strap so as to be worn on your head or attached to your helmet while being as comfortable as possible.  Use it to turn it on.",
-    "price": "40 USD",
+    "description": "A heavy-duty LED headlamp with a durable polymer housing.  It's impact-resistant, chemical-resistant, waterproof and certified for use in hazardous environments.  Designed for firefighters, rescue personnel and miners.  Use it to turn it on.",
+    "//": "see heavy_flashlight. Based on https://www.nightstick.com/collections/fire/products/xpp-5462rx",
+    "price": "65 USD",
     "price_postapoc": "2 USD",
-    "material": [ "plastic", "aluminum" ],
+    "material": [ "thermo_resin", "aluminum" ],
     "flags": [ "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
-    "weight": "830 g",
+    "weight": "300 g",
     "volume": "750 ml",
     "charges_per_use": 1,
     "ammo": "battery",
@@ -1125,15 +1015,8 @@
       "need_charges_msg": "The headlamp batteries are dead."
     },
     "material_thickness": 1,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
-      }
-    ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 112 } } ],
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
     "melee_damage": { "bash": 1 },
     "looks_like": "wearable_light"
   },
@@ -1210,7 +1093,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
@@ -1241,7 +1124,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "EBOOK",
@@ -1329,14 +1212,14 @@
       "need_charges": 1,
       "need_charges_msg": "\"Illumination disabled, low power.\""
     },
-    "flags": [ "STURDY", "OUTER", "RAINPROOF", "PADDED", "TWO_WAY_RADIO", "WATCH", "ALARMCLOCK" ]
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "PADDED", "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "helmet_eod_on",
     "type": "TOOL_ARMOR",
     "copy-from": "helmet_eod",
     "name": { "str": "EOD helmet (on)", "str_pl": "EOD helmets (on)" },
-    "extend": { "flags": [ "LIGHT_350", "CHARGEDIM", "TRADER_AVOID" ] },
+    "extend": { "flags": [ "LIGHT_350", "CHARGEDIM", "TRADER_AVOID", "TWO_WAY_RADIO" ] },
     "power_draw": "10 W",
     "revert_to": "helmet_eod",
     "use_action": { "type": "transform", "menu_text": "Turn off headlamps", "msg": "\"Disabling illumination.\"", "target": "helmet_eod" }
@@ -1371,7 +1254,7 @@
     "material": [ "hyperweave_off", "carbide" ],
     "weight": "9540 g",
     "volume": "9 L",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
     "ammo": "battery",
     "charges_per_use": 1,
@@ -1440,7 +1323,8 @@
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "rm13_armor_on",
@@ -1456,6 +1340,7 @@
       "ALARMCLOCK",
       "SWIM_GOGGLES",
       "SUN_GLASSES",
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "GAS_PROOF",
       "ELECTRIC_IMMUNE",
@@ -1555,7 +1440,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_atomic_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "ammo": "battery",
@@ -1583,6 +1468,7 @@
     "revert_to": "dimensional_anchor",
     "use_action": {
       "type": "transform",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
@@ -1632,6 +1518,7 @@
     "environmental_protection": 10,
     "material_thickness": 3,
     "flags": [
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -1733,9 +1620,16 @@
     "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  It is turned on, and continually draining power.  Use it to turn it off.",
     "turns_per_charge": 25,
     "revert_to": "phase_immersion_suit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Suit shutting down.", "target": "phase_immersion_suit" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Suit shutting down.",
+      "target": "phase_immersion_suit"
+    },
     "environmental_protection": 80,
     "flags": [
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -1776,7 +1670,6 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "720 g",
     "volume": "500 ml",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1828,7 +1721,6 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "960 g",
     "volume": "1250 ml",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1886,7 +1778,6 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "360 g",
     "volume": "250 ml",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1920,7 +1811,13 @@
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "UNDERSIZE", "PREFIX_XS", "TRADER_AVOID" ],
     "turns_per_charge": 60,
     "revert_to": "rebreather_xs",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xs" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "rebreather_xs"
+    },
     "covers": [ "mouth" ],
     "environmental_protection": 15,
     "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
@@ -1936,7 +1833,6 @@
     "volume": "500 ml",
     "price": "35 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "mask_dust",
@@ -1971,7 +1867,6 @@
     "//2": "While it's based on the C50, this could equally be the FM53, CM8, or an assortment of other gas masks that fall into the same category.",
     "price": "499 USD 50 cent",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ { "type": "butyl_rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
     "symbol": "[",
     "color": "black",
@@ -2078,7 +1973,6 @@
     "volume": "1500 ml",
     "price": "250 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2113,7 +2007,6 @@
     "volume": "500 ml",
     "price": "250 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -2180,7 +2073,6 @@
     "volume": "1250 ml",
     "price": "260 USD",
     "price_postapoc": "18 USD",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2249,7 +2141,6 @@
     "material": [ "plastic", "nomex" ],
     "weight": "1260 g",
     "volume": "1500 ml",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2292,7 +2183,6 @@
     "volume": "1350 ml",
     "price": "260 USD",
     "price_postapoc": "18 USD",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2360,7 +2250,6 @@
     "volume": "625 ml",
     "price": "200 USD",
     "price_postapoc": "14 USD 50 cent",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2386,7 +2275,7 @@
     "warmth": 15,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 15,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxl",
@@ -2395,7 +2284,7 @@
     "looks_like": "mask_lsurvivor",
     "name": { "str": "survivor half mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxs",
@@ -2404,7 +2293,7 @@
     "looks_like": "mask_lsurvivor",
     "name": { "str": "survivor half mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
   },
   {
     "id": "mask_survivor",
@@ -2416,7 +2305,6 @@
     "volume": "1250 ml",
     "price": "240 USD",
     "price_postapoc": "17 USD 50 cent",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2482,7 +2370,6 @@
     "material": [ "plastic", "steel" ],
     "weight": "600 g",
     "volume": "1 L",
-    "to_hit": -3,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -2501,7 +2388,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "relic_data": { "passive_effects": [ { "id": "nvg_bad" } ] },
@@ -2536,7 +2423,6 @@
     "material": [ "plastic", "steel" ],
     "weight": "1240 g",
     "volume": "1 L",
-    "to_hit": -3,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -2550,12 +2436,13 @@
     "warmth": 10,
     "environmental_protection": 3,
     "material_thickness": 2,
+    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
@@ -2567,7 +2454,7 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
@@ -2627,7 +2514,6 @@
     "material": [ "kevlar_layered", "plastic" ],
     "weight": "982 g",
     "volume": "1500 ml",
-    "to_hit": -3,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2778,7 +2664,6 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "150 g",
     "volume": "150 ml",
-    "to_hit": -1,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": [ "RADGLOVE" ],
@@ -2835,7 +2720,6 @@
     "material": [ "cotton" ],
     "weight": "370 g",
     "volume": "500 ml",
-    "to_hit": -1,
     "use_action": [ "TOWEL" ],
     "warmth": 8,
     "material_thickness": 0.3,
@@ -2853,7 +2737,6 @@
     "material": [ "cotton" ],
     "weight": "400 g",
     "volume": "500 ml",
-    "to_hit": -1,
     "revert_to": "towel",
     "use_action": [ "TOWEL" ],
     "flags": [ "WET", "SLEEP_IGNORE" ],
@@ -3127,7 +3010,6 @@
     "volume": "10 ml",
     "description": "A simple metal whistle, with a cord to wear it around your neck.",
     "weight": "25 g",
-    "to_hit": -1,
     "color": "light_gray",
     "price": "2 USD",
     "price_postapoc": "50 cent",
@@ -3177,7 +3059,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_ear_r", "head_ear_l" ] } ]
@@ -3215,7 +3097,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_ear_r", "head_ear_l" ] } ]
@@ -3244,7 +3126,7 @@
       "need_charges_msg": "The earplugs' batteries are dead."
     },
     "material_thickness": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ]
   },
   {
     "id": "powered_earplugs_on",
@@ -3305,7 +3187,7 @@
     "volume": "5 L",
     "price": "5 kUSD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "light_gray",
@@ -3345,7 +3227,7 @@
     "volume": "2250 ml",
     "price": "220 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "plastic", "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -3400,7 +3282,7 @@
     "volume": "2250 ml",
     "price": "220 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "plastic", "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -3420,7 +3302,7 @@
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "helmet_sallet",
@@ -3537,7 +3419,7 @@
     "volume": "12 L",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3560,11 +3442,11 @@
     "name": { "str": "diving cylinder (on)", "str_pl": "diving cylinders (on)" },
     "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "oxygen_tank",
-    "weight": "16000 g",
+    "weight": "16 kg",
     "volume": "12 L",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3593,11 +3475,11 @@
     "name": { "str": "small diving cylinder" },
     "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
-    "weight": "7000 g",
+    "weight": "7 kg",
     "volume": "4 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3620,11 +3502,11 @@
     "name": { "str": "small diving cylinder (on)", "str_pl": "small diving cylinders (on)" },
     "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
-    "weight": "7000 g",
+    "weight": "7 kg",
     "volume": "4 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3655,8 +3537,7 @@
     "volume": "2500 ml",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "brown",
     "warmth": 50,
@@ -3720,7 +3601,6 @@
     "volume": "16 L",
     "price": "15 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "Q",
     "color": "pink",
@@ -3830,7 +3710,7 @@
     "volume": "2 L",
     "price": "500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
@@ -3859,10 +3739,10 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "flight_helmet_on",
@@ -3874,7 +3754,7 @@
     "volume": "2 L",
     "price": "500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
@@ -3892,16 +3772,22 @@
     "ammo": "battery",
     "power_draw": "60 mW",
     "revert_to": "flight_helmet",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "flight_helmet" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "flight_helmet"
+    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -3939,7 +3825,7 @@
     "volume": "130 L",
     "price": "115 kUSD",
     "price_postapoc": "400 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -3972,7 +3858,7 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "utility_exoskeleton_on",
@@ -3986,7 +3872,13 @@
     "power_draw": "972216 mW",
     "//": "Battery should last two hours (02:00:07). Weight capacity bonus should include weight of item AND battery, plus 90kg.",
     "revert_to": "utility_exoskeleton_off",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "utility_exoskeleton_off"
+    }
   },
   {
     "id": "ice_utility_exoskeleton_off",
@@ -3998,7 +3890,7 @@
     "volume": "130 L",
     "price": "115 kUSD",
     "price_postapoc": "400 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -4025,7 +3917,7 @@
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "ice_utility_exoskeleton_on",
@@ -4038,6 +3930,12 @@
     "turns_per_charge": 1,
     "//": "Full tank lasts a bit under three hours (166.66 minutes). Has less carry bonus than the battery one since the weight of the fuel will drop over time.",
     "revert_to": "ice_utility_exoskeleton_off",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "ice_utility_exoskeleton_off"
+    }
   }
 ]

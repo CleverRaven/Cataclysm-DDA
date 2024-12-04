@@ -60,7 +60,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__chainsaw",
-          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
+          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level() > 5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
           "effect": [
             { "turn_cost": 0.8 },
             { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
@@ -91,11 +91,12 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__chainsaw",
           "effect": [
-            { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
+            { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
             { "sound_effect": "chainsaw_on", "id": "chainsaw_stop" }
           ]
         }
@@ -107,7 +108,7 @@
         {
           "id": "EOC_toolweapon_running__chainsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
@@ -147,7 +148,7 @@
         {
           "id": "EOC_toolweapon_activate__polesaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "polesaw_on",
@@ -177,10 +178,11 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__polesaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
         }
       ]
     },
@@ -190,7 +192,7 @@
         {
           "id": "EOC_toolweapon_running__polesaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
@@ -227,7 +229,7 @@
         {
           "id": "EOC_toolweapon_activate__circsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "circsaw_on",
@@ -241,12 +243,7 @@
     },
     "flags": [ "NONCONDUCTIVE" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 2, "cut": 4 }
   },
@@ -264,10 +261,11 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__circsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
         }
       ]
     },
@@ -277,7 +275,7 @@
         {
           "id": "EOC_toolweapon_running__circsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
@@ -338,6 +336,7 @@
     "color": "light_gray",
     "name": { "str": "hatchet" },
     "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and hammering them.",
+    "category": "tools",
     "price": "25 USD",
     "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
@@ -348,7 +347,6 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "category": "weapons",
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "melee_damage": { "bash": 10, "cut": 20 }
   },
@@ -393,9 +391,9 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__elec_chainsaw",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "elec_chainsaw_on",
@@ -410,12 +408,7 @@
     },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 10 }
   },
@@ -433,10 +426,11 @@
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
+      "ammo_scale": 0,
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__elec_chainsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
         }
       ]
     },
@@ -446,7 +440,7 @@
         {
           "id": "EOC_toolweapon_running__elec_chainsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
               "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
@@ -475,9 +469,9 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
-            "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+            "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
             "effect": {
-              "run_eoc_with": "EOC_toolweapon_activate",
+              "run_eocs": "EOC_toolweapon_activate",
               "variables": {
                 "turn_cost": "0.6",
                 "transform_target": "elec_chainsaw_cord_on",
@@ -504,10 +498,11 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Turn off",
+        "ammo_scale": 0,
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
-            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
+            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
           }
         ]
       },
@@ -519,7 +514,7 @@
         {
           "id": "EOC_toolweapon_running__elec_chainsaw_cord",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
               "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },

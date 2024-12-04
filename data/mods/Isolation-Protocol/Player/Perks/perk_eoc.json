@@ -35,5 +35,104 @@
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "iso_hypo_o" },
     "effect": [ { "u_add_effect": "iso_eff_hypo_o", "duration": "2 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_GEAS",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_trait": "iso_geas" },
+    "effect": [
+      { "u_location_variable": { "u_val": "avatar_new_pos" }, "min_radius": 0, "max_radius": 0 },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "_EOC_ISO_GEAS",
+            "condition": { "math": [ "u_val('difficulty') >= 30" ] },
+            "effect": [ { "run_eocs": "geas_monster", "beta_talker": "avatar" } ]
+          }
+        ],
+        "monster_range": 65,
+        "monster_must_see": true
+      },
+      { "u_location_variable": { "u_val": "avatar_old_pos" }, "min_radius": 0, "max_radius": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "geas_monster",
+    "effect": [
+      { "math": [ "u_new_distance = distance('u', 'npc')" ] },
+      { "u_location_variable": { "u_val": "monster_pos" }, "min_radius": 0, "max_radius": 0 },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_old_distance)" ] },
+            { "math": [ "u_new_distance > u_old_distance" ] },
+            { "npc_can_see_location": { "u_val": "monster_pos" } }
+          ]
+        },
+        "then": [
+          { "npc_teleport": { "npc_val": "avatar_old_pos" } },
+          { "npc_message": "You cannot flee from the abomination." },
+          { "npc_add_effect": "iso_eff_geas_buff", "duration": "10 seconds" }
+        ],
+        "else": [
+          { "u_message": "Oh ho!  Then come as close as you like." },
+          { "npc_add_effect": "iso_eff_geas_buff", "duration": "10 seconds" }
+        ]
+      },
+      { "math": [ "u_old_distance = distance('u', 'npc')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIO_VAMPIRE_RESTORE",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "and": [ { "math": [ "u_bionic_in_melee == 1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
+    "//": "* in math is so the number before the * is kJ of bionic power restored",
+    "effect": [
+      { "math": [ "u_val('power')", "+=", "1.75 * 1000000" ] },
+      { "if": { "npc_has_flag": "PUSH_VEH" }, "then": { "math": [ "u_val('power')", "+=", "50 * 1000000" ] } },
+      {
+        "if": { "npc_has_flag": "CORNERED_FIGHTER" },
+        "then": { "math": [ "u_val('power')", "+=", "0.5 * 1000000" ] }
+      },
+      {
+        "if": { "npc_has_flag": "PRIORITIZE_TARGETS" },
+        "then": { "math": [ "u_val('power')", "+=", "15 * 1000000" ] }
+      },
+      { "if": { "npc_has_flag": "DROPS_AMMO" }, "then": { "math": [ "u_val('power')", "+=", "35 * 1000000" ] } },
+      { "if": { "npc_has_flag": "STUN_IMMUNE" }, "then": { "math": [ "u_val('power')", "+=", "2 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HAS_MIND" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
+      { "if": { "npc_has_flag": "ELECTRIC" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HARDTOSHOOT" }, "then": { "math": [ "u_val('power')", "+=", "20 * 1000000" ] } },
+      { "if": { "npc_has_species": "NETHER" }, "then": { "math": [ "u_val('power')", "+=", "25 * 1000000" ] } },
+      { "if": { "npc_has_species": "MIGO" }, "then": { "math": [ "u_val('power')", "+=", "20 * 1000000" ] } },
+      { "if": { "npc_has_species": "ROBOT" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIO_VAMPIRE_RESTORE_IN_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "u_has_trait": "iso_bionic_vampire" },
+    "effect": [ { "math": [ "u_bionic_in_melee = 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIO_VAMPIRE_RESTORE_AT_RANGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "u_has_trait": "iso_bionic_vampire" },
+    "effect": [ { "math": [ "u_bionic_in_melee = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE",
+    "condition": { "u_has_trait": "iso_bionic_vampire" },
+    "effect": { "math": [ "u_val('power')", "+=", "500 * 1000000" ] }
   }
 ]

@@ -132,8 +132,11 @@
   {
     "id": "homullus_invisible_to_humans_spell_self",
     "type": "SPELL",
-    "name": "A Face in the Crowd Self",
-    "description": "Puts an effect on you so anyone affected by A Face in the Crowd knows to ignore you.  It's a bug if you have this directly.",
+    "name": { "str": "A Face in the Crowd Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "Puts an effect on you so anyone affected by A Face in the Crowd knows to ignore you.  It's a bug if you have this directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "spell_class": "HOMULLUS",
     "teachable": false,
@@ -297,8 +300,8 @@
   {
     "id": "homullus_civilization_translocate_attune_real",
     "type": "SPELL",
-    "name": "All Roads Lead to Rome Attunement Real",
-    "description": "The actual All Roads Lead to Rome attunement spell.  It's a bug if you have it.",
+    "name": { "str": "All Roads Lead to Rome Attunement Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual All Roads Lead to Rome attunement spell.  It's a bug if you have it.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "HOMULLUS",

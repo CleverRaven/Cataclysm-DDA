@@ -3,8 +3,8 @@
     "id": "nemesis_buff",
     "type": "effect_type",
     "max_duration": "1000 s",
-    "name": [ "SWOLE" ],
-    "desc": [ "If you see this description it is a bug." ],
+    "name": [ { "str": "SWOLE", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "If you see this description it is a bug.", "//~": "NO_I18N" } ],
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [ "ench_nemesis_buff" ]
@@ -30,7 +30,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "A roar fills your mind and you stagger!",
@@ -51,7 +51,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed_zap",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "Your body twitches under the electrical assault!",
@@ -109,9 +109,53 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_heightened_reflex",
+    "name": [ "Heightened Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "show_in_info": true,
+    "removes_effects": [ "blind", "deaf" ],
+    "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 }, { "value": "SPEED", "multiply": 0.17 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_heightened_reflex_enhanced",
+    "name": [ "Heightened Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "show_in_info": true,
+    "removes_effects": [ "blind", "deaf" ],
+    "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.2 }, { "value": "SPEED", "multiply": 0.35 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_psi_biokin3_hurricane_blows",
+    "//": "Hidden effect, used to prep for feral biokinetics using Hurricane Blows",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 400 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
-    "name": [ "One Perfect Rock" ],
-    "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
+    "name": [ { "str": "One Perfect Rock", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are prepared to ruin the player's day with an inhumanly accurate thrown rock.", "//~": "NO_I18N" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_neuro_acceleration",
+    "name": [ "Neuro-Acceleration" ],
+    "desc": [ "You are enhancing your speed." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_neuro_acceleration_enhanced",
+    "name": [ "Neuro-Acceleration" ],
+    "desc": [ "You are enhancing your speed." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.4 } ] } ]
   },
   {
     "type": "effect_type",
@@ -149,6 +193,18 @@
       [ 1, 5 ],
       [ 1, 1 ]
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_illuminate_enemy",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A faint glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 35 } ] } ]
   },
   {
     "type": "effect_type",
@@ -207,6 +263,32 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_inertial_barrier_improved",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -25 },
+          { "value": "ARMOR_BASH", "add": -18 },
+          { "value": "ARMOR_STAB", "add": -32 },
+          { "value": "ARMOR_BULLET", "add": -50 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_monster_immune_to_telepathy",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "You have a shield up to prevent telepathic detection and attack." ],
+    "show_in_info": true,
+    "max_intensity": 20
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
@@ -236,13 +318,26 @@
     "rating": "bad",
     "max_duration": "12 hours",
     "base_mods": {
-      "str_mod": [ -2 ],
+      "str_mod": [ -1 ],
       "h_mod_min": [ -2 ],
       "h_mod_chance": [ 1 ],
       "h_mod_chance_bot": [ 5 ],
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 0.75 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_health_down_monster",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 1800,
+    "int_decay_remove": true,
+    "base_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] },
+    "scaling_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -299,7 +394,16 @@
   {
     "type": "effect_type",
     "id": "effect_feral_regeneration",
-    "name": [ "Feral Regeneration" ],
-    "desc": [ "Your wounds are rapidly closing." ]
+    "name": [ { "str": "Feral Regeneration", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Your wounds are rapidly closing.", "//~": "NO_I18N" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_network_monster_effect",
+    "name": [ { "str": "Telepathic Network Monster", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "You are in constant communication with your allies, looking out for each other in combat.", "//~": "NO_I18N" }
+    ],
+    "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
   }
 ]

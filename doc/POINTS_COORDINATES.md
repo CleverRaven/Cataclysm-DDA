@@ -40,7 +40,7 @@ Lastly, these is a system called **segment** (seg) coordinates.  These are only
 used in saving/loading submaps and you are unlikely to encounter them.
 
 As well as absolute and local coordinates, sometimes we need to use coordinates
-relative so some larger scale.  For example, when performing mapgen for a
+relative to some larger scale.  For example, when performing mapgen for a
 single overmap, we want to work with coordinates within that overmap.  This
 will be an overmap terrain-scale point relative to the corner of its containing
 overmap, and so typically take `x` and `y` values in the range [0,180).
@@ -120,6 +120,35 @@ appropriate.
 
 New code should prefer to use the types which include their coordinate system
 where feasible.
+
+## Point Constants
+
+The raw types `point` and `tripoint` as well as all of the coordinate types
+with origin and scale have the following static constants:
+
+* `zero` - The origin point
+* `min` - The minimum representable point, with INT_MIN coordinates
+* `max` - The maximum representable point, with INT_MAX coordinates
+* `invalid` - A sentinel value for unset / canceled / failed point operations,
+  equal to `min` for historic compatibility
+
+Relative coordinate types have these directional constants that represent one
+step in the given direction:
+* `north`
+* `north_east`
+* `east`
+* `south_east`
+* `south`
+* `south_west`
+* `west`
+* `north_west`
+* `above` - only for tripoint and coordinate types based on tripoint
+* `below` - only for tripoint and coordinate types based on tripoint
+Attempting to access these constants on a non-relative coordinate type will produce a compiler error.
+
+All types also have a helper method `is_invalid()` that compares the value to
+the `invalid` constant.
+
 
 ## Converting between point types
 

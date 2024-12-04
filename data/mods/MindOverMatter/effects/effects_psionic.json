@@ -196,7 +196,7 @@
   {
     "type": "effect_type",
     "id": "effect_biokin_reflex",
-    "name": [ "Enhanced Reflexes" ],
+    "name": [ "Heightened Reflexes" ],
     "desc": [ "You are enhancing your speed and senses." ],
     "apply_message": "",
     "remove_message": "The world speeds up again.",
@@ -219,7 +219,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "max((( 5 + ( u_spell_level('biokin_physical_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
+                "min((( 5 + ( u_spell_level('biokin_reflex_enhance') ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 30)"
               ]
             }
           }
@@ -435,7 +435,7 @@
             }
           },
           { "value": "MOVE_COST", "multiply": -0.1 },
-          { "value": "RECOIL_MODIFIER", "add": -30 },
+          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
@@ -606,14 +606,20 @@
     "max_intensity": 58,
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "value": "MOTION_VISION_RANGE",
-            "add": {
+            "condition": {
+              "or": [
+                { "and": [ { "not": "npc_is_character" }, { "math": [ "n_val('anger') >= 10" ] } ] },
+                { "and": [ "npc_is_character", "npc_hostile" ] }
+              ]
+            },
+            "distance": {
               "math": [
                 "( ( u_spell_level('clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
           }
         ]
       }
@@ -713,7 +719,7 @@
             "value": "RANGE",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_ranged_enhance') * 0.5 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( u_spell_level('clair_ranged_enhance') * 0.25 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -721,7 +727,26 @@
             "value": "WEAPON_DISPERSION",
             "multiply": {
               "math": [
-                "( ( u_spell_level('clair_ranged_enhance') * -0.025) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "max((( ( u_spell_level('clair_ranged_enhance') * -0.025) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling),-0.6)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_wielded_with_skill": "pistol" },
+            { "u_has_wielded_with_skill": "rifle" },
+            { "u_has_wielded_with_skill": "gun" }
+          ]
+        },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') )  * u_nether_attunement_power_scaling ), 9 )"
               ]
             }
           }
@@ -787,7 +812,7 @@
     "id": "effect_clair_craft_bonus",
     "name": [ "Intuitive Artistry" ],
     "desc": [
-      "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however."
+      "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however, and you will lose awareness of the outside world entirely when making something."
     ],
     "rating": "good",
     "max_duration": "7 days",
@@ -806,7 +831,15 @@
         ]
       }
     ],
-    "flags": [ "MYOPIC" ]
+    "flags": [ "MYOPIC", "CRAFT_IN_DARKNESS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_craft_bonus_blindness",
+    "//": "Hidden effect, blinds you while crafting.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "BLIND" ]
   },
   {
     "type": "effect_type",
@@ -860,7 +893,15 @@
         "values": [
           { "value": "MOVE_COST", "multiply": -0.96 },
           { "value": "EVASION", "add": 1 },
-          { "value": "REGEN_STAMINA", "multiply": -1 }
+          { "value": "REGEN_STAMINA", "multiply": -1 },
+          {
+            "value": "PHASE_DISTANCE",
+            "add": {
+              "math": [
+                "( 1 + ( u_spell_level('clair_astral_projection') * 0.15 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
         ]
       }
     ],
@@ -868,7 +909,7 @@
       "ETHEREAL",
       "INVISIBLE",
       "FEATHER_FALL",
-      "CLIMB_NO_LADDER",
+      "CLIMB_FLYING",
       "LEVITATION",
       "ITEM_WATERPROOFING",
       "WALK_UNDERWATER",
@@ -937,14 +978,23 @@
     "max_intensity": 83,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_ELECTRIC",
-            "add": {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
           }
         ]
       }
@@ -1050,15 +1100,9 @@
     "desc": [ "You are enhancing your nervous system." ],
     "apply_message": "",
     "remove_message": "Your reactions return to baseline.",
-    "decay_messages": [
-      [ "Your enhanced reactions are nearly gone.", "bad" ],
-      [ "Your reaction times are gradually becoming slower.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "30 minutes",
+    "max_duration": "7 days",
     "max_intensity": 61,
-    "dur_add_perc": 10,
-    "int_dur_factor": "29 s",
     "removes_effects": [ "effect_electrokinetic_pain_immune" ],
     "enchantments": [
       {
@@ -1123,6 +1167,30 @@
     "remove_message": "The glow above your hand fades.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_enemy_light",
+    "name": [ "Illuminated" ],
+    "desc": [ "The air around you is glowing." ],
+    "apply_message": "You are outlined in light.",
+    "remove_message": "The glow around you fades.",
+    "rating": "good",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": {
+              "math": [
+                "min( (( 2 + ( u_photokinesis_power_level * 3 ) ) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling), 60 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1194,7 +1262,21 @@
     "desc": [ "You're just another survivor.  There's definitely nothing odd about you at all." ],
     "rating": "good",
     "remove_message": "The illusions around you fall away.",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "UGLINESS",
+            "multiply": {
+              "math": [
+                "max(((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 )) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1205,6 +1287,13 @@
     "remove_message": "You stop paying attention to the radio waves around you.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_sterilization",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1256,12 +1345,9 @@
     "desc": [ "You are glowing like the sun." ],
     "apply_message": "",
     "remove_message": "The last light finally dies.",
-    "decay_messages": [ [ "The light you are emitting is dimming rapidly.", "bad" ], [ "The intense glow has started to flicker.", "bad" ] ],
     "rating": "good",
-    "max_duration": "15 minutes",
+    "max_duration": "7 days",
     "max_intensity": 46,
-    "dur_add_perc": 10,
-    "int_dur_factor": "20 s",
     "base_mods": { "dodge_mod": [ 4 ] },
     "enchantments": [ "enchant_photokin_blinding_glare" ]
   },
@@ -1291,9 +1377,8 @@
   {
     "type": "effect_type",
     "id": "effect_pyrokinetic_fire_tool",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Banked Flames" ],
+    "desc": [ "A flame is burning over one of your palms." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -1304,24 +1389,17 @@
     "desc": [ "The air around you has its temperature controlled." ],
     "apply_message": "",
     "remove_message": "A cool breeze hits your skin.",
-    "decay_messages": [
-      [ "The warm air you've surrounded yourself with is nearly spent.", "bad" ],
-      [ "The air around you is slowing beginning to cool.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "60 minutes",
+    "max_duration": "7 days",
     "max_intensity": 77,
-    "dur_add_perc": 10,
-    "int_dur_factor": "46 s",
     "enchantments": [ "enchant_pyrokin_cloak" ],
     "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
     "id": "effect_pyrokinetic_torch_weld",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
+    "name": [ "Incandescent Lance" ],
+    "desc": [ "A thin beam of searing plasma extends from one finger." ],
     "rating": "good",
     "max_duration": "7 days"
   },
@@ -1335,7 +1413,283 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 31,
-    "enchantments": [ "enchant_pyrokinetic_aura" ]
+    "removes_effects": [ "effect_pyrokinetic_aura_damage" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": {
+              "math": [
+                "(u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 5) + 10"
+              ]
+            }
+          },
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": {
+              "math": [
+                "(u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 12) + 20"
+              ]
+            }
+          }
+        ],
+        "hit_you_effect": [ { "id": "pyro_aura_attack", "hit_self": false } ]
+      },
+      {
+        "condition": {
+          "math": [
+            "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+            "<=",
+            "3"
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_1"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "3"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "6"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_2"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "6"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "9"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_3"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "9"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "12"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_4"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "12"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "15"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_5"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "15"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "18"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_6"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "18"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "21"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_7"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "21"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "24"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_8"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "24"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "27"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_9"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "27"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "30"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_10"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "30"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "33"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_11"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "33"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "36"
+              ]
+            }
+          ]
+        },
+        "emitter": "emit_pyrokinetic_aura_12"
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokinetic_aura_damage",
+    "name": [ "Burning Air" ],
+    "desc": [ "The air is intolerably hot." ],
+    "apply_message": "",
+    "remove_message": "The air cools down.",
+    "max_duration": "2 seconds",
+    "max_intensity": 12,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 0.2 ], "hurt_max": [ 0.4 ] }
   },
   {
     "type": "effect_type",
@@ -1348,8 +1702,8 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "blocks_effects": [ "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 100000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
-    "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "flags": [ "HEAT_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -1442,6 +1796,16 @@
     ],
     "limb_score_mods": [ { "limb_score": "swim", "modifier": 3.0 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telekinetic_lifting_field",
+    "name": [ "Lifting Field" ],
+    "desc": [ "You can hover a single item nearby, at the ready." ],
+    "apply_message": "",
+    "remove_message": "Your lifting field dissipates.",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1538,7 +1902,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION", "ITEM_WATERPROOFING", "WATERWALKING" ]
+    "flags": [ "LEVITATION", "CLIMB_FLYING", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",
@@ -1606,18 +1970,29 @@
     "max_intensity": 50,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_MINDS",
-            "add": {
+            "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense something sapient here." } ]
           }
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_mesmerize_tracker",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You are in a daze." ],
+    "apply_message": "",
+    "remove_message": "You snap out of your trance.",
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -1764,6 +2139,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_ephemeral_walk",
+    "name": [ "Ephemeral Walk" ],
+    "desc": [ "You exist slightly outside of baseline reality, allowing you to effortlessly walk through solid matter." ],
+    "remove_message": "The surrounding matter feels real again.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PHASE_DISTANCE",
+            "add": {
+              "math": [
+                "max( ( ( ( ( u_spell_level('teleport_ephemeral_walk') * 0.1 ) + 1 ) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],
@@ -1799,6 +2196,13 @@
       }
     ],
     "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleporter_attuning_to_area",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1906,6 +2310,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vita_concentrated_healing",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "bad",
+    "max_duration": "7 days",
+    "base_mods": { "healing_rate": [ 0.01 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_concentrated_healing_bonus",
+    "name": [ "Leukocyte Accumulation" ],
+    "desc": [ "Your %s is receiving the bulk of your body's healing resources." ],
+    "apply_message": "",
+    "remove_message": "You stop concentrating your healing.",
+    "rating": "good",
+    "part_descs": true,
+    "max_intensity": 500,
+    "show_intensity": false,
+    "max_duration": "7 days",
+    "base_mods": { "healing_rate": [ 20 ], "healing_head": [ 100 ], "healing_torso": [ 100 ] },
+    "scaling_mods": { "healing_rate": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vita_cure_disease",
     "name": [ "Immunostimulized" ],
     "desc": [ "You are not going to get sick.  You absolutely refuse.  And if you do, you're going to get better." ],
@@ -1950,7 +2391,9 @@
     "name": [ "Enervating Touch" ],
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
     "rating": "bad",
-    "max_duration": "1 minutes"
+    "max_duration": "1 minutes",
+    "base_mods": { "hit_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2000,24 +2443,11 @@
   {
     "type": "effect_type",
     "id": "effect_vita_super_heal",
+    "name": [ "Anabolic Rejuvenation" ],
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "30 seconds",
-              "spell_effects": [ { "id": "vita_super_heal_healing" }, { "id": "vita_super_heal_drain" } ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -2025,28 +2455,45 @@
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_super_heal_pain_allayed",
+    "name": [ "Overflowing Vitality" ],
+    "desc": [
+      "The energy of your accelerated resuscitation is preventing you from feeling the pain you obviously should be, for the moment."
+    ],
     "rating": "good",
-    "removes_effects": [ "bleed" ],
+    "max_duration": 300,
+    "max_intensity": 10,
+    "int_dur_factor": 30,
     "enchantments": [
       {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "2 seconds",
-              "spell_effects": [
-                { "id": "vita_super_heal_healing" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" }
-              ]
-            }
-          ]
-        }
+        "values": [
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_INT",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_PER",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": { "math": [ "u_effect_intensity('effect_vita_super_heal_pain_allayed') * -0.1" ] }
+          }
+        ]
       }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    ]
   },
   {
     "type": "effect_type",

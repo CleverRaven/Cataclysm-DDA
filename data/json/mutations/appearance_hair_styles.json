@@ -1877,7 +1877,6 @@
     "purifiable": false,
     "player_display": false,
     "vanity": true,
-    "processed_eocs": [ "natural_hair_color_black" ],
     "types": [ "hair_color" ]
   },
   {
@@ -1891,7 +1890,6 @@
     "purifiable": false,
     "player_display": false,
     "vanity": true,
-    "processed_eocs": [ "natural_hair_color_blond" ],
     "types": [ "hair_color" ]
   },
   {
@@ -1905,7 +1903,6 @@
     "purifiable": false,
     "player_display": false,
     "vanity": true,
-    "processed_eocs": [ "natural_hair_color_brown" ],
     "types": [ "hair_color" ]
   },
   {
@@ -1919,7 +1916,6 @@
     "purifiable": false,
     "player_display": false,
     "vanity": true,
-    "processed_eocs": [ "natural_hair_color_gray" ],
     "types": [ "hair_color" ]
   },
   {
@@ -1933,7 +1929,6 @@
     "purifiable": false,
     "player_display": false,
     "vanity": true,
-    "processed_eocs": [ "natural_hair_color_red" ],
     "types": [ "hair_color" ]
   },
   {
@@ -1947,7 +1942,6 @@
     "purifiable": false,
     "player_display": false,
     "vanity": true,
-    "processed_eocs": [ "natural_hair_color_white" ],
     "types": [ "hair_color" ]
   },
   {

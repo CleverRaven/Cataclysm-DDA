@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "input_context.h"
 #include "inventory.h"
+#include "magic.h"
 #include "mutation.h"
 #include "output.h"
 #include "popup.h"
@@ -36,9 +37,11 @@ mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:
 static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
-    mvwputch( win, point( 0, border_y ), BORDER_COLOR, LINE_XXXO );
+    wattron( win, BORDER_COLOR );
+    mvwaddch( win, point( 0, border_y ), LINE_XXXO );
     mvwhline( win, point( 1, border_y ), LINE_OXOX, width - 2 );
-    mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
+    mvwaddch( win, point( width - 1, border_y ), LINE_XOXX );
+    wattroff( win, BORDER_COLOR );
 }
 
 static const auto shortcut_desc = []( const std::string_view comment, const std::string &keys )
@@ -110,7 +113,7 @@ void avatar::power_mutations()
         // New mutations are initialized with no key at all, so we have to do this here.
         if( mut.second.key == ' ' ) {
             for( const char &letter : mutation_chars ) {
-                if( trait_by_invlet( letter ).is_null() ) {
+                if( trait_by_invlet( letter ).is_null() && mut.first->activated ) {
                     mut.second.key = letter;
                     break;
                 }
@@ -235,11 +238,13 @@ void avatar::power_mutations()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
         draw_border( wBio, BORDER_COLOR, _( "Mutations" ) );
+        wattron( wBio, BORDER_COLOR );
         // Draw line under title
         mvwhline( wBio, point( 1, HEADER_LINE_Y ), LINE_OXOX, WIDTH - 2 );
         // Draw symbols to connect additional lines to border
-        mvwputch( wBio, point( 0, HEADER_LINE_Y ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( wBio, point( WIDTH - 1, HEADER_LINE_Y ), BORDER_COLOR, LINE_XOXX ); // -|
+        mvwaddch( wBio, point( 0, HEADER_LINE_Y ), LINE_XXXO ); // |-
+        mvwaddch( wBio, point( WIDTH - 1, HEADER_LINE_Y ), LINE_XOXX ); // -|
+        wattroff( wBio, BORDER_COLOR );
 
         // Captions
         mvwprintz( wBio, point( 2, HEADER_LINE_Y + 1 ), c_light_blue, _( "Passive:" ) );
@@ -308,7 +313,7 @@ void avatar::power_mutations()
                 }
                 if( md.thirst ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " thirst" );
@@ -316,10 +321,14 @@ void avatar::power_mutations()
                 }
                 if( md.sleepiness ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness & mana"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " sleepiness" );
+                }
+                if( md.mana ) {
+                    resource_unit += _( " mana" );
+                    number_of_resource++;
                 }
                 mut_desc += mutation_name( md.id );
                 if( md.cost > 0 && md.cooldown > 0_turns ) {
@@ -343,7 +352,12 @@ void avatar::power_mutations()
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
-            std::vector<std::string> desc = foldstring( mutation_desc( examine_id.value() ), WIDTH - 2 );
+            std::string description = mutation_desc( examine_id.value() );
+            if( !purifiable( examine_id.value() ) ) {
+                description +=
+                    _( "\n<color_yellow>This trait is an intrinsic part of you now, purifier won't be able to remove it.</color>" );
+            }
+            std::vector<std::string> desc = foldstring( description, WIDTH - 2 );
             const int winh = catacurses::getmaxy( w_description );
             const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
             const int fline = do_scroll ? examine_pos % ( desc.size() + 1 - winh ) : 0;
@@ -429,8 +443,10 @@ void avatar::power_mutations()
                                 exit = true;
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                       ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
-                                add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
+                                       ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
+                                       ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
+                                add_msg_if_player( m_neutral,
+                                                   string_format( mut_data.activation_msg, mutation_name( mut_data.id ) ) );
                                 // Reset menu in advance
                                 ui.reset();
                                 activate_mutation( mut_id );
@@ -441,8 +457,8 @@ void avatar::power_mutations()
                             }
                         } else {
                             popup( _( "You cannot activate %1$s!  To read a description of "
-                                      "%1$s, press '!', then '%2$c'." ),
-                                   mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                      "%1$s, press '%2$s', then '%3$c'." ),
+                                   mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ), my_mutations[mut_id].key );
                         }
                         break;
                     }
@@ -602,8 +618,10 @@ void avatar::power_mutations()
                                     exit = true;
                                 } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                           ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
-                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
+                                           ( !mut_data.sleepiness || get_sleepiness() <= 400 ) &&
+                                           ( !mut_data.mana || magic->available_mana() >= mut_data.cost ) ) {
+                                    add_msg_if_player( m_neutral,
+                                                       string_format( mut_data.activation_msg, mutation_name( mut_data.id ) ) );
                                     // Reset menu in advance
                                     ui.reset();
                                     activate_mutation( mut_id );
@@ -614,8 +632,8 @@ void avatar::power_mutations()
                                 }
                             } else {
                                 popup( _( "You cannot activate %1$s!  To read a description of "
-                                          "%1$s, press '!', then '%2$c'." ),
-                                       mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                          "%1$s, press '%2$s'." ),
+                                       mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
                             }
                             break;
                         }

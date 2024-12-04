@@ -16,8 +16,6 @@
 #include "character.h"
 #include "city.h"
 #include "colony.h"
-#include "coordinate_constants.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -322,8 +320,8 @@ static void fill_funnels( int rain_depth_mm_per_hour, const trap &tr )
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     map &here = get_map();
     // Give each funnel on the map a chance to collect the rain.
-    const std::vector<tripoint> &funnel_locs = here.trap_locations( tr.loadid );
-    for( const tripoint &loc : funnel_locs ) {
+    const std::vector<tripoint_bub_ms> &funnel_locs = here.trap_locations( tr.loadid );
+    for( const tripoint_bub_ms &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
         if( one_in( turns_per_charge ) ) {
             // FIXME:
@@ -869,10 +867,10 @@ rl_vec2d convert_wind_to_coord( const int angle )
     return rl_vec2d( 0, 0 );
 }
 
-bool warm_enough_to_plant( const tripoint &pos )
+bool warm_enough_to_plant( const tripoint_bub_ms &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
+    return get_weather().get_temperature( pos.raw() ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
@@ -937,7 +935,7 @@ void weather_manager::update_weather()
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 here.set_transparency_cache_dirty( i );
             }
-            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         if( weather_id != old_weather ) {
             effect_on_conditions::process_reactivate();

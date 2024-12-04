@@ -44,8 +44,10 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "game.h"
 #include "gates.h"
 #include "harvest.h"
+#include "help.h"
 #include "input.h"
 #include "item_action.h"
 #include "item_category.h"
@@ -102,6 +104,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -122,6 +125,18 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     static DynamicDataLoader theDynamicDataLoader;
     return theDynamicDataLoader;
 }
+
+namespace
+{
+
+void check_sigint()
+{
+    if( g && g->uquit == quit_status::QUIT_EXIT ) {
+        g->query_exit_to_OS();
+    }
+}
+
+} // namespace
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
                                      const cata_path &base_path,
@@ -172,6 +187,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             }
             ++it;
             inp_mngr.pump_events();
+            check_sigint();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -259,6 +275,7 @@ void DynamicDataLoader::initialize()
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
+    add( "help", &help::load );
     add( "activity_type", &activity_type::load );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -499,8 +516,7 @@ void DynamicDataLoader::initialize()
 #endif
 }
 
-void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src,
-        loading_ui &ui )
+void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src )
 {
     cata_assert( !finalized &&
                  "Can't load additional data after finalization.  Must be unloaded first." );
@@ -523,7 +539,79 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
         try {
             // parse it
             JsonValue jsin = json_loader::from_path( file );
-            load_all_from_json( jsin, src, ui, path, file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+    // We assume that each folder is consistent in itself,
+    // and all the previously loaded folders.
+    // E.g. the core might provide a vpart "frame-x"
+    // the first loaded mode might provide a vehicle that uses that frame
+    // But not the other way round.
+
+    std::vector<cata_path> files;
+    // if give path is a directory
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
+                "mod_interactions", path, true, true );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+        // if given path is an individual file
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
+    }
+
+    // iterate over each file
+    for( const cata_path &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
+        const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+
+    std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
+    std::multimap<mod_id, cata_path> files;
+
+    if( dir_exist( path.get_unrelative_path() ) ) {
+
+        // obtain folders within mod_interactions to see if they match loaded mod ids
+        const std::vector<cata_path> interaction_folders = get_directories( path, false );
+
+        for( const cata_path &f : interaction_folders ) {
+            const mod_id associated_mod = mod_id( f.get_unrelative_path().filename().string() );
+            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(),
+                                            associated_mod ) != loaded_mods.end();
+
+            if( is_mod_loaded ) {
+                const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
+                for( const cata_path &path : interaction_files ) {
+                    files.emplace( associated_mod, path );
+                }
+            }
+        }
+    }
+    // iterate over each file
+    for( const std::pair<const mod_id, cata_path> &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file.second );
+            load_all_from_json( jsin, string_format( "%s#%s", src, file.first.str() ), path, file.second );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }
@@ -531,7 +619,6 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
 }
 
 void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
-        loading_ui &,
         const cata_path &base_path, const cata_path &full_path )
 {
     if( jsin.test_object() ) {
@@ -543,6 +630,7 @@ void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::st
         // find type and dispatch each object until array close
         for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
+            check_sigint();
         }
     } else {
         // not an object or an array?
@@ -579,6 +667,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
+    help::reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
@@ -674,15 +763,15 @@ void DynamicDataLoader::unload_data()
     zone_type::reset();
 }
 
-void DynamicDataLoader::finalize_loaded_data()
-{
-    // Create a dummy that will not display anything
-    // TODO: Make it print to stdout?
-    loading_ui ui( false );
-    finalize_loaded_data( ui );
-}
+// void DynamicDataLoader::finalize_loaded_data()
+// {
+//     // Create a dummy that will not display anything
+//     // TODO: Make it print to stdout?
+//     background_pane bg;
+//     finalize_loaded_data( );
+// }
 
-void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
+void DynamicDataLoader::finalize_loaded_data()
 {
     cata_assert( !finalized && "Can't finalize the data twice." );
     cata_assert( !stream_cache && "Expected stream cache to be null before finalization" );
@@ -691,8 +780,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         stream_cache.reset();
     } );
     stream_cache = std::make_unique<cached_streams>();
-
-    ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
@@ -772,25 +859,19 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     };
 
     for( const named_entry &e : entries ) {
-        ui.add_entry( e.first );
-    }
-
-    ui.show();
-    for( const named_entry &e : entries ) {
+        loading_ui::show( _( "Finalizing" ), e.first );
         e.second();
-        ui.proceed();
+        check_sigint();
     }
 
     if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
-        check_consistency( ui );
+        check_consistency();
     }
     finalized = true;
 }
 
-void DynamicDataLoader::check_consistency( loading_ui &ui )
+void DynamicDataLoader::check_consistency()
 {
-    ui.new_context( _( "Verifying" ) );
-
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
@@ -803,7 +884,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
-            { _( "Weapon Categories" ), &weapon_category::verify_weapon_categories },
+            { _( "Weapon categories" ), &weapon_category::verify_weapon_categories },
             { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Field type migrations" ), &field_type_migrations::check },
@@ -883,12 +964,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     };
 
     for( const named_entry &e : entries ) {
-        ui.add_entry( e.first );
-    }
-
-    ui.show();
-    for( const named_entry &e : entries ) {
+        loading_ui::show( _( "Verifying" ), e.first );
         e.second();
-        ui.proceed();
+        check_sigint();
     }
 }

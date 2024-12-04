@@ -7,7 +7,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PARACLESIAN_FAE_SIGHT_PROCESSING",
-    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "condition": { "math": [ "u_val('mana') >= 1" ] },
     "effect": {
       "run_eocs": [
         {
@@ -39,17 +39,14 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_COMPLETED_ROLL_REMAINDER_GOSSAMER_RECIPE",
-    "effect": { "u_message": "These are all the ways you can weave gossamer into garb now." }
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_SUCCESSFUL_ROLL_REMAINDER_GOSSAMER_RECIPE",
-    "effect": { "u_message": "You learn a recipe for gossamer raiment." }
+    "effect": { "u_message": "Your dreams have revealed to you a recipe for gossamer raiment.", "type": "good" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PARACLESIAN_GOSSAMER_RECIPES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
     "condition": {
       "and": [
         { "u_has_trait": "PARACLESIAN_LEARN_GOSSAMER_RECIPES" },
@@ -57,7 +54,7 @@
       ]
     },
     "effect": [
-      { "u_add_effect": "effect_paraclesian_learned_gossamer", "duration": 604800 },
+      { "u_add_effect": "effect_paraclesian_learned_gossamer", "duration": { "math": [ "rand(864000) + 345600" ] } },
       {
         "u_roll_remainder": [
           "tunic_gossamer",
@@ -84,10 +81,9 @@
         ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESSFUL_ROLL_REMAINDER_GOSSAMER_RECIPE" ],
-        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_GOSSAMER_RECIPE" ]
+        "false_eocs": [  ]
       }
-    ],
-    "false_effect": { "u_message": "You need more time to devise a recipe for gossamer." }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -116,5 +112,31 @@
         "else": [ { "u_lose_effect": "effect_wants_to_talk" }, { "message": "You cannot lead this person to talk to you anymore." } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_GAIN_UNCANNY_DODGE_EFFECT",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "effect_paraclesian_dodge_bonus_2", { "context_val": "effect" } ] },
+        { "compare_string": [ "effect_paraclesian_dodge_bonus_3", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "u_add_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_LOSE_UNCANNY_DODGE_EFFECT",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "effect_paraclesian_dodge_bonus_2", { "context_val": "effect" } ] },
+        { "compare_string": [ "effect_paraclesian_dodge_bonus_3", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_trait": "GENERIC_UNCANNY_DODGE_TRAIT" } ]
   }
 ]

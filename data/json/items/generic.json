@@ -6,7 +6,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "animal" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -20,7 +20,7 @@
     "symbol": "$",
     "color": "red",
     "name": { "str_sp": "nearby fire" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "price": "0 cent",
     "volume": "1 ml",
     "flags": [ "PSEUDO" ]
@@ -46,7 +46,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "muscle" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -60,7 +60,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "wind" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -74,7 +74,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str_sp": "sun light" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -88,7 +88,7 @@
     "symbol": "?",
     "color": "white",
     "name": { "str": "metabolism" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "stackable": true,
     "price": "0 cent",
     "volume": "1 L",
@@ -102,7 +102,7 @@
     "symbol": "$",
     "color": "red",
     "name": { "str_sp": "a smoking device and a source of flame" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "price": "0 cent",
     "volume": "0 ml",
     "flags": [ "PSEUDO" ]
@@ -113,7 +113,7 @@
     "symbol": "$",
     "color": "red",
     "name": { "str_sp": "none" },
-    "description": "seeing this is a bug",
+    "description": { "str": "seeing this is a bug", "//~": "NO_I18N" },
     "price": "0 cent",
     "volume": "0 ml",
     "flags": [ "PSEUDO" ],
@@ -126,7 +126,6 @@
     "category": "books",
     "description": "Several documents containing all kinds of information, customer data, and charts, kept together in a manila folder.  Pretty useless now.",
     "weight": "15 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
@@ -183,7 +182,6 @@
     "category": "books",
     "description": "A small scrap of paper with two long character sequences scribbled on it.",
     "weight": "1 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
@@ -197,7 +195,6 @@
     "category": "books",
     "description": "A sequence of overlapping numbers plotted in thermal paper, at times so densely-packed that they disappear into thick blots of oxide-colored ink.  A few number sequences repeat in an almost orderly fashion, but you can't tell whether that means anything.",
     "weight": "1 g",
-    "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
@@ -311,18 +308,22 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
-    "type": "GENERIC",
-    "id": "superglue",
+    "type": "AMMO",
+    "id": "super_glue",
     "category": "spare_parts",
     "symbol": ",",
+    "phase": "liquid",
     "color": "white",
     "name": { "str_sp": "superglue" },
-    "description": "A tube of strong glue.  Used in many crafting recipes.",
-    "price": "18 USD",
+    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
+    "price": "1 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
-    "weight": "8 g",
-    "volume": "10 ml",
+    "weight": "26 mg",
+    "volume": "1 ml",
+    "ammo_type": "superglue",
+    "//": "1 charge of superglue should cover an area of 5mm^2",
+    "count": 40,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -332,7 +333,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str_sp": "rubber cement" },
-    "looks_like": "superglue",
+    "looks_like": "super_glue",
     "description": "A tin of adhesive typically used to glue rubber together.  It forms a less rigid bond than typical superglue, making it ideal for projects requiring flexibility.  Typically smelly and toxic.",
     "price": "18 USD",
     "price_postapoc": "80 cent",
@@ -381,6 +382,7 @@
     "price": "80 USD",
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 26 }
   },
   {
@@ -398,8 +400,7 @@
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "250 ml",
-    "melee_damage": { "bash": 1 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -415,8 +416,7 @@
     "flags": [ "NO_SALVAGE" ],
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
-    "volume": "300 ml",
-    "melee_damage": { "bash": 1 }
+    "volume": "300 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -432,7 +432,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
-    "to_hit": -4,
     "fun": -25,
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
@@ -448,8 +447,7 @@
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
-    "volume": "250 ml",
-    "to_hit": -4
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -458,8 +456,7 @@
     "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
     "material": [ "acidchitin" ],
-    "flags": [ "NO_SALVAGE" ],
-    "relative": { "melee_damage": { "bash": 2 } }
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "bundle_rag",
@@ -657,9 +654,7 @@
     "price_postapoc": "0 cent",
     "material": [ "stone" ],
     "weight": "100 g",
-    "volume": "250 ml",
-    "to_hit": -3,
-    "melee_damage": { "bash": 1 }
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -672,8 +667,7 @@
     "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "weight": "60 g",
-    "volume": "250 ml",
-    "to_hit": -3
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -686,7 +680,6 @@
     "material": [ "steel" ],
     "weight": "40 g",
     "volume": "263 ml",
-    "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "pocket_data": [
@@ -699,8 +692,7 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "type": "GENERIC",
@@ -714,9 +706,9 @@
     "material": [ "stone" ],
     "weight": "700 g",
     "volume": "250 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -731,9 +723,9 @@
     "material": [ "stone" ],
     "weight": "493 g",
     "volume": "250 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "TOOL",
@@ -821,8 +813,7 @@
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "weight": "30 g",
-    "volume": "250 ml",
-    "to_hit": -3
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -834,7 +825,6 @@
     "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "r",
     "material": [ "paper" ]
@@ -849,7 +839,6 @@
     "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "r",
     "material": [ "paper" ]
@@ -877,6 +866,7 @@
         "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
         "max_contains_weight": "500 g",
         "max_contains_volume": "550 ml",
+        "max_item_length": "300 mm",
         "item_restriction": [ "candle", "candle_lit" ],
         "transparent": true
       }
@@ -912,7 +902,7 @@
     "material": [ "steel" ],
     "weight": "553 g",
     "volume": "750 ml",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "BUTCHER", -38 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
     "melee_damage": { "bash": 6, "cut": 8 },
@@ -929,9 +919,10 @@
     "price": "280 USD",
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "1500 ml",
     "qualities": [ [ "BUTCHER", -38 ] ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 6, "cut": 8 }
   },
   {
@@ -949,7 +940,7 @@
     "volume": "250 ml",
     "longest_side": "204 mm",
     "flags": [ "HURT_WHEN_WIELDED" ],
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "cut": 14 }
   },
   {
@@ -1039,8 +1030,8 @@
     "id": "lc_wire",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "mild steel wire" },
-    "description": "A length of thin, relatively stiff steel wire.  Like the sort you find in chain link fences.",
+    "name": { "str": "steel wire" },
+    "description": "A length of thin, relatively stiff wire made of mild steel.  Ubiquitously found in everyday applications such as chain link fences.",
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "1 USD",
@@ -1053,6 +1044,7 @@
     "id": "mc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "medium steel wire" },
+    "description": "A length of thin, stiff wire made of medium steel.  Its balance between strength and flexibility makes it suitable for steel ropes and cables.",
     "material": [ "mc_steel" ]
   },
   {
@@ -1060,6 +1052,7 @@
     "id": "hc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "high steel wire" },
+    "description": "A length of strong wire made of high carbon steel.  Often used in industrial machinery and springs.",
     "material": [ "hc_steel" ]
   },
   {
@@ -1067,6 +1060,7 @@
     "id": "ch_wire",
     "copy-from": "lc_wire",
     "name": { "str": "hardened steel wire" },
+    "description": "A length of thin, relatively stiff steel wire, made of hardened steel.",
     "material": [ "ch_steel" ]
   },
   {
@@ -1074,6 +1068,7 @@
     "id": "qt_wire",
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
+    "description": "A length of flexible and durable steel wire, made of tempered spring steel.  Often used in industrial and automotive springs, and the wire in musical instruments.",
     "material": [ "qt_steel" ]
   },
   {
@@ -1435,21 +1430,6 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
-    "id": "toaster",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "toaster" },
-    "description": "A small two-slice toaster, not much use as anything but spare parts.",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
-    "weight": "725 g",
-    "volume": "750 ml",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 2 }
-  },
-  {
     "id": "broken_kord",
     "type": "GENERIC",
     "looks_like": "kord",
@@ -1486,9 +1466,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
@@ -1503,9 +1481,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "32700 g",
     "volume": "105 L",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1520,9 +1496,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "32700 g",
     "volume": "105 L",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1536,10 +1510,8 @@
     "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
     "weight": "100 kg",
-    "volume": "65000 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "volume": "65 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1554,9 +1526,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1571,9 +1541,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1588,9 +1556,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1611,9 +1577,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -1628,9 +1592,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "170200 g",
     "volume": "62500 ml",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 10 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1641,12 +1603,10 @@
     "volume": "125 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 7 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1657,12 +1617,10 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1673,12 +1631,10 @@
     "volume": "250 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 8 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1693,9 +1649,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "100 kg",
     "volume": "85 L",
-    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 4, "cut": 4 }
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "AMMO",
@@ -2095,7 +2049,7 @@
     "price": "2000 kUSD",
     "price_postapoc": "30 USD",
     "//": "actually worth millions",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2107,7 +2061,7 @@
     "price": "1000 kUSD",
     "price_postapoc": "30 USD",
     "//": "given to HUB 01 for even better armor",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2670,7 +2624,7 @@
     "price_postapoc": "0 cent",
     "material": [ "soil" ],
     "weight": "1750 g",
-    "volume": "750 ml",
+    "volume": "2250 ml",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "target": "adobe_brick",
@@ -2719,42 +2673,40 @@
   },
   {
     "type": "GENERIC",
-    "id": "tanbark",
+    "abstract": "bark_abstract",
     "symbol": ",",
     "color": "brown",
-    "name": { "str_sp": "tanbark" },
-    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+    "name": { "str": "piece of abstract bark", "str_pl": "pieces of abstract bark", "//~": "NO_I18N" },
+    "description": {
+      "str": "A sheet of bark from a hypothetical tree.  Useful for making adding new bark items slightly simpler.",
+      "//~": "NO_I18N"
+    },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
-    "weight": "323 g",
+    "weight": "200 g",
     "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tanbark",
+    "name": { "str": "piece of tanbark", "str_pl": "pieces of tanbark" },
+    "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
+    "copy-from": "bark_abstract"
   },
   {
     "type": "GENERIC",
     "id": "birchbark",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "birchbark" },
+    "name": { "str": "piece of birchbark", "str_pl": "pieces of birchbark" },
     "description": "A sheet of tough, water-resistant bark taken from a birch tree.",
-    "price": "0 cent",
-    "price_postapoc": "0 cent",
-    "material": [ "wood" ],
-    "weight": "323 g",
-    "volume": "250 ml"
+    "copy-from": "bark_abstract"
   },
   {
     "type": "GENERIC",
     "id": "willowbark",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str_sp": "willowbark" },
+    "name": { "str": "piece of willowbark", "str_pl": "pieces of willowbark" },
     "description": "A sheet of bark taken from a willow tree.  Used in the production of aspirin.",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "wood" ],
-    "weight": "323 g",
-    "volume": "250 ml"
+    "copy-from": "bark_abstract"
   },
   {
     "type": "GENERIC",
@@ -2959,13 +2911,13 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "pillow" },
-    "description": "A pillow to rest your head on when sleeping.",
+    "description": "A pillow to rest your head on when sleeping.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
-    "weight": "514 g",
+    "weight": "1210 g",
     "container": "pillowcase",
-    "volume": "1 L",
+    "volume": "9 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2975,13 +2927,13 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "makeshift pillow" },
-    "description": "A pillowcase with straw and other dead plants as filling.  It's better than nothing…",
+    "description": "A pillowcase with straw and other dead plants as filling.  It's better than nothing…  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "paper" ],
-    "weight": "514 g",
+    "weight": "1210 g",
     "container": "pillowcase",
-    "volume": "1 L",
+    "volume": "11 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2991,90 +2943,90 @@
     "symbol": "[",
     "color": "white",
     "name": { "str": "body pillow" },
-    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.",
+    "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "material": [ "cotton" ],
-    "weight": "774 g",
-    "volume": "1750 ml",
+    "weight": "2317 g",
+    "volume": "50 L",
     "flags": [ "SLEEP_AID" ],
     "variant_type": "generic",
     "variants": [
       {
         "id": "bodypillow_generic",
         "name": { "str": "anime body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_azurlane",
         "name": { "str": "ship body pillow" },
-        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty."
+        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_gfl",
         "name": { "str": "gun body pillow" },
-        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive."
+        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_boston",
         "name": { "str": "Boston-Chan body pillow" },
-        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  This seems to be official merch, and the art on both sides is quite tame.",
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  This seems to be official merch, and the art on both sides is quite tame.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
         "weight": 2
       },
       {
         "id": "bodypillow_boston_lewd",
         "name": { "str": "Boston-Chan body pillow" },
-        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her."
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_survivor",
         "name": { "str": "survivor body pillow" },
-        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar."
+        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_furry",
         "name": { "str": "fox body pillow" },
-        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_vocaloid",
         "name": { "str": "vocaloid body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_goth",
         "name": { "str": "goth body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram."
+        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_yandere",
         "name": { "str": "yandere body pillow" },
-        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back."
+        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_tomboy",
         "name": { "str": "tomboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides."
+        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_femboy",
         "name": { "str": "femboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides."
+        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_tsundere",
         "name": { "str": "tsundere body pillow" },
-        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!"
+        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_vtuber",
         "name": { "str": "VTuber body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back."
+        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping."
       },
       {
         "id": "bodypillow_makeshift",
         "name": { "str": "makeshift body pillow" },
-        "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
+        "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
         "weight": 0
       }
     ],
@@ -3086,13 +3038,13 @@
     "symbol": ",",
     "color": "blue",
     "name": { "str": "down-filled pillow" },
-    "description": "A fluffy pillow to rest your head on when sleeping.",
+    "description": "A fluffy pillow to rest your head on when sleeping.  It is rolled for compact storage and transportation.  You will automatically unroll it when you place it for sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "cotton" ],
-    "weight": "514 g",
+    "weight": "1260 g",
     "container": "pillowcase",
-    "volume": "1 L",
+    "volume": "10 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -3124,6 +3076,7 @@
     "volume": "15 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
+    "revert_to": "cigar_butt",
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
@@ -3171,6 +3124,7 @@
     "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
+    "revert_to": "cig_butt",
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
@@ -3218,6 +3172,7 @@
     "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
+    "revert_to": "joint_roach",
     "use_action": [
       { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
@@ -3286,8 +3241,8 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "cyan",
-    "name": { "str": "abstract plastic card" },
-    "description": "A generic plastic card item template with numbers based off a credit card.",
+    "name": { "str": "abstract plastic card", "//~": "NO_I18N" },
+    "description": { "str": "A generic plastic card item template with numbers based off a credit card.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
@@ -3761,15 +3716,9 @@
   {
     "type": "GENERIC",
     "id": "alder_bark",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str_sp": "alder bark" },
+    "name": { "str": "piece of alder bark", "str_pl": "pieces of alder bark" },
     "description": "A strip of bark pulled from an alder tree.  Used in the production of topical hemostatics.",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "wood" ],
-    "weight": "200 g",
-    "volume": "250 ml"
+    "copy-from": "bark_abstract"
   },
   {
     "id": "wallet",

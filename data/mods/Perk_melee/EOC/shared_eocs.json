@@ -1,0 +1,118 @@
+[
+  {
+    "id": "EOC_UPDATE_WEAPON_STATS",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "PERK_MELEE_EOC_STATS",
+            "effect": [
+              { "math": [ "u_perk_mymelee = n_melee_damage('ALL')" ] },
+              { "math": [ "u_perk_mymelee_bash = n_melee_damage('bash')" ] },
+              { "math": [ "u_perk_mymelee_cut = n_melee_damage('cut')" ] },
+              { "math": [ "u_perk_mymelee_stab = n_melee_damage('stab')" ] },
+              { "math": [ "u_perk_insight_cut_scaling = 0" ] },
+              { "math": [ "u_perk_insight_stab_scaling = 0" ] },
+              { "math": [ "u_perk_insight_bash_scaling = 0" ] },
+              {
+                "math": [ "u_perk_mymelee_best_damage = max( u_perk_mymelee_bash, u_perk_mymelee_cut, u_perk_mymelee_stab)" ]
+              },
+              {
+                "if": { "math": [ "u_perk_mymelee_cut == u_perk_mymelee_best_damage" ] },
+                "then": [ { "math": [ "u_perk_insight_cut_scaling = 1" ] } ],
+                "else": {
+                  "if": { "math": [ "u_perk_mymelee_stab == u_perk_mymelee_best_damage" ] },
+                  "then": [ { "math": [ "u_perk_insight_stab_scaling = 1" ] } ],
+                  "else": { "math": [ "u_perk_insight_bash_scaling = 1" ] }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_EXECUTION_EXTA_EFFECTS",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "u_val('stamina')", "+=", "1200" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "_EOC_EXECUTION_BRUTALITY",
+            "condition": { "u_has_flag": "MELEE_PERK_BRUTALITY" },
+            "effect": {
+              "u_run_monster_eocs": [
+                {
+                  "id": "brutality_stun",
+                  "condition": { "test_eoc": "EOC_CONDITION_has_mind" },
+                  "effect": [ { "u_add_effect": "stunned", "duration": "2 seconds" } ]
+                }
+              ],
+              "monster_range": 60,
+              "monster_must_see": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_PERK_DODGE_RETREAT_MANUAL",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "u_has_flag": "MELEE_PERK_MOVING_DODGE" } ] },
+    "effect": [
+      {
+        "run_eocs": "EOC_PERK_TRY_RETREAT",
+        "condition": { "math": [ "u_monsters_nearby('radius': 1) > 0" ] },
+        "iterations": 10
+      }
+    ]
+  },
+  {
+    "id": "EOC_PERK_TEMPO_MANUAL",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "MELEE_PERK_TEMPO" },
+    "effect": { "u_add_effect": "mabuff:buff_perk_tempo", "duration": "2 seconds" }
+  },
+  {
+    "id": "EOC_PERK_MOMENTUM_MANUAL",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" },
+    "effect": { "u_add_effect": "mabuff:buff_perk_momentum", "duration": "2 seconds" }
+  },
+  {
+    "id": "EOC_PERK_MOMENTUM_2",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM_2" },
+    "effect": { "u_add_effect": "perk_dex_bonus", "duration": "2 seconds" }
+  },
+  {
+    "id": "EOC_PERK_TRY_RETREAT",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_location_variable": { "context_val": "original_pos" }, "min_radius": 0, "max_radius": 0 },
+      { "u_location_variable": { "context_val": "attempt" }, "min_radius": 1, "max_radius": 1 },
+      { "u_teleport": { "context_val": "attempt" } },
+      {
+        "run_eocs": [
+          {
+            "id": "_VALID_RETREAT",
+            "condition": { "math": [ "u_monsters_nearby('radius': 1) == 0" ] },
+            "effect": [
+              { "u_add_effect": "mabuff:buff_perk_momentum", "duration": 2 },
+              { "run_eocs": [ "EOC_PERK_MOMENTUM_2", "EOC_PERK_MOMENTUM_MANUAL" ] }
+            ],
+            "false_effect": [ { "u_teleport": { "context_val": "original_pos" } } ]
+          }
+        ]
+      }
+    ]
+  }
+]

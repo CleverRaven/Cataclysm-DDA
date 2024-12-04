@@ -24,7 +24,7 @@
       "fema_roof",
       "fema_1_3_roof"
     ],
-    "vision_levels": "isolated_building",
+    "vision_levels": "isolated_camp",
     "name": "FEMA camp",
     "sym": "F",
     "color": "i_blue",
@@ -36,7 +36,7 @@
     "type": "overmap_terrain",
     "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
     "name": "FEMA refugee camp",
-    "vision_levels": "isolated_building",
+    "vision_levels": "isolated_camp",
     "sym": "F",
     "color": "i_blue",
     "extras": "build",

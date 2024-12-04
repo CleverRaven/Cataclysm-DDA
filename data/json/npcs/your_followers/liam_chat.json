@@ -18,13 +18,13 @@
         "topic": "TALK_Liam_Jenny_CrushAccuse",
         "condition": {
           "and": [
-            { "u_has_var": "u_liam_jenny_feelings", "value": "crush_suspected" },
-            { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } }
+            { "compare_string": [ "crush_suspected", { "u_val": "u_liam_jenny_feelings" } ] },
+            { "not": { "compare_string": [ "crushing_hard", { "u_val": "u_liam_jenny_feelings" } ] } }
           ]
         }
       },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -86,9 +86,7 @@
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Friends4ever",
     "dynamic_line": {
-      "u_has_var": "modded",
-      "type": "flag",
-      "value": "ddotd",
+      "compare_string": [ "ddotd", { "u_val": "flag_modded" } ],
       "no": "Aww, of course.  No matter what happens, you're always you and I'm always me, right?  We've been through worse than this.\"  He pauses, his brow furrowed.  \"Well, okay, maybe we haven't.  But we've stuck through it all for so many years, what's a little apocalypse gonna change?  Or a little mutation, or grievous bodily harm, or zombies, or interdimensional monster attacks and serious life-altering PTSD, or whatever.  Who cares.  You're my family, more than my birth family ever was.",
       "yes": "<talk_snippet_modded_liam_Friends4ever>"
     },
@@ -140,7 +138,7 @@
     "responses": [
       { "text": "We hadn't caught up in a while before <the_cataclysm>.  What've you been doing?", "topic": "BGSS_Liam2" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -149,9 +147,9 @@
     "id": "BGSS_Liam2",
     "dynamic_line": "*shrugs.  \"Same as I was when we used to hang out more, mostly.  I quit my job at Foodplace a while back, got tired of the stupid outfits.  Worked doing labor in construction for a bit, but I didn't like my boss so I ditched it.  Got a job doing deliveries for Amazon, which was absolutely shitty, but I managed to jump from that to a bit of a better delivery job for a smaller company.  It was actually going pretty good before everything happened.\"",
     "responses": [
-      { "text": "How did you make it through the cataclysm?", "topic": "BGSS_Liam3" },
+      { "text": "How did you make it through the Cataclysm?", "topic": "BGSS_Liam3" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -161,7 +159,7 @@
     "dynamic_line": "I wanna say it was a hell of a story, but really, I was on the way back to Boston from a delivery and a thing about the riots came on the radio.  I was close to the cabin so I just thought, 'this is starting to sound really fuckin bad.'  I called in sick and took a few days to hunker down out of civilization.  By the time I had to think about going back to work, we were into that wild time when half the people were trying to keep things running and the other half were trying to burn everything down.  I shut the blinds and stayed in, until Chris showed up acting like a freak.",
     "responses": [
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -171,7 +169,7 @@
     "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd head out and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan for where to meet up and all.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.\"",
     "responses": [
       { "text": "What happened to your father?  You never talked about him much.", "topic": "BGSS_Liam_Father" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -184,7 +182,7 @@
         "text": "I remember your mom as kind of a quiet lady, she seemed all right.  Should we be trying to find her?",
         "topic": "BGSS_Liam_Mother"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -193,7 +191,7 @@
     "id": "BGSS_Liam_Mother",
     "dynamic_line": "Well, things with her weren't as bad as with my dad, but I don't know if I'd go trying to hunt for her in a zombified city or anything.  Like, sure she didn't beat me up, but she didn't ever lift a finger to help me either.  She was still with him right up until the end, even when it was obvious that she was choosing him over me.  I don't wanna judge her for the life she led, but - \" he trails off for a moment, then twitches his shoulders and resumes.  \"Well, it's like I said.  I hope she's okay but I'm not gonna go risk my neck trying to find her.  You and Chris were my real family, you got me through those years.",
     "responses": [
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
       { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -203,8 +201,8 @@
     "dynamic_line": "*stares at you wide-eyed for a beat, then breaks into a shy grin.  \"Aw man, busted.  You *know* I dig those distracted nerdy chicks who don't react to my presence in any way.  It's all good though, you know?  Don't tell her.  I barely know her and it's not like she's in a place to be dating some stranger.\"",
     "speaker_effect": { "effect": { "u_add_var": "u_liam_jenny_feelings", "value": "crushing_hard" } },
     "responses": [
-      { "text": "Your secret's safe with me.  I wanted to talk about something else.", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "Your secret's safe with me.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "Your secret's safe with me.  <done_conversation_section>", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "Your secret's safe with me.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -417,7 +415,7 @@
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXT",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } },
+            { "not": { "compare_string": [ "crushing_hard", { "u_val": "u_liam_jenny_feelings" } ] } },
             { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TEXT" }
           ]
         }
@@ -427,7 +425,7 @@
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode",
         "condition": {
           "and": [
-            { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" },
+            { "compare_string": [ "crushing_hard", { "u_val": "u_liam_jenny_feelings" } ] },
             { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TEXT" }
           ]
         }
@@ -473,7 +471,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            { "not": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } }
           ]
         }
       },
@@ -481,7 +479,10 @@
         "text": "What do you think about these robots?  Crazy stuff, hey?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-HasMet",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_OLD_GUARD_REP_3" }, { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } ]
+          "and": [
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
+          ]
         }
       },
       {
@@ -709,7 +710,7 @@
         "topic": "TALK_Liam_Opinions_directions_rural_1_FARM",
         "condition": { "u_has_mission": "directions_rural_1_FARM" }
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_FRIEND_Liam" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_Liam" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -723,7 +724,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
     "dynamic_line": {
-      "math": [ "u_hub01_completed_missions", ">=", "1" ],
+      "math": [ "u_hub01_completed_missions >= 1" ],
       "yes": "I'm thinking this kinda sounds like that intercom and their vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale.  Anyway, I bet that's where we're going.",
       "no": "I'm thinking this sounds *awesome*, and also possibly we're gonna die.  At least we'll die investigating a vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale."
     },
@@ -741,7 +742,7 @@
     "dynamic_line": "You sure we haven't bit off more than we can chew here?\"  He stares at you for a moment.  \"This isn't DOTA2, this is real life.  These guys are gonna have guns and shit.  I know we've been through a lot together but if they're ready for us they could take us out before we're even close enough to see them.  I mean, I'm with you if you think we can do it, but be careful, okay?",
     "responses": [
       {
-        "text": "Thanks man, I'll keep that in mind.  We gotta do this though.  Any suggestions for how to do it safely?.",
+        "text": "Thanks man, I'll keep that in mind.  We gotta do this though.  Any suggestions for how to do it safely?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1"
       },
       {
@@ -794,8 +795,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BROKER_1",
     "dynamic_line": {
-      "u_has_var": "u_liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "u_liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5" } ],
       "yes": "*shakes his head at you.  \"Look, you asked last time, and I told you you didn't have to keep taking jobs like this.  Now you're asking again?  *I dunno, stop offering to bring a billion jars to people if you don't know where to find them.*\"  He laughs.  \"I'm just messing with you.\"  His eyes narrow.  \"Or am I?\"",
       "no": "Look, you're the one that agreed to this.  I don't know why you keep agreeing to this stuff.  Maybe we can check hardware stores?  Or just eat a lot of jarred food, and keep the empties?  A hundred jars.  That's a lot, my friend.\"  He shakes his head.  \"You don't have to agree to do *everything* people ask you to do, you know?"
     },
@@ -813,8 +813,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_isherwood",
     "dynamic_line": {
-      "u_has_var": "u_met_an_isherwood",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "u_met_an_isherwood" } ],
       "yes": "Isn't he just directing us out to that Isherwood farm?",
       "no": "Sounds good.  I'm a bit nervous about what we might find, though.  Who knows what the apocalypse would do to a bunch of gun-toting back country folks?  On the other hand, maybe they're sweet, salt-of-the-earth types.  Only one way to find out!"
     },
@@ -824,10 +823,9 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_hub01",
     "dynamic_line": {
-      "u_has_var": "dialogue_intercom_u_discovered_robofac_intercom",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_discovered_robofac_intercom" } ],
       "yes": {
-        "math": [ "u_hub01_completed_missions", ">=", "1" ],
+        "math": [ "u_hub01_completed_missions >= 1" ],
         "yes": "Is that just that Hub place, with the intercom?  Not that it's not cool, but it's nothing new to us.  Woah… we've really seen some shit, haven't we.",
         "no": "It sounds to me like this might be that intercom we found out in that weird building?  I'm just guessing.  We should go confirm."
       },
@@ -839,8 +837,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_exodii",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_Rubik",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
       "yes": "We've been there, remember?  It's got those cyborg guys, the cockney ones.",
       "no": "Far-fetched and awesome!  Let's go see.  Maybe it's an abandoned theme park or something."
     },
@@ -850,20 +847,17 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_artisans",
     "dynamic_line": {
-      "u_has_var": "u_met_isolated_road_artisans",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "u_met_isolated_road_artisans" } ],
       "yes": {
         "concatenate": [
           "We've been there, remember",
           {
-            "u_has_var": "u_met_isolated_road_cody",
-            "value": "yes",
+            "compare_string": [ "yes", { "u_val": "u_met_isolated_road_cody" } ],
             "yes": "?  Cody, the blacksmith, she's the food lady",
             "no": "?  I'm guessing the blacksmith we didn't talk to is the one who would have fed us"
           },
           {
-            "u_has_var": "u_met_isolated_road_jay",
-            "value": "yes",
+            "compare_string": [ "yes", { "u_val": "u_met_isolated_road_jay" } ],
             "yes": ", and Jay is the one with the weird bullet bank.",
             "no": ", and the other guy there must be the one with the bullet bank."
           }
@@ -1084,7 +1078,7 @@
       {
         "text": "Dude.  You have a crush on Jenny.",
         "topic": "TALK_Liam_Jenny_CrushAccuse",
-        "condition": { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } }
+        "condition": { "not": { "compare_string": [ "crushing_hard", { "u_val": "u_liam_jenny_feelings" } ] } }
       },
       { "text": "Thanks, man.  I'd like your opinion on a different thing though.", "topic": "TALK_Liam_Opinions" }
     ]
@@ -1098,7 +1092,7 @@
       {
         "text": "Dude.  You have a crush on Jenny.",
         "topic": "TALK_Liam_Jenny_CrushAccuse",
-        "condition": { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } }
+        "condition": { "not": { "compare_string": [ "crushing_hard", { "u_val": "u_liam_jenny_feelings" } ] } }
       },
       { "text": "Thanks, man.  I'd like your opinion on a different thing though.", "topic": "TALK_Liam_Opinions" }
     ]
@@ -1515,8 +1509,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_CLAIRE_1",
     "dynamic_line": {
-      "u_has_var": "u_saved_barry_isherwood",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ],
       "no": "Picking flowers in a field seems okay to me.  I don't mind helping Claire out, she's a nice enough person.  Gotta say though, I get a bit of a weird vibe off these guys.  They're so… I don't know.  It's like we walked into a Norman Rockwell painting in the middle of the end of the world.",
       "yes": "After the shit these poor bastards have gone through, picking some dandelions for them seems kind of anticlimactic.  Still, I am a big fan of dandelion wine."
     },
@@ -1545,8 +1538,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_EDDIE_1",
     "dynamic_line": {
-      "u_has_var": "u_saved_barry_isherwood",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ],
       "no": "Even if we work together it's gonna take a while to just find enough good rocks lying around.  We'll probably want to get a shovel and dig around a bit maybe?  Or break up bigger ones with a sledge.  Something about this stuff feels weird to me though.  Too pastoral for the apocalypse.",
       "yes": "Even if we work together it's gonna take a while to just find enough good rocks lying around.  We'll probably want to get a shovel and dig around a bit maybe?  Or break up bigger ones with a sledge.  I'm impressed at these guys, keeping going after everything that's happened."
     },

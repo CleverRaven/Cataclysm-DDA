@@ -1,24 +1,39 @@
 [
   {
     "type": "palette",
+    "id": "domestic_general_construction_and_variant_palette",
+    "//": "This palette is split from domestic_general_and_variant_palette because the construction palette needs more consideration than the other palettes",
+    "parameters": {
+      "construction_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [ [ "standard_domestic_construction_palette", 100 ], [ "domestic_general_and_variant_palette", 9900 ] ]
+        }
+      }
+    },
+    "palettes": [ { "param": "construction_palette" } ]
+  },
+  {
+    "type": "palette",
     "id": "domestic_general_and_variant_palette",
-    "//": "Standard variant distribution for homes: General: 95%, Abandoned: 2.80%, Survivor: 1.80%, Hoarder: 0.40%",
-    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette.",
+    "//": "Standard variant distribution for homes: General: 97%, Abandoned: 0.6%, Construction: 1.00%, Survivor: 0.90%, Hoarder: 0.50%",
+    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette & standard_domestic_construction_palette.",
     "parameters": {
       "variant_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
         "default": {
           "distribution": [
-            [ "standard_domestic_migration_palette", 9500 ],
-            [ "standard_domestic_abandoned_palette", 370 ],
-            [ "house_hoarder_palette", 40 ],
+            [ "standard_domestic_migration_palette", 9700 ],
+            [ "standard_domestic_abandoned_palette", 60 ],
+            [ "house_hoarder_palette", 50 ],
             [ "house_survivor_palette", 90 ]
           ]
         }
       }
     },
-    "palettes": [ { "param": "variant_palette" } ]
+    "palettes": [ { "param": "variant_palette" }, "parametrized_walls_palette" ]
   },
   {
     "type": "palette",
@@ -40,9 +55,60 @@
         "default": {
           "distribution": [ [ "null_palette", 2 ], [ "standard_domestic_damage_palette", 3 ], [ "standard_domestic_damage_large_palette", 1 ] ]
         }
+      },
+      "alarm_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "//": "Determines if house has alarm",
+        "//2": "Couldn't find an exact value of houses with alarms so estimated 25%, change if you have any good source",
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 3 ] ] }
       }
     },
-    "palettes": [ "standard_domestic_palette", { "param": "damage_palette" }, { "param": "tidyness_palette" } ]
+    "palettes": [
+      "standard_domestic_palette",
+      { "param": "damage_palette" },
+      { "param": "alarm_palette" },
+      { "param": "tidyness_palette" }
+    ]
+  },
+  {
+    "type": "palette",
+    "id": "domestic_alarm_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Makes all doors & windows have alarms",
+    "terrain": {
+      "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
+      ":": "t_wall_glass_alarm",
+      "o": [
+        [ "t_window_domestic_alarm", 10 ],
+        "t_window_no_curtains_alarm",
+        "t_window_open_alarm",
+        "t_window_no_curtains_open_alarm",
+        [ "t_curtains_alarm", 5 ]
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "domestic_locked_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Makes no doors & windows have alarms",
+    "terrain": {
+      "*": [
+        [ "t_door_locked", 4 ],
+        [ "t_door_elocked", 3 ],
+        [ "t_door_locked_peep", 3 ],
+        [ "t_door_elocked_peep", 2 ],
+        [ "t_door_c", 2 ],
+        [ "t_door_o", 1 ]
+      ],
+      ":": "t_wall_glass",
+      "o": [
+        [ "t_window_domestic", 10 ],
+        "t_window_no_curtains",
+        "t_window_open",
+        "t_window_no_curtains_open",
+        [ "t_curtains", 5 ]
+      ]
+    }
   },
   {
     "type": "palette",
@@ -50,37 +116,6 @@
     "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.",
     "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ],
-            [ "t_wall_gray", 1 ],
-            [ "t_wall_brown", 1 ],
-            [ "t_wall_cyan", 1 ],
-            [ "t_wall_black", 1 ],
-            [ "t_wall_orange", 1 ]
-          ]
-        }
-      },
-      "exterior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_concrete_wall", 4 ],
-            [ "t_adobe_brick_wall", 1 ]
-          ]
-        }
-      },
       "house_fence_type": {
         "type": "ter_str_id",
         "default": {
@@ -94,6 +129,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
@@ -195,8 +231,6 @@
         [ "t_door_o", 2 ]
       ],
       "^": "t_gutter_downspout",
-      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
       "¶": "t_door_glass_c",
       ":": "t_wall_glass",
       "-": "t_sidewalk",
@@ -250,7 +284,7 @@
         { "item": "art", "chance": 5 },
         { "item": "art_all", "chance": 10 },
         { "item": "home_display_case", "chance": 30 },
-        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs_residential", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
         { "item": "guns_pistol_common", "chance": 25, "ammo": 90, "magazine": 100 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
@@ -307,7 +341,7 @@
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
-        { "item": "harddrugs", "chance": 2 }
+        { "item": "harddrugs_residential", "chance": 2 }
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 50 },
@@ -515,7 +549,7 @@
   {
     "type": "palette",
     "id": "standard_domestic_untidy_palette",
-    "//": "A disorganised but clean variant of the standard_domestic_palette. Adds out-of-place item spawns, such as dining items on desks and laundry on the floor. Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones that generate an untidy look.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
+    "//": "A disorganized but clean variant of the standard_domestic_palette. Adds out-of-place item spawns, such as dining items on desks and laundry on the floor. Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones that generate an untidy look.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
     "items": {
       "f": [
         { "item": "dishes_dining", "chance": 50, "repeat": [ 2, 3 ] },
@@ -627,7 +661,7 @@
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
-        { "item": "harddrugs", "chance": 2 }
+        { "item": "harddrugs_residential", "chance": 2 }
       ],
       "9": { "item": "shower", "chance": 33, "repeat": [ 2, 4 ] },
       "@": [ { "item": "bed", "chance": 50 }, { "item": "laundry", "chance": 20 } ],
@@ -746,7 +780,7 @@
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
-        { "item": "harddrugs", "chance": 2 }
+        { "item": "harddrugs_residential", "chance": 2 }
       ],
       "9": { "item": "shower", "chance": 33, "repeat": [ 2, 4 ] },
       "@": [ { "item": "bed", "chance": 50 }, { "item": "laundry", "chance": 20 } ],

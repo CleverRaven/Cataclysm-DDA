@@ -103,6 +103,9 @@ namespace turn_handler
 bool cleanup_at_end()
 {
     avatar &u = get_avatar();
+    if( are_we_quitting() ) {
+        return true;
+    }
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         // Put (non-hallucinations) into the overmap so they are not lost.
         for( monster &critter : g->all_monsters() ) {
@@ -200,14 +203,14 @@ bool cleanup_at_end()
     }
 
     //Reset any offset due to driving
-    g->set_driving_view_offset( point_zero );
+    g->set_driving_view_offset( point::zero );
 
     //clear all sound channels
     sfx::fade_audio_channel( sfx::channel::any, 300 );
     sfx::fade_audio_group( sfx::group::weather, 300 );
     sfx::fade_audio_group( sfx::group::time_of_day, 300 );
     sfx::fade_audio_group( sfx::group::context_themes, 300 );
-    sfx::fade_audio_group( sfx::group::sleepiness, 300 );
+    sfx::fade_audio_group( sfx::group::low_stamina, 300 );
 
     zone_manager::get_manager().clear();
 
@@ -268,7 +271,8 @@ void monmove()
 
     for( monster &critter : g->all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos_bub() ) &&
+        if( !critter.is_dead() && ( m.impassable( critter.pos_bub() ) &&
+                                    !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
             !critter.can_move_to( critter.pos_bub() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
                            << " can't move to its location!  (" << critter.posx()
@@ -278,7 +282,7 @@ void monmove()
                            critter.name(),
                            critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos_bub() ) );
             bool okay = false;
-            for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
+            for( const tripoint_bub_ms &dest : m.points_in_radius( critter.pos_bub(), 3 ) ) {
                 if( critter.can_move_to( dest ) && g->is_empty( dest ) ) {
                     critter.setpos( dest );
                     okay = true;
@@ -302,6 +306,7 @@ void monmove()
             }
             critter.try_biosignature();
             critter.try_reproduce();
+            critter.digest_food();
         }
         while( critter.get_moves() > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
@@ -415,7 +420,7 @@ void overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
-                                 overmap_path_params::for_npc() );
+                                 overmap_path_params::for_npc() ).points;
                 if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }
@@ -487,7 +492,8 @@ bool do_turn()
     u.gravity_check();
 
     // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    if( m.impassable( u.pos_bub() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
+    if( ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
+        !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
         u.stagger();
     }
 
@@ -530,10 +536,6 @@ bool do_turn()
     g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
     while( u.get_moves() > 0 && u.activity ) {
         u.activity.do_turn( u );
-    }
-    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
-    if( !u.activity ) {
-        kill_advanced_inv();
     }
 
     // Process NPC sound events before they move or they hear themselves talking
@@ -659,13 +661,13 @@ bool do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint &elem : m.get_furn_field_locations() ) {
+        for( const tripoint_bub_ms &elem : m.get_furn_field_locations() ) {
             const furn_t &furn = *m.furn( elem );
             for( const emit_id &e : furn.emissions ) {
                 m.emit_field( elem, e );
             }
         }
-        for( const tripoint &elem : m.get_ter_field_locations() ) {
+        for( const tripoint_bub_ms &elem : m.get_ter_field_locations() ) {
             const ter_t &ter = *m.ter( elem );
             for( const emit_id &e : ter.emissions ) {
                 m.emit_field( elem, e );
@@ -714,7 +716,9 @@ bool do_turn()
 
             // Avoid redrawing the main UI every time due to invalidation
             ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-            g->wait_popup = std::make_unique<static_popup>();
+            if( !g->wait_popup ) {
+                g->wait_popup = std::make_unique<static_popup>();
+            }
             g->wait_popup->on_top( true ).wait_message( "%s", wait_message );
             ui_manager::redraw();
             refresh_display();
@@ -750,7 +754,7 @@ bool do_turn()
     sfx::do_danger_music();
     sfx::do_vehicle_engine_sfx();
     sfx::do_vehicle_exterior_engine_sfx();
-    sfx::do_sleepiness();
+    sfx::do_low_stamina_sfx();
 
     // reset player noise
     u.volume = 0;

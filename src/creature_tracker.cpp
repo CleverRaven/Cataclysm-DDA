@@ -74,11 +74,6 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
         return false;
     }
 
-    if( critter.type->has_flag( mon_flag_VERMIN ) ) {
-        // Don't spawn vermin, they aren't implemented yet
-        return false;
-    }
-
     if( const shared_ptr_fast<monster> existing_mon_ptr = find( critter.get_location() ) ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
         if( existing_mon_ptr->is_hallucination() ) {
@@ -373,7 +368,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
     ff::flood_fill_visit_10_connected( origin.pos_bub(),
     [&map]( const tripoint_bub_ms & loc, int direction ) {
         if( direction == 0 ) {
-            return map.inbounds( loc ) && ( map.is_transparent_wo_fields( loc.raw() ) ||
+            return map.inbounds( loc ) && ( map.is_transparent_wo_fields( loc ) ||
                                             map.passable( loc ) );
         }
         if( direction == 1 ) {
@@ -383,14 +378,14 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
                 return false;
             }
             if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
-                  map.is_transparent_wo_fields( loc.raw() ) ) &&
+                  map.is_transparent_wo_fields( loc ) ) &&
                 ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                   up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
                 return true;
             }
         }
         if( direction == -1 ) {
-            const maptile &up = map.maptile_at( loc + tripoint_above );
+            const maptile &up = map.maptile_at( loc + tripoint::above );
             const ter_t &up_ter = up.get_ter_t();
             if( up_ter.id.is_null() ) {
                 return false;
@@ -401,7 +396,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
                 return false;
             }
             if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
-                  map.is_transparent_wo_fields( loc.raw() ) ) &&
+                  map.is_transparent_wo_fields( loc ) ) &&
                 ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
                   up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
                 return true;

@@ -34,6 +34,7 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
+#include "mongroup.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
@@ -76,6 +77,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
+static const flag_id json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
@@ -196,7 +199,7 @@ bool monster::know_danger_at( const tripoint &p ) const
     // before hitting simple or complex but this is more explicit
     if( avoid_fire || avoid_fall || avoid_simple ||
         avoid_traps || avoid_dangerous_fields || avoid_sharp ) {
-        const ter_id target = here.ter( p );
+        const ter_id &target = here.ter( p );
         if( !here.has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
             if( avoid_fire && target == ter_t_lava ) {
@@ -266,7 +269,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos_bub().z() && z_is_valid( pos_bub().z() ) ) {
-        const tripoint_bub_ms above = tripoint_bub_ms( p + tripoint_above );
+        const tripoint_bub_ms above = tripoint_bub_ms( p + tripoint::above );
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, above ) ) {
             return true;
         }
@@ -415,7 +418,14 @@ void monster::anger_cub_threatened( monster_plan &mon_plan )
     }
 
     for( monster &tmp : g->all_monsters() ) {
-        if( type->baby_monster == tmp.type->id ) {
+        bool is_baby = false;
+        if( !type->baby_type.baby_monster.is_null() ) {
+            is_baby = type->baby_type.baby_monster == tmp.type->id;
+        }
+        if( !type->baby_type.baby_monster_group.is_null() ) {
+            is_baby = MonsterGroupManager::IsMonsterInGroup( type->baby_type.baby_monster_group, tmp.type->id );
+        }
+        if( is_baby ) {
             // baby nearby; is the player too close?
             mon_plan.dist = tmp.rate_target( *mon_plan.target, mon_plan.dist, mon_plan.smart_planning );
             if( mon_plan.dist <= 3 ) {
@@ -647,7 +657,7 @@ void monster::plan()
     if( type->has_special_attack( "OPERATE" ) ) {
         if( has_effect( effect_operating ) ) {
             friendly = 100;
-            for( Creature *critter : here.get_creatures_in_radius( pos(), 6 ) ) {
+            for( Creature *critter : here.get_creatures_in_radius( pos_bub(), 6 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon->type->in_species( species_ZOMBIE ) ) {
                     anger = 100;
@@ -663,12 +673,12 @@ void monster::plan()
         if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
-            tripoint tmp( pos() + point( 12, 12 ) );
-            tripoint couch_loc;
-            for( const tripoint &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
+            tripoint_bub_ms tmp( pos_bub() + point( 12, 12 ) );
+            tripoint_bub_ms couch_loc;
+            for( const tripoint_bub_ms &couch_pos : here.find_furnitures_with_flag_in_radius( pos_bub(), 10,
                     ter_furn_flag::TFLAG_AUTODOC_COUCH ) ) {
-                if( here.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
-                    if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
+                if( here.clear_path( pos_bub(), couch_pos, 10, 0, 100 ) ) {
+                    if( rl_dist( pos_bub(), couch_pos ) < rl_dist( pos_bub(), tmp ) ) {
                         tmp = couch_pos;
                         found_path_to_couch = true;
                         couch_loc = couch_pos;
@@ -837,34 +847,36 @@ void monster::move()
     // this into another monster type). Therefore we can not iterate over it
     // directly and instead iterate over the map from the monster type
     // (properties of monster types should never change).
-    for( const auto &sp_type : type->special_attacks ) {
-        const std::string &special_name = sp_type.first;
-        const auto local_iter = special_attacks.find( special_name );
-        if( local_iter == special_attacks.end() ) {
-            continue;
-        }
-        mon_special_attack &local_attack_data = local_iter->second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
-
-        add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
-                       sp_type.first, local_attack_data.cooldown );
-
-        // Cooldowns are decremented in monster::process_turn
-
-        if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second->call( *this ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
+    if( !has_flag( json_flag_CANNOT_ATTACK ) ) {
+        for( const auto &sp_type : type->special_attacks ) {
+            const std::string &special_name = sp_type.first;
+            const auto local_iter = special_attacks.find( special_name );
+            if( local_iter == special_attacks.end() ) {
+                continue;
+            }
+            mon_special_attack &local_attack_data = local_iter->second;
+            if( !local_attack_data.enabled ) {
                 continue;
             }
 
-            // `special_attacks` might have changed at this point. Sadly `reset_special`
-            // doesn't check the attack name, so we need to do it here.
-            if( special_attacks.count( special_name ) == 0 ) {
-                continue;
+            add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
+                           sp_type.first, local_attack_data.cooldown );
+
+            // Cooldowns are decremented in monster::process_turn
+
+            if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
+                if( !sp_type.second->call( *this ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
+                    continue;
+                }
+
+                // `special_attacks` might have changed at this point. Sadly `reset_special`
+                // doesn't check the attack name, so we need to do it here.
+                if( special_attacks.count( special_name ) == 0 ) {
+                    continue;
+                }
+                reset_special( special_name );
             }
-            reset_special( special_name );
         }
     }
 
@@ -875,7 +887,8 @@ void monster::move()
     nursebot_operate( dragged_foe );
 
     // The monster can sometimes hang in air due to last fall being blocked
-    if( !flies() && !here.has_floor_or_water( pos() ) && !here.has_vehicle_floor( pos_bub() ) ) {
+    if( !flies() && !here.has_floor_or_water( pos_bub() ) && !here.has_vehicle_floor( pos_bub() ) &&
+        !has_flag( json_flag_CANNOT_MOVE ) ) {
         here.creature_on_trap( *this, false );
         if( is_dead() ) {
             return;
@@ -897,7 +910,8 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ||
+        has_flag( json_flag_CANNOT_MOVE ) ) {
         moves = 0;
         return;
     }
@@ -968,8 +982,8 @@ void monster::move()
 
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
             if( can_move_to( dest ) &&
                 creatures.creature_at( dest, true ) == nullptr ) {
                 try_to_move = true;
@@ -1122,7 +1136,7 @@ void monster::move()
                 // This prevents non-climb/fly enemies running up walls
                 if( candidate.z > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ||
+                        if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                               !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
                             // Can't "jump" up a whole z-level
                             can_z_move = false;
@@ -1187,10 +1201,10 @@ void monster::move()
             }
 
             // Try to shove vehicle out of the way
-            shove_vehicle( destination.raw(), candidate );
+            shove_vehicle( destination, tripoint_bub_ms( candidate ) );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
-                if( !can_bash ) {
+                if( !can_bash || has_flag( json_flag_CANNOT_ATTACK ) ) {
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
@@ -1229,15 +1243,15 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
-        const tripoint local_next_step = here.getlocal( next_step );
+        const tripoint_bub_ms local_next_step = here.bub_from_abs( next_step );
         const bool did_something =
-            ( !pacified && attack_at( local_next_step ) ) ||
+            ( !pacified && attack_at( local_next_step.raw() ) ) ||
             ( !pacified && can_open_doors &&
               here.open_door( *this, local_next_step, !here.is_outside( pos_bub() ) ) ) ||
-            ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination.raw(),
-                     local_next_step ) );
+            ( !pacified && bash_at( local_next_step.raw() ) ) ||
+            ( !pacified && push_to( local_next_step.raw(), 0, 0 ) ) ||
+            move_to( local_next_step.raw(), false, false, get_stagger_adjust( pos(), destination.raw(),
+                     local_next_step.raw() ) );
 
         if( !did_something ) {
             mod_moves( -get_speed() ); // If we don't do this, we'll get infinite loops.
@@ -1303,7 +1317,7 @@ void monster::nursebot_operate( Character *dragged_foe )
     creature_tracker &creatures = get_creature_tracker();
     map &here = get_map();
     if( rl_dist( get_location(), get_dest() ) == 1 &&
-        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.getlocal( get_dest() ) ) &&
+        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.bub_from_abs( get_dest() ) ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( creatures.creature_at( get_dest() ) == nullptr ||
@@ -1321,7 +1335,7 @@ void monster::nursebot_operate( Character *dragged_foe )
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the Autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
-            push_to( here.getlocal( get_dest() ), 4, 0 );
+            push_to( here.bub_from_abs( get_dest() ).raw(), 4, 0 );
         }
     }
     if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
@@ -1476,7 +1490,7 @@ tripoint monster::scent_move()
         sdirection.push_back( pos() );
     } else {
         // Get direction of scent
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, SCENT_MAP_Z_REACH ) ) {
             int smell = scents.get( dest );
 
             if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
@@ -1484,10 +1498,10 @@ tripoint monster::scent_move()
             }
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 sdirection.clear();
-                sdirection.push_back( dest );
+                sdirection.push_back( dest.raw() );
                 bestsmell = smell;
             } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
-                sdirection.push_back( dest );
+                sdirection.push_back( dest.raw() );
             }
         }
     }
@@ -1585,6 +1599,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
         int maxdepth )
 {
     std::vector<tripoint> direction;
+    direction.reserve( 2 );
     direction.push_back( bashee );
     direction.push_back( basher );
     // Draw a line from the target through the attacker.
@@ -1712,7 +1727,7 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
-    if( has_flag( mon_flag_PACIFIST ) ) {
+    if( has_flag( mon_flag_PACIFIST ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -1772,10 +1787,11 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
-static tripoint find_closest_stair( const tripoint &near_this, const ter_furn_flag stair_type )
+static tripoint_bub_ms find_closest_stair( const tripoint_bub_ms &near_this,
+        const ter_furn_flag stair_type )
 {
     map &here = get_map();
-    for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
+    for( const tripoint_bub_ms &candidate : closest_points_first( near_this, 10 ) ) {
         if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
         }
@@ -1792,18 +1808,18 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     const bool z_move = p.z != pos_bub().z();
     const bool going_up = p.z > pos_bub().z();
 
-    tripoint destination = p;
+    tripoint_bub_ms destination( p );
     map &here = get_map();
 
     // This is stair teleportation hackery.
     // TODO: Remove this in favor of stair alignment
     if( going_up ) {
         if( here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) ) {
-            destination = find_closest_stair( p, ter_furn_flag::TFLAG_GOES_DOWN );
+            destination = find_closest_stair( tripoint_bub_ms( p ), ter_furn_flag::TFLAG_GOES_DOWN );
         }
     } else if( z_move ) {
         if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) {
-            destination = find_closest_stair( p, ter_furn_flag::TFLAG_GOES_UP );
+            destination = find_closest_stair( tripoint_bub_ms( p ), ter_furn_flag::TFLAG_GOES_UP );
         }
     }
 
@@ -1847,9 +1863,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
                            static_cast<float>( climbs() &&
-                                               here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos(),
-                                                       destination ) : calc_movecost( pos(),
-                                                               destination ) );
+                                               here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos_bub().raw(),
+                                                       destination.raw() ) : calc_movecost( pos_bub().raw(),
+                                                               destination.raw() ) );
         if( cost > 0.0f ) {
             mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {
@@ -1890,13 +1906,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    optional_vpart_position vp_orig = here.veh_at( pos() );
+    optional_vpart_position vp_orig = here.veh_at( pos_bub() );
     if( vp_orig ) {
         vp_orig->vehicle().invalidate_mass();
     }
 
     setpos( destination );
-    footsteps( destination );
+    footsteps( destination.raw() );
     underwater = will_be_water;
     optional_vpart_position vp_dest = here.veh_at( destination );
     if( vp_dest ) {
@@ -1966,8 +1982,8 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                 factor = 4;
                 break;
         }
-        here.add_field( pos(), fd_churned_earth, 2 );
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        here.add_field( pos_bub(), fd_churned_earth, 2 );
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dest ) && one_in( factor ) ) {
                 here.add_field( dest, fd_churned_earth, 2 );
             }
@@ -1976,19 +1992,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Acid trail monsters leave... a trail of acid
     if( has_flag( mon_flag_ACIDTRAIL ) ) {
-        here.add_field( pos(), fd_acid, 3 );
+        here.add_field( pos_bub(), fd_acid, 3 );
     }
 
     // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
     if( has_flag( mon_flag_SHORTACIDTRAIL ) ) {
         if( one_in( 5 ) ) {
-            here.add_field( pos(), fd_acid, 3 );
+            here.add_field( pos_bub(), fd_acid, 3 );
         }
     }
 
     if( has_flag( mon_flag_SLUDGETRAIL ) ) {
-        for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
-            const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
+        for( const tripoint_bub_ms &sludge_p : here.points_in_radius( pos_bub(), 1 ) ) {
+            const int fstr = 3 - ( std::abs( sludge_p.x() - posx() ) + std::abs( sludge_p.y() - posy() ) );
             if( fstr >= 2 ) {
                 here.add_field( sludge_p, fd_sludge, fstr );
             }
@@ -2032,7 +2048,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
-    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ) {
+    if( !has_flag( mon_flag_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ||
+        has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
 
@@ -2173,29 +2190,29 @@ void monster::stumble()
     }
 
     map &here = get_map();
-    std::vector<tripoint> valid_stumbles;
+    std::vector<tripoint_bub_ms> valid_stumbles;
     valid_stumbles.reserve( 11 );
     const bool avoid_water = has_flag( mon_flag_NO_BREATHE ) && !swims() &&
                              !has_flag( mon_flag_AQUATIC );
-    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
+                valid_stumbles.emplace_back( dest + tripoint::below );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
+                valid_stumbles.emplace_back( dest + tripoint::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint below( posx(), posy(), posz() - 1 );
-    if( here.valid_move( pos(), below, false, true ) ) {
+    const tripoint_bub_ms below( pos_bub() + tripoint::below );
+    if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
 
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
-        const tripoint dest = random_entry_removed( valid_stumbles );
+        const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water
             //(Unless they can swim/are aquatic)
@@ -2204,7 +2221,7 @@ void monster::stumble()
                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
-            if( move_to( dest, true, false ) ) {
+            if( move_to( dest.raw(), true, false ) ) {
                 break;
             }
         }
@@ -2303,7 +2320,8 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) &&
+    if( ( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ||
+          has_flag( json_flag_CANNOT_MOVE ) ) &&
         ( pos().xy() != p ) ) {
         return false;
     }
@@ -2318,12 +2336,12 @@ bool monster::will_reach( const point &p )
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( get_map().getlocal( wander_pos ).xy(), p ) <= 2 &&
+    if( can_hear() && wandf > 0 && rl_dist( get_map().bub_from_abs( wander_pos ).xy().raw(), p ) <= 2 &&
         rl_dist( get_location().xy(), wander_pos.xy() ) <= wandf ) {
         return true;
     }
 
-    if( can_see() && sees( tripoint( p, posz() ) ) ) {
+    if( can_see() && sees( tripoint_bub_ms( p.x, p.y, posz() ) ) ) {
         return true;
     }
 
@@ -2356,8 +2374,8 @@ int monster::turns_to_reach( const point &p )
     return static_cast<int>( turns + .9 ); // Halve (to get turns) and round up
 }
 
-void monster::shove_vehicle( const tripoint &remote_destination,
-                             const tripoint &nearby_destination )
+void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
+                             const tripoint_bub_ms &nearby_destination )
 {
     map &here = get_map();
     if( this->has_flag( mon_flag_PUSH_VEH ) && !is_hallucination() ) {
@@ -2412,19 +2430,19 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
-                const tripoint destination_delta( -nearby_destination + remote_destination );
-                const tripoint shove_destination( clamp( destination_delta.x, -1, 1 ),
-                                                  clamp( destination_delta.y, -1, 1 ),
-                                                  clamp( destination_delta.z, -1, 1 ) );
+                const tripoint_rel_ms destination_delta( remote_destination - nearby_destination );
+                const tripoint_rel_ms shove_destination( clamp( destination_delta.x(), -1, 1 ),
+                        clamp( destination_delta.y(), -1, 1 ),
+                        clamp( destination_delta.z(), -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
-                if( shove_destination != tripoint_zero ) {
-                    if( shove_destination.z != 0 ) {
-                        veh.vertical_velocity = shove_destination.z < 0 ? -shove_velocity : +shove_velocity;
+                if( shove_destination != tripoint_rel_ms::zero ) {
+                    if( shove_destination.z() != 0 ) {
+                        veh.vertical_velocity = shove_destination.z() < 0 ? -shove_velocity : +shove_velocity;
                     }
                     here.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta.xy() );
+                veh.move = tileray( destination_delta.xy().raw() );
                 veh.smash( here, shove_damage_min, shove_damage_max, 0.10F );
             }
         }

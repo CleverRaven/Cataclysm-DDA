@@ -5,7 +5,7 @@
     "om_terrain": [ "roadstop" ],
     "weight": 333,
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         ".......2222..2222.......",
         ".......2222..2222.......",
@@ -32,9 +32,9 @@
         ".........222222.........",
         "........................"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "#": "t_wall_log",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         ".": "t_region_groundcover",
         "6": "t_region_groundcover_barren",
         "2": "t_region_groundcover_barren",
@@ -94,7 +94,7 @@
     "om_terrain": [ "roadstop_a" ],
     "weight": 333,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "......2222....2222......",
         "......2222....2222......",
@@ -121,9 +121,9 @@
         "........................",
         "........................"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
-        " ": "t_linoleum_gray",
-        "#": "t_wall_log",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": "t_region_groundcover",
         "2": "t_region_groundcover_barren",
         "3": "t_door_c",
@@ -190,7 +190,7 @@
     "om_terrain": [ "roadstop_b" ],
     "weight": 333,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "..._,,,,,,,,,,,,,,,,_...",
         "..._,,,,,,,,,,,,,,,,_...",
@@ -217,9 +217,9 @@
         "..._______..............",
         "........................"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
-        " ": "t_linoleum_gray",
-        "#": "t_wall_w",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": "t_region_groundcover_urban",
         ",": "t_pavement",
         "y": "t_pavement_y",

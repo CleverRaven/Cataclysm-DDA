@@ -6,10 +6,11 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_lino_kitchen",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -39,11 +40,11 @@
         ".[..[..[.....[....[..[.."
       ],
       "terrain": {
-        "¤": "t_carpet_green",
+        "¤": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        ",": "t_carpet_green",
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "]": "t_carpet_green",
+        "]": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "}": "t_thconc_floor",
         "W": "t_thconc_floor",
         "Z": "t_thconc_floor",
@@ -54,17 +55,17 @@
         "h": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "R": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "{": "t_carpet_green",
-        "?": "t_carpet_green",
-        "@": "t_carpet_green",
-        "D": "t_carpet_green",
-        "d": "t_carpet_green",
-        "b": "t_carpet_green",
-        "/": "t_carpet_green",
-        "0": "t_carpet_green",
-        "r": "t_carpet_green",
-        "z": "t_carpet_green",
-        "=": "t_carpet_green"
+        "{": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "D": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "b": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "/": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "0": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "z": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "$": "f_rack_wood",

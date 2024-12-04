@@ -6,10 +6,11 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_lino_kitchen",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -40,7 +41,7 @@
       ],
       "terrain": {
         "0": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "=": "t_carpet_red",
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "~": "t_thconc_floor",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "f": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },

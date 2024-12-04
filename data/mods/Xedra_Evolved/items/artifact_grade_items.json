@@ -51,7 +51,7 @@
     "id": "mana_recharge_sphere",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "Sparking sphere" },
+    "name": { "str": "sparking sphere" },
     "description": "A small brown sphere, humming with power.  Activate it to recharge your mana.",
     "weight": "55 g",
     "volume": "300 ml",

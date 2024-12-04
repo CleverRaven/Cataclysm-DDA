@@ -36,8 +36,6 @@
       "h": "f_chair",
       "c": [ [ "f_crate_c", 2 ], "f_crate_o" ],
       "C": [ [ "f_crate_c", 2 ], "f_crate_o" ],
-      "D": "f_vending_c",
-      "V": "f_vending_c",
       "y": "f_trashcan",
       "d": "f_desk",
       "i": "f_indoor_plant_y",

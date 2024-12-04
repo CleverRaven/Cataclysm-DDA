@@ -90,7 +90,12 @@
         "  A      ",
         "  VVV    "
       ],
-      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -151,16 +156,17 @@
         "  A      ",
         "y VVV    "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "L": "t_linoleum_white",
-        "H": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "?": "t_linoleum_white"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "furniture": {
         "?": "f_counter",
@@ -220,18 +226,19 @@
         "  A A    ",
         "y MMMM  y"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_carpets_nest_palette" ],
       "terrain": {
-        " ": "t_linoleum_white",
-        "G": "t_linoleum_white",
-        "V": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "y": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "?": "t_linoleum_white",
-        "H": "t_carpet_green",
-        "L": "t_carpet_green",
-        ".": "t_carpet_green"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "?": "f_counter",
@@ -298,7 +305,13 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_red", "L": "t_carpet_red", ".": "t_carpet_red" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -364,15 +377,16 @@
         "MMMM?M   ",
         "Y   S   Y"
       ],
+      "palettes": [ "parametrized_carpets_nest_palette" ],
       "terrain": {
         " ": "t_floor",
         "B": "t_floor",
         "O": "t_floor",
-        "G": "t_carpet_green",
-        "P": "t_carpet_green",
-        "V": "t_carpet_green",
-        "W": "t_carpet_green",
-        ".": "t_carpet_green"
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "P": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "V": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "W": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": {
         "?": "f_counter",
@@ -439,7 +453,14 @@
         "    A    ",
         "y MMMM  Y"
       ],
-      "terrain": { " ": "t_floor", "G": "t_carpet_yellow", "L": "t_carpet_yellow", "B": "t_carpet_yellow", ".": "t_carpet_yellow" },
+      "palettes": [ "parametrized_carpets_nest_palette" ],
+      "terrain": {
+        " ": "t_floor",
+        "G": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "B": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
+      },
       "furniture": {
         "?": "f_counter",
         "L": "f_table",
@@ -512,22 +533,23 @@
         "F M  R RR",
         "Q   RLyLL"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
-        " ": "t_linoleum_gray",
-        "L": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "B": "t_linoleum_gray",
-        "G": "t_linoleum_gray",
-        "M": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "y": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "s": "t_linoleum_gray",
-        "i": "t_linoleum_gray",
-        "?": "t_linoleum_gray"
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "furniture": {
         "?": "f_counter",
@@ -600,9 +622,10 @@
         "   LdL  ",
         " C     R",
         " C QQVV ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -705,9 +728,10 @@
         "   RCR  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -844,9 +868,10 @@
         " d C G  ",
         "       b",
         " b LLL  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -983,9 +1008,10 @@
         " d C G  ",
         "       b",
         " b QQQ  ",
-        "|| |||||"
+        "## #####"
       ],
-      "terrain": { " ": "t_floor", "?": "t_floor", "|": "t_brick_wall" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { " ": "t_floor", "?": "t_floor" },
       "furniture": {
         "?": "f_counter",
         "A": "f_stool",
@@ -1157,8 +1183,6 @@
         "b": "f_bench",
         "d": "f_filing_cabinet",
         "L": "f_shredder",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
@@ -1189,8 +1213,6 @@
         "G": "f_locker",
         "b": "f_bench",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
@@ -1218,8 +1240,6 @@
         "C": "f_rack",
         "G": "f_sofa",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "?": "f_console_broken"
       },
@@ -1286,8 +1306,6 @@
         "b": "f_bench",
         "d": "f_filing_cabinet",
         "L": "f_shredder",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
         "?": "f_console_broken"
@@ -1320,8 +1338,6 @@
         "C": "f_rack",
         "G": "f_locker",
         "d": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "F": "f_vending_c",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
       },
@@ -1379,7 +1395,8 @@
         "(      * |    ",
         "YPPQQSY| |j   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
@@ -1452,7 +1469,8 @@
         " * *     K ",
         "j|K|YnJK   "
       ],
-      "terrain": { "|": "t_brick_wall", "*": "t_door_c" },
+      "palettes": [ "parametrized_walls_palette" ],
+      "terrain": { "*": "t_door_c" },
       "furniture": {
         "L": "f_table",
         "x": "f_pool_table",
@@ -1515,7 +1533,6 @@
         "   #HHH,,HHHHyHHHH"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_r" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "pizza_table", "chance": 10, "repeat": [ 1, 2 ] } ],
         "l": { "item": "pizza_soda", "chance": 80, "repeat": [ 1, 3 ] },
@@ -1562,7 +1579,7 @@
         "   #tS|tS|Æ,,iii,y"
       ],
       "palettes": [ "commercial_restaurant_palette" ],
-      "terrain": { "|": "t_wall_y", ".": "t_thconc_floor" },
+      "terrain": { ".": "t_thconc_floor" },
       "items": {
         "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "diner_food", "chance": 20 } ],
         "l": { "item": "coffee_freezer", "chance": 80, "repeat": [ 1, 3 ] },

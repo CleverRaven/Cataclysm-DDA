@@ -10,7 +10,7 @@ TEST_CASE( "tick_action_triggering", "[item]" )
 
     // The chainsaw has no fuel and turns off via its tick_action
 
-    chainsaw.process( get_map(), nullptr, tripoint_zero );
+    chainsaw.process( get_map(), nullptr, tripoint_bub_ms::zero );
     CHECK( chainsaw.typeId().str() == "chainsaw_off" );
     CHECK( chainsaw.active == false );
 }

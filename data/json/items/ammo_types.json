@@ -481,6 +481,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "superglue",
+    "name": "super glue",
+    "default": "super_glue"
+  },
+  {
+    "type": "ammunition_type",
     "id": "battery",
     "name": "kJ",
     "default": "battery"
@@ -564,6 +570,7 @@
     "default": "8mm_caseless"
   },
   {
+    "//": "To-do: Remove when 20x66 is fully obsoleted",
     "type": "ammunition_type",
     "id": "20x66mm",
     "name": "20x66mm caseless shotgun",
@@ -814,6 +821,12 @@
     "id": "273x44RG",
     "name": "27.3x44 Diyua Grenade",
     "default": "273x44RG"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "33naval",
+    "name": "3.3 naval cartridge",
+    "default": "33naval_ball"
   },
   {
     "type": "ammunition_type",
