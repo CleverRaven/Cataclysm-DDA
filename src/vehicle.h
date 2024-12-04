@@ -2498,7 +2498,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         }
         void removed( vehicle &veh, int part ) override;
         void spawn_animal_from_part( item &base, const tripoint_bub_ms &loc ) override {
-            base.release_monster( loc.raw(), 1 );
+            base.release_monster( loc, 1 );
         }
         map &get_map_ref() override {
             return get_map();

@@ -1836,6 +1836,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint & )
 
 std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint &pos )
 {
+    const tripoint_bub_ms position{ pos }; // TODO: Get rid of this when operation typified.
     map &here = get_map();
     // Handle processing fish trap over time.
     if( it->ammo_remaining() == 0 ) {
@@ -1845,7 +1846,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint 
     if( it->age() > 3_hours ) {
         it->active = false;
 
-        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pos ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, position ) ) {
             return 0;
         }
 
@@ -1877,14 +1878,14 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint 
         }
 
         if( fishes == 0 ) {
-            it->ammo_consume( it->ammo_remaining(), pos, nullptr );
+            it->ammo_consume( it->ammo_remaining(), position, nullptr );
             player.practice( skill_survival, rng( 5, 15 ) );
 
             return 0;
         }
 
         //get the fishables around the trap's spot
-        std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
+        std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, position.raw() );
         std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
         for( int i = 0; i < fishes; i++ ) {
             player.practice( skill_survival, rng( 3, 10 ) );
@@ -1893,9 +1894,9 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint 
                 // reduce the abstract fish_population marker of that fish
                 chosen_fish->fish_population -= 1;
                 if( chosen_fish->fish_population <= 0 ) {
-                    g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
+                    g->catch_a_monster( chosen_fish, position.raw(), p, 300_hours ); //catch the fish!
                 } else {
-                    here.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
+                    here.add_item_or_charges( position, item::make_corpse( chosen_fish->type->id,
                                               calendar::turn + rng( 0_turns,
                                                       3_hours ) ) );
                 }
@@ -1912,13 +1913,13 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint 
                     //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                     //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                     //we don't know when it was caught so use a random turn
-                    here.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
+                    here.add_item_or_charges( position, item::make_corpse( fish_mon, it->birthday() + rng( 0_turns,
                                               3_hours ) ) );
                     break; //this can happen only once
                 }
             }
         }
-        it->ammo_consume( bait_consumed, pos, nullptr );
+        it->ammo_consume( bait_consumed, position, nullptr );
     }
     return 0;
 }
@@ -4074,9 +4075,10 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
 {
+    const tripoint_bub_ms position{pos}; // TODO: Get rid of this when operation typified.
     if( p && p->is_worn( *it ) ) {
         // calculate amount of absorbed gas per filter charge
-        const field &gasfield = get_map().field_at( pos );
+        const field &gasfield = get_map().field_at( position );
         for( const auto &dfield : gasfield ) {
             const field_entry &entry = dfield.second;
             int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor );
@@ -4097,7 +4099,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint &pos )
             }
         }
         if( it->get_var( "gas_absorbed", 0 ) >= 60 ) {
-            it->ammo_consume( 1, pos, p );
+            it->ammo_consume( 1, position, p );
             it->set_var( "gas_absorbed", 0 );
             if( it->ammo_remaining() < 10 ) {
                 p->add_msg_player_or_npc(
@@ -7543,6 +7545,7 @@ static bool multicooker_hallu( Character &p )
 
 std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &pos )
 {
+    const tripoint_bub_ms position{pos}; // TODO: Get rid of this when operation typified.
     static const int charges_to_start = 50;
     const int charge_buffer = 2;
 
@@ -7751,7 +7754,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
                                   _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
             it->convert( itype_multi_cooker_filled, p ).active = true;
-            it->ammo_consume( charges_to_start - charge_buffer, pos, p );
+            it->ammo_consume( charges_to_start - charge_buffer, position, p );
 
             p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 
@@ -7831,6 +7834,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
 
 std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoint &pos )
 {
+    const tripoint_bub_ms position{pos}; // TODO: Get rid of this when operation typified.
     const int charge_buffer = 2;
 
     //stop action before power runs out and iuse deletes the cooker
@@ -7839,7 +7843,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
         it->erase_var( "RECIPE" );
         it->convert( itype_multi_cooker, p );
         //drain the buffer amount given at activation
-        it->ammo_consume( charge_buffer, pos, p );
+        it->ammo_consume( charge_buffer, position, p );
         p->add_msg_if_player( m_info,
                               _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
         return 0;
@@ -7866,7 +7870,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
             meal.heat_up();
         } else {
             meal.set_item_temperature( std::max( temperatures::cold,
-                                                 get_weather().get_temperature( pos ) ) );
+                                                 get_weather().get_temperature( position.raw() ) ) );
         }
 
         it->active = false;
@@ -7881,7 +7885,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
         }
 
         //~ sound of a multi-cooker finishing its cycle!
-        sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
+        sounds::sound( position, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
 
         return 0;
     } else {
@@ -7898,7 +7902,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const units::temperature player_local_temp = weather.get_temperature( p->pos() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos_bub().raw() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -8069,7 +8073,7 @@ std::optional<int> iuse::capture_monster_veh( Character *p, item *it, const trip
     return 0;
 }
 
-bool item::release_monster( const tripoint &target, const int radius )
+bool item::release_monster( const tripoint_bub_ms &target, const int radius )
 {
     shared_ptr_fast<monster> new_monster = make_shared_fast<monster>();
     try {
@@ -8078,7 +8082,7 @@ bool item::release_monster( const tripoint &target, const int radius )
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
         return false;
     }
-    if( !g->place_critter_around( new_monster, target, radius ) ) {
+    if( !g->place_critter_around( new_monster, target.raw(), radius ) ) {
         return false;
     }
     erase_var( "contained_name" );
@@ -8090,7 +8094,7 @@ bool item::release_monster( const tripoint &target, const int radius )
 
 // didn't want to drag the monster:: definition into item.h, so just reacquire the monster
 // at target
-int item::contain_monster( const tripoint &target )
+int item::contain_monster( const tripoint_bub_ms &target )
 {
     const monster *const mon_ptr = get_creature_tracker().creature_at<monster>( target );
     if( !mon_ptr ) {
@@ -8110,6 +8114,7 @@ int item::contain_monster( const tripoint &target )
 
 std::optional<int> iuse::capture_monster_act( Character *p, item *it, const tripoint &pos )
 {
+    const tripoint_bub_ms position{ pos }; // TODO: Get rid of this when typing operation.
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't capture a creature mounted." ) );
         return std::nullopt;
@@ -8118,20 +8123,20 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
         // Remember contained_name for messages after release_monster erases it
         const std::string contained_name = it->get_var( "contained_name", "" );
 
-        if( it->release_monster( pos ) ) {
+        if( it->release_monster( position ) ) {
             p->invalidate_weight_carried_cache();
             // It's been activated somewhere where there isn't a player or monster, good.
             return 0;
         }
         if( it->has_flag( flag_PLACE_RANDOMLY ) ) {
-            if( it->release_monster( p->pos(), 1 ) ) {
+            if( it->release_monster( p->pos_bub(), 1 ) ) {
                 return 0;
             }
             p->add_msg_if_player( _( "There is no place to put the %s." ), contained_name );
             return std::nullopt;
         } else {
             const std::string query = string_format( _( "Place the %s where?" ), contained_name );
-            const std::optional<tripoint> pos_ = choose_adjacent( query );
+            const std::optional<tripoint_bub_ms> pos_ = choose_adjacent_bub( query );
             if( !pos_ ) {
                 return std::nullopt;
             }
@@ -8154,19 +8159,20 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
                       it->tname(), capacity.c_str() );
             return std::nullopt;
         }
-        const std::function<bool( const tripoint & )> adjacent_capturable = []( const tripoint & pnt ) {
+        const std::function<bool( const tripoint_bub_ms & )> adjacent_capturable = [](
+        const tripoint_bub_ms & pnt ) {
             const monster *mon_ptr = get_creature_tracker().creature_at<monster>( pnt );
             return mon_ptr != nullptr;
         };
         const std::string query = string_format( _( "Grab which creature to place in the %s?" ),
                                   it->tname() );
-        const std::optional<tripoint> target_ = choose_adjacent_highlight( query,
-                                                _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
+        const std::optional<tripoint_bub_ms> target_ = choose_adjacent_highlight( query,
+                _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
             p->add_msg_if_player( m_info, _( "You can't use a %s there." ), it->tname() );
             return std::nullopt;
         }
-        const tripoint target = *target_;
+        const tripoint_bub_ms target = *target_;
 
         // Capture the thing, if it's on the target square.
         if( const monster *const mon_ptr = get_creature_tracker().creature_at<monster>( target ) ) {
@@ -9309,6 +9315,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
 std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
         const tripoint &ipos )
 {
+    const tripoint_bub_ms pos{ ipos }; // TODO: Get rid of this when operation typified.
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "Doing that would ruin the %1$s." ), binder->tname() );
         return std::nullopt;
@@ -9348,7 +9355,7 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
     binder->set_saved_recipes( binder_recipes );
 
     const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec );
-    binder->ammo_consume( pages, ipos, p );
+    binder->ammo_consume( pages, pos, p );
 
     return std::nullopt;
 }

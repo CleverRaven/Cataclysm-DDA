@@ -2411,7 +2411,7 @@ void Character::process_turn()
     last_item = itype_null;
 
     cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
-        it.process_relic( this, pos() );
+        it.process_relic( this, pos_bub() );
     } );
 
     suffer();
@@ -7158,7 +7158,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt.raw(), this );
+        const int consumed = used->activation_consume( charges_used.value(), pt, this );
         if( consumed == 0 ) {
             // Nothing was consumed from within the item. "Eat" the item itself away.
             i_rem( actually_used );
@@ -7166,7 +7166,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return ret;
     }
 
-    actually_used->activation_consume( charges_used.value(), pt.raw(), this );
+    actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
         actually_used->is_deployable() ) {
@@ -9606,10 +9606,10 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
             if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint::zero, nullptr,
+                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr,
                                           it.type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint::zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr );
             }
         } );
     }
@@ -9660,7 +9660,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
     if( qty > 0 ) {
         visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
-            if( e->use_charges( what, qty, res, pos(), filter, this, in_tools ) ) {
+            if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -12740,11 +12740,11 @@ void Character::leak_items()
 {
     std::vector<item_location> removed_items;
     if( weapon.is_container() ) {
-        if( weapon.leak( get_map(), this, pos() ) ) {
-            weapon.spill_contents( pos() );
+        if( weapon.leak( get_map(), this, pos_bub() ) ) {
+            weapon.spill_contents( pos_bub() );
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
-        if( weapon.leak( get_map(), this, pos() ) ) {
+        if( weapon.leak( get_map(), this, pos_bub() ) ) {
             get_map().add_item_or_charges( pos_bub(), weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
@@ -12755,8 +12755,8 @@ void Character::leak_items()
         if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
             continue;
         }
-        if( it->leak( get_map(), this, pos() ) ) {
-            it->spill_contents( pos() );
+        if( it->leak( get_map(), this, pos_bub() ) ) {
+            it->spill_contents( pos_bub() );
             removed_items.push_back( it );
         }
     }
@@ -12767,8 +12767,8 @@ void Character::leak_items()
 
 void Character::process_items()
 {
-    if( weapon.process( get_map(), this, pos() ) ) {
-        weapon.spill_contents( pos() );
+    if( weapon.process( get_map(), this, pos_bub() ) ) {
+        weapon.spill_contents( pos_bub() );
         remove_weapon();
     }
 
@@ -12777,8 +12777,8 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->process( get_map(), this, pos() ) ) {
-            it->spill_contents( pos() );
+        if( it->process( get_map(), this, pos_bub() ) ) {
+            it->spill_contents( pos_bub() );
             removed_items.push_back( it );
         }
     }

@@ -1103,23 +1103,24 @@ void deploy_furn_actor::load( const JsonObject &obj, const std::string & )
 }
 
 
-static ret_val<tripoint> check_deploy_square( Character *p, item &it, const tripoint &pos )
+static ret_val<tripoint_bub_ms> check_deploy_square( Character *p, item &it,
+        const tripoint_bub_ms &pos )
 {
     if( p->cant_do_mounted() ) {
-        return ret_val<tripoint>::make_failure( pos );
+        return ret_val<tripoint_bub_ms>::make_failure( pos );
     }
     tripoint_bub_ms pnt( pos );
-    if( pos == p->pos_bub().raw() ) {
-        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
-            pnt = tripoint_bub_ms( *pnt_ );
+    if( pos == p->pos_bub() ) {
+        if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( _( "Deploy where?" ) ) ) {
+            pnt = *pnt_;
         } else {
-            return ret_val<tripoint>::make_failure( pos );
+            return ret_val<tripoint_bub_ms>::make_failure( pos );
         }
     }
 
     if( pnt == p->pos_bub() ) {
-        return ret_val<tripoint>::make_failure( pos,
-                                                _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
+        return ret_val<tripoint_bub_ms>::make_failure( pos,
+                _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
 
     map &here = get_map();
@@ -1136,7 +1137,7 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
         if( !query_yn(
                 _( "Deploying %s there will make it fall down %i stories.  Do you still want to deploy it?" ),
                 it.tname(), height ) ) {
-            return ret_val<tripoint>::make_failure( pos );
+            return ret_val<tripoint_bub_ms>::make_failure( pos );
         }
     }
 
@@ -1144,19 +1145,21 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
-        return ret_val<tripoint>::make_failure( pos,
-                                                _( "The space under %s is too cramped to deploy a %s in." ),
-                                                veh_there.value().vehicle().disp_name(), it.tname() );
+        return ret_val<tripoint_bub_ms>::make_failure( pos,
+                _( "The space under %s is too cramped to deploy a %s in." ),
+                veh_there.value().vehicle().disp_name(), it.tname() );
     }
 
     // For example: dirt = 2, long grass = 3
     if( here.move_cost( pnt ) != 2 && here.move_cost( pnt ) != 3 ) {
-        return ret_val<tripoint>::make_failure( pos, _( "You can't deploy a %s there." ), it.tname() );
+        return ret_val<tripoint_bub_ms>::make_failure( pos, _( "You can't deploy a %s there." ),
+                it.tname() );
     }
 
     if( here.has_furn( pnt ) ) {
-        return ret_val<tripoint>::make_failure( pos, _( "The %s at that location is blocking the %s." ),
-                                                here.furnname( pnt ), it.tname() );
+        return ret_val<tripoint_bub_ms>::make_failure( pos,
+                _( "The %s at that location is blocking the %s." ),
+                here.furnname( pnt ), it.tname() );
     }
 
     if( here.has_items( pnt ) ) {
@@ -1165,40 +1168,40 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
         map &temp = get_map();
         for( item &i : temp.i_at( pnt ) ) {
             if( !i.is_owned_by( *p, true ) ) {
-                return ret_val<tripoint>::make_failure( pos,
-                                                        _( "You can't deploy the %s on other people's belongings!" ), it.tname() );
+                return ret_val<tripoint_bub_ms>::make_failure( pos,
+                        _( "You can't deploy the %s on other people's belongings!" ), it.tname() );
             }
         }
 
         // Check that there is no liquid on the floor.
         // If there is, it needs to be mopped dry with a mop.
-        if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
+        if( here.terrain_moppable( pnt ) ) {
             if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
-                here.mop_spills( tripoint_bub_ms( pnt ) );
+                here.mop_spills( pnt );
                 p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
                                       it.tname() );
                 p->mod_moves( -to_moves<int>( 15_seconds ) );
             } else {
-                return ret_val<tripoint>::make_failure( pos,
-                                                        _( "You need a mop to clean up liquids before deploying the %s." ), it.tname() );
+                return ret_val<tripoint_bub_ms>::make_failure( pos,
+                        _( "You need a mop to clean up liquids before deploying the %s." ), it.tname() );
             }
         }
     }
 
-    return ret_val<tripoint>::make_success( pnt.raw() );
+    return ret_val<tripoint_bub_ms>::make_success( pnt );
 }
 
 std::optional<int> deploy_furn_actor::use( Character *p, item &it,
         const tripoint &pos ) const
 {
-    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, tripoint_bub_ms( pos ) );
     if( !suitable.success() ) {
         p->add_msg_if_player( m_info, suitable.str() );
         return std::nullopt;
     }
 
     get_map().furn_set( suitable.value(), furn_type );
-    get_map().drop_furniture( tripoint_bub_ms( suitable.value() ) );
+    get_map().drop_furniture( suitable.value() );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -1223,7 +1226,7 @@ void deploy_appliance_actor::load( const JsonObject &obj, const std::string & )
 
 std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tripoint &pos ) const
 {
-    ret_val<tripoint> suitable = check_deploy_square( p, it, pos );
+    ret_val<tripoint_bub_ms> suitable = check_deploy_square( p, it, tripoint_bub_ms( pos ) );
     if( !suitable.success() ) {
         p->add_msg_if_player( m_info, suitable.str() );
         return std::nullopt;
@@ -1289,7 +1292,7 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
         return std::nullopt;
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
-                                   p->global_omt_location().raw() ) );
+                                   p->global_omt_location() ) );
     // Clear highlight on previously revealed OMTs before revealing new ones
     p->map_revealed_omts.clear();
     for( const auto &omt : omt_types ) {
@@ -4841,7 +4844,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         }
 
         it.update_link_traits();
-        it.process( here, p, p->pos() );
+        it.process( here, p, p->pos_bub() );
         p->mod_moves( -move_cost );
         return 0;
 
@@ -4877,7 +4880,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         it.link().source = link_state::ups;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
-        it.process( here, p, p->pos() );
+        it.process( here, p, p->pos_bub() );
         p->mod_moves( -move_cost );
         return 0;
 
@@ -4913,7 +4916,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         it.link().source = link_state::solarpack;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
-        it.process( here, p, p->pos() );
+        it.process( here, p, p->pos_bub() );
         p->mod_moves( -move_cost );
         return 0;
     }
@@ -4982,7 +4985,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
             p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(), sel_vp_name );
         }
 
-        it.process( here, p, p->pos() );
+        it.process( here, p, p->pos_bub() );
         p->mod_moves( -move_cost );
         return 0;
 
@@ -5064,7 +5067,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
         p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.type_name(),
                               sel_vp->vehicle().name );
 
-        it.process( here, p, p->pos() );
+        it.process( here, p, p->pos_bub() );
         p->mod_moves( -move_cost );
         return 0;
 
@@ -5158,7 +5161,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         extended_ptr->link() = extension->link();
     }
     extended_ptr->update_link_traits();
-    extended_ptr->process( get_map(), p, p->pos() );
+    extended_ptr->process( get_map(), p, p->pos_bub() );
 
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
@@ -5229,7 +5232,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
         // If the item was linked, keep the extension cables linked.
         cable_main_copy.link() = it.link();
         cable_main_copy.update_link_traits();
-        cable_main_copy.process( get_map(), p, p->pos() );
+        cable_main_copy.process( get_map(), p, p->pos_bub() );
         it.reset_link( true, p );
     }
 

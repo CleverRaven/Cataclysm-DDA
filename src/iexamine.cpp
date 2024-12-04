@@ -1415,7 +1415,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
         return false;
     } else {
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
-        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.position(), &you );
+        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub(), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
         you.activity.placement = get_map().getglobal( examp );
         return true;
@@ -4925,7 +4925,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
     if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
-                                          opt.ammo.position() ) ) {
+                                          opt.ammo.pos_bub() ) ) {
         opt.ammo.remove_item();
     }
 
@@ -6304,7 +6304,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp.raw(), get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -6405,7 +6405,7 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
     you.use_charges( itype_fire, 1 );
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp.raw(), get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
