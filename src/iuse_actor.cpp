@@ -2391,12 +2391,18 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint & ) const
 {
+    //TODO: combine/replace the checks below with "checks for conditions" from Character::check_read_condition
+
     if( p->fine_detail_vision_mod() > 4 ) {
-        p->add_msg_if_player( _( "It's too dark to read." ) );
+        p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
         return std::nullopt;
     }
     if( p->has_trait( trait_ILLITERATE ) ) {
-        p->add_msg_if_player( _( "You can't read." ) );
+        p->add_msg_if_player( m_bad, _( "You can't read." ) );
+        return std::nullopt;
+    }
+    if( !p->has_morale_to_read() ) {
+        p->add_msg_if_player( m_bad, _( "What's the point of studying?  (Your morale is too low!)" ) );
         return std::nullopt;
     }
     std::vector<uilist_entry> uilist_initializer;
