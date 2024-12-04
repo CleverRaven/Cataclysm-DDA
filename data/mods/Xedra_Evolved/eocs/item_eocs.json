@@ -59,23 +59,5 @@
     "type": "effect_on_condition",
     "id": "EOC_DAGWOOD",
     "effect": [ { "u_cast_spell": { "id": "cosmic_dagwood_regeneration" } } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_XEDRA_INVENTOR_DAMAGE_REVERSAL",
-    "condition": { "math": [ "u_xedra_last_damage_taken > 0" ] },
-    "effect": [
-      {
-        "if": { "compare_string": [ "bp_null", "u_xedra_last_damage_taken_bodypart" ] },
-        "then": [ { "math": [ "u_hp('ALL')+=u_xedra_last_damage_taken" ] }, { "math": [ "u_xedra_last_damage_taken=0" ] } ],
-        "else": [
-          { "math": [ "u_hp(u_xedra_last_damage_taken_bodypart)+=u_xedra_last_damage_taken" ] },
-          { "math": [ "u_pain()-=u_xedra_last_pain_taken" ] },
-          { "math": [ "u_xedra_last_damage_taken=0" ] }
-        ]
-      },
-      { "u_message": "Your wound heals!", "type": "good" }
-    ],
-    "false_effect": [ { "u_message": "You don't have a previous wound to heal.", "type": "neutral" } ]
   }
 ]

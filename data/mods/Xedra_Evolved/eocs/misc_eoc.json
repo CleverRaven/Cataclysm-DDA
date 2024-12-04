@@ -361,7 +361,9 @@
       { "math": [ "u_thirst_before_time_freeze", "=", "u_val('thirst')" ] },
       { "math": [ "u_blood_before_time_freeze", "=", "u_vitamin('blood')" ] },
       { "math": [ "u_redcells_before_time_freeze", "=", "u_vitamin('redcells')" ] },
-      { "math": [ "u_rad_before_time_freeze", "=", "u_val('rad')" ] }
+      { "math": [ "u_rad_before_time_freeze", "=", "u_val('rad')" ] },
+      { "math": [ "u_sleepiness_before_time_freeze", "=", "u_val('sleepiness')" ] },
+      { "math": [ "u_sleep_deprivation_before_time_freeze", "=", "u_val('sleep_deprivation')" ] }
     ]
   },
   {
@@ -377,7 +379,9 @@
       { "math": [ "u_val('thirst')", "=", "u_thirst_before_time_freeze" ] },
       { "math": [ "u_vitamin('blood')", "=", "u_blood_before_time_freeze" ] },
       { "math": [ "u_vitamin('redcells')", "=", "u_redcells_before_time_freeze" ] },
-      { "math": [ "u_val('rad')", "=", "u_rad_before_time_freeze" ] }
+      { "math": [ "u_val('rad')", "=", "u_rad_before_time_freeze" ] },
+      { "math": [ "u_val('sleepiness')", "=", "u_sleepiness_before_time_freeze" ] },
+      { "math": [ "u_val('sleep_deprivation')", "=", "u_sleep_deprivation_before_time_freeze" ] }
     ]
   },
   {
@@ -389,5 +393,28 @@
     "interruptable": false,
     "interruptable_with_kb": false,
     "can_resume": false
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_DAMAGE_REVERSAL",
+    "condition": { "math": [ "u_xedra_last_damage_taken > 0" ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "bp_null", "u_xedra_last_damage_taken_bodypart" ] },
+        "then": [
+          { "math": [ "u_hp('ALL')+=u_xedra_last_damage_taken" ] },
+          { "math": [ "u_xedra_last_damage_taken=0" ] },
+          { "u_lose_effect": "bleed" }
+        ],
+        "else": [
+          { "math": [ "u_hp(u_xedra_last_damage_taken_bodypart)+=u_xedra_last_damage_taken" ] },
+          { "math": [ "u_pain()-=u_xedra_last_pain_taken" ] },
+          { "math": [ "u_xedra_last_damage_taken=0" ] },
+          { "u_lose_effect": "bleed", "target_part": { "u_val": "xedra_last_damage_taken_bodypart" } }
+        ]
+      },
+      { "u_message": "Your wound heals!", "type": "good" }
+    ],
+    "false_effect": [ { "u_message": "You don't have a previous wound to heal.", "type": "neutral" } ]
   }
 ]

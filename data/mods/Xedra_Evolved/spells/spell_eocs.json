@@ -349,5 +349,90 @@
       { "npc_location_variable": { "context_val": "pos_nearby" }, "min_radius": 1, "max_radius": 7, "passable_only": true },
       { "u_teleport": { "context_val": "pos_nearby" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_CHRONAL_ACCEL_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_chronal_accel" } },
+    "effect": [
+      { "u_add_effect": "effect_xedra_chronomancer_chronal_accel", "duration": "PERMANENT" }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_chronomancer_chronal_accel" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_DESTABILIZING_STRIKES_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_destabilizing_strikes" } },
+    "effect": [
+      { "u_add_effect": "effect_xedra_chronomancer_destabilizing_strikes", "duration": "PERMANENT" }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_chronomancer_destabilizing_strikes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_STABILIZE_TIMELINE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_stabilize_timeline" } },
+    "effect": [
+      { "u_add_effect": "effect_xedra_chronomancer_stabilize_timeline", "duration": "PERMANENT" }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_chronomancer_stabilize_timeline" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_chronomancer_reverse_entropy" } },
+    "effect": [
+      { "u_add_effect": "effect_xedra_chronomancer_reverse_entropy", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER" ] }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_chronomancer_reverse_entropy" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER",
+    "condition": { "u_has_effect": "effect_xedra_chronomancer_reverse_entropy" },
+    "effect": [
+      {
+        "run_eocs": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER",
+        "time_in_future": 1
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_ENERGY",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [
+              {
+                "math": [ "n_val('power') += 1" ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "condition": { "math": [ "n_hp('ALL') < n_hp_max('ALL')" ] } }, { "uses_energy": true }, { "uses_energy": false } ],
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_DURABILITY",
+            "effect": [
+              {
+                "math": [ "n_hp('ALL') += 1" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

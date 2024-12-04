@@ -13,6 +13,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "xedra_chronomancer_level",
+    "num_args": 1,
+    "return": "(2 * u_val('intelligence') ) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chron_spell_calc",
+    "num_args": 3,
+    "return": " ((_0 * _1) + _2) * scaling_factor(u_val('intelligence'))"
+  },
+  {
+    "type": "jmath_function",
     "id": "spell_time",
     "num_args": 1,
     "//": "used to transform the variable time (the smallest measure is 1 second) to the spell time (the smallest measure is 1 move, 1 second = 100 moves)",

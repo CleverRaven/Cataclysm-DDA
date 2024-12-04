@@ -698,7 +698,7 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Reverse your last injury.",
-      "effect_on_conditions": [ "EOC_XEDRA_INVENTOR_DAMAGE_REVERSAL" ],
+      "effect_on_conditions": [ "EOC_XEDRA_DAMAGE_REVERSAL" ],
       "need_worn": true
     },
     "pocket_data": [
