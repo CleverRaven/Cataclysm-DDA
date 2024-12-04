@@ -767,7 +767,12 @@
             { "not": { "u_know_recipe": "create_shortbow_treesung" } },
             { "not": { "u_know_recipe": "create_greatbow_treesung" } },
             { "not": { "u_know_recipe": "create_arrow_treesung" } },
-            { "not": { "u_know_recipe": "create_spear_treesung" } }
+            { "not": { "u_know_recipe": "create_spear_treesung" } },
+            { "not": { "u_know_recipe": "create_pike_treesung" } },
+            { "not": { "u_know_recipe": "create_mace_treesung" } },
+            { "not": { "u_know_recipe": "create_q_staff_treesung" } },
+            { "not": { "u_know_recipe": "create_naginata_treesung" } },
+            { "not": { "u_know_recipe": "create_baselard_treesung" } }
           ]
         },
         {
@@ -811,7 +816,12 @@
           "create_shortbow_treesung",
           "create_greatbow_treesung",
           "create_arrow_treesung",
-          "create_spear_treesung"
+          "create_spear_treesung",
+          "create_pike_treesung",
+          "create_mace_treesung",
+          "create_q_staff_treesung",
+          "create_naginata_treesung",
+          "create_baselard_treesung"
         ],
         "type": "recipe"
       },
