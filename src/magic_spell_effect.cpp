@@ -1183,7 +1183,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
         }
     }
 
-    if ( character_at_target != nullptr ) {
+    if( character_at_target != nullptr ) {
         for( item &it : granted ) {
             // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
             if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
