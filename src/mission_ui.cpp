@@ -60,7 +60,8 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
+                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) {
         }
 
     private:
@@ -74,6 +75,9 @@ class mission_ui_impl : public cataimgui::window
         size_t window_width = str_width_to_pixels( TERMX ) / 2;
         size_t window_height = str_height_to_pixels( TERMY ) / 2;
         size_t table_column_width = window_width / 2;
+
+        bool scroll_up_this_frame = false;
+        bool scroll_dn_this_frame = false;
 
     protected:
         void draw_controls() override;
@@ -115,18 +119,22 @@ void mission_ui_impl::draw_controls()
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
     std::vector<mission *> umissions;
 
+    // Dumb hack! We're bypassing imgui's keyboard navigation completely, so we don't want their nav highlighting. Listbox
+    // will inappropriately highlight some boxes if we don't do this. (Appears to be a problem on imgui's end)
+    ImGui::SetWindowFocus();
+
     static int selected_mission = 0;
     bool adjust_selected = false;
+    scroll_up_this_frame = false;
+    scroll_dn_this_frame = false;
 
     if( last_action == "QUIT" ) {
         return;
     } else if( last_action == "UP" ) {
         adjust_selected = true;
-        ImGui::SetKeyboardFocusHere( -1 );
         selected_mission--;
     } else if( last_action == "DOWN" ) {
         adjust_selected = true;
-        ImGui::SetKeyboardFocusHere( 1 );
         selected_mission++;
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
         adjust_selected = true;
@@ -139,11 +147,9 @@ void mission_ui_impl::draw_controls()
         switch_tab = selected_tab;
         --switch_tab;
     } else if( last_action == "PAGE_UP" ) {
-        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
-        ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
+        scroll_up_this_frame = true; // handled in child window
     } else if( last_action == "PAGE_DOWN" ) {
-        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
-        ImGui::SetScrollY( ImGui::GetScrollY() + ( window_height / 5.0f ) );
+        scroll_dn_this_frame = true; // handled in child window
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -260,84 +266,94 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
 void mission_ui_impl::draw_selected_description( std::vector<mission *> missions,
         int &selected_mission )
 {
-    mission *miss = missions[selected_mission];
-    ImGui::TextWrapped( _( "Mission: %s" ), miss->name().c_str() );
-    if( miss->get_npc_id().is_valid() ) {
-        npc *guy = g->find_npc( miss->get_npc_id() );
-        if( guy ) {
-            ImGui::TextWrapped( _( "Given by: %s" ), guy->disp_name().c_str() );
+    ImVec2 display_rect = ImGui::GetContentRegionAvail();
+    display_rect.x = display_rect.x - ImGui::GetStyle().ScrollbarSize; // leave room for it!
+    if( ImGui::BeginChildFrame( ImGui::GetID( "##DESCRIPTION_DISPLAY" ), display_rect ) ) {
+        if( scroll_up_this_frame ) {
+            ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
+        } else if( scroll_dn_this_frame ) {
+            ImGui::SetScrollY( ImGui::GetScrollY() + ( window_height / 5.0f ) );
         }
-    }
-    ImGui::Separator();
-    static std::string raw_description;
-    static std::string parsed_description;
-    // Avoid replacing expanded snippets with other valid snippet text on redraw
-    if( raw_description != miss->get_description() ) {
-        raw_description = miss->get_description();
-        parsed_description = raw_description;
-        // Handles(example)  <reward_count:item>   in description
-        // Not handled in parse_tags for some reason!
-        dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
-        const talk_effect_fun_t::likely_rewards_t &rewards = miss->get_likely_rewards();
-        for( const auto &reward : rewards ) {
-            std::string token = "<reward_count:" + itype_id( reward.second.evaluate( d ) ).str() + ">";
-            parsed_description = string_replace( parsed_description, token, string_format( "%g",
-                                                 reward.first.evaluate( d ) ) );
+        mission *miss = missions[selected_mission];
+        ImGui::TextWrapped( _( "Mission: %s" ), miss->name().c_str() );
+        if( miss->get_npc_id().is_valid() ) {
+            npc *guy = g->find_npc( miss->get_npc_id() );
+            if( guy ) {
+                ImGui::TextWrapped( _( "Given by: %s" ), guy->disp_name().c_str() );
+            }
         }
-        parse_tags( parsed_description, get_player_character(), get_player_character() );
-    }
-    cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
-    if( miss->has_deadline() ) {
-        const time_point deadline = miss->get_deadline();
-        if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
-            ImGui::TextWrapped( _( "Deadline: %s" ), to_string( deadline ).c_str() );
-            const time_duration remaining = deadline - calendar::turn;
-            std::string remaining_time;
-            if( remaining <= 0_turns ) {
-                remaining_time = _( "None!" );
-            } else if( get_player_character().has_watch() ) {
-                remaining_time = to_string( remaining );
-            } else {
-                remaining_time = to_string_approx( remaining );
+        ImGui::Separator();
+        static std::string raw_description;
+        static std::string parsed_description;
+        // Avoid replacing expanded snippets with other valid snippet text on redraw
+        if( raw_description != miss->get_description() ) {
+            raw_description = miss->get_description();
+            parsed_description = raw_description;
+            // Handles(example)  <reward_count:item>   in description
+            // Not handled in parse_tags for some reason!
+            dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
+            const talk_effect_fun_t::likely_rewards_t &rewards = miss->get_likely_rewards();
+            for( const auto &reward : rewards ) {
+                std::string token = "<reward_count:" + itype_id( reward.second.evaluate( d ) ).str() + ">";
+                parsed_description = string_replace( parsed_description, token, string_format( "%g",
+                                                     reward.first.evaluate( d ) ) );
             }
-            ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
-        } else {
-            const time_duration time_in_past = calendar::turn - deadline;
-            std::string time_in_past_string;
-            if( get_player_character().has_watch() ) {
-                time_in_past_string = to_string( time_in_past );
-            } else {
-                time_in_past_string = to_string_approx( time_in_past );
-            }
-            if( deadline != calendar::turn_zero ) {
-                if( selected_tab == mission_ui_tab_enum::COMPLETED ) {
-                    cataimgui::draw_colored_text( string_format( _( "Completed: %s" ),
-                                                  to_string( deadline ) ), c_green );
-                } else if( selected_tab == mission_ui_tab_enum::FAILED ) {
-                    cataimgui::draw_colored_text( string_format( _( "Failed at: %s" ),
-                                                  to_string( deadline ).c_str() ), c_red );
+            parse_tags( parsed_description, get_player_character(), get_player_character() );
+        }
+        cataimgui::draw_colored_text( parsed_description, c_unset, display_rect.x );
+        if( miss->has_deadline() ) {
+            const time_point deadline = miss->get_deadline();
+            if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
+                ImGui::TextWrapped( _( "Deadline: %s" ), to_string( deadline ).c_str() );
+                const time_duration remaining = deadline - calendar::turn;
+                std::string remaining_time;
+                if( remaining <= 0_turns ) {
+                    remaining_time = _( "None!" );
+                } else if( get_player_character().has_watch() ) {
+                    remaining_time = to_string( remaining );
+                } else {
+                    remaining_time = to_string_approx( remaining );
                 }
-                cataimgui::draw_colored_text( string_format( _( "%s ago" ), time_in_past_string ), c_unset );
+                ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
+            } else {
+                const time_duration time_in_past = calendar::turn - deadline;
+                std::string time_in_past_string;
+                if( get_player_character().has_watch() ) {
+                    time_in_past_string = to_string( time_in_past );
+                } else {
+                    time_in_past_string = to_string_approx( time_in_past );
+                }
+                if( deadline != calendar::turn_zero ) {
+                    if( selected_tab == mission_ui_tab_enum::COMPLETED ) {
+                        cataimgui::draw_colored_text( string_format( _( "Completed: %s" ),
+                                                      to_string( deadline ) ), c_green );
+                    } else if( selected_tab == mission_ui_tab_enum::FAILED ) {
+                        cataimgui::draw_colored_text( string_format( _( "Failed at: %s" ),
+                                                      to_string( deadline ).c_str() ), c_red );
+                    }
+                    cataimgui::draw_colored_text( string_format( _( "%s ago" ), time_in_past_string ), c_unset );
+                }
+            }
+        }
+        if( miss->has_target() ) {
+            // TODO: target does not contain a z-component, targets are assumed to be on z=0
+            const tripoint_abs_omt pos = get_player_character().global_omt_location();
+            cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
+                                          c_white );
+            // Below is done instead of a table for the benefit of right-to-left languages
+            //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
+            cataimgui::draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
+            int omt_distance = rl_dist( pos, miss->get_target() );
+            if( omt_distance > 0 ) {
+                // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
+                units::length actual_distance = omt_distance * 24_meter;
+                //~Parenthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
+                cataimgui::draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
+                                              omt_distance, length_to_string_approx( actual_distance ) ), c_white );
             }
         }
     }
-    if( miss->has_target() ) {
-        // TODO: target does not contain a z-component, targets are assumed to be on z=0
-        const tripoint_abs_omt pos = get_player_character().global_omt_location();
-        cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
-                                      c_white );
-        // Below is done instead of a table for the benefit of right-to-left languages
-        //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
-        cataimgui::draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
-        int omt_distance = rl_dist( pos, miss->get_target() );
-        if( omt_distance > 0 ) {
-            // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-            units::length actual_distance = omt_distance * 24_meter;
-            //~Parenthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
-            cataimgui::draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
-                                          omt_distance, length_to_string_approx( actual_distance ) ), c_white );
-        }
-    }
+    ImGui::EndChild();
 }
 
 void game::list_missions()
