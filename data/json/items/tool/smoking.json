@@ -79,7 +79,8 @@
         "max_item_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
-      } ],
+      }
+    ],
     "to_hit": -2,
     "material": [ "glass" ],
     "symbol": ",",
