@@ -153,7 +153,7 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 2,
-    "special_attacks": [ { "id": "civilian_weapon_knife_fighter" } ],
+    "special_attacks": [ { "id": "feral_weapon_knife_combat_low_skill" } ],
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "death_drops": {
