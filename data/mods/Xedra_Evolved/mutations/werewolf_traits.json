@@ -85,6 +85,22 @@
     ]
   },
   {
+    "type": "mutation",
+    "id": "WEREWOLF_NO_SCENT",
+    "name": { "str": "Running through the River" },
+    "points": 2,
+    "description": "As a hunter, you know that catching a scent is the first step to getting the prey's neck between your jaws, so it's best to avoid that first step.  While active, you have no scent at all.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 20,
+    "active_flags": [ "NO_SCENT" ]
+  },
+  {
     "//": "Tier 2 traits begin here",
     "type": "mutation",
     "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
@@ -98,7 +114,7 @@
     "active": true,
     "activated_is_setup": true,
     "cost": 1,
-    "time": 30,
+    "time": 10,
     "activated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON",
     "deactivated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF"
   },
