@@ -126,5 +126,33 @@
     "flags": [ "NO_SPELLCASTING", "PRED3", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
     "override_look": { "id": "mon_loup_garou", "tile_category": "monster" },
     "integrated_armor": [ "integrated_claws_werewolf", "integrated_werewolf_teeth", "integrated_lupine_fur" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_LOCKPICK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REPAIR_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MEND_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_RELOAD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIRSTAID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MILK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ "u_cancel_activity", { "u_message": "Your war form lacks the necessary precision for that.", "type": "bad" } ]
   }
 ]
