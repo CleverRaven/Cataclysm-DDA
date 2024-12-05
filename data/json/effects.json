@@ -4976,7 +4976,7 @@
     "show_in_info": true
   },
   {
-    "id": "star_vampire_blood_drink",
+    "id": "star_vampire_blood_drink_powerful",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
     "desc": [ "The monster is greedily drinking your blood!" ],

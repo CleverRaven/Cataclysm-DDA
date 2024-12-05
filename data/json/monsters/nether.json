@@ -661,7 +661,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "effects": [ { "id": "star_vampire_blood_drink_powerful", "duration": 2, "chance": 100 } ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10 } ],
         "cooldown": 1,
         "move_cost": 100,
