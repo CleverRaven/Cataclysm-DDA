@@ -630,5 +630,87 @@
     "id": "mil_base_minefield_sw",
     "copy-from": "generic_mil_base_minefield",
     "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_armory_1", "mil_base_armory_2" ],
+    "name": "military base armory",
+    "sym": "A",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_armory_1_roof", "mil_base_armory_2_roof" ],
+    "name": "military base armory roof",
+    "sym": "A",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_checkpoint" ],
+    "name": "military base checkpoint",
+    "sym": "C",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "military_base_road",
+    "name": "military base road",
+    "color": "light_gray",
+    "vision_levels": "large_pavement",
+    "travel_cost_type": "dirt_road",
+    "see_cost": "none",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "military_base_wall_straight" ],
+    "name": "military base wall",
+    "sym": "│",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "military_base_wall_corner" ],
+    "name": "military base wall with lookout tower",
+    "sym": "┌",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "military_base_wall_corner_z1", "military_base_wall_corner_z2" ],
+    "name": "lookout tower",
+    "sym": "T",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "military_base_wall_corner_z3" ],
+    "name": "lookout tower roof",
+    "sym": "T",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "military_base_helipad" ],
+    "name": "military base helipad",
+    "sym": "H",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "low"
   }
 ]
