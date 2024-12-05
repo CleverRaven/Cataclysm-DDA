@@ -10516,8 +10516,6 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         return true;
     }
 
-    item jetpack = you->item_worn_with_flag( json_flag_JETPACK );
-
     if( you->has_flag( json_flag_WALL_CLING ) &&  get_map().is_wall_adjacent( p ) ) {
         you->add_msg_player_or_npc( _( "You attach yourself to the nearby wall." ),
                                     _( "<npcname> clings to the wall." ) );
@@ -10531,20 +10529,27 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
     } else {
         you->setpos( where );
     }
+
     if( you->get_size() == creature_size::tiny ) {
         height = std::max( 0, height - 1 );
     }
+
     if( you->has_effect( effect_weakened_gravity ) ) {
         height = std::max( 0, height - 1 );
     }
+
     if( you->has_effect( effect_strengthened_gravity ) ) {
         height += 1;
     }
+
     if( you->can_fly() ) {
         you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                     _( "<npcname> spreads their wings to slow their fall." ) );
         height = std::max( 0, height - 2 );
     }
+
+    item jetpack = you->item_worn_with_flag( json_flag_JETPACK );
+
     if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,
                                 _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -10552,7 +10557,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         if( jetpack.ammo_sufficient( you ) ) {
             you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
                                         _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
-            jetpack.activation_consume( 1, you->pos(), you );
+            jetpack.activation_consume( 1, you->pos_bub(), you );
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
