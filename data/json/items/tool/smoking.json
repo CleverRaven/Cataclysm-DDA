@@ -81,7 +81,7 @@
         "moves": 400
       }
     ],
-    "to_hit": -2,
+    "to_hit": { "grip": "-1", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
