@@ -1664,9 +1664,8 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
         }
     }
     if( player_character.has_quality( qual_CUT ) ) {
-        // TODO: fix point types
         iuse::handle_ground_graffiti( player_character, nullptr, _( "Inscribe something on the grave?" ),
-                                      p.raw() );
+                                      p );
     } else {
         add_msg( m_neutral,
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
