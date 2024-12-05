@@ -676,5 +676,25 @@
         { "item": "sheet_metal_small", "count": [ 1, 4 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_backup_generator",
+    "name": "backup generator",
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.",
+    "symbol": "G",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "ap_active_backup_generator" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "active_backup_generator", "count": 1 } ] },
+    "bash": {
+      "str_min": 45,
+      "str_max": 180,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 4, 16 ] }, { "item": "steel_chunk", "count": [ 1, 6 ] } ]
+    }
   }
 ]
