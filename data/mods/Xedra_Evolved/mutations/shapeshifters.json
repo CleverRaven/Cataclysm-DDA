@@ -185,7 +185,7 @@
     "effect": [
       "u_cancel_activity",
       {
-        "u_message": "Your mind is filled with the urge to sink your fangs into your enemies throats, leaving no room for other activities.",
+        "u_message": "Your mind is filled with the urge to sink your fangs into your enemies' throats, leaving no room for these passive activities.",
         "type": "bad"
       }
     ]
