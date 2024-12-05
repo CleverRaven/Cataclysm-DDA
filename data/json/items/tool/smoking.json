@@ -68,8 +68,8 @@
     "volume": "900 ml",
     "longest_side": "30 cm",
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE" ],
-    "price": 2000,
-    "price_postapoc": 100,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
