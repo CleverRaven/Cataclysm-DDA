@@ -66,7 +66,6 @@
   {
     "id": "exo_torso_plastic",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_torso_steel",
     "name": { "str": "plastic torso plate (exosuit)", "str_pl": "plastic torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a plate of plastic.",
@@ -125,7 +124,6 @@
   {
     "id": "exo_torso_comp",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_torso_steel",
     "name": { "str": "composite torso plate (exosuit)", "str_pl": "composite torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of layered ceramic and steel.",
@@ -157,7 +155,6 @@
   {
     "id": "damaged_exo_torso_comp",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_torso_comp",
     "name": { "str": "damaged composite torso plate (exosuit)", "str_pl": "damaged composite torso plates (exosuit)" },
     "description": "The remains of a composite torso plate after taking a strong impact.",

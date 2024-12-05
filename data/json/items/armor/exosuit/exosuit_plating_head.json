@@ -51,7 +51,6 @@
   {
     "id": "exo_helmet_plastic",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_helmet_steel",
     "name": { "str": "plastic helmet plate (exosuit)", "str_pl": "plastic helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of plastic.",
@@ -97,7 +96,6 @@
   {
     "id": "exo_helmet_comp",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_helmet_steel",
     "name": { "str": "composite helmet plate (exosuit)", "str_pl": "composite helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of layered ceramic and steel.",
@@ -121,7 +119,6 @@
   {
     "id": "damaged_exo_helmet_comp",
     "type": "ARMOR",
-    "category": "exosuit",
     "copy-from": "exo_helmet_comp",
     "name": { "str": "damaged composite helmet plate (exosuit)", "str_pl": "damaged composite helmet plates (exosuit)" },
     "description": "The remains of a composite helmet plate after taking a strong impact.",
