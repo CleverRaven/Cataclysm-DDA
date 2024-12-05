@@ -3017,5 +3017,35 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_wound_causality",
+    "name": [ "Rewriting Wound Causality" ],
+    "desc": [ "Your injuries are dissapearing in a harmless paradox." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
   }
 ]

@@ -280,5 +280,28 @@
         "u_effect_intensity('effect_xedra_chronomancer_reverse_entropy') > -1 ? 0 : max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_reverse_entropy') ) ), 50 )"
       ]
     }
+  },
+  {
+    "id": "xedra_chronomancer_rewrite_wound_causality",
+    "type": "SPELL",
+    "name": "Rewrite Wound Causality (M)",
+    "description": "Sink into a mediative trance where you steadily rewrite the causality of your current wounds, effectively healing yourself of injury.  This power will remain active until you run out of mana or your wounds are healed.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "XEDRA_CHRONOMANCER",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 20,
+    "base_casting_time": {
+      "math": [
+        " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_wound_causality') ) ), 50 )"
+      ]
+    }
   }
 ]
