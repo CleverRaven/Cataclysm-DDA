@@ -128,7 +128,7 @@
       {
         "id": "pipe_water_fakegold",
         "name": { "str": "gold bong" },
-        "description": "A mass manufactured water pipe, also known as a 'bong.' Though it looks like it's made out of gold it is, in fact, just metallic paint.",
+        "description": "A mass-manufactured water pipe, also known as a 'bong'.  Though it looks like it's made out of gold it is, in fact, just metallic paint.",
         "color": "yellow"
       }
     ]
