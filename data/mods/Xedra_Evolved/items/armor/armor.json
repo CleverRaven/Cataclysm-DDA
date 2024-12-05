@@ -1264,7 +1264,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of verdant leg guards", "str_pl": "pairs of verdant leg guards" },
-    "description": "A pair of leg guards made living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "description": "A pair of leg guards made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
     "weight": "510 g",
     "volume": "5000 ml",
     "price": "250 USD",
