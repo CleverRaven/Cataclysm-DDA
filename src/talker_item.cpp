@@ -79,6 +79,11 @@ int talker_item_const::get_cur_hp( const bodypart_id & ) const
     return me_it_const->get_item()->max_damage() - me_it_const->get_item()->damage();
 }
 
+int talker_item_const::get_degradation() const
+{
+    return me_it_const->get_item()->degradation();
+}
+
 int talker_item_const::get_hp_max( const bodypart_id & ) const
 {
     return me_it_const->get_item()->max_damage();
@@ -140,6 +145,11 @@ void talker_item::set_power_cur( units::energy value )
 void talker_item::set_all_parts_hp_cur( int set )
 {
     me_it->get_item()->set_damage( me_it->get_item()->max_damage() - set );
+}
+
+void talker_item::set_degradation( int set )
+{
+    me_it->get_item()->set_degradation( set );
 }
 
 void talker_item::die()

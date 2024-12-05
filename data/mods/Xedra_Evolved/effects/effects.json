@@ -3047,5 +3047,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_equipment_causality",
+    "name": [ "Rewriting Equipment Causality" ],
+    "desc": [ "The equipments' faults are dissapearing in a harmless paradox." ],
+    "rating": "good"
   }
 ]

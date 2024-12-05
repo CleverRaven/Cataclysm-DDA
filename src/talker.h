@@ -126,6 +126,9 @@ class const_talker
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_degradation() const {
+            return 0;
+        }
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
@@ -772,6 +775,7 @@ class talker: virtual public const_talker
         virtual void set_npc_value( int ) {}
         virtual void set_npc_anger( int ) {}
         virtual void set_all_parts_hp_cur( int ) {}
+        virtual void set_degradation( int ) {}
         virtual void die() {}
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
