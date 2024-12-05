@@ -63,7 +63,7 @@
     "type": "TOOL",
     "name": { "str": "water pipe" },
     "looks_like": "bottle_plastic",
-    "description": "A mass-manufactured water pipe, otherwise known as a 'bong.' Headshops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
+    "description": "A mass manufactured water pipe, otherwise known as a 'bong.' Head shops often insist these are used solely for tobacco, despite their iconic status as cannabis paraphernalia.",
     "weight": "750 g",
     "volume": "900 ml",
     "longest_side": "30 cm",
@@ -92,19 +92,19 @@
       {
         "id": "pipe_water_normal",
         "name": { "str": "bong" },
-        "description": "A mass-manufactured water pipe, otherwise known as a 'bong.' This one is made of plain, clear, glass.",
+        "description": "A mass manufactured water pipe, otherwise known as a 'bong.' This one is made of plain, clear, glass.",
         "color": "light_gray"
       },
       {
         "id": "pipe_water_cartoon",
         "name": { "str": "cartoon bong" },
-        "description": "A mass-manufactured water pipe, otherwise known as a 'bong.' It is covered in copyrighted cartoon characters, all smoking marijuana.",
+        "description": "A mass manufactured water pipe, otherwise known as a 'bong.' It is covered in copyrighted cartoon characters, all smoking marijuana.",
         "color": "green"
       },
       {
         "id": "pipe_water_rasta",
         "name": { "str": "rasta bong" },
-        "description": "A mass-manufactured water pipe, otherwise known as a 'bong.' It colored with the 'rasta' pattern of red, yellow, and green.",
+        "description": "A mass manufactured water pipe, otherwise known as a 'bong.' It colored with the 'rasta' pattern of red, yellow, and green.",
         "color": "red"
       },
       {
@@ -116,19 +116,19 @@
       {
         "id": "pipe_water_psychedelic",
         "name": { "str": "psychedelic bong" },
-        "description": "A mass-manufactured water pipe, also known as a 'bong.' It is covered in stickers depicting 'psychedelic' art.",
+        "description": "A mass manufactured water pipe, also known as a 'bong.' It is covered in stickers depicting 'psychedelic' art.",
         "color": "blue"
       },
       {
         "id": "pipe_water_frosted",
         "name": { "str": "frosted bong" },
-        "description": "A mass-manufactured water pipe, also known as a 'bong.' It is made out of frosted glass.",
+        "description": "A mass manufactured water pipe, also known as a 'bong.' It is made out of frosted glass.",
         "color": "white"
       },
       {
         "id": "pipe_water_fakegold",
         "name": { "str": "gold bong" },
-        "description": "A mass-manufactured water pipe, also known as a 'bong.' Though it looks like it's made out of gold it is, in fact, just metallic paint.",
+        "description": "A mass manufactured water pipe, also known as a 'bong.' Though it looks like it's made out of gold it is, in fact, just metallic paint.",
         "color": "yellow"
       }
     ]
