@@ -147,13 +147,12 @@
             { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
             { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
             { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
-            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] },
-            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] }
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] }
           ]
         }
       ]
     },
-    "effect": [ "u_cancel_activity", { "u_message": "Your war form lacks the necessary precision for that.", "type": "bad" } ]
+    "effect": [ "u_cancel_activity", { "u_message": "Your war form lacks the fine dexterity for that.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -177,7 +176,8 @@
             { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
             { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
             { "compare_string": [ "ACT_SOCIALIZE", { "context_val": "activity" } ] },
-            { "compare_string": [ "ACT_VIBE", { "context_val": "activity" } ] }
+            { "compare_string": [ "ACT_VIBE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] }
           ]
         }
       ]
