@@ -104,7 +104,6 @@
           { "value": "SOCIAL_INTIMIDATE", "add": 40 },
           { "value": "METABOLISM", "multiply": 4 },
           { "value": "LEARNING_FOCUS", "add": -10 },
-          { "value": "READING_SPEED_MULTIPLIER", "multiply": 4 },
           { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 2 }
         ],
         "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
@@ -129,7 +128,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_WAR_FORM_BANNED_ACTIVITY",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY_PHYSICAL",
     "eoc_type": "EVENT",
     "required_event": "character_starts_activity",
     "condition": {
@@ -148,11 +147,47 @@
             { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
             { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
             { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
-            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] }
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] }
           ]
         }
       ]
     },
     "effect": [ "u_cancel_activity", { "u_message": "Your war form lacks the necessary precision for that.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY_MENTAL",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_EBOOKSAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GENERIC_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SOCIALIZE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VIBE", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      "u_cancel_activity",
+      {
+        "u_message": "Your mind is filled with the urge to sink your fangs into your enemies throats, leaving no room for other activities.",
+        "type": "bad"
+      }
+    ]
   }
 ]
