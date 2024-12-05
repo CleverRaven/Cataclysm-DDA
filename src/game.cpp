@@ -3083,7 +3083,7 @@ void game::move_save_to_graveyard()
         debugmsg( "could not find save files in '%s'", save_dir );
     }
 
-    for( const auto &src_path : save_files ) {
+    for( const cata_path &src_path : save_files ) {
         const cata_path dst_path = graveyard_dir / src_path.get_relative_path().filename();
 
         if( rename_file( src_path, dst_path ) ) {
@@ -8183,7 +8183,7 @@ bool game::take_screenshot() const
                                       timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
-    auto current_file_path = map_directory / file_name;
+    cata_path current_file_path = map_directory / file_name;
 
     // Take a screenshot of the viewport.
     if( take_screenshot( current_file_path.generic_u8string() ) ) {
