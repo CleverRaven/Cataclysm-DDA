@@ -154,7 +154,7 @@ struct vision_test_case {
 
     void test_all() const {
         Character &player_character = get_player_character();
-        g->place_player( tripoint( 60, 60, 0 ) );
+        g->place_player( { 60, 60, 0 } );
         player_character.clear_worn(); // Remove any light-emitting clothing
         player_character.clear_effects();
         player_character.clear_bionics();

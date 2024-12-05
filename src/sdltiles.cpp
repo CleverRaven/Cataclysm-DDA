@@ -1349,7 +1349,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // skip the normal drawing code for it.
         tilecontext->draw(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            g->ter_view_p,
+            g->ter_view_p.raw(),
             TERRAIN_WINDOW_TERM_WIDTH * font->width,
             TERRAIN_WINDOW_TERM_HEIGHT * font->height,
             overlay_strings,
@@ -1460,7 +1460,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
+            tripoint( get_player_character().pos_bub().raw().xy(), g->ter_view_p.z() ),
             win->width * font->width, win->height * font->height );
         update = true;
 
