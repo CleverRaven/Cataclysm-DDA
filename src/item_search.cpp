@@ -115,6 +115,21 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 } );
             };
         }
+        // covers layer
+        case 'e': {
+            std::unordered_set<layer_level> filtered_layers;
+            for( layer_level layer = layer_level( 0 ); layer != layer_level::NUM_LAYER_LEVELS; ++layer ) {
+                if( lcmatch( item::layer_to_string( layer ), filter ) ) {
+                    filtered_layers.insert( layer );
+                }
+            }
+            return [filtered_layers]( const item & i ) {
+                const std::vector<layer_level> layers = i.get_layer();
+                return std::any_of( layers.begin(), layers.end(), [&filtered_layers]( layer_level l ) {
+                    return filtered_layers.count( l );
+                } );
+            };
+        }
         // by name
         default:
             return [filter]( const item & a ) {
