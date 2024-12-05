@@ -62,7 +62,8 @@
           "x": [ 4, 13 ],
           "y": 17
         },
-        { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 0 }
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 22, "y": 0 },
+        { "chunks": [ [ "null", 950 ], [ "carcrash_10x10_straight", 16 ], [ "carcrash_10x10_diag_fromleft", 17 ], [ "carcrash_10x10_diag_fromright", 17 ] ], "x": 10, "y": 0 }
       ]
     }
   },
