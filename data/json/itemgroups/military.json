@@ -1056,6 +1056,19 @@
     ]
   },
   {
+    "id": "military_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "guns_milspec", "prob": 50 },
+      { "group": "ammo_milspec", "prob": 75 },
+      { "group": "gunmod_milspec", "prob": 25 },
+      { "group": "mags_milspec", "prob": 50 },
+      { "group": "military_ballistic_vest", "prob": 50 },
+      { "group": "mil_accessories", "prob": 15 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "chocolate_wrapper_1_3",
     "subtype": "collection",
