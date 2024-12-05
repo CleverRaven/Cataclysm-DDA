@@ -92,7 +92,7 @@
       {
         "id": "pipe_water_normal",
         "name": { "str": "bong" },
-        "description": "A mass manufactured water pipe, otherwise known as a 'bong.' This one is made of plain, clear, glass.",
+        "description": "A mass-manufactured water pipe, otherwise known as a 'bong'.  This one is made of plain, clear, glass.",
         "color": "light_gray"
       },
       {
