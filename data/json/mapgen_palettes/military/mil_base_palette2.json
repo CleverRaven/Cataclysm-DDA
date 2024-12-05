@@ -1,0 +1,45 @@
+[
+  {
+    "type": "palette",
+    "id": "mil_base_palette2",
+    "terrain": {
+      ".": "t_region_groundcover",
+      ",": "t_thconc_floor",
+      "'": "t_region_soil",
+      "#": "t_strconc_wall",
+      "|": "t_concrete_wall",
+      "!": "t_guardrail",
+      "_": "t_pavement",
+      "˽": "t_pavement_y",
+      "-": "t_chainfence",
+      "%": "t_chaingate_c",
+      "/": "t_fence_barbed",
+      "(": "t_wall_metal",
+      "=": "t_sidewalk",
+      "^": "t_bollard",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "$": "t_door_metal_locked",
+      "+": [ [ "t_door_c", 2 ], [ "t_door_o", 5 ] ],
+      "£": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_o", 3 ] ],
+      "§": "t_card_military",
+      "1": "t_bulk_tank",
+      "O": [ [ "t_reinforced_glass_shutter", 3 ], [ "t_reinforced_glass_shutter_open", 1 ] ]
+    },
+    "furniture": {
+      "6": "f_console_broken",
+      "h": "f_chair",
+      "d": "f_desk",
+      "C": "f_filing_cabinet",
+      "D": "f_dumpster",
+      "S": "f_sandbag_half",
+      "U": "f_utility_shelf",
+      "V": "f_workbench",
+      "W": "f_warehouse_shelf"
+    },
+    "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
+    "gaspumps": { "°": { "fuel": "jp8", "amount": [ 2000, 10000 ] } },
+    "liquids": {  },
+    "toilets": { "t": {  } }
+  }
+]
