@@ -990,6 +990,11 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::covers, progress_callback );
                     break;
 
+                case 'e':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::layer, progress_callback );
+                    break;
+
                 case 'd':
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::description_result, progress_callback );
@@ -1075,6 +1080,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
     { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
     { 'v', to_translation( "head" ), to_translation( "<color_cyan>body part</color> the result covers" ) },
+    { 'e', to_translation( "close to skin" ), to_translation( "<color_cyan>layer</color> the result covers" ) },
     { 'a', to_translation( "brisk" ), to_translation( "recipe's <color_cyan>activity level</color>" ) }
 };
 

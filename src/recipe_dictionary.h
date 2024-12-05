@@ -150,6 +150,7 @@ class recipe_subset
             quality,
             quality_result,
             covers,
+            layer,
             description_result,
             proficiency,
             difficulty,

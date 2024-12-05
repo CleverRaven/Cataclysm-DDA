@@ -188,6 +188,7 @@ static std::string cached_item_info( const itype_id &item_type )
 // keep data for one search cycle
 static std::unordered_set<bodypart_id> filtered_bodyparts;
 static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+static std::unordered_set<layer_level> filtered_layers;
 
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
@@ -239,6 +240,13 @@ std::vector<const recipe *> recipe_subset::search(
                 || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
                 [&result_item]( const sub_bodypart_id & sbp ) {
                     return result_item.covers( sbp );
+                } );
+            }
+
+            case search_type::layer: {
+                const std::vector<layer_level> layers = item( r->result() ).get_layer();
+                return std::any_of( layers.begin(), layers.end(), []( layer_level l ) {
+                    return filtered_layers.count( l );
                 } );
             }
 
@@ -334,6 +342,15 @@ std::vector<const recipe *> recipe_subset::search(
                         || lcmatch( sbp->name_multiple.translated(), txt ) ) {
                         filtered_sub_bodyparts.insert( sbp->id );
                     }
+                }
+            }
+            break;
+        }
+        case search_type::layer: {
+            filtered_layers.clear();
+            for( layer_level layer = layer_level( 0 ); layer != layer_level::NUM_LAYER_LEVELS; ++layer ) {
+                if( lcmatch( item::layer_to_string( layer ), txt ) ) {
+                    filtered_layers.insert( layer );
                 }
             }
             break;
