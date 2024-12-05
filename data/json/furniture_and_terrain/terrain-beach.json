@@ -1,0 +1,48 @@
+[
+  {
+    "id": "t_coast_rock",
+    "type": "terrain",
+    "name": "rocky coastline",
+    "description": "This is a section of eroded natural stone formations along the beach.  It will take a little hopping and jumping to climb around on them.",
+    "symbol": "-",
+    "looks_like": "t_rockfloor",
+    "color": "dark_gray",
+    "move_cost": 3,
+    "connect_groups": "BEACH_FORMATIONS",
+    "connects_to": "BEACH_FORMATIONS",
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_coast_rock_surf",
+    "type": "terrain",
+    "name": "rocky coastline",
+    "description": "This is a section of eroded natural stone formations along the beach, the water lapping and splashing at the edges.",
+    "symbol": "-",
+    "copy-from": "t_coast_rock",
+    "color": "dark_cyan"
+  },
+  {
+    "id": "t_coast_rock_submerged",
+    "type": "terrain",
+    "name": "submerged shoals",
+    "description": "This is a section of eroded natural stone formations along the beach that has dipped below the surface of the water.",
+    "symbol": "-",
+    "copy-from": "t_coast_rock",
+    "looks_like": "t_swater_sh",
+    "color": "light_blue",
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "SALT_WATER", "MURKY" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tidepool",
+    "name": "tide pool",
+    "description": "A shallow pool of salt water, often filled with interesting life.",
+    "looks_like": "t_swater_sh",
+    "symbol": "~",
+    "color": "dark_cyan",
+    "move_cost": 4,
+    "connect_groups": "BEACH_FORMATIONS",
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "SALT_WATER", "MURKY" ],
+    "examine_action": "finite_water_source"
+  }
+]
