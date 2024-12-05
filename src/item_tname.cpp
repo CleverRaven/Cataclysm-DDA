@@ -523,7 +523,7 @@ std::string weapon_mods( item const &it, unsigned int /* quantity */,
         modtext += _( "pistol " );
     }
     if( it.has_flag( flag_DIAMOND ) ) {
-        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
+        modtext += pgettext( "Adjective, as in diamond katana", "diamond " );
     }
     return modtext;
 }
