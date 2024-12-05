@@ -23,7 +23,12 @@
       "create_greatbow_treesung",
       "create_arrow_treesung",
       "create_spear_treesung",
-      "create_pike_treesung"
+      "create_pike_treesung",
+      "create_mace_treesung",
+      "create_q_staff_treesung",
+      "create_warhammer_treesung",
+      "create_naginata_treesung",
+      "create_baselard_treesung"
     ],
     "difficulty": 1
   },
@@ -45,7 +50,7 @@
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden chair",
+    "name": "treesung wooden chair",
     "id": "create_chair_wood_treesung",
     "description": "Use your magick to turn treesung wood into a chair.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>300 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
@@ -95,7 +100,7 @@
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden wardrobe",
+    "name": "treesung wooden wardrobe",
     "id": "create_wardrobe_wood_treesung",
     "description": "Use your magick to turn treesung wood into a wardrobe.\n\nYou must have <color_yellow>Treesinging level 6</color> and at least <color_yellow>750 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
@@ -145,7 +150,7 @@
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden table",
+    "name": "treesung wooden table",
     "id": "create_table_wood_treesung",
     "description": "Use your magick to turn treesung wood into a table.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>400 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
@@ -195,7 +200,7 @@
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden bed frame",
+    "name": "treesung wooden bed frame",
     "id": "create_bedframe_wood_treesung",
     "description": "Use your magick to turn treesung wood into a bed frame.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
     "activity_level": "MODERATE_EXERCISE",
