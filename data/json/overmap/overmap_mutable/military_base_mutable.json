@@ -1,0 +1,201 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "military_base_mutable",
+    "subtype": "mutable",
+    "locations": [ "field", "open_air" ],
+    "city_distance": [ 0, 100 ],
+    "city_sizes": [ 2, 100 ],
+    "occurrences": [ 1, 5 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ],
+    "check_for_locations_area": [ { "type": [ "field" ], "from": [ -8, 0, 0 ], "to": [ 8, 11, 0 ] } ],
+    "joins": [
+      { "id": "wall_to_entrance", "opposite": "entrance_to_wall" },
+      { "id": "entrance_to_wall", "opposite": "wall_to_entrance" },
+      "wall_to_wall",
+      "road_to_road",
+      { "id": "road_to_building", "opposite": "building_to_road", "into_locations": [ "land" ] },
+      { "id": "building_to_road", "opposite": "road_to_building" }
+    ],
+    "overmaps": {
+      "base_entrance": {
+        "overmap": "mil_base_checkpoint_north",
+        "east": "entrance_to_wall",
+        "south": "road_to_road",
+        "west": "entrance_to_wall",
+        "connections": { "north": { "connection": "local_road" } }
+      },
+      "entrance_wall": { "overmap": "military_base_wall_straight_north", "north": "wall_to_entrance", "south": "wall_to_wall" },
+      "straight_wall": { "overmap": "military_base_wall_straight_north", "north": "wall_to_wall", "south": "wall_to_wall" },
+      "corner_wall": { "overmap": "military_base_wall_corner_north", "south": "wall_to_wall", "east": "wall_to_wall" },
+      "corner_wall_shaft": { "overmap": "military_base_wall_corner_z1_north" },
+      "corner_wall_lookout": { "overmap": "military_base_wall_corner_z2_north" },
+      "corner_wall_roof": { "overmap": "military_base_wall_corner_z3_north" },
+      "straight_road": {
+        "overmap": "military_base_road_ns",
+        "north": "road_to_road",
+        "east": "road_to_building",
+        "south": "road_to_road",
+        "west": "road_to_building"
+      },
+      "tee_road": {
+        "overmap": "military_base_road_esw",
+        "north": { "id": "road_to_building", "type": "available" },
+        "east": "road_to_road",
+        "south": "road_to_road",
+        "west": "road_to_road"
+      },
+      "cross_road": {
+        "overmap": "military_base_road_nesw",
+        "north": "road_to_road",
+        "east": "road_to_road",
+        "south": "road_to_road",
+        "west": "road_to_road"
+      },
+      "corner_road": {
+        "overmap": "military_base_road_es",
+        "north": { "id": "road_to_building", "type": "available" },
+        "east": "road_to_road",
+        "south": "road_to_road",
+        "west": { "id": "road_to_building", "type": "available" }
+      },
+      "dead_end_road": {
+        "overmap": "military_base_road_end_north",
+        "north": "road_to_road",
+        "east": { "id": "road_to_building", "type": "available" },
+        "south": { "id": "road_to_building", "type": "available" },
+        "west": { "id": "road_to_building", "type": "available" }
+      },
+      "armory_1": {
+        "overmap": "mil_base_armory_1_north",
+        "north": "building_to_road",
+        "east": { "id": "building_to_road", "type": "available" },
+        "south": { "id": "building_to_road", "type": "available" },
+        "west": { "id": "building_to_road", "type": "available" }
+      },
+      "armory_1_roof": { "overmap": "mil_base_armory_1_roof_north" },
+      "armory_2": {
+        "overmap": "mil_base_armory_2_north",
+        "north": "building_to_road",
+        "east": { "id": "building_to_road", "type": "available" },
+        "south": { "id": "building_to_road", "type": "available" },
+        "west": { "id": "building_to_road", "type": "available" }
+      },
+      "armory_2_roof": { "overmap": "mil_base_armory_2_roof_north" },
+      "helipad": {
+        "overmap": "military_base_helipad_north",
+        "north": "building_to_road",
+        "east": { "id": "building_to_road", "type": "available" },
+        "south": { "id": "building_to_road", "type": "available" },
+        "west": { "id": "building_to_road", "type": "available" }
+      }
+    },
+    "root": "base_entrance",
+    "phases": [
+      [
+        {
+          "name": "mil_base_checkpoint_and_walls",
+          "//": "Spawns the walls and lookout towers as a 16x11",
+          "chunk": [
+            { "overmap": "entrance_wall", "pos": [ -1, 0, 0 ], "rot": "east" },
+            { "overmap": "entrance_wall", "pos": [ 1, 0, 0 ], "rot": "west" },
+            { "overmap": "straight_wall", "pos": [ -2, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -3, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -4, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -5, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -6, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -7, 0, 0 ], "rot": "east" },
+            { "overmap": "corner_wall", "pos": [ -8, 0, 0 ], "rot": "north" },
+            { "overmap": "corner_wall_shaft", "pos": [ -8, 0, 1 ], "rot": "north" },
+            { "overmap": "corner_wall_shaft", "pos": [ -8, 0, 2 ], "rot": "north" },
+            { "overmap": "corner_wall_lookout", "pos": [ -8, 0, 3 ], "rot": "north" },
+            { "overmap": "corner_wall_roof", "pos": [ -8, 0, 4 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 2, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 3, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 4, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 5, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 6, 0, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 7, 0, 0 ], "rot": "east" },
+            { "overmap": "corner_wall", "pos": [ 8, 0, 0 ], "rot": "east" },
+            { "overmap": "corner_wall_shaft", "pos": [ 8, 0, 1 ], "rot": "east" },
+            { "overmap": "corner_wall_shaft", "pos": [ 8, 0, 2 ], "rot": "east" },
+            { "overmap": "corner_wall_lookout", "pos": [ 8, 0, 3 ], "rot": "east" },
+            { "overmap": "corner_wall_roof", "pos": [ 8, 0, 4 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -8, 1, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 2, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 3, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 4, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 5, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 6, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 7, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 8, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 9, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ -8, 10, 0 ], "rot": "north" },
+            { "overmap": "corner_wall", "pos": [ -8, 11, 0 ], "rot": "west" },
+            { "overmap": "corner_wall_shaft", "pos": [ -8, 11, 1 ], "rot": "west" },
+            { "overmap": "corner_wall_shaft", "pos": [ -8, 11, 2 ], "rot": "west" },
+            { "overmap": "corner_wall_lookout", "pos": [ -8, 11, 3 ], "rot": "west" },
+            { "overmap": "corner_wall_roof", "pos": [ -8, 11, 4 ], "rot": "west" },
+            { "overmap": "straight_wall", "pos": [ 8, 1, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 2, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 3, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 4, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 5, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 6, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 7, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 8, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 9, 0 ], "rot": "north" },
+            { "overmap": "straight_wall", "pos": [ 8, 10, 0 ], "rot": "north" },
+            { "overmap": "corner_wall", "pos": [ 8, 11, 0 ], "rot": "south" },
+            { "overmap": "corner_wall_shaft", "pos": [ 8, 11, 1 ], "rot": "south" },
+            { "overmap": "corner_wall_shaft", "pos": [ 8, 11, 2 ], "rot": "south" },
+            { "overmap": "corner_wall_lookout", "pos": [ 8, 11, 3 ], "rot": "south" },
+            { "overmap": "corner_wall_roof", "pos": [ 8, 11, 4 ], "rot": "south" },
+            { "overmap": "straight_wall", "pos": [ -7, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -6, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -5, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -4, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -3, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -2, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ -1, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 0, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 1, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 2, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 3, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 4, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 5, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 6, 11, 0 ], "rot": "east" },
+            { "overmap": "straight_wall", "pos": [ 7, 11, 0 ], "rot": "east" }
+          ],
+          "max": 1
+        }
+      ],
+      [ { "overmap": "straight_road", "max": [ 2, 4 ] } ],
+      [ { "overmap": "cross_road", "max": 1 } ],
+      [ { "overmap": "straight_road", "max": { "poisson": 12 } } ],
+      [
+        {
+          "name": "mil_base_armory_1",
+          "//": "Spawns the armories with roof",
+          "chunk": [ { "overmap": "armory_1", "pos": [ 0, 0, 0 ] }, { "overmap": "armory_1_roof", "pos": [ 0, 0, 1 ] } ],
+          "max": [ 1, 2 ]
+        },
+        {
+          "name": "mil_base_armory_2",
+          "//": "Spawns the armories with roof",
+          "chunk": [ { "overmap": "armory_2", "pos": [ 0, 0, 0 ] }, { "overmap": "armory_2_roof", "pos": [ 0, 0, 1 ] } ],
+          "max": [ 0, 2 ]
+        },
+        { "overmap": "helipad", "max": [ 0, 2 ] }
+      ],
+      [ { "overmap": "cross_road", "max": { "poisson": 3 } } ],
+      [ { "overmap": "straight_road", "max": { "poisson": 7 } } ],
+      [
+        { "overmap": "dead_end_road", "weight": 20000 },
+        { "overmap": "straight_road", "weight": 1 },
+        { "overmap": "cross_road", "weight": 1 },
+        { "overmap": "tee_road", "weight": 1 }
+      ]
+    ]
+  }
+]
