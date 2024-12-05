@@ -54,7 +54,7 @@
     "name": { "str": "floral frame" },
     "durability": 150,
     "description": "The thick part of the flower, floating on the water.",
-    "item": "wheel",
+    "item": "floral_base_item",
     "//": "Item does not matter, none of these parts are installable or uninstallable.",
     "breaks_into": [ { "item": "stick", "count": [ 1, 4 ] }, { "item": "leaves", "count": [ 10, 20 ] } ],
     "requirements": {
@@ -75,15 +75,15 @@
   },
   {
     "id": "floral_engine",
-    "copy-from": "engine_combustion",
+    "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "fuel_type": "mana",
-    "m2c": 60,
+    "fuel_type": "battery",
+    "m2c": 30,
     "durability": 200,
-    "epower": "-50 W",
-    "power": "37300 W",
-    "item": "wheel",
-    "energy_consumption": "124500 W",
+    "epower": "0 W",
+    "power": "43300 W",
+    "item": "floral_base_item",
+    "energy_consumption": "114300 W",
     "breaks_into": [ { "item": "leaves", "count": [ 10, 20 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -103,14 +103,15 @@
     "damage_modifier": 50,
     "durability": 480,
     "location": "under",
-    "item": "wheel",
+    "item": "floral_base_item",
+    "epower": "3000 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "40 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 40 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "adhesive", 3 ] ] }
     },
     "flags": [ "FLOATS", "SEAT", "BOARDABLE", "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "SOLAR_PANEL" ],
-    "breaks_into": [ { "item": "rigid_kevlar_plate", "count": [ 1, 3 ] } ],
+    "breaks_into": [ { "item": "stick", "count": [ 1, 4 ] }, { "item": "leaves", "count": [ 10, 20 ] } ],
     "damage_reduction": { "all": 14 },
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
@@ -121,8 +122,7 @@
     "name": { "str": "stamen" },
     "description": "The central part of the flower.",
     "durability": 50,
-    "noise_factor": 8,
-    "item": "wheel",
+    "item": "floral_base_item",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "6 m" },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
@@ -132,5 +132,27 @@
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "floral_battery",
+    "copy-from": "battery_car",
+    "type": "vehicle_part",
+    "name": { "str": "solar power" },
+    "item": "floral_battery",
+    "durability": 30,
+    "breaks_into": [ { "item": "leaves", "count": [ 10, 20 ] } ]
+  },
+  {
+    "id": "floral_battery",
+    "copy-from": "battery_car",
+    "type": "MAGAZINE",
+    "name": { "str_sp": "solar power" },
+    "description": "Magical solar power, to power a floral vessel.",
+    "weight": "1500 g",
+    "volume": "750 ml",
+    "price": "200 USD",
+    "price_postapoc": "1 USD",
+    "capacity": 225,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 225 } } ]
   }
 ]

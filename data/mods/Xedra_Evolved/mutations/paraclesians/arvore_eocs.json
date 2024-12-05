@@ -297,9 +297,14 @@
           }
         ],
         "range": 1,
-        "store_coordinates_in": { "context_val": "arvore_walk_wilds_origin" },
+        "store_coordinates_in": { "context_val": "arvore_floral_boat_tree" },
         "stop_at_first": true,
-        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_origin" } }
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_floral_boat_tree" } }
+      },
+      {
+        "u_transform_radius": 0,
+        "target_var": { "context_val": "arvore_floral_boat_tree" },
+        "ter_furn_transform": "ter_arvore_tree_to_grass"
       }
     ]
   },
