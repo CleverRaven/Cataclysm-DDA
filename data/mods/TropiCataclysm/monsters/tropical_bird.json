@@ -220,12 +220,10 @@
   {
     "id": "mon_guan",
     "type": "MONSTER",
-    "copy-from": "mon_tinamou",
     "name": { "str": "guan" },
     "description": "A medium-sized speckled bird.  Its bright orange wattle contrasts sharply with the rest of its brown body.",
-    "reproduction": { "baby_type": { "baby_egg": "egg_guan" }, "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "copy-from": "mon_bird_flying_base",
+    "reproduction": { "baby_type": { "baby_egg": "egg_guan" }, "baby_count": 2, "baby_timer": 6 }
   },
   {
     "id": "mon_guan_chick",
@@ -236,12 +234,10 @@
   {
     "id": "mon_curassow",
     "type": "MONSTER",
-    "copy-from": "mon_tinamou",
     "name": { "str": "curassow" },
     "description": "This black bird carries itself oddly proudly, despite the ridiculous mohawk-like fringe on the top of its head.",
-    "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "copy-from": "mon_bird_flying_base",
+    "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 }
   },
   {
     "id": "mon_curassow_chick",
