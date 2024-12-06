@@ -421,7 +421,6 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true }, { "uses_energy": false } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_DURABILITY",
@@ -512,8 +511,6 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "//": "no way to target items only.",
-        "search_data": [ { "uses_energy": true }, { "uses_energy": false } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_REPAIR_SCANNER",
@@ -528,7 +525,6 @@
       {
         "u_run_inv_eocs": "all",
         "//": "no way to target vehicle parts only",
-        "search_data": [ { "uses_energy": true }, { "uses_energy": false } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_DEGRADATION_SCANNER",
