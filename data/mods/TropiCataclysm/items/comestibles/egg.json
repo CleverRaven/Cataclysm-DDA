@@ -71,22 +71,23 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_chachalaca",
-    "name": "chachalaca egg",
-    "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_CHACHALACA", "chance": 70 }
+    "name": { "str": "Chaco chachalaca egg" },
+    "spoils_in": "12 days",
+    "copy-from": "egg_crow",
+    "rot_spawn": { "monster": "mon_chachalaca_chick" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_guan",
     "name": "guan egg",
-    "copy-from": "egg_chicken",
+    "copy-from": "egg_crow",
     "rot_spawn": { "group": "GROUP_EGG_GUAN", "chance": 70 }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_curassow",
     "name": "curassow egg",
-    "copy-from": "egg_chicken",
+    "copy-from": "egg_crow",
     "rot_spawn": { "group": "GROUP_EGG_CURASSOW", "chance": 70 }
   },
   {

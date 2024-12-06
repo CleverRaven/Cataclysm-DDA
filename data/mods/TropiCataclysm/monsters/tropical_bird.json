@@ -201,25 +201,21 @@
   {
     "id": "mon_chachalaca",
     "type": "MONSTER",
-    "copy-from": "mon_tinamou",
-    "name": { "str": "chachalaca" },
+    "name": { "str": "Chaco chachalaca" },
     "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on scrubby habitats.",
     "copy-from": "mon_bird_flying_base",
-    "volume": "2 L",
-    "weight": "1100 g",
-    "hp": 5,
-    "speed": 110,
+    "volume": "767 ml",
+    "weight": "575 g",
     "color": "brown",
-    "reproduction": { "baby_type": { "baby_egg": "egg_chachalaca" }, "baby_count": 2, "baby_timer": 6 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_chachalaca" }, "baby_count": 4, "baby_timer": 175 },
+    "//": "2-4 eggs per clutch. No info I could get on anything else for this species so we're going with plain chachalacas' values instead."
   },
   {
     "id": "mon_chachalaca_chick",
     "type": "MONSTER",
     "copy-from": "mon_chicken_chick",
-    "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 10, "into": "mon_chachalaca" }
+    "upgrades": { "age_grow": 150, "into": "mon_chachalaca" },
+    "//": "Nothing about this species specifically, but plain chachalacas' breed between March and September with chicks staying with their parents until October -> we're taking an average of about 5 months to reach independence."
   },
   {
     "id": "mon_guan",
