@@ -204,6 +204,7 @@
     "copy-from": "mon_tinamou",
     "name": { "str": "chachalaca" },
     "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on scrubby habitats.",
+    "copy-from": "mon_bird_flying_base",
     "volume": "2 L",
     "weight": "1100 g",
     "hp": 5,
@@ -212,6 +213,13 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_chachalaca" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
+  },
+  {
+    "id": "mon_chachalaca_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_chicken_chick",
+    "name": { "str": "brown chick" },
+    "upgrades": { "age_grow": 10, "into": "mon_chachalaca" }
   },
   {
     "id": "mon_guan",
@@ -224,6 +232,13 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
   },
   {
+    "id": "mon_guan_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_chicken_chick",
+    "name": { "str": "brown chick" },
+    "upgrades": { "age_grow": 10, "into": "mon_guan" }
+  },
+  {
     "id": "mon_curassow",
     "type": "MONSTER",
     "copy-from": "mon_tinamou",
@@ -232,20 +247,6 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
-  },
-  {
-    "id": "mon_chachalaca_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
-    "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 10, "into": "mon_chachalaca" }
-  },
-  {
-    "id": "mon_guan_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
-    "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 10, "into": "mon_guan" }
   },
   {
     "id": "mon_curassow_chick",
