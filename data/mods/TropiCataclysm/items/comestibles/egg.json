@@ -79,16 +79,16 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_guan",
-    "name": "guan egg",
+    "name": { "str": "guan egg" },
     "copy-from": "egg_crow",
-    "rot_spawn": { "group": "GROUP_EGG_GUAN", "chance": 70 }
+    "rot_spawn": { "monster": "mon_guan_chick" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_curassow",
-    "name": "curassow egg",
+    "name": { "str": "curassow egg" },
     "copy-from": "egg_crow",
-    "rot_spawn": { "group": "GROUP_EGG_CURASSOW", "chance": 70 }
+    "rot_spawn": { "monster": "mon_curassow_chick" }
   },
   {
     "type": "COMESTIBLE",

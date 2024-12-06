@@ -213,7 +213,7 @@
   {
     "id": "mon_chachalaca_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 150, "into": "mon_chachalaca" },
     "//": "Nothing about this species specifically, but plain chachalacas' breed between March and September with chicks staying with their parents until October -> we're taking an average of about 5 months to reach independence."
   },
@@ -230,8 +230,7 @@
   {
     "id": "mon_guan_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 10, "into": "mon_guan" }
   },
   {
@@ -247,8 +246,7 @@
   {
     "id": "mon_curassow_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 10, "into": "mon_curassow" }
   }
 ]

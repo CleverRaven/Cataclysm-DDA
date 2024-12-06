@@ -1,15 +1,5 @@
 [
   {
-    "name": "GROUP_EGG_GUAN",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_guan_chick" } ]
-  },
-  {
-    "name": "GROUP_EGG_CURASSOW",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_curassow_chick" } ]
-  },
-  {
     "name": "GROUP_EGG_CONSTRICTOR",
     "type": "monstergroup",
     "default": "mon_anaconda",
