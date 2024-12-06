@@ -32,7 +32,7 @@
         ".#d@@s +Dz|g|zD+ III #..",
         ".##oo######*######oo##.."
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette", "standard_domestic_lino_bathroom" ],
       "terrain": { "p": "t_sidewalk", "X": "t_sidewalk" },
       "place_loot": [ { "item": "television", "x": 4, "y": 2, "chance": 70 }, { "item": "television", "x": 15, "y": 7, "chance": 70 } ],
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 0 } ],

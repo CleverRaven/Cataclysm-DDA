@@ -1094,7 +1094,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 const int vol = weapon->volume() * glass_fraction / units::legacy_volume_factor;
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
-                    weapon->spill_contents( pos() );
+                    weapon->spill_contents( pos_bub() );
                     sounds::sound( pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
                     deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
@@ -1715,7 +1715,7 @@ static void read()
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
             if( loc->type->can_use( "learn_spell" ) ) {
-                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
+                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else {
                 loc = loc.obtain( player_character );
                 player_character.read( loc );

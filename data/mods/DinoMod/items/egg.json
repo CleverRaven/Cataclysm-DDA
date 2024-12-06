@@ -237,6 +237,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_nedcolbertia",
+    "name": "nedcolbertia egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": { "monster": "mon_nedcolbertia_hatchling" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_gallimimus",
     "name": "gallimimus egg",
     "copy-from": "egg_dino_theropod",
