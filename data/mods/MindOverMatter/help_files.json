@@ -28,7 +28,7 @@
     "order": 2,
     "name": "Mind Over Matter: Improving and Learning New Powers",
     "messages": [
-      "Psionics come from within, and cannot be studied by rote repitition from a book.  Furthermore, since they only recently appeared with the Cataclysm, there are no established teaching methods or pre-existing courses.  That means that each psion must figure out how to use their powers themselves.",
+      "Psionics come from within, and cannot be studied by rote repetition from a book.  Furthermore, since they only recently appeared with the Cataclysm, there are no established teaching methods or pre-existing courses.  That means that each psion must figure out how to use their powers themselves.",
       "Every 12 to 168 hours, you gain insight and become eligible to learn a new power, but that doesn't mean you automatically learn one.  Powers in paths you have access to periodically check to see if they are eligible for learning.  This requires insight as well as individual prerequisites that must be met for each power, though there is always a small chance you will have a flash of inspiration and discover a power despite not meeting the prerequisites.",
       "Once you are discover a power, you need to study it and attempt to figure out how to use it.  This is done by crafting its contemplation recipe, found in the Metaphysics tab of the Practice crafting section.  The first try is a long craft (usually from 8-16 hours) that must all be done in a single sitting and ends with a roll of your Metaphysics skill against the power's difficulty.  If you succeed, you learn the power.  If you fail, you can try again.",
       "Once you know a power, that same contemplation recipe can be used to improve it.  Simply craft the contemplation recipe and you will begin meditating on the power.  The longer you meditate, the more experience in the power you gain.  You can meditate as long as you want and stop at any time.",
@@ -43,7 +43,7 @@
     "messages": [
       "One major different in Mind Over Matter compared to other mods containing powers is concentration.  By default, psionic powers have no inherent duration; you cannot channel Physical Enhancement and then have it sustain itself.  You must concentrate on it to maintain it.",
       "Every time the duration on a concentration power expires, the power itself continues but you gain additional experience in the power, check for gain of Nether Attunement, and pay the caloric cost.  This is also when checks to maintain concentration are made.",
-      "By default you can only concentrate on a small number of powers at once, equal to your intelligence divided by four.  While you can concentrate on more powers than this in emergencies, you have a chance of losing your concentration, and the effects of your powers, that scales with how many powers you are over your limit.  A series of proficiencies exist that can raise this limit, as can other traits.  Many effects can also lower it, such as being set on fire, nauseated, sick, too hot or too cold, and other conditions that would make it more difficult to concentrate effectively.",
+      "By default you can only concentrate on a small number of powers at once, equal to your intelligence divided by four.  While you can concentrate on more powers than this in emergencies, you have a chance of losing your concentration, and the effects of your powers, that scales with how many powers you are over your limit.  A series of proficiencies exist that can raise this limit, as can other traits.  Many traits or temporary effects can also lower it, such as being set on fire, nauseated, sick, too hot or too cold, having an animalistic predatory mindset due to mutation, and other conditions that would make it more difficult to concentrate effectively.",
       "As a psion you are not limited by mana but must carefully decide which powers are appropriate for any particular situation you find yourself in since you cannot have them all on at once."
     ]
   },
@@ -52,12 +52,10 @@
     "order": 4,
     "name": "Mind Over Matter: Nether Attunement",
     "messages": [
-      "Movement is performed using the numpad, the arrow keys, or vikeys.",
-      "<HELP_DRAW_DIRECTIONS>",
-      "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
-      "To attempt to hit a monster with your weapon, simply move into it.",
-      "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
-      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may lead to the player getting into a dangerous situation or even killed before they have a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, any movement will be ignored if new monsters enter the player's view."
+      "Stamina and concentration are not the only limitations on your powers.  Another is Nether Attunement, though it is also the key to unlocking the heights of your powers.",
+      "Psionics is the psychoactive power of the Nether channeled by careful concentration.  Repeated use of psionics in a short period of time open the connection to the Nether wider, increasing the amount of power available.  Higher levels of Nether Attunement boost all characteristics of your powers: range, damage, duration, targets affected, bonus granted or penalty caused, and so on.  At 12, the maximum degree of Nether Attunement, your powers are over five times stronger than with no Nether Attunement!",
+      "However, Nether Attunement also carries risks.  The stronger your connection the the Nether, the more likely that a single stray thought or momentary lapse in concentration causes a disruption in your powers.  This is reflected in a chance of backlash starting at Nether Attunement level 1.  At low levels of Nether Attunement, backlashes are rare and minor: a headache, a nosebleed, or a chill in the air.  They get more serious as your Nether Attunement rises, including muscle weakness, temporarily losing access to your powers, or uncontrollably-increasing Nether Attunement and reaching catastrophes like eldritch monstrosities hunting you, an explosion of unearthly lightning, or permanent psychological damage.",
+      "Nether Attunement is thus a balance between raising it to increase the effectiveness of your powers and not wanting it to go too high to avoid a backlash at an inopportune or dangerous moment."
     ]
   }
 ]
