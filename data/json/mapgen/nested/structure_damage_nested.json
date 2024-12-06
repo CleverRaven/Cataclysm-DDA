@@ -30,7 +30,13 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "palettes": [ "struc_damage" ],
-      "place_nested": [ { "chunks": [ [ "carcrash_10x10_straight", 33 ], [ "carcrash_10x10_diag_fromleft", 33 ], [ "carcrash_10x10_diag_fromright", 33 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        {
+          "chunks": [ [ "carcrash_10x10_straight", 33 ], [ "carcrash_10x10_diag_fromleft", 33 ], [ "carcrash_10x10_diag_fromright", 33 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {
