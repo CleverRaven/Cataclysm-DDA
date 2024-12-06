@@ -202,7 +202,7 @@
     "id": "mon_chachalaca",
     "type": "MONSTER",
     "name": { "str": "Chaco chachalaca" },
-    "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on scrubby habitats.",
+    "description": "Though its face looks oddly like a chicken’s, complete with red wattle, this tan bird sounds nothing like one as it lets out raucous cries of 'chata-ra-ta.'",
     "copy-from": "mon_bird_flying_base",
     "volume": "767 ml",
     "weight": "575 g",
@@ -222,7 +222,7 @@
     "type": "MONSTER",
     "copy-from": "mon_tinamou",
     "name": { "str": "guan" },
-    "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on forested areas.",
+    "description": "A medium-sized speckled bird.  Its bright orange wattle contrasts sharply with the rest of its brown body.",
     "reproduction": { "baby_type": { "baby_egg": "egg_guan" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
@@ -239,7 +239,7 @@
     "type": "MONSTER",
     "copy-from": "mon_tinamou",
     "name": { "str": "curassow" },
-    "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on forested areas, easily distinguished by their crested heads.",
+    "description": "This black bird carries itself oddly proudly, despite the ridiculous mohawk-like fringe on the top of its head.",
     "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
