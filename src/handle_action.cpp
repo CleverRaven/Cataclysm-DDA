@@ -2820,7 +2820,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SAVE:
-            if( query_yn( _( "Save and quit?" ) ) ) {
+            if( !get_option<bool>( "QUERY_ON_QUIT" ) || query_yn( _( "Save and quit?" ) ) ) {
                 if( save() ) {
                     player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;

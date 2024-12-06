@@ -885,7 +885,7 @@ bool main_menu::opening_screen()
         if( action == "QUIT" ) {
 #if !defined(EMSCRIPTEN)
             g->uquit = QUIT_EXIT_PENDING;
-            if( query_yn( _( "Really quit?" ) ) ) {
+            if( !get_option<bool>( "QUERY_ON_QUIT" ) || query_yn( _( "Really quit?" ) ) ) {
                 g->uquit = QUIT_EXIT;
                 return false;
             }

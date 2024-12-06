@@ -2972,6 +2972,11 @@ void options_manager::add_options_debug()
          false
 #endif
        );
+
+    add( "QUERY_ON_QUIT", "debug", to_translation( "Prompt when trying to quit the game" ),
+         to_translation( "If enabled, this shows a yes/no prompt before quitting the game." ),
+         true
+       );
 }
 
 void options_manager::add_options_android()

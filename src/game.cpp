@@ -2855,7 +2855,8 @@ bool game::query_exit_to_OS()
     const int old_timeout = inp_mngr.get_timeout();
     inp_mngr.reset_timeout();
     uquit = QUIT_EXIT_PENDING; // change it before query so input_context doesn't get confused
-    if( query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+    if( !get_option<bool>( "QUERY_ON_QUIT" ) ||
+        query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
         uquit = QUIT_EXIT;
         throw exit_exception();
     }
