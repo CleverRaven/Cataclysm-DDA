@@ -311,5 +311,99 @@
     "type": "overmap_terrain",
     "id": "alien_meadow_end",
     "copy-from": "alien_meadow"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "alien_meadow",
+    "copy-from": "generic_open_land",
+    "name": "alien meadow",
+    "sym": ",",
+    "color": "red",
+    "travel_cost_type": "field",
+    "spawns": { "group": "GROUP_ALIEN_MEADOW", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_core",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_join",
+    "copy-from": "alien_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "alien_meadow_end",
+    "copy-from": "alien_meadow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavian_hospital_basement_nw",
+      "phavian_hospital_basement_ne",
+      "phavian_hospital_basement_sw",
+      "phavian_hospital_basement_se"
+    ],
+    "copy-from": "generic_hospital"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "phavian_hospital_transition_tunnel" ],
+    "name": "PHAVIAN lab",
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavian_hospital_main_floor_z3_nw_upper",
+      "phavian_hospital_main_floor_z3_ncw_upper",
+      "phavian_hospital_main_floor_z3_nce_upper",
+      "phavian_hospital_main_floor_z3_ne_upper",
+      "phavian_hospital_main_floor_z3_sw_upper",
+      "phavian_hospital_main_floor_z3_scw_upper",
+      "phavian_hospital_main_floor_z3_sce_upper",
+      "phavian_hospital_main_floor_z3_se_upper",
+      "phavian_hospital_main_floor_z3_nw_lower",
+      "phavian_hospital_main_floor_z3_ncw_lower",
+      "phavian_hospital_main_floor_z3_nce_lower",
+      "phavian_hospital_main_floor_z3_ne_lower",
+      "phavian_hospital_main_floor_z3_sw_lower",
+      "phavian_hospital_main_floor_z3_scw_lower",
+      "phavian_hospital_main_floor_z3_sce_lower",
+      "phavian_hospital_main_floor_z3_se_lower"
+    ],
+    "name": "PHAVIAN lab",
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavian_hospital_main_floor_z3_nw_upper",
+      "phavian_hospital_main_floor_z3_ncw_upper",
+      "phavian_hospital_main_floor_z3_nce_upper",
+      "phavian_hospital_main_floor_z3_ne_upper",
+      "phavian_hospital_main_floor_z3_sw_upper",
+      "phavian_hospital_main_floor_z3_scw_upper",
+      "phavian_hospital_main_floor_z3_sce_upper",
+      "phavian_hospital_main_floor_z3_se_upper"
+    ],
+    "name": "PHAVIAN lab",
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": "full_high",
+    "vision_levels": "underground_stone",
+    "color": "light_red"
   }
 ]

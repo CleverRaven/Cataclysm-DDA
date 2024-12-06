@@ -2,7 +2,7 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "city": { "shops": { "office_cubical_phavian": 175, "phavian_skyscraper_lab": 250 } },
+    "city": { "shops": { "office_cubical_phavian": 175, "phavian_skyscraper_lab": 250, "phavian_hospital_lab": 85 } },
     "map_extras": {
       "forest_water": {
         "chance": 20,
