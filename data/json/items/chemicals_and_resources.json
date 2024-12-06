@@ -2109,5 +2109,22 @@
     "symbol": "~",
     "color": "red",
     "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals."
+  },
+  {
+    "type": "AMMO",
+    "id": "exodii_ceramic_patch",
+    "category": "chems",
+    "price": "5000 cent",
+    "price_postapoc": "5000 cent",
+    "name": { "str_sp": "exodii ceramic patch" },
+    "symbol": "=",
+    "color": "dark_gray",
+    "description": "A patch kit produced by the Exodii for repairing their nanotube-infused ceramics.  Requires a kiln.",
+    "material": [ "exodii_ceramic" ],
+    "volume": "500 ml",
+    "weight": "65 g",
+    "ammo_type": "components",
+    "count": 50,
+    "melee_damage": { "bash": 1 }
   }
 ]
