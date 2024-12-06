@@ -1,0 +1,13 @@
+[
+    {
+      "type": "mutation",
+      "id": "XEDRA_LOOPING_WOUND",
+      "name": "Time Looped Knife Wound",
+      "points": -4,
+      "description": "You have suffered a time looped wound, forcing you to repeatedly endure the harm of an earlier wound.  Every 24 hours you are impaled by a non-existent knife.",
+      "starting_trait": false,
+      "purifiable": false,
+      "valid": false,
+      "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ]
+    }
+]
