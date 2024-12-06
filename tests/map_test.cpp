@@ -163,7 +163,7 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
     // Regression test for the situation where game::place_player would misuse
     // map::shift if the resulting shift exceeded a single submap, leading to a
     // broken active item cache.
-    g->place_player( tripoint::zero );
+    g->place_player( tripoint_bub_ms::zero );
     get_map().check_submap_active_item_consistency();
 }
 
