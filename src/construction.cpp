@@ -2245,12 +2245,13 @@ void load_construction( const JsonObject &jo )
 
     jo.read( "pre_note", con.pre_note );
     con.pre_terrain = jo.get_as_string_set( "pre_terrain" );
-    const std::string &first_pre_terrain = *con.pre_terrain.begin();
-    if( !con.pre_terrain.empty()
-        && first_pre_terrain.size() > 1
-        && first_pre_terrain[0] == 'f'
-        && first_pre_terrain[1] == '_' ) {
-        con.pre_is_furniture = true;
+    if( !con.pre_terrain.empty() ) {
+        const std::string &first_pre_terrain = *con.pre_terrain.begin();
+        if( first_pre_terrain.size() > 1
+            && first_pre_terrain[0] == 'f'
+            && first_pre_terrain[1] == '_' ) {
+            con.pre_is_furniture = true;
+        }
     }
 
     con.post_terrain = jo.get_string( "post_terrain", "" );
