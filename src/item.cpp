@@ -3831,6 +3831,28 @@ static void armor_protect_dmg_info( int dmg, std::vector<iteminfo> &info )
     }
 }
 
+std::string item::layer_to_string( layer_level data )
+{
+    switch( data ) {
+        case layer_level::PERSONAL:
+            return _( "Personal aura" );
+        case layer_level::SKINTIGHT:
+            return _( "Close to skin" );
+        case layer_level::NORMAL:
+            return _( "Normal" );
+        case layer_level::WAIST:
+            return _( "Waist" );
+        case layer_level::OUTER:
+            return _( "Outer" );
+        case layer_level::BELTED:
+            return _( "Strapped" );
+        case layer_level::AURA:
+            return _( "Outer aura" );
+        default:
+            return _( "Should never see this" );
+    }
+}
+
 void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   int /*batch*/, bool /*debug*/, const sub_bodypart_id &sbp ) const
 {
@@ -3846,31 +3868,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
 
         // get the layers this bit of the armor covers if its unique compared to the rest of the armor
         for( const layer_level &ll : get_layer( sbp ) ) {
-            switch( ll ) {
-                case layer_level::PERSONAL:
-                    layering += _( " <stat>Personal aura</stat>." );
-                    break;
-                case layer_level::SKINTIGHT:
-                    layering += _( " <stat>Close to skin</stat>." );
-                    break;
-                case layer_level::NORMAL:
-                    layering += _( " <stat>Normal</stat>." );
-                    break;
-                case layer_level::WAIST:
-                    layering += _( " <stat>Waist</stat>." );
-                    break;
-                case layer_level::OUTER:
-                    layering += _( " <stat>Outer</stat>." );
-                    break;
-                case layer_level::BELTED:
-                    layering += _( " <stat>Strapped</stat>." );
-                    break;
-                case layer_level::AURA:
-                    layering += _( " <stat>Outer aura</stat>." );
-                    break;
-                default:
-                    layering += _( " Should never see this." );
-            }
+            layering += string_format( " <stat>%s</stat>.", item::layer_to_string( ll ) );
         }
         //~ Limb-specific coverage (%s = name of limb)
         info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Coverage</bold>:%s" ), layering ) );

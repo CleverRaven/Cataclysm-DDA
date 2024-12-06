@@ -96,6 +96,7 @@
       [ "folded_bicycle", 5 ],
       [ "sunglasses", 25 ],
       [ "cowboy_hat", 25 ],
+      [ "fursuit", 5 ],
       { "item": "mp3", "prob": 20, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
