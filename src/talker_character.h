@@ -245,7 +245,7 @@ class talker_character: virtual public talker
             return me_chr;
         }
 
-        void set_pos( tripoint new_pos ) override;
+        void set_pos( tripoint_bub_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
         void set_str_max( int value ) override;
