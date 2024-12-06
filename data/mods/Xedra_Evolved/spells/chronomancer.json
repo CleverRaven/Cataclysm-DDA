@@ -82,7 +82,7 @@
     "spell_class": "XEDRA_CHRONOMANCER",
     "skill": "deduction",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "difficulty": 2,
+    "difficulty": 10,
     "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
