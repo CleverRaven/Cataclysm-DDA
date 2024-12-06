@@ -4,36 +4,13 @@
     "regions": [ "all" ],
     "//": "Meant to be Alberta, Canada",
     "//1": "TODO: Should change regional terrain/furniture",
-    "overmap_lake_settings": {
-      "//": "Smaller less numerous lakes",
-      "noise_threshold_lake": 0.35,
-      "lake_size_min": 15,
-      "lake_depth": -5,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
-      "shore_extendable_overmap_terrain_aliases": [
-        { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
-        { "om_terrain": "island_forest_thick", "om_terrain_match_type": "TYPE", "alias": "forest_thick" },
-        { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
-        { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
-      ]
-    },
-    "overmap_ocean_settings": {
-      "noise_threshold_ocean": 0.25,
-      "ocean_size_min": 100,
-      "ocean_depth": -9,
-      "ocean_start_north": 250,
-      "ocean_start_east": 900,
-      "ocean_start_west": 200,
-      "ocean_start_south": 0,
-      "sandy_beach_width": 6
-    },
+    "overmap_lake_settings": { "//": "Smaller less numerous lakes", "noise_threshold_lake": 0.35, "lake_size_min": 15 },
+    "overmap_ocean_settings": { "ocean_start_north": 250, "ocean_start_east": 900, "ocean_start_west": 200 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.4,
       "noise_threshold_forest_thick": 0.45,
       "noise_threshold_swamp_adjacent_water": 0.5,
-      "noise_threshold_swamp_isolated": 0.7,
-      "river_floodplain_buffer_distance_min": 3,
-      "river_floodplain_buffer_distance_max": 15
+      "noise_threshold_swamp_isolated": 0.7
     },
     "city": {
       "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
