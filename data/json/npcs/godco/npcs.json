@@ -10,7 +10,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Helena_1",
     "mission_offered": "MISSION_GODCO_HELENA_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_HELENA_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_helena_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -23,7 +24,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_chef",
     "mission_offered": "MISSION_GODCO_COOK_FOOD_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_SIMON_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_simon_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -35,7 +37,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_guard_food",
     "mission_offered": "MISSION_GODCO_FOOD_GUARD_BOOK",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_EDDIE_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_eddie_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -48,7 +51,8 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_GODCO_chloe",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_CHLOE_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_chloe_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -61,7 +65,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Sonia",
     "mission_offered": "MISSION_GODCO_GET_GUITAR_STRING",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_SONIA_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_sonia_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -72,7 +77,10 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_GODCO_Zachary",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      { "id": "EOC_GODCO_ZACHARY_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_zachary_dead", "=", "1" ] } }
+    ]
   },
   {
     "type": "npc",
@@ -85,7 +93,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Darryl_1",
     "mission_offered": "MISSION_GODCO_DARRYL_WELL1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_DARRYL_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_darryl_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -98,7 +107,14 @@
     "mission": 7,
     "chat": "TALK_GODCO_Katherine_1",
     "mission_offered": "MISSION_GODCO_KATHERINE_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      {
+        "id": "EOC_GODCO_KATHERINE_DEAD",
+        "eoc_type": "NPC_DEATH",
+        "effect": { "math": [ "godoc_katherine_dead", "=", "1" ] }
+      }
+    ]
   },
   {
     "type": "npc",
@@ -111,7 +127,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Julian_1",
     "mission_offered": "MISSION_GODCO_JULIAN_PAPER",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_JULIAN_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_julian_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -124,7 +141,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Gemma_1",
     "mission_offered": [ "MISSION_GODCO_GEMMA_SUPPLEMENTS", "MISSION_GODCO_GEMMA_SEEDS" ],
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_GEMMA_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_gemma_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -137,7 +155,10 @@
     "mission": 7,
     "chat": "TALK_GODCO_Russell_1",
     "mission_offered": "MISSION_GODCO_RUSSELL_TROPHY1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      { "id": "EOC_GODCO_RUSSELL_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_russell_dead", "=", "1" ] } }
+    ]
   },
   {
     "type": "npc",
@@ -150,7 +171,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Tom_1",
     "mission_offered": "MISSION_GODCO_TOM_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_TOM_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_tom_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -163,7 +185,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Kostas_1",
     "mission_offered": "MISSION_GODCO_KOSTAS_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_KOSTAS_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_kostas_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -176,7 +199,10 @@
     "mission": 7,
     "chat": "TALK_GODCO_Greenwood_1",
     "mission_offered": "MISSION_GODCO_GREENWOOD_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      { "id": "EOC_GODCO_GREENWOOD_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_helena_dead", "=", "1" ] } }
+    ]
   },
   {
     "type": "npc",
@@ -189,7 +215,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Jane_1",
     "mission_offered": "MISSION_GODCO_JANE_PILLS",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_JANE_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_jane_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -202,7 +229,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Corrie_1",
     "mission_offered": "MISSION_GODCO_CORRIE_MACHINE1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_CORRIE_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_corrie_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -215,7 +243,10 @@
     "mission": 7,
     "chat": "TALK_GODCO_Felicity_1",
     "mission_offered": "MISSION_GODCO_FELICITY_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      { "id": "EOC_GODCO_FELICITY_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_felicity_dead", "=", "1" ] } }
+    ]
   },
   {
     "type": "npc",
@@ -229,7 +260,10 @@
     "mission": 7,
     "chat": "TALK_GODCO_Theresa_1",
     "mission_offered": "MISSION_GODCO_THERESA_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      { "id": "EOC_GODCO_THERESA_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_theresa_dead", "=", "1" ] } }
+    ]
   },
   {
     "type": "npc",
@@ -243,7 +277,10 @@
     "mission": 7,
     "chat": "TALK_GODCO_Jeremiah_1",
     "mission_offered": "MISSION_GODCO_JEREMIAH_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [
+      { "id": "EOC_GODCO_JEREMIAH_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_jeremiah_dead", "=", "1" ] } }
+    ]
   },
   {
     "type": "npc",
@@ -256,7 +293,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Olwen_1",
     "mission_offered": "MISSION_GODCO_OLWEN_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_OLWEN_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_olwen_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -269,7 +307,8 @@
     "mission": 7,
     "chat": "TALK_GODCO_Maria",
     "mission_offered": "MISSION_GODCO_MARIA_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_MARIA_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_maria_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",
@@ -281,7 +320,8 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_GODCO_Arturo_1",
-    "faction": "gods_community"
+    "faction": "gods_community",
+    "death_eocs": [ { "id": "EOC_GODCO_ARTURO_DEAD", "eoc_type": "NPC_DEATH", "effect": { "math": [ "godoc_arturo_dead", "=", "1" ] } } ]
   },
   {
     "type": "npc",

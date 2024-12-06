@@ -119,5 +119,1025 @@
       { "offer_mission": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP" },
       { "npc_add_var": "dialogue_missions_got_mission", "value": "yes" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_MOVEMENT",
+    "//": "Runs once an hour and moves New ENgland Community Church npcs around based on what hour it is, and what they should be doing.",
+    "global": true,
+    "recurrence": "1 hours",
+    "effect": [
+      {
+        "switch": { "math": [ "time_since('midnight', 'unit': 'hour')" ] },
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": "EOC_NECC_NPC_BEDTIME" } },
+          { "case": 8, "effect": { "run_eocs": "EOC_NECC_NPC_MEALTIME" } },
+          { "case": 9, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } },
+          { "case": 12, "effect": { "run_eocs": "EOC_NECC_NPC_MEALTIME" } },
+          { "case": 13, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } },
+          { "case": 18, "effect": { "run_eocs": "EOC_NECC_NPC_MEALTIME" } },
+          { "case": 19, "effect": { "run_eocs": "EOC_NECC_NPC_CHURCH_SERVICE" } },
+          { "case": 20, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } },
+          { "case": 22, "effect": { "run_eocs": "EOC_NECC_NPC_DAY_JOB" } }
+        ]
+      },
+      { "u_message": "This EOC activates!", "popup": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_SLEEP",
+    "effect": [
+      { "u_add_effect": "allow_sleep", "duration": "8 hours" },
+      {
+        "if": { "math": [ "u_val('sleepiness')", "<", "200" ] },
+        "then": { "math": [ "u_val('sleepiness')", "=", "200" ] }
+      },
+      { "u_add_effect": "sleep", "duration": "8 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_WAKE_UP",
+    "effect": [
+      { "u_lose_effect": "allow_sleep" },
+      {
+        "if": { "and": [ { "math": [ "u_val('sleepiness')", ">", "0" ] }, { "math": [ "u_val('sleepiness')", "<", "200" ] } ] },
+        "then": { "math": [ "u_val('sleepiness')", "=", "0" ] }
+      },
+      { "u_lose_effect": "sleep" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_sleeping_spot" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_eating_seat" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_day_job" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "GODCO_LOCATION_VARIABLE_MOVE_TO_CHURCH_SEAT",
+    "effect": [ { "u_set_guard_pos": { "global_val": "_church_seat" }, "unique_id": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_BEDTIME",
+    "effect": [
+      {
+        "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_HELENA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_SIMON" ] }
+      },
+      {
+        "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_EDDIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_CHLOE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_SONIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_DARRYL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_JULIAN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_GEMMA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_TOM" ] }
+      },
+      {
+        "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+      },
+      {
+        "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_JANE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_CORRIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_FELICITY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_THERESA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+      },
+      {
+        "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_OLWEN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_MARIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_ARTURO" ] }
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_BEDTIME_RECHECK",
+          "effect": [
+            {
+              "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_HELENA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_SIMON" ] }
+            },
+            {
+              "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_EDDIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_CHLOE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_SONIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_DARRYL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_JULIAN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_GEMMA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_TOM" ] }
+            },
+            {
+              "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+            },
+            {
+              "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_JANE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_CORRIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_FELICITY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_THERESA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+            },
+            {
+              "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_OLWEN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_MARIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_BEDTIME" ], "unique_ids": [ "GODCO_ARTURO" ] }
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_BEDTIME_SLEEP",
+          "effect": [
+            {
+              "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_HELENA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_SIMON" ] }
+            },
+            {
+              "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_EDDIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_CHLOE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_SONIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_DARRYL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_JULIAN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_GEMMA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_TOM" ] }
+            },
+            {
+              "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+            },
+            {
+              "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_JANE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_CORRIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_FELICITY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_THERESA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+            },
+            {
+              "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_OLWEN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_MARIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_SLEEP" ], "unique_ids": [ "GODCO_ARTURO" ] }
+            }
+          ]
+        },
+        "time_in_future": "4 minutes"
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_BEDTIME_WAKE_UP",
+          "effect": [
+            {
+              "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_HELENA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_SIMON" ] }
+            },
+            {
+              "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_EDDIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_CHLOE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_SONIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_DARRYL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_JULIAN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_GEMMA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_TOM" ] }
+            },
+            {
+              "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+            },
+            {
+              "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_JANE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_CORRIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_FELICITY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_THERESA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+            },
+            {
+              "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_OLWEN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_MARIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NPC_WAKE_UP" ], "unique_ids": [ "GODCO_ARTURO" ] }
+            }
+          ]
+        },
+        "time_in_future": "480 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_MEALTIME",
+    "effect": [
+      {
+        "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_HELENA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_SIMON" ] }
+      },
+      {
+        "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_EDDIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_CHLOE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_SONIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_DARRYL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_JULIAN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_GEMMA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_TOM" ] }
+      },
+      {
+        "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+      },
+      {
+        "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_JANE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_CORRIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_FELICITY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_THERESA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+      },
+      {
+        "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_OLWEN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_MARIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_ARTURO" ] }
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_MEALTIME_RECHECK",
+          "effect": [
+            {
+              "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_HELENA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_SIMON" ] }
+            },
+            {
+              "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_EDDIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_CHLOE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_SONIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_DARRYL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_JULIAN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_GEMMA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_TOM" ] }
+            },
+            {
+              "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+            },
+            {
+              "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_JANE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_CORRIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_FELICITY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_THERESA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+            },
+            {
+              "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_OLWEN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_MARIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_MEALTIME" ], "unique_ids": [ "GODCO_ARTURO" ] }
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_DAY_JOB",
+    "effect": [
+      {
+        "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_HELENA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_SIMON" ] }
+      },
+      {
+        "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_EDDIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_CHLOE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_SONIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_DARRYL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_JULIAN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_GEMMA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_TOM" ] }
+      },
+      {
+        "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+      },
+      {
+        "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_JANE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_CORRIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_FELICITY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_THERESA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+      },
+      {
+        "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_OLWEN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_MARIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_ARTURO" ] }
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_DAY_JOB_RECHECK",
+          "effect": [
+            {
+              "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_HELENA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_SIMON" ] }
+            },
+            {
+              "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_EDDIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_CHLOE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_SONIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_DARRYL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_JULIAN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_GEMMA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_TOM" ] }
+            },
+            {
+              "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+            },
+            {
+              "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_JANE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_CORRIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_FELICITY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_THERESA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+            },
+            {
+              "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_OLWEN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_MARIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "GODCO_LOCATION_VARIABLE_MOVE_TO_DAY_JOB" ], "unique_ids": [ "GODCO_ARTURO" ] }
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NECC_NPC_CHURCH_SERVICE",
+    "effect": [
+      {
+        "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_HELENA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_SIMON" ] }
+      },
+      {
+        "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_EDDIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_CHLOE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_SONIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_DARRYL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_JULIAN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_GEMMA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+      },
+      {
+        "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_TOM" ] }
+      },
+      {
+        "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+      },
+      {
+        "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_JANE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_CORRIE" ] }
+      },
+      {
+        "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_FELICITY" ] }
+      },
+      {
+        "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_THERESA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+      },
+      {
+        "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_OLWEN" ] }
+      },
+      {
+        "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_MARIA" ] }
+      },
+      {
+        "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+        "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_ARTURO" ] }
+      },
+      {
+        "queue_eocs": {
+          "id": "EOC_NECC_NPC_CHURCH_SERVICE_RECHECK",
+          "effect": [
+            {
+              "if": { "math": [ "godoc_helena_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_HELENA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_simon_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_SIMON" ] }
+            },
+            {
+              "if": { "math": [ "godoc_eddie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_EDDIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_chloe_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_CHLOE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_sonia_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_SONIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_zachary_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_ZACHARY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_darryl_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_DARRYL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_katherine_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_KATHERINE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_julian_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_JULIAN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_gemma_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_GEMMA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_russell_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_RUSSEL" ] }
+            },
+            {
+              "if": { "math": [ "godoc_tom_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_TOM" ] }
+            },
+            {
+              "if": { "math": [ "godoc_kostas_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_KOSTAS" ] }
+            },
+            {
+              "if": { "math": [ "godoc_greenwood_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_GREENWOOD" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jane_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_JANE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_corrie_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_CORRIE" ] }
+            },
+            {
+              "if": { "math": [ "godoc_felicity_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_FELICITY" ] }
+            },
+            {
+              "if": { "math": [ "godoc_theresa_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_THERESA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_jeremiah_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_JEREMIAH" ] }
+            },
+            {
+              "if": { "math": [ "godoc_olwen_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_OLWEN" ] }
+            },
+            {
+              "if": { "math": [ "godoc_maria_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_MARIA" ] }
+            },
+            {
+              "if": { "math": [ "godoc_arturo_dead", "!=", "1" ] },
+              "then": { "u_run_npc_eocs": [ "EOC_NECC_NPC_CHURCH_SERVICE" ], "unique_ids": [ "GODCO_ARTURO" ] }
+            }
+          ]
+        },
+        "time_in_future": "3 minutes"
+      }
+    ]
   }
 ]
