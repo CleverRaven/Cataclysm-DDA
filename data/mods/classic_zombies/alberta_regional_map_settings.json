@@ -595,8 +595,7 @@
       },
       "research_facility_interior": { "chance": 2, "extras": { "mx_military": 5, "mx_crater": 300, "mx_point_burned_ground": 125, "mx_casings": 30 } },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
-      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
-      "sewer": { "chance": 80, "extras": { "mx_null": 100 } }
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
     },
     "city": {
       "shop_radius": 30,
