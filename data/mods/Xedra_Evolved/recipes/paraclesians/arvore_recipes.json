@@ -887,7 +887,7 @@
               "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
               "effect": [
                 {
-                  "u_message": "As your song fades, you behold a quarterstaff  all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "u_message": "As your song fades, you behold a quarterstaff all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
                   "type": "good"
                 },
                 { "u_spawn_item": "treesung_q_staff", "count": 1, "suppress_message": true },

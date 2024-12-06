@@ -4863,6 +4863,20 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MONSTER_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle monster group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NPC_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle NPC group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
     "name": "Display keybindings menu",
     "category": "STRING_EDITOR",

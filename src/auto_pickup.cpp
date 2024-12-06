@@ -933,9 +933,9 @@ bool player_settings::save( const bool bCharacter )
     cata_path savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = PATH_INFO::player_base_save_path_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
-        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
+        const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
@@ -962,7 +962,7 @@ void player_settings::load( const bool bCharacter )
 {
     cata_path sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
     read_from_file_optional_json( sFile, [&]( const JsonValue & jv ) {

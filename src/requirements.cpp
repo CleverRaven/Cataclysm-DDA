@@ -1324,7 +1324,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             std::vector<item *> del;
             craft_components.visit_items( [&comp, &qty, &del]( item * e, item * ) {
                 std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint::zero ) ) {
+                if( e->use_charges( comp.type, qty, used, tripoint_bub_ms::zero ) ) {
                     del.push_back( e );
                 }
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
