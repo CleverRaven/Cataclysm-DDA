@@ -1,0 +1,53 @@
+[
+  {
+    "type": "help",
+    "order": 0,
+    "name": "Mind Over Matter: Basics",
+    "messages": [
+      "Welcome to Mind Over Matter, a psychic powers mod for Cataclysm.  This mod adds psionics to the game, mental powers based on classical concepts of mental powers.  Incinerate zombies as a pyrokinetic, avoid bullets by peering into the near future as a clairsentient, recharge your car as an electrokinetic, run so fast you can run on water as a biokinetic, and more.  All these powers are available to you.",
+      "And to your enemies.  The player is not the only one with psionics.",
+      "Psionics are different in several ways than the magical powers in Magiclysm.  For one, all psionics require stamina to use rather than an external resource such as mana, meaning a full-charged psion is only a short breather away. Second, psionic powers scale with your intelligence stat and with your Nether Attunement (q.v.) as well as with power level; this even includes their maximum possible level, which is equal to your intelligence times 1.5.  Third, long term powers must be concentrated on to be maintained, and negative effects like being injured, being electrocuted, or inhaling toxic smoke can cause you to lose your concentration.  Lose your concentration when you're levitating or maintaining a pyrokinetic shield against fire and you're in for a world of hurt and possibly the character creation screen.",
+      "Mind Over Matter is designed to be as congruent with vanilla as possible, so psionics are rare and most evidence of their existence is confined to secret locations.  It is deliberately focused on psionics and the Nether, so it may take some time if you start without powers to gain them.  This is intended.",
+      "One last thing: remember to bind the Supernatural Powers key to use your powers!"
+    ]
+  },
+  {
+    "type": "help",
+    "order": 1,
+    "name": "Mind Over Matter: Gaining New Powers",
+    "messages": [
+      "Movement is performed using the numpad, the arrow keys, or vikeys.",
+      "<HELP_DRAW_DIRECTIONS>",
+      "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
+      "To attempt to hit a monster with your weapon, simply move into it.",
+      "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
+      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may lead to the player getting into a dangerous situation or even killed before they have a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, any movement will be ignored if new monsters enter the player's view."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 2,
+    "name": "Mind Over Matter: Concentration",
+    "messages": [
+      "Movement is performed using the numpad, the arrow keys, or vikeys.",
+      "<HELP_DRAW_DIRECTIONS>",
+      "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
+      "To attempt to hit a monster with your weapon, simply move into it.",
+      "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
+      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may lead to the player getting into a dangerous situation or even killed before they have a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, any movement will be ignored if new monsters enter the player's view."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 3,
+    "name": "Mind Over Matter: Nether Attunement",
+    "messages": [
+      "Movement is performed using the numpad, the arrow keys, or vikeys.",
+      "<HELP_DRAW_DIRECTIONS>",
+      "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
+      "To attempt to hit a monster with your weapon, simply move into it.",
+      "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
+      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may lead to the player getting into a dangerous situation or even killed before they have a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, any movement will be ignored if new monsters enter the player's view."
+    ]
+  }
+]
