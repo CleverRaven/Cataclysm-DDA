@@ -164,6 +164,40 @@ Move multiple ids that don't need to be unique any more to a single id
   }
 ```
 
+# Trap migration
+
+Trap migration replaces the provided id as submaps are loaded. You can use `tr_null` with `to_trap` to remove the trap entirely without creating errors.
+
+```json
+{
+    "type": "trap_migration",   // Mandatory. String. Must be "trap_migration"
+    "from_trap": "tr_old_trap",        // Mandatory. String. Id of the trap to replace.
+    "to_trap": "tr_new_trap",      // Mandatory. String. Id of the new trap to place.
+},
+```
+
+## Examples
+
+Migrate an id
+
+```json
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_being_migrated_id",
+    "to_trap": "tr_new_id"
+  }
+```
+
+Errorlessly obsolete an id
+
+```json
+  {
+    "type": "trap_migration",
+    "from_trap": "tr_being_obsoleted_id",
+    "to_trap": "tr_null"
+  }
+```
+
 # Field migration
 
 Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
@@ -171,8 +205,8 @@ Field migration replaces the provided id as submaps are loaded. You can use `fd_
 ```json
 {
     "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
-    "from_field": "t_old_field",        // Mandatory. String. Id of the field to replace.
-    "to_field": "f_new_field",      // Mandatory. String. Id of the new field to place.
+    "from_field": "fd_old_field",        // Mandatory. String. Id of the field to replace.
+    "to_field": "fd_new_field",      // Mandatory. String. Id of the new field to place.
 },
 ```
 

@@ -246,6 +246,7 @@ parsers = {
     "trait_group": dummy_parser,
     "trait_migration": dummy_parser,
     "trap": parse_trap,
+    "trap_migration": dummy_parser,
     "tool": parse_generic,
     "tool_armor": parse_generic,
     "tool_quality": parse_tool_quality,

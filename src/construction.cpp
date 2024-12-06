@@ -124,7 +124,6 @@ static const skill_id skill_fabrication( "fabrication" );
 
 static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
 static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
@@ -147,7 +146,6 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
-static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -1465,8 +1463,7 @@ bool construct::check_unblocked( const tripoint_bub_ms &p )
     // first know how to handle constructing on top of an invisible trap!
     // Should also check for empty space rather than open air, when such a check exists.
     return !here.has_furn( p ) &&
-           ( g->is_empty( p ) || here.ter( p ) == ter_t_open_air ) && ( here.tr_at( p ).is_null() ||
-                   here.tr_at( p ) == tr_ledge ) &&
+           ( g->is_empty( p ) || here.ter( p ) == ter_t_open_air ) && ( here.tr_at( p ).is_null() ) &&
            here.i_at( p ).empty() && !here.veh_at( p );
 }
 
@@ -1517,9 +1514,8 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
     if( !( here.passable( p ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
-           here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
-        blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
-                here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
+           here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) || blocking_creature || here.has_furn( p ) ||
+        !( here.tr_at( p ).is_null() || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
         !here.i_at( p ).empty() || here.veh_at( p ) ) {
         return false;
     }
@@ -1874,7 +1870,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
             get_event_bus().send<event_type::digs_into_lava>();
-            here.ter_set( p, ter_t_hole );
+            here.ter_set( p, ter_t_open_air );
         }
 
         return;
