@@ -232,8 +232,7 @@
       },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
-      "ocean_shore": { "chance": 1, "extras": { "mx_reed": 100 } },
-      "sewer": { "chance": 80, "extras": { "mx_null": 100 } }
+      "ocean_shore": { "chance": 1, "extras": { "mx_reed": 100 } }
     },
     "weather": {
       "base_temperature": 6.5,
