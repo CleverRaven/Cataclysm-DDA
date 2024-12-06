@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "cata_assert.h"
-#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "condition.h"
 #include "debug.h"
@@ -55,8 +54,13 @@ constexpr std::optional<double> get_constant( std::string_view token )
 
 std::optional<double> get_number( std::string_view token )
 {
-    if( std::optional<double> ret = svtod( token ); ret ) {
-        return *ret;
+    // FIXME: port to std::from_chars once double conversion is supported
+    std::istringstream conv( std::string{ token } );
+    conv.imbue( std::locale::classic() );
+    double val{};
+    conv >> val;
+    if( conv && conv.eof() ) {
+        return val;
     }
 
     return get_constant( token );
@@ -299,10 +303,6 @@ class math_exp::math_exp_impl
             if( str.empty() ) {
                 return false;
             }
-            std::locale const &oldloc = std::locale::global( std::locale::classic() );
-            on_out_of_scope reset_loc( [&oldloc]() {
-                std::locale::global( oldloc );
-            } );
             try {
                 _parse( str );
             } catch( math::syntax_error const &ex ) {
