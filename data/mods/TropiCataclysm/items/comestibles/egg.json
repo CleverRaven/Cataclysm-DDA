@@ -81,13 +81,13 @@
     "id": "egg_guan",
     "name": { "str": "dusky-legged guan egg" },
     "spoils_in": "14 days",
-    "copy-from": "egg_guinea_fowl",
+    "copy-from": "egg_chicken",
     "rot_spawn": { "monster": "mon_guan_chick" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_curassow",
-    "name": { "str": "curassow egg" },
+    "name": { "str": "bare-faced curassow egg" },
     "copy-from": "egg_crow",
     "rot_spawn": { "monster": "mon_curassow_chick" }
   },

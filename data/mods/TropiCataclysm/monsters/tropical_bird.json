@@ -239,15 +239,19 @@
   {
     "id": "mon_curassow",
     "type": "MONSTER",
-    "name": { "str": "curassow" },
+    "name": { "str": "bare-faced curassow" },
     "description": "This black bird carries itself oddly proudly, despite the ridiculous mohawk-like fringe on the top of its head.",
     "copy-from": "mon_bird_flying_base",
-    "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 }
+    "volume": "2667 ml",
+    "weight": "2 kg",
+    "hp": 5,
+    "harvest": "bird_small",
+    "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 395 }
   },
   {
     "id": "mon_curassow_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 10, "into": "mon_curassow" }
+    "upgrades": { "age_grow": 365, "into": "mon_curassow" }
   }
 ]
