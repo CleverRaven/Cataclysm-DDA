@@ -61,13 +61,6 @@
       "build": { "extras": { "mx_bugout": 20, "mx_science": 12, "mx_crater": 60, "mx_bandits_ambush": 10, "mx_bandits_hideout": 10 } },
       "subway": { "extras": { "mx_casings": 10, "mx_bandits_ambush": 5 } }
     },
-    "weather": {
-      "base_temperature": 6.5,
-      "base_humidity": 90.0,
-      "base_pressure": 1015.0,
-      "base_wind": 3.4,
-      "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
-    }
+    "weather": { "base_humidity": 90.0 }
   }
 ]
