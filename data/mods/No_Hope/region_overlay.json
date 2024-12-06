@@ -4,7 +4,6 @@
     "regions": [ "all" ],
     "map_extras": {
       "forest": {
-        "chance": 40,
         "extras": {
           "mx_science": 20,
           "mx_crater": 10,
@@ -16,7 +15,6 @@
         }
       },
       "forest_thick": {
-        "chance": 30,
         "extras": {
           "mx_science": 20,
           "mx_collegekids": 25,
@@ -28,7 +26,6 @@
         }
       },
       "forest_water": {
-        "chance": 20,
         "extras": {
           "mx_science": 50,
           "mx_military": 25,
@@ -40,7 +37,6 @@
         }
       },
       "field": {
-        "chance": 6,
         "extras": {
           "mx_crater": 150,
           "mx_supplydrop": 40,
@@ -51,7 +47,6 @@
         }
       },
       "road": {
-        "chance": 75,
         "extras": {
           "mx_helicopter": 10,
           "mx_military": 50,
@@ -63,11 +58,8 @@
           "mx_bandits_ambush": 100
         }
       },
-      "build": {
-        "chance": 90,
-        "extras": { "mx_bugout": 20, "mx_science": 12, "mx_crater": 60, "mx_bandits_ambush": 10, "mx_bandits_hideout": 10 }
-      },
-      "subway": { "chance": 100, "extras": { "mx_casings": 10, "mx_bandits_ambush": 5 } }
+      "build": { "extras": { "mx_bugout": 20, "mx_science": 12, "mx_crater": 60, "mx_bandits_ambush": 10, "mx_bandits_hideout": 10 } },
+      "subway": { "extras": { "mx_casings": 10, "mx_bandits_ambush": 5 } }
     },
     "weather": {
       "base_temperature": 6.5,
