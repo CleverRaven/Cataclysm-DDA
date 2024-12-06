@@ -386,7 +386,7 @@
     "id": "xedra_chronomancer_rewrite_equipment_causality",
     "type": "SPELL",
     "name": "Rewrite Equipment Causality (M)",
-    "description": "Sink into a mediative trance where you steadily rewrite the causality of your carried items, efficiently .  This power will remain active until you run out of mana or your wounds are healed.",
+    "description": "Sink into a mediative trance where you steadily rewrite the causality of your carried items, efficiently repairing any faults they may have.  This power will remain active until you run out of mana or your wounds are healed.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "XEDRA_CHRONOMANCER",
