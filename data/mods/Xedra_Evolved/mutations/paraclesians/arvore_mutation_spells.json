@@ -418,7 +418,7 @@
     "id": "arvore_summon_floral_boat",
     "type": "SPELL",
     "name": "Viridescent Vessel",
-    "description": "Tree require water but will still drown of submerged.  This spell allows the Arvore to transform a tree into a floral boat, letting them travel safely across water.\n\nYou must be standing <color_yellow>next to a tree</color> and <color_yellow>near the water</color> for the spell to be effective.",
+    "description": "Trees require water but will still drown if submerged.  This spell allows the Arvore to create a floral boat with the help of a nearby tree, letting them travel safely across water.\n\nYou must be standing <color_yellow>next to a tree</color> and <color_yellow>near the water</color> for the spell to be effective.",
     "message": "",
     "valid_targets": [ "self" ],
     "skill": "deduction",
