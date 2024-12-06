@@ -1776,7 +1776,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.needs_ammo ) {
         const itype_id current_ammo = cur_weapon.get_item()->ammo_current();
         // if the weapon needs ammo we now expend it
-        cur_weapon.get_item()->ammo_consume( 1, pos(), this );
+        cur_weapon.get_item()->ammo_consume( 1, pos_bub(), this );
         // thing going off should be as loud as the ammo
         sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
         const itype_id casing = *current_ammo->ammo->casing;
@@ -2286,7 +2286,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
                        "smash_glass_contents" );
         // Dump its contents on the ground
-        weap.spill_contents( pos() );
+        weap.spill_contents( pos_bub() );
         // Take damage
         damage_instance di = damage_instance();
         di.add_damage( damage_cut, std::clamp( rng( 0, vol * 2 ), 0, 7 ) );

@@ -861,10 +861,10 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
 
         if( success <= -5 ) {
-            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.position(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.pos_bub(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -1417,7 +1417,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 ammo_consumed *= iter->second;
             }
 
-            tool->ammo_consume( ammo_consumed, tool.position(), &who );
+            tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -2642,7 +2642,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
     } else {
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
@@ -5429,7 +5429,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -5900,7 +5900,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
-        tool->ammo_consume( ammo_consumed, tool.position(), &who );
+        tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -6763,12 +6763,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
-            it->activation_consume( charges_consumed, it.position(), &who );
+            it->activation_consume( charges_consumed, it.pos_bub(), &who );
         }
     }
 
@@ -7871,7 +7871,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
                     h.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );

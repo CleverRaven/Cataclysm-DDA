@@ -1415,7 +1415,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
         return false;
     } else {
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
-        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.position(), &you );
+        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub(), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
         you.activity.placement = get_map().getglobal( examp );
         return true;
@@ -1918,7 +1918,7 @@ void iexamine::locked_object( Character &you, const tripoint_bub_ms &examp )
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
                                target_name, best_prying.tname() );
-        iuse::crowbar( &you, &best_prying, examp.raw() );
+        iuse::crowbar( &you, &best_prying, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
     }
@@ -1990,7 +1990,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                                target_name, it->tname() );
-        const ret_val<void> can_use = iuse_fn->can_call( you, *it, examp.raw() );
+        const ret_val<void> can_use = iuse_fn->can_call( you, *it, examp );
         if( can_use.success() ) {
             iuse_fn->call( &you, *it, examp );
             return;
@@ -3438,7 +3438,7 @@ static void add_firestarter( item *it, std::multimap<int, item *> &firestarters,
     const use_function *usef = it->type->get_use( "firestarter" );
     if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
         const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, examp.raw() ).success() ) {
+        if( actor->can_use( you, *it, examp ).success() ) {
             firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
         }
     }
@@ -3517,9 +3517,9 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<void> can_use = actor->can_use( you, *it, examp.raw() );
+                const ret_val<void> can_use = actor->can_use( you, *it, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( &you, *it, examp.raw() ).value_or( 0 );
+                    const int charges = actor->use( &you, *it, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -4925,7 +4925,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
     if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
-                                          opt.ammo.position() ) ) {
+                                          opt.ammo.pos_bub() ) ) {
         opt.ammo.remove_item();
     }
 
@@ -6304,7 +6304,7 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
     for( item &it : here.i_at( examp ) ) {
         if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( 1, examp.raw(), get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -6405,7 +6405,7 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
     you.use_charges( itype_fire, 1 );
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_temperature_rot( 1, examp.raw(), get_map(), nullptr );
+            it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
         }
     }

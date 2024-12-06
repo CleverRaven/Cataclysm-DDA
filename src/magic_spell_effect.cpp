@@ -1168,7 +1168,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
 void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                                         const tripoint_bub_ms &center )
 {
-    Character *const character_at_target = get_creature_tracker().creature_at<npc>( center );
+    Character *character_at_target = get_creature_tracker().creature_at<Character>( center );
 
     std::vector<item> granted;
 
@@ -1183,8 +1183,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
         }
     }
 
-    avatar &player_character = get_avatar();
-    if( character_at_target == nullptr ) {
+    if( character_at_target != nullptr ) {
         for( item &it : granted ) {
             // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
             if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
@@ -1192,9 +1191,22 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                 it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
                 it.ethereal = true;
             }
-            get_map().add_item_or_charges( center, it );
-        }
 
+            if( it.ethereal && character_at_target->is_wearing( it.typeId() ) ) {
+                // Ethereal equipment already exists so just update its duration
+                item *existing_item = character_at_target->item_worn_with_id( it.typeId() );
+                existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+            } else if( character_at_target->can_wear( it ).success() ) {
+                it.set_flag( json_flag_FIT );
+                character_at_target->wear_item( it, false );
+            } else if( !character_at_target->has_wield_conflicts( it ) &&
+                       !character_at_target->martial_arts_data->keep_hands_free && //No wield if hands free
+                       character_at_target->wield( it ) ) {
+                // nothing to do
+            } else {
+                character_at_target->i_add( it );
+            }
+        }
     } else {
         for( item &it : granted ) {
             // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
@@ -1203,21 +1215,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                 it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
                 it.ethereal = true;
             }
-
-            if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
-                // Ethereal equipment already exists so just update its duration
-                item *existing_item = player_character.item_worn_with_id( it.typeId() );
-                existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
-            } else if( player_character.can_wear( it ).success() ) {
-                it.set_flag( json_flag_FIT );
-                player_character.wear_item( it, false );
-            } else if( !player_character.has_wield_conflicts( it ) &&
-                       !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
-                       player_character.wield( it, 0 ) ) {
-                // nothing to do
-            } else {
-                player_character.i_add( it );
-            }
+            get_map().add_item_or_charges( center, it );
         }
     }
     sp.make_sound( caster.pos_bub(), caster );
@@ -1362,7 +1360,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         return;
     }
     if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees,
-                                         100, 0, false ) ) {
+                                         100, 2, false, true ) ) {
         veh->unlock();
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {

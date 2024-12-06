@@ -2177,7 +2177,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             it.spill_contents( *this );
         }
         // todo: make a proper solution that overflows with the proper item_location
-        it.overflow( pos() );
+        it.overflow( pos_bub() );
     }
     empty_buckets( *this );
     return ret;
@@ -2597,7 +2597,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
         remove_ammo( orig_item, *this );
         remove_radio_mod( orig_item, *this );
         if( orig_item.is_container() ) {
-            orig_item.spill_contents( pos() );
+            orig_item.spill_contents( pos_bub() );
         }
         if( orig_item.count_by_charges() ) {
             //subtract selected number of rounds to disassemble
