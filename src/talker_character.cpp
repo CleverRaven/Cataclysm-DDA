@@ -67,6 +67,11 @@ tripoint talker_character_const::pos() const
     return me_chr_const->pos();
 }
 
+tripoint_bub_ms talker_character_const::pos_bub() const
+{
+    return me_chr_const->pos_bub();
+}
+
 tripoint_abs_ms talker_character_const::global_pos() const
 {
     return me_chr_const->get_location();

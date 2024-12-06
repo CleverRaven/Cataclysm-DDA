@@ -1346,7 +1346,7 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     clear_map();
 
     map &m = get_map();
-    g->place_player( tripoint::zero );
+    g->place_player( tripoint_bub_ms::zero );
 
     const tripoint_abs_ms start = get_avatar().get_location();
     const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint::north );
