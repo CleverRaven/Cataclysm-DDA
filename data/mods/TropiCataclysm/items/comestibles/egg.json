@@ -79,8 +79,9 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_guan",
-    "name": { "str": "guan egg" },
-    "copy-from": "egg_crow",
+    "name": { "str": "dusky-legged guan egg" },
+    "spoils_in": "14 days",
+    "copy-from": "egg_guinea_fowl",
     "rot_spawn": { "monster": "mon_guan_chick" }
   },
   {

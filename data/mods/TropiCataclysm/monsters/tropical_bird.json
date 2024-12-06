@@ -220,16 +220,21 @@
   {
     "id": "mon_guan",
     "type": "MONSTER",
-    "name": { "str": "guan" },
+    "name": { "str": "dusky-legged guan" },
     "description": "A medium-sized speckled bird.  Its bright orange wattle contrasts sharply with the rest of its brown body.",
     "copy-from": "mon_bird_flying_base",
-    "reproduction": { "baby_type": { "baby_egg": "egg_guan" }, "baby_count": 2, "baby_timer": 6 }
+    "volume": "1600 ml",
+    "weight": "1200 g",
+    "hp": 3,
+    "harvest": "bird_small",
+    "reproduction": { "baby_type": { "baby_egg": "egg_guan" }, "baby_count": 2, "baby_timer": 208 }
   },
   {
     "id": "mon_guan_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "upgrades": { "age_grow": 10, "into": "mon_guan" }
+    "upgrades": { "age_grow": 180, "into": "mon_guan" },
+    "//": "Some sources say 6-8 months to reach independence for most guan chicks (others say 2 years, who do I trust?)"
   },
   {
     "id": "mon_curassow",
