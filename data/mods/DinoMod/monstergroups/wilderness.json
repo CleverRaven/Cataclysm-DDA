@@ -13,6 +13,7 @@
     "name": "GROUP_WILDERNESS_FOREST_DINO",
     "is_animal": true,
     "monsters": [
+      { "monster": "mon_nedcolbertia", "weight": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_gallimimus", "weight": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_struthiomimus", "weight": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_ornithomimus", "weight": 5, "pack_size": [ 4, 8 ] },

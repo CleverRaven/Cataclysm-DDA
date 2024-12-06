@@ -2482,7 +2482,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
         CHECK( item_info_str( oxy_torch, magazine_compat ) ==
                "--\n"
                "<color_c_white>Compatible magazines</color>:\n"
-               "<color_c_white>Types</color>: small welding tank and welding tank\n" );
+               "<color_c_white>Types</color>: small welding tank, tiny welding tank, and welding tank\n" );
     }
 }
 

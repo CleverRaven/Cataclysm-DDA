@@ -466,7 +466,7 @@ bool mattack::absorb_items( monster *z )
         // check if the item being removed is a corpse so that the items are dropped.
         // only do this if the monster is selectively eating flesh
         if( it->is_container() && !absorb_material.empty() ) {
-            it->spill_contents( z->pos() );
+            it->spill_contents( z->pos_bub() );
         }
         here.i_rem( z->pos_bub(), it );
     }
@@ -4370,7 +4370,7 @@ bool mattack::kamikaze( monster *z )
             item i_explodes( act_bomb_type, calendar::turn );
             i_explodes.active = true;
             i_explodes.countdown_point = calendar::turn_zero;
-            i_explodes.process( get_map(), nullptr, z->pos() );
+            i_explodes.process( get_map(), nullptr, z->pos_bub() );
             return false;
         }
         return false;

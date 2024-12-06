@@ -40,7 +40,7 @@ static cata_path find_quad_path( const cata_path &dirname, const tripoint_abs_om
 static cata_path find_dirname( const tripoint_abs_omt &om_addr )
 {
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
-    return PATH_INFO::world_base_save_path_path() / "maps" / string_format( "%d.%d.%d",
+    return PATH_INFO::world_base_save_path() / "maps" / string_format( "%d.%d.%d",
             segment_addr.x(),
             segment_addr.y(), segment_addr.z() );
 }
@@ -136,7 +136,7 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
+    assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();

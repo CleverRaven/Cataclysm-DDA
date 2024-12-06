@@ -562,6 +562,13 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
+        // Check for exceptions first
+        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+            return false;
+        }
+        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
+            return false;
+        }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
         if( branch.conflicts_with_item_rigid( armor ) ) {
             add_msg_player_or_npc( m_bad,
@@ -570,12 +577,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    armor.tname() );
             get_map().add_item_or_charges( pos_bub(), armor );
             return true;
-        }
-        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
-            return false;
-        }
-        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
-            return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
@@ -602,7 +603,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            armor.spill_contents( pos() );
+            armor.spill_contents( pos_bub() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),

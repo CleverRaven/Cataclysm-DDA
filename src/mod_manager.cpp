@@ -394,7 +394,7 @@ void mod_manager::load_mod_info( const cata_path &info_file_path )
 
 cata_path mod_manager::get_mods_list_file( const WORLD *world )
 {
-    return world->folder_path_path() / "mods.json";
+    return world->folder_path() / "mods.json";
 }
 
 void mod_manager::save_mods_list( const WORLD *world ) const

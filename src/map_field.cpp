@@ -982,6 +982,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
 
 void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_data &pd )
 {
+    const tripoint_bub_ms pos{ p }; // TODO: Remove when operation typified
     const field_type_id fd_fire = ::fd_fire;
     map &here = pd.here;
     maptile &map_tile = pd.map_tile;
@@ -989,10 +990,11 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
-    bool sheltered = g->is_sheltered( p );
+    bool sheltered = g->is_sheltered( pos );
     weather_manager &weather = get_weather();
     int winddirection = weather.winddirection;
-    int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ), winddirection,
+    int windpower = get_local_windpower( weather.windspeed, om_ter, get_map().getglobal( pos ),
+                                         winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
     const furn_t &frn = map_tile.get_furn_t();
@@ -1014,14 +1016,14 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // The huge indent below should probably be somehow moved away from here
     // without forcing the function to use i_at( p ) for fires without items
     if( !is_sealed && map_tile.get_item_count() > 0 ) {
-        map_stack items_here = here.i_at( p );
+        map_stack items_here = here.i_at( pos );
         std::vector<item> new_content;
         for( auto it = items_here.begin(); it != items_here.end(); ) {
             if( it->will_explode_in_fire() ) {
                 // We need to make a copy because the iterator validity is not predictable
                 item copy = *it;
                 it = items_here.erase( it );
-                if( copy.detonate( p, new_content ) ) {
+                if( copy.detonate( pos, new_content ) ) {
                     // Need to restart, iterators may not be valid
                     it = items_here.begin();
                 }
@@ -1045,7 +1047,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // which we can not use, so only call `weight` when it's still an existing item.
             const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
             if( old_weight != new_weight ) {
-                here.create_burnproducts( p, *fuel, old_weight - new_weight );
+                here.create_burnproducts( pos, *fuel, old_weight - new_weight );
             }
 
             if( destroyed ) {
@@ -1066,14 +1068,14 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             }
         }
 
-        here.spawn_items( tripoint_bub_ms( p ), new_content );
+        here.spawn_items( pos, new_content );
         smoke = roll_remainder( frd.smoke_produced );
         time_added = 1_turns * roll_remainder( frd.fuel_produced );
     }
 
     int part;
     // Get the part of the vehicle in the fire (_internal skips the boundary check)
-    vehicle *veh = here.veh_at_internal( tripoint_bub_ms( p ), part );
+    vehicle *veh = here.veh_at_internal( pos, part );
     if( veh != nullptr ) {
         veh->damage( here, part, cur.get_field_intensity() * 10, damage_heat, true );
         // Damage the vehicle in the fire.
@@ -1092,7 +1094,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.bash( p, 999, false, true, true );
+                here.bash( pos, 999, false, true, true );
             }
 
         } else if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
@@ -1103,7 +1105,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.bash( p, 999, false, true, true );
+                here.bash( pos, 999, false, true, true );
             }
 
         } else if( ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1113,8 +1115,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.bash( p, 999, false, true, true );
-                here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
+                here.bash( pos, 999, false, true, true );
+                here.spawn_item( pos, "ash", 1, rng( 10, 1000 ) );
             }
 
         } else if( frn.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1124,14 +1126,14 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.furn_set( p, furn_f_ash );
-                here.add_item_or_charges( p, item( "ash" ) );
+                here.furn_set( pos, furn_f_ash );
+                here.add_item_or_charges( pos, item( "ash" ) );
             }
 
-        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && p.z > -OVERMAP_DEPTH ) {
+        } else if( ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) && pos.z() > -OVERMAP_DEPTH ) {
             // We're hanging in the air - let's fall down
-            tripoint_bub_ms dst{ p.x, p.y, p.z - 1 };
-            if( here.valid_move( p, dst.raw(), true, true ) ) {
+            tripoint_bub_ms dst{ pos.x(), pos.y(), pos.z() - 1};
+            if( here.valid_move( pos, dst, true, true ) ) {
                 maptile dst_tile = here.maptile_at_internal( dst );
                 field_entry *fire_there = dst_tile.find_field( fd_fire );
                 if( !fire_there ) {
@@ -1170,9 +1172,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
     // Below we will access our nearest 8 neighbors, so let's cache them now
     // This should probably be done more globally, because large fires will re-do it a lot
-    auto neighs = here.get_neighbors( p );
+    auto neighs = here.get_neighbors( pos );
     // Get the neighbours that are allowed due to wind direction
-    auto maptiles = here.get_wind_blockers( winddirection, p );
+    auto maptiles = here.get_wind_blockers( winddirection, pos );
     maptile remove_tile = std::get<0>( maptiles );
     maptile remove_tile2 = std::get<1>( maptiles );
     maptile remove_tile3 = std::get<2>( maptiles );
@@ -1297,8 +1299,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Allow raging fires (and only raging fires) to spread up
     // Spreading down is achieved by wrecking the walls/floor and then falling
     if( ( cur.get_field_intensity() == 3 ||
-          here.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) && p.z < OVERMAP_HEIGHT ) {
-        const tripoint_bub_ms dst_p = tripoint_bub_ms( p + tripoint::above );
+          here.ter( pos ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) && p.z < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms dst_p = pos + tripoint::above;
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
         const ter_t &dst_ter = dst.get_ter_t();
@@ -1327,7 +1329,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 continue;
             }
 
-            tripoint &dst_p = neighs[i].first;
+            tripoint_bub_ms &dst_p = neighs[i].first;
             maptile &dst = neighs[i].second;
             // No bounds checking here: we'll treat the invalid neighbors as valid.
             // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
@@ -1387,7 +1389,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 continue;
             }
 
-            tripoint &dst_p = neighs[neighbour_vec[i]].first;
+            tripoint_bub_ms &dst_p = neighs[neighbour_vec[i]].first;
             maptile &dst = neighs[neighbour_vec[i]].second;
             // No bounds checking here: we'll treat the invalid neighbors as valid.
             // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
@@ -1420,7 +1422,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                                       one_in( 5 ) ) ) ||
                     nearwebfld ||
                     ( one_in( 5 ) && dst.get_item_count() > 0 &&
-                      here.flammable_items_at( p + eight_horizontal_neighbors[i] ) )
+                      here.flammable_items_at( pos + eight_horizontal_neighbors[i] ) )
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
@@ -1438,9 +1440,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     if( !ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_SUPPRESS_SMOKE ) &&
         rng( 0, 100 - windpower ) <= smoke &&
         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
-        bool smoke_up = p.z < OVERMAP_HEIGHT;
+        bool smoke_up = pos.z() < OVERMAP_HEIGHT;
         if( smoke_up ) {
-            tripoint_bub_ms up{p + tripoint::above};
+            tripoint_bub_ms up{pos + tripoint::above};
             if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, up ) ) {
                 here.add_field( up, fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns, false );
             } else {
@@ -1451,7 +1453,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
         if( !smoke_up ) {
             // Create thicker smoke
-            here.add_field( p, fd_smoke, cur.get_field_intensity(), 0_turns, false );
+            here.add_field( pos, fd_smoke, cur.get_field_intensity(), 0_turns, false );
         }
     }
 
@@ -1459,7 +1461,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Don't produce too much of it if we have a lot fires nearby, they produce
     // radiant heat which does what hot air would do anyway
     if( adjacent_fires < 5 && rng( 0, 4 - adjacent_fires ) ) {
-        here.create_hot_air( p, cur.get_field_intensity() );
+        here.create_hot_air( pos, cur.get_field_intensity() );
     }
 }
 

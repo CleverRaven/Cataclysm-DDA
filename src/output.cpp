@@ -1082,6 +1082,7 @@ static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
     { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
     { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
     { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
+    { 'e', to_translation( "close to skin" ), to_translation( "covers <color_cyan>layer</color>" ) },
     { 'b', to_translation( "mre;sealed" ), to_translation( "items satisfying <color_cyan>both</color> conditions" ) }
 };
 

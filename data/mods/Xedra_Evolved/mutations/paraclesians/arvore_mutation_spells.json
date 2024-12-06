@@ -14,6 +14,7 @@
         "u_is_outside",
         {
           "or": [
+            { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
             { "u_is_on_terrain_with_flag": "SHRUB" },
             { "u_is_on_terrain_with_flag": "YOUNG" },
             { "u_is_on_terrain": "t_bamboo_tall" },
@@ -27,20 +28,97 @@
     "special_vision": [
       {
         "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                "npc_is_npc",
+                { "npc_has_species": "FERAL" },
+                { "npc_has_species": "HUMAN" },
+                { "npc_has_species": "RENFIELD" },
+                { "npc_has_flag": "HUMAN" }
+              ]
+            }
+          ]
+        },
         "descriptions": [
-          { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Forest whispers in your ears about menacings." }
+          {
+            "id": "moving_creature",
+            "symbol": "?",
+            "color": "c_white",
+            "text": "The forest nervously whispers to you about the presence of humans."
+          }
+        ]
+      },
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            {
+              "or": [
+                { "npc_has_species": "MAMMAL" },
+                { "npc_has_species": "BIRD" },
+                { "npc_has_species": "REPTILE" },
+                { "npc_has_species": "MAMMAL" },
+                { "npc_has_species": "PLANT" },
+                { "npc_has_species": "AMPHIBIAN" },
+                { "npc_has_species": "FISH" },
+                { "npc_has_species": "INSECT" },
+                { "npc_has_species": "CENTIPEDE" },
+                { "npc_has_species": "SPIDER" },
+                { "npc_has_species": "INSECT_FLYING" },
+                { "npc_has_species": "MOLLUSK" },
+                { "npc_has_species": "ARVORE" }
+              ]
+            }
+          ]
+        },
+        "descriptions": [
+          {
+            "id": "infrared_creature_medium",
+            "symbol": "?",
+            "color": "c_green",
+            "text": "The forest gently whispers to you about the creatures of nature."
+          }
+        ]
+      },
+      {
+        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+        "condition": {
+          "or": [
+            { "npc_has_species": "ZOMBIE" },
+            { "npc_has_species": "FUNGUS" },
+            { "npc_has_species": "MIGO" },
+            { "npc_has_species": "NETHER" },
+            { "npc_has_species": "NETHER_BURROWING" },
+            { "npc_has_species": "VAMPIRE" },
+            { "npc_has_species": "NIGHTMARE" },
+            { "npc_has_species": "HORROR" },
+            { "npc_has_species": "ABERRATION" }
+          ]
+        },
+        "descriptions": [
+          {
+            "id": "alien_being_sense",
+            "symbol": "?",
+            "color": "c_red",
+            "text": "The forest whispers warnings of unnatural creatures nearby."
+          }
         ]
       }
     ]
   },
   {
     "type": "enchantment",
-    "id": "arvore_forest_detect_enemies_and_overmap",
+    "id": "arvore_forest_see_overmap",
     "condition": {
       "and": [
         "u_is_outside",
         {
           "or": [
+            { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
             { "u_is_on_terrain_with_flag": "SHRUB" },
             { "u_is_on_terrain_with_flag": "YOUNG" },
             { "u_is_on_terrain": "t_bamboo_tall" },
@@ -51,14 +129,6 @@
         }
       ]
     },
-    "special_vision": [
-      {
-        "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
-        "descriptions": [
-          { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Forest whispers in your ears about menacings." }
-        ]
-      }
-    ],
     "values": [
       {
         "value": "OVERMAP_SIGHT",

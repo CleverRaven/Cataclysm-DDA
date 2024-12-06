@@ -18,6 +18,19 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     dialogue d( std::make_unique<talker>(), std::make_unique<talker>() );
     math_exp testexp;
 
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+        char *discard [[maybe_unused]] = std::setlocale( LC_ALL, oldloc.name().c_str() );
+    } );
+    try {
+        std::locale::global( std::locale( "de_DE.UTF-8" ) );
+        char *discard [[maybe_unused]] = std::setlocale( LC_ALL, "de_DE.UTF-8" );
+    } catch( std::runtime_error &e ) {
+        WARN( "couldn't set locale for math_parser test: " << e.what() );
+    }
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name(), std::to_string( 1.2 ) );
+
     CHECK_FALSE( testexp.parse( "" ) );
     CHECK( testexp.eval( d ) == Approx( 0.0 ) );
     CHECK( testexp.parse( "50" ) );
@@ -135,16 +148,6 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( std::isnan( testexp.eval( d ) ) );
 
     // locale-independent decimal point
-    std::locale const &oldloc = std::locale();
-    on_out_of_scope reset_loc( [&oldloc]() {
-        std::locale::global( oldloc );
-    } );
-    try {
-        std::locale::global( std::locale( "de_DE.UTF-8" ) );
-    } catch( std::runtime_error &e ) {
-        WARN( "couldn't set locale for math_parser test: " << e.what() );
-    }
-    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
     CHECK( testexp.parse( "2 * 1.5" ) );
     CHECK( testexp.eval( d ) == Approx( 3 ) );
 
