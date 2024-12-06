@@ -101,7 +101,10 @@
           { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
           { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.33 },
           { "value": "SOCIAL_PERSUADE", "add": -50 },
-          { "value": "SOCIAL_INTIMIDATE", "add": 40 }
+          { "value": "SOCIAL_INTIMIDATE", "add": 40 },
+          { "value": "METABOLISM", "multiply": 4 },
+          { "value": "LEARNING_FOCUS", "add": -10 },
+          { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 2 }
         ],
         "mutations": [ "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
@@ -122,5 +125,77 @@
     "flags": [ "NO_SPELLCASTING", "PRED3", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
     "override_look": { "id": "mon_loup_garou", "tile_category": "monster" },
     "integrated_armor": [ "integrated_claws_werewolf", "integrated_werewolf_teeth", "integrated_lupine_fur" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY_PHYSICAL",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_LOCKPICK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REPAIR_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MEND_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_RELOAD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIRSTAID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MILK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ "u_cancel_activity", { "u_message": "Your war form lacks the fine dexterity for that.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_BANNED_ACTIVITY_MENTAL",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_EBOOKSAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GENERIC_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SOCIALIZE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VIBE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      "u_cancel_activity",
+      {
+        "u_message": "Your mind is filled with the urge to sink your fangs into your enemies' throats, leaving no room for these passive activities.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_SHIFT_BACK_ON_SLEEP",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+    "effect": [ { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" } ]
   }
 ]
