@@ -30,17 +30,7 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "palettes": [ "struc_damage" ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "carcrash_10x10_straight", 33 ],
-            [ "carcrash_10x10_diag_fromleft", 33 ],
-            [ "carcrash_10x10_diag_fromright", 33 ]
-          ],
-          "x": 0,
-          "y": 0
-        }
-      ]
+      "place_nested": [ { "chunks": [ [ "carcrash_10x10_straight", 33 ], [ "carcrash_10x10_diag_fromleft", 33 ], [ "carcrash_10x10_diag_fromright", 33 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -48,7 +38,11 @@
     "method": "json",
     "nested_mapgen_id": "carcrash_10x10_straight",
     "//": "Same as 8x8, but made to distribute with the diagonal variants of the same size.",
-    "object": { "mapgensize": [ 10, 10 ], "palettes": [ "struc_damage" ], "place_nested": [ { "chunks": [ "carcrash_8x8_straight" ], "x": [ 0, 2 ], "y": 0 } ] }
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "palettes": [ "struc_damage" ],
+      "place_nested": [ { "chunks": [ "carcrash_8x8_straight" ], "x": [ 0, 2 ], "y": 0 } ]
+    }
   },
   {
     "type": "mapgen",
