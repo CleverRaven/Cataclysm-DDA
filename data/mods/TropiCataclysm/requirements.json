@@ -6,6 +6,7 @@
       "components": [
         [
           [ "egg_rhea", 1 ],
+          [ "egg_seriema", 1 ],
           [ "egg_toucan", 3 ],
           [ "egg_macaw", 3 ],
           [ "egg_parrot", 6 ],

@@ -1,10 +1,5 @@
 [
   {
-    "name": "GROUP_EGG_SERIEMA",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_seriema_chick" } ]
-  },
-  {
     "name": "GROUP_EGG_CHACHALACA",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_chachalaca_chick" } ]

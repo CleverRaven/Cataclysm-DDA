@@ -63,9 +63,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_seriema",
-    "name": "seriema egg",
-    "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_SERIEMA", "chance": 70 }
+    "name": { "str": "red-legged seriema egg" },
+    "spoils_in": "15 days",
+    "copy-from": "egg_guinea_fowl",
+    "rot_spawn": { "monster": "mon_seriema_chick" }
   },
   {
     "type": "COMESTIBLE",
