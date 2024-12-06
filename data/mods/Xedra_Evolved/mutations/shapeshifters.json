@@ -189,5 +189,13 @@
         "type": "bad"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WAR_FORM_SHIFT_BACK_ON_SLEEP",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "u_has_trait": "WEREWOLF_HYBRID_FORM_TRAITS" },
+    "effect": [ { "u_deactivate_trait": "WEREWOLF_HYBRID_FORM" } ]
   }
 ]
