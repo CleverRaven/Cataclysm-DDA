@@ -7,6 +7,7 @@
       "Welcome to Mind Over Matter, a psychic powers mod for Cataclysm.  This mod adds psionics to the game, mental powers based on classical concepts of mental powers.  Incinerate zombies as a pyrokinetic, avoid bullets by peering into the near future as a clairsentient, recharge your car as an electrokinetic, run so fast you can run on water as a biokinetic, and more.  All these powers are available to you.",
       "And to your enemies.  The player is not the only one with psionics.",
       "Psionics are different in several ways than the magical powers in Magiclysm.  For one, all psionics require stamina to use rather than an external resource such as mana, meaning a full-charged psion is only a short breather away. Second, psionic powers scale with your intelligence stat and with your Nether Attunement (q.v.) as well as with power level; this even includes their maximum possible level, which is equal to your intelligence times 1.5.  Third, long term powers must be concentrated on to be maintained, and negative effects like being injured, being electrocuted, or inhaling toxic smoke can cause you to lose your concentration.  Lose your concentration when you're levitating or maintaining a pyrokinetic shield against fire and you're in for a world of hurt and possibly the character creation screen.",
+      "Finally, psionics are taxing on the body and each usage of a power requires caloric expenditure.  This is treated the same as any other caloric expenditure, causing weariness when it grows large enough and eventually rendering you exhausted.  Psionics are work.",
       "Mind Over Matter is designed to be as congruent with vanilla as possible, so psionics are rare and most evidence of their existence is confined to secret locations.  It may take some time to gain psionic powers if you start without them.  This is intended.",
       "One last thing: remember to bind the Supernatural Powers key to use your powers!"
     ]
@@ -24,29 +25,31 @@
   },
   {
     "type": "help",
-    "order": 1,
+    "order": 2,
     "name": "Mind Over Matter: Improving and Learning New Powers",
     "messages": [
-      "There are three main ways to gain psionic powers: start the game with them, find and use a matrix crystal, or wait in portal storm.",
-      "The first and most obvious is start the game with them.  There are professions for each psionic path (\"Doomseer\" for clairsentience or \"Itzcuauhtli Corps Liaison, Yohualli Ehēcatl Division\" for teleportation), and each path also has a series of three backgrounds labeled Newly-Awakened, Arising, and Ascended.  Newly-Awakened starts you with the absolute "
-    ]
-  },
-  {
-    "type": "help",
-    "order": 2,
-    "name": "Mind Over Matter: Concentration",
-    "messages": [
-      "Movement is performed using the numpad, the arrow keys, or vikeys.",
-      "<HELP_DRAW_DIRECTIONS>",
-      "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
-      "To attempt to hit a monster with your weapon, simply move into it.",
-      "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
-      "There may be times when you want to move more quickly by holding down a movement key.  However, fast movement in this fashion may lead to the player getting into a dangerous situation or even killed before they have a chance to react.  Pressing <press_safemode> will toggle \"safe mode.\"  While this is on, any movement will be ignored if new monsters enter the player's view."
+      "Psionics come from within, and cannot be studied by rote repitition from a book.  Furthermore, since they only recently appeared with the Cataclysm, there are no established teaching methods or pre-existing courses.  That means that each psion must figure out how to use their powers themselves.",
+      "Every 12 to 168 hours, you gain insight and become eligible to learn a new power, but that doesn't mean you automatically learn one.  Powers in paths you have access to periodically check to see if they are eligible for learning.  This requires insight as well as individual prerequisites that must be met for each power, though there is always a small chance you will have a flash of inspiration and discover a power despite not meeting the prerequisites.",
+      "Once you are discover a power, you need to study it and attempt to figure out how to use it.  This is done by crafting its contemplation recipe, found in the Metaphysics tab of the Practice crafting section.  The first try is a long craft (usually from 8-16 hours) that must all be done in a single sitting and ends with a roll of your Metaphysics skill against the power's difficulty.  If you succeed, you learn the power.  If you fail, you can try again.",
+      "Once you know a power, that same contemplation recipe can be used to improve it.  Simply craft the contemplation recipe and you will begin meditating on the power.  The longer you meditate, the more experience in the power you gain.  You can meditate as long as you want and stop at any time.",
+      "In order to focus enough, you will need a matrix crystal, either a drained one or one attuned to the path.  The large crystal structures found out in the world are also sufficient, though meditating near them for too long may have unexpected effects.",
+      "One final important note.  Since insight is singular and used up by the first power you learn, knowing more paths means that you will advance in any individual path slower, since more powers are checking to see if they meet the prerequisites to be learned and lower-difficulty powers check more often than higher-difficulty ones.  Too many paths and it will take you months or years to master a single one."
     ]
   },
   {
     "type": "help",
     "order": 3,
+    "name": "Mind Over Matter: Concentration",
+    "messages": [
+      "One major different in Mind Over Matter compared to other mods containing powers is concentration.  By default, psionic powers have no inherent duration; you cannot channel Physical Enhancement and then have it sustain itself.  You must concentrate on it to maintain it.",
+      "Every time the duration on a concentration power expires, the power itself continues but you gain additional experience in the power, check for gain of Nether Attunement, and pay the caloric cost.  This is also when checks to maintain concentration are made.",
+      "By default you can only concentrate on a small number of powers at once, equal to your intelligence divided by four.  While you can concentrate on more powers than this in emergencies, you have a chance of losing your concentration, and the effects of your powers, that scales with how many powers you are over your limit.  A series of proficiencies exist that can raise this limit, as can other traits.  Many effects can also lower it, such as being set on fire, nauseated, sick, too hot or too cold, and other conditions that would make it more difficult to concentrate effectively.",
+      "As a psion you are not limited by mana but must carefully decide which powers are appropriate for any particular situation you find yourself in since you cannot have them all on at once."
+    ]
+  },
+  {
+    "type": "help",
+    "order": 4,
     "name": "Mind Over Matter: Nether Attunement",
     "messages": [
       "Movement is performed using the numpad, the arrow keys, or vikeys.",
