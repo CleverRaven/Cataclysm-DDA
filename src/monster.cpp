@@ -513,8 +513,8 @@ void monster::try_upgrade( bool pin_time )
                             continue;
                         }
                         for( int i = 0; i < mgr.pack_size; i++ ) {
-                            tripoint spawn_pos;
-                            if( g->find_nearby_spawn_point( pos(), mgr.name, 1, *type->upgrade_multi_range,
+                            tripoint_bub_ms spawn_pos;
+                            if( g->find_nearby_spawn_point( pos_bub(), mgr.name, 1, *type->upgrade_multi_range,
                                                             spawn_pos, false, false ) ) {
                                 monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
                                 if( spawned ) {
@@ -3412,7 +3412,7 @@ void monster::process_effects()
         add_msg_if_player_sees( *this, m_warning, healing_format_string, name() );
     }
 
-    if( type->regenerates_in_dark && !g->is_in_sunlight( pos() ) ) {
+    if( type->regenerates_in_dark && !g->is_in_sunlight( pos_bub() ) ) {
         const float light = get_map().ambient_light_at( pos_bub() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         const float dHP = 50.0 * std::exp( - light * light / 10000 );
@@ -3490,7 +3490,7 @@ void monster::process_effects()
     }
 
     // If this critter dies in sunlight, check & assess damage.
-    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( pos() ) ) {
+    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( pos_bub() ) ) {
         add_msg_if_player_sees( *this, m_good, _( "The %s burns horribly in the sunlight!" ), name() );
         apply_damage( nullptr, bodypart_id( "torso" ), 100 );
         if( hp < 0 ) {
@@ -4071,9 +4071,9 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
     return type->path_settings;
 }
 
-std::function<bool( const tripoint & )> monster::get_path_avoid() const
+std::function<bool( const tripoint_bub_ms & )> monster::get_path_avoid() const
 {
-    return [this]( const tripoint & p ) {
+    return [this]( const tripoint_bub_ms & p ) {
         map &here = get_map();
         // If we can't move there and can't bash it, don't path through it.
         if( !can_move_to( p ) && ( bash_skill() <= 0 || !here.is_bashable( p ) ) ) {
@@ -4089,7 +4089,7 @@ std::function<bool( const tripoint & )> monster::get_path_avoid() const
         } else {
             return false;
         }
-        if( rl_dist( p, pos() ) <= radius && get_creature_tracker().creature_at( p ) ) {
+        if( rl_dist( p, pos_bub() ) <= radius && get_creature_tracker().creature_at( p ) ) {
             return true;
         }
         return false;

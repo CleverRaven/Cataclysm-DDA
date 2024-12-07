@@ -1379,7 +1379,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     if( you.is_avatar() ) {
         g->vertical_shift( movez );
         g->update_map( you, true );
-        cata_event_dispatch::avatar_moves( old_abs_pos.raw(), *you.as_avatar(), get_map() );
+        cata_event_dispatch::avatar_moves( old_abs_pos, *you.as_avatar(), get_map() );
     }
 }
 
@@ -2073,7 +2073,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint_bub_ms &examp )
             get_event_bus().send<event_type::awakes_dark_wyrms>();
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_orifice ) {
-                    g->place_critter_around( mon_dark_wyrm, p.raw(), 1 );
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
 
@@ -5789,7 +5789,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
                     }
                     int choice_index = uilist( _( "Choose bionic to uninstall" ), choice_names );
                     if( choice_index == 0 ) {
-                        g->save_cyborg( &cyborg, couch_pos.raw(), you );
+                        g->save_cyborg( &cyborg, couch_pos, you );
                     } else {
                         popup( _( "UNKNOWN COMMAND.  Autodoc Mk. XI. Crashed." ) );
                         return;

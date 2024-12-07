@@ -522,7 +522,7 @@ TEST_CASE( "fueled_bionics", "[bionics] [item]" )
         g->reset_light_level();
         scoped_weather_override weather_clear( WEATHER_CLEAR );
         calendar::turn = calendar::turn_zero + 12_hours;
-        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
 
         // Connect solar backpack
         dummy.worn.wear_item( dummy, item( "pants_cargo" ), false, false );

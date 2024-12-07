@@ -620,7 +620,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::function<bool( const tripoint & )> get_path_avoid() const override;
+        std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
         double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
     private:
@@ -643,7 +643,7 @@ class monster : public Creature
         time_point stomach_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
-        std::vector<tripoint> path;
+        std::vector<tripoint_bub_ms> path;
 
         // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
         time_point pathfinding_cd = calendar::turn;

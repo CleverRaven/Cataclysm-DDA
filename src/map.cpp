@@ -4926,7 +4926,7 @@ bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool ins
             if( u.has_trait( trait_SCHIZOPHRENIC ) && u.is_avatar() &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
                 tripoint_bub_ms mp = p + point_rel_ms( -2 * u.pos_bub().xy().raw() ) + tripoint_rel_ms{ 2 * p.x(), 2 * p.y(), p.z() };
-                g->spawn_hallucination( mp.raw() );
+                g->spawn_hallucination( mp );
             }
         }
 

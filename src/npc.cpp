@@ -1170,11 +1170,11 @@ void npc::spawn_at_precise( const tripoint_abs_ms &p )
 
 void npc::place_on_map()
 {
-    if( g->is_empty( pos() ) || is_mounted() ) {
+    if( g->is_empty( pos_bub() ) || is_mounted() ) {
         return;
     }
 
-    for( const tripoint &p : closest_points_first( pos(), SEEX + 1 ) ) {
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
             return;
@@ -3470,9 +3470,9 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
     return *path_settings;
 }
 
-std::function<bool( const tripoint & )> npc::get_path_avoid() const
+std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
 {
-    return [this]( const tripoint & p ) {
+    return [this]( const tripoint_bub_ms & p ) {
         if( get_creature_tracker().creature_at( p ) ) {
             return true;
         }

@@ -2920,7 +2920,7 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
         monster *chosen_fish = random_entry( fishables );
         chosen_fish->fish_population -= 1;
         if( chosen_fish->fish_population <= 0 ) {
-            g->catch_a_monster( chosen_fish, you->pos(), you, 50_hours );
+            g->catch_a_monster( chosen_fish, you->pos_bub(), you, 50_hours );
         } else {
             here.add_item_or_charges( you->pos_bub(), item::make_corpse( chosen_fish->type->id,
                                       calendar::turn + rng( 0_turns,

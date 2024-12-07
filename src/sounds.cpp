@@ -1153,7 +1153,7 @@ void sfx::do_ambient()
     const bool is_deaf = player_character.is_deaf();
     const int heard_volume = get_heard_volume( player_character.pos() );
     const bool is_underground = player_character.pos().z < 0;
-    const bool is_sheltered = g->is_sheltered( player_character.pos() );
+    const bool is_sheltered = g->is_sheltered( player_character.pos_bub() );
     const bool night = is_night( calendar::turn );
     const bool weather_changed =
         get_weather().weather_id != previous_weather ||
