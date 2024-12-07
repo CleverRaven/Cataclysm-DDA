@@ -15,7 +15,7 @@
     "id": "BGSS_HOSPITAL_3_STORY2",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "The morgue.  Seems like a dumb place to go at the start of a zombie apocalypse, right?  Thing is, nobody had made it to the morgue in quite a while, the bodies were reanimating too quickly and the staff were just too busy.  I was shaking and puking and I could see the world was ending… I bundled myself up, grabbed a few snacks from the pathologist's desk, and crawled into one of those drawers to contemplate the end of the world.  After breaking the handle to make sure it couldn't lock behind me, of course.  It was <very> safe and quiet in there.  Not just my cubby, the whole morgue.  At first it was because nobody was <dumb> enough to come down there except me.  Later, it was because nobody was left.",
+      "gendered_line": "The morgue.  Seems like a dumb place to go at the start of a zombie apocalypse, right?  Thing is, nobody had made it to the morgue in quite a while, the bodies were reanimating too quickly and the staff were just too busy.  I was shaking and puking and I could see the world was ending… I bundled myself up, grabbed a few snacks from the pathologist's desk, and crawled into one of those drawers to contemplate the end of the world.  After breaking the handle to make sure it couldn't lock behind me, of course.  It was safe and quiet in there.  Not just my cubby, the whole morgue.  At first it was because nobody was dumb enough to come down there except me.  Later, it was because nobody was left.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [
@@ -28,7 +28,7 @@
     "id": "BGSS_HOSPITAL_3_STORY3",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "The door was good heavy steel with no window, and there was a staff room with a fully stocked fridge, so when it became clear that nothing was going to get any better on its own, I set up shop.  I stayed down there for a couple days.  I could hear explosions and screaming for the first while, then just guns and explosions, and then it got <really> quiet.  Eventually, I ran out of snacks, so I worked up the nerve to climb out a window and check out the city by night.  I used that place as a base for a little while, but the area around the hospital was too hot to keep it up, so I made my way out to greener pastures.  And here I am.",
+      "gendered_line": "The door was good heavy steel with no window, and there was a staff room with a fully stocked fridge, so when it became clear that nothing was going to get any better on its own, I set up shop.  I stayed down there for a couple days.  I could hear explosions and screaming for the first while, then just guns and explosions, and then it got really quiet.  Eventually, I ran out of snacks, so I worked up the nerve to climb out a window and check out the city by night.  I used that place as a base for a little while, but the area around the hospital was too hot to keep it up, so I made my way out to greener pastures.  And here I am.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

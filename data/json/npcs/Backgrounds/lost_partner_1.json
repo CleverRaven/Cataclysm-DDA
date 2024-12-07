@@ -5,8 +5,8 @@
     "dynamic_line": [
       {
         "npc_female": true,
-        "yes": "My husband made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you.  This hasn't been a great year for me.",
-        "no": "My wife made it out with me, but got eaten by one of those <swear> plant monsters a few days before I met you.  This hasn't been a great year for me."
+        "yes": "My husband made it out with me, but got eaten by one of those <freaking> plant monsters a few days before I met you.  This hasn't been a great year for me.",
+        "no": "My wife made it out with me, but got eaten by one of those <freaking> plant monsters a few days before I met you.  This hasn't been a great year for me."
       }
     ],
     "responses": [
@@ -58,7 +58,7 @@
     "id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
+      "gendered_line": "Yeah, have you seen them yet?  They're these shitty walking flowers with a big <freaking> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
       "relevant_genders": [ "npc" ]
     },
     "//": "In a future version this NPC might give you directions to a triffid grove.",

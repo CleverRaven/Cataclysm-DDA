@@ -225,8 +225,8 @@
         "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
         "condition": { "not": { "u_has_item": "denarius" } }
       },
-      { "text": "On second <swear> thought…", "topic": "TALK_NONE" },
-      { "text": "Nope!  <swear> this.  I'm out.", "topic": "TALK_DONE" }
+      { "text": "On second <freaking> thought…", "topic": "TALK_NONE" },
+      { "text": "Nope!  Fuck this.  I'm out.", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -12,7 +12,7 @@
   {
     "id": "BGSS_NERD_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Well, I may be a huge <swear> nerd, but I'm not an idiot.  Plus I'm genre savvy.  We'd already heard about people coming back from the dead, actually that's why I was going to tell the story.  When the men with yellow pistols came to tie us up and make us do things I managed to slip into the woods.  I live a long way away, but there was no way I was going to ride a horse, so I walked.  Two hours.  Heard a lot of screaming, and I even saw a giant eyeball flying overhead.  It was getting late when I got back, but my mom and dad weren't there yet.  I stayed there, hoping they'd come.  After a few days, well… I knew they weren't coming.",
+    "dynamic_line": "Well, I may be a huge <freaking> nerd, but I'm not an idiot.  Plus I'm genre savvy.  We'd already heard about people coming back from the dead, actually that's why I was going to tell the story.  When the men with yellow pistols came to tie us up and make us do things I managed to slip into the woods.  I live a long way away, but there was no way I was going to ride a horse, so I walked.  Two hours.  Heard a lot of screaming, and I even saw a giant eyeball flying overhead.  It was getting late when I got back, but my mom and dad weren't there yet.  I stayed there, hoping they'd come.  After a few days, well… I knew they weren't coming.",
     "responses": [
       { "text": "What about your parents?", "topic": "BGSS_NERD_1_PARENTS" },
       { "text": "What got you out of there?", "topic": "BGSS_NERD_1_STORY3" },

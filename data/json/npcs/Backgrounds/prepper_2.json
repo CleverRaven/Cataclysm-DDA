@@ -71,7 +71,7 @@
         "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
       },
       {
-        "text": "How 'bout you <swear> hand it over and I don't get <swear> pissed off?",
+        "text": "How 'bout you fucking hand it over and I don't get pissed off?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
         "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
         "success": { "topic": "BGSS_PREPPER_2_SOLD" },

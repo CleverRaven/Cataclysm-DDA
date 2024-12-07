@@ -2,7 +2,7 @@
   {
     "id": "BGSS_CRIMINAL_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was <very> lucky for <the_cataclysm>.  I was squatting in a little canoe by the river.  I was in a real <shitty> place, and my crew had mostly just been arrested for trespassing, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+    "dynamic_line": "I was fricking lucky for <the_cataclysm>.  I was squatting in a little canoe by the river.  I was in a real shitty place, and my crew had mostly just been arrested for trespassing, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
     "responses": [
       { "text": "Woah, lucky for you.  How did you find out about <the_cataclysm>?", "topic": "BGSS_CRIMINAL_2_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },

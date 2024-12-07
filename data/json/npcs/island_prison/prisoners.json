@@ -120,10 +120,10 @@
   {
     "id": "TALK_PRISONER_GENERIC",
     "type": "talk_topic",
-    "dynamic_line": "<get_lost>",
+    "dynamic_line": "Get the fuck out of here.",
     "responses": [
       { "text": "Ok, sorry, I'm already leaving!", "topic": "TALK_DONE" },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
@@ -135,7 +135,7 @@
         "gendered_line": "Hey, who the fuck are you?  I haven't seen you 'round.  Ah, fuck it, it doesn't matter.\nHere's the rules.  The first and most important one: ALWAYS CLOSE THE FUCKING ENTRY DOOR BEHIND YOUR ASS!  If you're okay with that, the following rules are: don't fuck with us, don't steal from us, don't start a fight without a reason with someone from us.  Got it, punk?  Now get lost.",
         "relevant_genders": [ "u" ]
       },
-      "yes": "<get_lost>"
+      "yes": "Do I need to repeat myself?  Get outta here, <name_b>."
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_first_meeting", "value": "yes" } },
     "responses": [
@@ -175,7 +175,7 @@
           ]
         }
       },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
@@ -183,8 +183,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ],
-      "no": "Do I have a <swear> exclamation sign over my <swear> head, like I'm a <swear> quest-giver from some <swear> video game?",
-      "yes": "<get_lost>"
+      "no": "Do I have a <freaking> exclamation sign over my <freaking> head, like I'm a <freaking> quest-giver from some <freaking> video game?",
+      "yes": "Get out, loser."
     },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_annoyed_greeter_talked_to_greeter", "value": "yes" } },
     "responses": [
@@ -193,7 +193,7 @@
         "topic": "TALK_DONE",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ] } }
       },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
@@ -201,9 +201,9 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_annoyed_greeter_talked_to_greeter" } ],
-      "no": "<get_lost>",
+      "no": "Disappear, <name_b>.",
       "yes": {
-        "gendered_line": "Are you deaf or stupid?  I said I don't give a fuck for you and your <swear> problems.  Bother me one more time, and you'll regret that.  <get_lost>",
+        "gendered_line": "Are you deaf or stupid?  I said I don't give a fuck for you and your <freaking> problems.  Bother me one more time, and you'll regret that.  Get outta my sight.",
         "relevant_genders": [ "u" ]
       }
     },
@@ -214,7 +214,7 @@
         "topic": "TALK_DONE",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_angry_greeter_talked_to_greeter" } ] } }
       },
-      { "text": "Hey, <fuck_you>!", "topic": "TALK_DONE", "effect": "hostile" }
+      { "text": "Hey, fuck you, <name_b>!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
   {
@@ -244,7 +244,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "mission_military_id_prisoner_leader_mission" } ],
-      "yes": "I have nothing more to say to you.  <get_lost>",
+      "yes": "I have nothing more to say to you.  Get the fuck out of here.",
       "no": {
         "compare_string": [ "yes", { "u_val": "mission_accepted_prisoner_leader_mission" } ],
         "yes": "So, what are you waiting for?",
@@ -301,7 +301,7 @@
         }
       },
       {
-        "text": "I want to get out of this <swear> prison.  I hoped you could help me with that.",
+        "text": "I want to get out of this <freaking> prison.  I hoped you could help me with that.",
         "topic": "TALK_PRISONER_LEADER_GIVES_WORK",
         "condition": {
           "and": [
@@ -328,7 +328,7 @@
         }
       },
       {
-        "text": "Wait, what?  A <swear> can of beans?!  I went through hell to get this <swear> thing for you, and all you give me as reward is a <swear> can of beans?!  I demand something more substantial.",
+        "text": "Wait, what?  A <freaking> can of beans?!  I went through hell to get this <freaking> thing for you, and all you give me as reward is a <freaking> can of beans?!  I demand something more substantial.",
         "topic": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",
         "condition": {
           "and": [
@@ -369,7 +369,7 @@
     "dynamic_line": "Well, that's a boastful statement.  Not that I don't believe it, it's just….  Ah, nevermind.  Let's get to the point.  What do you want?",
     "responses": [
       {
-        "text": "I want to get out of this <swear> prison.  I hoped you could help me with that.",
+        "text": "I want to get out of this <freaking> prison.  I hoped you could help me with that.",
         "topic": "TALK_PRISONER_LEADER_GIVES_WORK"
       }
     ]
@@ -491,7 +491,7 @@
   {
     "id": "TALK_PRISONER_LEADER_ASKED_ABOUT_WHAT_FOR_DO_YOU_NEED_IT",
     "type": "talk_topic",
-    "dynamic_line": "Let's say that's none of your <swear> business.  Other questions?",
+    "dynamic_line": "Let's say that's none of your <freaking> business.  Other questions?",
     "responses": [
       { "text": "That's weird.", "topic": "TALK_NONE" },
       { "text": "I have a bad feeling about this.  Sorry, I'll pass.", "topic": "TALK_DONE" }
@@ -501,7 +501,7 @@
     "id": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
     "type": "talk_topic",
     "speaker_effect": { "effect": { "u_add_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-    "dynamic_line": "Hey, where did you get it?  Nevermind, just give it to me.  Just <swear> now.",
+    "dynamic_line": "Hey, where did you get it?  Nevermind, just give it to me.  Right now.",
     "responses": [
       {
         "text": "Hey, no need to be hostile.  Here you go, I don't need it anyway.",
@@ -533,9 +533,9 @@
     "id": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",
     "type": "talk_topic",
     "speaker_effect": { "effect": { "u_add_var": "mission_military_id_prisoner_leader_mission", "value": "yes" } },
-    "dynamic_line": "I'm afraid you're not in the position to demand anything from me, <name_b>.  <get_lost>",
+    "dynamic_line": "I'm afraid you're not in the position to demand anything from me, <name_b>.  You're done here, leave.",
     "responses": [
-      { "text": "Hey, <fuck_you>!  You'll regret that!", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "Hey, fuck you, <name_b>!  You'll regret that!", "topic": "TALK_DONE", "effect": "hostile" },
       { "text": "Okay, fine.  Cheapskate!", "topic": "TALK_DONE" }
     ]
   },

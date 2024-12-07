@@ -161,7 +161,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN",
-    "dynamic_line": "Same reason as I'm stuck here… it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No <swear> thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
+    "dynamic_line": "Same reason as I'm stuck here… it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No, thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
     "responses": [
       { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
