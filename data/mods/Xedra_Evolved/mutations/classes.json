@@ -78,7 +78,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "xedra_chronomancer_time_freeze_target", 6 ], [ "xedra_chronomancer_end_time_freeze", 1] ],
+    "spells_learned": [ [ "xedra_chronomancer_time_freeze_target", 6 ], [ "xedra_chronomancer_restore_normal_time", 1] ],
     "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ]
   }
 ]
