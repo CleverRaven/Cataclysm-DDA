@@ -9,5 +9,17 @@
       "purifiable": false,
       "valid": false,
       "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ]
+    },
+    {
+      "type": "mutation",
+      "id": "XEDRA_TIME_SLOWDOWN",
+      "name": "Slowed Timestream",
+      "points": -4,
+      "description": "Your timestream remains slightly slower than baseline reality.  You act 10% slower.",
+      "starting_trait": false,
+      "purifiable": false,
+      "valid": false,
+      "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
+      "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ]
     }
 ]
