@@ -5659,19 +5659,19 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 }
 
 static std::vector<std::pair<const item *, int>> deduplicate_items(
-    const std::list<const item*>& items )
+            const std::list<const item *> &items )
 {
     std::vector<std::pair<item const *, int>> counted_items;
     bool contents_header = false;
-    for( const item* contents_item : items ) {
-        if( contents_item->made_of_from_type( phase_id::LIQUID ) ){
+    for( const item *contents_item : items ) {
+        if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
             // we won't have duplicate liquids and counting them
             // doesn't really make much sense anyway
             std::pair<const item *, int> new_content( contents_item, 1 );
             counted_items.push_back( new_content );
         } else {
             bool found = false;
-            for( std::pair<const item *, int>& content : counted_items ) {
+            for( std::pair<const item *, int> &content : counted_items ) {
                 if( content.first->stacks_with( *contents_item ) ) {
                     content.second += 1;
                     found = true;
@@ -5712,12 +5712,12 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
         info.emplace_back( "DESCRIPTION", mod_str );
         info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
     }
-    
+
     const std::list<const item *> all_contents = contents.all_items_top();
-    std::vector<std::pair<item const *, int>> counted_contents = deduplicate_items(all_contents);
+    std::vector<std::pair<item const *, int>> counted_contents = deduplicate_items( all_contents );
     bool contents_header = false;
-    for( const auto content_w_count : counted_contents ){
-        const item * contents_item = content_w_count.first;
+    for( const auto content_w_count : counted_contents ) {
+        const item *contents_item = content_w_count.first;
         int count = content_w_count.second;
         if( !contents_header ) {
             insert_separation_line( info );
@@ -5733,11 +5733,11 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
         if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
             units::volume contents_volume = contents_item->volume() * batch;
             info.emplace_back( "DESCRIPTION",
-                    colorize( contents_item->display_name(), contents_item->color_in_inventory() ) );
+                               colorize( contents_item->display_name(), contents_item->color_in_inventory() ) );
             info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
         } else {
             std::string name;
-            if( count > 1 ){
+            if( count > 1 ) {
                 name += std::to_string( count ) + " ";
             }
             name += colorize( contents_item->display_name( count ), contents_item->color_in_inventory() );
