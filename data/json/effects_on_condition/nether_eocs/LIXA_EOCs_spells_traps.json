@@ -189,7 +189,7 @@
     "id": "EOC_LIXA_UNFOLD_ENTRY",
     "effect": [
       {
-        "place_override": { "global_val": "place_name", "default_str": "Infinite Corridor" },
+        "place_override": { "global_val": "place_name", "default": "Infinite Corridor" },
         "length": "1 day",
         "key": "LIXA_escape_key"
       },

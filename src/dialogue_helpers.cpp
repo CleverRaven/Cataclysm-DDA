@@ -6,9 +6,8 @@
 #include "rng.h"
 #include "talker.h"
 
-template<class T>
-std::optional<std::string> maybe_read_var_value(
-    const abstract_var_info<T> &info, const_dialogue const &d, int call_depth )
+std::optional<std::string> maybe_read_var_value( const var_info &info, const_dialogue const &d,
+        int call_depth )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -31,30 +30,15 @@ std::optional<std::string> maybe_read_var_value(
                                                        call_depth + 1 ) : std::nullopt;
             }
         }
-        case var_type::faction:
-        case var_type::party:
         case var_type::last:
             return std::nullopt;
     }
     return std::nullopt;
 }
 
-template
-std::optional<std::string> maybe_read_var_value( const var_info &, const_dialogue const &,
-        int call_depth );
-template std::optional<std::string> maybe_read_var_value( const translation_var_info &,
-        const_dialogue const &, int call_depth );
-
-template<>
 std::string read_var_value( const var_info &info, const_dialogue const &d )
 {
-    return maybe_read_var_value( info, d ).value_or( info.default_val );
-}
-
-template<>
-std::string read_var_value( const translation_var_info &info, const_dialogue const &d )
-{
-    return maybe_read_var_value( info, d ).value_or( info.default_val.translated() );
+    return maybe_read_var_value( info, d ).value_or( std::string{} );
 }
 
 var_info process_variable( const std::string &type )
@@ -108,14 +92,10 @@ std::string str_or_var::evaluate( const_dialogue const &d ) const
         if( default_val.has_value() ) {
             return default_val.value();
         }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for str_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
-        return "";
+        return {};
     }
     debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
-    return "";
+    return {};
 }
 
 template<>
@@ -135,14 +115,10 @@ std::string translation_or_var::evaluate( const_dialogue const &d ) const
         if( default_val.has_value() ) {
             return default_val.value().translated();
         }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for str_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default_str\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
-        return "";
+        return {};
     }
     debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
-    return "";
+    return {};
 }
 
 std::string str_translation_or_var::evaluate( const_dialogue const &d ) const
@@ -165,10 +141,6 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
         if( default_val.has_value() ) {
             return default_val.value();
         }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for dbl_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
         return 0;
     }
     if( math_val ) {
@@ -201,10 +173,6 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
         if( default_val.has_value() ) {
             return default_val.value();
         }
-        std::string var_name = var_val.value().name;
-        debugmsg( "No default value provided for duration_or_var_part while encountering unused "
-                  "variable %s.  Add a \"default\" member to prevent this.  %s",
-                  var_name, d.get_callstack() );
         return 0_seconds;
     }
     if( math_val ) {

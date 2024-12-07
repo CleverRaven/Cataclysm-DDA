@@ -9,8 +9,6 @@ enum class var_type : int {
     u,
     npc,
     global,
-    faction,
-    party,
     context,
     var,
     last

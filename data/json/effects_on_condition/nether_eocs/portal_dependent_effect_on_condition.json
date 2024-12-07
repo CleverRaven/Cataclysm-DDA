@@ -471,7 +471,7 @@
     "id": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD",
     "//": "Rewards for Portal Dependent characters that survive the dimensional experience of a portal dungeon.",
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "switch": { "global_val": "portal_dungeon_level" },
       "cases": [
         {
           "case": 0,
@@ -627,7 +627,7 @@
     "id": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL_REWARD",
     "//": "Rewards for Portal Dependent characters that survive the last level of a portal dungeon.",
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
+      "switch": { "global_val": "portal_dungeon_level" },
       "cases": [
         {
           "case": 5,
