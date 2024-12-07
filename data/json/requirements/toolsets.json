@@ -28,7 +28,10 @@
     "type": "requirement",
     "//": "Gun cleaning",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "tools": [
+      [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+    ],
     "components": [
       [
         [ "gasoline", 125 ],
@@ -44,14 +47,27 @@
         [ "vinegar", 8 ],
         [ "ammonia_hydroxide", 1 ],
         [ "bleach", 1 ]
-      ],
+      ]
+    ]
+  },
+  {
+    "id": "gun_cleaning_flintlock",
+    "type": "requirement",
+    "//": "Flintlocks require a thicker tool to manage the wider barrel and also soapy water to clean the blackpowder.",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [
+      [ [ "pipe_dowel", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
+      [ [ "water_boiling_heat", 2, "LIST" ] ]
+    ],
+    "components": [
+      [ [ "soapy_water", 3 ] ],
       [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
     ]
   },
   {
     "id": "gun_cleaning_bp",
     "type": "requirement",
-    "//": "BP requires hot soapy water",
+    "//": "BP requires hot soapy water.  The cloth patch is for cleaning gunk off the rod.  Not reusable because of black powder residue.",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [
       [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
@@ -65,9 +81,11 @@
   {
     "id": "gun_cleaning_quick",
     "type": "requirement",
-    "//": "Requires a rod/wire and cloth patch or similar item.",
-    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-    "components": [ [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ] ]
+    "//": "Requires a rod/wire and cloth patch or similar item.  The cloth patch et al is for cleaning gunk off the rod/wire/pipe cleaner.",
+    "tools": [
+      [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ]
+    ]
   },
   {
     "id": "gun_lubrication",
