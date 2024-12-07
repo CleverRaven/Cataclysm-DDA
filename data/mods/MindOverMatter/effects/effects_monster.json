@@ -3,8 +3,8 @@
     "id": "nemesis_buff",
     "type": "effect_type",
     "max_duration": "1000 s",
-    "name": [ "SWOLE" ],
-    "desc": [ "If you see this description it is a bug." ],
+    "name": [ { "str": "SWOLE", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "If you see this description it is a bug.", "//~": "NO_I18N" } ],
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [ "ench_nemesis_buff" ]
@@ -138,8 +138,8 @@
   {
     "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
-    "name": [ "One Perfect Rock" ],
-    "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
+    "name": [ { "str": "One Perfect Rock", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are prepared to ruin the player's day with an inhumanly accurate thrown rock.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
@@ -318,13 +318,26 @@
     "rating": "bad",
     "max_duration": "12 hours",
     "base_mods": {
-      "str_mod": [ -2 ],
+      "str_mod": [ -1 ],
       "h_mod_min": [ -2 ],
       "h_mod_chance": [ 1 ],
       "h_mod_chance_bot": [ 5 ],
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 0.75 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_health_down_monster",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 1800,
+    "int_decay_remove": true,
+    "base_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] },
+    "scaling_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -381,14 +394,16 @@
   {
     "type": "effect_type",
     "id": "effect_feral_regeneration",
-    "name": [ "Feral Regeneration" ],
-    "desc": [ "Your wounds are rapidly closing." ]
+    "name": [ { "str": "Feral Regeneration", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Your wounds are rapidly closing.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "effect_telepath_network_monster_effect",
-    "name": [ "Telepathic Network Monster" ],
-    "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
+    "name": [ { "str": "Telepathic Network Monster", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "You are in constant communication with your allies, looking out for each other in combat.", "//~": "NO_I18N" }
+    ],
     "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
   }
 ]

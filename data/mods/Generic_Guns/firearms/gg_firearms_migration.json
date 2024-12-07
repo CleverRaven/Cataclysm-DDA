@@ -397,6 +397,11 @@
     "replace": "rifle_assault_foreign"
   },
   {
+    "id": [ "ree_33" ],
+    "type": "MIGRATION",
+    "replace": "rifle_cannon_foreign"
+  },
+  {
     "id": [ "combination_gun", "pipe_combination_gun" ],
     "type": "MIGRATION",
     "replace": "rifle_shotgun_combination"

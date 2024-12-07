@@ -203,7 +203,7 @@ bool cleanup_at_end()
     }
 
     //Reset any offset due to driving
-    g->set_driving_view_offset( point_zero );
+    g->set_driving_view_offset( point_rel_ms::zero );
 
     //clear all sound channels
     sfx::fade_audio_channel( sfx::channel::any, 300 );
@@ -271,7 +271,8 @@ void monmove()
 
     for( monster &critter : g->all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos_bub() ) &&
+        if( !critter.is_dead() && ( m.impassable( critter.pos_bub() ) &&
+                                    !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
             !critter.can_move_to( critter.pos_bub() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
                            << " can't move to its location!  (" << critter.posx()
@@ -419,7 +420,7 @@ void overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
-                                 overmap_path_params::for_npc() );
+                                 overmap_path_params::for_npc() ).points;
                 if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }
@@ -491,7 +492,8 @@ bool do_turn()
     u.gravity_check();
 
     // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    if( m.impassable( u.pos_bub() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
+    if( ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
+        !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
         u.stagger();
     }
 
@@ -621,7 +623,7 @@ bool do_turn()
         }
     }
 
-    if( g->driving_view_offset.x != 0 || g->driving_view_offset.y != 0 ) {
+    if( g->driving_view_offset.x() != 0 || g->driving_view_offset.y() != 0 ) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
         // might also happen when someone dives from a moving car.

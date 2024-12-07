@@ -155,7 +155,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( effects.count( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.activate_thrown( attack.end_point.raw() );
+            do_drop = !dropped_item.activate_thrown( attack.end_point );
         }
 
         map &here = get_map();
@@ -368,9 +368,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
             tripoint_bub_ms floor2 = tp;
 
             if( floor1.z() < floor2.z() ) {
-                floor1 += tripoint_above;
+                floor1 += tripoint::above;
             } else {
-                floor2 += tripoint_above;
+                floor2 += tripoint::above;
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.

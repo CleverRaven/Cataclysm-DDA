@@ -69,6 +69,7 @@
       [ "plastic_sheet", 10 ],
       [ "oxy_torch", 45 ],
       { "item": "weldtank", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "smallweldtank", "prob": 45, "count": [ 1, 3 ] },
       { "item": "tinyweldtank", "prob": 45, "count": [ 1, 3 ] },
       { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] }
     ]
@@ -176,7 +177,17 @@
     "subtype": "collection",
     "items": [
       { "item": "273x44thermobaric", "container-item": "box_small_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x110slugmedium", "container-item": "box_small", "prob": 30, "count": [ 2, 4 ], "sealed": true }
+      { "item": "273x110slugmedium", "container-item": "box_small", "prob": 30, "count": [ 2, 4 ], "sealed": true },
+      {
+        "collection": [
+          { "item": "ree_33", "prob": 100, "count": [ 1, 3 ] },
+          { "item": "ree_33_4_mag", "prob": 100, "count": [ 2, 4 ] },
+          { "item": "ree_33_53_mag", "prob": 20, "count": [ 1, 3 ] },
+          { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 100, "charges": 200, "sealed": true },
+          { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 50, "charges": 200, "sealed": true }
+        ],
+        "prob": 20
+      }
     ]
   },
   {

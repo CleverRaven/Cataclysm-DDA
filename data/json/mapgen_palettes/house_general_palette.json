@@ -1,18 +1,33 @@
 [
   {
     "type": "palette",
+    "id": "domestic_general_construction_and_variant_palette",
+    "//": "This palette is split from domestic_general_and_variant_palette because the construction palette needs more consideration than the other palettes",
+    "parameters": {
+      "construction_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [ [ "standard_domestic_construction_palette", 100 ], [ "domestic_general_and_variant_palette", 9900 ] ]
+        }
+      }
+    },
+    "palettes": [ { "param": "construction_palette" } ]
+  },
+  {
+    "type": "palette",
     "id": "domestic_general_and_variant_palette",
-    "//": "Standard variant distribution for homes: General: 95%, Abandoned: 2.80%, Survivor: 1.80%, Hoarder: 0.40%",
-    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette.",
+    "//": "Standard variant distribution for homes: General: 97%, Abandoned: 0.6%, Construction: 1.00%, Survivor: 0.90%, Hoarder: 0.50%",
+    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette & standard_domestic_construction_palette.",
     "parameters": {
       "variant_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
         "default": {
           "distribution": [
-            [ "standard_domestic_migration_palette", 9500 ],
-            [ "standard_domestic_abandoned_palette", 370 ],
-            [ "house_hoarder_palette", 40 ],
+            [ "standard_domestic_migration_palette", 9700 ],
+            [ "standard_domestic_abandoned_palette", 60 ],
+            [ "house_hoarder_palette", 50 ],
             [ "house_survivor_palette", 90 ]
           ]
         }
@@ -46,7 +61,7 @@
         "scope": "overmap_special",
         "//": "Determines if house has alarm",
         "//2": "Couldn't find an exact value of houses with alarms so estimated 25%, change if you have any good source",
-        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 1 ] ] }
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 3 ] ] }
       }
     },
     "palettes": [
@@ -63,7 +78,13 @@
     "terrain": {
       "*": [ [ "t_door_locked_alarm", 2 ], [ "t_door_elocked_alarm", 2 ] ],
       ":": "t_wall_glass_alarm",
-      "o": "t_window_alarm"
+      "o": [
+        [ "t_window_domestic_alarm", 10 ],
+        "t_window_no_curtains_alarm",
+        "t_window_open_alarm",
+        "t_window_no_curtains_open_alarm",
+        [ "t_curtains_alarm", 5 ]
+      ]
     }
   },
   {

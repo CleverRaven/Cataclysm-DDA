@@ -4548,7 +4548,8 @@
     "category": [ "BIRD" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "allowed_items": [ "ALLOWS_TALONS" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -9118,10 +9119,7 @@
     "vitamin_cost": 160,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
-    "enchantments": [
-      { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] },
-      { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] }
-    ],
+    "enchantments": [ "ELECTRIC_VISION", { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] } ],
     "mixed_effect": true
   },
   {
@@ -9674,6 +9672,7 @@
     "points": 99,
     "valid": false,
     "description": "Bug-repellent forcefield.",
+    "flags": [ "CANNOT_TAKE_DAMAGE" ],
     "debug": true
   },
   {

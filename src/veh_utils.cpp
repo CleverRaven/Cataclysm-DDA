@@ -373,7 +373,7 @@ class veh_menu_cb : public uilist_callback
             last_view = player_character.view_offset;
             terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
                 if( draw_trail && last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-                    g->draw_trail_to_square( player_character.view_offset.raw(), true );
+                    g->draw_trail_to_square( player_character.view_offset, true );
                 }
             } );
             g->add_draw_callback( terrain_draw_cb );
@@ -398,7 +398,7 @@ class veh_menu_cb : public uilist_callback
             last = menu->selected;
             avatar &player_character = get_avatar();
             if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-                player_character.view_offset = tripoint_rel_ms_zero;
+                player_character.view_offset = tripoint_rel_ms::zero;
             } else {
                 const tripoint &center = points[menu->selected];
                 player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );

@@ -175,7 +175,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
-*Effects*: Reveal the location of all enemies within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
 *Prerequisites*: None<br />
 
 ## Discern Weakness

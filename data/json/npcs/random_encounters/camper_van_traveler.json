@@ -89,7 +89,7 @@
           ]
         },
         "effect": [
-          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] },
+          { "math": [ "npc_randomize_dialogue_direction = rand(3)" ] },
           { "npc_add_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" }
         ],
         "switch": true
@@ -166,7 +166,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]

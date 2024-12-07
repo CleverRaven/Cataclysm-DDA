@@ -57,7 +57,7 @@
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
     "upgrades": { "half_life": 24, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
-    "extend": { "flags": [ "NOHEAD" ] },
+    "extend": { "flags": [ "NOHEAD", "GEN_DORMANT" ] },
     "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
     "//4": "Has NOHEAD flag to reflect the head is already catastrophically damaged.  Only detects through hearing."
@@ -390,7 +390,7 @@
     "copy-from": "mon_zombie_base",
     "diff": 5,
     "volume": "875 L",
-    "weight": "200 kg",
+    "weight": "1000 kg",
     "hp": 480,
     "speed": 130,
     "color": "white_magenta",

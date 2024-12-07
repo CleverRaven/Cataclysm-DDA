@@ -38,7 +38,7 @@
         "if": { "and": [ { "math": [ "u_counter_portal_storm_counter > 0" ] }, { "math": [ "magic_potential_from_ps == 0" ] } ] },
         "then": [
           { "math": [ "magic_potential", "++" ] },
-          { "math": [ "magic_potential_from_ps", "=", "1" ] },
+          { "math": [ "magic_potential_from_ps = 1" ] },
           {
             "u_message": "Got magic potential from witnessing the portal storm, magic_potential: <global_val:magic_potential>",
             "type": "debug"

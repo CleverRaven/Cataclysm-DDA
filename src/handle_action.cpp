@@ -140,6 +140,7 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -752,7 +753,7 @@ static void grab()
                 return;
             }
             get_player_character().pause();
-            vp->vehicle().separate_from_grid( vp.value().mount() );
+            vp->vehicle().separate_from_grid( vp.value().mount_pos() );
             if( const optional_vpart_position &split_vp = here.veh_at( grabp ) ) {
                 veh_name = split_vp->vehicle().name;
             } else {
@@ -1093,7 +1094,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 const int vol = weapon->volume() * glass_fraction / units::legacy_volume_factor;
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
-                    weapon->spill_contents( pos() );
+                    weapon->spill_contents( pos_bub() );
                     sounds::sound( pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
                     deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
@@ -1714,7 +1715,7 @@ static void read()
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
             if( loc->type->can_use( "learn_spell" ) ) {
-                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
+                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else {
                 loc = loc.obtain( player_character );
                 player_character.read( loc );
@@ -1742,6 +1743,11 @@ static void fire()
 {
     avatar &you = get_avatar();
     map &here = get_map();
+
+    if( you.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg( m_info, _( "You are incapable of attacking!" ) );
+        return;
+    }
 
     if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
                                   _( "You're too pacified to strike anything…" ) ) ) {
@@ -1832,6 +1838,11 @@ static void cast_spell()
     player_character.magic->evaluate_opens_spellbook_data();
     std::vector<spell_id> spells = player_character.magic->spells();
 
+    if( player_character.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You cannot cast spells at this moment." ) );
+        return;
+    }
     if( spells.empty() ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't know any spells to cast." ) );
@@ -2122,8 +2133,8 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
             break;
 
         case ACTION_CENTER:
-            player_character.view_offset.x() = g->driving_view_offset.x;
-            player_character.view_offset.y() = g->driving_view_offset.y;
+            player_character.view_offset.x() = g->driving_view_offset.x();
+            player_character.view_offset.y() = g->driving_view_offset.y();
             player_character.view_offset.z() = 0;
             break;
 
@@ -2136,14 +2147,14 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
         case ACTION_SHIFT_W:
         case ACTION_SHIFT_NW: {
             static const std::map<action_id, std::pair<point, point>> shift_delta = {
-                { ACTION_SHIFT_N, { point_north, point_north_east } },
-                { ACTION_SHIFT_NE, { point_north_east, point_east } },
-                { ACTION_SHIFT_E, { point_east, point_south_east } },
-                { ACTION_SHIFT_SE, { point_south_east, point_south } },
-                { ACTION_SHIFT_S, { point_south, point_south_west } },
-                { ACTION_SHIFT_SW, { point_south_west, point_west } },
-                { ACTION_SHIFT_W, { point_west, point_north_west } },
-                { ACTION_SHIFT_NW, { point_north_west, point_north } },
+                { ACTION_SHIFT_N, { point::north, point::north_east } },
+                { ACTION_SHIFT_NE, { point::north_east, point::east } },
+                { ACTION_SHIFT_E, { point::east, point::south_east } },
+                { ACTION_SHIFT_SE, { point::south_east, point::south } },
+                { ACTION_SHIFT_S, { point::south, point::south_west } },
+                { ACTION_SHIFT_SW, { point::south_west, point::west } },
+                { ACTION_SHIFT_W, { point::west, point::north_west } },
+                { ACTION_SHIFT_NW, { point::north_west, point::north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
             player_character.view_offset += g->is_tileset_isometric()
@@ -2317,7 +2328,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 // so no rotation needed
                 pldrive( get_delta_from_movement_action( act, iso_rotate::no ) );
             } else {
-                point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
+                point_rel_ms dest_delta = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
                     for( int i = 0; i < SEEX; i++ ) {
                         tripoint_bub_ms auto_travel_destination =
@@ -2334,13 +2345,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                         }
                     }
                     act = player_character.get_next_auto_move_direction();
-                    const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
-                    if( dest_next == point_zero ) {
+                    const point_rel_ms dest_next = get_delta_from_movement_action_rel_ms( act, iso_rotate::yes );
+                    if( dest_next == point_rel_ms::zero ) {
                         player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, dest_delta ) ) {
+                if( !avatar_action::move( player_character, m, tripoint_rel_ms( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.abort_automove();
                 }
@@ -2381,7 +2392,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint_below );
+                    pldrive( tripoint::below );
                     break;
                 }
             }
@@ -2389,18 +2400,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
-                    std::vector<tripoint> pts;
+                    std::vector<tripoint_bub_ms> pts;
 
                     // Check tiles around player character for open air
                     for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p .raw() );
+                            pts.push_back( p );
                         }
                     }
 
                     // If we found tiles with open air, prompt player with query on direction they want to climb
                     if( !pts.empty() ) {
-                        const std::optional<tripoint> pnt = point_selection_menu( pts, false );
+                        const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts, false );
                         if( !pnt ) {
                             break;
                         }
@@ -2431,7 +2442,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             } else if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
-                    pldrive( tripoint_above );
+                    pldrive( tripoint::above );
                 }
             }
             break;
@@ -2465,7 +2476,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_EXAMINE_AND_PICKUP:
             if( mouse_target ) {
                 // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
-                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
+                examine( tripoint_bub_ms( *mouse_target ), act == ACTION_EXAMINE_AND_PICKUP );
             } else {
                 examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
@@ -2664,11 +2675,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DROP:
-            drop_in_direction( player_character.pos() );
+            drop_in_direction( player_character.pos_bub() );
             break;
         case ACTION_DIR_DROP:
-            if( const std::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-                if( *pnt != player_character.pos() && in_shell ) {
+            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Drop where?" ) ) ) {
+                if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
                     drop_in_direction( *pnt );
@@ -3196,7 +3207,8 @@ bool game::handle_action()
                 return false;
             }
 
-            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(),
+            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain,
+                    ter_view_p.raw().xy(),
                     true );
             if( !mouse_pos ) {
                 return false;

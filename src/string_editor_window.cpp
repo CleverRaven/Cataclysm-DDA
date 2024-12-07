@@ -163,7 +163,7 @@ const std::vector<folded_line> &folded_text::get_lines() const
 point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x ) const
 {
     if( lines.empty() ) {
-        return point_zero;
+        return point::zero;
     }
     // find the line before the cursor position
     auto it = std::lower_bound( lines.begin(), lines.end(), cpt_idx,
@@ -172,7 +172,7 @@ point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x )
     } );
     if( it == lines.end() ) {
         // past the last codepoint, shouldn't happen
-        return point_zero;
+        return point::zero;
     }
     int y = std::distance( lines.begin(), it );
     // if zero_x is true and the line is not the last line, cursor at the end of

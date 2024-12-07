@@ -1,5 +1,29 @@
 [
   {
+    "id": "ruach_counter_meter_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "Ruach Descriptor",
+    "arrange": "minimum_columns",
+    "widgets": [ "ruach_counter_meter" ]
+  },
+  {
+    "id": "ruach_counter_numbers_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "Ruach Numbers",
+    "arrange": "minimum_columns",
+    "widgets": [ "ruach_counter_numbers" ]
+  },
+  {
+    "id": "ruach_counter_graph_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "Ruach Graph",
+    "arrange": "minimum_columns",
+    "widgets": [ "ruach_counter_graph" ]
+  },
+  {
     "id": "spacebar_ruach_counter_block",
     "type": "widget",
     "style": "layout",
@@ -168,6 +192,7 @@
     "type": "widget",
     "label": "Ruach",
     "var": "custom",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "custom_var": {
       "value": { "math": [ "u_vitamin('lilin_ruach_vitamin')" ] },
       "range": [

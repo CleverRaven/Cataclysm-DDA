@@ -461,7 +461,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FERAL_DABBLE_SPELLS_SELECTOR_SPELL",
-    "effect": [ { "math": [ "n_feral_dabbler_chosen_spell_number", "=", "rand(99) + 1" ] } ]
+    "effect": [ { "math": [ "n_feral_dabbler_chosen_spell_number = rand(99) + 1" ] } ]
   },
   {
     "id": "summon_wisps_monster",

@@ -1082,6 +1082,7 @@ static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
     { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
     { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
     { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
+    { 'e', to_translation( "close to skin" ), to_translation( "covers <color_cyan>layer</color>" ) },
     { 'b', to_translation( "mre;sealed" ), to_translation( "items satisfying <color_cyan>both</color> conditions" ) }
 };
 
@@ -2327,7 +2328,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
     } else {
         text_view_scrollbar = scrollbar();
         // No scrollbar; we need to draw the window edge instead
-        mvwvline( w_, point_zero, BORDER_COLOR, LINE_XOXO, height );
+        mvwvline( w_, point::zero, BORDER_COLOR, LINE_XOXO, height );
     }
 
     nc_color color = base_color;
@@ -2979,7 +2980,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
 std::string satiety_bar( const int calpereffv )
 {
     // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
-    constexpr float max_cal_per_effective_vol = 1500.0f;
+    constexpr float max_cal_per_effective_vol = 2000.0f;
     // Scaling the values.
     const float scaled_max = std::sqrt( max_cal_per_effective_vol );
     const float scaled_cal = std::sqrt( calpereffv );
@@ -3035,7 +3036,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     dir = pairDirXY;
 
-    if( dir == point_zero ) {
+    if( dir == point::zero ) {
         // This would cause infinite loop otherwise
         oDir = direction::WEST;
         dir.x = -1;

@@ -428,5 +428,21 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white"
+  },
+  {
+    "id": "mana_leech_unlock_scroll",
+    "name": { "str": "mana-leech shackle unlock scroll" },
+    "description": "This scroll is imbued with the magical spell that can unlock any mana-leech shackle when cast.  Utterly useless to anyone not struck wearing one.",
+    "looks_like": "spell_scroll",
+    "use_action": { "type": "cast_spell", "spell_id": "mana_leech_unlock", "no_fail": true, "level": 1 },
+    "type": "GENERIC",
+    "category": "other",
+    "weight": "475 g",
+    "volume": "500 ml",
+    "price": "1 USD",
+    "flags": [ "TRADER_AVOID" ],
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white"
   }
 ]

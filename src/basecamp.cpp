@@ -49,14 +49,14 @@ static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
-    { point_north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
-    { point_north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
-    { point_east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
-    { point_south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
-    { point_south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
-    { point_south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
-    { point_west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
-    { point_north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
+    { point::north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
+    { point::north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
+    { point::east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
+    { point::south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
+    { point::south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
+    { point::south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
+    { point::west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
+    { point::north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
 };
 
 point base_camps::direction_from_id( const std::string &id )
@@ -93,6 +93,7 @@ static const time_duration work_day_hours_time = work_day_hours * 1_hours;
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
+    // logic here is duplicated in reverse in basecamp::time_to_food
     if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }
@@ -721,7 +722,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
     }
     // NPC camps may never have had bb_pos registered
     validate_bb_pos( project_to<coords::ms>( omt_pos ) );
-    tripoint_bub_ms src_loc = here.bub_from_abs( bb_pos ) + point_north;
+    tripoint_bub_ms src_loc = here.bub_from_abs( bb_pos ) + point::north;
     std::vector<tripoint_abs_ms> possible_liquid_dumps;
     if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,

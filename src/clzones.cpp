@@ -1408,7 +1408,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
                     return;
                 }
 
-                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone, pmap );
+                create_vehicle_loot_zone( vp->vehicle(), vp->mount_pos().raw(), new_zone, pmap );
                 return;
             }
         }
@@ -1693,9 +1693,9 @@ namespace
 cata_path _savefile( std::string const &suffix, bool player )
 {
     if( player ) {
-        return PATH_INFO::player_base_save_path_path() + string_format( ".zones%s.json", suffix );
+        return PATH_INFO::player_base_save_path() + string_format( ".zones%s.json", suffix );
     } else {
-        return PATH_INFO::world_base_save_path_path() / string_format( "zones%s.json", suffix );
+        return PATH_INFO::world_base_save_path() / string_format( "zones%s.json", suffix );
     }
 }
 } // namespace
@@ -1791,7 +1791,7 @@ void zone_manager::revert_vzones()
         const tripoint_bub_ms pos = here.bub_from_abs( zone.get_start_point() );
         if( const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo() ) {
             zone.set_is_vehicle( true );
-            vp->vehicle().loot_zones.emplace( vp->mount(), zone );
+            vp->vehicle().loot_zones.emplace( vp->mount_pos(), zone );
             here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );
             cache_vzones();
         }

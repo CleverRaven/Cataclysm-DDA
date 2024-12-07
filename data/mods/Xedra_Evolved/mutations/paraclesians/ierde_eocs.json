@@ -300,6 +300,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_activated",
+    "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
+    "effect": { "u_add_effect": "effect_ierde_rooted_in_place", "duration": "PERMANENT" },
+    "false_effect": { "u_message": "You must be standing on the living earth to root yourself in place.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
@@ -404,7 +411,7 @@
         }
       },
       {
-        "math": [ "u_earthen_shield_protection_level", "=", "(u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
+        "math": [ "u_earthen_shield_protection_level = (u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
       }
     ],
     "false_effect": [ { "u_message": "You must be on living earth or stone to create the earthen shield.", "type": "bad" } ]

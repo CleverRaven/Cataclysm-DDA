@@ -173,7 +173,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
 - ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail.
-- ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover arms.
+- ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
 - ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
@@ -346,6 +346,9 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BLIND``` Makes you blind.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
+- ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
+- ```CANNOT_MOVE``` A creature with this flag cannot move.
+- ```CANNOT_TAKE_DAMAGE``` A creature with this flag cannot take any damage.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```CHANGING```This flag is silently given to player to detect it can mutate.
 - ```CLAIRVOYANCE_PLUS``` Gives a clairvoyance effect, used for debug purposes.
@@ -364,10 +367,12 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```ETHEREAL```  You will not drop your items if you gain the `incorporeal` effect.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
+- ```EMP_ENERGYDRAIN_IMMUNE``` Your bionic power cannot be drained during an EMP blast.
 - ```EMP_IMMUNE``` You bionic power cannot be drained and your vulnerable electronics cannot be broken during an EMP blast.
 - ```ENHANCED_VISION``` Increases the scouting range, similarly to `ZOOM` item flag.
 - ```EYE_MEMBRANE``` Lets you see underwater.
 - ```FEATHER_FALL``` You are immune to fall damage.
+- ```FREEZE_EFFECTS``` Effects do not progress in duration.  An effect with this flag is ignored and will progress normally.
 - ```GILLS``` You can breathe underwater.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```GLIDE``` You can glide from ledges without the use of wings, as if by magic.

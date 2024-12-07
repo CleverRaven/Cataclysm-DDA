@@ -67,6 +67,49 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_GENERATE_ACCELERATED_TIME_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" } },
+    "effect": [
+      { "u_message": "<color_light_gray>Grey</color> fields of time start seeping from your body.", "type": "good" },
+      { "u_add_effect": "effect_xedra_dreamer_generate_accelerated_time", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_dreamer_generate_accelerated_time" },
+      { "u_message": "The world regains color as it speeds up.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
+    "condition": {
+      "and": [ { "u_has_effect": "effect_xedra_dreamer_generate_accelerated_time" }, { "math": [ "u_val('mana') >= 200" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "u_message": "The grayscale starts to recede from your vision before it quickly reverts.", "type": "good" },
+      {
+        "run_eocs": "EOC_GENERATE_ACCELERATED_TIME_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('xedra_dreamer_generate_accelerated_time')+1)*750)" ] }
+      },
+      {
+        "math": [
+          "u_spell_exp('xedra_dreamer_generate_accelerated_time')",
+          "+=",
+          "spell_exp_diff(u_spell_level('xedra_dreamer_generate_accelerated_time'))/spell_train_factor(200)"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_xedra_dreamer_generate_accelerated_time" },
+      { "u_message": "The world regains color as it speeds up.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ETHEREAL_WINGS_INITIATE",
     "condition": { "not": { "u_has_trait": "ethereal_wings" } },
     "effect": [
@@ -232,13 +275,13 @@
     "condition": { "compare_string": [ "effect_lucid_dream", { "context_val": "effect" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
-      { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
-      { "math": [ "u_pain_before_lucid", "=", "u_pain()" ] },
-      { "math": [ "u_kcal_before_lucid", "=", "u_calories()" ] },
-      { "math": [ "u_thirst_before_lucid", "=", "u_val('thirst')" ] },
-      { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
-      { "math": [ "u_redcells_before_lucid", "=", "u_vitamin('redcells')" ] },
-      { "math": [ "u_rad_before_lucid", "=", "u_val('rad')" ] },
+      { "math": [ "u_hp_before_lucid = u_hp('ALL') / 6" ] },
+      { "math": [ "u_pain_before_lucid = u_pain()" ] },
+      { "math": [ "u_kcal_before_lucid = u_calories()" ] },
+      { "math": [ "u_thirst_before_lucid = u_val('thirst')" ] },
+      { "math": [ "u_blood_before_lucid = u_vitamin('blood')" ] },
+      { "math": [ "u_redcells_before_lucid = u_vitamin('redcells')" ] },
+      { "math": [ "u_rad_before_lucid = u_val('rad')" ] },
       { "u_add_trait": "LUCID_DREAM" }
     ]
   },
@@ -257,13 +300,13 @@
         "interrupt_type": "eoc"
       },
       { "u_teleport": { "u_val": "lucid_dream_teleport" } },
-      { "math": [ "u_hp('ALL')", "=", "u_hp_before_lucid" ] },
-      { "math": [ "u_pain()", "=", "u_pain_before_lucid" ] },
-      { "math": [ "u_calories()", "=", "u_kcal_before_lucid" ] },
-      { "math": [ "u_val('thirst')", "=", "u_thirst_before_lucid" ] },
-      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "u_redcells_before_lucid" ] },
-      { "math": [ "u_val('rad')", "=", "u_rad_before_lucid" ] },
+      { "math": [ "u_hp('ALL') = u_hp_before_lucid" ] },
+      { "math": [ "u_pain() = u_pain_before_lucid" ] },
+      { "math": [ "u_calories() = u_kcal_before_lucid" ] },
+      { "math": [ "u_val('thirst') = u_thirst_before_lucid" ] },
+      { "math": [ "u_vitamin('blood') = u_blood_before_lucid" ] },
+      { "math": [ "u_vitamin('redcells') = u_redcells_before_lucid" ] },
+      { "math": [ "u_val('rad') = u_rad_before_lucid" ] },
       { "u_lose_effect": "bleed" },
       { "u_lose_trait": "LUCID_DREAM" }
     ]
@@ -293,9 +336,9 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_effect": "effect_lucid_dream" },
     "effect": [
-      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
+      { "math": [ "u_vitamin('blood') = u_blood_before_lucid" ] },
       "u_prevent_death",
-      { "math": [ "u_hp('ALL')", "=", "1" ] },
+      { "math": [ "u_hp('ALL') = 1" ] },
       { "run_eocs": "EOC_LUCID_DREAM_FORCE_END" }
     ]
   },

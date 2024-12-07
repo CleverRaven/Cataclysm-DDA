@@ -9,6 +9,7 @@
 #include "magic_enchantment.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 
 static const bodypart_str_id body_part_test_arm_l( "test_arm_l" );
@@ -166,13 +167,24 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     map &here = get_map();
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
-    const weather_manager weather = get_weather();
+
+    set_time_to_day();
+    const weather_manager &weather = get_weather();
+    w_point &weather_point = *weather.weather_precise;
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
+                weather_point.temperature );
+    weather_point.temperature = units::from_fahrenheit( 65 );
+    restore_on_out_of_scope<std::optional<double>> restore_humidity(
+                weather_point.humidity );
+    weather_point.humidity = 66.0f;
+
+    CAPTURE( weather.weather_id.c_str() );
+    CAPTURE( units::to_fahrenheit( weather_point.temperature ) );
+    CAPTURE( weather_point.humidity );
 
     REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
     REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
-    CAPTURE( weather.weather_id.c_str() );
-    CAPTURE( units::to_fahrenheit( weather.temperature ) );
-    CAPTURE( weather.weather_precise->humidity );
 
     REQUIRE( body_part_arm_l->drying_rate == 1.0f );
     dude.drench( 100, dude.get_drenching_body_parts(), false );
@@ -181,10 +193,11 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     // Baseline arm dries in 450ish turns
     int base_dry = 0;
     while( dude.get_part_wetness( body_part_arm_l ) > 0 ) {
-        dude.update_body_wetness( *weather.weather_precise );
+        dude.update_body_wetness( weather_point );
         base_dry++;
     }
-    REQUIRE( base_dry == Approx( 450 ).margin( 125 ) );
+    // 200 wetness / (1000 drench cap / ~1800 turns ) = 360
+    REQUIRE( base_dry == Approx( 360 ).margin( 120 ) );
 
     // Birdify, clear water
     clear_character( dude, true );
@@ -203,7 +216,7 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     int low_dry = 0;
     // Filter on the slower drying limb
     while( dude.get_part_wetness( body_part_test_bird_wing_r ) > 0 ) {
-        dude.update_body_wetness( *weather.weather_precise );
+        dude.update_body_wetness( weather_point );
         if( dude.get_part_wetness( body_part_test_bird_wing_l ) > 0 ) {
             high_dry++;
         }
@@ -212,8 +225,10 @@ TEST_CASE( "drying_rate", "[character][limb]" )
 
     // A drying rate of 2 should halve the drying time
     // Higher margin for the lower rate to account for the randomness
-    CHECK( high_dry == Approx( 200 ).margin( 100 ) );
-    CHECK( low_dry == Approx( 900 ).margin( 300 ) );
+    // 200 wetness / (1000 drench cap / ~(1800/2) turns) = 180
+    CHECK( high_dry == Approx( 180 ).margin( 60 ) );
+    // 200 wetness / (1000 drench cap / ~(1800*2) turns) = 720
+    CHECK( low_dry == Approx( 720 ).margin( 240 ) );
 }
 
 TEST_CASE( "Limb_consumption", "[limb]" )

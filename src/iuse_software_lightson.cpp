@@ -42,7 +42,7 @@ void lightson_game::reset_level()
         toggle_lights_at( p );
     } );
 
-    position = point_zero;
+    position = point::zero;
 }
 
 bool lightson_game::get_value_at( const point &pt )
@@ -71,7 +71,7 @@ void lightson_game::draw_level()
             bool on = get_value_at( current );
             const nc_color fg = on ? c_white : c_dark_gray;
             const char symbol = on ? '#' : '-';
-            mvwputch( w, current + point_south_east, selected ? hilite( c_white ) : fg, symbol );
+            mvwputch( w, current + point::south_east, selected ? hilite( c_white ) : fg, symbol );
         }
     }
     wnoutrefresh( w );
@@ -113,17 +113,17 @@ void lightson_game::toggle_lights_at( const point &pt )
     toggle_value_at( pt );
 
     if( pt.y > 0 ) {
-        toggle_value_at( pt + point_north );
+        toggle_value_at( pt + point::north );
     }
     if( pt.y < level_size.y - 1 ) {
-        toggle_value_at( pt + point_south );
+        toggle_value_at( pt + point::south );
     }
 
     if( pt.x > 0 ) {
-        toggle_value_at( pt + point_west );
+        toggle_value_at( pt + point::west );
     }
     if( pt.x < level_size.x - 1 ) {
-        toggle_value_at( pt + point_east );
+        toggle_value_at( pt + point::east );
     }
 }
 
@@ -136,7 +136,7 @@ int lightson_game::start_game()
         const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                              TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
         w_border = catacurses::newwin( w_height, FULL_SCREEN_WIDTH, iOffset );
-        w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffset + point_south_east );
+        w = catacurses::newwin( w_height - 6, FULL_SCREEN_WIDTH - 2, iOffset + point::south_east );
         ui.position_from_window( w_border );
     } );
     ui.mark_resize();

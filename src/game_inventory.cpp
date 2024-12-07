@@ -1136,7 +1136,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             }
 
             if( uses.size() == 1 ) {
-                const auto ret = uses.begin()->second.can_call( you, it, you.pos() );
+                const auto ret = uses.begin()->second.can_call( you, it, you.pos_bub() );
                 if( !ret.success() ) {
                     return trim_trailing_punctuations( ret.str() );
                 }
@@ -1459,7 +1459,11 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book() || loc->type->can_use( "learn_spell" );
+            const item_location p_loc = loc.parent_item();
+
+            return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
+                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
+                     p_loc->energy_remaining() >= 1_kJ );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2343,14 +2347,14 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
                 const int height = TERMY;
                 const int offset_y = confirm_message.empty() ? 0 : 3;
                 page_size = TERMY - offset_y - 2;
-                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point::zero );
                 wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
 
                 if( !confirm_message.empty() ) {
                     wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
                 }
 
-                ui.position( point_zero, point( half_width * 2, height ) );
+                ui.position( point::zero, point( half_width * 2, height ) );
             } );
             ui.mark_resize();
             ui.on_redraw( [&]( const ui_adaptor & ) {

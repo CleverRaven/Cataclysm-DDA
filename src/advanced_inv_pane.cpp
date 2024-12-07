@@ -250,6 +250,10 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             square.volume = 0_ml;
             square.weight = 0_gram;
         }
+        // Should not be able to pick up items on terrain with impassable fields.
+        if( m.impassable_field_at( square.pos ) ) {
+            return;
+        }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
                 square.i_stacked( square.get_vehicle_stack() ) :
                 square.i_stacked( m.i_at( square.pos ) );

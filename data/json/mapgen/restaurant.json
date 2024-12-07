@@ -88,9 +88,9 @@
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
-        "|@+",
-        "|< ",
-        "|||"
+        "#@+",
+        "#< ",
+        "###"
       ],
       "palettes": [ "restaurant_palette" ],
       "terrain": { "<": "t_stairs_up", "+": "t_door_metal_locked", "@": "t_card_fp", " ": "t_null" },
@@ -539,7 +539,7 @@
     "method": "json",
     "om_terrain": [ "s_restaurant_1" ],
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",

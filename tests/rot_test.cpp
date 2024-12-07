@@ -39,9 +39,9 @@ TEST_CASE( "Rate_of_rotting", "[rot]" )
 
         set_map_temperature( units::from_fahrenheit( 65 ) ); // 18,3 C
 
-        normal_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
-        sealed_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
-        freeze_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        normal_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::NORMAL );
+        sealed_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::NORMAL );
 
         // Item should exist with no rot when it is brand new
         CHECK( normal_item.get_rot() == 0_turns );
@@ -51,9 +51,9 @@ TEST_CASE( "Rate_of_rotting", "[rot]" )
         INFO( "Initial turn: " << to_turn<int>( calendar::turn ) );
 
         calendar::turn += 20_minutes;
-        sealed_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
-        normal_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
-        freeze_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::FREEZER );
+        sealed_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::NORMAL );
+        normal_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::FREEZER );
 
         // After 20 minutes the normal item should have 20 minutes of rot
         CHECK( to_turns<int>( normal_item.get_rot() )
@@ -64,8 +64,8 @@ TEST_CASE( "Rate_of_rotting", "[rot]" )
 
         // Move time 110 minutes
         calendar::turn += 110_minutes;
-        sealed_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
-        freeze_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::FREEZER );
+        sealed_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::FREEZER );
         // In freezer and in preserving container still should be no rot
         CHECK( sealed_item.get_rot() == 0_turns );
         CHECK( freeze_item.get_rot() == 0_turns );
@@ -87,13 +87,13 @@ TEST_CASE( "Items_rot_away", "[rot]" )
         item test_item( "meat_cooked" );
 
         // Process item once to set all of its values.
-        test_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::HEATER );
+        test_item.process( get_map(), nullptr, tripoint_bub_ms::zero, 1, temperature_flag::HEATER );
 
         // Set rot to >2 days and process again. process_temperature_rot should return true.
         calendar::turn += 20_minutes;
         test_item.mod_rot( 2_days );
 
-        CHECK( test_item.process_temperature_rot( 1, tripoint_zero, get_map(), nullptr,
+        CHECK( test_item.process_temperature_rot( 1, tripoint_bub_ms::zero, get_map(), nullptr,
                 temperature_flag::HEATER ) );
         INFO( "Rot: " << to_turns<int>( test_item.get_rot() ) );
     }

@@ -99,11 +99,6 @@ namespace io
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::VISION_RANGE: return "VISION_RANGE";
-            case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
-            case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
-            case enchant_vals::mod::SIGHT_RANGE_FAE: return "SIGHT_RANGE_FAE";
-            case enchant_vals::mod::SIGHT_RANGE_NETHER: return "SIGHT_RANGE_NETHER";
-            case enchant_vals::mod::SIGHT_RANGE_MINDS: return "SIGHT_RANGE_MINDS";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
             case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
@@ -479,20 +474,26 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
 
     if( !is_child && jo.has_array( "special_vision" ) ) {
         for( const JsonObject vision_obj : jo.get_array( "special_vision" ) ) {
-            special_vision foo;
+            special_vision _vision;
             special_vision_descriptions _desc;
             if( vision_obj.has_array( "descriptions" ) ) {
                 for( const JsonObject descriptions_obj : vision_obj.get_array( "descriptions" ) ) {
                     mandatory( descriptions_obj, was_loaded, "id", _desc.id );
+                    if( descriptions_obj.has_string( "color" ) ) {
+                        _desc.color = color_from_string( descriptions_obj.get_string( "color" ) );
+                    }
+                    optional( descriptions_obj, was_loaded, "symbol", _desc.symbol );
                     mandatory( descriptions_obj, was_loaded, "text", _desc.description );
-                    read_condition( descriptions_obj, "text_condition", _desc.condition, false );
-                    foo.special_vision_descriptions_vector.emplace_back( _desc );
+                    read_condition( descriptions_obj, "text_condition", _desc.condition, true );
+                    _vision.special_vision_descriptions_vector.emplace_back( _desc );
                 }
             }
 
-            foo.range = get_dbl_or_var( vision_obj, "distance", false );
-            read_condition( vision_obj, "condition", foo.condition, false );
-            special_vision_vector.emplace_back( foo );
+            _vision.range = get_dbl_or_var( vision_obj, "distance" );
+            read_condition( vision_obj, "condition", _vision.condition, true );
+            optional( vision_obj, was_loaded, "precise", _vision.precise );
+            optional( vision_obj, was_loaded, "ignores_aiming_cone", _vision.ignores_aiming_cone );
+            special_vision_vector.emplace_back( _vision );
         }
     }
 }
@@ -503,6 +504,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
 
+        // enchantment to be silently skipped for migration purposes
         std::set<std::string> legacy_values = {
             "ITEM_DAMAGE_ACID",
             "ITEM_DAMAGE_BIO",
@@ -513,7 +515,13 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
             "ITEM_DAMAGE_HEAT",
             "ITEM_DAMAGE_PURE",
             "ITEM_DAMAGE_STAB",
-            "ITEM_DAMAGE_BASH"
+            "ITEM_DAMAGE_BASH",
+            "SIGHT_RANGE_ELECTRIC",
+            "MOTION_VISION_RANGE",
+            "SIGHT_RANGE_FAE",
+            "SIGHT_RANGE_NETHER",
+            "SIGHT_RANGE_MINDS"
+            // values above to be removed after 0.I
         };
 
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
@@ -568,20 +576,26 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
 
     if( jo.has_array( "special_vision" ) ) {
         for( const JsonObject vision_obj : jo.get_array( "special_vision" ) ) {
-            special_vision foo;
+            special_vision _vision;
             special_vision_descriptions _desc;
             if( vision_obj.has_array( "descriptions" ) ) {
                 for( const JsonObject descriptions_obj : vision_obj.get_array( "descriptions" ) ) {
                     mandatory( descriptions_obj, was_loaded, "id", _desc.id );
+                    if( descriptions_obj.has_string( "color" ) ) {
+                        _desc.color = color_from_string( descriptions_obj.get_string( "color" ) );
+                    }
+                    optional( descriptions_obj, was_loaded, "symbol", _desc.symbol );
                     mandatory( descriptions_obj, was_loaded, "text", _desc.description );
-                    read_condition( descriptions_obj, "text_condition", _desc.condition, false );
-                    foo.special_vision_descriptions_vector.emplace_back( _desc );
+                    read_condition( descriptions_obj, "text_condition", _desc.condition, true );
+                    _vision.special_vision_descriptions_vector.emplace_back( _desc );
                 }
             }
 
-            foo.range = vision_obj.get_float( "distance", 0.0 );
-            read_condition( vision_obj, "condition", foo.condition, false );
-            special_vision_vector.emplace_back( foo );
+            _vision.range = vision_obj.get_float( "distance", 0.0 );
+            read_condition( vision_obj, "condition", _vision.condition, true );
+            optional( vision_obj, was_loaded, "precise", _vision.precise );
+            optional( vision_obj, was_loaded, "ignores_aiming_cone", _vision.ignores_aiming_cone );
+            special_vision_vector.emplace_back( _vision );
         }
     }
 }
@@ -689,15 +703,12 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     jsout.start_array();
     for( const special_vision &struc : special_vision_vector ) {
         jsout.start_object();
-        // jsout.member( "condition", struc.condition );
         jsout.member( "distance", struc.range );
         jsout.member( "descriptions" );
         jsout.start_array();
         for( const special_vision_descriptions &struc_desc : struc.special_vision_descriptions_vector ) {
             jsout.start_object();
             jsout.member( "id", struc_desc.id );
-            // jsout.member( "text_condition", struc_desc.condition );
-            jsout.member( "text", struc_desc.description );
             jsout.end_object();
         }
         jsout.end_object();
@@ -765,7 +776,9 @@ void enchant_cache::force_add( const enchant_cache &rhs )
 
     // from cache to cache?
     for( const special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{ struc.special_vision_descriptions_vector, struc.condition, struc.range } );
+        special_vision_vector.emplace_back( special_vision{
+            struc.special_vision_descriptions_vector, struc.condition, struc.range,
+            struc.precise, struc.ignores_aiming_cone } );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -830,7 +843,9 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 
     // from eval to cache, for char
     for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{ struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ) } );
+        special_vision_vector.emplace_back( special_vision{
+            struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
+            struc.precise, struc.ignores_aiming_cone } );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -897,7 +912,9 @@ void enchant_cache::force_add( const enchantment &rhs, const monster &mon )
 
     // from eval to cache, for monster
     for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{ struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ) } );
+        special_vision_vector.emplace_back( special_vision{
+            struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
+            struc.precise, struc.ignores_aiming_cone } );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -963,7 +980,9 @@ void enchant_cache::force_add( const enchantment &rhs )
 
     // from eval to cache, with constant
     for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{ struc.special_vision_descriptions_vector, struc.condition, struc.range.constant() } );
+        special_vision_vector.emplace_back( special_vision{
+            struc.special_vision_descriptions_vector, struc.condition, struc.range.constant(),
+            struc.precise, struc.ignores_aiming_cone } );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -1039,65 +1058,58 @@ double enchantment::get_value_multiply( const enchant_vals::mod value, const Cha
     return found->second.evaluate( d );
 }
 
-bool enchantment::get_vision_distance( const Character &guy, const Creature &critter ) const
+enchantment::special_vision enchantment::get_vision( const const_dialogue &d ) const
 {
+    // Maybe it's a bad idea to make it part of enchantment code
+    // maybe it should be it's own instance of json
+    // and enchantment code simply adds values to this instance?
+    // `"special_vision" { "id": "nether_vision", "bonus": 20 }`
+
     if( special_vision_vector.empty() ) {
-        return false;
+        return {};
     }
 
-    const double distance = rl_dist_exact( guy.pos(), critter.pos() );
-    const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
+                                           d.const_actor( false )->pos_bub() );
 
+    // first iterate over structs that has ignores_aiming_cone true
+    // to prevent cata_tiles::draw_critter_at() from picking texture
+    // that cannot be rendered because it's behind you while you are aiming
     for( const special_vision &struc : special_vision_vector ) {
-        if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
-            return true;
+        if( struc.ignores_aiming_cone && struc.range.evaluate( d ) >= distance &&  struc.condition( d ) ) {
+            return struc;
         }
     }
 
-    return false;
+    for( const special_vision &struc : special_vision_vector ) {
+        if( !struc.ignores_aiming_cone && struc.range.evaluate( d ) >= distance &&  struc.condition( d ) ) {
+            return struc;
+        }
+    }
+
+    return {};
 }
 
-std::string enchantment::get_vision_description( const Character &guy,
-        const Creature &critter ) const
+bool enchantment::get_vision_can_see( const enchantment::special_vision &vision_struct,
+                                      const_dialogue &d ) const
 {
-
-    const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
-    const double distance = rl_dist_exact( guy.pos(), critter.pos() );
-
-    for( const special_vision &struc : special_vision_vector ) {
-        if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
-            for( const enchantment::special_vision_descriptions &desc :
-                 struc.special_vision_descriptions_vector ) {
-                if( desc.condition( d ) ) {
-                    return desc.description;
-                }
-            }
-            return "You sense a creature here.";
-        }
-    }
-
-    return "";
+    return !vision_struct.is_empty( d );
 }
 
-std::string enchantment::get_vision_tile( const Character &guy, const Creature &critter ) const
+enchantment::special_vision_descriptions enchantment::get_vision_description_struct(
+    const enchantment::special_vision &vision_struct, const_dialogue &d ) const
 {
-
-    const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
-    const double distance = rl_dist_exact( guy.pos(), critter.pos() );
-
-    for( const special_vision &struc : special_vision_vector ) {
-        if( struc.range.evaluate( d ) >= distance && struc.condition( d ) ) {
-            for( const enchantment::special_vision_descriptions &desc :
-                 struc.special_vision_descriptions_vector ) {
-                if( desc.condition( d ) ) {
-                    return desc.id;
-                }
-            }
-            return "infrared_creature";
-        }
+    if( vision_struct.is_empty( d ) ) {
+        return {};
     }
 
-    return "";
+    for( const enchantment::special_vision_descriptions &desc :
+         vision_struct.special_vision_descriptions_vector ) {
+        if( desc.condition( d ) ) {
+            return desc;
+        }
+    }
+    return {};
 }
 
 double enchant_cache::get_value_add( const enchant_vals::mod value ) const
@@ -1136,63 +1148,49 @@ double enchant_cache::get_value_multiply( const enchant_vals::mod value ) const
     return found->second;
 }
 
-bool enchant_cache::get_vision_distance( const Character &guy, const Creature &critter ) const
+enchant_cache::special_vision enchant_cache::get_vision( const const_dialogue &d ) const
 {
     if( special_vision_vector.empty() ) {
-        return false;
+        return {};
     }
 
-    const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
-    const double distance = rl_dist_exact( guy.pos(), critter.pos() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
+                                           d.const_actor( false )->pos_bub() );
 
     for( const special_vision &struc : special_vision_vector ) {
-        if( struc.range >= distance && struc.condition( d ) ) {
-            return true;
+        if( struc.ignores_aiming_cone && struc.range >= distance && struc.condition( d ) ) {
+            return struc;
         }
     }
-
-    return false;
-}
-
-std::string enchant_cache::get_vision_description( const Character &guy,
-        const Creature &critter ) const
-{
-    const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
-    const double distance = rl_dist_exact( guy.pos(), critter.pos() );
-
-    for( const  special_vision &struc : special_vision_vector ) {
-        if( struc.range >= distance && struc.condition( d ) ) {
-            for( const enchantment::special_vision_descriptions  &desc :
-                 struc.special_vision_descriptions_vector ) {
-                if( desc.condition( d ) ) {
-                    return desc.description;
-                }
-            }
-            return "You sense a creature here.";
-        }
-    }
-
-    return "";
-}
-
-std::string enchant_cache::get_vision_tile( const Character &guy, const Creature &critter ) const
-{
-    const_dialogue d( get_const_talker_for( guy ), get_const_talker_for( critter ) );
-    const double distance = rl_dist_exact( guy.pos(), critter.pos() );
 
     for( const special_vision &struc : special_vision_vector ) {
-        if( struc.range >= distance && struc.condition( d ) ) {
-            for( const enchantment::special_vision_descriptions &desc :
-                 struc.special_vision_descriptions_vector ) {
-                if( desc.condition( d ) ) {
-                    return desc.id;
-                }
-            }
-            return "infrared_creature";
+        if( !struc.ignores_aiming_cone && struc.range >= distance && struc.condition( d ) ) {
+            return struc;
         }
     }
 
-    return "";
+    return {};
+}
+
+bool enchant_cache::get_vision_can_see( const enchant_cache::special_vision &vision_struct ) const
+{
+    return !vision_struct.is_empty();
+}
+
+enchant_cache::special_vision_descriptions enchant_cache::get_vision_description_struct(
+    const enchant_cache::special_vision &vision_struct, const_dialogue &d ) const
+{
+    if( vision_struct.is_empty() ) {
+        return {};
+    }
+
+    for( const enchant_cache::special_vision_descriptions &desc :
+         vision_struct.special_vision_descriptions_vector ) {
+        if( desc.condition( d ) ) {
+            return desc;
+        }
+    }
+    return {};
 }
 
 double enchant_cache::get_skill_value_multiply( const skill_id &value ) const

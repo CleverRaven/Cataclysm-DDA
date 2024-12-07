@@ -222,7 +222,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 5 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_scarf", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 5 }
         ],
         "topic": "TALK_DONE"
@@ -232,7 +232,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 10 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_blanket", "value": "yes" },
-          { "math": [ "n_timer_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 10 }
         ],
         "topic": "TALK_DONE"
@@ -242,7 +242,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 30 } },
         "effect": [
           { "npc_add_var": "general_trade_u_want_quilt", "value": "yes" },
-          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
+          { "math": [ "n_timer_trade_knitting = time('now')" ] },
           { "u_sell_item": "icon", "count": 30 }
         ],
         "topic": "TALK_DONE"

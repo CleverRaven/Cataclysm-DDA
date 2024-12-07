@@ -237,9 +237,9 @@ npc::npc()
     last_updated = calendar::turn;
     last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
-    wanted_item_pos = tripoint_bub_ms_min;
+    wanted_item_pos = tripoint_bub_ms::invalid;
     guard_pos = std::nullopt;
-    goal = tripoint_abs_omt( tripoint_min );
+    goal = tripoint_abs_omt::invalid;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
@@ -2891,7 +2891,7 @@ std::string npc::opinion_text() const
 
 static void maybe_shift( tripoint_bub_ms &pos, const point &d )
 {
-    if( pos != tripoint_bub_ms_min ) {
+    if( !pos.is_invalid() ) {
         pos += d;
     }
 }
@@ -2920,7 +2920,7 @@ void npc::reboot()
     path.clear();
     last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
-    wanted_item_pos = tripoint_bub_ms_min;
+    wanted_item_pos = tripoint_bub_ms::invalid;
     guard_pos = std::nullopt;
     goal = no_goal_point;
     fetching_item = false;
@@ -2935,7 +2935,7 @@ void npc::reboot()
     ai_cache.ally.reset();
     ai_cache.can_heal.clear_all();
     ai_cache.sound_alerts.clear();
-    ai_cache.s_abs_pos = tripoint_zero;
+    ai_cache.s_abs_pos = tripoint::zero;
     ai_cache.stuck = 0;
     ai_cache.guard_pos = std::nullopt;
     ai_cache.my_weapon_value = 0;
@@ -3372,7 +3372,7 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-bool npc::invoke_item( item *used, const tripoint &pt, int )
+bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int )
 {
     const auto &use_methods = used->type->use_methods;
 
@@ -3382,11 +3382,6 @@ bool npc::invoke_item( item *used, const tripoint &pt, int )
         return Character::invoke_item( used, use_methods.begin()->first, pt );
     }
     return false;
-}
-
-bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
-{
-    return npc::invoke_item( used, pt.raw(), pre_obtain_moves );
 }
 
 bool npc::invoke_item( item *used, const std::string &method )
@@ -3615,7 +3610,7 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 
 void npc::reset_companion_mission()
 {
-    comp_mission.position = overmap::invalid_tripoint;
+    comp_mission.position = tripoint_abs_omt::invalid;
     reset_miss_id( comp_mission.miss_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {

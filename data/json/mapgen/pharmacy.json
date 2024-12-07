@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": "s_pharm",
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         ",,,,,,,,,______,,,,,,,,,",
         ",,,,,,,,,______,,,,,,,,,",
@@ -31,15 +31,15 @@
         "########################",
         ",,,,,,,,,,,,,,,,,,,,,,4,"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ",": "t_region_groundcover_urban",
         "_": "t_concrete",
         "O": "t_reinforced_glass_shutter_open",
         "!": "t_reinforced_glass",
         "+": "t_door_c",
-        ".": "t_linoleum_gray",
-        " ": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "4": "t_gutter_downspout",
         "*": "t_door_locked_alarm"
       },
@@ -134,7 +134,7 @@
     "method": "json",
     "om_terrain": "s_pharm_1",
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "..........__............",
         "...::::...__............",
@@ -161,7 +161,7 @@
         ".............____UU_....",
         "............._______...."
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         ":": "t_region_groundcover_urban",
@@ -172,7 +172,7 @@
         "*": "t_door_locked",
         "%": "t_door_metal_locked",
         "L": [ "t_door_locked_alarm", "t_door_elocked_alarm" ],
-        " ": "t_linoleum_white",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
         "w": "t_gates_mech_control_lab"

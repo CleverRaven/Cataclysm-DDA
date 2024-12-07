@@ -4386,7 +4386,7 @@ void inventory_examiner::force_max_window_size()
 {
     constexpr int border_width = 1;
     _fixed_size = { TERMX / 3 + 2 * border_width, TERMY };
-    _fixed_origin = point_zero;
+    _fixed_origin = point::zero;
 }
 
 int inventory_examiner::execute()

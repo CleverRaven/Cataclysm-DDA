@@ -2,7 +2,7 @@
   {
     "type": "help",
     "order": 0,
-    "name": "<a|A>: Introduction",
+    "name": "Introduction",
     "messages": [
       "Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world.  You have survived the original onslaught, but the future looks pretty grim.",
       "You must prepare to face the many hardships to come, including dwindling supplies, hostile creatures, and harmful weather.  Even among fellow survivors you must stay alert, since someone may be plotting behind your back to take your hard-earned loot.",
@@ -13,7 +13,7 @@
   {
     "type": "help",
     "order": 1,
-    "name": "<b|B>: Movement",
+    "name": "Movement",
     "messages": [
       "Movement is performed using the numpad, the arrow keys, or vikeys.",
       "<HELP_DRAW_DIRECTIONS>",
@@ -26,7 +26,7 @@
   {
     "type": "help",
     "order": 2,
-    "name": "<c|C>: Viewing",
+    "name": "Viewing",
     "messages": [
       "The player can often see more than can be displayed on the screen at a time.  Pressing <press_look> enters \"Look around\" mode, which allows you to scroll around using the movement keys and view items on the map as well as monsters and their stance toward the character.  Pressing <press_listitems> provides a list of nearby visible items, though items shut away in crates, cupboards, refrigerators and the like won't be displayed until you are close enough.  Pressing Shift+vikeys (h,j,k,l,y,u,b,n) will scroll the view persistently, allowing you to keep an eye on things as you move around.",
       "Places outside of your view but seen previously and still memorized can be visualized, but they will be covered by the \"fog of war.\""
@@ -35,7 +35,7 @@
   {
     "type": "help",
     "order": 3,
-    "name": "<d|D>: Hunger, thirst, and sleep",
+    "name": "Hunger, thirst, and sleep",
     "messages": [
       "As time passes, you will begin to feel hunger and thirst, and your stomach will remind you of that.  When this happens, status information will appear in the sidebar.  Don't get confused - depending on your condition, it will display both how full your stomach is, as well as hunger intensity in relation to your nutrition status.  Your body nutrition level is distinct from your current hunger: for example, you may feel full after a big meal while still being malnourished, and you will still get hungry while being overweight.  With regular meals, you may even never get hungry and yet become malnourished, if your caloric intake is too low.  In other words, you need to track both your immediate hunger/fullness and the overall nutrition of your whole body.",
       "Food takes some time to digest, and water travels faster through your digestive system than does solid food.  Sudden overeating and overdrinking may make you feel excessively full, so split your meals.  If you had been starved before, it will take some time to recover your body mass by building up stored calories through regular eating.  Overeating for a prolonged period of time leads to obesity.  Both sides of the spectrum are penalized.  When hunger and thirst progress to severe levels, you will also suffer penalties.  Thirst will kill you faster than hunger.",
@@ -48,7 +48,7 @@
   {
     "type": "help",
     "order": 4,
-    "name": "<e|E>: Pain and stimulants",
+    "name": "Pain and stimulants",
     "messages": [
       "When you take damage from almost any source, you'll start to feel pain.  Pain slows you down and reduces your stats, and finding a way to manage pain is an early imperative.  The most common is drugs: aspirin, codeine, tramadol, oxycodone, and more are all great options.  Be aware that while under the influence of many painkillers, the physiological side effects may slow you down or reduce your stats.",
       "Note that most painkillers take a little while to kick in.  If you take some oxycodone and don't notice the effects right away, don't start taking more -  you may overdose and die!",
@@ -61,7 +61,7 @@
   {
     "type": "help",
     "order": 5,
-    "name": "<f|F>: Healing and medication",
+    "name": "Healing and medication",
     "messages": [
       "When you take damage, it will change the status of the affected body part, as shown in the sidebar.  Its overall wellness is represented by a series of bars that will deplete and change color the more damage you take.  If the accumulated damage is more than the body part can suffer, it will break.  If that happens to a critical body part (i.e., your torso or head), you will die.  For other body parts, it means broken bones, significant penalties, and a long process of healing - after placing the affected limb in a splint.",
       "Normal damage heals with time.  You heal more during a good sleep, but wounds also heal a bit while you are awake.",
@@ -74,7 +74,7 @@
   {
     "type": "help",
     "order": 6,
-    "name": "<g|G>: Addiction",
+    "name": "Addiction",
     "messages": [
       "Many drugs (and some consumables) have a potential for addiction.  Each time you consume such a substance, there is a chance that you will grow dependent on it.  Consuming more of that drug will increase your dependence.  Effects vary greatly between addictive substances, but no matter the substance, addiction has only one cure: going cold turkey.  The process may last for days, and will leave you very weak, so try to do it in a safe area.",
       "If you are suffering from withdrawal effects, taking more of the addictive substance will cause the effects to cease immediately, but may deepen your dependence."
@@ -83,7 +83,7 @@
   {
     "type": "help",
     "order": 7,
-    "name": "<h|H>: Morale and learning",
+    "name": "Morale and learning",
     "messages": [
       "Your character has a morale level, which affects you in many ways.  The depressing post-apocalypse world is tough to deal with, and your mood will naturally decrease very slowly.",
       "There are lots of options for increasing morale: reading an entertaining book, eating delicious food, listening to music, and taking recreational drugs are but a few options.  However, most morale-boosting activities can only elevate your mood to a certain level before they grow boring.",
@@ -98,7 +98,7 @@
   {
     "type": "help",
     "order": 8,
-    "name": "<i|I>: Radioactivity and mutation",
+    "name": "Radioactivity and mutation",
     "messages": [
       "Though it is relatively rare, certain areas of the world may be contaminated with radiation.  It will gradually accumulate in your body, weakening you more and more.  While in radiation-free areas, your radiation level will slowly decrease; taking Prussian blue tablets will help speed this process.  Get yourself a measuring device, as radiation is invisible, and you may not know that you are under its influence until it results in radiation sickness.",
       "If you become very irradiated, you may develop mutations.  Most of the time, these mutations will be negative; however, many are beneficial, and others have both positive and negative effects.  Your mutations may change your play style considerably.  It is possible to find substances that will remove mutations, though these are extremely rare.",
@@ -108,7 +108,7 @@
   {
     "type": "help",
     "order": 9,
-    "name": "<j|J>: Bionics",
+    "name": "Bionics",
     "messages": [
       "Bionics are biomechanical upgrades to your body.  While many are simply 'built-in' versions of items you would otherwise have to carry, some bionics have unique effects that are otherwise unobtainable.  Some bionics are constantly working, whereas others need to be toggled on and off as needed.",
       "Most bionics require a source of power, and you will need an internal battery to store energy for them.  Your current amount of energy is displayed in the sidebar right below your health.  Replenishing energy can be done in a variety of ways, but all require the installation of a special bionic just for that purpose.",
@@ -121,7 +121,7 @@
   {
     "type": "help",
     "order": 10,
-    "name": "<k|K>: Crafting",
+    "name": "Crafting",
     "messages": [
       "Many important items can be very hard to find, or will cost a great deal of money to trade for.  Fortunately, it is possible to craft a wide variety of goods (as best you can) with the proper tools, materials, and training.",
       "Some recipes require a set of tools.  These are not used up when crafting, so you can keep your tool set.  All recipes require one or more ingredients; these ARE used up in crafting.",
@@ -141,7 +141,7 @@
   {
     "type": "help",
     "order": 11,
-    "name": "<l|L>: Traps",
+    "name": "Traps",
     "messages": [
       "Before sleeping in dangerous territory, it may be wise to set traps to ward off unwanted intrusions - or at least warn you if one is in progress.  There are a few traps to be found in the world, most notably bubble wrap (which will make a loud noise if stepped on, helping to wake you up) and bear traps (which make noise AND damage, and trap anything that steps on them).  Others need to be crafted; this requires the Devices skill, and possibly Mechanics.",
       "To set a trap, simply use the item (press <press_apply>) and choose a direction; the trap will be placed on the chosen tile.  Some traps may require additional tools, like a shovel, to be set.  Once set, a trap will remain in place until stepped on or disarmed.",
@@ -153,7 +153,7 @@
   {
     "type": "help",
     "order": 12,
-    "name": "<m|M>: Items overview",
+    "name": "Items overview",
     "messages": [
       "There is a wide variety of items available for your use.  You may find them lying on the ground; if so, simply press <press_pickup> to pick up items on the same tile.  Some items are found inside a container, which may be drawn as a { with a blue background.  Pressing <press_examine>, then a direction key, will allow you to examine these containers and loot their contents.",
       "Pressing <press_compare> opens a comparison menu, where you can see two items side-by-side with their attributes color-coded to indicate which is superior.  You can also access the item comparison menu by pressing C after <press_listitems> to open the \"List all items around the player\" menu and selecting an item.",
@@ -171,7 +171,7 @@
   {
     "type": "help",
     "order": 13,
-    "name": "<n|N>: Combat",
+    "name": "Combat",
     "messages": [
       "Zombies in cities will spawn at the start of the game, but may also wander around.  All monsters are represented by letters (or sprites in the Tiles version) on your screen; a list of monster names, as well as their positions relative to you, is displayed on the right side of the screen.  The 'compass' will display monsters that you see but are currently off the screen.",
       "To attack a monster with a melee weapon, simply move into them.  The time it takes to attack depends on the size and weight of your weapon.  Small, light weapons are the fastest; unarmed attacks increase in speed with your Unarmed Combat skill, and will eventually be VERY fast.  A successful hit with a bashing weapon may stun the monster temporarily.  A miss may make you stumble and lose movement points.  If a monster hits you, your clothing may absorb some of the damage, but you will take what remains.",
@@ -188,7 +188,7 @@
   {
     "type": "help",
     "order": 14,
-    "name": "<o|O>: Martial arts styles",
+    "name": "Martial arts styles",
     "messages": [
       "A variety of fighting styles are available, particularly for the unarmed fighter.  You can start with your choice of a single, commonly-taught style by starting with the Martial Arts Training trait.  Many, many more can be found in their own traits, trained from manuals or by taking lessons from wandering masters.",
       "To select a fighting style, press <press_pick_style>.  Some styles are relevant only when you are unarmed, others are compatible with (or require) certain weapons.  If your current weapon is compatible with the chosen style, you will start using the selected style immediately.  Otherwise, it will be locked in as your default style.  To start using it, wield a relevant weapon, or empty your hands by pressing <press_wield>, then the key for the item you are currently wielding.  If you wish to prevent yourself from accidentally wielding weapons taken from the ground, enable \"Keep hands free\" found in the styles menu.",
@@ -200,7 +200,7 @@
   {
     "type": "help",
     "order": 15,
-    "name": "<p|P>: Survival tips",
+    "name": "Survival tips",
     "messages": [
       "The hierarchy of needs for survival in most cases is as follows: shelter, fire, water, food.  The rest is the process of trying to answer a question: What would you do in a survival situation?",
       "The first thing to do, when you are out of immediate danger, is to check your starting location for useful items.  Your initial storage is limited, and a backpack, trenchcoat, or other storage medium will let you carry a lot more.  Finding a weapon is important, but not a first priority; frying pans, butcher knives, and more are common in houses, and hardware stores may have others, as well as useful tools.  Initially, save any guns you find as a last resort: ammo is scarce, while zombies are plenty, and unwanted attention may be more than you can handle.",
@@ -218,7 +218,7 @@
   {
     "type": "help",
     "order": 16,
-    "name": "<r|R>: Vehicles and Driving",
+    "name": "Vehicles and Driving",
     "messages": [
       "You control vehicles using the numpad, or vikeys.  Note, however, that you control the vehicle's controls, rather than controlling the vehicle directly.",
       "<HELP_DRAW_DIRECTIONS>",
@@ -245,7 +245,7 @@
   {
     "type": "help",
     "order": 17,
-    "name": "<s|S>: Skills and proficiencies",
+    "name": "Skills and proficiencies",
     "messages": [
       "SKILLS",
       "Each character has a collection of skills they may learn over time.  These are grouped into four categories: Melee, Ranged, Crafting, and Interaction.  Each skill begins at level 0 and increases with study and practice up to a maximum of level 10.  Each level is harder to attain than the one before, but each level also increases the character's ability to do things using that skill, and may unlock crafting recipes or other actions gated by skill level.  Reaching level 10 in any skill represents true mastery, near the limit of human capability.",
@@ -261,7 +261,7 @@
   {
     "type": "help",
     "order": 18,
-    "name": "<1>: List of item types and data",
+    "name": "List of item types and data",
     "messages": [
       "~       Liquid\n%%       Food\n!       Medication\nThese are all consumed by using <press_eat>.  They may provide a certain amount of nutrition, may quench your thirst, may be a stimulant or a depressant, and may provide (or reduce!) morale.  There may also be more subtle effects.",
       "/       Large weapon\n;       Small weapon or tool\n,       Tiny item\nThese are all generic items, useful only to be wielded as a weapon.  However, some have special uses; they will show up under the TOOLS section in your inventory.  Press <press_apply> to use these.",
@@ -276,7 +276,7 @@
   {
     "type": "help",
     "order": 19,
-    "name": "<2>: Description of map symbols",
+    "name": "Description of map symbols",
     "messages": [
       "MAP SYMBOLS:",
       "<color_brown>.</color>           Field - Empty grassland with occasional wild fruit.",
@@ -304,7 +304,7 @@
   {
     "type": "help",
     "order": 20,
-    "name": "<3>: Description of gun types",
+    "name": "Description of gun types",
     "messages": [
       "<color_light_gray>( Handguns</color>\nHandguns are small weapons held in one or both hands.  They are much more difficult to aim and control than larger firearms, and this is reflected in their poor accuracy.  However, their small size makes them appropriate for short-range combat.  They are also relatively quick to reload and use a very wide variety of ammunition.  Their small size and low weight make it possible to carry several loaded handguns, switching from one to the next as their ammo is spent.",
       "<color_green>( Crossbows</color>\nThe best feature of crossbows is low noise they produce.  The bolts they fire are only rarely destroyed; if you pick up the bolts after firing them, your ammunition supply will last much longer.  Crossbows suffer from a short range and a very long reload time (modified by your strength); plus, most only hold a single round.\nFor this reason, it is advisable to carry a few loaded crossbows.  Crossbows can be very difficult to find; however, it is possible to craft one given a high enough Fabrication skill.  Likewise, it is possible to make wooden bolts from any number of wooden objects, though these are much less effective than steel bolts.  Crossbows use the Rifles skill.",
@@ -320,7 +320,7 @@
   {
     "type": "help",
     "order": 21,
-    "name": "<4>: Description of book colors",
+    "name": "Description of book colors",
     "messages": [
       "BOOK COLORS:",
       "<color_red>Red</color> = You don't yet know what the book is about.  You can skim it to find out.",
@@ -337,7 +337,7 @@
   {
     "type": "help",
     "order": 22,
-    "name": "<5>: FAQ (contains spoilers!)",
+    "name": "FAQ (contains spoilers!)",
     "messages": [
       "Q: What is safe mode, and why does it prevent me from moving?\nA: Safe mode is a way to guarantee that you won't die by holding a movement key down.  When a monster comes into view, your movement will be ignored until safe mode is turned off with the <press_safemode> key.  This ensures that the sudden appearance of a monster won't catch you off guard.",
       "Q: It seems like everything I eat makes me sick!  What's wrong?\nA: Lots of the food found in towns is perishable and will only last a few days after the start of a new game.  The electricity went out several days ago, so fruit, milk, and similar foods are the first to go bad.  After the first couple of days, you should switch to canned food, jerky, and hunting.  Also, you should make sure to cook any food and purify any water you come across, as it may contain parasites or otherwise be unsafe.",

@@ -525,7 +525,20 @@
     "enchantments": [
       {
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders != 0" ] } ] },
-        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] } } ]
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] },
+            "descriptions": [
+              {
+                "id": "moving_creature",
+                "//": "prooly need to separate unagressive creatures, TODO",
+                "symbol": "?",
+                "color": "c_white",
+                "text": "Intruder!"
+              }
+            ]
+          }
+        ]
       }
     ]
   },

@@ -112,10 +112,15 @@
           ]
         }
       },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_TARGET", "+=", "25" ] }
     ],
-    "false_effect": [ { "u_message": "You tried to test a new idea, but it failed.  Try again.", "type": "bad" } ]
+    "false_effect": [
+      {
+        "u_message": "Using the dreamdross, you test out a new idea.  It fails, but you're getting closer to a breakthrough.  You can feel it.",
+        "type": "bad"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -139,7 +144,9 @@
           "dreamforged_tsurugi_speed",
           "dreamforged_q_staff_exp",
           "dreamforged_armguard_plate_gunslinger",
-          "dreamforged_bed_of_restful_repose"
+          "dreamforged_bed_of_restful_repose",
+          "xedra_dreamsmith_time_trap",
+          "xedra_dreamsmith_time_watch"
         ],
         "type": "recipe",
         "true_eocs": {
@@ -152,7 +159,7 @@
           ]
         }
       },
-      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER", "=", "0" ] },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
     ]
   }

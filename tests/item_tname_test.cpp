@@ -961,6 +961,6 @@ TEST_CASE( "tname_i18n_order", "[item][tname][translations]" )
     CHECK( backpack.tname() ==
            "<color_c_green>++</color> backpack (burnt) (filthy)" );
 
-    set_language_from_options();
+    set_language( "en" );
 }
 #endif

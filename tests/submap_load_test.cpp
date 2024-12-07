@@ -46,7 +46,7 @@ static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" )
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-static const point_sm_ms &corner_ne = point_sm_ms_zero;
+static const point_sm_ms &corner_ne = point_sm_ms::zero;
 static const point_sm_ms corner_nw( SEEX - 1, 0 );
 static const point_sm_ms corner_se( 0, SEEY - 1 );
 static const point_sm_ms corner_sw( SEEX - 1, SEEY - 1 );
@@ -1464,7 +1464,7 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     REQUIRE( is_normal_submap( sm, checks ) );
     // Just check there are computers in the right place
     // Checking more is complicated
-    REQUIRE( sm.has_computer( point_sm_ms( point_south ) ) );
+    REQUIRE( sm.has_computer( point_sm_ms( point::south ) ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
 }
 

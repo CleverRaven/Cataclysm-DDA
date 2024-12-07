@@ -1108,8 +1108,8 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "tinyweldtank", "weldtank" ],
-        "default_magazine": "tinyweldtank"
+        "item_restriction": [ "tinyweldtank", "smallweldtank", "weldtank" ],
+        "default_magazine": "smallweldtank"
       }
     ],
     "qualities": [ [ "HOTPLATE", 2 ] ],
