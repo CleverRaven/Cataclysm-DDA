@@ -35,6 +35,8 @@ static const vpart_id vpart_programmable_autopilot( "programmable_autopilot" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_car( "car" );
+static const vproto_id vehicle_prototype_test_1x1( "test_1x1" );
+static const vproto_id vehicle_prototype_test_2x2( "test_2x2" );
 static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
@@ -786,4 +788,65 @@ TEST_CASE( "autopilot_tests", "[vehicle][autopilot]" )
     // checks if it moves, most of the test is a cutout from vehicle_efficiency_test.cpp
     CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_id::NULL_ID() ) == 0 );
     CHECK( test_autopilot_moving( vehicle_prototype_car, vpart_programmable_autopilot ) == 9 );
+}
+
+TEST_CASE( "vehicle_spawn_intersection", "[vehicle]" )
+{
+    // Checks vehicles spawn when intersecting only if one isn't completely contained in the other
+    clear_map();
+    map &here = get_map();
+    const tripoint_bub_ms p( 60, 60, 0 );
+    SECTION( "Try to spawn large vehicle that would completely contain already spawned small vehicle" ) {
+        vehicle *small_vehicle = here.add_vehicle( vehicle_prototype_test_1x1, p, 0_degrees, 0, 2 );
+        REQUIRE( small_vehicle );
+        vehicle *large_vehicle = here.add_vehicle( vehicle_prototype_test_2x2, p, 0_degrees, 0, 2 );
+        CHECK( !large_vehicle );
+        here.destroy_vehicle( small_vehicle );
+        if( large_vehicle ) {
+            here.destroy_vehicle( large_vehicle );
+        }
+    }
+    SECTION( "Try to spawn small vehicle that would be completely contained by already spawned large vehicle" ) {
+        vehicle *large_vehicle = here.add_vehicle( vehicle_prototype_test_2x2, p, 0_degrees, 0, 2 );
+        CHECK( large_vehicle );
+        vehicle *small_vehicle = here.add_vehicle( vehicle_prototype_test_1x1, p, 0_degrees, 0, 2 );
+        REQUIRE( !small_vehicle );
+        here.destroy_vehicle( large_vehicle );
+        if( small_vehicle ) {
+            here.destroy_vehicle( small_vehicle );
+        }
+    }
+    SECTION( "Try to spawn a vehicle that should intersect another successfully" ) {
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 60, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 60, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 61, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 61, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 62, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 62, 0 ) ) ) );
+
+        vehicle *large_vehicle1 = here.add_vehicle( vehicle_prototype_test_2x2, p, 0_degrees, 0, 2 );
+        REQUIRE( large_vehicle1 );
+
+
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 60, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 60, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 61, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 61, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 62, 0 ) ) ) );
+        //CHECK( !veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 62, 0 ) ) ) );
+
+        vehicle *large_vehicle2 = here.add_vehicle( vehicle_prototype_test_2x2, p + tripoint_rel_ms::south,
+                                  0_degrees, 0, 2 );
+
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 60, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 60, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 61, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 61, 0 ) ) ) ); Fails every time even though all the other 17 pass??
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 60, 62, 0 ) ) ) );
+        //CHECK( veh_pointer_or_null( here.veh_at( tripoint_bub_ms( 61, 62, 0 ) ) ) );
+
+        CHECK( large_vehicle2 ); // Fails every time
+        here.destroy_vehicle( large_vehicle1 );
+        here.destroy_vehicle( large_vehicle2 );
+    }
 }
