@@ -810,179 +810,89 @@ void enchant_cache::force_add( const enchant_cache &rhs )
 void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 {
     const_dialogue d( get_const_talker_for( guy ), nullptr );
-    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
-         rhs.values_add ) {
-        values_add[pair_values.first] += pair_values.second.evaluate( d );
-    }
-    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
-         rhs.values_multiply ) {
-        // values do not multiply against each other, they add.
-        // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-    }
-
-    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
-         rhs.skill_values_add ) {
-        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
-    }
-    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
-         rhs.skill_values_multiply ) {
-        // values do not multiply against each other, they add.
-        // so +10% and -10% will add to 0%
-        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-    }
-
-    for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
-         rhs.damage_values_add ) {
-        damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
-    }
-    for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
-         rhs.damage_values_multiply ) {
-        damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-    }
-
-    // from eval to cache, for char
-    for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{
-            struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
-            struc.precise, struc.ignores_aiming_cone } );
-    }
-
-    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
-
-    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
-
-    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
-
-    if( rhs.emitter ) {
-        emitter = rhs.emitter;
-    }
-
-    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
-        modified_bodyparts.emplace_back( bp );
-    }
-
-    for( const trait_id &branch : rhs.mutations ) {
-        mutations.emplace( branch );
-    }
-
-    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
-         rhs.intermittent_activation ) {
-        for( const fake_spell &fake : act_pair.second ) {
-            intermittent_activation[act_pair.first].emplace_back( fake );
-        }
-    }
-
-    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
+    force_add_with_dialogue( rhs, d );
 }
 
 void enchant_cache::force_add( const enchantment &rhs, const monster &mon )
 {
     const_dialogue d( get_const_talker_for( mon ), nullptr );
-    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
-         rhs.values_add ) {
-        values_add[pair_values.first] += pair_values.second.evaluate( d );
-    }
-    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
-         rhs.values_multiply ) {
-        // values do not multiply against each other, they add.
-        // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-    }
-
-    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
-         rhs.skill_values_add ) {
-        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
-    }
-    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
-         rhs.skill_values_multiply ) {
-        // values do not multiply against each other, they add.
-        // so +10% and -10% will add to 0%
-        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-    }
-
-    for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
-         rhs.damage_values_add ) {
-        damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
-    }
-    for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
-         rhs.damage_values_multiply ) {
-        damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
-    }
-
-    // from eval to cache, for monster
-    for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{
-            struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
-            struc.precise, struc.ignores_aiming_cone } );
-    }
-
-    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
-
-    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
-
-    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
-
-    if( rhs.emitter ) {
-        emitter = rhs.emitter;
-    }
-
-    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
-        modified_bodyparts.emplace_back( bp );
-    }
-
-    for( const trait_id &branch : rhs.mutations ) {
-        mutations.emplace( branch );
-    }
-
-    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
-         rhs.intermittent_activation ) {
-        for( const fake_spell &fake : act_pair.second ) {
-            intermittent_activation[act_pair.first].emplace_back( fake );
-        }
-    }
-
-    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
+    force_add_with_dialogue( rhs, d );
 }
 
 void enchant_cache::force_add( const enchantment &rhs )
 {
+    const_dialogue d( nullptr, nullptr );
+    force_add_with_dialogue( rhs, d, false );
+}
+
+void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue d,
+        const bool evaluate )
+{
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_add ) {
-        values_add[pair_values.first] += pair_values.second.constant();
+        if( evaluate ) {
+            values_add[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            values_add[pair_values.first] += pair_values.second.constant();
+        }
     }
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += pair_values.second.constant();
+        if( evaluate ) {
+            values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            values_multiply[pair_values.first] += pair_values.second.constant();
+        }
     }
 
     for( const std::pair<const skill_id, dbl_or_var> &pair_values :
          rhs.skill_values_add ) {
-        skill_values_add[pair_values.first] += pair_values.second.constant();
+        if( evaluate ) {
+            skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            skill_values_add[pair_values.first] += pair_values.second.constant();
+        }
     }
     for( const std::pair<const skill_id, dbl_or_var> &pair_values :
          rhs.skill_values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        skill_values_multiply[pair_values.first] += pair_values.second.constant();
+        if( evaluate ) {
+            skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            skill_values_multiply[pair_values.first] += pair_values.second.constant();
+        }
     }
 
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.damage_values_add ) {
-        damage_values_add[pair_values.first] += pair_values.second.constant();
+        if( evaluate ) {
+            damage_values_add[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            damage_values_add[pair_values.first] += pair_values.second.constant();
+        }
     }
     for( const std::pair<const damage_type_id, dbl_or_var> &pair_values :
          rhs.damage_values_multiply ) {
-        damage_values_multiply[pair_values.first] += pair_values.second.constant();
+        if( evaluate ) {
+            damage_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+        } else {
+            damage_values_multiply[pair_values.first] += pair_values.second.constant();
+        }
     }
 
-    // from eval to cache, with constant
     for( const enchantment::special_vision &struc : rhs.special_vision_vector ) {
-        special_vision_vector.emplace_back( special_vision{
-            struc.special_vision_descriptions_vector, struc.condition, struc.range.constant(),
-            struc.precise, struc.ignores_aiming_cone } );
+        if( evaluate ) {
+            special_vision_vector.emplace_back( special_vision{
+                struc.special_vision_descriptions_vector, struc.condition, struc.range.evaluate( d ),
+                struc.precise, struc.ignores_aiming_cone } );
+        } else {
+            special_vision_vector.emplace_back( special_vision{
+                struc.special_vision_descriptions_vector, struc.condition, struc.range.constant(),
+                struc.precise, struc.ignores_aiming_cone } );
+        }
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
