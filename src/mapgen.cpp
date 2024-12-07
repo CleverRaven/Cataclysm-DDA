@@ -6881,31 +6881,35 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     std::unique_ptr<vehicle> veh_to_add, const bool merge_wrecks )
 {
     // Back out if it would result in a vehicle entirely contained within another
-    vehicle *const first_veh = veh_pointer_or_null( veh_at( p ) );
-    if( first_veh != nullptr ) {
-        const std::set<tripoint_bub_ms> &v1_points = first_veh->get_points();
+    vehicle *veh_in_way;
+    for( const tripoint_bub_ms &p : veh_to_add->get_points() ) {
+        veh_in_way = veh_pointer_or_null( veh_at( p ) );
+        if( !!veh_in_way ) {
+            break;
+        }
+    }
+    if( veh_in_way != nullptr ) {
+        if( !merge_wrecks ) {
+            return nullptr;
+        }
+        auto is_subset = [&]( std::set<tripoint_bub_ms> small_set, std::set<tripoint_bub_ms> large_set ) {
+            for( const tripoint_bub_ms &p : small_set ) {
+                if( large_set.find( p ) == large_set.end() ) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        const std::set<tripoint_bub_ms> &v1_points = veh_in_way->get_points();
         const std::set<tripoint_bub_ms> &v2_points = veh_to_add->get_points();
-        bool v1_points_is_subset = true;
-        for( const tripoint_bub_ms &v1point : v1_points ) {
-            if( v2_points.find( v1point ) == v2_points.end() ) {
-                v1_points_is_subset = false;
-                break;
+        if( v1_points.size() < v2_points.size() ) {
+            if( is_subset( v1_points, v2_points ) ) {
+                return nullptr;
             }
-        }
-        if( v1_points_is_subset ) {
-            // The first vehicle would be entirely contained within the second, don't spawn
-            return nullptr;
-        }
-        bool v2_points_is_subset = true;
-        for( const tripoint_bub_ms &v2point : v2_points ) {
-            if( v1_points.find( v2point ) == v1_points.end() ) {
-                v2_points_is_subset = false;
-                break;
+        } else {
+            if( is_subset( v2_points, v1_points ) ) {
+                return nullptr;
             }
-        }
-        if( v2_points_is_subset ) {
-            // The second vehicle would be entirely contained within the first, don't spawn
-            return nullptr;
         }
     }
 
@@ -6933,10 +6937,6 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         // Simulate collisions
         vehicle *const first_veh = veh_pointer_or_null( veh_at( p ) );
         if( first_veh != nullptr ) {
-            if( !merge_wrecks ) {
-                return nullptr;
-            }
-
             // Hard wreck-merging limit: 200 tiles
             // Merging is slow for big vehicles which lags the mapgen
             if( frame_indices.size() + first_veh->all_parts_at_location( "structure" ).size() > 200 ) {
