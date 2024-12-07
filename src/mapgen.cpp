@@ -202,8 +202,6 @@ static const trap_str_id tr_shadow( "tr_shadow" );
 static const trap_str_id tr_snake( "tr_snake" );
 static const trap_str_id tr_telepad( "tr_telepad" );
 
-static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
-
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int MON_RADIUS = 3;
@@ -6891,6 +6889,31 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
 
+    vehicle *const first_veh = veh_pointer_or_null( veh_at( p ) );
+    if( first_veh != nullptr ) {
+        const std::set<tripoint_bub_ms> &v1_points = first_veh->get_points();
+        const std::set<tripoint_bub_ms> &v2_points = veh_to_add->get_points();
+        size_t i;
+        for( const tripoint_bub_ms &v1point : v1_points ) {
+            if( v2_points.find( v1point ) != v2_points.end() ) {
+                i++;
+            }
+        }
+        if( i == v1_points.size() ) {
+            // v1_points is a subset of v2_points, don't spawn
+            return nullptr;
+        }
+        size_t j;
+        for( const tripoint_bub_ms &v2point : v2_points ) {
+            if( v1_points.find( v2point ) != v1_points.end() ) {
+                j++;
+            }
+        }
+        if( j == v1_points.size() ) {
+            // v1_points is a subset of v2_points, don't spawn
+            return nullptr;
+        }
+    }
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
         const tripoint_bub_ms p = veh_to_add->bub_part_pos( *part );
@@ -6903,16 +6926,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             return nullptr;
         }
 
-        // Don't spawn shopping carts on top of another vehicle or other obstacle.
-        if( veh_to_add->type == vehicle_prototype_shopping_cart ) {
-            if( veh_at( p ) || impassable( p ) ) {
-                return nullptr;
-            }
-        }
-
-        //For other vehicles, simulate collisions with (non-shopping cart) stuff
+        // Simulate collisions
         vehicle *const first_veh = veh_pointer_or_null( veh_at( p ) );
-        if( first_veh != nullptr && first_veh->type != vehicle_prototype_shopping_cart ) {
+        if( first_veh != nullptr ) {
             if( !merge_wrecks ) {
                 return nullptr;
             }
