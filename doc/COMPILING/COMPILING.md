@@ -167,11 +167,9 @@ The -j2 flag means it will compile with two parallel processes. It can be omitte
 If you want sound and graphics, make sure to emerge with the following:
 
 ```bash
-USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" \
+USE="vorbis png" \
  emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
 ```
-
-It may also be possible to get away with fewer dependencies, but this set has been tested.
 
 Once the above libraries are installed, compile with:
 
