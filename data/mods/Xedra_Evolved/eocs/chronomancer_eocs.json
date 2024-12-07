@@ -398,5 +398,13 @@
       { "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES" },
       { "run_eocs": "EOC_XEDRA_TIME_LOOP_LOOP", "time_in_future": "5 seconds" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU",
+    "effect": [ 
+        { "math": [ "u_xedra_chronomancer_insight_count=u_vitamin('xedra_chronomancer_insight')"] },
+        { "open_dialogue": { "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN" } } 
+    ]
   }
 ]

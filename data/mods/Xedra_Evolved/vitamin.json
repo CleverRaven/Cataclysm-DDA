@@ -99,6 +99,7 @@
     "name": { "str": "Insight into Time" },
     "//": "Counts how much insight a chronomancer has obtained.  They automatically obtain 1 per day and may obtain much more by killing particular monsters or other activities.",
     "min": 0,
+    "max": 10000,
     "rate": "0 m"
   },
   {
