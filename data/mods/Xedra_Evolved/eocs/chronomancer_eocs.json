@@ -50,7 +50,7 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true } ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INV_SCANNER_ENERGY",
@@ -159,7 +159,7 @@
             "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_REPAIR_SCANNER",
             "effect": [
               {
-                "math": [ "n_hp('ALL') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 1 )" ]
+                "math": [ "n_hp('ALL') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )" ]
               }
             ]
           }
@@ -167,15 +167,30 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "//": "no way to target vehicle parts only",
+        "//": "no way to target vehicle parts only?",
         "true_eocs": [
           {
             "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_DEGRADATION_SCANNER",
             "effect": [
               {
                 "math": [
-                  "n_degradation() -= xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 1 )"
+                  "n_degradation() -= xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )"
                 ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "PSEUDO", "USES_BIONIC_POWER" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY_ONGOING_ENERGY_SCANNER",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [
+              {
+                "math": [ "n_val('power') += xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_equipment_causality'), 10, 0 )" ]
               }
             ]
           }
