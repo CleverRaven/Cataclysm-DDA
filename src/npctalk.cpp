@@ -4863,14 +4863,19 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
                 if( sid.empty() ) {
                     sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
                     target_talker->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
-                    target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    if( store_in_lore ) {
+                        target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    }
+
                 }
                 translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                         translation() ).translated() );
             } else {
                 sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
                 if( !sid.empty() ) {
-                    target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    if( store_in_lore ) {
+                        target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    }
                     translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                             translation() ).translated() );
                 }
