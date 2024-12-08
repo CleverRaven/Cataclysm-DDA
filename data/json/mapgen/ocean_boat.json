@@ -1,0 +1,45 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "ocean_boat",
+    "object": {
+      "predecessor_mapgen": "ocean_surface",
+      "parameters": {
+        "nest": {
+          "type": "nested_mapgen_id",
+          "default": { "distribution": [ [ "24x24_random_ocean_boat", 1 ], [ "24x24_random_player_owned_ocean_boat", 0 ] ] }
+        }
+      },
+      "place_nested": [ { "chunks": [ { "param": "nest", "fallback": "null" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_random_player_owned_ocean_boat",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_vehicles": [
+        {
+          "vehicle": "ocean",
+          "chance": 100,
+          "fuel": 50,
+          "status": 0,
+          "faction": "your_followers",
+          "x": [ 4, 19 ],
+          "y": [ 4, 19 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_random_ocean_boat",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_vehicles": [ { "vehicle": "ocean", "chance": 100, "x": [ 4, 19 ], "y": [ 4, 19 ] } ]
+    }
+  }
+]

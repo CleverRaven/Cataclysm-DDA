@@ -6084,6 +6084,19 @@ Arbitrary flags.  Two flags are supported in the code: `ALLOW_OUTSIDE` and `BOAR
 },
 ```
 
+## `ocean_offset`
+(optional, integer) becomes (mandatory, integer) if ocean_direction is specified
+
+When specified offsets the initial search location for this starting location to an ocean,
+where the integer provided specifies the number of overmaps from the coast, where negative is inland, positive out to sea.
+Relies on oceans not being disabled by the external option and also on at least one non 0 start direction for ocean in region_settings.
+
+## `ocean_direction`
+(optional, string)
+
+Valid values: `"north"`, `"east"`, `"south"`, `"west"`, `"random"`
+When specified overrides the default nearest ocean search to instead use a specified or random ocean.
+
 # Mutation overlay ordering
 
 The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.

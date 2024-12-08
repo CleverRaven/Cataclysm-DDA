@@ -4527,6 +4527,14 @@
   },
   {
     "type": "overmap_special",
+    "id": "Ocean Random Boat",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "ocean_boat" } ],
+    "locations": [ "ocean_surface" ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "lake_shore_dock_small",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },

@@ -143,6 +143,23 @@ void start_location::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "allowed_z_levels" ) ) {
         assign( jo, "allowed_z_levels", constraints_.allowed_z_levels, strict );
     }
+    if( jo.has_string( "ocean_direction" ) ) {
+        mandatory( jo, was_loaded, "ocean_offset", ocean_offset );
+        std::string direction;
+        direction = jo.get_string( "ocean_direction" );
+        if( direction == "random" ) {
+            ocean_dir_random = true;
+        } else {
+            ocean_dir = static_cast<int>( io::string_to_enum<om_direction::type>( direction ) );
+            if( ocean_dir < 0 || ocean_dir > 3 ) {
+                jo.throw_error_at( "ocean_direction", string_format( "Ocean direction %s not recognised.",
+                                   direction ) );
+                ocean_dir = -1;
+            }
+        }
+    } else {
+        optional( jo, was_loaded, "ocean_offset", ocean_offset );
+    }
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
@@ -254,6 +271,31 @@ void start_location::prepare_map( tinymap &m ) const
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
+}
+
+bool start_location::offset_search_location( point_abs_om &origin ) const
+{
+    if( ocean_offset != INT_MAX ) {
+        overmap &omap = overmap_buffer.get( origin );
+
+        const auto offset_dir = [&]() {
+            if( om_direction::type{ocean_dir} == om_direction::type::invalid ) {
+                if( ocean_dir_random ) {
+                    return omap.find_dir_random_ocean_origin();
+                } else {
+                    return omap.find_dir_nearest_ocean_origin();
+                }
+            }
+            return om_direction::type{ocean_dir};
+        };
+        const int distance_to_ocean = omap.find_dist_ocean_origin( offset_dir() );
+        if( distance_to_ocean == 0 ) {
+            cata_fatal( string_format( "Start location %s specified a disabled ocean direction", id.c_str() ) );
+        }
+        origin += om_direction::displace( offset_dir() ) * ( ocean_offset + distance_to_ocean );
+        return true;
+    }
+    return false;
 }
 
 std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
@@ -378,15 +420,16 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint &p,
-                          const bool must_be_inside, const bool accommodate_npc,
-                          const int bash_str, const int attempt,
+static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+                          const bool must_be_controls, const bool accommodate_npc, const int bash_str, const int attempt,
                           cata::mdarray<int, point_bub_ms> &checked )
 {
     const auto invalid_char_pos = [&]( const tripoint & tp ) -> bool {
         return ( must_be_inside && m.is_outside( tp ) ) ||
-        m.impassable( tp ) || m.is_divable( tp ) ||
-        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
+        ( must_be_controls && !static_cast<bool>( m.veh_at( tp ).part_with_feature( "CONTROLS", true ) ) ) ||
+        ( !must_be_controls && (
+              m.impassable( tp ) || m.is_divable( tp ) ||
+              m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp ) ) );
     };
 
     if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
@@ -449,7 +492,15 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
-    const bool accommodate_npc = flags().count( "LONE_START" ) == 0;
+    // Incorrectly checks start_location instead of scenario
+    const bool must_be_controls = flags().count( "CONTROLLING_VEHICLE" ) == 1;
+    // Incorrectly checks start_location instead of scenario
+    bool accommodate_npc = flags().count( "LONE_START" ) == 0;
+    if( must_be_controls && accommodate_npc ) {
+        // Relative NPC position is done in a fixed way that doesn't gel well with vehicle starts
+        debugmsg( "start_location %s: Must use LONE_START with CONTROLLING_VEHICLE for now", id.c_str() );
+        accommodate_npc = false;
+    }
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = you.get_str();
@@ -483,8 +534,8 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     int tries = 0;
     const auto check_spot = [&]( const tripoint_bub_ms & pt ) {
         ++tries;
-        const int rate = rate_location( here, pt.raw(), must_be_inside, accommodate_npc, bash, tries,
-                                        checked );
+        const int rate = rate_location( here, pt.raw(), must_be_inside, must_be_controls, accommodate_npc,
+                                        bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
             best_spot = pt;
