@@ -1,0 +1,12 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON",
+    "effect": [ { "u_add_trait": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF",
+    "effect": [ { "u_lose_trait": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE" } ]
+  }
+]
