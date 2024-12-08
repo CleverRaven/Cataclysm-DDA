@@ -712,7 +712,7 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
     // eliminate ghost vehicles/furnitures/etc.
     update_memory( grab_type, grab_point, /* erase = */ true );
 
-    path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
+    path_settings->set_avoid_rough_terrain( grab_type != object_type::NONE );
 }
 
 object_type avatar::get_grab_type() const

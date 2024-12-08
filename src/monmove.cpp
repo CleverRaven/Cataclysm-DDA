@@ -190,10 +190,10 @@ bool monster::know_danger_at( const tripoint &p ) const
 
     bool avoid_fire = avoid_simple || has_flag( mon_flag_PATH_AVOID_FIRE );
     bool avoid_fall = avoid_simple || has_flag( mon_flag_PATH_AVOID_FALL );
-    bool avoid_sharp = avoid_simple || get_pathfinding_settings().avoid_sharp;
+    bool avoid_sharp = avoid_simple || get_pathfinding_settings().avoid_sharp();
 
-    bool avoid_dangerous_fields = get_pathfinding_settings().avoid_dangerous_fields;
-    bool avoid_traps = get_pathfinding_settings().avoid_traps;
+    bool avoid_dangerous_fields = get_pathfinding_settings().avoid_dangerous_fields();
+    bool avoid_traps = get_pathfinding_settings().avoid_dangerous_traps();
 
     // technically this will shortcut in evaluation from fire or fall
     // before hitting simple or complex but this is more explicit
@@ -1023,8 +1023,8 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const pathfinding_settings &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
+            const PathfindingSettings &pf_settings = get_pathfinding_settings();
+            if( pf_settings.max_distance() >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest.raw() ) ) {
                 // We need a new path
                 if( can_pathfind() ) {

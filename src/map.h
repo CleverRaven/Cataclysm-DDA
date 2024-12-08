@@ -97,7 +97,7 @@ class map;
 
 enum class ter_furn_flag : int;
 struct pathfinding_cache;
-struct pathfinding_settings;
+class PathfindingSettings;
 template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
@@ -775,12 +775,12 @@ class map
          */
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                                     const pathfinding_settings &settings,
+                                     const PathfindingSettings &settings,
         const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
             return false;
         } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
-                                            const pathfinding_settings &settings,
+                                            const PathfindingSettings &settings,
         const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
             return false;
         } ) const;
@@ -795,17 +795,17 @@ class map
         // Pathfinding cost helper that computes the cost of moving into |p| from |cur|.
         // Includes climbing, bashing and opening doors.
         int cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
-                          const pathfinding_settings &settings,
+                          const PathfindingSettings &settings,
                           PathfindingFlags p_special ) const;
         // Pathfinding cost helper that computes the cost of moving into |p|
         // from |cur| based on perceived danger.
         // Includes moving through traps.
         int cost_to_avoid( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
-                           const pathfinding_settings &settings,
+                           const PathfindingSettings &settings,
                            PathfindingFlags p_special ) const;
         // Sum of cost_to_pass and cost_to_avoid.
         int extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
-                        const pathfinding_settings &settings,
+                        const PathfindingSettings &settings,
                         PathfindingFlags p_special ) const;
     public:
 
