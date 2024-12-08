@@ -1851,7 +1851,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         aim_type_prediction prediction = {};
         prediction.name = aim_type.has_threshold ? aim_type.name : _( "Current" );
         prediction.is_default = aim_type.action.empty(); // default mode defaults to FIRE hotkey
-        prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
+        prediction.hotkey = ( keys.empty() ? input_event() : keys.front(), 1 );
 
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             prediction.moves = throw_moves;
@@ -3876,11 +3876,6 @@ void target_ui::draw_controls_list( int text_y )
     nc_color col_move = ( status != Status::OutOfAmmo ? col_enabled : col_disabled );
     nc_color col_fire = ( status == Status::Good ? col_enabled : col_disabled );
 
-    // Get first key bound to given action OR ' ' if there are none.
-    const auto bound_key = [this]( const std::string & s ) {
-        const std::vector<input_event> keys = this->ctxt.keys_bound_to( s, /*maximum_modifier_count=*/1 );
-        return keys.empty() ? input_event() : keys.front();
-    };
     const auto colored = [col_enabled]( nc_color color, const std::string & s ) {
         if( color == col_enabled ) {
             // col_enabled is the default one when printing
@@ -3897,42 +3892,31 @@ void target_ui::draw_controls_list( int text_y )
     std::vector<line> lines;
 
     // Compile full list
-    if( shifting_view ) {
-        lines.push_back( {8, colored( col_move, _( "Shift view with directional keys" ) )} );
-    } else {
-        lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
-    }
-    if( is_mouse_enabled() ) {
-        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
-        std::string fire = _( "RMB: Fire" );
-        lines.push_back( {7, colored( col_move, move ) + " " + colored( col_fire, fire )} );
-    }
     {
         std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-        std::string fire = string_format( _( "[%s] %s." ), bound_key( "FIRE" ).short_description(),
-                                          uitext_fire() );
+        std::string fire = string_format( _( "[%s] %s." ), ctxt.get_desc( "FIRE", 1 ), uitext_fire() );
         lines.push_back( {0, colored( col_move, cycle ) + " " + colored( col_fire, fire )} );
     }
     {
         std::string text = string_format( _( "[%s] target self; [%s] toggle snap-to-target" ),
-                                          bound_key( "CENTER" ).short_description(),
-                                          bound_key( "TOGGLE_SNAP_TO_TARGET" ).short_description() );
+                                          ctxt.get_desc( "CENTER", 1 ),
+                                          ctxt.get_desc( "TOGGLE_SNAP_TO_TARGET", 1 ) );
         lines.push_back( {3, colored( col_enabled, text )} );
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
         for( const aim_type &e : aim_types ) {
             if( e.has_threshold ) {
-                aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
+                aim_and_fire += string_format( "[%s] ", ctxt.get_desc( e.action, 1 ) );
             }
         }
         aim_and_fire += _( "to aim and fire." );
 
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
-                                         bound_key( "AIM" ).short_description() );
+                                         ctxt.get_desc( "AIM", 1 ) );
 
         std::string dropaim = string_format( _( "[%s] to stop aiming." ),
-                                             bound_key( "STOPAIM" ).short_description() );
+                                             ctxt.get_desc( "STOPAIM", 1 ) );
 
         lines.push_back( {2, colored( col_fire, aim )} );
         lines.push_back( { 2, colored( col_fire, dropaim ) } );
@@ -3941,22 +3925,22 @@ void target_ui::draw_controls_list( int text_y )
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
             relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )
+                                      ctxt.get_desc( "SWITCH_MODE", 1 ) ) )
                          } );
         if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) &&
             ( !relevant->ammo_remaining() || !relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) ) {
             lines.push_back( { 6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                           bound_key( "SWITCH_AMMO" ).short_description() ) )
+                                           ctxt.get_desc( "SWITCH_AMMO", 1 ) ) )
                              } );
         } else {
             if( !unload_RAS_weapon ) {
                 std::string unload = string_format( _( "[%s] Unload the %s after quitting." ),
-                                                    bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
+                                                    ctxt.get_desc( "TOGGLE_UNLOAD_RAS_WEAPON", 1 ),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_disabled, unload )} );
             } else {
                 std::string unload = string_format( _( "[%s] Keep the %s loaded after quitting." ),
-                                                    bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
+                                                    ctxt.get_desc( "TOGGLE_UNLOAD_RAS_WEAPON", 1 ),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_enabled, unload )} );
             }
@@ -3966,7 +3950,7 @@ void target_ui::draw_controls_list( int text_y )
         const std::string label = draw_turret_lines
                                   ? _( "[%s] Hide lines of fire" )
                                   : _( "[%s] Show lines of fire" );
-        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ).short_description() ) )} );
+        lines.push_back( {1, colored( col_enabled, string_format( label, ctxt.get_desc( "TOGGLE_TURRET_LINES", 1 ) ) )} );
     }
 
     // Shrink the list until it fits

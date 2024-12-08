@@ -809,14 +809,12 @@ static void draw_header( const catacurses::window &w )
 {
     int tmpx = 0;
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
-                            _( "<R>emove custom color" ) ) + 2;
-    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
-                            _( "<Arrow Keys> To navigate" ) ) + 2;
-    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+                            _( "<\u23F4>-Remove Custom Color" ) ) + 2;
+    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<A>-Edit" ) );
     tmpx = 0;
     tmpx += shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green,
-                            _( "Load a <C>olor theme" ) ) + 2;
-    shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green, _( "Load <T>emplate" ) );
+                            _( "<\u23F5>-Load Color Theme" ) ) + 2;
+    shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green, _( "<Y>-Load Template" ) );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
