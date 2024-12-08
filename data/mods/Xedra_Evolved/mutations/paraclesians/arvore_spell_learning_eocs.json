@@ -71,6 +71,7 @@
         { "math": [ "u_spell_level('arvore_cause_decay') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_create_living_tent_spell') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_preservation_container') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_summon_floral_boat') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_wood_spirit') < 35" ] },
         { "math": [ "u_spell_level('arvore_roots_crack_the_foundation') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_forest_translocate') < per_to_level(1)" ] },
@@ -98,6 +99,7 @@
         [ "EOC_LEVELER_ARVORE_FOREST_TELEPORT", 7 ],
         [ "EOC_LEVELER_ARVORE_CAUSE_DECAY", 2 ],
         [ "EOC_LEVELER_ARVORE_SUMMON_PRESERVATION_CONTAINER", 7 ],
+        [ "EOC_LEVELER_ARVORE_SUMMON_FLORAL_BOAT", 4 ],
         [ "EOC_LEVELER_ARVORE_SUMMON_WOOD_SPIRIT", 8 ],
         [ "EOC_LEVELER_ARVORE_TERRAIN_BASH_SPELL", 4 ],
         [ "EOC_LEVELER_ARVORE_FOREST_TRANSLOCATION", 2 ],
@@ -258,6 +260,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('arvore_summon_preservation_container')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_SUMMON_FLORAL_BOAT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_summon_floral_boat') >= 0" ] },
+        { "math": [ "u_spell_level('arvore_summon_floral_boat') < per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('arvore_summon_floral_boat')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

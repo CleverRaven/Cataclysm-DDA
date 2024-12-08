@@ -650,36 +650,37 @@ void flashbang( const tripoint &p, bool player_immune )
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
                 bool ignore_player )
 {
-    draw_explosion( p, radius, c_blue );
+    const tripoint_bub_ms pos{p}; // TODO: Remove when operation is typified
+    draw_explosion( pos, radius, c_blue );
 
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
+    sounds::sound( pos, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
-        if( critter.posz() != p.z ) {
+        if( critter.posz() != pos.z() ) {
             continue;
         }
-        if( rl_dist( critter.pos(), p ) <= radius ) {
+        if( rl_dist( critter.pos_bub(), pos ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
-            g->knockback( p, critter.pos(), force, stun, dam_mult );
+            g->knockback( pos, critter.pos_bub(), force, stun, dam_mult );
         }
     }
     // TODO: combine the two loops and the case for avatar using all_creatures()
     for( npc &guy : g->all_npcs() ) {
-        if( guy.posz() != p.z ) {
+        if( guy.posz() != pos.z() ) {
             continue;
         }
-        if( rl_dist( guy.pos(), p ) <= radius ) {
+        if( rl_dist( guy.pos_bub(), pos ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.get_name() );
-            g->knockback( p, guy.pos(), force, stun, dam_mult );
+            g->knockback( pos, guy.pos_bub(), force, stun, dam_mult );
         }
     }
     Character &player_character = get_player_character();
-    if( rl_dist( player_character.pos(), p ) <= radius && !ignore_player &&
+    if( rl_dist( player_character.pos_bub(), pos ) <= radius && !ignore_player &&
         ( !player_character.has_trait( trait_LEG_TENT_BRACE ) ||
           !player_character.is_barefoot() ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, player_character.pos(), force, stun, dam_mult );
+        g->knockback( pos, player_character.pos_bub(), force, stun, dam_mult );
     }
 }
 

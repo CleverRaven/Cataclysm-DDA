@@ -8422,10 +8422,9 @@ void map::shift( const point_rel_sm &sp )
     const tripoint_abs_sm abs = get_abs_sub();
     std::vector<tripoint_rel_sm> loaded_grids;
 
-    // TODO: fix point types (sp should be relative?)
     set_abs_sub( abs + sp );
 
-    g->shift_destination_preview( point( -sp.x() * SEEX, -sp.y() * SEEY ) );
+    g->shift_destination_preview( { -sp.x() * SEEX, -sp.y() * SEEY } );
 
     shift_traps( sp );
 

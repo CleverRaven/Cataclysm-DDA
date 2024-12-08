@@ -67,6 +67,11 @@ tripoint talker_character_const::pos() const
     return me_chr_const->pos();
 }
 
+tripoint_bub_ms talker_character_const::pos_bub() const
+{
+    return me_chr_const->pos_bub();
+}
+
 tripoint_abs_ms talker_character_const::global_pos() const
 {
     return me_chr_const->get_location();
@@ -75,11 +80,6 @@ tripoint_abs_ms talker_character_const::global_pos() const
 tripoint_abs_omt talker_character_const::global_omt_location() const
 {
     return me_chr_const->global_omt_location();
-}
-
-void talker_character::set_pos( tripoint new_pos )
-{
-    me_chr->setpos( new_pos );
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
@@ -128,6 +128,11 @@ dealt_damage_instance talker_character_const::deal_damage( Creature *source, bod
         const damage_instance &dam ) const
 {
     return source->deal_damage( source, bp, dam );
+}
+
+void talker_character::set_pos( tripoint_bub_ms new_pos )
+{
+    me_chr->setpos( new_pos );
 }
 
 void talker_character::set_str_max( int value )

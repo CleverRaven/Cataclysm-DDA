@@ -7946,7 +7946,7 @@ ret_val<void> update_mapgen_function_json::update_map(
         // trigger main map cleanup
         p_update_smap.reset();
         // trigger new traps, etc
-        g->place_player( get_avatar().pos(), true );
+        g->place_player( get_avatar().pos_bub(), true );
     }
 
     // Trigger magic to add roofs (within load) if needed.

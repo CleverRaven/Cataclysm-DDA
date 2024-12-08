@@ -211,7 +211,7 @@
       {
         "if": { "math": [ "u_proceed_shield", "==", "1" ] },
         "then": [
-          { "math": [ "n_shield_turn", "++" ] },
+          { "math": [ "n_shield_turn++" ] },
           {
             "if": {
               "and": [ { "math": [ "n_SHIELD_REGEN", "!=", "0" ] }, { "math": [ "n_shield_turn/n_SHIELD_REGEN_RATE", ">", "1" ] } ]

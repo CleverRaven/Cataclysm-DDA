@@ -286,6 +286,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_ACTION",
+            "effect": [ { "u_cast_spell": { "id": "arvore_summon_floral_boat_real" }, "targeted": true } ],
+            "false_effect": { "u_message": "You need a nearby tree to transform it into the viridescent vessel.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "arvore_floral_boat_tree" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_floral_boat_tree" } }
+      },
+      {
+        "u_transform_radius": 0,
+        "target_var": { "context_val": "arvore_floral_boat_tree" },
+        "ter_furn_transform": "ter_arvore_tree_to_grass"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_SEED_BEARER_activated",
     "condition": {
       "and": [
@@ -761,8 +785,18 @@
             { "not": { "u_know_recipe": "create_verdant_helm" } },
             { "not": { "u_know_recipe": "create_verdant_cuirass" } },
             { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_leg_guards" } },
             { "not": { "u_know_recipe": "create_verdant_boots" } },
-            { "not": { "u_know_recipe": "create_verdant_cloak" } }
+            { "not": { "u_know_recipe": "create_verdant_cloak" } },
+            { "not": { "u_know_recipe": "create_shortbow_treesung" } },
+            { "not": { "u_know_recipe": "create_greatbow_treesung" } },
+            { "not": { "u_know_recipe": "create_arrow_treesung" } },
+            { "not": { "u_know_recipe": "create_spear_treesung" } },
+            { "not": { "u_know_recipe": "create_pike_treesung" } },
+            { "not": { "u_know_recipe": "create_mace_treesung" } },
+            { "not": { "u_know_recipe": "create_q_staff_treesung" } },
+            { "not": { "u_know_recipe": "create_naginata_treesung" } },
+            { "not": { "u_know_recipe": "create_baselard_treesung" } }
           ]
         },
         {
@@ -800,8 +834,18 @@
           "create_verdant_helm",
           "create_verdant_cuirass",
           "create_verdant_gauntlets",
+          "create_verdant_leg_guards",
           "create_verdant_boots",
-          "create_verdant_cloak"
+          "create_verdant_cloak",
+          "create_shortbow_treesung",
+          "create_greatbow_treesung",
+          "create_arrow_treesung",
+          "create_spear_treesung",
+          "create_pike_treesung",
+          "create_mace_treesung",
+          "create_q_staff_treesung",
+          "create_naginata_treesung",
+          "create_baselard_treesung"
         ],
         "type": "recipe"
       },
