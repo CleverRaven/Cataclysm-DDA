@@ -1259,6 +1259,40 @@
     "relic_data": { "passive_effects": [ { "id": "ench_verdant_gauntlets" } ] }
   },
   {
+    "id": "leg_guards_verdant",
+    "//": "Derived from chitin leg guards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of verdant leg guards", "str_pl": "pairs of verdant leg guards" },
+    "description": "A pair of leg guards made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "weight": "510 g",
+    "volume": "5000 ml",
+    "price": "250 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "PADDED" ],
+    "armor": [
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 3 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ],
+        "encumbrance": 3
+      }
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_legs" } ] }
+  },
+  {
     "id": "boots_verdant",
     "//": "Derived from chitinous boots",
     "type": "ARMOR",

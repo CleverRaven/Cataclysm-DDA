@@ -41,6 +41,11 @@ tripoint talker_monster_const::pos() const
     return me_mon_const->pos();
 }
 
+tripoint_bub_ms talker_monster_const::pos_bub() const
+{
+    return me_mon_const->pos_bub();
+}
+
 tripoint_abs_ms talker_monster_const::global_pos() const
 {
     return me_mon_const->get_location();

@@ -341,7 +341,7 @@
     "base_energy_cost": 800,
     "final_energy_cost": 500,
     "energy_increment": -40,
-    "learn_spells": { "arvore_create_living_tent_spell": 4 }
+    "learn_spells": { "arvore_create_living_tent_spell": 4, "arvore_summon_floral_boat": 10 }
   },
   {
     "id": "arvore_verdant_infusion",
@@ -452,7 +452,8 @@
     "energy_increment": -30,
     "base_casting_time": 6000,
     "final_casting_time": 1500,
-    "casting_time_increment": -250
+    "casting_time_increment": -250,
+    "learn_spells": { "arvore_create_living_tent_spell": 6, "arvore_summon_floral_boat": 12 }
   },
   {
     "id": "arvore_summon_preservation_container_real",
@@ -482,6 +483,55 @@
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "base_casting_time": 400
+  },
+  {
+    "id": "arvore_summon_floral_boat",
+    "type": "SPELL",
+    "name": "Viridescent Vessel",
+    "description": "Trees require water but will still drown if submerged.  This spell allows the Arvore to create a floral boat with the help of a nearby tree, letting them travel safely across water.\n\nYou must be standing <color_yellow>next to a tree</color> and <color_yellow>near the water</color> for the spell to be effective.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
+    "shape": "blast",
+    "difficulty": 7,
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "energy_increment": -40,
+    "final_energy_cost": 600,
+    "base_casting_time": 3000,
+    "casting_time_increment": 75,
+    "final_casting_time": 100
+  },
+  {
+    "id": "arvore_summon_floral_boat_real",
+    "type": "SPELL",
+    "name": { "str": "Viridescent Vessel Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell to summon the boat.  If you have it, it's a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DURATION" ],
+    "effect": "summon_vehicle",
+    "effect_str": "arvore_floral_boat",
+    "shape": "blast",
+    "min_range": 8,
+    "max_range": 8,
+    "min_duration": {
+      "math": [
+        "( 45000 + (u_spell_level('arvore_summon_floral_boat') * 10000) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 90000 + (u_spell_level('arvore_summon_floral_boat') * 32000 ) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    }
   },
   {
     "id": "arvore_summon_briars",
@@ -810,7 +860,7 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5,
-    "learn_spells": { "arvore_roots_spell": 8, "arvore_create_living_tent_spell": 10 }
+    "learn_spells": { "arvore_roots_spell": 8, "arvore_create_living_tent_spell": 10, "arvore_summon_floral_boat": 16 }
   },
   {
     "type": "SPELL",
@@ -835,7 +885,8 @@
     "energy_increment": -20,
     "base_casting_time": 12000,
     "final_casting_time": 1500,
-    "casting_time_increment": -150
+    "casting_time_increment": -150,
+    "learn_spells": { "arvore_summon_floral_boat": 8 }
   },
   {
     "id": "arvore_summon_grass_field_spell",

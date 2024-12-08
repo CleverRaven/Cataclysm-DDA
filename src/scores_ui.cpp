@@ -166,7 +166,7 @@ void scores_ui_impl::init_data()
         const std::string &symbol = m.sym;
         nc_color color = m.color;
         const std::string &name = m.nname();
-        monster_kills_data.emplace_back( std::make_tuple( num_kills, symbol, color, name ) );
+        monster_kills_data.emplace_back( num_kills, symbol, color, name );
     }
     auto sort_by_count_then_name = []( auto & a, auto & b ) {
         return

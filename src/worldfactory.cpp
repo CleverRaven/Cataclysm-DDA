@@ -307,7 +307,7 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path() / PATH_INFO::worldoptions();
+        const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -423,7 +423,7 @@ void worldfactory::init()
         if( newworld->save( true ) ) {
             const cata_path origin_path = old_world.folder_path();
             // move files from origin_path into new world path
-            for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
+            for( cata_path &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.get_relative_path().filename().generic_u8string();
 
                 if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
@@ -2153,15 +2153,15 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
     auto end = std::remove_if( file_paths.begin(), file_paths.end(), isForbidden );
     file_paths.erase( end, file_paths.end() );
 
-    for( auto &file_path : file_paths ) {
+    for( cata_path &file_path : file_paths ) {
         fs::path folder_path = file_path.get_unrelative_path().parent_path();
-        while( folder_path.filename() != worldname ) {
+        while( folder_path.filename() != fs::u8path( worldname ) ) {
             directory_paths.insert( folder_path );
             folder_path = folder_path.parent_path();
         }
     }
 
-    for( auto &file : file_paths ) {
+    for( cata_path &file : file_paths ) {
         remove_file( file );
     }
 

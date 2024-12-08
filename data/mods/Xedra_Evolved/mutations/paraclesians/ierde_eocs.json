@@ -667,10 +667,10 @@
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "IERDE_NO_BROKEN_BONES" },
     "effect": [
-      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')", "++" ] } },
-      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')", "++" ] } },
-      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')", "++" ] } },
-      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')", "++" ] } }
+      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')++" ] } },
+      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
+      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
+      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } }
     ]
   }
 ]

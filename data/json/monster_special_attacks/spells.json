@@ -702,7 +702,7 @@
     ],
     "false_effect": [
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "math": [ "u_madness", "++" ] },
+      { "math": [ "u_madness++" ] },
       {
         "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
       }
@@ -910,7 +910,7 @@
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
             { "math": [ "u_val('sleepiness') = min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ] },
-            { "math": [ "portal_dungeon_reflect_strength", "++" ] }
+            { "math": [ "portal_dungeon_reflect_strength++" ] }
           ]
         },
         {
