@@ -5421,7 +5421,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-    if ( tool->ammo_sufficient( &who, act.moves_total / 100 ) ) {
+    if( tool->ammo_sufficient( &who, act.moves_total / 100 ) ) {
         add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
         act.moves_left = act.moves_total;
     } else {
