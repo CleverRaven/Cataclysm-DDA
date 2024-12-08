@@ -498,6 +498,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         ch.set_veh_cached_parts( p.raw(), *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
             ch.set_veh_exists_at( p.raw(), true );
+            set_transparency_cache_dirty( p );
         }
     }
 }
