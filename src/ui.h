@@ -61,7 +61,6 @@ struct mvwzstr {
  * uilist_entry: entry line for uilist
  */
 struct uilist_entry {
-    public:
         int retval;                 // return this int
         bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
         bool force_color = false;   // Never darken this option
