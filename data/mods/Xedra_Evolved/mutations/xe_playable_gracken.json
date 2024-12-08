@@ -278,7 +278,7 @@
     "type": "mutation",
     "id": "SHADE_CARNIVORE",
     "name": { "str": "Carnivorous Stomach" },
-    "description": "You eat an exclusively meat based diet as befits an apex predator of this planet.",
+    "description": "You eat an exclusively meat-based diet as befits an apex predator of this planet.",
     "//": "This is one path of Gracken stomach mutations.",
     "types": [ "DIET" ],
     "purifiable": false,
