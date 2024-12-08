@@ -58,7 +58,7 @@
         "condition": { "u_has_items": { "item": "nre_anomaly_printout_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "nre_anomaly_printout_data", "count": 1, "popup": true },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 10 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -68,7 +68,7 @@
         "condition": { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "large_printout_portal_storm_data", "count": 1, "popup": true },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 18 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -83,8 +83,8 @@
         },
         "effect": [
           { "u_consume_item": "medium_printout_portal_storm_data", "count": 1, "popup": true },
-          { "math": [ "portal_storm_medium_data_sold", "++" ] },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "portal_storm_medium_data_sold++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Medium"
@@ -100,8 +100,8 @@
         },
         "effect": [
           { "u_consume_item": "small_printout_portal_storm_data", "count": 1, "popup": true },
-          { "math": [ "portal_storm_small_data_sold", "++" ] },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "portal_storm_small_data_sold++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Small"
@@ -255,7 +255,7 @@
         "condition": { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_trifacet", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_trifacet_sold", "++" ] },
+          { "math": [ "u_broken_yrax_trifacet_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET"
@@ -265,7 +265,7 @@
         "condition": { "and": [ { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } } ] },
         "effect": [
           { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_triakis_sold", "++" ] },
+          { "math": [ "u_broken_yrax_triakis_sold++" ] },
           { "u_spend_cash": -1000 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS"
@@ -275,7 +275,7 @@
         "condition": { "and": [ { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } } ] },
         "effect": [
           { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
-          { "math": [ "u_broken_golden_monolith_sold", "++" ] },
+          { "math": [ "u_broken_golden_monolith_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 7 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH"
@@ -285,7 +285,7 @@
         "condition": { "and": [ { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } } ] },
         "effect": [
           { "u_consume_item": "broken_yrax_delta", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_delta_sold", "++" ] },
+          { "math": [ "u_broken_yrax_delta_sold++" ] },
           { "u_spend_cash": -200 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_BROKEN_YRAX_DELTA"
@@ -295,7 +295,7 @@
         "condition": { "u_has_items": { "item": "broken_yrax_quadraphract_leg", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_quadraphract_leg", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_quadraphract_leg_sold", "++" ] },
+          { "math": [ "u_broken_yrax_quadraphract_leg_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT_LEG"
@@ -305,7 +305,7 @@
         "condition": { "u_has_items": { "item": "broken_yrax_quadraphract", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_quadraphract", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_quadraphract_sold", "++" ] },
+          { "math": [ "u_broken_yrax_quadraphract_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 25 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT"
@@ -315,7 +315,7 @@
         "condition": { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_trifacet", "count": 1, "popup": true },
-          { "math": [ "u_bot_yrax_trifacet_sold", "++" ] },
+          { "math": [ "u_bot_yrax_trifacet_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 2 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET"
@@ -325,7 +325,7 @@
         "condition": { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_triakis", "count": 1, "popup": true },
-          { "math": [ "u_bot_yrax_triakis_sold", "++" ] },
+          { "math": [ "u_bot_yrax_triakis_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS"
@@ -335,7 +335,7 @@
         "condition": { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_golden_monolith", "count": 1, "popup": true },
-          { "math": [ "u_bot_golden_monolith_sold", "++" ] },
+          { "math": [ "u_bot_golden_monolith_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 16 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH"
@@ -345,7 +345,7 @@
         "condition": { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_delta", "count": 1, "popup": true },
-          { "math": [ "u_bot_yrax_delta_sold", "++" ] },
+          { "math": [ "u_bot_yrax_delta_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA"

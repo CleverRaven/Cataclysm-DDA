@@ -1,6 +1,11 @@
 [
   {
     "type": "ter_furn_transform",
+    "id": "ter_arvore_tree_to_grass",
+    "terrain": [ { "result": "t_tree_young", "valid_flags": [ "TREE" ], "message": "" } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "ter_arvore_plant_growth",
     "terrain": [
       {

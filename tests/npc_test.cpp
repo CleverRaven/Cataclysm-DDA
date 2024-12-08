@@ -352,7 +352,7 @@ TEST_CASE( "npc-board-player-vehicle" )
     for( std::pair<const std::string, npc_boarding_test_data> &given : test_data::npc_boarding_data ) {
         GIVEN( given.first ) {
             npc_boarding_test_data &data = given.second;
-            g->place_player( data.player_pos.raw() );
+            g->place_player( data.player_pos );
             clear_map();
             map &here = get_map();
             Character &pc = get_player_character();
@@ -435,7 +435,7 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
 
-    g->place_player( tripoint( 60, 60, 0 ) );
+    g->place_player( { 60, 60, 0 } );
 
     clear_map();
 
@@ -542,7 +542,7 @@ TEST_CASE( "npc-movement" )
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
                 if( setup[y][x] == 'V' ) {
-                    g->place_player( player_character.pos() + point( x, y ) );
+                    g->place_player( player_character.pos_bub() + point( x, y ) );
                     break;
                 }
             }

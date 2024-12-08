@@ -436,9 +436,9 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
                 if( con.post_is_furniture ) {
                     if( is_draw_tiles_mode() ) {
                         if( blink && preview ) {
-                            g->draw_furniture_override( loc.raw(), furn_str_id( post_id ) );
+                            g->draw_furniture_override( loc, furn_str_id( post_id ) );
                         }
-                        g->draw_highlight( loc.raw() );
+                        g->draw_highlight( loc );
                     } else {
                         here.drawsq( g->w_terrain, loc,
                                      drawsq_params().highlight( true )
@@ -450,9 +450,9 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
                 } else {
                     if( is_draw_tiles_mode() ) {
                         if( blink && preview ) {
-                            g->draw_terrain_override( loc.raw(), ter_str_id( post_id ) );
+                            g->draw_terrain_override( loc, ter_str_id( post_id ) );
                         }
-                        g->draw_highlight( loc.raw() );
+                        g->draw_highlight( loc );
                     } else {
                         here.drawsq( g->w_terrain, loc,
                                      drawsq_params().highlight( true )
@@ -464,7 +464,7 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
                 }
             } else {
                 if( is_draw_tiles_mode() ) {
-                    g->draw_highlight( loc.raw() );
+                    g->draw_highlight( loc );
                 } else {
                     here.drawsq( g->w_terrain, loc,
                                  drawsq_params().highlight( true )
@@ -1262,7 +1262,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         }
         if( action == "MOUSE_MOVE" ) {
             const std::optional<tripoint_bub_ms> mouse_pos_raw = ctxt.get_coordinates(
-                        g->w_terrain, g->ter_view_p.xy(), true );
+                        g->w_terrain, g->ter_view_p.raw().xy(), true );
             if( mouse_pos_raw.has_value() && mouse_pos_raw->z() == loc.z()
                 && mouse_pos_raw->x() >= loc.x() - 1 && mouse_pos_raw->x() <= loc.x() + 1
                 && mouse_pos_raw->y() >= loc.y() - 1 && mouse_pos_raw->y() <= loc.y() + 1 ) {
@@ -1664,9 +1664,8 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
         }
     }
     if( player_character.has_quality( qual_CUT ) ) {
-        // TODO: fix point types
         iuse::handle_ground_graffiti( player_character, nullptr, _( "Inscribe something on the grave?" ),
-                                      p.raw() );
+                                      p );
     } else {
         add_msg( m_neutral,
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
@@ -2246,12 +2245,13 @@ void load_construction( const JsonObject &jo )
 
     jo.read( "pre_note", con.pre_note );
     con.pre_terrain = jo.get_as_string_set( "pre_terrain" );
-    const std::string &first_pre_terrain = *con.pre_terrain.begin();
-    if( !con.pre_terrain.empty()
-        && first_pre_terrain.size() > 1
-        && first_pre_terrain[0] == 'f'
-        && first_pre_terrain[1] == '_' ) {
-        con.pre_is_furniture = true;
+    if( !con.pre_terrain.empty() ) {
+        const std::string &first_pre_terrain = *con.pre_terrain.begin();
+        if( first_pre_terrain.size() > 1
+            && first_pre_terrain[0] == 'f'
+            && first_pre_terrain[1] == '_' ) {
+            con.pre_is_furniture = true;
+        }
     }
 
     con.post_terrain = jo.get_string( "post_terrain", "" );

@@ -73,7 +73,7 @@
       { "u_forget_recipe": "prac_unmute_bird" }
     ],
     "false_effect": [
-      { "math": [ "u_progress_unmute_bird", "++" ] },
+      { "math": [ "u_progress_unmute_bird++" ] },
       {
         "u_message": "Restricting your range to the apes' feels demeaning, and you decide to take a break before you start plucking out your feathers in frustration."
       }
@@ -92,7 +92,7 @@
       { "u_forget_recipe": "prac_unmute_ceph" }
     ],
     "false_effect": [
-      { "math": [ "u_progress_unmute_ceph", "++" ] },
+      { "math": [ "u_progress_unmute_ceph++" ] },
       {
         "u_message": "Draw air into your mantle, close your throat, rehearse your sentence, exhale and contort your beak just so."
       }
@@ -111,7 +111,7 @@
       { "u_forget_recipe": "prac_unmute_gastropod" }
     ],
     "false_effect": [
-      { "math": [ "u_progress_unmute_gastropod", "++" ] },
+      { "math": [ "u_progress_unmute_gastropod++" ] },
       {
         "u_message": "If you rub your tongue against your palate like this is makes a `th` - or at least, a `thrksrkkk`, but it's a start.  Ignore the taste of blood, there's work to be done."
       }
@@ -130,7 +130,7 @@
       { "u_forget_recipe": "prac_unmute_insect" }
     ],
     "false_effect": [
-      { "math": [ "u_progress_unmute_insect", "++" ] },
+      { "math": [ "u_progress_unmute_insect++" ] },
       {
         "u_message": "You have all these new moving parts in your not-mouth, but they are struggling under the strain you put them under."
       }
@@ -149,7 +149,7 @@
       { "u_forget_recipe": "prac_unmute_slime" }
     ],
     "false_effect": [
-      { "math": [ "u_progress_unmute_slime", "++" ] },
+      { "math": [ "u_progress_unmute_slime++" ] },
       {
         "u_message": "Do you need teeth, lungs?  You fall back into your resting shape in exasperation.  This will take long."
       }

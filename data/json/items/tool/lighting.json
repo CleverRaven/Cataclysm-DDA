@@ -653,7 +653,7 @@
     "armor_data": {
       "armor": [ { "covers": [ "torso" ], "coverage": 5, "encumbrance": 2, "specifically_covers": [ "torso_hanging_front" ] } ]
     },
-    "flags": [ "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP", "BELTED" ],
+    "flags": [ "BELT_CLIP", "BELTED" ],
     "use_action": [
       {
         "type": "transform",
@@ -665,7 +665,14 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 112 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -846,7 +853,7 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tinyweldtank", "weldtank", "smallweldtank" ] } ]
   },
   {
     "id": "oxylamp_on",

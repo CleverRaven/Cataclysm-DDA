@@ -489,7 +489,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "//1": "5cm of weld to join the faucet to the pipe",
-    "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
+    "components": [ [ [ "metal_tank", 5 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
   },

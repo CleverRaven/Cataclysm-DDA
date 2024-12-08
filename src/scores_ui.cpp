@@ -26,7 +26,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 
-enum class scores_ui_tab_enum : int {
+enum class scores_ui_tab : int {
     achievements = 0,
     conducts,
     scores,
@@ -34,23 +34,11 @@ enum class scores_ui_tab_enum : int {
     num_tabs
 };
 
-static scores_ui_tab_enum &operator++( scores_ui_tab_enum &c )
-{
-    c = static_cast<scores_ui_tab_enum>( static_cast<int>( c ) + 1 );
-    if( c == scores_ui_tab_enum::num_tabs ) {
-        c = static_cast<scores_ui_tab_enum>( 0 );
-    }
-    return c;
-}
-
-static scores_ui_tab_enum &operator--( scores_ui_tab_enum &c )
-{
-    if( c == static_cast<scores_ui_tab_enum>( 0 ) ) {
-        c = scores_ui_tab_enum::num_tabs;
-    }
-    c = static_cast<scores_ui_tab_enum>( static_cast<int>( c ) - 1 );
-    return c;
-}
+template<>
+struct enum_traits<scores_ui_tab> {
+    static constexpr scores_ui_tab first = scores_ui_tab::achievements;
+    static constexpr scores_ui_tab last = scores_ui_tab::num_tabs;
+};
 
 class scores_ui;
 
@@ -67,17 +55,31 @@ class scores_ui_impl : public cataimgui::window
         std::string last_action;
         explicit scores_ui_impl() : cataimgui::window( _( "Your scores" ),
                     ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {}
+        void init_data();
 
     private:
-        void draw_achievements_text( bool use_conducts = false );
-        void draw_scores_text();
-        void draw_kills_text();
+        void draw_achievements_text( bool use_conducts = false ) const;
+        void draw_scores_text() const;
+        void draw_kills_text() const;
 
-        scores_ui_tab_enum selected_tab = scores_ui_tab_enum::achievements;
-        scores_ui_tab_enum switch_tab = scores_ui_tab_enum::num_tabs;
+        scores_ui_tab selected_tab = enum_traits<scores_ui_tab>::first;
+        scores_ui_tab switch_tab = enum_traits<scores_ui_tab>::last;
 
-        size_t window_width = ImGui::GetMainViewport()->Size.x / 3.0 * 2.0;
-        size_t window_height = ImGui::GetMainViewport()->Size.y / 3.0 * 2.0;
+        size_t window_width = ImGui::GetMainViewport()->Size.x * 8 / 9;
+        size_t window_height = ImGui::GetMainViewport()->Size.y * 8 / 9;
+
+        bool monster_group_collapsed = false;
+        bool npc_group_collapsed = false;
+
+        std::vector<std::string> achievements_text;
+        std::vector<std::string> conducts_text;
+        std::vector<std::string> scores_text;
+        std::vector<std::tuple<int, std::string, nc_color, std::string>> monster_kills_data;
+        std::vector<std::string> npc_kills_data;
+
+        int monster_kills = 0;
+        int npc_kills = 0;
+        int total_kills = 0;
 
     protected:
         void draw_controls() override;
@@ -85,11 +87,15 @@ class scores_ui_impl : public cataimgui::window
 
 void scores_ui::draw_scores_ui()
 {
-    input_context ctxt;
+    input_context ctxt( "SCORES_UI" );
     scores_ui_impl p_impl;
+
+    p_impl.init_data();
 
     ctxt.register_navigate_ui_list();
     ctxt.register_leftright();
+    ctxt.register_action( "TOGGLE_MONSTER_GROUP" );
+    ctxt.register_action( "TOGGLE_NPC_GROUP" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SELECT" );
@@ -110,36 +116,19 @@ void scores_ui::draw_scores_ui()
     }
 }
 
-void scores_ui_impl::draw_achievements_text( bool use_conducts )
+void scores_ui_impl::init_data()
 {
     const achievements_tracker &achievements = g->achievements();
-    if( !achievements.is_enabled() ) {
-        ImGui::TextWrapped( "%s",
-                            use_conducts
-                            ? _( "Conducts are disabled, probably due to use of the debug menu.  If you only used "
-                                 "the debug menu to work around a game bug, then you can re-enable conducts via the "
-                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." )
-                            : _( "Achievements are disabled, probably due to use of the debug menu.  If you only used "
-                                 "the debug menu to work around a game bug, then you can re-enable achievements via the "
-                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ) );
-        return;
-    }
     // Load past game info beforehand because otherwise it may erase an `achievement_tracker`
     // within a call to its method when lazy-loaded, causing dangling pointer.
-    get_past_games( false );
+    get_past_games();
     std::vector<const achievement *> valid_achievements = achievements.valid_achievements();
     valid_achievements.erase(
         std::remove_if( valid_achievements.begin(), valid_achievements.end(),
     [&]( const achievement * a ) {
-        return achievements.is_hidden( a ) || a->is_conduct() != use_conducts;
+        return achievements.is_hidden( a );
     } ), valid_achievements.end() );
-    if( valid_achievements.empty() ) {
-        ImGui::TextWrapped( "%s",
-                            use_conducts
-                            ? _( "This game has no valid conducts." )
-                            : _( "This game has no valid achievements." ) );
-        return;
-    }
+
     using sortable_achievement =
         std::tuple<achievement_completion, std::string, const achievement *>;
     std::vector<sortable_achievement> sortable_achievements;
@@ -150,8 +139,71 @@ void scores_ui_impl::draw_achievements_text( bool use_conducts )
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
-    for( const sortable_achievement &ach : sortable_achievements ) {
-        cataimgui::draw_colored_text( achievements.ui_text_for( std::get<const achievement *>( ach ) ) );
+    for( const sortable_achievement &entry : sortable_achievements ) {
+        const achievement *ach = std::get<const achievement *>( entry );
+        if( ach->is_conduct() ) {
+            conducts_text.emplace_back( achievements.ui_text_for( ach ) );
+        } else {
+            achievements_text.emplace_back( achievements.ui_text_for( ach ) );
+        }
+    }
+
+    stats_tracker &stats = g->stats();
+    std::vector<const score *> valid_scores = stats.valid_scores();
+    scores_text.reserve( stats.valid_scores().size() );
+    for( const score *scr : valid_scores ) {
+        scores_text.emplace_back( scr->description( stats ).c_str() );
+    }
+
+    const kill_tracker &kills_data = g->get_kill_tracker();
+    monster_kills = kills_data.monster_kill_count();
+    npc_kills = kills_data.npc_kill_count();
+    total_kills = kills_data.total_kill_count();
+
+    for( const auto &entry : kills_data.kills ) {
+        const int num_kills = entry.second;
+        const mtype &m = entry.first.obj();
+        const std::string &symbol = m.sym;
+        nc_color color = m.color;
+        const std::string &name = m.nname();
+        monster_kills_data.emplace_back( num_kills, symbol, color, name );
+    }
+    auto sort_by_count_then_name = []( auto & a, auto & b ) {
+        return
+            std::tie( std::get<0>( a ), std::get<3>( b ) )
+            >
+            std::tie( std::get<0>( b ), std::get<3>( a ) );
+    };
+    std::sort( monster_kills_data.begin(), monster_kills_data.end(), sort_by_count_then_name );
+    for( const auto &entry : kills_data.npc_kills ) {
+        npc_kills_data.emplace_back( entry );
+    }
+    std::sort( npc_kills_data.begin(), npc_kills_data.end(), localized_compare );
+}
+
+void scores_ui_impl::draw_achievements_text( bool use_conducts ) const
+{
+    if( !g->achievements().is_enabled() ) {
+        ImGui::TextWrapped( "%s",
+                            use_conducts
+                            ? _( "Conducts are disabled, probably due to use of the debug menu.  If you only used "
+                                 "the debug menu to work around a game bug, then you can re-enable conducts via the "
+                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." )
+                            : _( "Achievements are disabled, probably due to use of the debug menu.  If you only used "
+                                 "the debug menu to work around a game bug, then you can re-enable achievements via the "
+                                 "debug menu (\"Enable achievements\" under the \"Game\" submenu)." ) );
+        return;
+    }
+    if( use_conducts && conducts_text.empty() ) {
+        ImGui::TextWrapped( "%s", _( "This game has no valid conducts." ) );
+        return;
+    }
+    if( !use_conducts && achievements_text.empty() ) {
+        ImGui::TextWrapped( "%s", _( "This game has no valid achievements." ) );
+        return;
+    }
+    for( const std::string &entry : use_conducts ? conducts_text : achievements_text ) {
+        cataimgui::draw_colored_text( entry );
         ImGui::Separator();
     }
     ImGui::NewLine();
@@ -162,16 +214,14 @@ void scores_ui_impl::draw_achievements_text( bool use_conducts )
                       );
 }
 
-void scores_ui_impl::draw_scores_text()
+void scores_ui_impl::draw_scores_text() const
 {
-    stats_tracker &stats = g->stats();
-    std::vector<const score *> valid_scores = stats.valid_scores();
-    if( valid_scores.empty() ) {
+    if( scores_text.empty() ) {
         ImGui::TextWrapped( "%s", _( "This game has no valid scores." ) );
         return;
     }
-    for( const score *scr : valid_scores ) {
-        ImGui::TextWrapped( "%s", scr->description( stats ).c_str() );
+    for( const std::string &entry : scores_text ) {
+        ImGui::TextWrapped( "%s", entry.c_str() );
     }
     ImGui::NewLine();
     ImGui::TextWrapped( "%s",
@@ -179,16 +229,10 @@ void scores_ui_impl::draw_scores_text()
                       );
 }
 
-void scores_ui_impl::draw_kills_text()
+void scores_ui_impl::draw_kills_text() const
 {
-    const kill_tracker &kills_data = g->get_kill_tracker();
-
-    const int monster_kills = kills_data.monster_kill_count();
-    const int npc_kills = kills_data.npc_kill_count();
-
     if( get_option<bool>( "STATS_THROUGH_KILLS" ) &&
         ImGui::CollapsingHeader( _( "Stats through kills:" ), ImGuiTreeNodeFlags_DefaultOpen ) ) {
-        const int total_kills = kills_data.total_kill_count();
         ImGui::TextWrapped( _( "Total kills: %d" ), total_kills );
         ImGui::NewLine();
         ImGui::TextWrapped( _( "Experience: %d (%d points available)" ),
@@ -197,20 +241,19 @@ void scores_ui_impl::draw_kills_text()
     }
 
     if( ImGui::CollapsingHeader( string_format( _( "Monster kills (%d):" ), monster_kills ).c_str(),
-                                 ImGuiTreeNodeFlags_DefaultOpen ) ) {
+                                 monster_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         if( monster_kills == 0 ) {
             ImGui::TextWrapped( "%s", _( "You haven't killed any monsters yet!" ) );
         } else {
-            for( const auto &entry : kills_data.kills ) {
-                const int num_kills = entry.second;
-                const mtype &m = entry.first.obj();
-                const std::string &name = m.nname();
-                const std::string &symbol = m.sym;
-                nc_color color = m.color;
+            for( const auto &entry : monster_kills_data ) {
+                const int num_kills = std::get<0>( entry );
+                const std::string &symbol = std::get<1>( entry );
+                nc_color color = std::get<2>( entry );
+                const std::string &name = std::get<3>( entry );
 
-                ImGui::TextColored( c_light_gray, "%d ", num_kills );
-                ImGui::SameLine( 0, 0 );
                 cataimgui::PushMonoFont();
+                ImGui::TextColored( c_light_gray, "%5d ", num_kills );
+                ImGui::SameLine( 0, 0 );
                 ImGui::TextColored( color, "%s", symbol.c_str() );
                 ImGui::PopFont();
                 ImGui::SameLine( 0, 0 );
@@ -219,14 +262,14 @@ void scores_ui_impl::draw_kills_text()
         }
     }
     if( ImGui::CollapsingHeader( string_format( _( "NPC kills (%d):" ), npc_kills ).c_str(),
-                                 ImGuiTreeNodeFlags_DefaultOpen ) ) {
+                                 npc_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         if( npc_kills == 0 ) {
             ImGui::TextWrapped( "%s", _( "You haven't killed any NPCs yet!" ) );
         } else {
-            for( const auto &npc_name : kills_data.npc_kills ) {
-                ImGui::TextColored( c_light_gray, "%d ", 1 );
-                ImGui::SameLine( 0, 0 );
+            for( const std::string &npc_name : npc_kills_data ) {
                 cataimgui::PushMonoFont();
+                ImGui::TextColored( c_light_gray, "%5d ", 1 );
+                ImGui::SameLine( 0, 0 );
                 ImGui::TextColored( c_magenta, "%s", "@" );
                 ImGui::PopFont();
                 ImGui::SameLine( 0, 0 );
@@ -242,76 +285,84 @@ void scores_ui_impl::draw_controls()
 
     if( last_action == "QUIT" ) {
         return;
+    } else if( last_action == "TOGGLE_MONSTER_GROUP" ) {
+        monster_group_collapsed = !monster_group_collapsed;
+    } else if( last_action == "TOGGLE_NPC_GROUP" ) {
+        npc_group_collapsed = !npc_group_collapsed;
     } else if( last_action == "UP" ) {
-        ImGui::SetKeyboardFocusHere( -1 );
+        ImGui::SetScrollY( ImGui::GetScrollY() - ImGui::GetTextLineHeightWithSpacing() );
     } else if( last_action == "DOWN" ) {
-        ImGui::SetKeyboardFocusHere( 1 );
+        ImGui::SetScrollY( ImGui::GetScrollY() + ImGui::GetTextLineHeightWithSpacing() );
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
+        ImGui::SetScrollY( 0 );
         switch_tab = selected_tab;
         ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
+        ImGui::SetScrollY( 0 );
         switch_tab = selected_tab;
         --switch_tab;
     } else if( last_action == "PAGE_UP" ) {
-        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
-        ImGui::SetScrollY( ImGui::GetScrollY() - ( window_height / 5.0f ) );
+        ImGui::SetScrollY( ImGui::GetScrollY() - window_height );
     } else if( last_action == "PAGE_DOWN" ) {
-        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
-        ImGui::SetScrollY( ImGui::GetScrollY() + ( window_height / 5.0f ) );
+        ImGui::SetScrollY( ImGui::GetScrollY() + window_height );
+    } else if( last_action == "HOME" ) {
+        ImGui::SetScrollY( 0 );
+    } else if( last_action == "END" ) {
+        ImGui::SetScrollY( ImGui::GetScrollMaxY() );
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
 
     if( ImGui::BeginTabBar( "##TAB_BAR" ) ) {
         flags = ImGuiTabItemFlags_None;
-        if( switch_tab == scores_ui_tab_enum::achievements ) {
+        if( switch_tab == scores_ui_tab::achievements ) {
             flags = ImGuiTabItemFlags_SetSelected;
-            switch_tab = scores_ui_tab_enum::num_tabs;
+            switch_tab = enum_traits<scores_ui_tab>::last;
         }
         if( ImGui::BeginTabItem( _( "ACHIEVEMENTS" ), nullptr, flags ) ) {
-            selected_tab = scores_ui_tab_enum::achievements;
+            selected_tab = scores_ui_tab::achievements;
             ImGui::EndTabItem();
         }
         flags = ImGuiTabItemFlags_None;
-        if( switch_tab == scores_ui_tab_enum::conducts ) {
+        if( switch_tab == scores_ui_tab::conducts ) {
             flags = ImGuiTabItemFlags_SetSelected;
-            switch_tab = scores_ui_tab_enum::num_tabs;
+            switch_tab = enum_traits<scores_ui_tab>::last;
         }
         if( ImGui::BeginTabItem( _( "CONDUCTS" ), nullptr, flags ) ) {
-            selected_tab = scores_ui_tab_enum::conducts;
+            selected_tab = scores_ui_tab::conducts;
             ImGui::EndTabItem();
         }
         flags = ImGuiTabItemFlags_None;
-        if( switch_tab == scores_ui_tab_enum::scores ) {
+        if( switch_tab == scores_ui_tab::scores ) {
             flags = ImGuiTabItemFlags_SetSelected;
-            switch_tab = scores_ui_tab_enum::num_tabs;
+            switch_tab = enum_traits<scores_ui_tab>::last;
         }
         if( ImGui::BeginTabItem( _( "SCORES" ), nullptr, flags ) ) {
-            selected_tab = scores_ui_tab_enum::scores;
+            selected_tab = scores_ui_tab::scores;
             ImGui::EndTabItem();
         }
         flags = ImGuiTabItemFlags_None;
-        if( switch_tab == scores_ui_tab_enum::kills ) {
+        if( switch_tab == scores_ui_tab::kills ) {
             flags = ImGuiTabItemFlags_SetSelected;
-            switch_tab = scores_ui_tab_enum::num_tabs;
+            switch_tab = enum_traits<scores_ui_tab>::last;
         }
         if( ImGui::BeginTabItem( _( "KILLS" ), nullptr, flags ) ) {
-            selected_tab = scores_ui_tab_enum::kills;
+            selected_tab = scores_ui_tab::kills;
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
     }
 
-    if( selected_tab == scores_ui_tab_enum::achievements ) {
-        draw_achievements_text( false );
+    if( selected_tab == scores_ui_tab::achievements ) {
+        draw_achievements_text();
     }
-    if( selected_tab == scores_ui_tab_enum::conducts ) {
+    if( selected_tab == scores_ui_tab::conducts ) {
         draw_achievements_text( true );
     }
-    if( selected_tab == scores_ui_tab_enum::scores ) {
+    if( selected_tab == scores_ui_tab::scores ) {
         draw_scores_text();
     }
-    if( selected_tab == scores_ui_tab_enum::kills ) {
+    if( selected_tab == scores_ui_tab::kills ) {
         draw_kills_text();
     }
 

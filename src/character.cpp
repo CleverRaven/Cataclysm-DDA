@@ -1656,7 +1656,7 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
-    tripoint pnt = z.pos();
+    tripoint_bub_ms pnt = z.pos_bub();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg_debug( debugmode::DF_CHARACTER, "mount_creature(): monster not found in critter_tracker" );
@@ -9692,7 +9692,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, tripoint::zero ).success() ) {
+                if( actor->can_use( *this->as_character(), it, tripoint_bub_ms::zero ).success() ) {
                     ret = it;
                     return true;
                 }

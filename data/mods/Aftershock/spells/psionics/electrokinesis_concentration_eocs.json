@@ -235,7 +235,7 @@
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_COUNTER",
             "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
-            "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count", "++" ] } ]
+            "effect": [ { "math": [ "u_afs_electrokin_personal_battery_count++" ] } ]
           }
         ]
       },

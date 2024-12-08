@@ -206,7 +206,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_until_nested",
-    "effect": [ { "math": [ "u_context", "++" ] }, { "math": [ "key1 = u_context" ] } ]
+    "effect": [ { "math": [ "u_context++" ] }, { "math": [ "key1 = u_context" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -520,7 +520,7 @@
     "id": "EOC_math_test_greater_increment",
     "condition": { "math": [ "math_test > 0" ] },
     "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
-    "false_effect": [ { "math": [ "math_test", "--" ] } ]
+    "false_effect": [ { "math": [ "math_test--" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -592,7 +592,7 @@
     "type": "effect_on_condition",
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
-    "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+    "effect": [ { "math": [ "u_activitiy_incrementer++" ] } ]
   },
   {
     "type": "effect_on_condition",

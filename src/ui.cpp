@@ -683,7 +683,7 @@ void uilist::calc_data()
 
     vmax = entries.size();
 
-    ImVec2 title_size = {};
+    ImVec2 title_size = ImVec2();
     bool has_titlebar = !title.empty();
     if( has_titlebar ) {
         title_size = calc_size( title );
@@ -691,19 +691,19 @@ void uilist::calc_data()
         title_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
-    ImVec2 text_size = {};
+    ImVec2 text_size = ImVec2();
     if( !text.empty() ) {
         text_size = calc_size( text );
         float expected_num_lines = text_size.y / ImGui::GetTextLineHeight();
         text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
-    ImVec2 tabs_size = {};
+    ImVec2 tabs_size = ImVec2();
     if( !categories.empty() ) {
         tabs_size.y = ImGui::GetTextLineHeightWithSpacing() + ( 2.0 * s.FramePadding.y );
     }
 
-    ImVec2 desc_size = {};
+    ImVec2 desc_size = ImVec2();
     if( desc_enabled ) {
         desc_size = calc_size( footer_text );
         for( const uilist_entry &ent : entries ) {
@@ -747,9 +747,9 @@ void uilist::calc_data()
             max_avail_height = std::min( max_avail_height, desired_height );
         }
     }
-    calculated_menu_size.y = std::min( max_avail_height - additional_height +
-                                       ( s.FramePadding.y * 2.0 ),
-                                       vmax * ImGui::GetTextLineHeightWithSpacing() + ( s.FramePadding.y * 2.0 ) );
+    calculated_menu_size.y = std::min(
+                                 max_avail_height - additional_height + ( s.FramePadding.y * 2.0 ),
+                                 vmax * ImGui::GetTextLineHeightWithSpacing() + ( s.FramePadding.y * 2.0 ) );
 
     extra_space_left = 0.0;
     extra_space_right = 0.0;
@@ -1226,7 +1226,7 @@ pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
     last_view = player_character.view_offset;
     terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
         if( last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-            g->draw_trail_to_square( player_character.view_offset.raw(), true );
+            g->draw_trail_to_square( player_character.view_offset, true );
         }
     } );
     g->add_draw_callback( terrain_draw_cb );

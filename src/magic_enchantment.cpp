@@ -1069,8 +1069,8 @@ enchantment::special_vision enchantment::get_vision( const const_dialogue &d ) c
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos(),
-                                           d.const_actor( false )->pos() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
+                                           d.const_actor( false )->pos_bub() );
 
     // first iterate over structs that has ignores_aiming_cone true
     // to prevent cata_tiles::draw_critter_at() from picking texture
@@ -1154,8 +1154,8 @@ enchant_cache::special_vision enchant_cache::get_vision( const const_dialogue &d
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos(),
-                                           d.const_actor( false )->pos() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
+                                           d.const_actor( false )->pos_bub() );
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.ignores_aiming_cone && struc.range >= distance && struc.condition( d ) ) {

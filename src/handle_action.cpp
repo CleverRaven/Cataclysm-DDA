@@ -1715,7 +1715,7 @@ static void read()
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
             if( loc->type->can_use( "learn_spell" ) ) {
-                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
+                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else {
                 loc = loc.obtain( player_character );
                 player_character.read( loc );
@@ -2133,8 +2133,8 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
             break;
 
         case ACTION_CENTER:
-            player_character.view_offset.x() = g->driving_view_offset.x;
-            player_character.view_offset.y() = g->driving_view_offset.y;
+            player_character.view_offset.x() = g->driving_view_offset.x();
+            player_character.view_offset.y() = g->driving_view_offset.y();
             player_character.view_offset.z() = 0;
             break;
 
@@ -2400,18 +2400,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
-                    std::vector<tripoint> pts;
+                    std::vector<tripoint_bub_ms> pts;
 
                     // Check tiles around player character for open air
                     for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p .raw() );
+                            pts.push_back( p );
                         }
                     }
 
                     // If we found tiles with open air, prompt player with query on direction they want to climb
                     if( !pts.empty() ) {
-                        const std::optional<tripoint> pnt = point_selection_menu( pts, false );
+                        const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts, false );
                         if( !pnt ) {
                             break;
                         }
@@ -2476,7 +2476,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_EXAMINE_AND_PICKUP:
             if( mouse_target ) {
                 // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
-                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
+                examine( tripoint_bub_ms( *mouse_target ), act == ACTION_EXAMINE_AND_PICKUP );
             } else {
                 examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
@@ -2675,11 +2675,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DROP:
-            drop_in_direction( player_character.pos() );
+            drop_in_direction( player_character.pos_bub() );
             break;
         case ACTION_DIR_DROP:
-            if( const std::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-                if( *pnt != player_character.pos() && in_shell ) {
+            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Drop where?" ) ) ) {
+                if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
                     drop_in_direction( *pnt );
@@ -3207,7 +3207,8 @@ bool game::handle_action()
                 return false;
             }
 
-            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(),
+            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain,
+                    ter_view_p.raw().xy(),
                     true );
             if( !mouse_pos ) {
                 return false;
