@@ -248,8 +248,8 @@
     "effect": "attack",
     "effect_str": "effect_xedra_time_loop",
     "shape": "blast",
-    "min_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_freeze_target'), 6000, 0 )" ] },
-    "max_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_freeze_target'), 6000, 0 )" ] },
+    "min_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_loop'), 6000, 0 )" ] },
+    "max_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_loop'), 6000, 0 )" ] },
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "final_energy_cost": 50,
@@ -257,6 +257,33 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -5
+  },
+  {
+    "id": "xedra_chronomancer_stable_loop",
+    "type": "SPELL",
+    "name": "Stable Time Loop (T)",
+    "description": "Create a long-lasting time loop around yourself which you can end at any time.  Ending the loop will return you to the state you were in at the start of it.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "XEDRA_CHRONOMANCER",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_INITIATE",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_xedra_chronomancer_stable_timeloop') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 250 ) "
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_xedra_chronomancer_stable_timeloop') > -1 ? 0 : max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 50 )"
+      ]
+    }
   },
   {
     "id": "xedra_chronomancer_chronal_acceleration",

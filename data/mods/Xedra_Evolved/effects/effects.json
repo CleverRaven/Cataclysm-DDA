@@ -3064,5 +3064,13 @@
     "rating": "good",
     "flags": [ "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stable_timeloop",
+    "name": [ "Stable Time Loop" ],
+    "desc": [ "You are prepared to revert yourself to a prior point in time." ],
+    "rating": "good",
+    "show_in_info": true
   }
 ]
