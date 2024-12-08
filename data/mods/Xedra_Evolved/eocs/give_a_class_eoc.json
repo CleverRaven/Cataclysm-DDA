@@ -33,7 +33,7 @@
             { "math": [ "inventor_dreamsmith_sequence == 0" ] }
           ]
         },
-        "then": [ { "math": [ "allow_sequence = 0" ] }, { "math": [ "eater_dreamer_sequence", "++" ] } ]
+        "then": [ { "math": [ "allow_sequence = 0" ] }, { "math": [ "eater_dreamer_sequence++" ] } ]
       },
       {
         "if": {
@@ -45,7 +45,7 @@
             { "math": [ "inventor_dreamsmith_sequence == 0" ] }
           ]
         },
-        "then": [ { "math": [ "allow_sequence = 0" ] }, { "math": [ "inventor_dreamsmith_sequence", "++" ] } ]
+        "then": [ { "math": [ "allow_sequence = 0" ] }, { "math": [ "inventor_dreamsmith_sequence++" ] } ]
       }
     ]
   },
@@ -72,7 +72,7 @@
       {
         "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
         "then": [
-          { "math": [ "eater_dreamer_sequence", "++" ] },
+          { "math": [ "eater_dreamer_sequence++" ] },
           {
             "switch": { "math": [ "eater_dreamer_sequence" ] },
             "cases": [
@@ -134,7 +134,7 @@
     "required_event": "character_wakes_up",
     "condition": { "math": [ "inventor_dreamsmith_sequence > 0" ] },
     "effect": [
-      { "math": [ "inventor_dreamsmith_sequence", "++" ] },
+      { "math": [ "inventor_dreamsmith_sequence++" ] },
       {
         "if": { "and": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
         "then": [

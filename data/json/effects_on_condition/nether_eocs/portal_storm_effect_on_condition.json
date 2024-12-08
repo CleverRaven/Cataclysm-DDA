@@ -242,7 +242,7 @@
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
-      { "math": [ "u_counter_portal_storm_counter", "++" ] },
+      { "math": [ "u_counter_portal_storm_counter++" ] },
       { "math": [ "talked_to_storm = 0" ] },
       {
         "trigger_event": "u_var_changed",
@@ -275,9 +275,9 @@
     "id": "EOC_PORTAL_EXPAND",
     "condition": { "math": [ "portal_storm_distance != 0" ] },
     "effect": [
-      { "math": [ "portal_storm_distant_distance", "++" ] },
-      { "math": [ "portal_storm_close_distance", "++" ] },
-      { "math": [ "portal_storm_distance", "++" ] }
+      { "math": [ "portal_storm_distant_distance++" ] },
+      { "math": [ "portal_storm_close_distance++" ] },
+      { "math": [ "portal_storm_distance++" ] }
     ],
     "false_effect": [
       { "math": [ "portal_storm_distant_distance = 201" ] },
@@ -379,7 +379,7 @@
         "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "near_portal_storm" }, { "is_weather": "portal_storm" } ]
       }
     },
-    "effect": [ { "math": [ "u_ire", "++" ] }, { "u_message": "PORTAL_STORM_WITNESSED", "snippet": true } ]
+    "effect": [ { "math": [ "u_ire++" ] }, { "u_message": "PORTAL_STORM_WITNESSED", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -974,7 +974,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL",
     "effect": [
-      { "math": [ "portal_dungeon_level", "++" ] },
+      { "math": [ "portal_dungeon_level++" ] },
       { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "capture_generic_nre_anomaly" ] },
@@ -1276,7 +1276,7 @@
       }
     },
     "effect": [
-      { "math": [ "u_portal_storm_record", "++" ] },
+      { "math": [ "u_portal_storm_record++" ] },
       {
         "run_eocs": [
           {
@@ -1315,10 +1315,7 @@
     "id": "capture_generic_nre_anomaly",
     "global": true,
     "condition": { "u_has_items": { "item": "nre_recorder", "charges": 1 } },
-    "effect": [
-      { "math": [ "u_generic_nre_anomaly", "++" ] },
-      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
-    ]
+    "effect": [ { "math": [ "u_generic_nre_anomaly++" ] }, { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1352,10 +1349,7 @@
         }
       ]
     },
-    "effect": [
-      { "math": [ "u_generic_nre_anomaly", "++" ] },
-      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
-    ]
+    "effect": [ { "math": [ "u_generic_nre_anomaly++" ] }, { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" } ]
   },
   {
     "type": "effect_on_condition",
