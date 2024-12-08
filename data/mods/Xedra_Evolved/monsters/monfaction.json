@@ -28,7 +28,7 @@
     "name": "ierde",
     "base_faction": "changeling",
     "neutral": [ "small_animal", "fish" ],
-    "by_mood": [ "nether", "nightmares", "ierde", "arvore", "undine", "salamander" ],
+    "by_mood": [ "nether", "nightmares", "homullus", "arvore", "undine", "salamander" ],
     "hate": [ "zombie", "sylph" ]
   },
   {
