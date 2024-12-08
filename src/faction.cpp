@@ -1110,8 +1110,6 @@ void faction_manager::display() const
             if( name.has_value() ) {
                 if( !name->empty() ) {
                     lore.emplace_back( elem, name->translated() );
-                } else {
-                    lore.emplace_back( elem, elem.str() );
                 }
             }
         }
