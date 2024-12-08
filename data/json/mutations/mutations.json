@@ -4920,7 +4920,18 @@
     "active": true,
     "starts_active": true,
     "restricts_gear": [ "head_crown" ],
-    "allow_soft_gear": true
+    "allow_soft_gear": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "distance": 3,
+            "descriptions": [ { "id": "antennae_sense", "symbol": "?", "color": "c_white", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
