@@ -62,7 +62,40 @@
     "id": "any_peanutbutter",
     "type": "requirement",
     "//": "Peanut butter of all types and other peanut butter substitutes",
-    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
+    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ] ] ]
+  },
+  {
+    "id": "any_nut",
+    "type": "requirement",
+    "//": "Any type of prepared culinary nut besides coconuts",
+    "components": [
+      [
+        [ "peanut_shelled", 1 ],
+        [ "pine_nuts", 2 ],
+        [ "pecan_shelled", 1 ],
+        [ "pecan_roasted", 1 ],
+        [ "cashews", 1 ],
+        [ "pistachio_shelled", 1 ],
+        [ "pistachio_roasted", 1 ],
+        [ "almond_shelled", 1 ],
+        [ "almond_roasted", 1 ],
+        [ "beech_nuts", 1 ],
+        [ "hickory_nut_shelled", 1 ],
+        [ "hickory_nut_roasted", 1 ],
+        [ "chestnut_shelled", 1 ],
+        [ "chestnut_roasted", 1 ],
+        [ "hazelnut_shelled", 1 ],
+        [ "hazelnut_roasted", 1 ],
+        [ "walnut_shelled", 1 ],
+        [ "walnut_roasted", 1 ],
+        [ "butternut_shelled", 1 ],
+        [ "butternut_roasted", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "acorn_roasted", 1 ],
+        [ "acorns_blanched", 1 ],
+        [ "soy_nuts", 1 ]
+      ]
+    ]
   },
   {
     "id": "eggs_bird",

@@ -5719,7 +5719,6 @@
       [
         [ "sugar_standard", 2, "LIST" ],
         [ "peanutbutter", 4 ],
-        [ "peanutbutter_imitation", 4 ],
         [ "coffee_syrup", 1 ],
         [ "con_milk", 1 ],
         [ "can_coconut", 1 ],
@@ -9030,38 +9029,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
-    "components": [ [ [ "peanut_shelled", 3 ] ], [ [ "sugar_standard", 2, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "peanutbutter_imitation",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "charges": 3,
-    "time": "10 m",
-    "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 40 ] ] ],
-    "components": [
-      [
-        [ "pine_nuts", 5 ],
-        [ "pecan_shelled", 5 ],
-        [ "cashews", 5 ],
-        [ "pistachio_shelled", 5 ],
-        [ "almond_shelled", 5 ],
-        [ "beech_nuts", 5 ],
-        [ "hickory_nut_shelled", 5 ],
-        [ "chestnut_shelled", 5 ],
-        [ "hazelnut_shelled", 5 ],
-        [ "walnut_shelled", 5 ],
-        [ "butternut_shelled", 5 ],
-        [ "acorns", 5 ]
-      ],
-      [ [ "sugar_standard", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "any_nut", 3, "LIST" ] ], [ [ "sugar_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
