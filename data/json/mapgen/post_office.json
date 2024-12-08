@@ -225,7 +225,7 @@
         "5": "f_bench",
         "/": "f_flagpole"
       },
-      "item": { "#": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag" } },
+      "item": { "e": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag" } },
       "items": {
         "l": [ { "item": "clothing_outdoor_torso", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],
