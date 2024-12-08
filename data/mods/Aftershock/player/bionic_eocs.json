@@ -84,7 +84,7 @@
     "type": "effect_on_condition",
     "id": "afs_eoc_chemhealing_pkill",
     "condition": { "one_in_chance": 40 },
-    "effect": [ { "math": [ "u_pain()", "--" ] } ]
+    "effect": [ { "math": [ "u_pain()--" ] } ]
   },
   {
     "type": "effect_on_condition",
