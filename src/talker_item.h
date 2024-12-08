@@ -37,6 +37,7 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 

@@ -1847,7 +1847,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
                 if( t.pos_bub() != prev_pos ) {
-                    g->place_player( prev_pos.raw() );
+                    g->place_player( prev_pos );
                     g->on_move_effects();
                 }
             }

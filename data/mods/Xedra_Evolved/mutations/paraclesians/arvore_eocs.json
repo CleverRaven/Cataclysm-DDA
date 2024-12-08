@@ -286,6 +286,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_ACTION",
+            "effect": [ { "u_cast_spell": { "id": "arvore_summon_floral_boat_real" }, "targeted": true } ],
+            "false_effect": { "u_message": "You need a nearby tree to transform it into the viridescent vessel.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "arvore_floral_boat_tree" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_floral_boat_tree" } }
+      },
+      {
+        "u_transform_radius": 0,
+        "target_var": { "context_val": "arvore_floral_boat_tree" },
+        "ter_furn_transform": "ter_arvore_tree_to_grass"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_SEED_BEARER_activated",
     "condition": {
       "and": [

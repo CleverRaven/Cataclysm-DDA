@@ -210,24 +210,24 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     }
     player_character.view_offset = offset - player_character.pos_bub();
 
-    point delta;
+    point_rel_ms delta;
     do {
         popup( _( "Press space, choose a facing direction for the new %s and "
                   "confirm with enter." ),
                vpinfo.name() );
 
-        const std::optional<tripoint> chosen = g->look_around();
+        const std::optional<tripoint_bub_ms> chosen = g->look_around();
         if( !chosen ) {
             continue;
         }
-        delta = ( *chosen - offset.raw() ).xy();
+        delta = ( *chosen - offset ).xy();
         // atan2 only gives reasonable values when delta is not all zero
-    } while( delta == point::zero );
+    } while( delta == point_rel_ms::zero );
 
     // Restore previous view offsets.
     player_character.view_offset = old_view_offset;
 
-    units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
+    units::angle dir = normalize( atan2( delta.raw() ) - veh->face.dir() );
 
     veh->part( partnum ).direction = dir;
 }
