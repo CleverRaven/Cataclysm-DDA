@@ -1315,7 +1315,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Difficulty*: 9<br />
 *Target*: One enemy within range 1<br />
 *Duration*: 30 seconds minus 1 seccond per power level to 75 seconds minus two seconds per power level to a minimum of 15 seconds<br />
-*Stamina Cost*: 9500, minus 250 per level to a minimum of 4500<br />
+*Stamina Cost*: 8500, minus 250 per level to a minimum of 4500<br />
 *Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
 *Effects*: Invert the target's healing processes, causing massive cellular breakdown and necrosis, doing 25 to 55 biological damage plus 17 to 32 biological damage per power level. This damage is evenly divided over the power's duration. In addition, the target has any regeneration or healing reduced to 0 and suffers a 33% speed penalty for the power's duration.<br />
 *Prerequisites*: Enervating Touch 16 *or* Lacerating Touch 8, Banish Illness 6, Anabolic Rejuvenation 5 *or* Immunostimulus 15<br />
