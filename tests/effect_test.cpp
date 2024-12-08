@@ -742,7 +742,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     // Place a hundred debug monsters, our subjects
     for( int i = 0; i < 10; ++i ) {
         for( int j = 0; j < 10; ++j ) {
-            tripoint cursor( i + 20, j + 20, 0 );
+            tripoint_bub_ms cursor( i + 20, j + 20, 0 );
 
             mons.push_back( g->place_critter_at( pseudo_debug_mon, cursor ) );
             // make sure they're there!

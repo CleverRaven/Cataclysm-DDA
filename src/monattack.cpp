@@ -365,7 +365,7 @@ bool mattack::split( monster *z )
 {
     bool split_performed = false;
     while( z->get_hp() / 2 > z->type->hp ) {
-        monster *const spawn = g->place_critter_around( z->type->id, z->pos(), 1 );
+        monster *const spawn = g->place_critter_around( z->type->id, z->pos_bub(), 1 );
         if( !spawn ) {
             break;
         }
@@ -1088,7 +1088,7 @@ bool mattack::resurrect( monster *z )
 
     Character &player_character = get_player_character();
     bool sees_necromancer = player_character.sees( *z );
-    std::vector<std::pair<tripoint, item *>> corpses;
+    std::vector<std::pair<tripoint_bub_ms, item *>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
     bool found_eligible_corpse = false;
@@ -1178,7 +1178,7 @@ bool mattack::resurrect( monster *z )
         return false;
     }
 
-    std::pair<tripoint, item *> raised = random_entry( corpses );
+    std::pair<tripoint_bub_ms, item *> raised = random_entry( corpses );
     // To appease static analysis
     cata_assert( raised.second );
     // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
@@ -1460,7 +1460,7 @@ bool mattack::grow_vine( monster *z )
     z->mod_moves( -to_moves<int>( 1_seconds ) );
     // Attempt to fill up to 8 surrounding tiles.
     for( int i = 0; i < rng( 1, 8 ); ++i ) {
-        if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
+        if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos_bub(), 1 ) ) {
             vine->make_ally( *z );
             // Store position of parent hub in vine goal point.
             vine->set_dest( z->get_location() );
@@ -1525,7 +1525,7 @@ bool mattack::vine( monster *z )
         !one_in( dist_from_hub ) ) {
         return true;
     }
-    if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos(), 1 ) ) {
+    if( monster *const vine = g->place_critter_around( mon_creeper_vine, z->pos_bub(), 1 ) ) {
         vine->make_ally( *z );
         vine->reset_special( "VINE" );
         // Store position of parent hub in vine goal point.
@@ -1593,12 +1593,12 @@ bool mattack::triffid_heartbeat( monster *z )
         int tries = 0;
         while( here.route( player_character.pos_bub(), z->pos_bub(), root_pathfind ).empty() &&
                tries < 20 ) {
-            point p( rng( player_character.posx(), z->posx() - 3 ),
-                     rng( player_character.posy(), z->posy() - 3 ) );
-            tripoint dest( p, z->posz() );
+            point_bub_ms p( rng( player_character.posx(), z->posx() - 3 ),
+                            rng( player_character.posy(), z->posy() - 3 ) );
+            tripoint_bub_ms dest( p, z->posz() );
             tries++;
             here.ter_set( dest, ter_t_dirt );
-            if( rl_dist( dest, player_character.pos() ) > 3 && g->num_creatures() < 30 &&
+            if( rl_dist( dest, player_character.pos_bub() ) > 3 && g->num_creatures() < 30 &&
                 !creatures.creature_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
                 mtype_id montype = mon_triffid;
                 if( one_in( 4 ) ) {
@@ -1616,7 +1616,7 @@ bool mattack::triffid_heartbeat( monster *z )
 
         // Spawn a monster in (about) every second surrounding tile.
         for( int i = 0; i < 4; ++i ) {
-            if( monster *const triffid = g->place_critter_around( mon_triffid, z->pos(), 1 ) ) {
+            if( monster *const triffid = g->place_critter_around( mon_triffid, z->pos_bub(), 1 ) ) {
                 triffid->make_ally( *z );
             }
         }
@@ -1986,8 +1986,8 @@ bool mattack::fungus_fortify( monster *z )
         // Oops, can't reach. ):
         // How's about we spawn more tendrils? :)
         // Aimed at the player, too?  Sure!
-        const tripoint hit_pos = target->pos() + point( rng( -1, 1 ), rng( -1, 1 ) );
-        if( hit_pos == target->pos() && !target->uncanny_dodge() ) {
+        const tripoint_bub_ms hit_pos = target->pos_bub() + point( rng( -1, 1 ), rng( -1, 1 ) );
+        if( hit_pos == target->pos_bub() && !target->uncanny_dodge() ) {
             const bodypart_id &hit = body_part_hit_by_plant();
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth and pierces your %s!" ),
@@ -2141,18 +2141,18 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    std::vector<tripoint> pts = closest_points_first( z->pos(), 1 );
+    std::vector<tripoint_bub_ms> pts = closest_points_first( z->pos_bub(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : pts ) {
+    for( const tripoint_bub_ms &dest : pts ) {
         Creature *critter = creatures.creature_at( dest );
         if( critter == nullptr ) {
             if( z->get_speed_base() > mon_blob_small->speed + 35 && rng( 0, 250 ) < z->get_speed_base() ) {
                 // If we're big enough, spawn a baby blob.
                 shared_ptr_fast<monster> mon = make_shared_fast<monster>( mon_blob_small );
                 mon->ammo = mon->type->starting_ammo;
-                if( mon->will_move_to( dest ) && mon->know_danger_at( dest ) ) {
+                if( mon->will_move_to( dest.raw() ) && mon->know_danger_at( dest.raw() ) ) {
                     didit = true;
                     z->set_speed_base( z->get_speed_base() - mon_blob_small->speed );
                     if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
@@ -3213,7 +3213,7 @@ bool mattack::breathe( monster *z )
         return true;
     }
 
-    if( monster *const spawned = g->place_critter_around( breather_type, z->pos(), 1 ) ) {
+    if( monster *const spawned = g->place_critter_around( breather_type, z->pos_bub(), 1 ) ) {
         spawned->reset_special( "BREATHE" );
         spawned->make_ally( *z );
     }
@@ -3505,7 +3505,7 @@ bool mattack::darkman( monster *z )
     if( rl_dist( z->pos(), player_character.pos() ) > 40 ) {
         return false;
     }
-    if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos(), 1 ) ) {
+    if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos_bub(), 1 ) ) {
         z->mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
         shadow->make_ally( *z );
         add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
@@ -3826,7 +3826,7 @@ bool mattack::evolve_kill_strike( monster *z )
                                        z->name() );
         return true;
     }
-    tripoint const target_pos = target->pos();
+    tripoint_bub_ms const target_pos = target->pos_bub();
     const std::string target_name = target->disp_name();
 
     int damage_dealt = target->deal_damage( z, bodypart_id( "torso" ), damage ).total_damage();
@@ -3882,7 +3882,7 @@ bool mattack::leech_spawner( monster *z )
     const int monsters_spawned = rng( 1, 4 );
     const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
     for( int i = 0; i < monsters_spawned; i++ ) {
-        if( monster *const new_mon = g->place_critter_around( monster_type, z->pos(), 1 ) ) {
+        if( monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub(), 1 ) ) {
             if( u_see ) {
                 add_msg( m_warning,
                          _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
@@ -3926,7 +3926,8 @@ bool mattack::tindalos_teleport( monster *z )
         return false;
     }
     if( one_in( 7 ) ) {
-        if( monster *const afterimage = g->place_critter_around( mon_hound_tindalos_afterimage, z->pos(),
+        if( monster *const afterimage = g->place_critter_around( mon_hound_tindalos_afterimage,
+                                        z->pos_bub(),
                                         1 ) ) {
             z->mod_moves( -to_moves<int>( 1_seconds ) * 1.4 );
             afterimage->make_ally( *z );
@@ -3983,7 +3984,7 @@ bool mattack::flesh_tendril( monster *z )
         if( one_in( 2 ) ) {
             spawned = mon_zombie_gasbag_impaler;
         }
-        if( monster *const summoned = g->place_critter_around( spawned, z->pos(), 1 ) ) {
+        if( monster *const summoned = g->place_critter_around( spawned, z->pos_bub(), 1 ) ) {
             z->mod_moves( -to_moves<int>( 1_seconds ) );
             summoned->make_ally( *z );
             get_map().propagate_field( z->pos_bub(), fd_gibs_flesh, 75, 1 );
@@ -4535,7 +4536,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
         return -1;
     }
 
-    const tripoint where = empty_neighbors.first[get_random_index( empty_neighbor_count )];
+    const tripoint_bub_ms where{ empty_neighbors.first[get_random_index( empty_neighbor_count )] };
 
     if( monster *const hack = g->place_critter_at( actor->mtypeid, where ) ) {
         hack->make_ally( *z );
