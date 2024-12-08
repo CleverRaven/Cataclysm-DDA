@@ -29,7 +29,7 @@ struct numeric_interval {
     }
 
     bool empty() const {
-        return max == 0 || min > max;
+        return max == 0;
     }
 
     void deserialize( const JsonValue &jsin ) {
@@ -40,6 +40,9 @@ struct numeric_interval {
         ja.read_next( min );
         ja.read_next( max );
         if( max < min ) {
+            if( max >= 0 ) {
+                ja.throw_error( "Intervals should be in format [min, max]." );
+            }
             max = std::numeric_limits<T>::max();
         }
     }

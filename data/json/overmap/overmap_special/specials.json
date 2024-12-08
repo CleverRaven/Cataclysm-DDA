@@ -747,7 +747,7 @@
       { "point": [ 0, 4, 0 ], "locations": [ "land", "road" ] }
     ],
     "locations": [ "forest" ],
-    "city_distance": [ 25, 10 ],
+    "city_distance": [ 10, 25 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 75, 100 ],
     "connections": [ { "point": [ 0, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 3, 0 ] } ],
