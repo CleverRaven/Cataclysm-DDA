@@ -29,8 +29,8 @@
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
-#include <trait_group.h>
-#include <npc_class.h>
+#include "trait_group.h"
+#include "npc_class.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 static const trait_group::Trait_group_tag

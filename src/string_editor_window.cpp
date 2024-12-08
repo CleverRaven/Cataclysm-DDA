@@ -4,7 +4,7 @@
 #include "sdl_wrappers.h"
 #endif
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_keyboard.h>
 #include "cata_utility.h"
 #include "options.h"
@@ -403,7 +403,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
         wnoutrefresh( _win );
     } );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     on_out_of_scope stop_text_input( []() {
         if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
             StopTextInput();

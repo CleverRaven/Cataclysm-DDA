@@ -59,7 +59,7 @@ static const oter_str_id oter_omt_obsolete( "omt_obsolete" );
 
 static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include "input.h"
 
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -318,7 +318,7 @@ void scent_map::deserialize( const std::string &data, bool is_type )
     }
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 ///// quick shortcuts
 void game::load_shortcuts( const cata_path &path )
 {

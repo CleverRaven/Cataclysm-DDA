@@ -87,7 +87,7 @@ static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_keyboard.h>
 #endif
 

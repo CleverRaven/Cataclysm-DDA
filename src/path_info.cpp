@@ -229,7 +229,11 @@ cata_path PATH_INFO::base_path()
 }
 std::string PATH_INFO::cache_dir()
 {
+#if defined(__IPHONEOS__)
+    return std::string( getenv( "HOME" ) ) + "/Library/Cache/"
+#else
     return datadir_value + "cache/";
+#endif
 }
 cata_path PATH_INFO::colors()
 {
