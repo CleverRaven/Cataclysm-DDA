@@ -121,6 +121,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -129,6 +130,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
