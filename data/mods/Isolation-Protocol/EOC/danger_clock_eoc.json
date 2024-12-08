@@ -5,7 +5,7 @@
     "recurrence": "3 minutes",
     "global": true,
     "condition": { "not": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] } },
-    "effect": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "++" ] }, { "math": [ "u_ISO_DANGER", "++" ] } ]
+    "effect": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER++" ] }, { "math": [ "u_ISO_DANGER++" ] } ]
   },
   {
     "type": "effect_on_condition",

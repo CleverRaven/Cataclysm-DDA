@@ -51,12 +51,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_A",
-    "effect": [ { "math": [ "run_eocs_1", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_1++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_B",
-    "effect": [ { "math": [ "run_eocs_1", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_1++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -67,12 +67,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_C",
-    "effect": [ { "math": [ "run_eocs_2", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_2++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_D",
-    "effect": [ { "math": [ "run_eocs_2", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_2++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -83,12 +83,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_E",
-    "effect": [ { "math": [ "run_eocs_3", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_3++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_F",
-    "effect": [ { "math": [ "run_eocs_3", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_3++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -99,12 +99,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_I",
-    "effect": [ { "math": [ "run_eocs_5", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_5++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_J",
-    "effect": [ { "math": [ "run_eocs_5", "++" ] } ]
+    "effect": [ { "math": [ "run_eocs_5++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -168,17 +168,11 @@
     "type": "effect_on_condition",
     "id": "EOC_compare_string_test",
     "effect": [
-      { "if": { "compare_string": [ "yes", "yes" ] }, "then": { "math": [ "eoc_compare_string_test_1", "++" ] } },
-      { "if": { "compare_string": [ "yes", "no" ] }, "else": { "math": [ "eoc_compare_string_test_2", "++" ] } },
-      {
-        "if": { "compare_string": [ "yes", "yes", "yes" ] },
-        "then": { "math": [ "eoc_compare_string_test_3", "++" ] }
-      },
-      {
-        "if": { "compare_string": [ "yes", "yes", "no" ] },
-        "then": { "math": [ "eoc_compare_string_test_4", "++" ] }
-      },
-      { "if": { "compare_string": [ "yes", "no", "eh" ] }, "else": { "math": [ "eoc_compare_string_test_5", "++" ] } }
+      { "if": { "compare_string": [ "yes", "yes" ] }, "then": { "math": [ "eoc_compare_string_test_1++" ] } },
+      { "if": { "compare_string": [ "yes", "no" ] }, "else": { "math": [ "eoc_compare_string_test_2++" ] } },
+      { "if": { "compare_string": [ "yes", "yes", "yes" ] }, "then": { "math": [ "eoc_compare_string_test_3++" ] } },
+      { "if": { "compare_string": [ "yes", "yes", "no" ] }, "then": { "math": [ "eoc_compare_string_test_4++" ] } },
+      { "if": { "compare_string": [ "yes", "no", "eh" ] }, "else": { "math": [ "eoc_compare_string_test_5++" ] } }
     ]
   },
   {
@@ -187,23 +181,23 @@
     "effect": [
       {
         "if": { "compare_string_match_all": [ "yes", "yes" ] },
-        "then": { "math": [ "eoc_compare_string_match_all_test_1", "++" ] }
+        "then": { "math": [ "eoc_compare_string_match_all_test_1++" ] }
       },
       {
         "if": { "compare_string_match_all": [ "yes", "no" ] },
-        "else": { "math": [ "eoc_compare_string_match_all_test_2", "++" ] }
+        "else": { "math": [ "eoc_compare_string_match_all_test_2++" ] }
       },
       {
         "if": { "compare_string_match_all": [ "yes", "yes", "yes" ] },
-        "then": { "math": [ "eoc_compare_string_match_all_test_3", "++" ] }
+        "then": { "math": [ "eoc_compare_string_match_all_test_3++" ] }
       },
       {
         "if": { "compare_string_match_all": [ "yes", "yes", "no" ] },
-        "else": { "math": [ "eoc_compare_string_match_all_test_4", "++" ] }
+        "else": { "math": [ "eoc_compare_string_match_all_test_4++" ] }
       },
       {
         "if": { "compare_string_match_all": [ "yes", "no", "eh" ] },
-        "else": { "math": [ "eoc_compare_string_match_all_test_5", "++" ] }
+        "else": { "math": [ "eoc_compare_string_match_all_test_5++" ] }
       }
     ]
   }

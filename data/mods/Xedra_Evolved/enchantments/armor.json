@@ -107,7 +107,7 @@
     "id": "INCREASE_BERSERKER",
     "condition": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } },
     "deactivate_condition": { "not": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } } },
-    "effect": [ { "u_message": "BERSERK +1.", "type": "debug" }, { "math": [ "BERSERKER", "++" ] } ]
+    "effect": [ { "u_message": "BERSERK +1.", "type": "debug" }, { "math": [ "BERSERKER++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -142,12 +142,19 @@
     "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
   },
   {
-    "id": "ench_verdant_boots",
+    "id": "ench_verdant_legs",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
     "ench_effects": [ { "effect": "effect_steady_flag", "intensity": 1 }, { "effect": "effect_sludge_immune_flag", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_verdant_boots",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "multiply": 0.25 } ]
   },
   {
     "id": "ench_verdant_cloak",
