@@ -216,7 +216,6 @@ static const species_id species_ROBOT( "ROBOT" );
 static const sub_bodypart_str_id sub_body_part_torso_lower( "torso_lower" );
 static const sub_bodypart_str_id sub_body_part_torso_upper( "torso_upper" );
 
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
@@ -2756,7 +2755,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            std::abs( static_cast<int>( food_item->count() ) * batch ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && player_character.has_trait( trait_CARNIVORE ) ) ) ) {
+        ( debug || ( g != nullptr && player_character.has_flag( flag_CARNIVORE_DIET ) ) ) ) {
         info.emplace_back( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() );
     }
 
