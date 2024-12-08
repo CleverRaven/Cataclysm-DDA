@@ -292,7 +292,7 @@
   {
     "type": "mutation",
     "id": "SHADE_HERBIVORE",
-    "name": { "str": "Carnivorous Stomach" },
+    "name": { "str": "Herbivore Stomach" },
     "description": "You eat a herbivorous diet.  The benefit of this is you never have to kill for your food.  Unless the plants were trying to kill you first.",
     "//": "This is one path of Gracken stomach mutations.",
     "types": [ "DIET" ],
