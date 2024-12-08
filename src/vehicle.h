@@ -1636,6 +1636,8 @@ class vehicle
         int max_water_velocity( bool fueled = true ) const;
         // get maximum air velocity based on rotor physics
         int max_rotor_velocity( bool fueled = true ) const;
+        // get maximum air velocity for rotorless vehicles.  Needed for autodrive to handle them.
+        int max_rotorlike_velocity( bool fueled = true ) const;
         // Get maximum velocity for the current movement mode
         int max_velocity( bool fueled = true ) const;
         // Get maximum reverse velocity for the current movement mode
@@ -1647,6 +1649,9 @@ class vehicle
         // get safe air velocity gained by combined power of all engines.
         // if fueled == true, then only the engines which the vehicle hs fuel for are included
         int safe_rotor_velocity( bool fueled = true ) const;
+        // get safe air velocity gained by combined power of all engines.
+        // if fueled == true, then only the engines which the vehicle hs fuel for are included
+        int safe_rotorlike_velocity( bool fueled = true ) const;
         // Get safe water velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int safe_water_velocity( bool fueled = true ) const;
@@ -1735,6 +1740,8 @@ class vehicle
         // of non-simple parts
         bool is_flyable() const;
         void set_flyable( bool val );
+        // rotorlike aircraft is any flying vehicle that behaves akin to a helicopter without rotors (for modded content)
+        bool is_rotorlike_aircraft() const;
         // Would interacting with this part prevent the vehicle from being flyable?
         bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
         bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
@@ -2258,6 +2265,7 @@ class vehicle
         std::vector<int> loose_parts; // NOLINT(cata-serialize)
         std::vector<int> wheelcache; // NOLINT(cata-serialize)
         std::vector<int> rotors; // NOLINT(cata-serialize)
+        std::vector<int> rotorlike_aircraft; // NOLINT(cata-serialize)
         std::vector<int> rail_wheelcache; // NOLINT(cata-serialize)
         std::vector<int> steering; // NOLINT(cata-serialize)
         // Intended to be a misc list, but currently only security systems.

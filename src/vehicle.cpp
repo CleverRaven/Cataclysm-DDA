@@ -134,6 +134,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
+static const std::string flag_ROTORLIKE_AIRCRAFT( "ROTORLIKE_AIRCRAFT" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
@@ -804,7 +805,7 @@ void vehicle::drive_to_local_target( const tripoint_abs_ms &target, bool follow_
         if( ( turn_x > 0 || turn_x < 0 ) && velocity > 1000 ) {
             accel_y = 1;
         }
-        if( ( velocity < std::min( safe_velocity(), is_rotorcraft() &&
+        if( ( velocity < std::min( safe_velocity(), is_rotorlike_aircraft() &&
                                    is_flying_in_air() ? 12000 : 32 * 100 ) && turn_x == 0 ) || velocity < 500 ) {
             accel_y = -1;
         }
@@ -1513,6 +1514,10 @@ int vehicle::install_part( const point &dp, vehicle_part &&vp )
         debugmsg( "installing %s would make invalid vehicle: %s", vpi.id.str(), valid_mount.str() );
         return -1;
     }
+    if( vpi.has_flag( flag_ROTORLIKE_AIRCRAFT ) ) {
+        // Installing a part that grants flyworthiness allows the vehicle to fly.
+        set_flyable( true );
+    }
     // Should be checked before installing the part
     bool enable = false;
     if( vp.is_engine() ) {
@@ -1574,6 +1579,10 @@ int vehicle::install_part( const point_rel_ms &dp, vehicle_part &&vp )
     if( !valid_mount.success() ) {
         debugmsg( "installing %s would make invalid vehicle: %s", vpi.id.str(), valid_mount.str() );
         return -1;
+    }
+    if( vpi.has_flag( flag_ROTORLIKE_AIRCRAFT ) ) {
+        // Installing a part that grants flyworthiness allows the vehicle to fly.
+        set_flyable( true );
     }
     // Should be checked before installing the part
     bool enable = false;
@@ -2516,8 +2525,9 @@ bool vehicle::split_vehicles( map &here,
         point_rel_ms mnt_offset;
 
         // if one part is an appliance it means we're dealing with a power grid
-        bool is_appliance = parts[split_part0].info().has_flag( flag_APPLIANCE );
-        bool is_wiring = parts[split_part0].info().base_item == itype_wall_wiring;
+        bool is_appliance = parts[ split_part0 ].info().has_flag( flag_APPLIANCE );
+        bool is_wiring = parts[ split_part0 ].info().base_item == itype_wall_wiring;
+        bool is_rotorlike_aircraft = parts[ split_part0 ].info().has_flag( flag_ROTORLIKE_AIRCRAFT );
 
         decltype( labels ) new_labels;
         decltype( loot_zones ) new_zones;
@@ -2562,6 +2572,10 @@ bool vehicle::split_vehicles( map &here,
             }
             if( is_wiring ) {
                 new_vehicle->add_tag( flag_WIRING );
+            }
+            // If a part allows to fly, losing it removes the ability to fly
+            if( is_rotorlike_aircraft ) {
+                set_flyable( false );
             }
         }
 
@@ -4121,10 +4135,21 @@ int vehicle::max_rotor_velocity( const bool fueled ) const
     return std::min( 25501, mps_to_vmiph( max_air_mps ) );
 }
 
+// Needed for autodrive to handle vehicles with both wheels and flight.
+// Flying vehicles that lack rotors are currently based on ground vehicles
+// so ground speed is used here.
+int vehicle::max_rotorlike_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( max_ground_velocity( fueled ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 int vehicle::max_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return max_rotor_velocity( fueled );
+    } else if( is_flying && !is_rotorcraft() ) {
+        return max_rotorlike_velocity( fueled );
     } else if( is_watercraft() ) {
         return max_water_velocity( fueled );
     } else {
@@ -4162,6 +4187,15 @@ int vehicle::safe_rotor_velocity( const bool fueled ) const
     return std::min( 22501, mps_to_vmiph( max_air_mps ) );
 }
 
+// Needed for autodrive to handle vehicles with both wheels and flight.
+// Flying vehicles that lack rotors are currently based on ground vehicles
+// so ground speed is used here.
+int vehicle::safe_rotorlike_velocity( const bool fueled ) const
+{
+    const double max_air_mps = std::sqrt( safe_ground_velocity( fueled ) / coeff_air_drag() );
+    return std::min( 22501, mps_to_vmiph( max_air_mps ) );
+}
+
 // the same physics as max_water_velocity, but with a smaller engine power
 int vehicle::safe_water_velocity( const bool fueled ) const
 {
@@ -4175,6 +4209,8 @@ int vehicle::safe_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return safe_rotor_velocity( fueled );
+    } else if( is_flying && !is_rotorcraft() ) {
+        return safe_rotorlike_velocity( fueled );
     } else if( is_watercraft() ) {
         return safe_water_velocity( fueled );
     } else {
@@ -4590,10 +4626,17 @@ bool vehicle::has_sufficient_rotorlift() const
     return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
 }
 
+bool vehicle::is_rotorlike_aircraft() const
+{
+    // checks if the aircraft is a helicopter or works like one
+    return ( ( !rotorlike_aircraft.empty() && has_driver() ) || ( !rotors.empty() && has_driver() &&
+             has_sufficient_rotorlift() ) );
+}
+
 bool vehicle::is_rotorcraft() const
 {
-    return !rotors.empty() && has_driver() &&
-           has_sufficient_rotorlift();
+    // checks if the aircraft is a helicopter
+    return !rotors.empty() && has_driver() && has_sufficient_rotorlift();
 }
 
 bool vehicle::is_flyable() const
@@ -4639,7 +4682,9 @@ bool vehicle::would_repair_prevent_flyable( const vehicle_part &vp, const Charac
 
 bool vehicle::would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const
 {
-    if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
+    if( flyable && !rotorlike_aircraft.empty() && vp.info().has_flag( "ROTORLIKE_AIRCRAFT" ) ) {
+        return true;
+    } else if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
         return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
@@ -4764,8 +4809,13 @@ float vehicle::k_traction( float wheel_traction_area ) const
     if( in_deep_water ) {
         return can_float() ? 1.0f : -1.0f;
     }
-    if( is_flying ) {
-        return is_rotorcraft() ? 1.0f : -1.0f;
+    if( is_flying && is_rotorlike_aircraft() ) {
+        // I'M IN THE AIR
+        return 1.0f;
+    }
+    if( is_flying && !is_rotorlike_aircraft() ) {
+        // I'M IN THE AIR BUT I CAN'T FLY
+        return 0.0f;
     }
     if( is_watercraft() && can_float() ) {
         return 1.0f;
@@ -4975,9 +5025,13 @@ float vehicle::steering_effectiveness() const
         // I'M ON A BOAT
         return can_float() ? 1.0f : 0.0f;
     }
-    if( is_flying ) {
+    if( is_flying && is_rotorlike_aircraft() ) {
         // I'M IN THE AIR
-        return is_rotorcraft() ? 1.0f : 0.0f;
+        return 1.0f;
+    }
+    if( is_flying && !is_rotorlike_aircraft() ) {
+        // I'M IN THE AIR BUT I CAN'T FLY
+        return -1.0f;
     }
     // irksome special case for boats in shallow water
     if( is_watercraft() && can_float() ) {
@@ -6340,8 +6394,8 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_velocity != velocity ) {
         thrust( cruise_velocity > velocity ? 1 : -1 );
-    } else if( is_rotorcraft() && velocity == 0 ) {
-        // rotorcraft uses fuel for hover
+    } else if( is_rotorlike_aircraft() && velocity == 0 ) {
+        // air vehicles uses fuel for hover
         // whether it's flying or not is checked inside thrust function
         thrust( 0 );
     }
@@ -6543,6 +6597,9 @@ void vehicle::refresh( const bool remove_fakes )
         }
         if( vpi.has_flag( VPFLAG_ROTOR ) ) {
             rotors.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTORLIKE_AIRCRAFT ) ) {
+            rotorlike_aircraft.push_back( p );
         }
         if( vp.part().is_battery() ) {
             batteries.push_back( p );
@@ -7760,6 +7817,11 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
     if( mod_hp( vp, -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !vpi.has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
+            set_flyable( false );
+        }
+
+        if( is_flyable() && rotors.empty() && vpi.has_flag( flag_ROTORLIKE_AIRCRAFT ) ) {
+            // If the part that grants flyworthiness is broken, remove flyworthiness.
             set_flyable( false );
         }
 

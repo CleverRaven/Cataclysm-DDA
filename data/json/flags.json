@@ -2615,6 +2615,11 @@
     "info": "You can craft at 100% speed in any level of light."
   },
   {
+    "id": "ROTORLIKE_AIRCRAFT",
+    "type": "json_flag",
+    "info": "Adding a part with this flag makes the vehicle a rotorlike aircraft (any flying vehicle that flies as if it was a helicopter without rotors), intended for modded content.  Breaking or removing this part will cause the vehicle to no longer be able to fly."
+  },
+  {
     "id": "CANNOT_ATTACK",
     "type": "json_flag",
     "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."

@@ -1706,6 +1706,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```REMOTE_CONTROLS``` Once installed, allows using vehicle through remote controls.
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick.
 - ```ROOF``` Covers a section of the vehicle.  Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside.  Otherwise they're outside.
+- ```ROTORLIKE_AIRCRAFT``` This vehicle part makes the vehicle a rotorlike aircraft (any flying vehicle that flies as if it was an helicopter without rotors).  Having at least one part with this flag allows the vehicle to fly.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part.  Also mops up liquids.
 - ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident.  Can only be installed on a part with `BELTABLE` flag.
 - ```SEAT``` A seat where the player can sit or sleep.
