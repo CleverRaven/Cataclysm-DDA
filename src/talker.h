@@ -97,6 +97,9 @@ class const_talker
         virtual tripoint pos() const {
             return {};
         }
+        virtual tripoint_bub_ms pos_bub() const {
+            return {};
+        }
         virtual tripoint_abs_ms global_pos() const {
             return {};
         }
@@ -667,7 +670,7 @@ class talker: virtual public const_talker
         virtual computer *get_computer() {
             return nullptr;
         }
-        virtual void set_pos( tripoint ) {}
+        virtual void set_pos( tripoint_bub_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
         virtual void set_str_max( int ) {}
         virtual void set_dex_max( int ) {}

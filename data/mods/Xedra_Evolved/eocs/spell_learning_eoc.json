@@ -33,7 +33,7 @@
       {
         "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },
         "then": [
-          { "math": [ "xe_eater_leveling", "++" ] },
+          { "math": [ "xe_eater_leveling++" ] },
           {
             "u_message": "Got a new level for eater, xe_eater_leveling: <global_val:xe_eater_leveling>",
             "type": "debug"
@@ -43,7 +43,7 @@
       {
         "if": { "and": [ { "u_has_trait": "DREAMER" }, { "compare_string": [ "DREAMER", { "context_val": "school" } ] } ] },
         "then": [
-          { "math": [ "xe_dreamer_leveling", "++" ] },
+          { "math": [ "xe_dreamer_leveling++" ] },
           {
             "u_message": "Got a new level for dreamer, xe_dreamer_leveling: <global_val:xe_dreamer_leveling>",
             "type": "debug"
@@ -105,7 +105,7 @@
           }
         ]
       },
-      { "math": [ "xe_eater_leveling", "--" ] },
+      { "math": [ "xe_eater_leveling--" ] },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },
@@ -149,7 +149,7 @@
           }
         ]
       },
-      { "math": [ "xe_dreamer_leveling", "--" ] },
+      { "math": [ "xe_dreamer_leveling--" ] },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },
@@ -179,25 +179,25 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_1",
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)", "++" ] } ]
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_2",
     "condition": { "math": [ "u_skill('deduction') >= 3" ] },
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_2)", "++" ] } ]
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_2)++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_3",
     "condition": { "math": [ "u_skill('deduction') >= 6" ] },
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_3)", "++" ] } ]
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_3)++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_4",
     "condition": { "math": [ "u_skill('deduction') >= 8" ] },
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_4)", "++" ] } ]
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_4)++" ] } ]
   },
   {
     "type": "effect_on_condition",

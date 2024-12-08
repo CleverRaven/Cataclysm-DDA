@@ -414,7 +414,7 @@
         "effect": [
           { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       },
@@ -450,7 +450,7 @@
         "effect": [
           { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       }
@@ -479,7 +479,7 @@
           { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       },
@@ -574,7 +574,7 @@
         "effect": [
           { "math": [ "isherwood_family_coming = 1" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       },
@@ -637,25 +637,25 @@
       {
         "text": "[5 Riot Armor] I've got enough riot armor for everyone.",
         "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Helmet] These crowd control helmets should help a lot.",
         "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Arm Guard] I hope these armguards won't interfere with people's aim.",
         "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Leg Guard] I've got these leg guards to keep people from getting hobbled.",
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
@@ -765,7 +765,7 @@
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
-        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" }, { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] } ],
+        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" }, { "math": [ "npc_isherwood_barry_rescue_attempts++" ] } ],
         "topic": "TALK_DONE"
       },
       {
@@ -848,7 +848,7 @@
     "end": {
       "effect": [
         { "run_eocs": "isherwood_mission_wall_finished", "time_in_future": "24 hours" },
-        { "math": [ "isherwood_wall_status", "++" ] }
+        { "math": [ "isherwood_wall_status++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

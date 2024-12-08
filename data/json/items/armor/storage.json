@@ -121,6 +121,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -129,6 +130,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -406,6 +408,20 @@
     "looks_like": "backpack",
     "color": "brown",
     "pocket_data": [
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack.",
+        "ripoff": 3,
+        "transparent": true
+      },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "25 L",

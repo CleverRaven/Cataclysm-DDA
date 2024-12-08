@@ -396,7 +396,7 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const_dialog
                   d.get_callstack() );
         return tripoint_abs_ms::invalid;
     }
-    return get_map().getglobal( d.const_actor( is_npc )->pos() );
+    return get_map().getglobal( d.const_actor( is_npc )->pos_bub() );
 }
 
 template<class T>
@@ -1167,7 +1167,7 @@ conditional_t::func f_npc_role_nearby( const JsonObject &jo, std::string_view me
         const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
             return d.const_actor( false )->posz() == guy.posz() &&
                    guy.companion_mission_role_id == role.evaluate( d ) &&
-                   ( rl_dist( d.const_actor( false )->pos(), guy.pos() ) <= 48 );
+                   ( rl_dist( d.const_actor( false )->pos_bub(), guy.pos_bub() ) <= 48 );
         } );
         return !available.empty();
     };
@@ -1391,7 +1391,7 @@ conditional_t::func f_player_see( bool is_npc )
         if( c ) {
             return get_player_view().sees( *c );
         } else {
-            return get_player_view().sees( d.const_actor( is_npc )->pos() );
+            return get_player_view().sees( d.const_actor( is_npc )->pos_bub() );
         }
     };
 }
@@ -1627,7 +1627,7 @@ conditional_t::func f_is_controlling_vehicle( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
-        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos() ) ) {
+        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos_bub() ) ) {
             return actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -1638,7 +1638,7 @@ conditional_t::func f_is_driving( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
-        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos() ) ) {
+        if( const optional_vpart_position &vp = get_map().veh_at( actor->pos_bub() ) ) {
             return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -1669,7 +1669,7 @@ conditional_t::func f_is_outside( bool is_npc )
 conditional_t::func f_is_underwater( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
-        return get_map().is_divable( d.const_actor( is_npc )->pos() );
+        return get_map().is_divable( d.const_actor( is_npc )->pos_bub() );
     };
 }
 
@@ -1730,7 +1730,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
     }
     bool z_level = jo.get_bool( "z_level", false );
     return [type, target_var, message, range, z_level, is_npc]( const_dialogue const & d ) {
-        std::optional<tripoint> loc;
+        std::optional<tripoint_bub_ms> loc;
         Character const *ch = d.const_actor( is_npc )->get_const_character();
         if( ch && ch->as_avatar() ) {
             if( type == "anywhere" ) {
@@ -1739,7 +1739,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                     popup.on_top( true );
                     popup.message( "%s", message );
                 }
-                tripoint center = d.const_actor( is_npc )->pos();
+                tripoint_bub_ms center = d.const_actor( is_npc )->pos_bub();
                 const look_around_params looka_params = { true, center, center, false, true, true, z_level };
                 loc = g->look_around( looka_params ).position;
             } else if( type == "line_of_sight" ) {
@@ -1752,13 +1752,13 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                 dummy.set_location( get_avatar().get_location() );
                 target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
                 if( !traj.empty() ) {
-                    loc = traj.back().raw();
+                    loc = traj.back();
                 }
             } else if( type == "around" ) {
                 if( !message.empty() ) {
-                    loc = choose_adjacent( message );
+                    loc = choose_adjacent_bub( message );
                 } else {
-                    loc = choose_adjacent( _( "Choose direction" ) );
+                    loc = choose_adjacent_bub( _( "Choose direction" ) );
                 }
             } else {
                 debugmsg( string_format( "Invalid selection type: %s", type ) );
@@ -2102,7 +2102,7 @@ conditional_t::func f_is_on_terrain( const JsonObject &jo, std::string_view memb
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
     return [terrain_type, is_npc]( const_dialogue const & d ) {
         map &here = get_map();
-        return here.ter( d.const_actor( is_npc )->pos() ) == ter_id( terrain_type.evaluate( d ) );
+        return here.ter( d.const_actor( is_npc )->pos_bub() ) == ter_id( terrain_type.evaluate( d ) );
     };
 }
 
@@ -2112,7 +2112,7 @@ conditional_t::func f_is_on_terrain_with_flag( const JsonObject &jo, std::string
     str_or_var terrain_type = get_str_or_var( jo.get_member( member ), member, true );
     return [terrain_type, is_npc]( const_dialogue const & d ) {
         map &here = get_map();
-        return here.ter( d.const_actor( is_npc )->pos() )->has_flag( terrain_type.evaluate( d ) );
+        return here.ter( d.const_actor( is_npc )->pos_bub() )->has_flag( terrain_type.evaluate( d ) );
     };
 }
 
@@ -2124,7 +2124,7 @@ conditional_t::func f_is_in_field( const JsonObject &jo, std::string_view member
         map &here = get_map();
         field_type_id ft = field_type_id( field_type.evaluate( d ) );
         for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.const_actor(
-                    is_npc )->pos() ) ) {
+                    is_npc )->pos_bub() ) ) {
             if( f.second.get_field_type() == ft ) {
                 return true;
             }
@@ -2205,7 +2205,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
         str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
         bool use_beta_talker = mutator == "npc_loc_relative";
         return [target, use_beta_talker, ret_func]( const_dialogue const & d ) {
-            tripoint_abs_ms char_pos = get_map().getglobal( d.const_actor( use_beta_talker )->pos() );
+            tripoint_abs_ms char_pos = get_map().getglobal( d.const_actor( use_beta_talker )->pos_bub() );
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return ret_func( target_pos.to_string() );
         };
@@ -2444,18 +2444,18 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
         };
     } else if( checked_value == "pos_x" ) {
         return [is_npc]( dialogue & d, double input ) {
-            tripoint const tr = d.actor( is_npc )->pos();
-            d.actor( is_npc )->set_pos( tripoint( input, tr.y, tr.z ) );
+            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub();
+            d.actor( is_npc )->set_pos( tripoint_bub_ms( int( input ), tr.y(), tr.z() ) );
         };
     } else if( checked_value == "pos_y" ) {
         return [is_npc]( dialogue & d, double input ) {
-            tripoint const tr = d.actor( is_npc )->pos();
-            d.actor( is_npc )->set_pos( tripoint( tr.x, input, tr.z ) );
+            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub();
+            d.actor( is_npc )->set_pos( tripoint_bub_ms( tr.x(), int( input ), tr.z() ) );
         };
     } else if( checked_value == "pos_z" ) {
         return [is_npc]( dialogue & d, double input ) {
-            tripoint const tr = d.actor( is_npc )->pos();
-            d.actor( is_npc )->set_pos( tripoint( tr.xy(), input ) );
+            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub();
+            d.actor( is_npc )->set_pos( tripoint_bub_ms( tr.xy(), input ) );
         };
     } else if( checked_value == "power" ) {
         return [is_npc]( dialogue & d, double input ) {

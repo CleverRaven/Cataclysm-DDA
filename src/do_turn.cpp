@@ -203,7 +203,7 @@ bool cleanup_at_end()
     }
 
     //Reset any offset due to driving
-    g->set_driving_view_offset( point::zero );
+    g->set_driving_view_offset( point_rel_ms::zero );
 
     //clear all sound channels
     sfx::fade_audio_channel( sfx::channel::any, 300 );
@@ -623,7 +623,7 @@ bool do_turn()
         }
     }
 
-    if( g->driving_view_offset.x != 0 || g->driving_view_offset.y != 0 ) {
+    if( g->driving_view_offset.x() != 0 || g->driving_view_offset.y() != 0 ) {
         // Still have a view offset, but might not be driving anymore,
         // or the option has been deactivated,
         // might also happen when someone dives from a moving car.
