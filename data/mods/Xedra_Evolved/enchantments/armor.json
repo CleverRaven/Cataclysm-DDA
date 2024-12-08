@@ -142,12 +142,19 @@
     "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
   },
   {
-    "id": "ench_verdant_boots",
+    "id": "ench_verdant_legs",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
     "ench_effects": [ { "effect": "effect_steady_flag", "intensity": 1 }, { "effect": "effect_sludge_immune_flag", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_verdant_boots",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "multiply": 0.25 } ]
   },
   {
     "id": "ench_verdant_cloak",
