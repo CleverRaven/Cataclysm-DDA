@@ -5390,7 +5390,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
+void oxytorch_activity_actor::start( player_activity &act, Character &who )
 {
     const map &here = get_map();
 
@@ -5421,9 +5421,14 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         act.set_to_null();
         return;
     }
-
-    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
-    act.moves_left = act.moves_total;
+    if ( tool->ammo_sufficient( &who, act.moves_total / 100 ) ) {
+        add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+        act.moves_left = act.moves_total;
+    } else {
+        who.add_msg_if_player( m_bad, _( "Your %1$s doesn't have enough charges." ), tool->tname() );
+        act.set_to_null();
+        return;
+    }
 }
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
