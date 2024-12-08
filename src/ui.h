@@ -41,7 +41,7 @@ const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
 const int MENU_AUTOASSIGN = -1;
 
-class string_input_popup;
+class string_input_popup_imgui;
 class uilist_impl;
 
 catacurses::window new_centered_win( int nlines, int ncols );
@@ -472,7 +472,7 @@ class uilist // NOLINT(cata-xy)
 
         weak_ptr_fast<uilist_impl> ui;
 
-        std::unique_ptr<string_input_popup> filter_popup;
+        std::unique_ptr<string_input_popup_imgui> filter_popup;
         std::string filter;
 
         int max_entry_len = 0;
