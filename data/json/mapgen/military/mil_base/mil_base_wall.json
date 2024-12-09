@@ -33,7 +33,7 @@
         "...........//.-.'......."
       ],
       "palettes": [ "mil_base_palette2" ],
-      "monster": { ".": { "group": "GROUP_MIL_BASE_OUTSKIRTS", "chance": 1 } }
+      "monster": { ".": { "group": "GROUP_MIL_BASE_CIVILIAN", "chance": 1 } }
     }
   },
   {
@@ -70,7 +70,7 @@
         "........................"
       ],
       "palettes": [ "mil_base_palette2" ],
-      "monster": { ".": { "group": "GROUP_MIL_BASE_OUTSKIRTS", "chance": 1 } }
+      "monster": { ".": { "group": "GROUP_MIL_BASE_CIVILIAN", "chance": 1 } }
     }
   },
   {
@@ -107,7 +107,7 @@
         "........................"
       ],
       "palettes": [ "mil_base_palette2" ],
-      "monster": { ".": { "group": "GROUP_MIL_BASE_OUTSKIRTS", "chance": 1 } }
+      "monster": { ".": { "group": "GROUP_MIL_BASE_CIVILIAN", "chance": 1 } }
     }
   },
   {
@@ -144,7 +144,7 @@
         "...........//.-.'......."
       ],
       "palettes": [ "mil_base_palette2" ],
-      "monster": { ".": { "group": "GROUP_MIL_BASE_OUTSKIRTS", "chance": 1 } }
+      "monster": { ".": { "group": "GROUP_MIL_BASE_CIVILIAN", "chance": 1 } }
     }
   },
   {
@@ -181,7 +181,7 @@
         "...........//.-.'......."
       ],
       "palettes": [ "mil_base_palette2" ],
-      "monster": { ".": { "group": "GROUP_MIL_BASE_OUTSKIRTS", "chance": 1 } }
+      "monster": { ".": { "group": "GROUP_MIL_BASE_CIVILIAN", "chance": 1 } }
     }
   },
   {

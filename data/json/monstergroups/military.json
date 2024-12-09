@@ -65,9 +65,28 @@
     ]
   },
   {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_BASE_DORMANT",
+    "default": "mon_pseudo_dormant_zombie",
+    "//": "only dormant zombies",
+    "//2": "These are generated in MonsterGenerator::generate_fake_pseudo_dormant_monster",
+    "monsters": [
+      { "monster": "pseudo_dormant_mon_zombie_soldier", "weight": 600 },
+      { "monster": "pseudo_dormant_mon_zombie_soldier_acid_1", "weight": 15, "cost_multiplier": 2 },
+      { "monster": "pseudo_dormant_mon_zombie_kevlar_1", "weight": 50, "cost_multiplier": 10 },
+      { "monster": "pseudo_dormant_mon_zombie_milbase_personnel", "weight": 40 },
+      { "monster": "pseudo_dormant_mon_zombie_military_pilot", "weight": 5 },
+      { "monster": "pseudo_dormant_mon_zombie_soldier_blackops_1", "weight": 15, "cost_multiplier": 10 },
+      { "monster": "pseudo_dormant_mon_zombie_armored", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "pseudo_dormant_mon_zombie_scorched", "weight": 25 },
+      { "monster": "pseudo_dormant_mon_zombie_hazmat", "weight": 25 }
+    ]
+  },
+  {
     "name": "GROUP_MIL_BASE",
     "type": "monstergroup",
     "monsters": [
+      { "group": "GROUP_MIL_BASE_DORMANT", "weight": 200 },
       { "monster": "mon_zombie_soldier", "weight": 580 },
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "weight": 15, "cost_multiplier": 5 },
@@ -87,6 +106,9 @@
     "name": "GROUP_MIL_BASE_CIVILIAN",
     "//": "Civilians with soldiers and burned ones.",
     "monsters": [
+      { "group": "GROUP_CIVILIANS_STANDARD", "weight": 350 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 150 },
+      { "group": "GROUP_MIL_BASE", "weight": 350 },
       { "monster": "mon_zombie", "weight": 415 },
       { "monster": "mon_zombie_fat", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_zombie_child", "weight": 30 },
@@ -96,7 +118,6 @@
       { "monster": "mon_zombie_runner", "weight": 40, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_brainless", "weight": 20 },
       { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fireman", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_dog_zombie_cop", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_zombie_dog", "weight": 5, "cost_multiplier": 2 },
@@ -112,12 +133,7 @@
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
-      { "monster": "mon_zombie_scorched", "weight": 25, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier", "weight": 200, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
-      { "monster": "mon_zombie_military_pilot", "weight": 5 },
-      { "monster": "mon_feral_soldier", "weight": 75 }
+      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" }
     ]
   },
   {
@@ -125,6 +141,8 @@
     "name": "GROUP_MIL_BASE_HOSPITAL",
     "//": "Civilians with soldiers, doctors and burned ones. More hazmat.",
     "monsters": [
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 750 },
+      { "group": "GROUP_MIL_BASE", "weight": 150 },
       { "monster": "mon_zombie", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_zombie_child", "weight": 40 },
@@ -151,12 +169,7 @@
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
-      { "monster": "mon_zombie_scorched", "weight": 25 },
-      { "monster": "mon_zombie_soldier", "weight": 322, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
-      { "monster": "mon_zombie_military_pilot", "weight": 20 },
-      { "monster": "mon_zombie_scientist", "weight": 100 },
-      { "monster": "mon_feral_soldier", "weight": 75 }
+      { "monster": "mon_zombie_scientist", "weight": 100 }
     ]
   },
   {
