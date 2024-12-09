@@ -6093,10 +6093,10 @@
         [ "dry_veggy", 2 ],
         [ "dry_corn", 2 ]
       ],
-      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ]
     ]
   },
   {
@@ -6694,6 +6694,7 @@
         [ "onion", 1 ],
         [ "can_tomato", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ]
@@ -6730,7 +6731,7 @@
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "pickle", 1 ], [ "veggy_pickled", 1 ], [ "sauerkraut", 1 ] ],
       [ [ "onion", 1 ] ],
-      [ [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ],
       [ [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "lettuce", 1 ] ],
       [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ] ],
       [ [ "mustard", 1 ], [ "honey_mustard", 1 ] ],
@@ -6757,6 +6758,7 @@
         [ "onion", 1 ],
         [ "can_tomato", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ]
@@ -6793,6 +6795,7 @@
         [ "lemon", 1 ],
         [ "can_tomato", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
         [ "lettuce", 1 ]
@@ -6872,6 +6875,7 @@
         [ "cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
@@ -6904,7 +6908,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -6969,6 +6972,7 @@
         [ "onion", 1 ],
         [ "can_tomato", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "lettuce", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ]
@@ -7249,7 +7253,7 @@
     "//": "4u for meat 1u for sauce = 5u",
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "sauce_red", 2 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+      [ [ "sauce_red", 2 ], [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ],
       [ [ "meat_red_cooked", 1, "LIST" ] ]
     ]
   },
@@ -7454,7 +7458,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "components": [
-      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "autumn_olive", 1 ] ],
+      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "autumn_olive", 1 ] ],
       [ [ "salt", 2 ], [ "salt_water", 1 ], [ "saline", 2 ], [ "seasoning_salt", 2 ], [ "soysauce", 1 ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -7973,6 +7977,7 @@
         [ "cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
@@ -8001,7 +8006,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -8031,6 +8035,7 @@
         [ "cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "can_tomato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "onion", 1 ],
@@ -8061,7 +8066,6 @@
         [ "cooked_burdock_stalk", 1 ],
         [ "cooked_pumpkin", 1 ],
         [ "potato_baked", 1 ],
-        [ "can_tomato", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "young_leaves", 2 ],
         [ "chicory_leaves", 2 ],
@@ -9045,7 +9049,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "//": "1u water + 1u tomato boils and reduces for 45 min = 2u + 6u",
-    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -9181,7 +9185,7 @@
         [ "grape_leaves", 2 ],
         [ "cabbage", 2 ]
       ],
-      [ [ "tomato", 1 ], [ "can_tomato", 1 ], [ "onion", 1 ], [ "salsa", 1 ] ],
+      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ], [ "onion", 1 ], [ "salsa", 1 ] ],
       [
         [ "pepper", 20 ],
         [ "chilly-p", 20 ],
@@ -9189,6 +9193,7 @@
         [ "rehydrated_garlic", 1 ],
         [ "garlic_powder", 20 ],
         [ "chili_pepper", 2 ],
+        [ "chili_pepper_cut", 2 ],
         [ "rehydrated_chili", 2 ]
       ]
     ]
@@ -9588,7 +9593,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ], [ "food_processor", 20 ] ] ],
     "components": [
-      [ [ "tomato", 10 ] ],
+      [ [ "tomato", 10 ], [ "tomato_cut", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
@@ -9725,7 +9730,8 @@
         [ "rehydrated_garlic", 1 ],
         [ "wild_garlic", 1 ],
         [ "garlic_powder", 1 ],
-        [ "tomato", 1 ]
+        [ "tomato", 1 ],
+        [ "tomato_cut", 1 ]
       ],
       [ [ "water_clean", 1 ] ]
     ],
@@ -9777,7 +9783,7 @@
     "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ],
       [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
     ]
@@ -9799,7 +9805,7 @@
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ],
       [ [ "veggy_any_uncooked", 1, "LIST" ], [ "rehydrated_corn_kernels", 1 ], [ "can_beans", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_mild", 1, "LIST" ] ]
     ]
