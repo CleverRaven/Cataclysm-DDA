@@ -344,13 +344,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_LOOPING_WOUND_BEGIN",
-    "condition": { "u_has_trait": "XEDRA_LOOPING_WOUND" },
-    "effect": [ { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_DAMAGE" }, { "u_spawn_item": "xedra_chrono_knife" } ]
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_LOOPING_WOUND" },
+    "effect": [ { "run_eocs": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE" }, { "u_spawn_item": "xedra_chrono_knife" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_XEDRA_LOOPING_WOUND_DAMAGE",
-    "condition": { "u_has_trait": "XEDRA_LOOPING_WOUND" },
+    "id": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE",
+    "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_LOOPING_WOUND" },
     "effect": [
       {
         "if": { "not": { "u_has_effect": "effect_xedra_time_freeze" } },
@@ -364,7 +364,7 @@
           { "u_add_effect": "bleed", "duration": "10 minutes", "target_part": "torso" }
         ]
       },
-      { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_DAMAGE", "time_in_future": "24 hours" }
+      { "run_eocs": "EOC_XEDRA_CHRONOMANCER_LOOPING_WOUND_DAMAGE", "time_in_future": "24 hours" }
     ]
   },
   {
@@ -373,8 +373,14 @@
     "condition": { "u_has_trait": "XEDRA_CHRONOMANCER_UNSTABLE_POWERS" },
     "effect": [
       {
-        "if": { "math": [ "xedra_chron_toggled_spell_count() > 0" ] },
+        "if": {
+          "and": [
+            { "math": [ "xedra_chron_toggled_spell_count() > 0" ] },
+            { "math": [ "rng(0, 5) > xedra_chron_toggled_spell_count()" ] }
+          ]
+        },
         "then": [
+          { "u_message": "Your chronomantic powers destabilize and you lose their effects!" },
           { "u_lose_effect": "effect_xedra_chronomancer_chronal_accel" },
           { "u_lose_effect": "effect_xedra_chronomancer_destabilizing_strikes" },
           { "u_lose_effect": "effect_xedra_chronomancer_stabilize_timeline" },
