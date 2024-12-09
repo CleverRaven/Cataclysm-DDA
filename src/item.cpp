@@ -12967,8 +12967,8 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
         units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            temp_mod = get_heat_radiation( pos.raw() );
-            temp_mod += get_convection_temperature( pos.raw() );
+            temp_mod = get_heat_radiation( pos );
+            temp_mod += get_convection_temperature( pos );
             temp_mod += here.get_temperature_mod( pos );
         } else {
             temp_mod = units::from_kelvin_delta( 0 );
@@ -13361,7 +13361,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
             here.trap_set( pos, trap_id( "tr_dormant_corpse" ) );
         } else if( trap_here->loadid != trap_id( "tr_dormant_corpse" ) ) {
             // if there is a trap, but it isn't the right one, we need to revive the zombie manually.
-            return g->revive_corpse( pos.raw(), *this, 3 );
+            return g->revive_corpse( pos, *this, 3 );
         }
         return false;
     }
@@ -13377,7 +13377,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
         return false;
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt &&
-        g->revive_corpse( pos.raw(), *this ) ) {
+        g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( corpse->in_species( species_ROBOT ) ) {
                 add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );

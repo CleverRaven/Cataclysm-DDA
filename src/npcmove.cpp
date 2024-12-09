@@ -2868,7 +2868,7 @@ bool npc::can_move_to( const tripoint_bub_ms &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos_bub(), p ) <= 1 && here.has_floor_or_water( p ) &&
-            !g->is_dangerous_tile( p.raw() ) &&
+            !g->is_dangerous_tile( p ) &&
             ( here.passable( p ) || ( can_open_door( p, !here.is_outside( pos_bub() ) ) &&
                                       !is_hallucination() ) ||
               ( !no_bashing && here.bash_rating( smash_ability(), p ) > 0 ) )
@@ -3347,7 +3347,7 @@ void npc::worker_downtime()
                     tripoint_abs_ms( temp_camp->get_bb_pos() ) ), 10 ) ) {
             if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
-                !here.has_floor_or_water( elem ) || g->is_dangerous_tile( elem.raw() ) ) {
+                !here.has_floor_or_water( elem ) || g->is_dangerous_tile( elem ) ) {
                 continue;
             }
             pts.push_back( elem );
@@ -3551,7 +3551,7 @@ void npc::find_item()
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
-        if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p.raw() ) ) {
+        if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
             add_msg_debug( debugmode::DF_NPC_ITEMAI,
                            "%s didn't pick up an item because it's in a no-pickup zone.", name );
             continue;
@@ -3667,7 +3667,7 @@ void npc::pick_up_item()
 
     if( ( !here.has_items( wanted_item_pos ) && !has_cargo &&
           !here.is_harvestable( wanted_item_pos ) && sees( wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos.raw() ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;

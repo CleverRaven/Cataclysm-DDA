@@ -458,7 +458,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) {
         if( veh1 == nullptr ) {
             if( query_yn( _( "Dive from moving vehicle?" ) ) ) {
-                g->moving_vehicle_dismount( dest_loc.raw() );
+                g->moving_vehicle_dismount( dest_loc );
             }
             return false;
         } else if( veh1 != veh0 ) {
@@ -656,7 +656,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( old_abs_pos.raw(), you, m );
+    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
     if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos_bub(), &you );

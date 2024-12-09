@@ -422,7 +422,7 @@ void Pickup::autopickup( const tripoint &p )
         }
     }
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, tripoint_bub_ms( p ) ) ||
         local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }

@@ -537,15 +537,15 @@ static medical_column draw_effects_summary( const int column_count, Character &y
         effects_column.add_column_line( selection_line( starvation_name, starvation_text, max_width ) );
     }
 
-    if( you.has_trait( trait_TROGLO3 ) && g->is_in_sunlight( you.pos() ) ) {
+    if( you.has_trait( trait_TROGLO3 ) && g->is_in_sunlight( you.pos_bub() ) ) {
         effects_column.add_column_line( selection_line( "In Sunlight",
                                         "The sunlight irritates you terribly.\n", max_width ) );
-    } else if( you.has_trait( trait_TROGLO2 ) && g->is_in_sunlight( you.pos() ) &&
+    } else if( you.has_trait( trait_TROGLO2 ) && g->is_in_sunlight( you.pos_bub() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
         effects_column.add_column_line( selection_line( "In Sunlight",
                                         "The sunlight irritates you badly.\n", max_width ) );
     } else if( ( you.has_trait( trait_TROGLO ) || you.has_trait( trait_TROGLO2 ) ) &&
-               g->is_in_sunlight( you.pos() ) &&
+               g->is_in_sunlight( you.pos_bub() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
                                         max_width ) );
@@ -626,7 +626,7 @@ static medical_column draw_stats_summary( const int column_count, Character &you
                             "Starving" : "Underfed" );
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );
     }
-    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos() ) ) {
+    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos_bub() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         pge_str = pgettext( "speed penalty", "Out of Sunlight " );
         speed_detail_str += colorize( string_format( _( "%s     -%2d%%\n" ), pge_str, pen ), c_red );
