@@ -31,6 +31,7 @@
         [ "cucumber", 1 ],
         [ "japanese_knotweed_stem", 2 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "can_tomato", 1 ],
         [ "carrot", 2 ],
         [ "pineapple_chunks", 1 ],
@@ -174,7 +175,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u for roasting a veggy",
-    "components": [ [ [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -440,6 +441,7 @@
         [ "onion", 2 ],
         [ "can_tomato", 1 ],
         [ "tomato", 1 ],
+        [ "tomato_cut", 1 ],
         [ "jerusalem_artichoke", 1 ],
         [ "jerusalem_artichoke_boiled", 1 ],
         [ "groundnut_prepared", 1 ],
