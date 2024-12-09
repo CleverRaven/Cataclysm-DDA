@@ -15,7 +15,7 @@
     },
     {
       "type": "mutation",
-      "id": "XEDRA_LOOPING_WOUND",
+      "id": "XEDRA_CHRONOMANCER_LOOPING_WOUND",
       "name": "Time Looped Knife Wound",
       "points": -4,
       "description": "You have suffered a time looped wound, forcing you to repeatedly endure the harm of an earlier wound.  Every 24 hours you are impaled by a non-existent knife.",
@@ -26,7 +26,7 @@
     },
     {
       "type": "mutation",
-      "id": "XEDRA_TIME_SLOWDOWN",
+      "id": "XEDRA_CHRONOMANCER_TIME_SLOWDOWN",
       "name": "Slowed Timestream",
       "points": -4,
       "description": "Your timestream remains slightly slower than baseline reality.  You act 10% slower.",
@@ -35,5 +35,16 @@
       "valid": false,
       "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
       "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ]
+    },
+    {
+      "type": "mutation",
+      "id": "XEDRA_CHRONOMANCER_UNSTABLE_POWERS",
+      "name": "Unstable Chronomancy",
+      "points": -4,
+      "description": "Your chronomantic powers have inherent instability.  While attempting to maintain them over long periods of time, your powers may randomly fail.",
+      "starting_trait": false,
+      "purifiable": false,
+      "valid": false,
+      "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ]
     }
 ]
