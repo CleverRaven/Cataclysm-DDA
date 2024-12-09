@@ -5658,29 +5658,21 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     }
 }
 
-static std::vector<std::pair<const item *, int>> deduplicate_items(
+std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
             const std::list<const item *> &items )
 {
     std::vector<std::pair<item const *, int>> counted_items;
-    bool contents_header = false;
     for( const item *contents_item : items ) {
-        if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
-            // we won't have duplicate liquids and counting them
-            // doesn't really make much sense anyway
+        bool found = false;
+        for( std::pair<const item *, int> &content : counted_items ) {
+            if( content.first->display_stacked_with( *contents_item ) ) {
+                content.second += 1;
+                found = true;
+            }
+        }
+        if( !found ) {
             std::pair<const item *, int> new_content( contents_item, 1 );
             counted_items.push_back( new_content );
-        } else {
-            bool found = false;
-            for( std::pair<const item *, int> &content : counted_items ) {
-                if( content.first->stacks_with( *contents_item ) ) {
-                    content.second += 1;
-                    found = true;
-                }
-            }
-            if( !found ) {
-                std::pair<const item *, int> new_content( contents_item, 1 );
-                counted_items.push_back( new_content );
-            }
         }
     }
     return counted_items;
@@ -5714,7 +5706,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 
     const std::list<const item *> all_contents = contents.all_items_top();
-    std::vector<std::pair<item const *, int>> counted_contents = deduplicate_items( all_contents );
+    const std::vector<std::pair<item const *, int>> counted_contents = get_item_duplicate_counts( all_contents );
     bool contents_header = false;
     for( const auto content_w_count : counted_contents ) {
         const item *contents_item = content_w_count.first;
