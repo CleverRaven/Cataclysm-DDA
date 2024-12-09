@@ -300,6 +300,7 @@ class input_context
         // TODO: Get rid of untyped version and change name of the typed one.
         std::optional<tripoint> get_direction( const std::string &action ) const;
         std::optional<tripoint_rel_ms> get_direction_rel_ms( const std::string &action ) const;
+        std::optional<tripoint_rel_omt> get_direction_rel_omt( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).

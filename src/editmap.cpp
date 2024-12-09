@@ -663,9 +663,9 @@ void editmap::draw_main_ui_overlay()
                         }
                         const units::angle veh_dir = ovp->vehicle().face.dir();
                         g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
-                                                ovp->mount_pos().raw() );
+                                                ovp->mount_pos() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point::zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_rel_ms::zero );
                     }
                     g->draw_below_override( tripoint_bub_ms( map_p ),
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
