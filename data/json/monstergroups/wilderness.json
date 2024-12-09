@@ -275,8 +275,7 @@
       { "monster": "mon_zeindeer", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 5 ], "event": "christmas" },
       { "monster": "mon_zombie_dog", "weight": 1, "cost_multiplier": 2 },
       { "monster": "mon_zombie_horse", "weight": 1, "cost_multiplier": 15, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zoose", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_zpider_mass", "weight": 1, "cost_multiplier": 10 }
+      { "monster": "mon_zoose", "weight": 1, "cost_multiplier": 10 }
     ]
   },
   {
