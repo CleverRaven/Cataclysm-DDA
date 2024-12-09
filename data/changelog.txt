@@ -192,6 +192,7 @@ Items salvaged from cutting will now be placed in vehicle, if you're cutting the
 tile layering supports item variants
 Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
 Query the player on whether they really want to cut up other people's stuff
+Updates the long pole
 
 
 ## Content:
@@ -407,6 +408,15 @@ Wildlife foods adjust morale
 Add dormant zombies to more locations
 Add tupelo and nannyberry,  hobblebush and autumn olive trees
 New exodii rifle
+Remade the 3x3 hospital
+Some houses are under construction
+Tiny acetylene tank, a new default magazine for acetylene lamps
+combines all four previous fursuits into one item through variants
+Convert star vampire blood-drinking attack to EoC
+Add water pipe and spawns
+Added tucked pocket to leather backpack
+Make hiking backpack sheaths hold a single item
+Make Pulp Fiction pawnshop unique
 
 
 ## Interface:
@@ -532,6 +542,8 @@ shorten `memorize` hint in crafting GUI search
 some little improvements to the AIM drop menu
 Allow fine user customization of ImGui colors
 Migrate scores window to imgui
+Audit `satiety`
+Crafting GUI filter: by bodypart coverage; Add filter by layer (for crafting GUI, AIM, inventory etc.);;; make them two lines in the changelog, please
 
 
 ## Mods:
@@ -873,6 +885,24 @@ Mods can add categories to the help menu
 Martial Mastery: Insight is cleared when using other martial arts
 [MoM] Change id of Sense Minds sensing effect to use new tileset sprite
 [MoM/XE] Add deactivate_conditions to recurring EoCs that don't need to recur for everyone
+[Xedra Evolved] Add new time related powers for each default dream class
+[Xedra Evolved] Add Commanding the Grasses as an intro trait for Arvore, make Hungry Thirsty Roots require leveling other spells
+[Xedra Evolved] Fix seedbearer trait
+[Xedra Evolved] Add UNCANNY_DODGE hidden trait to appropriate Paraclesian effect + use new enchant 
+Aftershock: Replace exosuit forcefield with backpack generator
+[MoM] Extend Nether Attunement widget to other sidebars
+[Innawoods] Delays the shadow lieutenant boss spawn (and its warnings) by three seasons (mid winter by default). Innawoods only.
+[MoM] Add new `u_cancel_activity` to unlocking new power/wakeful rest
+[Xedra Evolved] Add The Root of the Mountain trait for Ierde
+[DinoMod] nedcolbertia
+[Xedra Evolved] Arvore One with the Forest + the Forest's Warning updates
+[MoM] Feral vitakinetics can drain your weariness
+[DinoMod] shady rework
+[Xedra Evolved] Reasonable Werewolf nerfs
+[DinoMod] pluralize CBM dino names
+[Xedra Evolved] Fix sylph translocate text
+[Xedra Evolved] Add Viridescent Vessel spell to Arvore
+[Xedra Evolved] Add treesung gear
 
 
 ## Balance:
@@ -1371,6 +1401,19 @@ fix limb drying rate and related test data
 crash on keybind reset in UILIST
 Fix broken macOS build due removed folder
 Fix an EOC that was looping infinitely and starting more loops as you travel
+[Xedra Evolved] Fix Ruach sidebar descriptions
+makes batons with plastic grips not shock you
+Allow attacking with CANNOT_MOVE flag
+Added ownership to several places of Tacoma Commune ranch camp
+[MoM] Fix In the Zone perk
+Forbid learning spells from spellbooks with low morale
+Stop item spawning magic from putting items on ground when a player is available
+Fixes to scores menu
+Fix standing tank deconstruction
+Fix mutations with `remove_rigid` removing `INTEGRATED` armor
+Appliance interaction menu is no longer cut off at the bottom
+[Xedra Evolved] Fix lilit ruach draining crash
+Fix invalid dereference when construction pre_terrain is empty
 
 
 ## Performance:
