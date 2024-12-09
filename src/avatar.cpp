@@ -293,7 +293,89 @@ void avatar::memorize_clear_decoration( const tripoint_abs_ms &p, std::string_vi
     player_map_memory->clear_tile_decoration( p, prefix );
 }
 
-std::vector<mission *> avatar::get_active_missions() const
+std::vector<achievement *> avatar::has_achievement() const
+{
+    std::vector<achievement *> ret;
+    for( auto &elem : achievement ) {
+        if( elem.second ) {
+            ret.push_back( elem.second.get() );
+        }
+    }
+    return ret;
+}
+
+void avatar::gain_achievement( const std::string &id )
+{
+    if( has_achievement( id ) ) {
+        return;
+    }
+    achievements[id] = std::make_unique<achievement>( id );
+}
+
+bool avatar::has_achievement( const std::string &id ) const
+{
+    return achievements.count( id ) > 0;
+}
+
+void avatar::set_achievement( const std::string &id, const bool achieved )
+{
+    if( !has_achievement( id ) ) {
+        return;
+    }
+    achievements[id]->set_achieved( achieved );
+}
+
+void avatar::set_achievement( const std::string &id, const int progress )
+{
+    if( !has_achievement( id ) ) {
+        return;
+    }
+    achievements[id]->set_progress( progress );
+}
+
+void avatar::set_achievement( const std::string &id, const std::string &progress )
+{
+    if( !has_achievement( id ) ) {
+        return;
+    }
+    achievements[id]->set_progress( progress );
+}
+
+void avatar::set_achievement( const std::string &id, const std::string &progress,
+                              const bool achieved )
+{
+    if( !has_achievement( id ) ) {
+        return;
+    }
+    achievements[id]->set_progress( progress );
+    achievements[id]->set_achieved( achieved );
+}
+
+void avatar::set_achievement( const std::string &id, const int progress,
+                              const bool achieved )
+{
+    if( !has_achievement( id ) ) {
+        return;
+    }
+    achievements[id]->set_progress( progress );
+    achievements[id]->set_achieved( achieved );
+}
+
+void avatar::set_achievement( const std::string &id, const std::string &progress,
+                              const std::string &progress_max, const bool achieved )
+{
+    if( !has_achievement( id ) ) {
+        return;
+    }
+    achievements[id]->set_progress( progress );
+    achievements[id]->set_progress_max( progress_max );
+    achievements[id]->set_achieved( achieved );
+}
+
+void avatar::set_achievement( const std::string &id, const int progress,
+                              const int progress_max
+
+                              std::vector<mission *> avatar::get_active_missions() const
 {
     return active_missions;
 }
@@ -308,7 +390,7 @@ std::vector<mission *> avatar::get_failed_missions() const
     return failed_missions;
 }
 
-mission *avatar::get_active_mission() const
+mission * avatar::get_active_mission() const
 {
     return active_mission;
 }
@@ -406,7 +488,7 @@ void avatar::remove_active_mission( mission &cur_mission )
     }
 }
 
-diary *avatar::get_avatar_diary()
+diary * avatar::get_avatar_diary()
 {
     if( a_diary == nullptr ) {
         a_diary = std::make_unique<diary>();
@@ -1186,7 +1268,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
     }
 }
 
-faction *avatar::get_faction() const
+faction * avatar::get_faction() const
 {
     return g->faction_manager_ptr->get( faction_your_followers );
 }
@@ -1927,7 +2009,7 @@ void avatar::set_location( const tripoint_abs_ms &loc )
     Creature::set_location( loc );
 }
 
-npc &avatar::get_shadow_npc()
+npc & avatar::get_shadow_npc()
 {
     if( !shadow_npc ) {
         shadow_npc = std::make_unique<npc>();
