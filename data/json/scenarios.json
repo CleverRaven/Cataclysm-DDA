@@ -11,6 +11,19 @@
   },
   {
     "type": "scenario",
+    "id": "boat",
+    "name": "Boatnapper",
+    "points": 0,
+    "description": "You watched the chaos from afar on a small boat you stole during the initial panic but your paltry supplies are already running low, forcing you to turn back.",
+    "allowed_locs": [ "sloc_ocean" ],
+    "start_name": "Boatnapper",
+    "vehicle": "boat_motor_single",
+    "flags": [ "LONE_START" ],
+    "//forbidden_traits": "",
+    "//requirement":""
+  },
+  {
+    "type": "scenario",
     "id": "friend_liam",
     "name": "Friends to the End",
     "points": -10,
