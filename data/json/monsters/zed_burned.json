@@ -46,7 +46,7 @@
     "vision_day": 10,
     "grab_strength": 10,
     "armor": { "bash": 2, "cut": 4, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
-    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
+    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO", "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_scorched_lasher",

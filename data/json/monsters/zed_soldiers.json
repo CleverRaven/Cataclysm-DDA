@@ -16,7 +16,11 @@
     "death_drops": "mon_zombie_soldier_death_drops",
     "upgrades": { "half_life": 42, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] }
+    "extend": {
+      "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+      "families": [ "prof_wp_syn_armored" ],
+      "flags": [ "GEN_DORMANT" ]
+    }
   },
   {
     "id": "mon_zombie_soldier_no_weakpoints",
@@ -57,7 +61,7 @@
     "upgrades": { "half_life": 45, "into": "mon_zombie_soldier_blackops_2" },
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
     "extend": {
-      "flags": [ "SMELLS", "NIGHT_INVISIBILITY" ],
+      "flags": [ "SMELLS", "NIGHT_INVISIBILITY", "GEN_DORMANT" ],
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
       "families": [ "prof_wp_syn_armored" ]
     }
@@ -193,7 +197,8 @@
     "armor": { "bash": 20, "cut": 30, "bullet": 24, "electric": 3 },
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-      "families": [ "prof_wp_syn_armored", "prof_wp_nat_armored" ]
+      "families": [ "prof_wp_syn_armored", "prof_wp_nat_armored" ],
+      "flags": [ "GEN_DORMANT" ]
     },
     "delete": { "flags": [ "GRABS" ] }
   },
@@ -238,7 +243,7 @@
     "harvest": "zombie_humanoid",
     "death_drops": "mon_zombie_military_pilot_death_drops",
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 2 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_full_helmet" ], "flags": [ "NOHEAD" ] },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_full_helmet" ], "flags": [ "NOHEAD", "GEN_DORMANT" ] },
     "delete": { "flags": [ "HEARS" ] }
   },
   {
@@ -344,6 +349,6 @@
     "death_drops": "mon_zombie_armored_death_drops",
     "burn_into": "mon_zombie_scorched",
     "armor": { "bash": 64, "cut": 64, "acid": 20, "heat": 20, "bullet": 51, "electric": 10 },
-    "extend": { "families": [ "prof_wp_syn_armored" ] }
+    "extend": { "families": [ "prof_wp_syn_armored" ], "flags": [ "GEN_DORMANT" ] }
   }
 ]
