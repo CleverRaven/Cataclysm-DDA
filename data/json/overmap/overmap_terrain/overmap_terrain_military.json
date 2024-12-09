@@ -651,7 +651,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_checkpoint" ],
+    "id": [ "military_base_checkpoint" ],
     "name": "military base checkpoint",
     "sym": "C",
     "vision_levels": "large_pavement",
@@ -660,19 +660,33 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "military_base_road",
+    "id": [
+      "military_base_road_straight",
+      "military_base_road_curved",
+      "military_base_road_tee",
+      "military_base_road_four_way",
+      "military_base_road_end"
+    ],
     "name": "military base road",
     "color": "light_gray",
     "vision_levels": "large_pavement",
     "travel_cost_type": "dirt_road",
-    "see_cost": "none",
-    "flags": [ "LINEAR" ]
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "military_base_wall_straight" ],
+    "id": [ "military_base_wall_straight", "military_base_wall_tee_right", "military_base_wall_tee_left" ],
     "name": "military base wall",
     "sym": "│",
+    "vision_levels": "large_pavement",
+    "color": "red",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "military_base_wall_corner_no_tower" ],
+    "name": "military base wall",
+    "sym": "┌",
     "vision_levels": "large_pavement",
     "color": "red",
     "see_cost": "low"
