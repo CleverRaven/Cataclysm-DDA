@@ -339,7 +339,7 @@
     "default_faction": "zombie_dusted",
     "color": "light_gray_magenta",
     "vision_day": 10,
-    "upgrades": { "age_grow": 1, "into": "mon_gasbag_fungalize" },
+    "upgrades": { "age_grow": 1, "into": "mon_boomer_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
@@ -355,7 +355,7 @@
     "bleed_rate": 50,
     "vision_day": 5,
     "vision_night": 5,
-    "upgrades": { "age_grow": 1, "into": "mon_zombie_gasbag_fungus" },
+    "upgrades": { "age_grow": 1, "into": "mon_boomer_fungus" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
@@ -692,7 +692,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "zombie_humanoid_mushroom",
-    "upgrades": { "age_grow": 1, "into": "mon_zombie_hulk_fungal" },
+    "upgrades": { "age_grow": 2, "into": "mon_zombie_hulk_fungal" },
     "proportional": { "speed": 0.3 },
     "relative": { "melee_skill": -1, "melee_dice": -1, "armor": { "bash": 1, "electric": 2 } },
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
