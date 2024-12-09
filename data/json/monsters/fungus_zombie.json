@@ -722,7 +722,6 @@
     "copy-from": "mon_zombie_crawler",
     "default_faction": "zombie_dusted",
     "color": "light_gray",
-    "vision_day": 10,
     "upgrades": { "age_grow": 1, "into": "mon_zombie_crawler_fungalize" },
     "proportional": { "speed": 0.6 },
     "relative": { "melee_skill": -1, "melee_dice": -1 },
