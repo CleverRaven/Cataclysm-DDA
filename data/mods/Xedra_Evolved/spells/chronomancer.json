@@ -55,7 +55,7 @@
     "id": "xedra_chronomancer_restore_normal_time_loop",
     "type": "SPELL",
     "name": "Unfreeze Time - Loop",
-    "description": "Unloop the target from time.  Part of the main unfreeze spell.  Having this spell is a bug.",
+    "description": "Remove a time loop.  Part of the main unfreeze spell.  Having this spell is a bug.",
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
     "spell_class": "XEDRA_CHRONOMANCER",

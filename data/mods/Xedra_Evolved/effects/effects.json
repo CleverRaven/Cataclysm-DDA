@@ -3022,7 +3022,7 @@
     "type": "effect_type",
     "id": "effect_xedra_rewrite_wound_causality",
     "name": [ "Rewriting Wound Causality" ],
-    "desc": [ "Your injuries are dissapearing in a harmless paradox." ],
+    "desc": [ "Your injuries are disappearing in a harmless paradox." ],
     "rating": "good",
     "enchantments": [
       {
@@ -3052,7 +3052,7 @@
     "type": "effect_type",
     "id": "effect_xedra_rewrite_equipment_causality",
     "name": [ "Rewriting Equipment Causality" ],
-    "desc": [ "The equipments' faults are dissapearing in a harmless paradox." ],
+    "desc": [ "The equipments' faults are disappearing in a harmless paradox." ],
     "rating": "good"
   },
   {
