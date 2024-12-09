@@ -547,6 +547,11 @@ class item : public visitable
                          bool debug ) const;
 
         /**
+         * @return human readable, translated string.
+         */
+        static std::string layer_to_string( layer_level data );
+
+        /**
          * Calculate all burning calculations, but don't actually apply them to item.
          * DO apply them to @ref fire_data argument, though.
          * @return Amount of "burn" that would be applied to the item.

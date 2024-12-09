@@ -498,6 +498,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         ch.set_veh_cached_parts( p.raw(), *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
             ch.set_veh_exists_at( p.raw(), true );
+            set_transparency_cache_dirty( p );
         }
     }
 }
@@ -8422,10 +8423,9 @@ void map::shift( const point_rel_sm &sp )
     const tripoint_abs_sm abs = get_abs_sub();
     std::vector<tripoint_rel_sm> loaded_grids;
 
-    // TODO: fix point types (sp should be relative?)
     set_abs_sub( abs + sp );
 
-    g->shift_destination_preview( point( -sp.x() * SEEX, -sp.y() * SEEY ) );
+    g->shift_destination_preview( { -sp.x() * SEEX, -sp.y() * SEEY } );
 
     shift_traps( sp );
 

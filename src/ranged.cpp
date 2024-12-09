@@ -2974,12 +2974,12 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
 
     if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
         // Shift pos and/or view via edge scrolling
-        tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
-        if( edge_scroll == tripoint::zero ) {
+        tripoint_rel_ms edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
+        if( edge_scroll == tripoint_rel_ms::zero ) {
             skip_redraw = true;
         } else {
             if( action == "MOUSE_MOVE" ) {
-                edge_scroll *= 2;
+                edge_scroll.raw() *= 2; // TODO: Make *= etc. available to relative coordinates.
             }
             if( snap_to_target ) {
                 set_cursor_pos( dst + edge_scroll );
@@ -2991,7 +2991,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" &&
-               ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.xy() ) ) ) {
+               ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.raw().xy() ) ) ) {
         // Set pos by clicking with mouse
         mouse_pos->z() = you->pos().z + you->view_offset.z();
         set_cursor_pos( tripoint_bub_ms( *mouse_pos ) );

@@ -1027,6 +1027,14 @@ void cataimgui::window::clear_filter()
     }
 }
 
+bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
+                            const char *format, ImGuiInputTextFlags flags )
+{
+    return ImGui::InputScalar( label, ImGuiDataType_Float, static_cast<void *>( v ),
+                               static_cast<void *>( step > 0.0f ? &step : nullptr ),
+                               static_cast<void *>( step_fast > 0.0f ? &step_fast : nullptr ), format, flags );
+}
+
 void cataimgui::PushGuiFont()
 {
 #ifdef TILES

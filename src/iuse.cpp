@@ -6668,7 +6668,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     if( c_shot == choice ) {
-        const std::optional<tripoint> aim_point_ = g->look_around();
+        const std::optional<tripoint_bub_ms> aim_point_ = g->look_around();
 
         if( !aim_point_ ) {
             p->add_msg_if_player( _( "Never mind." ) );
