@@ -2636,5 +2636,10 @@
     "id": "FREEZE_EFFECTS",
     "type": "json_flag",
     "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
+  },
+  {
+    "id": "CANNOT_GAIN_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
   }
 ]
