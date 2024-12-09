@@ -8,17 +8,6 @@ on:
   pull_request:
     branches:
     - master
-    paths:
-    - '**.c'
-    - '**.cpp'
-    - '**.h'
-    - '**.hpp'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - 'build-scripts/clang-tidy.sh'
-    - 'build-scripts/clang-tidy-wrapper.sh'
-    - 'build-scripts/get_affected_files.py'
-    - '.github/workflows/clang-tidy.yml'
     types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
@@ -41,7 +30,6 @@ jobs:
           paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/clang-tidy.sh", "build-scripts/clang-tidy-wrapper.sh", "build-scripts/get_affected_files.py", ".github/workflows/clang-tidy.yml" ]'
   build:
     needs: skip-duplicates
-    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     strategy:
       fail-fast: false
@@ -62,6 +50,7 @@ jobs:
         RELEASE: 1
     steps:
     - name: install LLVM 17
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
@@ -74,6 +63,7 @@ jobs:
           sudo apt install python3-pip libncursesw5-dev ninja-build cmake gettext
           pip3 install --user lit
     - name: ensure clang-tidy and FileCheck commands point to LLVM 17
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
           mkdir ~/llvm-command-override
           ln -s /usr/bin/clang-tidy-17 ~/llvm-command-override/clang-tidy
@@ -103,6 +93,7 @@ jobs:
           fs.writeFileSync("files_changed", files.join('\n'));
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
+      if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: bash ./build-scripts/clang-tidy.sh
     - name: show most time consuming checks
       if: always()
