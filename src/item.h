@@ -3352,4 +3352,5 @@ struct disp_mod_by_barrel {
  * was encountered.
  * For display purposes only.
  */
-std::vector<std::pair<const item*, int>> get_item_duplicate_counts( const std::list<const item*>& items );
+std::vector<std::pair<const item *, int>> get_item_duplicate_counts( const std::list<const item *>
+                                       &items );

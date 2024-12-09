@@ -1268,11 +1268,12 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
-        std::vector<std::pair<const item *, int>> counted_contents = get_item_duplicate_counts( all_items_top() );
+        std::vector<std::pair<const item *, int>> counted_contents = get_item_duplicate_counts(
+                all_items_top() );
         bool contents_header = false;
 
         for( std::pair<item const *, int> content : counted_contents ) {
-            const item* contents_item = content.first;
+            const item *contents_item = content.first;
             const int count = content.second;
 
             if( !contents_header ) {
@@ -1282,18 +1283,18 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
             const translation &desc = contents_item->type->description;
 
-            if( contents_item->made_of_from_type(phase_id::LIQUID) ) {
+            if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
                 info.emplace_back( "DESCRIPTION",
-                    colorize( space + contents_item->display_name(), contents_item->color_in_inventory() ) );
+                                   colorize( space + contents_item->display_name(), contents_item->color_in_inventory() ) );
                 info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item->volume() ) );
             } else {
-                if( count > 1) {
+                if( count > 1 ) {
                     info.emplace_back( "DESCRIPTION",
-                        space + std::to_string(count) + " " + colorize( contents_item->display_name(
-                            count ), contents_item->color_in_inventory() ) );
+                                       space + std::to_string( count ) + " " + colorize( contents_item->display_name(
+                                                   count ), contents_item->color_in_inventory() ) );
                 } else {
-                    info.emplace_back("DESCRIPTION",
-                        space + colorize(contents_item->display_name(), contents_item->color_in_inventory() ) );
+                    info.emplace_back( "DESCRIPTION",
+                                       space + colorize( contents_item->display_name(), contents_item->color_in_inventory() ) );
                 }
             }
         }

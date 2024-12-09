@@ -5659,7 +5659,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 }
 
 std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
-            const std::list<const item *> &items )
+        const std::list<const item *> &items )
 {
     std::vector<std::pair<item const *, int>> counted_items;
     for( const item *contents_item : items ) {
@@ -5706,7 +5706,8 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     }
 
     const std::list<const item *> all_contents = contents.all_items_top();
-    const std::vector<std::pair<item const *, int>> counted_contents = get_item_duplicate_counts( all_contents );
+    const std::vector<std::pair<item const *, int>> counted_contents = get_item_duplicate_counts(
+                all_contents );
     bool contents_header = false;
     for( const auto content_w_count : counted_contents ) {
         const item *contents_item = content_w_count.first;
