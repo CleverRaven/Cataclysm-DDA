@@ -1,0 +1,246 @@
+[
+  {
+    "type": "npc",
+    "id": "druid_shifter_questgiver",
+    "//": "druid shifter in the wilderness, teaches druids to shift.",
+    "name_unique": "Alithiel Aelrethan",
+    "class": "NC_DRUID_MASTER_SHIFTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_INTRO",
+    "faction": "druid_circle",
+    "age": 239,
+    "str": 7,
+    "dex": 9,
+    "int": 13,
+    "per": 11,
+    "gender": "female",
+    "personality": { "aggression": -2, "bravery": 5, "collector": -6, "altruism": 5 }
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_DRUID_MASTER_SHIFTER",
+    "name": { "str": "Master Shifter" },
+    "job_description": "I'm a shifter, a master of natural shapechanging.",
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "worn_override": "NC_DRUID_MASTER_SHIFTER_worn",
+    "weapon_override": "NC_DRUID_MASTER_SHIFTER_wielded",
+    "traits": [
+      { "trait": "DRUID" },
+      { "trait": "MANA_REGEN2" },
+      { "trait": "MANA_ADD2" },
+      { "trait": "IRON_ALLERGY" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "trait_group_elf_npc" },
+      { "trait": "hair_long", "variant": "green" },
+      { "trait": "SKIN_DARK" },
+      { "trait": "eye_color", "variant": "hazel" }
+    ],
+    "bonus_bravery": 30,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "spells": [
+      { "id": "druid_veggrasp", "level": 6 },
+      { "id": "recover_sleepiness", "level": 8 },
+      { "id": "druidic_healing", "level": 7 },
+      { "id": "druid_natures_commune", "level": 12 },
+      { "id": "druid_whisper_leaves", "level": 5 },
+      { "id": "druid_beguile_savage_beast", "level": 8 },
+      { "id": "druid_summon_brambles", "level": 6 },
+      { "id": "druid_wood_living_tree_spell", "level": 9 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_DRUID_MASTER_SHIFTER_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "leathersandals" },
+      { "item": "robe" },
+      { "item": "boots_fur" },
+      { "item": "gloves_wraps_fur" },
+      { "item": "druid_spellbook" },
+      { "item": "cloak_of_elvenkind" },
+      { "item": "leather_pouch", "contents-group": "pouch_wild_druid" },
+      { "item": "primitive_knife", "container-item": "sheath" },
+      { "item": "water_clean", "charges": 3, "container-item": "waterskin" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_DRUID_MASTER_SHIFTER_wielded",
+    "subtype": "distribution",
+    "items": [ { "item": "rune_druid_nature_staff" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_INTRO",
+    "dynamic_line": "Oh, you're alive.",
+    "responses": [
+      { "text": "Yeah, I am.  Who are you?", "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHO" },
+      {
+        "text": "Barely.  Who are you?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHO",
+        "condition": {
+          "or": [
+            { "math": [ "u_hp('head')", "<=", "30" ] },
+            { "math": [ "u_hp('torso')", "<=", "30" ] },
+            { "math": [ "u_hp('arm_r')", "<=", "30" ] },
+            { "math": [ "u_hp('arm_l')", "<=", "30" ] },
+            { "math": [ "u_hp('leg_l')", "<=", "30" ] },
+            { "math": [ "u_hp('leg_r')", "<=", "30" ] }
+          ]
+        }
+      },
+      {
+        "text": "And so are you, but not for much longer.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_any_trait": [ "PSYCHOPATH", "KILLER_DRIVE", "CANNIBAL" ] },
+        "effect": "hostile"
+      },
+      { "text": "What are you doing out here?", "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHY_WILDERNESS" },
+      { "text": "What are you doing out here?", "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHY_WILDERNESS" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHO",
+    "dynamic_line": "A survivor just like you.  When things started getting bad, I came out here.  I don't have any problem being by myself and I figured being away from other people was the safest option, with all the riots and everything else going on.",
+    "responses": [
+      {
+        "text": "My name is <u_name>.  Nice to meet you.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_GAVE_NAME",
+        "opinion": { "trust": 1 }
+      },
+      {
+        "text": "Why did you pick the middle of nowhere?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHY_WILDERNESS"
+      },
+      {
+        "text": "Did you make this camp?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_NOT_BIO_DRUID",
+        "condition": { "not": { "u_has_any_trait": [ "BIOMANCER", "DRUID" ] } }
+      },
+      {
+        "text": "You grew this camp yourself, didn't you?  I thought that took a circle of druids.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_BIO_DRUID",
+        "condition": { "u_has_any_trait": [ "BIOMANCER", "DRUID" ] }
+      },
+      {
+        "text": "You're right about that.  Anyway, I should be going.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHY_WILDERNESS",
+    "dynamic_line": "The further away from everything in the cities, the better, I thought.  More people there meant more chances for something to go wrong, like when that wizard in Syracuse when crazy and blew up downtown.  I spent time in the cities occasionally, but rural life has always agreed with me more.  The smell of the earth, the sound of the wind in the leaves, the dew on a spring morning, you can't tell me that's not better than car horns and manicured lawns.",
+    "responses": [
+      {
+        "text": "Did you make this camp?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_NOT_BIO_DRUID",
+        "condition": { "not": { "u_has_any_trait": [ "BIOMANCER", "DRUID" ] } }
+      },
+      {
+        "text": "You grew this camp yourself, didn't you?  I thought that took a circle of druids.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_BIO_DRUID",
+        "condition": { "u_has_any_trait": [ "BIOMANCER", "DRUID" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_WHO",
+    "dynamic_line": "*smiles brightly.  \"And I'm <npc_name>, nice to meet you too.  It's good to see we aren't all reduced to scrabbling in the ruins and trying to kill each other for scraps.",
+    "responses": [
+      {
+        "text": "I have to ask, did you make this camp?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_NOT_DRUID",
+        "condition": { "not": { "u_has_trait": "DRUID" } }
+      },
+      {
+        "text": "You grew this camp yourself, didn't you?  I thought that took a circle of druids.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_DRUID",
+        "condition": { "u_has_trait": "DRUID" },
+        "opinion": { "trust": 1 }
+      },
+      {
+        "text": "And hopefully we won't ever be.  Anyway, now that introductions are over, let's talk about something else.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      },
+      {
+        "text": "That's true, though I do have some more scrabbling to do.  See you later.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_NOT_DRUID",
+    "dynamic_line": "Yes, I made it myself.  It took a lot of effort, but you can see it's secure.  A spring, the wall to keep out any wandering wildlife, a garden.  I can live here until things settle down.  And if they never do, well, I have my little plot of the forest.",
+    "responses": [
+      {
+        "text": "And a lovely plot it is.  Anyway, let's talk about something else.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      },
+      {
+        "text": "Yeah, sure.  Hopefully you get left alone.  Can I ask you about something else?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAKE_CAMP_DRUID",
+    "dynamic_line": "*looks more closely at you.  \"You're a druid too?  I was worried there weren't any of us left, with how many people died in <the_cataclysm>.  It's good to see not all of us went mad or died.  You're welcome to stay here as long as you like.",
+    "responses": [
+      {
+        "text": "Thank you.  I appreciate that.",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+        "effect": [
+          { "npc_first_topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN" },
+          { "math": [ "n_player_met_druid_shifter", "=", "1" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MAIN",
+    "dynamic_line": {
+      "math": [ "time_since(n_player_met_druid_shifter)", ">=", "time('14 d')" ],
+      "yes": [ "Good to see you're still alive.", "Hey, good to see you." ],
+      "no": "Yes?"
+    },
+    "responses": [
+      {
+        "text": "Is there anything I can do for you?",
+        "topic": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_MISSION_ONE",
+        "condition": { "math": [ "n_player_has_completed_mission_one", "!=", "1" ] }
+      }
+    ]
+  }
+]
