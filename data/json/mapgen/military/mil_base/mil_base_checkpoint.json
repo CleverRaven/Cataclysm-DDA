@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "military_base_checkpoint" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -39,6 +38,41 @@
         "d": { "item": "SUS_office_filing_cabinet", "chance": 75, "repeat": [ 1, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "military_base_checkpoint_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "----                ----",
+        "-..-                -..-",
+        "-..-                -..-",
+        "-..-                -..-",
+        "-..-                -..-",
+        "----                ----",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

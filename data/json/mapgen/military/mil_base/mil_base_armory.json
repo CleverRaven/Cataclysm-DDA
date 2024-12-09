@@ -2,10 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mil_base_armory_1" ],
-    "weight": 400,
+    "nested_mapgen_id": "24x24_military_armory_1_nest",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_thconc_floor", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "rows": [
         "...........=............",
         "...........=....DD.DD...",
@@ -32,6 +32,7 @@
         "........................",
         "........................"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mil_base_palette2" ],
       "terrain": { "D": "t_region_groundcover" },
       "monster": { ",": { "group": "GROUP_MIL_BASE", "chance": 2 } },
@@ -41,16 +42,17 @@
         "U": { "item": "military_armory", "chance": 50, "repeat": [ 0, 2 ] },
         "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] },
         "V": { "item": "tools_gunsmith", "chance": 40 }
-      }
+      },
+      "place_nested": [ { "chunks": [ "mil_base_armory_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mil_base_armory_1_roof" ],
-    "weight": 400,
+    "nested_mapgen_id": "mil_base_armory_1_roof",
     "object": {
-      "fill_ter": "t_flat_roof",
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_flat_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "rows": [
         "                        ",
         "                        ",
@@ -83,10 +85,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mil_base_armory_2" ],
-    "weight": 400,
+    "nested_mapgen_id": "24x24_military_armory_2_nest",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_thconc_floor", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "rows": [
         "....______.=............",
         "....______.=..DD........",
@@ -113,6 +115,7 @@
         "........................",
         "........................"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mil_base_palette2" ],
       "terrain": { "&": "t_gates_mech_control", "D": "t_region_groundcover" },
       "monster": { ",": { "group": "GROUP_MIL_BASE", "chance": 2 } },
@@ -122,16 +125,17 @@
         "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] },
         "V": { "item": "tools_gunsmith", "chance": 40 }
       },
-      "vehicles": { "Á": { "vehicle": "military_cargo_trucks", "chance": 75, "rotation": 90 } }
+      "vehicles": { "Á": { "vehicle": "military_cargo_trucks", "chance": 75, "rotation": 90 } },
+      "place_nested": [ { "chunks": [ "mil_base_armory_2_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mil_base_armory_2_roof" ],
-    "weight": 400,
+    "nested_mapgen_id": "mil_base_armory_2_roof",
     "object": {
-      "fill_ter": "t_flat_roof",
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_flat_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "rows": [
         "                        ",
         "                        ",
