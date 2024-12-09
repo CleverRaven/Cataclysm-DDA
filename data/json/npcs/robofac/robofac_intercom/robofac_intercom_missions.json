@@ -246,7 +246,7 @@
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
-    "end": { "effect": { "math": [ "u_hub01_completed_missions", "++" ] } },
+    "end": { "effect": { "math": [ "u_hub01_completed_missions++" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -367,7 +367,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -464,7 +464,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -708,7 +708,7 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "fail": { "effect": [ { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" } ] },
@@ -819,7 +819,7 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -919,7 +919,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 5 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

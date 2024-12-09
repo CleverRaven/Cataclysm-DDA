@@ -342,7 +342,7 @@
       { "item": "bodysuit_lycra", "prob": 25 },
       { "item": "suit", "prob": 10 },
       { "item": "tux", "prob": 10 },
-      { "item": "wolfsuit", "prob": 10 },
+      { "item": "fursuit", "prob": 15 },
       { "item": "clown_suit", "prob": 10 },
       { "item": "dragonsuit", "prob": 10 },
       { "item": "felinesuit", "prob": 10 },

@@ -221,7 +221,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
         p->add_effect( effect_teleglow, 30_minutes );
     }
     if( c_is_u ) {
-        g->place_player( p->pos() );
+        g->place_player( p->pos_bub() );
         g->update_map( *p );
     }
     for( const effect &grab : critter.get_effects_with_flag( json_flag_GRAB ) ) {

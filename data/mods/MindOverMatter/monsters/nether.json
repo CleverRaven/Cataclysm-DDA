@@ -29,9 +29,19 @@
     "harvest": "exempt",
     "special_attacks": [
       {
+        "id": "psi_eater_drain_distance",
         "type": "spell",
         "spell_data": { "id": "eater_drain_monster", "min_level": 5 },
         "cooldown": { "math": [ "2 + rand(2)" ] },
+        "condition": { "math": [ "distance('u', 'npc') > 5" ] },
+        "monster_message": "The eater's fronds lazily drift to and fro."
+      },
+      {
+        "id": "psi_eater_drain_close_range",
+        "type": "spell",
+        "spell_data": { "id": "eater_drain_monster_close_range", "min_level": 5 },
+        "cooldown": { "math": [ "2 + rand(2)" ] },
+        "condition": { "math": [ "distance('u', 'npc') <= 5" ] },
         "monster_message": "The eater's fronds lazily drift to and fro."
       },
       {

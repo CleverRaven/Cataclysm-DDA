@@ -20,6 +20,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
@@ -95,12 +96,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     active_mod_order = world_to_copy->active_mod_order;
 }
 
-std::string WORLD::folder_path() const
-{
-    return PATH_INFO::savedir() + world_name;
-}
-
-cata_path WORLD::folder_path_path() const
+cata_path WORLD::folder_path() const
 {
     return PATH_INFO::savedir_path() / world_name;
 }
@@ -188,21 +184,21 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
 static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
-    string_input_popup popup;
-    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+    string_input_popup_imgui popup( 50, cur_worldname );
+    popup.set_max_input_length( max_worldname_len );
+    popup.set_label( title );
 
     input_context ctxt( "STRING_INPUT" );
-    popup.description( string_format(
-                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+    popup.set_description( string_format(
+                               _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                               ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
 
-    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
-    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
-        popup.text( get_next_valid_worldname() );
+    popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
+        popup.set_text( get_next_valid_worldname() );
         return true;
     } );
-    std::string message = popup.query_string();
-    return !popup.canceled() ? std::optional<std::string>( message ) : std::optional<std::string>();
+    std::string message = popup.query();
+    return message;
 }
 
 int worldfactory::show_worldgen_advanced( WORLD *world )
@@ -312,7 +308,7 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path() + "/" + PATH_INFO::worldoptions();
+        const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -426,12 +422,12 @@ void worldfactory::init()
 
         // save world as conversion world
         if( newworld->save( true ) ) {
-            const std::string origin_path = old_world.folder_path();
+            const cata_path origin_path = old_world.folder_path();
             // move files from origin_path into new world path
-            for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
+            for( cata_path &origin_file : get_files_from_path( ".", origin_path, false ) ) {
+                std::string filename = origin_file.get_relative_path().filename().generic_u8string();
 
-                if( rename_file( origin_file, ( newworld->folder_path() + filename ) ) ) {
+                if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
@@ -2001,7 +1997,7 @@ bool WORLD::save_timestamp() const
         return true;
     }
 
-    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    const cata_path path = folder_path() / PATH_INFO::world_timestamp();
     return write_to_file( path, [this]( std::ostream & file ) {
         JsonOut jsout( file );
         jsout.write( timestamp );
@@ -2010,7 +2006,7 @@ bool WORLD::save_timestamp() const
 
 bool WORLD::load_timestamp()
 {
-    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    const cata_path path = folder_path() / PATH_INFO::world_timestamp();
     return read_from_file_optional_json( path, [this]( const JsonValue & jv ) {
         const std::string ts = jv.get_string();
         // Sanitize the string since it is used in paths
@@ -2047,7 +2043,7 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    const cata_path path = folder_path_path() / PATH_INFO::worldoptions();
+    const cata_path path = folder_path() / PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
@@ -2133,51 +2129,48 @@ size_t worldfactory::get_world_index( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string_view candidate )
+static bool isForbidden( const cata_path &candidate )
 {
-    return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
-           candidate.find( "mods.json" ) != std::string::npos;
+    std::string filename = candidate.get_relative_path().filename().generic_u8string();
+    return filename == PATH_INFO::worldoptions() || filename == "mods.json";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->folder_path();
-    std::set<std::string> directory_paths;
+    cata_path worldpath = get_world( worldname )->folder_path();
+    std::set<fs::path> directory_paths;
 
+    if( delete_folder ) {
+        fs::remove_all( worldpath.get_unrelative_path() );
+        remove_world( worldname );
+        return;
+    }
+
+    // Clear out everything except options and mods.
+    // It would be easier to delete and recreate the world, but some people,
+    // like the author of this code, use symlinks to have world contents located
+    // 'elsewhere', and doing so would break such use cases.
     auto file_paths = get_files_from_path( "", worldpath, true, true );
-    if( !delete_folder ) {
-        std::vector<std::string>::iterator forbidden = find_if( file_paths.begin(), file_paths.end(),
-                isForbidden );
-        while( forbidden != file_paths.end() ) {
-            file_paths.erase( forbidden );
-            forbidden = find_if( file_paths.begin(), file_paths.end(), isForbidden );
-        }
-    }
-    for( auto &file_path : file_paths ) {
-        // strip to path and remove worldpath from it
-        std::string part = file_path.substr( worldpath.size(),
-                                             file_path.find_last_of( "/\\" ) - worldpath.size() );
-        size_t last_separator = part.find_last_of( "/\\" );
-        while( last_separator != std::string::npos && part.size() > 1 ) {
-            directory_paths.insert( part );
-            part = part.substr( 0, last_separator );
-            last_separator = part.find_last_of( "/\\" );
+    auto end = std::remove_if( file_paths.begin(), file_paths.end(), isForbidden );
+    file_paths.erase( end, file_paths.end() );
+
+    for( cata_path &file_path : file_paths ) {
+        fs::path folder_path = file_path.get_unrelative_path().parent_path();
+        while( folder_path.filename() != fs::u8path( worldname ) ) {
+            directory_paths.insert( folder_path );
+            folder_path = folder_path.parent_path();
         }
     }
 
-    for( auto &file : file_paths ) {
+    for( cata_path &file : file_paths ) {
         remove_file( file );
     }
+
     // Trying to remove a non-empty parent directory before a child
     // directory will fail.  Removing directories in reverse order
     // will prevent this situation from arising.
     for( auto it = directory_paths.rbegin(); it != directory_paths.rend(); ++it ) {
-        remove_directory( worldpath + *it );
+        remove_directory( *it );
     }
-    if( delete_folder ) {
-        remove_directory( worldpath );
-        remove_world( worldname );
-    } else {
-        get_world( worldname )->world_saves.clear();
-    }
+    get_world( worldname )->world_saves.clear();
 }

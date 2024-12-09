@@ -373,7 +373,7 @@ class veh_menu_cb : public uilist_callback
             last_view = player_character.view_offset;
             terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
                 if( draw_trail && last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-                    g->draw_trail_to_square( player_character.view_offset.raw(), true );
+                    g->draw_trail_to_square( player_character.view_offset, true );
                 }
             } );
             g->add_draw_callback( terrain_draw_cb );
