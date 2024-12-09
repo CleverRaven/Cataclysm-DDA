@@ -232,6 +232,63 @@
               ],
               "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
             },
+            {
+              "condition": { "math": [ "u_has_trait('XEDRA_CHRONOMANCER_LOOPING_WOUND')"] },
+              "text": "Resolve [<trait_name:XEDRA_CHRONOMANCER_LOOPING_WOUND>]",
+              "effect": [
+                { "math": [ "u_chronomancer_menu_insight_cost = 10"] },
+                { "set_string_var": "<trait_name:XEDRA_CHRONOMANCER_LOOPING_WOUND>", "target_var": { "context_val": "chronomancer_menu_choice_name" } },
+                {
+                  "set_string_var": "<trait_description:XEDRA_CHRONOMANCER_LOOPING_WOUND>",
+                  "target_var": { "context_val": "chronomancer_menu_choice_description" }
+                },
+                { "set_string_var": "XEDRA_CHRONOMANCER_LOOPING_WOUND", "target_var": { "context_val": "chronomancer_menu_choice_id" } },
+                {
+                  "set_string_var": "<u_val:chronomancer_menu_insight_cost> Insight",
+                  "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+                },
+                { "set_condition": "chronomancer_menu_spell_conditions", "condition": { "math": [ "0 == 0" ] } }
+              ],
+              "topic": "TALK_CHRONOMANCER_TRAIT_MENU_SELECT"
+            },
+            {
+              "condition": { "math": [ "u_has_trait('XEDRA_CHRONOMANCER_TIME_SLOWDOWN')"] },
+              "text": "Resolve [<trait_name:XEDRA_CHRONOMANCER_TIME_SLOWDOWN>]",
+              "effect": [
+                { "math": [ "u_chronomancer_menu_insight_cost = 10"] },
+                { "set_string_var": "<trait_name:XEDRA_CHRONOMANCER_TIME_SLOWDOWN>", "target_var": { "context_val": "chronomancer_menu_choice_name" } },
+                {
+                  "set_string_var": "<trait_description:XEDRA_CHRONOMANCER_TIME_SLOWDOWN>",
+                  "target_var": { "context_val": "chronomancer_menu_choice_description" }
+                },
+                { "set_string_var": "XEDRA_CHRONOMANCER_TIME_SLOWDOWN", "target_var": { "context_val": "chronomancer_menu_choice_id" } },
+                {
+                  "set_string_var": "<u_val:chronomancer_menu_insight_cost> Insight",
+                  "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+                },
+                { "set_condition": "chronomancer_menu_spell_conditions", "condition": { "math": [ "0 == 0" ] } }
+              ],
+              "topic": "TALK_CHRONOMANCER_TRAIT_MENU_SELECT"
+            },
+            {
+              "condition": { "math": [ "u_has_trait('XEDRA_CHRONOMANCER_UNSTABLE_POWERS')"] },
+              "text": "Resolve [<trait_name:XEDRA_CHRONOMANCER_UNSTABLE_POWERS>]",
+              "effect": [
+                { "math": [ "u_chronomancer_menu_insight_cost = 10"] },
+                { "set_string_var": "<trait_name:XEDRA_CHRONOMANCER_UNSTABLE_POWERS>", "target_var": { "context_val": "chronomancer_menu_choice_name" } },
+                {
+                  "set_string_var": "<trait_description:XEDRA_CHRONOMANCER_UNSTABLE_POWERS>",
+                  "target_var": { "context_val": "chronomancer_menu_choice_description" }
+                },
+                { "set_string_var": "XEDRA_CHRONOMANCER_UNSTABLE_POWERS", "target_var": { "context_val": "chronomancer_menu_choice_id" } },
+                {
+                  "set_string_var": "<u_val:chronomancer_menu_insight_cost> Insight",
+                  "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+                },
+                { "set_condition": "chronomancer_menu_spell_conditions", "condition": { "math": [ "0 == 0" ] } }
+              ],
+              "topic": "TALK_CHRONOMANCER_TRAIT_MENU_SELECT"
+            },
             { "text": "Quit.", "topic": "TALK_DONE" }
         ]
     },
@@ -239,6 +296,12 @@
       "type": "talk_topic",
       "id": "TALK_CHRONOMANCER_SPELL_MENU_FAIL",
       "dynamic_line": "You either don't have enough insight or you fail to meet the prerequisites for this power.",
+      "responses": [ { "text": "Go Back.", "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
+    },
+    {
+      "type": "talk_topic",
+      "id": "TALK_CHRONOMANCER_TRAIT_MENU_FAIL",
+      "dynamic_line": "You either don't have enough insight or you fail to meet the prerequisites to resolve this issue.",
       "responses": [ { "text": "Go Back.", "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
     },
     {
@@ -260,6 +323,37 @@
           "effect": [
             { "set_string_var": { "context_val": "chronomancer_menu_choice_id" }, "target_var": { "u_val": "chronomancer_menu_learn_id" } },
             { "math": [ "u_spell_level(u_chronomancer_menu_learn_id) = 1 "] },
+            { "math": [ "u_vitamin('xedra_chronomancer_insight') -= u_chronomancer_menu_insight_cost "] },
+            { "math": [ "u_xedra_chronomancer_insight_count=u_vitamin('xedra_chronomancer_insight')"] }
+          ]
+        },
+        {
+          "text": "Go Back.",
+          "effect": [ { "set_string_var": "", "target_var": { "context_val": "chronomancer_menu_additional_details" } } ],
+          "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN"
+        },
+        { "text": "Quit.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "type": "talk_topic",
+      "id": "TALK_CHRONOMANCER_TRAIT_MENU_SELECT",
+      "dynamic_line": "<context_val:chronomancer_menu_choice_name>: \"<context_val:chronomancer_menu_choice_description>\"\n<context_val:chronomancer_menu_requirement_description>.\n<context_val:chronomancer_menu_additional_details>",
+      "responses": [
+        {
+          "text": "Resolve Problem.",
+          "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN",
+          "condition": {
+            "and": [
+              { "math": [ "u_vitamin('xedra_chronomancer_insight') > u_chronomancer_menu_insight_cost" ] },
+              { "get_condition": "chronomancer_menu_spell_conditions" }
+            ]
+          },
+          "failure_explanation": "Requirements Not Met",
+          "failure_topic": "TALK_CHRONOMANCER_TRAIT_MENU_FAIL",
+          "effect": [
+            { "set_string_var": { "context_val": "chronomancer_menu_choice_id" }, "target_var": { "u_val": "chronomancer_menu_learn_id" } },
+            { "u_lose_trait": { "u_val": "chronomancer_menu_learn_id" } },
             { "math": [ "u_vitamin('xedra_chronomancer_insight') -= u_chronomancer_menu_insight_cost "] },
             { "math": [ "u_xedra_chronomancer_insight_count=u_vitamin('xedra_chronomancer_insight')"] }
           ]
