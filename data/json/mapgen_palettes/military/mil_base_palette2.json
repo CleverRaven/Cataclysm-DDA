@@ -5,7 +5,7 @@
     "terrain": {
       ".": "t_region_groundcover",
       ",": "t_thconc_floor",
-      "'": "t_region_soil",
+      "'": [ [ "t_region_soil", 2 ], [ "t_region_groundcover", 3 ] ],
       "#": "t_strconc_wall",
       "|": "t_concrete_wall",
       "!": "t_guardrail",
