@@ -113,6 +113,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -8636,15 +8637,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
-            string_input_popup()
-            .title( _( "Filter:" ) )
-            .width( 55 )
-            .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n"
-                          + list_items_filter_history_help() )
-            .desc_color( c_white )
-            .identifier( "item_filter" )
-            .max_length( 256 )
-            .edit( sFilter );
+            string_input_popup_imgui imgui_popup( 70, sFilter, _( "Filter items" ) );
+            imgui_popup.set_label( _( "Filter:" ) );
+            imgui_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" +
+                                         list_items_filter_history_help(), c_white, true );
+            imgui_popup.set_identifier( "item_filter" );
+            sFilter = imgui_popup.query();
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();

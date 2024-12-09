@@ -20,6 +20,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
@@ -183,21 +184,21 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
 static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
-    string_input_popup popup;
-    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+    string_input_popup_imgui popup( 50, cur_worldname );
+    popup.set_max_input_length( max_worldname_len );
+    popup.set_label( title );
 
     input_context ctxt( "STRING_INPUT" );
-    popup.description( string_format(
-                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+    popup.set_description( string_format(
+                               _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                               ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
 
-    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
-    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
-        popup.text( get_next_valid_worldname() );
+    popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
+        popup.set_text( get_next_valid_worldname() );
         return true;
     } );
-    std::string message = popup.query_string();
-    return !popup.canceled() ? std::optional<std::string>( message ) : std::optional<std::string>();
+    std::string message = popup.query();
+    return message;
 }
 
 int worldfactory::show_worldgen_advanced( WORLD *world )

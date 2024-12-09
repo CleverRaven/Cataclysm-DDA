@@ -18,7 +18,7 @@
 #include "memory_fast.h"
 #include "output.h"
 #include "sdltiles.h"
-#include "string_input_popup.h"
+#include "input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "cata_imgui.h"
@@ -524,41 +524,6 @@ input_context uilist::create_main_input_context() const
     return ctxt;
 }
 
-input_context uilist::create_filter_input_context() const
-{
-    input_context ctxt( input_category, keyboard_mode::keychar );
-    // string input popup actions
-    ctxt.register_action( "TEXT.LEFT" );
-    ctxt.register_action( "TEXT.RIGHT" );
-    ctxt.register_action( "TEXT.QUIT" );
-    ctxt.register_action( "TEXT.CONFIRM" );
-    ctxt.register_action( "TEXT.CLEAR" );
-    ctxt.register_action( "TEXT.BACKSPACE" );
-    ctxt.register_action( "TEXT.HOME" );
-    ctxt.register_action( "TEXT.END" );
-    ctxt.register_action( "TEXT.DELETE" );
-#if defined( TILES )
-    ctxt.register_action( "TEXT.PASTE" );
-#endif
-    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "ANY_INPUT" );
-    // uilist actions
-    ctxt.register_action( "UILIST.UP" );
-    ctxt.register_action( "UILIST.DOWN" );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
-    ctxt.register_action( "END", to_translation( "Go to last entry" ) );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    if( allow_confirm ) {
-        ctxt.register_action( "SELECT" );
-    }
-    ctxt.register_action( "MOUSE_MOVE" );
-    return ctxt;
-}
-
 /**
  * repopulate filtered entries list (fentries) and set fselected accordingly
  */
@@ -618,25 +583,13 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt = create_filter_input_context();
-    filter_popup = std::make_unique<string_input_popup>();
-    filter_popup->context( ctxt ).text( filter ).max_length( 256 );
-    bool loop = true;
-    do {
-        ui_manager::redraw();
-        filter = filter_popup->query_string( false );
-        recalc_start = false;
-        if( !filter_popup->confirmed() ) {
-            const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
-            if( filter_popup->handled() ) {
-                filterlist();
-                recalc_start = true;
-            } else if( scrollby( scroll_amount_from_action( action ) ) ) {
-                recalc_start = true;
-            }
-        }
-    } while( loop && !filter_popup->confirmed() && !filter_popup->canceled() );
-
+    filter_popup = std::make_unique<string_input_popup_imgui>( 0, filter );
+    filter_popup->set_max_input_length( 256 );
+    filter = filter_popup->query();
+    if( filter_popup->cancelled() ) {
+        filter.clear();
+    }
+    filterlist();
     filter_popup.reset();
 }
 
