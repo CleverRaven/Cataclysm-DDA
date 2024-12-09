@@ -24,6 +24,7 @@
 #include "flexbuffer_json.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "json_error.h"
 #include "line.h"
@@ -33,7 +34,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -89,7 +89,6 @@ class path
         void serialize( JsonOut &jsout );
         void deserialize( const JsonObject &jsin );
     private:
-        std::string set_name_popup( std::string old_name, const std::string &label ) const;
         std::vector<tripoint_abs_ms> recorded_path;
         std::string name_start;
         std::string name_end;
@@ -268,26 +267,12 @@ void path::set_avatar_path( bool towards_end ) const
 
 void path::set_name_start()
 {
-    name_start = set_name_popup( name_start, _( "Name path start:" ) );
+    name_start = string_input_popup_imgui( 34, name_start, _( "Name path start:" ) ).query();
 }
 
 void path::set_name_end()
 {
-    name_end = set_name_popup( name_end, _( "Name path end:" ) );
-}
-
-std::string path::set_name_popup( std::string old_name, const std::string &label ) const
-{
-    std::string new_name = old_name;
-    string_input_popup popup;
-    popup
-    .title( label )
-    .width( 85 )
-    .edit( new_name );
-    if( popup.confirmed() ) {
-        return new_name;
-    }
-    return old_name;
+    name_end = string_input_popup_imgui( 34, name_end, _( "Name path end:" ) ).query();
 }
 
 void path::swap_start_end()
