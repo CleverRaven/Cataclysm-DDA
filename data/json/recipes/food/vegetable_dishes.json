@@ -28,10 +28,9 @@
         [ "cabbage", 2 ]
       ],
       [
-        [ "cucumber", 1 ],
+        [ "any_salad_cucumber", 1, "LIST" ],
         [ "japanese_knotweed_stem", 2 ],
-        [ "tomato", 1 ],
-        [ "can_tomato", 1 ],
+        [ "any_tomato", 1, "LIST" ],
         [ "carrot", 2 ],
         [ "pineapple_chunks", 1 ],
         [ "cranberries", 1 ],
@@ -174,7 +173,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u for roasting a veggy",
-    "components": [ [ [ "chili_pepper", 1 ], [ "rehydrated_chili", 1 ] ] ]
+    "components": [ [ [ "any_chili_pepper", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -438,16 +437,13 @@
       ],
       [
         [ "onion", 2 ],
-        [ "can_tomato", 1 ],
-        [ "tomato", 1 ],
+        [ "any_tomato", 1, "LIST" ],
         [ "jerusalem_artichoke", 1 ],
         [ "jerusalem_artichoke_boiled", 1 ],
         [ "groundnut_prepared", 1 ],
         [ "potato", 1 ],
-        [ "zucchini", 1 ],
-        [ "zucchini_cut", 1 ],
-        [ "bell_pepper", 1 ],
-        [ "bell_pepper_cut", 1 ],
+        [ "any_zucchini", 1, "LIST" ],
+        [ "any_bell_pepper", 1, "LIST" ],
         [ "pumpkin_cut", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
