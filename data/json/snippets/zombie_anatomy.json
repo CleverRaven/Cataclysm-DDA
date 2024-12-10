@@ -382,370 +382,293 @@
   {
     "type": "snippet",
     "category": "<zombie_humanoid_generic_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_headless_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_headless_deeper>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_headless_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_headless_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_headless_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_generic_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_screamer_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_screamer_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_screamer_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_harvest_screamer_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_screamer_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_bone_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_bone_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_bone_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_animal_harvest_bone_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_animal_harvest_bone_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_bone_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_bone_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_acid_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_acid_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_acid_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_acid_general>",
+      "<zombie_humanoid_harvest_acid_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_acid_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_animal_harvest_acid_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_animal_harvest_acid_general>",
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_shadow_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_shadow_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_shadow_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_shadow_general>",
+      "<zombie_humanoid_harvest_shadow_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_shadow_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_animal_harvest_shadow_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_animal_harvest_shadow_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_shadow_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_shadow_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_hulk_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_bone_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_hulk_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_bone_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      { "text": { "str": "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_bone_general>", "//~": "NO_I18N" } }
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_bone_general>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_kevlar_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_kevlar_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_harvest_kevlar_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general_deeper> <zombie_harvest_kevlar_general>", "//~": "NO_I18N" }
-      }
+      "<zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general_deeper> <zombie_harvest_kevlar_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_kevlar_general>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_kevlar_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_hulk_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_kevlar_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_kevlar_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      { "text": { "str": "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>", "//~": "NO_I18N" } }
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_kevlar_general>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_kevlar_general>",
+      "<zombie_harvest_kevlar_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_grabber_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_grabber_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_grabber_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_harvest_grabber_general>",
+      "<zombie_harvest_grabber_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_dog_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_dog_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      { "text": { "str": "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" } }
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_bone_dog_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_dog_general>  <zombie_animal_harvest_bone_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      { "text": { "str": "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" } }
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_bone_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_acid_dog_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_dog_general>  <zombie_animal_harvest_acid_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      { "text": { "str": "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" } }
+      "<zombie_animal_harvest_acid_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_general>  <zombie_harvest_dog_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_acid_general>",
+      "<zombie_harvest_dog_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_electric_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_electric_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_harvest_electric_general>",
+      "<zombie_harvest_electric_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_electric_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_animal_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_electric_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_electric_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_animal_harvest_general>",
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_harvest_electric_general>",
+      "<zombie_harvest_electric_general>  <zombie_animal_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_mushroom_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_humanoid_harvest_mushroom_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_mushroom_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_mushroom_general>",
+      "<zombie_humanoid_harvest_mushroom_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_animal_mushroom_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_animal_harvest_mushroom_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_animal_harvest_mushroom_general>  <zombie_animal_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_animal_harvest_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_animal_harvest_mushroom_general>",
+      "<zombie_animal_harvest_mushroom_general>  <zombie_animal_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_humanoid_moldy_bone_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_mushroom_general>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_mushroom_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_pupating_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_pupating_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_harvest_pupating_general>",
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_pupating_shadow_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_shadow_general>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      }
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_shadow_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_pupating_hulk_harvest>",
+    "//": "NO_I18N",
     "text": [
-      { "text": { "str": "<zombie_humanoid_harvest_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_hulk_general>", "//~": "NO_I18N" } },
-      { "text": { "str": "<zombie_harvest_pupating_general>", "//~": "NO_I18N" } },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      {
-        "text": { "str": "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>", "//~": "NO_I18N" }
-      },
-      { "text": { "str": "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>", "//~": "NO_I18N" } }
+      "<zombie_harvest_hulk_general>",
+      "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>",
+      "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_harvest_pupating_general>",
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   }
 ]

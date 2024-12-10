@@ -628,14 +628,14 @@
       {
         "id": "hp_original",
         "name": { "str": "picture" },
-        "description": "<home_pictures>",
+        "description": { "str": "<home_pictures>", "//~": "NO_I18N" },
         "expand_snippets": true,
         "weight": 200
       },
       {
         "id": "hp_snippet_nested",
         "name": { "str": "picture" },
-        "description": "<hp_nested>",
+        "description": { "str": "<hp_nested>", "//~": "NO_I18N" },
         "expand_snippets": true,
         "weight": 40
       }
