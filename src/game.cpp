@@ -113,6 +113,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -3358,7 +3359,7 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
     for( const auto &e : available ) {
         loading_ui::show( msg, e->name() );
         const MOD_INFORMATION &mod = *e;
-        restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+        restore_on_out_of_scope restore_check_plural( check_plural );
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
@@ -7029,9 +7030,9 @@ void game::zones_manager()
         {
             ui.mark_resize();
         } );
-        restore_on_out_of_scope<bool> show_prev( show );
-        restore_on_out_of_scope<std::optional<tripoint>> zone_start_prev( zone_start );
-        restore_on_out_of_scope<std::optional<tripoint>> zone_end_prev( zone_end );
+        restore_on_out_of_scope show_prev( show );
+        restore_on_out_of_scope zone_start_prev( zone_start );
+        restore_on_out_of_scope zone_end_prev( zone_end );
         show = false;
         zone_start = std::nullopt;
         zone_end = std::nullopt;
@@ -7376,9 +7377,9 @@ void game::zones_manager()
                         on_out_of_scope invalidate_current_ui( [&]() {
                             ui.mark_resize();
                         } );
-                        restore_on_out_of_scope<bool> show_prev( show );
-                        restore_on_out_of_scope<std::optional<tripoint>> zone_start_prev( zone_start );
-                        restore_on_out_of_scope<std::optional<tripoint>> zone_end_prev( zone_end );
+                        restore_on_out_of_scope show_prev( show );
+                        restore_on_out_of_scope zone_start_prev( zone_start );
+                        restore_on_out_of_scope zone_end_prev( zone_end );
                         show = false;
                         zone_start = std::nullopt;
                         zone_end = std::nullopt;
@@ -8636,15 +8637,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
-            string_input_popup()
-            .title( _( "Filter:" ) )
-            .width( 55 )
-            .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n"
-                          + list_items_filter_history_help() )
-            .desc_color( c_white )
-            .identifier( "item_filter" )
-            .max_length( 256 )
-            .edit( sFilter );
+            string_input_popup_imgui imgui_popup( 70, sFilter, _( "Filter items" ) );
+            imgui_popup.set_label( _( "Filter:" ) );
+            imgui_popup.set_description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" +
+                                         list_items_filter_history_help(), c_white, true );
+            imgui_popup.set_identifier( "item_filter" );
+            sFilter = imgui_popup.query();
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();

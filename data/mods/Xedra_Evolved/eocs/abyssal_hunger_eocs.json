@@ -41,7 +41,7 @@
     "id": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL",
     "condition": { "math": [ "abyssal_hunger_level < 5" ] },
     "effect": [
-      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "math": [ "abyssal_hunger_level++" ] },
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "mapgen_update": "abyssal_hunger_dungeon", "target_var": { "global_val": "dungeon_loc" } },
@@ -66,7 +66,7 @@
       { "u_message": "You move through the monster's innards and reach another empty space." }
     ],
     "false_effect": [
-      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "math": [ "abyssal_hunger_level++" ] },
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "mapgen_update": "abyssal_hunger_brain", "target_var": { "global_val": "dungeon_loc" } },

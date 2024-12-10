@@ -619,7 +619,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 4 },
         { "u_add_var": "mission_completed_Jenny_mission_2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -649,7 +649,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Jenny_mission_2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -680,7 +680,7 @@
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Jenny_mission_3", "value": "yes" },
         { "math": [ "n_timer_flag_Jenny_project_timer = time('now')" ] },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   }

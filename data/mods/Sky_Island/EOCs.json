@@ -85,7 +85,7 @@
       },
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
       { "u_remove_item_with": "warphome" },
-      { "math": [ "raidstotal", "++" ] },
+      { "math": [ "raidstotal++" ] },
       { "u_lose_trait": "awayfromhome" },
       { "u_lose_effect": "warpsickness" },
       { "u_lose_effect": "warpdisintegration" },
@@ -199,7 +199,7 @@
       "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
       "default": false
     },
-    "effect": [ { "math": [ "raidswon", "++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport_item" ] } ]
+    "effect": [ { "math": [ "raidswon++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport_item" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -217,7 +217,7 @@
       "default": false
     },
     "effect": [
-      { "math": [ "raidswon", "++" ] },
+      { "math": [ "raidswon++" ] },
       { "math": [ "gettokens = 1" ] },
       { "u_consume_item": "warp_vortex_token", "count": 1 },
       { "run_eocs": [ "EOC_return_OM_teleport_item" ] }
@@ -231,7 +231,7 @@
       "u_query": "This will teleport you back to your sky island.  Any items not on your person WILL BE LOST.  Are you ready to leave?",
       "default": false
     },
-    "effect": [ { "math": [ "raidswon", "++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
+    "effect": [ { "math": [ "raidswon++" ] }, { "math": [ "gettokens = 1" ] }, { "run_eocs": [ "EOC_return_OM_teleport" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -292,7 +292,7 @@
       { "u_add_effect": "downed", "duration": 1 },
       { "run_eocs": [ "EOC_death_heal" ] },
       { "u_spawn_item": "corpse_painful" },
-      { "math": [ "raidslost", "++" ] },
+      { "math": [ "raidslost++" ] },
       { "run_eocs": "EOC_return_OM_teleport", "time_in_future": "1 s" },
       {
         "u_message": "You feel the icy grip of death begin to take you, and the world whirls and rushes past.  Reality bends and at the peak of your last mortal moment, something snags you and hauls you through space and time.  Your mind has been preserved, at cost, and your body is not far behind.",

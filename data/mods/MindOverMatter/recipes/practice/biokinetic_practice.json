@@ -172,14 +172,12 @@
               { "math": [ "u_spell_level('biokin_breathe_skin') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
               { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity",
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
               { "u_lose_effect": "effect_psi_learning_new_power" },
-              "u_cancel_activity",
               "u_cancel_activity"
             ]
           }

@@ -1339,7 +1339,7 @@
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
             { "u_message": "You have a slight feeling of being watched." },
-            { "math": [ "u_migo_interest_interest_migo_interest", "++" ] }
+            { "math": [ "u_migo_interest_interest_migo_interest++" ] }
           ]
         },
         {

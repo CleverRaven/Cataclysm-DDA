@@ -785,8 +785,18 @@
             { "not": { "u_know_recipe": "create_verdant_helm" } },
             { "not": { "u_know_recipe": "create_verdant_cuirass" } },
             { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_leg_guards" } },
             { "not": { "u_know_recipe": "create_verdant_boots" } },
-            { "not": { "u_know_recipe": "create_verdant_cloak" } }
+            { "not": { "u_know_recipe": "create_verdant_cloak" } },
+            { "not": { "u_know_recipe": "create_shortbow_treesung" } },
+            { "not": { "u_know_recipe": "create_greatbow_treesung" } },
+            { "not": { "u_know_recipe": "create_arrow_treesung" } },
+            { "not": { "u_know_recipe": "create_spear_treesung" } },
+            { "not": { "u_know_recipe": "create_pike_treesung" } },
+            { "not": { "u_know_recipe": "create_mace_treesung" } },
+            { "not": { "u_know_recipe": "create_q_staff_treesung" } },
+            { "not": { "u_know_recipe": "create_naginata_treesung" } },
+            { "not": { "u_know_recipe": "create_baselard_treesung" } }
           ]
         },
         {
@@ -824,8 +834,18 @@
           "create_verdant_helm",
           "create_verdant_cuirass",
           "create_verdant_gauntlets",
+          "create_verdant_leg_guards",
           "create_verdant_boots",
-          "create_verdant_cloak"
+          "create_verdant_cloak",
+          "create_shortbow_treesung",
+          "create_greatbow_treesung",
+          "create_arrow_treesung",
+          "create_spear_treesung",
+          "create_pike_treesung",
+          "create_mace_treesung",
+          "create_q_staff_treesung",
+          "create_naginata_treesung",
+          "create_baselard_treesung"
         ],
         "type": "recipe"
       },

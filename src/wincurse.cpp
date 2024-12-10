@@ -559,7 +559,7 @@ static void CheckMessages()
         DispatchMessage( &msg );
     }
     if( needs_resize ) {
-        restore_on_out_of_scope<int> prev_lastchar( lastchar );
+        restore_on_out_of_scope prev_lastchar( lastchar );
         handle_resize( 0, 0 );
         refresh_display();
     }

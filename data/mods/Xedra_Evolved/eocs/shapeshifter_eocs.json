@@ -139,12 +139,12 @@
     "type": "effect_on_condition",
     "id": "EOC_WEREWOLF_HYBRID_FORM_healing",
     "effect": [
-      { "math": [ "u_werewolf_healing_tick_counter", "++" ] },
+      { "math": [ "u_werewolf_healing_tick_counter++" ] },
       {
         "if": { "math": [ "u_werewolf_healing_tick_counter >= 6" ] },
         "then": [
           { "math": [ "u_werewolf_healing_tick_counter", "-=", "6" ] },
-          { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()", "--" ] } },
+          { "if": { "math": [ "u_pain() >= 1" ] }, "then": { "math": [ "u_pain()--" ] } },
           {
             "if": { "math": [ "u_vitamin('redcells') < 0" ] },
             "then": { "math": [ "u_vitamin('redcells')", "+=", "150" ] }
