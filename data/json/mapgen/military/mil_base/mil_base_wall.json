@@ -228,7 +228,7 @@
     "om_terrain": [ "military_base_wall_corner_z2" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_region_groundcover",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "........................",
         "........................",
