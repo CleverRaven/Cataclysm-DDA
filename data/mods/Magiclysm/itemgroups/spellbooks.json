@@ -70,6 +70,7 @@
       [ "spell_scroll_animist_summon_watcher", 30 ],
       [ "spell_scroll_animist_vocalize", 30 ],
       [ "spell_scroll_animist_luck_bone", 20 ],
+      [ "spell_scroll_animist_do_psionic_damage_to_head", 25 ],
       [ "spell_scroll_pain_split", 25 ],
       [ "spell_scroll_bio_grotesque", 40 ],
       [ "spell_scroll_bio_fleshpouch", 30 ],

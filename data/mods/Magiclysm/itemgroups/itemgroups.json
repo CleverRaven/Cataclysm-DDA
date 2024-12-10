@@ -1267,7 +1267,8 @@
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
-          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
+          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 },
+          { "item": "spell_scroll_animist_do_psionic_damage_to_head", "prob": 30 }
         ],
         "prob": 35
       },

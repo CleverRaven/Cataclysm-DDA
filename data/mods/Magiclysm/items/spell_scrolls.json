@@ -2112,5 +2112,14 @@
     "name": { "str": "Scroll of Goodberry", "str_pl": "Scrolls of Goodberry" },
     "description": "Transform a set of berries into a set of even better berries that keep you full and heal your wounds.  Delicious and nutritious.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_goodberry" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_do_psionic_damage_to_head",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Mind Crush", "str_pl": "Scrolls of Mind Crush" },
+    "description": "Use your own spirit to attack the target's spirit.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_do_psionic_damage_to_head" ] }
   }
 ]
