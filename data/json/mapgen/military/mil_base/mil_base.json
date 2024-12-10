@@ -140,7 +140,7 @@
         { "chunks": [ { "param": "2x2_5", "fallback": "48x48_military_cafeteria_nest" } ], "x": 72, "y": 24, "z": 0 },
         {
           "chunks": [ { "param": "1x1_6", "fallback": "24x24_military_parking_lot_nest" } ],
-          "x": 120,
+          "x": 144,
           "y": 24,
           "z": 0
         },
