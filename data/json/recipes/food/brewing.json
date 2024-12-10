@@ -393,9 +393,7 @@
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
       [
         [ "chilly-p", 50 ],
-        [ "chili_pepper", 1 ],
-        [ "chili_pepper_cut", 1 ],
-        [ "rehydrated_chili", 1 ],
+        [ "any_chili_pepper", 1, "LIST" ],
         [ "cinnamon", 25 ],
         [ "pepper", 50 ],
         [ "wild_herbs", 10 ]
@@ -586,9 +584,7 @@
       [ [ "milk_standard_raw", 9, "LIST" ] ],
       [
         [ "cabbage", 1 ],
-        [ "chili_pepper", 1 ],
-        [ "chili_pepper_cut", 1 ],
-        [ "rehydrated_chili", 1 ],
+        [ "any_chili_pepper", 1, "LIST" ]
         [ "yoghurt", 1 ],
         [ "yogurt_starter_culture", 1 ]
       ]
