@@ -106,6 +106,8 @@ void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const st
     relic_procgen_data_factory.load( jo, src );
 }
 
+relic::~relic() = default;
+
 void relic::add_active_effect( const fake_spell &sp )
 {
     active_effects.emplace_back( sp );
