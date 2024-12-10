@@ -1,11 +1,5 @@
 [
   {
-    "type": "ammunition_type",
-    "id": "exo_connector",
-    "name": "exosuit interface fitting",
-    "default": "exo_connector"
-  },
-  {
     "id": "mining_rod",
     "copy-from": "rebar_rail",
     "type": "AMMO",
