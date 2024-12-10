@@ -7746,7 +7746,7 @@
       ],
       [
         [ "any_salad_cucumber", 1, "LIST" ],
-        [[ "any_tomato", 1, "LIST" ],
+        [ "any_tomato", 1, "LIST" ],
         [ "carrot", 2 ],
         [ "carrot_wild", 2 ],
         [ "pineapple_chunks", 1 ],
