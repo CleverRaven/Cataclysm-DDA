@@ -197,7 +197,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u energy to roast 100g vegetable per standard, bell pepper is 110g",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "bell_pepper", 1 ], [ "bell_pepper_cut", 1 ] ] ]
+    "components": [ [ [ "any_bell_pepper", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1363,8 +1363,7 @@
     "components": [
       [ [ "sushi_rice", 1 ] ],
       [
-        [ "cucumber", 1 ],
-        [ "cucumber_cut", 1 ],
+        [ "any_salad_cucumber", 1, "LIST" ],
         [ "carrot", 6 ],
         [ "carrot_wild", 6 ],
         [ "celery", 3 ],
@@ -1553,8 +1552,7 @@
     "components": [
       [ [ "fish", 1 ] ],
       [
-        [ "cucumber", 1 ],
-        [ "cucumber_cut", 1 ],
+        [ "any_salad_cucumber", 1, "LIST" ],
         [ "carrot", 3 ],
         [ "carrot_wild", 3 ],
         [ "celery", 3 ],
@@ -3728,9 +3726,9 @@
     "autolearn": true,
     "components": [
       [ [ "water_clean", 2 ] ],
-      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ],
+      [ [ "any_tomato", 1, "LIST" ] ],
       [ [ "broccoli", 1 ] ],
-      [ [ "zucchini", 1 ], [ "zucchini_cut", 1 ] ]
+      [ [ "any_zucchini", 1, "LIST" ] ]
     ]
   },
   {
@@ -6009,7 +6007,7 @@
         [ "barley", 1 ],
         [ "buckwheat", 1 ]
       ],
-      [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "any_tomato", 1, "LIST" ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
@@ -6059,7 +6057,7 @@
         [ "barley", 1 ],
         [ "buckwheat", 1 ]
       ],
-      [ [ "tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "any_tomato", 1, "LIST" ] ],
       [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
   },
@@ -6135,8 +6133,7 @@
         [ "sauce_red", 1 ],
         [ "seasoning_italian", 5 ],
         [ "wild_herbs", 10 ],
-        [ "tomato", 1 ],
-        [ "can_tomato", 1 ]
+        [ "any_tomato", 1, "LIST" ]
       ],
       [ [ "water_clean", 1 ] ]
     ],
@@ -7220,7 +7217,7 @@
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "bacon", 1 ] ],
       [ [ "lettuce", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ] ],
-      [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
+      [ [ "any_tomato", 1, "LIST" ] ]
     ],
     "charges": 2
   },
@@ -7543,7 +7540,7 @@
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "gherkin", 1 ], [ "gherkin_cut", 1 ] ]
+      [ [ "any_gherkin_cucumber", 1, "LIST" ] ]
     ]
   },
   {
@@ -7748,11 +7745,8 @@
         [ "cabbage", 2 ]
       ],
       [
-        [ "cucumber", 1 ],
-        [ "cucumber_cut", 1 ],
-        [ "tomato", 1 ],
-        [ "tomato_cut", 1 ],
-        [ "can_tomato", 1 ],
+        [ "any_salad_cucumber", 1, "LIST" ],
+        [[ "any_tomato", 1, "LIST" ],
         [ "carrot", 2 ],
         [ "carrot_wild", 2 ],
         [ "pineapple_chunks", 1 ],
@@ -8065,7 +8059,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ] ],
+      [ [ "any_salad_cucumber", 1, "LIST" ] ],
       [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },
