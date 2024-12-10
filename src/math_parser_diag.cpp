@@ -517,6 +517,20 @@ diag_assign_dbl_f hp_ass( char scope, std::vector<diag_value> const &params,
     };
 }
 
+diag_eval_dbl_f degradation_eval( char scope, std::vector<diag_value> const &params, diag_kwargs const & )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_degradation();
+    };
+}
+diag_assign_dbl_f degradation_ass( char scope, std::vector<diag_value> const &params,
+                          diag_kwargs const & /* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
+        d.actor( beta )->set_degradation( val );
+    };
+}
+
 diag_assign_dbl_f spellcasting_adjustment_ass( char scope, std::vector<diag_value> const &params,
         diag_kwargs const &kwargs )
 {
@@ -1761,6 +1775,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
+    { "degradation", { "un", 0, degradation_eval, degradation_ass } },
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "effect_duration", { "un", 1, effect_duration_eval } },
