@@ -3724,12 +3724,7 @@
     "charges": 3,
     "time": "5 m",
     "autolearn": true,
-    "components": [
-      [ [ "water_clean", 2 ] ],
-      [ [ "any_tomato", 1, "LIST" ] ],
-      [ [ "broccoli", 1 ] ],
-      [ [ "any_zucchini", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "water_clean", 2 ] ], [ [ "any_tomato", 1, "LIST" ] ], [ [ "broccoli", 1 ] ], [ [ "any_zucchini", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
