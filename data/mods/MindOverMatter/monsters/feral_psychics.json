@@ -1388,7 +1388,7 @@
     "bleed_rate": 0,
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_vita3" },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
@@ -1475,8 +1475,8 @@
           "move_cost": 60,
           "damage_max_instance": [ { "damage_type": "biological", "amount": 25 } ],
           "effects": [
-            { "id": "bleed", "duration": [ 60, 120 ], "intensity": [ 1, 10 ], "chance": 50, "affect_hit_bp": true },
-            { "id": "psi_vitakinetic_degeneration", "duration": [ 600, 2400 ] }
+            { "id": "bleed", "duration": [ 60, 120 ], "intensity": [ 1, 10 ], "chance": 75, "affect_hit_bp": true },
+            { "id": "psi_vitakinetic_degeneration", "duration": [ 1200, 6000 ] }
           ],
           "dodgeable": true,
           "blockable": true,
