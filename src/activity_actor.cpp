@@ -5421,11 +5421,14 @@ void oxytorch_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-    if( tool->ammo_sufficient( &who, act.moves_total / 100 ) ) {
+    if( tool->ammo_sufficient( &who, act.moves_total / 100 ) ||
+        query_yn(
+            _( "Your %1$s doesn't have enough charges to complete the job. Continue anyway?" ), tool->tname()
+        )
+      ) {
         add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
         act.moves_left = act.moves_total;
     } else {
-        who.add_msg_if_player( m_bad, _( "Your %1$s doesn't have enough charges." ), tool->tname() );
         act.set_to_null();
         return;
     }
