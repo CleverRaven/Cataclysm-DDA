@@ -122,19 +122,7 @@ int Character::get_env_resist( bodypart_id bp ) const
 
 // adjusts damage unit depending on type by enchantments.
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
-static void armor_enchantment_adjust( Character &guy, damage_unit &du )
-{
-    //If we're not dealing any damage of the given type, don't even bother.
-    if( du.amount < 0.1f ) {
-        return;
-    }
-    double total = guy.enchantment_cache->modify_damage_units_by_armor_protection( du.type, du.amount );
-    if( !du.type->no_resist ) {
-        total += guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
-    }
 
-    du.amount = std::max( 0.0, total );
-}
 
 void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
@@ -148,12 +136,6 @@ void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
     who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
-}
-
-void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
-{
-    du.amount = std::max( 0.0, guy.enchantment_cache->modify_damage_units_by_extra_damage( du.type,
-                          du.amount ) );
 }
 
 const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
@@ -209,13 +191,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
         }
 
-        armor_enchantment_adjust( *this, elem );
+        adjust_taken_damage_by_enchantments( elem );
 
         worn.absorb_damage( *this, elem, bp, worn_remains, armor_destroyed );
 
         passive_absorb_hit( bp, elem );
 
-        post_absorbed_damage_enchantment_adjust( *this, elem );
+        adjust_taken_damage_by_enchantments_post_absorbed( elem );
         elem.amount = std::max( elem.amount, 0.0f );
     }
     map &here = get_map();

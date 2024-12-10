@@ -619,8 +619,6 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint & )> get_path_avoid() const override;
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

@@ -231,21 +231,6 @@ static int compute_kill_xp( const mtype_id &mon_type )
     return mon_type->difficulty + mon_type->difficulty_base;
 }
 
-static void armor_enchantment_adjust( monster &mon, damage_unit &du )
-{
-    //If we're not dealing any damage of the given type, don't even bother.
-    if( du.amount < 0.1f ) {
-        return;
-    }
-
-    double total = mon.enchantment_cache->modify_damage_units_by_armor_protection( du.type, du.amount );
-    if( !du.type->no_resist ) {
-        total += mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
-    }
-
-    du.amount = std::max( 0.0, total );
-}
-
 monster::monster()
 {
     unset_dest();
@@ -2012,7 +1997,7 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
     const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( damage_unit &elem : dam.damage_units ) {
-        armor_enchantment_adjust( *this, elem );
+        adjust_taken_damage_by_enchantments( elem );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Dam Type: %s :: Dam Amt: %.1f :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        elem.type.c_str(), elem.amount, elem.res_pen, elem.res_mult );
@@ -2023,7 +2008,9 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
                        r.get_effective_resist( elem ) );
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
+        adjust_taken_damage_by_enchantments_post_absorbed( elem );
     }
+
     wp->apply_to( dam, attack.is_crit );
     return wp;
 }
@@ -4078,15 +4065,4 @@ std::function<bool( const tripoint & )> monster::get_path_avoid() const
         }
         return false;
     };
-}
-
-double monster::calculate_by_enchantment( double modify, enchant_vals::mod value,
-        bool round_output ) const
-{
-    modify += enchantment_cache->get_value_add( value );
-    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
-    if( round_output ) {
-        modify = std::round( modify );
-    }
-    return modify;
 }
