@@ -1376,7 +1376,7 @@
     "id": "mon_feral_human_vita2",
     "type": "MONSTER",
     "name": "feral regenerator",
-    "description": "This feral human doesn't even have bloodshot eyes.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
+    "description": "This feral human doesn't even have bloodshot eyes.   Their skin shines, their eyes are clear, and they move with a relaxed confidence among the apocalypse.  Only the indifference of the nearby zombies indicates something is deeply wrong.",
     "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.45 },
     "color": "green",
@@ -1449,8 +1449,8 @@
   {
     "id": "mon_feral_human_vita3",
     "type": "MONSTER",
-    "name": "feral regenerator",
-    "description": "This feral human doesn't even have bloodshot eyes.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
+    "name": "font of vitality",
+    "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
     "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.75 },
     "color": "green",
@@ -1463,6 +1463,11 @@
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "death_function": {
+      "eoc": "EOC_VITAKIN3_DEATH_EFFECT",
+      "message": "As %s succumbs to their wounds, they suddenly rise up with new vitality!",
+      "corpse_type": "NO_CORPSE"
+    },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
@@ -1538,5 +1543,13 @@
       ],
       "flags": [ "NO_FUNG_DMG", "WIELDED_WEAPON" ]
     }
+  },
+  {
+    "id": "mon_feral_human_vita3_revived",
+    "type": "MONSTER",
+    "name": "font of vitality",
+    "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
+    "copy-from": "mon_feral_human_vita3",
+    "death_function": {  }
   }
 ]
