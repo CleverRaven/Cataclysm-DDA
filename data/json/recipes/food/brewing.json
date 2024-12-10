@@ -582,12 +582,7 @@
     "//": "14u for dairy and 1u for the additive",
     "components": [
       [ [ "milk_standard_raw", 9, "LIST" ] ],
-      [
-        [ "cabbage", 1 ],
-        [ "any_chili_pepper", 1, "LIST" ],
-        [ "yoghurt", 1 ],
-        [ "yogurt_starter_culture", 1 ]
-      ]
+      [ [ "cabbage", 1 ], [ "any_chili_pepper", 1, "LIST" ], [ "yoghurt", 1 ], [ "yogurt_starter_culture", 1 ] ]
     ],
     "charges": 10
   },
