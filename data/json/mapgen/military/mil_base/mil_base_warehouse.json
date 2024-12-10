@@ -36,7 +36,11 @@
       "palettes": [ "mil_base_palette2" ],
       "terrain": { "&": "t_gates_mech_control" },
       "monster": { ",": { "group": "GROUP_MIL_BASE", "chance": 1 } },
-      "items": { "W": { "item": "military_warehouse", "chance": 75, "repeat": [ 1, 4 ] } },
+      "items": {
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] },
+        "d": { "item": "SUS_office_filing_cabinet", "chance": 75, "repeat": [ 1, 2 ] },
+        "W": { "item": "military_warehouse", "chance": 75, "repeat": [ 1, 4 ] }
+      },
       "vehicles": { "Á": { "vehicle": "military_cargo_trucks", "chance": 75, "rotation": 90 } },
       "place_nested": [ { "chunks": [ "24x24_military_warehouse_nest_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
