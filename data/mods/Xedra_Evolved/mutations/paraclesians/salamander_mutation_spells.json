@@ -395,6 +395,42 @@
     "casting_time_increment": -10
   },
   {
+    "id": "salamander_ash_breath_spell",
+    "type": "SPELL",
+    "name": "Exhalation of Ashes",
+    "description": "You can breathe out a cloud of thick smoke, concealing your presence or causing humans to choke.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "flags": [ "LOUD", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "shape": "cone",
+    "difficulty": 2,
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": {
+      "math": [ "min((( (u_spell_level('salamander_ash_breath_spell') * 1.1) + 2) * (scaling_factor(u_val('strength') ) )),20)" ]
+    },
+    "max_range": {
+      "math": [ "min((( (u_spell_level('salamander_ash_breath_spell') * 1.1) + 2) * (scaling_factor(u_val('strength') ) )),20)" ]
+    },
+    "min_aoe": 60,
+    "max_aoe": 60,
+    "field_id": "fd_smoke",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 150,
+    "final_energy_cost": 75,
+    "energy_increment": -5,
+    "base_casting_time": 50,
+    "final_casting_time": 25,
+    "casting_time_increment": -2
+  },
+  {
     "id": "salamander_fire_breath",
     "type": "SPELL",
     "name": "Breath of the Firedragon",
@@ -411,9 +447,12 @@
     "max_level": { "math": [ "str_to_level(1)" ] },
     "min_damage": { "math": [ "( (u_spell_level('salamander_fire_breath') * 2) + 15) * (scaling_factor(u_val('strength') ) )" ] },
     "max_damage": { "math": [ "( (u_spell_level('salamander_fire_breath') * 3) + 30) * (scaling_factor(u_val('strength') ) )" ] },
-    "min_range": { "math": [ "( (u_spell_level('salamander_fire_breath') * 0.2) + 2) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_range": 8,
-    "range_increment": 0.2,
+    "min_range": {
+      "math": [ "min((( (u_spell_level('salamander_fire_breath') * 0.25) + 2) * (scaling_factor(u_val('strength') ) )),8)" ]
+    },
+    "max_range": {
+      "math": [ "min((( (u_spell_level('salamander_fire_breath') * 0.25) + 2) * (scaling_factor(u_val('strength') ) )),8)" ]
+    },
     "min_aoe": { "math": [ "( (u_spell_level('salamander_fire_breath') * 3) + 27) * (scaling_factor(u_val('strength') ) )" ] },
     "max_aoe": 180,
     "field_id": "fd_fire",
