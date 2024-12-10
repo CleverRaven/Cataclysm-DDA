@@ -524,9 +524,12 @@ damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_in
             continue;
         }
 
-        modified.add_damage( dt.id, enchantment_cache->modify_melee_damage( dt.id, 0.0f ) );
-        modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
-                             0.0f ) );
+        double dmg_mod = enchantment_cache->modify_melee_damage( dt.id, 0.0f );
+        if( dmg_mod != 0 ) {
+            modified.add_damage( dt.id, dmg_mod );
+            modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
+                                 0.0f ) );
+        }
     }
 
     return modified;

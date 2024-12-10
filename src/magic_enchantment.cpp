@@ -1304,9 +1304,6 @@ double enchant_cache::modify_melee_damage( const damage_type_id &mod_val, double
 double enchant_cache::modify_damage_units_by_armor_protection( const damage_type_id &mod_val,
         double value ) const
 {
-    // since it's armor bonus, and we modify the damage units applied on damage absorbtion
-    // we decrease said value; 10 damage taken and +6 damage mitigation
-    // result in [10 - 6 =] 4 damage taken
     value += get_armor_add( mod_val );
     value *= 1.0 + get_armor_multiply( mod_val );
     return value;

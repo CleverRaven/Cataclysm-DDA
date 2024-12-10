@@ -3379,7 +3379,7 @@ void Creature::adjust_taken_damage_by_enchantments( damage_unit &du ) const
 
     double total = enchantment_cache->modify_damage_units_by_armor_protection( du.type, du.amount );
     if( !du.type->no_resist ) {
-        total += calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
+        total = calculate_by_enchantment( total, enchant_vals::mod::ARMOR_ALL );
     }
 
     du.amount = std::max( 0.0, total );
