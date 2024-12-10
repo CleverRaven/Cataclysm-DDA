@@ -1544,7 +1544,7 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint_bub
                    !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
                 continue;
             }
-            if( g->revive_corpse( aoe.raw(), corpse ) ) {
+            if( g->revive_corpse( aoe, corpse ) ) {
                 here.i_rem( aoe, &corpse );
                 break;
             }
@@ -1567,7 +1567,7 @@ void spell_effect::revive_dormant( const spell &sp, Creature &caster,
                 continue;
             }
             // relaxed revive with radius.
-            if( g->revive_corpse( aoe.raw(), corpse, 3 ) ) {
+            if( g->revive_corpse( aoe, corpse, 3 ) ) {
                 here.i_rem( aoe, &corpse );
                 break;
             }
@@ -1942,7 +1942,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
             shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
             mon->ammo = mon->type->starting_ammo;
             if( mon->will_move_to( dest.raw() ) && mon->know_danger_at( dest.raw() ) ) {
-                if( monster *const blob = g->place_critter_around( mon, dest.raw(), 0 ) ) {
+                if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
                     sp.make_sound( dest, caster );
                     if( !permanent ) {
                         blob->set_summon_time( sp.duration_turns( caster ) );

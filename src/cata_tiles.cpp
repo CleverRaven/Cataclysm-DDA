@@ -1945,10 +1945,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                              false );
     }
     if( you.controlling_vehicle ) {
-        std::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true );
+        std::optional<tripoint_rel_ms> indicator_offset = g->get_veh_dir_indicator_location( true );
         if( indicator_offset ) {
             draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                                 indicator_offset->xy() +
+                                 indicator_offset->raw().xy() +
                                  tripoint( you.posx(), you.posy(), center.z ),
                                  0, 0, lit_level::LIT, false );
         }
