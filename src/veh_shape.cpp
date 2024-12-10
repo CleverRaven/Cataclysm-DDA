@@ -19,7 +19,7 @@ player_activity veh_shape::start( const tripoint_bub_ms &pos )
     on_out_of_scope cleanup( []() {
         get_map().invalidate_map_cache( get_avatar().view_offset.z() );
     } );
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
 
     cursor_allowed.clear();
     for( const vpart_reference &part : veh.get_all_parts() ) {

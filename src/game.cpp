@@ -3359,7 +3359,7 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
     for( const auto &e : available ) {
         loading_ui::show( msg, e->name() );
         const MOD_INFORMATION &mod = *e;
-        restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+        restore_on_out_of_scope restore_check_plural( check_plural );
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
@@ -7030,9 +7030,9 @@ void game::zones_manager()
         {
             ui.mark_resize();
         } );
-        restore_on_out_of_scope<bool> show_prev( show );
-        restore_on_out_of_scope<std::optional<tripoint>> zone_start_prev( zone_start );
-        restore_on_out_of_scope<std::optional<tripoint>> zone_end_prev( zone_end );
+        restore_on_out_of_scope show_prev( show );
+        restore_on_out_of_scope zone_start_prev( zone_start );
+        restore_on_out_of_scope zone_end_prev( zone_end );
         show = false;
         zone_start = std::nullopt;
         zone_end = std::nullopt;
@@ -7377,9 +7377,9 @@ void game::zones_manager()
                         on_out_of_scope invalidate_current_ui( [&]() {
                             ui.mark_resize();
                         } );
-                        restore_on_out_of_scope<bool> show_prev( show );
-                        restore_on_out_of_scope<std::optional<tripoint>> zone_start_prev( zone_start );
-                        restore_on_out_of_scope<std::optional<tripoint>> zone_end_prev( zone_end );
+                        restore_on_out_of_scope show_prev( show );
+                        restore_on_out_of_scope zone_start_prev( zone_start );
+                        restore_on_out_of_scope zone_end_prev( zone_end );
                         show = false;
                         zone_start = std::nullopt;
                         zone_end = std::nullopt;

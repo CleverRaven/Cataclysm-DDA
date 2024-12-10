@@ -144,7 +144,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
 TEST_CASE( "monster_attack", "[vision][reachability]" )
 {
     clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     SECTION( "attacking on open ground" ) {
@@ -192,7 +192,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map();
     map &here = get_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = sunrise( calendar::turn );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     const tripoint_bub_ms target_location = { 65, 65, 0 };
@@ -337,7 +337,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
     // Set up further from the target
     const tripoint_bub_ms target_location = attacker_location + tripoint{ 4, 0, 0 };
     clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_creatures();
