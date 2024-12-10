@@ -440,7 +440,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "I pretty much made up all the relating numbers, feel free to change them",
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -455,7 +455,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ] ],
     "//": "I pretty much made up all the relating numbers, feel free to change them",
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ] ] ]
   },
   {
     "type": "recipe",
