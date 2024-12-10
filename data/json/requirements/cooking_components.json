@@ -1300,7 +1300,7 @@
     "id": "any_chili_pepper",
     "type": "requirement",
     "//": "Any form of chili pepper used in cooking",
-    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
   },
   {
     "id": "acorns_processed_any",
