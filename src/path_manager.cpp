@@ -659,13 +659,12 @@ void path_manager_ui::run()
 }
 
 // These need to be here so that pimpl works with unique ptr
-path_manager::path_manager() = default;
+path_manager::path_manager() : pimpl( std::make_unique<path_manager_impl>() ) {}
 path_manager::~path_manager() = default;
 
 void path_manager::record_step( const tripoint_abs_ms &new_pos )
 {
-    // !pimpl for tests, they don't initialize avatar like game does
-    if( !pimpl || !pimpl->is_recording_path() ) {
+    if( !pimpl->is_recording_path() ) {
         return;
     }
     pimpl->paths[pimpl->recording_path_index].record_step( new_pos );
@@ -683,8 +682,6 @@ bool path_manager::store()
 
 void path_manager::load()
 {
-    pimpl = std::make_unique<path_manager_impl>();
-
     const std::string name = base64_encode( get_avatar().get_save_id() + "_path_manager" );
     cata_path path = PATH_INFO::world_base_save_path() / ( name + ".json" );
     if( file_exist( path ) ) {
