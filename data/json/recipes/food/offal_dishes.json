@@ -417,7 +417,7 @@
       [ [ "salt", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "mustard", 1 ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "any_tomato", 1, "LIST" ] ]
     ]
   },
   {
@@ -468,7 +468,7 @@
       [ [ "pepper", 6 ] ],
       [ [ "worthy_wine", 3, "LIST" ] ],
       [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ], [ "garlic_powder", 6 ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "any_tomato", 1, "LIST" ] ]
     ]
   },
   {
@@ -498,7 +498,7 @@
       [ [ "sugar_standard", 3, "LIST" ], [ "artificial_sweetener", 42 ] ],
       [ [ "worthy_wine", 3, "LIST" ] ],
       [ [ "batter", 4, "LIST" ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "tomato_cut", 1 ] ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "any_tomato", 1, "LIST" ] ]
     ]
   },
   {
