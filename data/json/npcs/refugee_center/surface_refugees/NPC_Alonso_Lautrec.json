@@ -120,7 +120,14 @@
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
         "condition": {
           "and": [
-            { "u_has_trait": "PRETTY" },
+            {
+              "or": [
+                { "u_has_trait": "PRETTY" },
+                { "u_has_trait": "BEAUTIFUL" },
+                { "u_has_trait": "BEAUTIFUL2" },
+                { "u_has_trait": "BEAUTIFUL3" }
+              ]
+            },
             { "npc_has_effect": "Alonso_pants_restored" },
             { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
@@ -133,7 +140,13 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "PRETTY" } },
+            { "not": { "u_has_trait": "BEAUTIFUL" } },
+            { "not": { "u_has_trait": "BEAUTIFUL2" } },
+            { "not": { "u_has_trait": "BEAUTIFUL3" } },
             { "not": { "u_has_trait": "UGLY" } },
+            { "not": { "u_has_trait": "DEFORMED" } },
+            { "not": { "u_has_trait": "DEFORMED2" } },
+            { "not": { "u_has_trait": "DEFORMED3" } },
             { "npc_has_effect": "Alonso_pants_restored" },
             { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
@@ -145,7 +158,14 @@
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
         "condition": {
           "and": [
-            { "u_has_trait": "UGLY" },
+            {
+              "or": [
+                { "u_has_trait": "UGLY" },
+                { "u_has_trait": "DEFORMED" },
+                { "u_has_trait": "DEFORMED2" },
+                { "u_has_trait": "DEFORMED3" }
+              ]
+            },
             { "npc_has_effect": "Alonso_pants_restored" },
             { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
@@ -369,7 +389,17 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 400 }, { "u_consume_item": "condom" } ]
+      "effect": [
+        { "u_add_effect": "al_relaxed", "duration": 400 },
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 30,
+          "duration": "7 minutes",
+          "decay_start": "6 minutes"
+        },
+        { "u_consume_item": "condom" }
+      ]
     },
     "responses": [
       { "text": "Sigh.  <done_conversation_section>", "topic": "TALK_NONE" },
@@ -395,7 +425,17 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 360 }, { "u_consume_item": "condom" } ]
+      "effect": [
+        { "u_add_effect": "al_relaxed", "duration": 360 },
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 30,
+          "duration": "6 minutes",
+          "decay_start": "5 minutes"
+        },
+        { "u_consume_item": "condom" }
+      ]
     },
     "responses": [
       { "text": "Sigh.  <done_conversation_section>", "topic": "TALK_NONE" },
@@ -421,7 +461,17 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 300 }, { "u_consume_item": "condom" } ]
+      "effect": [
+        { "u_add_effect": "al_relaxed", "duration": 300 },
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 30,
+          "duration": "5 minutes",
+          "decay_start": "4 minutes"
+        },
+        { "u_consume_item": "condom" }
+      ]
     },
     "responses": [
       { "text": "Sigh.  <done_conversation_section>", "topic": "TALK_NONE" },
