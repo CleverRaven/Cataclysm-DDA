@@ -3347,3 +3347,12 @@ struct disp_mod_by_barrel {
         dispersion_modifier( disp ) {}
     void deserialize( const JsonObject &jo );
 };
+
+/**
+ * Given an iterable of `const item* ` (such as obtained from `all_items_top()`),
+ * returns the vector of each unique item in the iterable, and the amount of times it
+ * was encountered.
+ * For display purposes only.
+ */
+std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
+        const std::list<const item *> &items );
