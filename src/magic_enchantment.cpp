@@ -700,6 +700,36 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "incoming_damage_mod" );
+    jsout.start_array();
+    for( const damage_type &dt : damage_type::get_all() ) {
+        jsout.start_object();
+        jsout.member( "type", dt.id );
+        if( get_armor_add( dt.id ) != 0 ) {
+            jsout.member( "add", get_armor_add( dt.id ) );
+        }
+        if( get_armor_multiply( dt.id ) != 0 ) {
+            jsout.member( "multiply", get_armor_multiply( dt.id ) );
+        }
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    jsout.member( "incoming_damage_mod_post_absorbed" );
+    jsout.start_array();
+    for( const damage_type &dt : damage_type::get_all() ) {
+        jsout.start_object();
+        jsout.member( "type", dt.id );
+        if( get_extra_damage_add( dt.id ) != 0 ) {
+            jsout.member( "add", get_extra_damage_add( dt.id ) );
+        }
+        if( get_extra_damage_multiply( dt.id ) != 0 ) {
+            jsout.member( "multiply", get_extra_damage_multiply( dt.id ) );
+        }
+        jsout.end_object();
+    }
+    jsout.end_array();
+
     jsout.member( "special_vision" );
     jsout.start_array();
     for( const special_vision &struc : special_vision_vector ) {
