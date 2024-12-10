@@ -246,8 +246,9 @@ void handle_key_blocking_activity()
             u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
-        } else if( action == "help" ) {
-            get_help().display_help();
+        } else if( action == "DISPLAY_HELP" ) {
+            help_window hw;
+            hw.show();
         } else if( action != "HELP_KEYBINDINGS" ) {
             refresh = false;
         }
