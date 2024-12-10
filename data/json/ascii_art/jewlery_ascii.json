@@ -1,0 +1,313 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "bead_necklace",
+    "picture": [ "         ", "   *-*.  ", " ,*'  ,* ", " *.  .*  ", "   *-*   " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "onyx_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_dark_gray>@</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "gold_necklace",
+    "picture": [ "  <color_yellow>.--.</color>    ", "  <color_yellow>`-. ;</color>    ", "    <color_yellow> '</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "copper_necklace",
+    "picture": [ "  <color_brown>.--.</color>    ", "  <color_brown>`-. ;</color>    ", "    <color_brown> '</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "silver_necklace",
+    "picture": [ "  .--.    ", "  `-. ;   ", "     '    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ruby_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_red>@</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "platinum_necklace",
+    "picture": [ "  <color_white>.--.</color>   ", "  <color_white>`. ;</color>   ", "    ♥    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "simple_rifle_cartridge_necklace",
+    "picture": [
+      "  .--.   ",
+      "  `. ;   ",
+      "    <color_brown>∩</color>    ",
+      "    <color_yellow>║</color>    ",
+      "    <color_yellow>╨</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "simple_pistol_cartridge_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    <color_brown>∩</color>    ", "    <color_yellow>╨</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "onyx_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_dark_gray>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "opal_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_white>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ruby_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_red>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "simple_ordnance_cartridge_necklace",
+    "picture": [
+      "  .--.   ",
+      "  `. ;   ",
+      "   <color_blue>┌─┐</color>   ",
+      "   <color_blue>│ │</color>   ",
+      "   <color_yellow>├─┤</color>   ",
+      "   <color_yellow>┴─┴</color>   "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "pearl_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_white>O</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "garnet_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_green>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "opal_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_white>@</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "diamond_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_light_blue>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "garnet_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_green>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sapphire_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_blue>@</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "amethyst_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_magenta>@</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "tourmaline_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_pink>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "blue_topaz_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_light_blue>☼</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "aquamarine_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_light_blue>⌂</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "citrine_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_yellow>§</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "peridot_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_green>♦</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "emerald_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_green>♠</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "diamond_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_light_blue>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "alexandrite_gold_pendant_necklace",
+    "picture": [
+      "  <color_yellow>.--.</color>   ",
+      "  <color_yellow>`. ;</color>   ",
+      "    <color_yellow>'</color>    ",
+      "    <color_pink>Φ</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "fancy_ordinance_cartridge_necklace",
+    "picture": [
+      "  .--.   ",
+      "  `. ;   ",
+      "   <color_blue>┌─┐</color>   ",
+      "   <color_blue>│</color><color_white>Θ</color><color_blue>│</color>   ",
+      "   <color_yellow>├─┤</color>   ",
+      "   <color_yellow>┴─┴</color>   "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sapphire_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_blue>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "amethyst_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_magenta>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "blue_topaz_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_light_blue>☼</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "tourmaline_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_pink>@</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "aquamarine_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_light_blue>⌂</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "alexandrite_silver_pendant_necklace",
+    "picture": [ "  .--.   ", "  `. ;   ", "    '    ", "    <color_pink>Φ</color>    " ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "blue_topaz_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_light_blue>☼</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "tourmaline_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_pink>@</color>    "
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "alexandrite_platinum_pendant_necklace",
+    "picture": [
+      "  <color_white>.--.</color>   ",
+      "  <color_white>`. ;</color>   ",
+      "    <color_white>'</color>    ",
+      "    <color_pink>Φ</color>    "
+    ]
+  }
+]
+
