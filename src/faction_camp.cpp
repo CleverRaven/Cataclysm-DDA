@@ -3227,167 +3227,159 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
     }
 
     expansion_salt_water_pipe *pipe = nullptr;
-    bool pipe_is_new = true;
 
     for( expansion_salt_water_pipe *element : salt_water_pipes ) {
         if( element->expansion == dir ) {
             if( element->segments[0].finished ) {
                 debugmsg( "Trying to start construction of a salt water pipe that's already been constructed" );
-                return;
             }
             //  Assume we've started the construction but it has been cancelled.
-            pipe = element;
-            pipe_is_new = false;
-            break;
+            return;
         }
     }
 
-    if( pipe_is_new ) {
-        pipe = new expansion_salt_water_pipe;
-        pipe->expansion = dir;
-        pipe->connection_direction = connection_dir;
-        const oter_type_str_id &allowed_start_location = oter_type_forest_water;
-        const std::unordered_set<oter_type_str_id> allowed_locations = { oter_type_forest, oter_type_forest_thick, oter_type_forest_trail, oter_type_field, oter_type_road };
-        PathMap path_map;
+    pipe = new expansion_salt_water_pipe;
+    pipe->expansion = dir;
+    pipe->connection_direction = connection_dir;
+    const oter_type_str_id &allowed_start_location = oter_type_forest_water;
+    const std::unordered_set<oter_type_str_id> allowed_locations = { oter_type_forest, oter_type_forest_thick, oter_type_forest_trail, oter_type_field, oter_type_road };
+    PathMap path_map;
 
-        for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
-            for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
-                tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + i,
-                                        omt_pos.y() + dir.y + connection_dir.y + k, omt_pos.z() );
-                const oter_type_str_id &omt_ref = overmap_buffer.ter( tile )->get_type_id();
-                if( allowed_locations.find( omt_ref ) != allowed_locations.end() ) {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
-                } else if( omt_ref == allowed_start_location ) {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
-                } else {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
-                }
-                //  if this is an expansion tile, forbid it. Only allocated ones have their type changed.
-                if( i >= -dir.x - connection_dir.x - 1 && i <= -dir.x - connection_dir.x + 1 &&
-                    k >= -dir.y - connection_dir.y - 1 && k <= -dir.y - connection_dir.y + 1 ) {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
-                }
+    for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
+        for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
+            tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + i,
+                                    omt_pos.y() + dir.y + connection_dir.y + k, omt_pos.z() );
+            const oter_type_str_id &omt_ref = overmap_buffer.ter( tile )->get_type_id();
+            if( allowed_locations.find( omt_ref ) != allowed_locations.end() ) {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
+            } else if( omt_ref == allowed_start_location ) {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
+            } else {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
+            }
+            //  if this is an expansion tile, forbid it. Only allocated ones have their type changed.
+            if( i >= -dir.x - connection_dir.x - 1 && i <= -dir.x - connection_dir.x + 1 &&
+                k >= -dir.y - connection_dir.y - 1 && k <= -dir.y - connection_dir.y + 1 ) {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
             }
         }
+    }
 
-        if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] == salt_pipe_illegal ) {
-            auto e = expansions.find( dir );
-            basecamp::update_provides( miss_id.parameters, e->second );
+    if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] == salt_pipe_illegal ) {
+        auto e = expansions.find( dir );
+        basecamp::update_provides( miss_id.parameters, e->second );
 
-            popup( _( "This functionality cannot be constructed as the tile directly adjacent to "
-                      "this expansion is not of a type a pipe can be constructed through.  Supported "
-                      "terrain is forest, field, road, and swamp.  This recipe will now be "
-                      "removed from the set of available recipes and won't show up again." ) );
-            return;
-        }
+        popup( _( "This functionality cannot be constructed as the tile directly adjacent to "
+                  "this expansion is not of a type a pipe can be constructed through.  Supported "
+                  "terrain is forest, field, road, and swamp.  This recipe will now be "
+                  "removed from the set of available recipes and won't show up again." ) );
+        return;
+    }
 
-        point destination;
-        double destination_cost = -10000.0;
-        bool path_found = false;
+    point destination;
+    double destination_cost = -10000.0;
+    bool path_found = false;
 
-        if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
-            salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
-            destination = point::zero;
-            path_found = true;
-        } else {
-            path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
-                1.0;  //  Always an orthogonal connection to the connection tile.
+    if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
+        salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
+        destination = point::zero;
+        path_found = true;
+    } else {
+        path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
+            1.0;  //  Always an orthogonal connection to the connection tile.
 
-            for( int distance = 1; distance <= max_salt_water_pipe_length; distance++ ) {
-                int dist = distance > max_salt_water_pipe_distance ? max_salt_water_pipe_distance : distance;
-                for( int i = -dist; i <= dist; i++ ) { //  No path that can be extended can reach further than dist.
-                    for( int k = -dist; k <= dist; k++ ) {
-                        if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
-                            0.0 ) { // Tile has been assigned a distance and isn't a swamp
-                            point temp = check_salt_pipe_neighbors( path_map, { i, k } );
-                            if( !temp.is_invalid() ) {
-                                if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
-                                    destination_cost ) {
-                                    destination_cost = path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance +
-                                                       temp.y];
-                                    destination = temp;
-                                    path_found = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if( !path_found ) {
-            auto e = expansions.find( dir );
-            basecamp::update_provides( miss_id.parameters, e->second );
-
-            popup( _( "This functionality cannot be constructed as no valid path to a swamp has "
-                      "been found with a maximum length (20 tiles) at a maximum range of 10 tiles.  "
-                      "Supported terrain is forest, field, and road.  This recipe will now be "
-                      "removed from the set of available recipes and won't show up again." ) );
-            return;
-        };
-
-        point candidate;
-        //  Flip the sign of the starting swamp tile to fit the logic expecting positive values rather than check that it isn't the first one every time.
-        path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance + destination.y]
-            = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
-                    destination.y];
-
-        while( destination != point::zero ) {
-            pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
-            path_found = false;  //  Reuse of existing variable after its original usability has been passed.
-            for( int i = -1; i <= 1; i++ ) {
-                for( int k = -1; k <= 1; k++ ) {
-                    if( destination.x + i > -max_salt_water_pipe_distance &&
-                        destination.x + i < max_salt_water_pipe_distance &&
-                        destination.y + k > -max_salt_water_pipe_distance &&
-                        destination.y + k < max_salt_water_pipe_distance ) {
-                        if( path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
-                                destination.y + k] > 0.0 &&
-                            path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
-                                    destination.y + k] < path_map[max_salt_water_pipe_distance +
-                                            destination.x][max_salt_water_pipe_distance + destination.y] ) {
-                            if( path_found ) {
-                                if( path_map [max_salt_water_pipe_distance + candidate.x][max_salt_water_pipe_distance +
-                                        candidate.y] >
-                                    path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
-                                            destination.y + k] ) {
-                                    candidate = destination + point( i, k );
-                                }
-                            } else {
-                                candidate = destination +  point( i, k );
+        for( int distance = 1; distance <= max_salt_water_pipe_length; distance++ ) {
+            int dist = distance > max_salt_water_pipe_distance ? max_salt_water_pipe_distance : distance;
+            for( int i = -dist; i <= dist; i++ ) { //  No path that can be extended can reach further than dist.
+                for( int k = -dist; k <= dist; k++ ) {
+                    if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
+                        0.0 ) { // Tile has been assigned a distance and isn't a swamp
+                        point temp = check_salt_pipe_neighbors( path_map, { i, k } );
+                        if( !temp.is_invalid() ) {
+                            if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
+                                destination_cost ) {
+                                destination_cost = path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance +
+                                                   temp.y];
+                                destination = temp;
                                 path_found = true;
                             }
                         }
                     }
                 }
             }
-            destination = candidate;
         }
-
-        pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x, omt_pos.y() + dir.y + connection_dir.y, omt_pos.z() ), false, false } );
     }
 
-    if( common_salt_water_pipe_construction( miss_id, pipe, 0 ) ) {
-        if( pipe_is_new ) {
-            pipe->segments[0].started = true;
-            salt_water_pipes.push_back( pipe );
+    if( !path_found ) {
+        auto e = expansions.find( dir );
+        basecamp::update_provides( miss_id.parameters, e->second );
 
-            //  Provide "salt_water_pipe_*_scheduled" for all the segments needed.
-            //  The guts of basecamp::update_provides modified to feed it generated tokens rather than
-            //  those actually in the recipe, as the tokens needed can't be determined by the recipe.
-            //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
-            auto e = expansions.find( dir );
-            for( size_t i = 1; i < pipe->segments.size(); i++ ) {
-                std::string token = salt_water_pipe_string_base;
-                token += std::to_string( i );
-                token += salt_water_pipe_string_suffix;
-                if( e->second.provides.find( token ) == e->second.provides.end() ) {
-                    e->second.provides[token] = 0;
+        popup( _( "This functionality cannot be constructed as no valid path to a swamp has "
+                  "been found with a maximum length (20 tiles) at a maximum range of 10 tiles.  "
+                  "Supported terrain is forest, field, and road.  This recipe will now be "
+                  "removed from the set of available recipes and won't show up again." ) );
+        return;
+    };
+
+    point candidate;
+    //  Flip the sign of the starting swamp tile to fit the logic expecting positive values rather than check that it isn't the first one every time.
+    path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance + destination.y]
+        = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
+                destination.y];
+
+    while( destination != point::zero ) {
+        pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
+        path_found = false;  //  Reuse of existing variable after its original usability has been passed.
+        for( int i = -1; i <= 1; i++ ) {
+            for( int k = -1; k <= 1; k++ ) {
+                if( destination.x + i > -max_salt_water_pipe_distance &&
+                    destination.x + i < max_salt_water_pipe_distance &&
+                    destination.y + k > -max_salt_water_pipe_distance &&
+                    destination.y + k < max_salt_water_pipe_distance ) {
+                    if( path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                            destination.y + k] > 0.0 &&
+                        path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                destination.y + k] < path_map[max_salt_water_pipe_distance +
+                                        destination.x][max_salt_water_pipe_distance + destination.y] ) {
+                        if( path_found ) {
+                            if( path_map [max_salt_water_pipe_distance + candidate.x][max_salt_water_pipe_distance +
+                                    candidate.y] >
+                                path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                        destination.y + k] ) {
+                                candidate = destination + point( i, k );
+                            }
+                        } else {
+                            candidate = destination +  point( i, k );
+                            path_found = true;
+                        }
+                    }
                 }
-                e->second.provides[token]++;
             }
         }
-    } else if( pipe_is_new ) {
+        destination = candidate;
+    }
+
+    pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x, omt_pos.y() + dir.y + connection_dir.y, omt_pos.z() ), false, false } );
+
+    if( common_salt_water_pipe_construction( miss_id, pipe, 0 ) ) {
+        pipe->segments[0].started = true;
+        salt_water_pipes.push_back( pipe );
+
+        //  Provide "salt_water_pipe_*_scheduled" for all the segments needed.
+        //  The guts of basecamp::update_provides modified to feed it generated tokens rather than
+        //  those actually in the recipe, as the tokens needed can't be determined by the recipe.
+        //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
+        auto e = expansions.find( dir );
+        for( size_t i = 1; i < pipe->segments.size(); i++ ) {
+            std::string token = salt_water_pipe_string_base;
+            token += std::to_string( i );
+            token += salt_water_pipe_string_suffix;
+            if( e->second.provides.find( token ) == e->second.provides.end() ) {
+                e->second.provides[token] = 0;
+            }
+            e->second.provides[token]++;
+        }
+    } else {
         delete pipe;
     }
 }
