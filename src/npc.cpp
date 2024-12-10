@@ -2474,7 +2474,8 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac && my_fac->likes_u < -10 );
+    return attitude_to( get_player_character() ) == Attitude::HOSTILE || is_enemy() ||
+           ( my_fac && my_fac->likes_u < -10 );
 }
 
 bool npc::is_walking_with() const
