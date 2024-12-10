@@ -584,7 +584,7 @@
       [ [ "milk_standard_raw", 9, "LIST" ] ],
       [
         [ "cabbage", 1 ],
-        [ "any_chili_pepper", 1, "LIST" ]
+        [ "any_chili_pepper", 1, "LIST" ],
         [ "yoghurt", 1 ],
         [ "yogurt_starter_culture", 1 ]
       ]
