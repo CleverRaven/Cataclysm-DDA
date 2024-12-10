@@ -655,9 +655,9 @@ struct advanced_inv_sorter {
                 break;
             case SORTBY_PRICEPERVOLUME: {
                 const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d1.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d1.items.front()->volume().value() ) );
                 const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d2.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d2.items.front()->volume().value() ) );
                 if( price_density1 != price_density2 ) {
                     return price_density1 > price_density2;
                 }
