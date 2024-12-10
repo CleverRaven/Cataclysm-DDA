@@ -1058,7 +1058,7 @@
   {
     "id": "military_armory",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "items": [
       { "group": "guns_milspec", "prob": 50 },
       { "group": "ammo_milspec", "prob": 75 },
@@ -1066,6 +1066,27 @@
       { "group": "mags_milspec", "prob": 50 },
       { "group": "military_ballistic_vest", "prob": 50 },
       { "group": "mil_accessories", "prob": 15 }
+    ]
+  },
+  {
+    "id": "military_warehouse",
+    "//": "Contains almost anything a military base would need",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "mil_food", "prob": 75, "count": [ 1, 4 ] },
+      { "group": "supplies_mechanics_milspec", "prob": 25 },
+      { "group": "army_bed", "prob": 40, "count": [ 1, 2 ] },
+      { "group": "army_personal_locker", "prob": 40 },
+      { "group": "home_hw", "prob": 25 },
+      { "group": "military_patrol_food", "prob": 50, "count": [ 1, 4 ] },
+      { "group": "SUS_appliances_cupboard", "prob": 10 },
+      { "group": "SUS_utensils", "prob": 10, "count": [ 1, 4 ] },
+      { "group": "SUS_knife_drawer", "prob": 10 },
+      { "group": "SUS_junk_drawer", "prob": 20 },
+      { "group": "SUS_cookware", "prob": 20 },
+      { "group": "SUS_toilet", "prob": 75 },
+      { "group": "SUS_kitchen_sink", "prob": 20 }
     ]
   },
   {
