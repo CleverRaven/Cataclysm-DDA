@@ -442,10 +442,8 @@
         [ "jerusalem_artichoke_boiled", 1 ],
         [ "groundnut_prepared", 1 ],
         [ "potato", 1 ],
-        [ "zucchini", 1 ],
-        [ "zucchini_cut", 1 ],
-        [ "bell_pepper", 1 ],
-        [ "bell_pepper_cut", 1 ],
+        [ "any_zucchini", 1, "LIST" ],
+        [ "any_bell_pepper", 1, "LIST" ],
         [ "pumpkin_cut", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
