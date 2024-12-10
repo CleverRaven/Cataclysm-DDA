@@ -2865,10 +2865,11 @@ void avatar::steal( npc &target )
 
     int their_roll = dice( 5, target.get_per() );
 
-    const item *it = loc.get_item();
+    item *it = loc.get_item();
     if( my_roll >= their_roll && !target.is_hallucination() ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
                  it->tname(), target.get_name() );
+        it->set_owner( *this );
         i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
