@@ -587,8 +587,6 @@ class monster : public Creature
 
         std::optional<time_point> lastseen_turn;
 
-        pimpl<enchant_cache> enchantment_cache;
-
         // Stair data.
         int staircount = 0;
 

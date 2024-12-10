@@ -509,11 +509,6 @@ bool Character::melee_attack( Creature &t, bool allow_special )
 
 damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
 {
-    return dam;
-}
-
-damage_instance Character::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
-{
     damage_instance modified;
 
     std::vector<damage_type_id> types_used;

@@ -231,37 +231,19 @@ static int compute_kill_xp( const mtype_id &mon_type )
     return mon_type->difficulty + mon_type->difficulty_base;
 }
 
-// adjusts damage unit depending on type by enchantments.
 static void armor_enchantment_adjust( monster &mon, damage_unit &du )
 {
     //If we're not dealing any damage of the given type, don't even bother.
     if( du.amount < 0.1f ) {
         return;
     }
-    // FIXME: hardcoded damage types -> enchantments
-    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
-    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
-    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
-    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
-    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
-    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
-    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
-    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
-    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
+
+    double total = mon.enchantment_cache->modify_damage_units_by_armor_protection( du.type, du.amount );
+    if( !du.type->no_resist ) {
+        total += mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
     }
-    if( du.type != STATIC( damage_type_id( "pure" ) ) ) {
-        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
-    }
-    du.amount = std::max( 0.0f, du.amount );
+
+    du.amount = std::max( 0.0, total );
 }
 
 monster::monster()
@@ -2090,6 +2072,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( !is_hallucination() && type->melee_dice > 0 ) {
         damage.add_damage( damage_bash, dice( type->melee_dice, type->melee_sides ) );
     }
+
+    modify_damage_dealt_with_enchantments( damage );
 
     dealt_damage_instance dealt_dam;
 

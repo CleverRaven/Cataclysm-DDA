@@ -1148,8 +1148,6 @@ class Character : public Creature, public visitable
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
-        // modifies the damage dealt based on the character's enchantments
-        damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const override;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -4174,10 +4172,6 @@ class Character : public Creature, public visitable
     public:
         mutable time_point next_climate_control_check;
         mutable bool last_climate_control_ret;
-
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchant_cache> enchantment_cache;
 
     private:
         /* cached recipes, which are invalidated if the turn changes */

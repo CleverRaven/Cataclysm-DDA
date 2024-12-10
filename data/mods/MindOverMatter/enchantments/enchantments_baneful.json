@@ -3,12 +3,13 @@
     "type": "enchantment",
     "id": "ench_nemesis_buff",
     "condition": "ALWAYS",
-    "values": [
-      { "value": "SPEED", "add": { "math": [ "Nemesis_iteration * 1" ] } },
-      { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-      { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-      { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
-    ]
+    "incoming_damage_mod": [
+      { "type": "bash", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+      { "type": "stab", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+      { "type": "cut", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+      { "type": "bullet", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+    ],
+    "values": [ { "value": "SPEED", "add": { "math": [ "Nemesis_iteration * 1" ] } } ]
   },
   {
     "type": "enchantment",

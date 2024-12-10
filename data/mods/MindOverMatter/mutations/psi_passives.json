@@ -83,10 +83,8 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') / -0.2" ] } },
-          { "value": "PAIN", "multiply": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') * -0.00035" ] } }
-        ]
+        "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') / -0.2" ] } } ],
+        "values": [ { "value": "PAIN", "multiply": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') * -0.00035" ] } } ]
       }
     ]
   },

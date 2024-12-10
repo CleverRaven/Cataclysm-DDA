@@ -910,6 +910,7 @@ class Creature : public viewer
         virtual bool has_grab_break_tec() const = 0;
         virtual int get_throw_resist() const;
 
+        pimpl<enchant_cache> enchantment_cache;
         /*
          * Setters for stats and bonuses
          */
