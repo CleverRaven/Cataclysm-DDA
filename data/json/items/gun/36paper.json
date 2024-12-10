@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "colt_navy",
-        "name": { "str": "Colt M1861 Navy", "str_pl": "Colt M1861 Navies" },
+        "name": { "str": "Colt M1861 Navy", "str_pl": "Colt M1861s Navy" },
         "description": "The Colt M1861 is a black powder, cap & ball revolver dating back to the Civil War.  While reloading it takes quite a while due to having to put a primer on each chamber manually, instead of having the primer in one unit with the casing, like metallic cartridges.  However, for the time 6 shots in quick succession was a great thing for cavalry and officers to have on the field, though this version was much rarer than the more popular Colt M1860.  Nowadays, this firearm is completely outdated, and only sees use in collections, reenactment, or special shooting competitions.  However, black powder guns such as this are less regulated than more modern firearms, so it is sometimes the first gun a youth may buy.  This one is chambered in .36, weaker than the M1860's .44."
       }
     ],
