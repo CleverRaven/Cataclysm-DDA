@@ -96,5 +96,21 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAVENFOLK_SCREECH",
+    "effect": [
+      {
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "0",
+          "prep_time": "0",
+          "spell_to_cast": "spell_ravenfolk_screech",
+          "message_success": { "i18n": true, "str": "You let out a piercing cry!" },
+          "message_fail": { "i18n": true, "str": "You change your mind about screeching." }
+        }
+      }
+    ]
   }
 ]
