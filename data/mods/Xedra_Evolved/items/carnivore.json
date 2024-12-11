@@ -156,6 +156,14 @@
     "name": { "str": "carnivore stomach" },
     "description": "The stomach of an carnivorous creature.  It is surprisingly durable."
   },
+    {
+    "id": "small_carnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small carnivore stomach" },
+    "description": "The stomach of a small carnivorous creature.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
   {
     "id": "small_omnivore_stomach",
     "copy-from": "stomach",
