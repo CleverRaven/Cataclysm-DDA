@@ -13,5 +13,19 @@
     "damage_type": "bash",
     "min_range": 6,
     "max_range": 6
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_ravenfolk_screech",
+    "name": { "str": "Ravenfolk Screech", "//~": "NO_I18N" },
+    "description": { "str": "You let out a loud raven's cry.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "bash"
   }
 ]

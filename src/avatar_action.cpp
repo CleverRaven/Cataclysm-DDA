@@ -79,6 +79,8 @@ static const furn_str_id furn_f_safe_c( "f_safe_c" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
@@ -235,7 +237,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) ) {
+        !you.has_effect( effect_psi_stunned ) && !is_riding && !you.has_effect( effect_incorporeal ) &&
+        !m.impassable_field_at( d.raw() ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "JACKHAMMER" ) &&
                 weapon->ammo_sufficient( &you ) ) {
@@ -405,7 +408,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
         } else if( critter.has_flag( mon_flag_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
-                   critter.has_effect( effect_ridden ) ) {
+                   critter.has_effect( effect_ridden ) || critter.has_flag( json_flag_CANNOT_MOVE ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
         }
@@ -428,6 +431,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
         you.melee_attack( np, true );
         np.make_angry();
+        return false;
+    }
+
+    // CANNOT_MOVE allows melee attacking
+    if( you.has_flag( json_flag_CANNOT_MOVE ) ) {
+        you.add_msg_if_player( m_bad,
+                               _( "You cannot move!" ) );
         return false;
     }
 
@@ -520,11 +530,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
-    if( g->phasing_move_enchant( dest_loc.raw(), you.calculate_by_enchantment( 0,
+    if( g->phasing_move_enchant( dest_loc, you.calculate_by_enchantment( 0,
                                  enchant_vals::mod::PHASE_DISTANCE ) ) ) {
         return true;
     }
-    if( g->phasing_move( dest_loc.raw() ) ) {
+    if( g->phasing_move( dest_loc ) ) {
         return true;
     }
     if( veh_closed_door ) {
@@ -686,6 +696,10 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
+    if( you.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg( m_info, _( "You are incapable of attacking!" ) );
+        return;
+    }
     const item_location weapon = you.get_wielded_item();
     int reach = weapon ? weapon->reach_range( you ) : 1;
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
@@ -961,6 +975,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     } else if( you.has_effect( effect_incorporeal ) ) {
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
+        return;
+    } else if( you.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg( m_info, _( "You are incapable of throwing anything!" ) );
         return;
     }
 

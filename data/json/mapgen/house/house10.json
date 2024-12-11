@@ -37,7 +37,10 @@
         { "group": "guns_pistol_common", "x": [ 20, 20 ], "y": [ 8, 8 ], "chance": 4, "ammo": 90, "magazine": 100 },
         { "group": "guns_pistol_common", "x": [ 18, 18 ], "y": [ 20, 20 ], "chance": 3, "ammo": 90, "magazine": 100 }
       ],
-      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ],
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 18, "y": 1 },
+        { "chunks": [ [ "null", 95 ], [ "carcrash_10x10_rand", 5 ] ], "x": 2, "y": 0 }
+      ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
     }
   },

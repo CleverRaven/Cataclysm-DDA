@@ -7888,6 +7888,7 @@
     "types": [ "DIET" ],
     "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
+    "flags": [ "CARNIVORE_DIET" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -9672,6 +9673,7 @@
     "points": 99,
     "valid": false,
     "description": "Bug-repellent forcefield.",
+    "flags": [ "CANNOT_TAKE_DAMAGE" ],
     "debug": true
   },
   {

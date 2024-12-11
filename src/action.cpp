@@ -730,6 +730,9 @@ static bool can_pickup_at( const tripoint_bub_ms &p )
 bool can_interact_at( action_id action, const tripoint_bub_ms &p )
 {
     map &here = get_map();
+    if( here.impassable_field_at( p ) ) {
+        return false;
+    }
     tripoint_bub_ms player_pos = get_player_character().pos_bub();
     switch( action ) {
         case ACTION_OPEN:
@@ -1217,7 +1220,7 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
     [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "SELECT" ) {
             const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates(
-                        g->w_terrain, g->ter_view_p.xy(), true );
+                        g->w_terrain, g->ter_view_p.raw().xy(), true );
             if( mouse_pos ) {
                 const tripoint_rel_ms vec = *mouse_pos - pos;
                 if( vec.x() >= -1 && vec.x() <= 1

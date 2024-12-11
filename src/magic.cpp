@@ -58,6 +58,7 @@
 
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
@@ -1167,6 +1168,9 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const Character &guy ) const
 {
+    if( guy.has_flag( json_flag_CANNOT_ATTACK ) ) {
+        return false;
+    }
     if( has_flag( spell_flag::NON_MAGICAL ) ) {
         return true;
     };
@@ -2525,7 +2529,7 @@ class spellcasting_callback : public uilist_callback
             ImGui::SameLine( 0.0, -1.0 );
             ImVec2 info_size = ImGui::GetContentRegionAvail();
             info_size.y -= ImGui::GetTextLineHeightWithSpacing();
-            if( ImGui::BeginChild( "spell info", info_size, false,
+            if( ImGui::BeginChild( "spell info", info_size, ImGuiChildFlags_None,
                                    ImGuiWindowFlags_AlwaysVerticalScrollbar ) ) {
                 if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < known_spells.size() ) {
                     display_spell_info( menu->previewing );
@@ -3190,7 +3194,7 @@ void spellbook_callback::refresh( uilist *menu )
 {
     ImGui::TableSetColumnIndex( 2 );
     ImVec2 info_size = ImGui::GetContentRegionAvail();
-    if( ImGui::BeginChild( "spellbook info", info_size, false,
+    if( ImGui::BeginChild( "spellbook info", info_size, ImGuiChildFlags_None,
                            ImGuiWindowFlags_AlwaysAutoResize ) ) {
         if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
             draw_spellbook_info( spells[menu->selected] );

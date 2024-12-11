@@ -2163,6 +2163,7 @@ Fuji
 fulleroclathrate
 fullscreen
 fumarolic
+fungalizing
 fungaloid
 fungaloids
 fungideer
@@ -2364,6 +2365,7 @@ gravesite
 Gravol
 GravyField
 Grayfield
+grayscale
 greatbow
 greatbows
 greatclub
@@ -4201,6 +4203,7 @@ necrowolf
 nectivore
 Ned
 Nedarim
+nedcolbertia
 Needham
 needlelike
 Needletip

@@ -2451,6 +2451,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vita_degenerating_touch",
+    "name": [ "Degenerating" ],
+    "desc": [ "You flesh is withering and decaying!" ],
+    "rating": "bad",
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -3 ], "hit_mod": [ -3 ] },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -1 }, { "value": "SPEED", "multiply": -0.33 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vita_super_heal_return_from_death",
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",

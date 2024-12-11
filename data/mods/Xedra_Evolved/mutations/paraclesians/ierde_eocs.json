@@ -300,6 +300,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_activated",
+    "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
+    "effect": { "u_add_effect": "effect_ierde_rooted_in_place", "duration": "PERMANENT" },
+    "false_effect": { "u_message": "You must be standing on the living earth to root yourself in place.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
@@ -660,10 +667,10 @@
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "IERDE_NO_BROKEN_BONES" },
     "effect": [
-      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')", "++" ] } },
-      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')", "++" ] } },
-      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')", "++" ] } },
-      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')", "++" ] } }
+      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')++" ] } },
+      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
+      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
+      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } }
     ]
   }
 ]

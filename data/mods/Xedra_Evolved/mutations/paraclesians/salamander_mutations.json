@@ -119,13 +119,25 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_ASH_BREATH",
+    "name": { "str": "Exhalation of Ashes" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to breathe out a cloud of thick smoke.",
+    "prereqs": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_ash_breath_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_FLAME_BREATH",
     "name": { "str": "Breath of the Firedragon" },
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to breathe a cone of flames.",
-    "prereqs": [ "SALAMANDER_FLAME_PUNCH" ],
+    "prereqs": [ "SALAMANDER_ASH_BREATH" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_fire_breath", 1 ] ]
   },

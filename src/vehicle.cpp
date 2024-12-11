@@ -313,7 +313,8 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status )
+void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+                          const bool force_status/* = false*/ )
 {
     // vehicle parts excluding engines in non-owned vehicles are by default turned off
     for( vehicle_part &pt : parts ) {
@@ -334,7 +335,9 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     last_update = calendar::turn_zero;
 
     if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
-        init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+        if( !force_status ) {
+            init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+        }
         init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
     }
 
@@ -1935,7 +1938,7 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
             if( drop.link().t_veh.get() == this ) {
                 if( !veh->magic && part.info().id != vpart_power_cord ) {
                     const tripoint_bub_ms drop_pos = veh->bub_part_pos( part );
-                    drop.reset_link( false, nullptr, -1, true, drop_pos.raw() );
+                    drop.reset_link( false, nullptr, -1, true, drop_pos );
                     here.add_item_or_charges( drop_pos, drop );
                 }
                 veh->remove_remote_part( part );
@@ -2003,7 +2006,7 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
         } else {
             //  Adjust the connections after the change of the power_grid origo.
             for( const item_reference &item_ref : network_connections ) {
-                item_ref.item_ref->link().t_mount += ( old_grid_reference - this->pos_bub() ).xy().raw();
+                item_ref.item_ref->link().t_mount += ( old_grid_reference - this->pos_bub() ).xy();
             }
 
             //Keep wall wiring sections from losing their flag
@@ -5972,10 +5975,10 @@ void vehicle::idle( bool on_map )
     for( vehicle_part *turret : turrets() ) {
         item_location base = turret_query( *turret ).base();
         // Notify player about status of a turret if they're on the same tile
-        if( player_at_controls || player_character.pos() == base.position() ) {
-            base->process( here, &player_character, base.position() );
+        if( player_at_controls || player_character.pos_bub() == base.pos_bub() ) {
+            base->process( here, &player_character, base.pos_bub() );
         } else {
-            base->process( here, nullptr, base.position() );
+            base->process( here, nullptr, base.pos_bub() );
         }
     }
 }

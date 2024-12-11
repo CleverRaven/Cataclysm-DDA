@@ -54,14 +54,17 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": {
-      "target": "cell_phone_flashlight",
-      "msg": "You light up the screen.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The cellphone's batteries need more charge.",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "cell_phone_flashlight",
+        "msg": "You light up the screen.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The cellphone's batteries need more charge.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ]
   },

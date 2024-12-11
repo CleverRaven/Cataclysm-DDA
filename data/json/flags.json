@@ -2613,5 +2613,28 @@
     "id": "CRAFT_IN_DARKNESS",
     "type": "json_flag",
     "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "CANNOT_ATTACK",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."
+  },
+  {
+    "id": "CANNOT_MOVE",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot naturally move."
+  },
+  {
+    "id": "CANNOT_TAKE_DAMAGE",
+    "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
   }
 ]

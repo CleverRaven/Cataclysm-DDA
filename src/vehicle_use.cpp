@@ -372,7 +372,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint::zero ); } );
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_bub_ms::zero ); } );
             break;
         }
     }
@@ -938,7 +938,7 @@ void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( &player_character, vp.pos_bub().raw(), 15, 30 );
+        iuse::play_music( &player_character, vp.pos_bub(), 15, 30 );
     }
 }
 
@@ -1867,7 +1867,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "EXAMINE_VEHICLE" )
         .on_submit( [this, vp] {
             const vpart_position non_fake( *this, get_non_fake_part( vp.part_index() ) );
-            const point start_pos = non_fake.mount_pos().raw().rotate( 2 );
+            const point_rel_ms start_pos = non_fake.mount_pos().rotate( 2 );
             g->exam_vehicle( *this, start_pos );
         } );
 

@@ -1994,13 +1994,13 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>53</color>-<color_c_yellow>470</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
+               "Vitamins (RDA): 63-323 mg Calcium (6-32%), 0-20 mg Iron (0-109%),"
                " and 0-45 mg Vitamin C (0-50%)\n" );
     }
 }
@@ -2482,7 +2482,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
         CHECK( item_info_str( oxy_torch, magazine_compat ) ==
                "--\n"
                "<color_c_white>Compatible magazines</color>:\n"
-               "<color_c_white>Types</color>: small welding tank and welding tank\n" );
+               "<color_c_white>Types</color>: small welding tank, tiny welding tank, and welding tank\n" );
     }
 }
 

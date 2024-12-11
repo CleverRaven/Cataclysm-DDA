@@ -580,6 +580,9 @@ class Creature : public viewer
             return false;
         }
 
+        // Returns if the creature is immune to every given field type.
+        bool is_immune_fields( const std::vector<field_type_id> &fields ) const;
+
         // check if the creature is immune to the effect / field based on the immunity data
         virtual bool check_immunity_data( const field_immunity_data & ) const {
             return false;
@@ -695,7 +698,7 @@ class Creature : public viewer
         virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
-        virtual void mod_pain( int npain );
+        virtual int mod_pain( int npain );
         virtual void mod_pain_noresist( int npain );
         virtual void set_pain( int npain );
         virtual int get_pain() const;

@@ -210,24 +210,24 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     }
     player_character.view_offset = offset - player_character.pos_bub();
 
-    point delta;
+    point_rel_ms delta;
     do {
         popup( _( "Press space, choose a facing direction for the new %s and "
                   "confirm with enter." ),
                vpinfo.name() );
 
-        const std::optional<tripoint> chosen = g->look_around();
+        const std::optional<tripoint_bub_ms> chosen = g->look_around();
         if( !chosen ) {
             continue;
         }
-        delta = ( *chosen - offset.raw() ).xy();
+        delta = ( *chosen - offset ).xy();
         // atan2 only gives reasonable values when delta is not all zero
-    } while( delta == point::zero );
+    } while( delta == point_rel_ms::zero );
 
     // Restore previous view offsets.
     player_character.view_offset = old_view_offset;
 
-    units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
+    units::angle dir = normalize( atan2( delta.raw() ) - veh->face.dir() );
 
     veh->part( partnum ).direction = dir;
 }
@@ -972,10 +972,10 @@ void veh_interact::do_install()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose new part to install here:" );
 
-    restore_on_out_of_scope<std::unique_ptr<install_info_t>> prev_install_info( std::move(
+    restore_on_out_of_scope prev_install_info( std::move(
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
@@ -1152,14 +1152,14 @@ void veh_interact::do_repair()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose a part here to repair:" );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     int pos = 0;
 
-    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
+    restore_on_out_of_scope prev_hilight_part( highlight_part );
 
     avatar &player_character = get_avatar();
     while( true ) {
@@ -1275,7 +1275,7 @@ void veh_interact::do_mend()
             break;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose a part here to mend:" );
 
     avatar &player_character = get_avatar();
@@ -1311,7 +1311,7 @@ void veh_interact::do_refill()
             break;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Select part to refill:" );
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -1628,12 +1628,12 @@ void veh_interact::display_overview()
 void veh_interact::overview( const overview_enable_t &enable,
                              const overview_action_t &action )
 {
-    restore_on_out_of_scope<overview_enable_t> prev_overview_enable( overview_enable );
-    restore_on_out_of_scope<overview_action_t> prev_overview_action( overview_action );
+    restore_on_out_of_scope prev_overview_enable( overview_enable );
+    restore_on_out_of_scope prev_overview_action( overview_action );
     overview_enable = enable;
     overview_action = action;
 
-    restore_on_out_of_scope<int> prev_overview_pos( overview_pos );
+    restore_on_out_of_scope prev_overview_pos( overview_pos );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
@@ -1811,10 +1811,10 @@ void veh_interact::do_remove()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose a part here to remove:" );
 
-    restore_on_out_of_scope<std::unique_ptr<remove_info_t>> prev_remove_info( std::move(
+    restore_on_out_of_scope prev_remove_info( std::move(
                 remove_info ) );
     remove_info = std::make_unique<remove_info_t>();
 
@@ -1830,9 +1830,9 @@ void veh_interact::do_remove()
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
-    restore_on_out_of_scope<overview_enable_t> prev_overview_enable( overview_enable );
+    restore_on_out_of_scope prev_overview_enable( overview_enable );
 
-    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
+    restore_on_out_of_scope prev_hilight_part( highlight_part );
 
     while( true ) {
         int part = parts_here[ pos ];
@@ -1911,7 +1911,7 @@ void veh_interact::do_siphon()
             break;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
@@ -2000,7 +2000,7 @@ void veh_interact::do_assign_crew()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Assign crew positions:" );
 
     auto sel = []( const vehicle_part & pt ) {

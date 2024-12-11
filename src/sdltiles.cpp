@@ -1349,7 +1349,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // skip the normal drawing code for it.
         tilecontext->draw(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            g->ter_view_p,
+            g->ter_view_p.raw(),
             TERRAIN_WINDOW_TERM_WIDTH * font->width,
             TERRAIN_WINDOW_TERM_HEIGHT * font->height,
             overlay_strings,
@@ -1460,7 +1460,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
+            tripoint( get_player_character().pos_bub().raw().xy(), g->ter_view_p.z() ),
             win->width * font->width, win->height * font->height );
         update = true;
 
@@ -3517,14 +3517,14 @@ static void CheckMessages()
     }
     bool resized = false;
     if( resize_dims.has_value() ) {
-        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        restore_on_out_of_scope prev_last_input( last_input );
         needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
     }
     // resizing already reinitializes the render target
     if( !resized && render_target_reset ) {
         throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         needupdate = true;
-        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        restore_on_out_of_scope prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and

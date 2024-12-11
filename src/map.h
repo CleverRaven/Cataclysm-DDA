@@ -599,10 +599,13 @@ class map
         * n > 0     | x*n turns to move past this
         */
         // TODO: fix point types (remove the first overload)
-        int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
-        int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr ) const;
-        int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr ) const {
-            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle );
+        int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr,
+                       bool ignore_fields = false ) const;
+        int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
+                       bool ignore_fields = false ) const;
+        int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
+                       bool ignore_fields = false ) const {
+            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields );
         }
         // TODO: fix point types (remove the first overload)
         bool impassable( const tripoint &p ) const;
@@ -620,6 +623,8 @@ class map
         bool passable( const point_bub_ms &p ) const {
             return passable( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+        bool passable_skip_fields( const tripoint &p ) const;
+        bool passable_skip_fields( const tripoint_bub_ms &p ) const;
         // TODO: Get rid of untyped overload.
         bool is_wall_adjacent( const tripoint &center ) const;
         bool is_wall_adjacent( const tripoint_bub_ms &center ) const;
@@ -646,7 +651,8 @@ class map
         */
         int combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                                const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false, bool via_ramp = false ) const;
+                               int modifier = 0, bool flying = false, bool via_ramp = false,
+                               bool ignore_fields = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
@@ -1806,6 +1812,12 @@ class map
         // TODO: Get rid of untyped overload.
         bool has_field_at( const tripoint &p, const field_type_id &type ) const;
         bool has_field_at( const tripoint_bub_ms &p, const field_type_id &type ) const;
+
+        // returns the a field entry that is impassable at the given point if it exists
+        std::optional<field_entry> get_impassable_field_at( const tripoint_bub_ms &p );
+        std::vector<field_type_id> get_impassable_field_type_ids_at( const tripoint &p );
+        std::vector<field_type_id> get_impassable_field_type_ids_at( const tripoint_bub_ms &p );
+
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
@@ -1813,6 +1825,8 @@ class map
         field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type );
         const field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint_bub_ms &p );
+        bool impassable_field_at( const tripoint &p );
+        bool impassable_field_at( const tripoint_bub_ms &p );
 
         // Check if player can move on top of it during mopping zone activity
         bool mopsafe_field_at( const tripoint_bub_ms &p );
@@ -2024,9 +2038,11 @@ class map
         //                          if false and vehicle will overlap aborts and returns nullptr
         // TODO: Get rid of untyped overload
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              bool force_status = false );
         vehicle *add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              bool force_status = false );
 
         // Light/transparency
         float light_transparency( const tripoint_bub_ms &p ) const;
@@ -2825,9 +2841,10 @@ class tinymap : private map
             return map::veh_at( rebase_bub( p ) );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true ) {
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              bool force_status = false ) {
             return map::add_vehicle( type, rebase_bub( p ), dir, init_veh_fuel, init_veh_status,
-                                     merge_wrecks );
+                                     merge_wrecks, force_status );
         }
         void add_splatter_trail( const field_type_id &type, const tripoint_omt_ms &from,
                                  const tripoint_omt_ms &to ) {

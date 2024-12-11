@@ -835,7 +835,7 @@
     "use_action": [ "OXYTORCH" ],
     "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "smallweldtank", "tinyweldtank" ] } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },

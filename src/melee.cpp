@@ -117,6 +117,9 @@ static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_GRAB_FILTER( "GRAB_FILTER" );
@@ -124,6 +127,7 @@ static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
+
 static const limb_score_id limb_score_block( "block" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -538,6 +542,10 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                               bool allow_unarmed, int forced_movecost )
 {
+    if( has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg_if_player( m_info, _( "You are incapable of attacking!" ) );
+        return false;
+    }
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
@@ -689,8 +697,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
+        // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
+        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
+            !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) &&
+               t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
         }
 
@@ -869,8 +879,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
-            // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
+            // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
+            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
+                !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) &&
+                   t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
@@ -1764,7 +1776,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.needs_ammo ) {
         const itype_id current_ammo = cur_weapon.get_item()->ammo_current();
         // if the weapon needs ammo we now expend it
-        cur_weapon.get_item()->ammo_consume( 1, pos(), this );
+        cur_weapon.get_item()->ammo_consume( 1, pos_bub(), this );
         // thing going off should be as loud as the ammo
         sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
         const itype_id casing = *current_ammo->ammo->casing;
@@ -1775,7 +1787,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
 
-    if( technique.side_switch && !t.has_flag( mon_flag_IMMOBILE ) ) {
+    if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
+                                    t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1801,7 +1814,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
+    if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
+                                       t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -1833,7 +1847,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
                 if( t.pos_bub() != prev_pos ) {
-                    g->place_player( prev_pos.raw() );
+                    g->place_player( prev_pos );
                     g->on_move_effects();
                 }
             }
@@ -2272,7 +2286,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
                        "smash_glass_contents" );
         // Dump its contents on the ground
-        weap.spill_contents( pos() );
+        weap.spill_contents( pos_bub() );
         // Take damage
         damage_instance di = damage_instance();
         di.add_damage( damage_cut, std::clamp( rng( 0, vol * 2 ), 0, 7 ) );
