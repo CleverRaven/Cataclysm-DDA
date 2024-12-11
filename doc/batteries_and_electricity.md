@@ -13,3 +13,18 @@ In order to make reasoning about cells a bit easier, the capacities and dimensio
 
 ## Matching batteries to devices
 When adding a battery powered device to the game, the most important aspect to get right for representativeness is overall runtime. Get an estimate for how long the device would be able to operate on standard batteries and try to set the power consumption and battery type it accepts to roughly match that runtime.  This is a highly subjective process because device manufacturers are highly incentivised to be misleading when they make claims about battery life, so be skeptical of manufacturer claims, but if they aren't too out there or if it's not that impactful, don't worry about it too much. Generally higher draw and shorter the battery life of a device is an indication to be more careful about accuracy, if it's very low draw and/or the IRL device legitimately has much greater capacity than it needs, tolerances are very loose, but if the device chronically runs out of power quicky IRL it becomes more important to not under- or over- estimate how long it will be able to operate.
+
+Table of currently existing batteries
+
+| ID                          | IRL Counterpart      | Type                 | Energy |
+|-----------------------------|----------------------|----------------------|--------|
+| light_minus_battery_cell    | Button               | BATTERY_ULTRA_LIGHT  | 2 kJ   |
+| light_minus_disposable_cell | Button               | BATTERY_ULTRA_LIGHT  | 2 kJ   |
+| light_cell_rechargeable     | AA                   | BATTERY_LIGHT        | 10 kJ  |
+| light_battery_cell          | AA                   | BATTERY_LIGHT        | 16 kJ  |
+| medium_battery_cell         | 18650                | BATTERY_MEDIUM       | 56 kJ  |
+| heavy_battery_cell          | Small makita battery | BATTERY_HEAVY        | 259 kJ |
+| heavy_plus_battery_cell     | Big makita battery   | BATTERY_HEAVY        | 503 kJ |
+
+As you can see, each battery level is roughly five times more energy dense than previous one, meaning if your tool require, for example, 5 AA batteries, the game would represent it as having a single medium battery. Edge cases should be resolved in the next way: if irl counterpart require two AA battery, just use a single light battery, and decrease power consumption to match expected work duration; if irl counterpart require three or four AA batteries, use medium battery and increase power consumption to, again, match expected work duration.
+Alternatively, you can try to find a counterpart that uses amount of batteries that are easier to match in each particular case.
