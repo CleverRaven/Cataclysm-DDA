@@ -87,8 +87,9 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     SECTION( "midnight with a new moon" ) {
         // yes, surprisingly, we need to test for this
         calendar::turn = calendar::turn_zero;
-        tripoint const z_shift = GENERATE( tripoint::above, tripoint::zero );
-        dummy.setpos( dummy.pos() + z_shift ); // This implicitly rebuilds the light map.
+        tripoint_rel_ms const z_shift = GENERATE( tripoint_rel_ms::above, tripoint_rel_ms::zero );
+        // This implicitly rebuilds the light map but in a hacky way so we need to prevent the player falling
+        dummy.setpos( dummy.pos_bub() + z_shift, false );
         CAPTURE( z_shift );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
         REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
@@ -96,7 +97,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
         CHECK( dummy.fine_detail_vision_mod() == Approx( 7.3f ) );
 
-        dummy.setpos( dummy.pos() - z_shift );
+        dummy.setpos( dummy.pos_bub() - z_shift, false );
     }
 
     SECTION( "blindfolded" ) {
