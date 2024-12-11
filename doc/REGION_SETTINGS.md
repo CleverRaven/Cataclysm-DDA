@@ -389,7 +389,7 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 }
 ```
 
-## Forest Trail Settings
+## Overmap Connection Settings
 
 The **overmap_connection_settings** section defines the `overmap_connection_id`s used in hardcoded placement.
 
@@ -413,6 +413,58 @@ The **overmap_connection_settings** section defines the `overmap_connection_id`s
 		"inter_city_road_connection": "rural_road"
 	}
 }
+```
+
+
+## Overmap Highway Settings
+
+The **overmap_highway_settings** section defines the attributes used in generating highways
+on the overmap including the specials containing the maps used.
+
+### Fields
+
+|               Identifier          |                              Description                               
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `grid_column_seperation`          | The distance between north-south highways in overmaps, with the whole overmap gap being `grid_column_seperation` - 1. 0 disables north-south highways.                                                                                       |
+| `grid_row_seperation`             | The distance between east-west highways in overmaps, with the whole overmap gap being `grid_row_seperation` - 1. 0 disables east-west highways.                                                                                              |
+| `width_of_segments`               | The width of the segments defined below in `om_terrain`s. Used to tell the C++ what width the segments provided are, not to change the width placed.                                                                                         |
+| `reserved_terrain_id`             | The `om_terrain` used to reserve land and air for highways before their actual `om_terrain` placement.                                                                                                                                       |
+| `reserved_terrain_water_id`       | The `om_terrain` used to reserve water for highways before their actual `om_terrain` placement.                                                                                                                                              |
+| `four_way_intersections`          | An object with a list of specials and their respective weights to place at four way highway intersections. The [0,0,0] point should be the nw corner of the intersection formed before placement.                                            |
+| `three_way_intersections`         | An object with a list of specials and their respective weights to place at three way highway intersections, currently only found near ocean. The [0,0,0] point is the nw corner of the intersection formed before placement before rotation. |
+| `bends`                           | An object with a list of specials and their respective weights to place at highway bends, currently only found near ocean. The [0,0,0] point is the nw corner of the intersection formed before placement before rotation.                   |
+| `road_connections`                | An object with a list of specials and their respective weights to potentially place for each compass direction of placed highway for road connections and rest stops. The [0,0,0] point is the west side of the highway before rotation.     |
+| `segment_flat_special`            | The (width_of_segments x 1 x 1) special that corresponds to a flat section of highway.                                                                                                                                                       |
+| `segment_road_bridge_special`     | The (width_of_segments x 1 x 2) special that corresponds to a flat section of highway with a road crossing.                                                                                                                                  |
+| `segment_bridge_special`          | The (width_of_segments x 1 x 2) special that corresponds to an elevated section of highway for crossing water.                                                                                                                               |
+| `segment_bridge_supports_special` | The (width_of_segments x 1 x 1) special that corresponds to bridge supports to place below segment_bridge_special down to the base of the water.                                                                                             |
+| `segment_overpass_special`        | The (width_of_segments x 1 x 2) special that corresponds to an elevated section of highway for crossing cities.                                                                                                                              |
+| `symbolic_ramp_up_id`             | The `om_terrain` used to change the map symbol, name and flags of up ramps. Shouldn't change the physical map.                                                                                                                               |
+| `symbolic_ramp_down_id`           | The `om_terrain` used to change the map symbol, name and flags of down ramps. Shouldn't change the physical map.                                                                                                                             |
+| `symbolic_overpass_road_id`       | The `om_terrain` used to change the map symbol, name and flags of city roads crossing under highway overpasses. Shouldn't change the physical map.                                                                                           |
+
+### Example
+
+```json
+    "overmap_highway_settings": {
+      "grid_column_seperation": 1,
+      "grid_row_seperation": 1,
+      "width_of_segments": 2,
+      "reserved_terrain_id": "highway_reserved",
+      "reserved_terrain_water_id": "highway_reserved_water",
+      "four_way_intersections": { "Highway crossroad": 1 },
+      "three_way_intersections": { "Highway tee": 1 },
+      "bends": { "Highway bend": 1 },
+      "road_connections": { "Highway service station": 1, "Highway on/off ramps": 3 },
+      "segment_flat_special": "highway_segment_flat",
+      "segment_road_bridge_special": "highway_segment_road_bridge",
+      "segment_bridge_special": "highway_segment_bridge",
+      "segment_bridge_supports_special": "highway_segment_bridge_supports",
+      "segment_overpass_special": "highway_segment_overpass",
+      "symbolic_ramp_up_id": "highway_symbolic_ramp_up",
+      "symbolic_ramp_down_id": "highway_symbolic_ramp_down",
+      "symbolic_overpass_road_id": "highway_symbolic_road"
+    },
 ```
 
 ## City
