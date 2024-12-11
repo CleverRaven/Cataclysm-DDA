@@ -1,0 +1,198 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "Top 3 rows of the military base, only used for spawning the nests",
+    "om_terrain": [
+      [
+        "military_base_3x3_1_0",
+        "military_base_3x3_1_1",
+        "military_base_3x3_1_2",
+        "military_base_2x2_1_0",
+        "military_base_2x2_1_1",
+        "null",
+        "military_base_2x2_2_0",
+        "military_base_2x2_2_1",
+        "null",
+        "military_base_2x2_3_0",
+        "military_base_2x2_3_1",
+        "null"
+      ],
+      [
+        "military_base_3x3_1_3",
+        "military_base_3x3_1_4",
+        "military_base_3x3_1_5",
+        "military_base_2x2_1_2",
+        "military_base_2x2_1_3",
+        "null",
+        "military_base_2x2_2_2",
+        "military_base_2x2_2_3",
+        "military_base_1x1_1_0",
+        "military_base_2x2_3_2",
+        "military_base_2x2_3_3",
+        "null"
+      ],
+      [
+        "military_base_3x3_1_6",
+        "military_base_3x3_1_7",
+        "military_base_3x3_1_8",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null"
+      ]
+    ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "palettes": [ "mil_base_palette2" ],
+      "place_nested": [
+        { "chunks": [ { "param": "3x3_1", "fallback": "72x72_military_motorpool_nest" } ], "x": 0, "y": 0, "z": 0 },
+        { "chunks": [ { "param": "2x2_1", "fallback": "48x48_military_cafeteria_nest" } ], "x": 72, "y": 0, "z": 0 },
+        { "chunks": [ { "param": "2x2_2", "fallback": "48x48_military_cafeteria_nest" } ], "x": 144, "y": 0, "z": 0 },
+        { "chunks": [ { "param": "2x2_3", "fallback": "48x48_military_cafeteria_nest" } ], "x": 216, "y": 0, "z": 0 },
+        {
+          "chunks": [ { "param": "1x1_1", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 192,
+          "y": 24,
+          "z": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "Middle rows of the military base, only used for spawning the nests",
+    "om_terrain": [
+      [
+        "null",
+        "null",
+        "null",
+        "null",
+        "military_base_1x1_2_0",
+        "null",
+        "military_base_1x1_3_0",
+        "military_base_3x3_2_0",
+        "military_base_3x3_2_1",
+        "military_base_3x3_2_2",
+        "military_base_1x1_4_0",
+        "military_base_1x1_5_0"
+      ],
+      [
+        "military_base_2x2_4_0",
+        "military_base_2x2_4_1",
+        "null",
+        "military_base_2x2_5_0",
+        "military_base_2x2_5_1",
+        "null",
+        "military_base_1x1_6_0",
+        "military_base_3x3_2_3",
+        "military_base_3x3_2_4",
+        "military_base_3x3_2_5",
+        "null",
+        "null"
+      ],
+      [
+        "military_base_2x2_4_2",
+        "military_base_2x2_4_3",
+        "null",
+        "military_base_2x2_5_2",
+        "military_base_2x2_5_3",
+        "null",
+        "military_base_1x1_7_0",
+        "military_base_3x3_2_6",
+        "military_base_3x3_2_7",
+        "military_base_3x3_2_8",
+        "military_base_1x1_8_0",
+        "null"
+      ]
+    ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "palettes": [ "mil_base_palette2" ],
+      "place_nested": [
+        { "chunks": [ { "param": "1x1_2", "fallback": "24x24_military_parking_lot_nest" } ], "x": 96, "y": 0, "z": 0 },
+        {
+          "chunks": [ { "param": "1x1_3", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 144,
+          "y": 0,
+          "z": 0
+        },
+        { "chunks": [ { "param": "3x3_2", "fallback": "72x72_military_motorpool_nest" } ], "x": 168, "y": 0, "z": 0 },
+        {
+          "chunks": [ { "param": "1x1_4", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 240,
+          "y": 0,
+          "z": 0
+        },
+        {
+          "chunks": [ { "param": "1x1_5", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 264,
+          "y": 0,
+          "z": 0
+        },
+        { "chunks": [ { "param": "2x2_4", "fallback": "48x48_military_cafeteria_nest" } ], "x": 0, "y": 24, "z": 0 },
+        { "chunks": [ { "param": "2x2_5", "fallback": "48x48_military_cafeteria_nest" } ], "x": 72, "y": 24, "z": 0 },
+        {
+          "chunks": [ { "param": "1x1_6", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 144,
+          "y": 24,
+          "z": 0
+        },
+        {
+          "chunks": [ { "param": "1x1_7", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 144,
+          "y": 48,
+          "z": 0
+        },
+        {
+          "chunks": [ { "param": "1x1_8", "fallback": "24x24_military_parking_lot_nest" } ],
+          "x": 240,
+          "y": 48,
+          "z": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "Bottom rows of the military base, only used for spawning the nests",
+    "om_terrain": [
+      [
+        "military_base_barracks_0",
+        "military_base_barracks_1",
+        "military_base_3x3_3_0",
+        "military_base_3x3_3_1",
+        "military_base_3x3_3_2"
+      ],
+      [
+        "military_base_barracks_2",
+        "military_base_barracks_3",
+        "military_base_3x3_3_3",
+        "military_base_3x3_3_4",
+        "military_base_3x3_3_5"
+      ],
+      [
+        "military_base_barracks_4",
+        "military_base_barracks_5",
+        "military_base_3x3_3_6",
+        "military_base_3x3_3_7",
+        "military_base_3x3_3_8"
+      ]
+    ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "palettes": [ "mil_base_palette2" ],
+      "place_nested": [
+        { "chunks": [ "48x72_military_barracks" ], "x": 0, "y": 0, "z": 0 },
+        { "chunks": [ { "param": "3x3_3", "fallback": "72x72_military_motorpool_nest" } ], "x": 72, "y": 0, "z": 0 }
+      ]
+    }
+  }
+]

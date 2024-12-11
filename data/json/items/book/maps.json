@@ -44,7 +44,8 @@
         { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "shelter", "om_terrain_match_type": "PREFIX" },
         "police",
-        "mil_base_road_entrance"
+        { "om_terrain": "military_base_wall", "om_terrain_match_type": "PREFIX" },
+        { "om_terrain": "military_base_checkpoint", "om_terrain_match_type": "TYPE" }
       ],
       "message": "You add roads and facilities to your map."
     }
