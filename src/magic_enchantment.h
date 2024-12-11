@@ -302,7 +302,7 @@ class enchant_cache : public enchantment
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
         void force_add_with_dialogue( const enchantment &rhs, const_dialogue d,
-                                     bool evaluate = true );
+                                      bool evaluate = true );
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
