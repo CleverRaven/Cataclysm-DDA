@@ -5179,7 +5179,11 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
         return nullptr;
     }
     mon->spawn( *where );
-    return critter_tracker->add( mon ) ? mon.get() : nullptr;
+    if( critter_tracker->add( mon ) ) {
+        mon->gravity_check();
+        return mon.get();
+    }
+    return nullptr;
 }
 
 monster *game::place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range )
@@ -5201,7 +5205,11 @@ monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
         return nullptr;
     }
     mon->spawn( *where );
-    return critter_tracker->add( mon ) ? mon.get() : nullptr;
+    if( critter_tracker->add( mon ) ) {
+        mon->gravity_check();
+        return mon.get();
+    }
+    return nullptr;
 }
 
 size_t game::num_creatures() const
