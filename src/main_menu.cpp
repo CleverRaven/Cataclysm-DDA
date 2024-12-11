@@ -884,12 +884,8 @@ bool main_menu::opening_screen()
         // also check special keys
         if( action == "QUIT" ) {
 #if !defined(EMSCRIPTEN)
-            g->uquit = QUIT_EXIT_PENDING;
-            if( !get_option<bool>( "QUERY_QUIT" ) || query_yn( _( "Really quit?" ) ) ) {
-                g->uquit = QUIT_EXIT;
-                return false;
-            }
-            g->uquit = QUIT_NO;
+            g->uquit = QUIT_EXIT;
+            return false;
 #endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
