@@ -207,18 +207,22 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN3_DEATH_EFFECT",
     "effect": [
-      { "u_location_variable": { "context_val": "spawn_place" }, "min_radius": 0 },
+      { "npc_location_variable": { "context_val": "spawn_place" }, "min_radius": 0 },
       {
-        "u_map_run_item_eocs": "all",
+        "npc_map_run_item_eocs": "all",
         "loc": { "context_val": "spawn_place" },
         "true_eocs": [ { "id": "EOC_EOC_VITAKIN3_DEATH_EFFECT_HANDLING_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
       },
       {
-        "u_spawn_monster": "mon_feral_human_vita3_revived",
+        "npc_spawn_monster": "mon_feral_human_vita3_revived",
         "target_var": { "context_val": "spawn_place" },
         "min_radius": 0
       },
-      { "u_location_variable": { "context_val": "loc" }, "monster": "mon_feral_human_vita3_revived", "min_radius": 2 },
+      {
+        "npc_location_variable": { "context_val": "loc" },
+        "monster": "mon_feral_human_vita3_revived",
+        "min_radius": 2
+      },
       { "run_eocs": "EOC_VITAKIN3_DEATH_EFFECT_2", "alpha_loc": { "context_val": "loc" } }
     ]
   },
