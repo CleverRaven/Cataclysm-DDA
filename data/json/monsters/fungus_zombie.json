@@ -59,8 +59,8 @@
   {
     "id": "mon_gasbag_fungalize",
     "type": "MONSTER",
-    "name": { "str": "bloated fungal stalk zombie" },
-    "description": "This grotesquely swollen corpse has grown a short stalk of gray fungus bursting from the skull.",
+    "name": { "str": "fungal cherry bomb" },
+    "description": "This grotesquely swollen corpse has grown a short stalk of gray fungus bursting from the skull.  The overall visual effect is similar to a cherry or upside down lollipop.",
     "copy-from": "mon_zombie_gasbag",
     "default_faction": "fungus",
     "color": "black_yellow",
@@ -108,7 +108,7 @@
   {
     "id": "mon_zombie_smoker_fungalize",
     "type": "MONSTER",
-    "name": { "str": "smoking fungal stalk zombie" },
+    "name": { "str": "fungal stalk smoker" },
     "description": "This smoke-shrouded corpse has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_zombie_smoker",
     "default_faction": "fungus",
@@ -158,7 +158,7 @@
   {
     "id": "mon_skeleton_fungalize",
     "type": "MONSTER",
-    "name": { "str": "skeletal fungal stalk zombie" },
+    "name": { "str": "fungal stalk skeleton" },
     "description": "This already horrific moving corpse covered in bony growths has also grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_skeleton",
     "default_faction": "fungus",
@@ -205,7 +205,7 @@
   {
     "id": "mon_skeleton_brute_fungalize",
     "type": "MONSTER",
-    "name": { "str": "skeletal fungal stalk brute" },
+    "name": { "str": "fungalizing bone brute" },
     "description": "This already horrific moving corpse covered in twisted bony growths has also grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_skeleton_brute",
     "default_faction": "fungus",
@@ -222,7 +222,7 @@
   {
     "type": "MONSTER",
     "id": "mon_skeleton_brute_fungus",
-    "name": { "str": "fungal skeletal brute" },
+    "name": { "str": "fungal bone brute" },
     "copy-from": "mon_skeleton_brute",
     "description": "Fungi bloom from the crevices in the twisted bone growths that cover this creature.  Spores linger in the air around it.",
     "default_faction": "fungus",
@@ -252,7 +252,7 @@
   {
     "id": "mon_skeleton_hulk_fungalize",
     "type": "MONSTER",
-    "name": { "str": "fungal stalk skeletal hulk" },
+    "name": { "str": "fungal stalk juggernaut" },
     "description": "Layers of plates of bone rise high above, ending in a short stalk of gray fungus bursting from the enormous bulging skull.",
     "copy-from": "mon_skeleton_hulk",
     "default_faction": "fungus",
@@ -491,7 +491,7 @@
   {
     "id": "mon_zombie_runner_fungalize",
     "type": "MONSTER",
-    "name": { "str": "fungal stalk zombie runner" },
+    "name": { "str": "fungal stalk runner" },
     "description": "This recently-risen body has grown a short stalk of gray fungus bursting from the skull.  This appears to slow it down in some way.",
     "copy-from": "mon_zombie_runner",
     "default_faction": "fungus",
@@ -539,7 +539,7 @@
   {
     "id": "mon_zombie_rot_fungalize",
     "type": "MONSTER",
-    "name": { "str": "decayed fungal stalk zombie" },
+    "name": { "str": "fungal stalk rotter" },
     "description": "This badly decayed corpse has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_zombie_rot",
     "default_faction": "fungus",
@@ -587,7 +587,7 @@
   {
     "id": "mon_zombie_tough_fungalize",
     "type": "MONSTER",
-    "name": { "str": "tough fungal stalk zombie" },
+    "name": { "str": "fungal stalk bulk" },
     "description": "This muscular corpse has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_zombie_tough",
     "default_faction": "fungus",
@@ -730,7 +730,7 @@
   {
     "id": "mon_zombie_crawler_fungalize",
     "type": "MONSTER",
-    "name": { "str": "crawling fungal stalk zombie" },
+    "name": { "str": "fungal stalk crawler" },
     "description": "This moving corpse with badly damaged legs has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_zombie_crawler",
     "default_faction": "fungus",
@@ -778,7 +778,7 @@
   {
     "id": "mon_zombie_fat_fungalize",
     "type": "MONSTER",
-    "name": { "str": "fat fungal stalk zombie" },
+    "name": { "str": "fungal stalk feeder" },
     "description": "This heavy corpse has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_zombie_fat",
     "default_faction": "fungus",
@@ -826,7 +826,7 @@
   {
     "id": "mon_beekeeper_fungalize",
     "type": "MONSTER",
-    "name": { "str": "scarred fungal stalk zombie" },
+    "name": { "str": "fungalizing scarred zombie" },
     "description": "This heavily scarred moving corpse has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_beekeeper",
     "default_faction": "fungus",
@@ -874,7 +874,7 @@
   {
     "id": "mon_zombie_acidic_fungalize",
     "type": "MONSTER",
-    "name": { "str": "acidic fungal stalk zombie" },
+    "name": { "str": "fungalizing acid zombie" },
     "description": "This sickly looking moving corpse with prominent yellow veins has grown a short stalk of gray fungus bursting from the skull.",
     "copy-from": "mon_zombie_acidic",
     "default_faction": "fungus",
