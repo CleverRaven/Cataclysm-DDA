@@ -109,7 +109,7 @@ void uilist_impl::draw_controls()
 
         float entry_height = ImGui::GetTextLineHeightWithSpacing();
         ImGuiStyle &style = ImGui::GetStyle();
-        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false ) ) {
+        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size ) ) {
             if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
                 ImGui::TableSetupColumn( "hotkey", ImGuiTableColumnFlags_WidthFixed,
                                          parent.calculated_hotkey_width );
