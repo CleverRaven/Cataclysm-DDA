@@ -4,7 +4,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "SIG MCX Rattler SBR" },
+    "name": { "str": "SIG MCX Rattler SBR rifle" },
     "description": "A gas-operated rifle, with a short 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
     "weight": "2590 g",
     "volume": "2850 ml",
