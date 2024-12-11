@@ -1117,6 +1117,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -6259,6 +6262,7 @@ tilmàtli
 Tim
 timelapse
 timestamp
+timestream
 timey
 Timmy
 Timorese
