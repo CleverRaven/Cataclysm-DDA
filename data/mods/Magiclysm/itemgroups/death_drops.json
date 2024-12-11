@@ -353,17 +353,89 @@
     ]
   },
   {
-    "id": "orc_warrior_drops",
+    "id": "orc_warrior_death_drops",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "bugbear_armor_drops", "prob": 96 },
-      { "item": "loincloth_fur", "prob": 10 },
-      { "item": "footrags_fur", "prob": 10 },
-      { "item": "gloves_wraps_fur", "prob": 10 },
-      { "item": "bellywrap_fur", "prob": 5 },
-      { "item": "chestwrap_fur", "prob": 5 },
-      { "group": "bugbear_stalker_drops", "prob": 95 }
+      { "group": "orc_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_clothing_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "orc_warrior_weapon_drops", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "orc_archer_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "orc_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_clothing_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "orc_archer_melee_weapon_drops", "prob": 50, "damage": [ 1, 4 ] },
+      { "group": "orc_archer_ranged_weapon_drops", "prob": 50, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "orc_blood_warrior_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "orc_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_clothing_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "orc_blood_warrior_weapon_drops", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "orc_blood_mage_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "orc_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_clothing_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "magic_plants_common", "prob": 10 },
+      { "group": "magic_plants_uncommon", "prob": 1 }
+    ]
+  },
+  {
+    "id": "orc_warrior_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "survivor_machete", "prob": 96 },
+      { "item": "arming_sword_plus_one", "prob": 2 },
+      { "item": "broadsword_plus_one", "prob": 2 }
+    ]
+  },
+  {
+    "id": "orc_armor_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helmet_scrap", "prob": 20 },
+      { "item": "armguard_scrap", "prob": 20 },
+      { "item": "boots_scrap", "prob": 20 },
+      { "item": "legguard_scrap", "prob": 20 },
+      { "item": "cuirass_scrap", "prob": 10 }
+    ]
+  },
+  {
+    "id": "orc_archer_melee_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "sheath", "contents-item": "knife_combat", "prob": 100 } ]
+  },
+  {
+    "id": "orc_archer_ranged_weapon_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "longbow", "prob": 85 }, { "item": "quiver_large", "contents-group": "quiver_orc_archer", "prob": 50 } ]
+  },
+  {
+    "id": "orc_blood_warrior_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mace_pipe_large", "prob": 96 },
+      { "item": "mace_plus_one", "prob": 2 },
+      { "item": "warhammer_plus_one", "prob": 2 }
     ]
   },
   {
