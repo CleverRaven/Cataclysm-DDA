@@ -41,6 +41,7 @@
   {
     "id": "pistol_flintlock",
     "looks_like": "glock_17",
+    "copy-from": "flintlock_base",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock pistol" },
@@ -71,6 +72,7 @@
   {
     "id": "rifle_flintlock",
     "looks_like": "modular_ar15",
+    "copy-from": "flintlock_base",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock musket" },
