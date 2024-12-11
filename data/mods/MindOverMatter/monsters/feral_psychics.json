@@ -1465,8 +1465,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
       "eoc": "EOC_VITAKIN3_DEATH_EFFECT",
-      "message": "As %s succumbs to their wounds, they suddenly rise up with new vitality!",
-      "corpse_type": "NO_CORPSE"
+      "message": "As %s succumbs to their wounds, they suddenly rise up with new vitality!"
     },
     "extend": {
       "special_attacks": [
@@ -1522,7 +1521,7 @@
           "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
           "dodgeable": true,
           "blockable": true,
-          "eoc": [ "EOC_FERAL_VITAKIN3_DEGENERATING_TOUCH" ],
+          "eoc": [ "EOC_VITAKIN_FERAL_VITA3_DEGENERATING_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s touches you and you feel weaker!",
           "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
