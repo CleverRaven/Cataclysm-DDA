@@ -349,6 +349,7 @@
       { "item": "xl_gauntlets_larmor", "prob": 20 },
       { "item": "xl_boots_larmor", "prob": 20 },
       { "item": "xl_armguard_larmor", "prob": 20 },
+      { "item": "xl_legguard_larmor", "prob": 20 },
       { "item": "xl_armor_larmor_chest", "prob": 10 }
     ]
   },
