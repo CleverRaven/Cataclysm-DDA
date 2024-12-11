@@ -97,7 +97,7 @@
     "effect": [
       {
         "math": [
-          "u_spell_exp('xedra_chronomancer_rewrite_wound_causality') += spell_exp_diff( u_spell_level('xedra_chronomancer_rewrite_wound_causality') ) / 20 "
+          "u_spell_exp('xedra_chronomancer_rewrite_wound_causality') += spell_exp_diff( xedra_chronomancer_rewrite_wound_causality, u_spell_level('xedra_chronomancer_rewrite_wound_causality') ) / 20 "
         ]
       },
       {
@@ -207,7 +207,7 @@
     "effect": [
       {
         "math": [
-          "u_spell_exp('xedra_chronomancer_rewrite_equipment_causality') += spell_exp_diff( u_spell_level('xedra_chronomancer_rewrite_equipment_causality') ) / 20 "
+          "u_spell_exp('xedra_chronomancer_rewrite_equipment_causality') += spell_exp_diff( xedra_chronomancer_rewrite_equipment_causality, u_spell_level('xedra_chronomancer_rewrite_equipment_causality') ) / 20 "
         ]
       },
       {

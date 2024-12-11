@@ -1112,8 +1112,15 @@ diag_eval_dbl_f spell_exp_eval( char scope, std::vector<diag_value> const &param
 diag_eval_dbl_f spell_exp_for_level_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    return[level = params[0]]( const_dialogue const & d ) -> double {
-        return spell::exp_for_level( level.dbl( d ) );
+    return[sid = params[0], level = params[1]]( const_dialogue const & d ) -> double {
+        std::vector<spell_type> all_spells = spell_type::get_all();
+        auto it = std::find_if(all_spells.begin(), all_spells.end(), [&sid, &d]( const spell_type& obj ) { return obj.id.c_str() == sid.str( d ); } );
+        if (it != all_spells.end()) {
+            return it->exp_for_level( level.dbl( d ) );
+        } else {
+            throw math::runtime_error( R"(Unknown spell id "%s" for spell_exp_for_level)", sid.str( d ) );
+            return -1;
+        }
     };
 }
 
@@ -1818,7 +1825,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_level_sum", { "un", 0, spell_sum_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass }},
-    { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
+    { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval, spell_level_ass }},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval, spell_level_adjustment_ass } },
     { "time", { "g", 1, time_eval, time_ass } },

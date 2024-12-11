@@ -486,6 +486,12 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
+    optional( jo, was_loaded, "linear_experience_formula", linear_experience_formula, false );
+    optional( jo, was_loaded, "experience_calc_constant_a", a, 6200.0 );
+    optional( jo, was_loaded, "experience_calc_constant_b", b, 0.146661 );
+    optional( jo, was_loaded, "experience_calc_constant_c", c, -62.5 );
+
+
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
         difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
@@ -1675,16 +1681,19 @@ std::string spell::damage_type_string() const
     return dmg_type()->name.translated();
 }
 
-// constants defined below are just for the formula to be used,
-// in order for the inverse formula to be equivalent
-static constexpr double a = 6200.0;
-static constexpr double b = 0.146661;
-static constexpr double c = -62.5;
-
 int spell::get_level() const
 {
+    return type->get_level( experience );
+}
+
+int spell_type::get_level( int experience ) const
+{
     // you aren't at the next level unless you have the requisite xp, so floor
-    return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
+    if( linear_experience_formula ) {
+        return std::max( static_cast<int>( std::sqrt( ( 2.0 / a ) * experience + 0.25 ) - 0.5 ), 0 );
+    } else {
+        return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
+    }
 }
 
 int spell::get_effective_level() const
@@ -1755,13 +1764,22 @@ void spell::clear_temp_adjustments()
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-int spell::exp_for_level( int level )
+int spell::exp_for_level( int level ) const
+{
+    return type->exp_for_level( level );
+}
+
+int spell_type::exp_for_level( int level ) const
 {
     // level 0 never needs xp
     if( level == 0 ) {
         return 0;
     }
-    return std::ceil( std::exp( ( level - c ) * b ) ) - a;
+    if( linear_experience_formula ) {
+        return std::ceil( a * 0.5 * level * ( level + 1 ) );
+    } else {
+        return std::ceil( std::exp( ( level - c ) * b ) ) - a;
+    }
 }
 
 int spell::exp_to_next_level() const
