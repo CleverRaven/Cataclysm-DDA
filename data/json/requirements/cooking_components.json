@@ -1261,6 +1261,48 @@
     ]
   },
   {
+    "id": "any_tomato",
+    "type": "requirement",
+    "//": "Any form of tomato used in cooking",
+    "components": [ [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ] ]
+  },
+  {
+    "id": "any_gherkin_cucumber",
+    "type": "requirement",
+    "//": "Any form of gherkin cucumber used in cooking",
+    "components": [ [ [ "gherkin", 1 ], [ "gherkin_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_eggplant",
+    "type": "requirement",
+    "//": "Any form of eggplant used in cooking",
+    "components": [ [ [ "eggplant", 1 ], [ "eggplant_cut", 2 ] ] ]
+  },
+  {
+    "id": "any_zucchini",
+    "type": "requirement",
+    "//": "Any form of zucchini used in cooking",
+    "components": [ [ [ "zucchini", 1 ], [ "zucchini_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_salad_cucumber",
+    "type": "requirement",
+    "//": "Any form of salad cucumber used in cooking",
+    "components": [ [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_bell_pepper",
+    "type": "requirement",
+    "//": "Any form of bell pepper used in cooking",
+    "components": [ [ [ "bell_pepper", 1 ], [ "bell_pepper_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_chili_pepper",
+    "type": "requirement",
+    "//": "Any form of chili pepper used in cooking",
+    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
+  },
+  {
     "id": "acorns_processed_any",
     "type": "requirement",
     "//": "Any acorns processed to remove tannins and are now palatable, either wet or dry",

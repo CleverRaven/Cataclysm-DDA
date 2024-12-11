@@ -326,11 +326,11 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
-      [ [ "bell_pepper", 1 ], [ "bell_pepper_cut", 1 ] ],
+      [ [ "any_bell_pepper", 1, "LIST" ] ],
       [ [ "onion", 1 ] ],
       [ [ "salt", 1 ] ],
       [ [ "pepper", 1 ] ],
-      [ [ "tomato", 2 ], [ "tomato_cut", 2 ] ],
+      [ [ "any_tomato", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "eggs_bird", 4, "LIST" ] ],
       [ [ "water", 2 ] ]
