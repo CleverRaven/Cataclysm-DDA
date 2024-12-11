@@ -352,8 +352,8 @@ bool enchantment::is_monster_relevant() const
         }
     }
 
-    if( damage_values_add.size() != 0 || damage_values_multiply.size() != 0 ||
-        armor_values_add.size() != 0 || armor_values_multiply.size() != 0 ) {
+    if( !damage_values_add.empty() || !damage_values_multiply.empty() ||
+        !armor_values_add.empty() || !armor_values_multiply.empty() ) {
         return true;
     }
 
@@ -875,7 +875,7 @@ void enchant_cache::force_add( const enchantment &rhs )
     force_add_with_dialogue( rhs, d, false );
 }
 
-void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue d,
+void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
         const bool evaluate )
 {
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
