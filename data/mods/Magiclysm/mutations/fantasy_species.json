@@ -748,7 +748,8 @@
     "category": [ "SPECIES_RAVENFOLK" ],
     "purifiable": false,
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "activation_msg": ""
   },
   {
     "type": "mutation",
