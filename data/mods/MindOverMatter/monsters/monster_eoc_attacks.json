@@ -23,7 +23,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_FERAL_VITAKIN2_ENERVATING_TOUCH",
+    "id": "EOC_FERAL_VITAKIN3_ENERVATING_TOUCH",
     "condition": "npc_is_character",
     "effect": [
       { "npc_add_effect": "effect_vitakinetic_healing_down", "duration": [ 620000, 1620000 ] },

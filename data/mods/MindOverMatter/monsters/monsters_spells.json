@@ -1239,7 +1239,7 @@
     "effect_str": "effect_vita_degenerating_touch",
     "damage_type": "biological",
     "shape": "blast",
-    "min_dot": 3,
+    "min_dot": 4,
     "max_dot": 10,
     "min_duration": 1500,
     "max_duration": 6500
