@@ -245,6 +245,128 @@
     ]
   },
   {
+    "id": "goblin_warrior_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "feral_goblin_death_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "goblin_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "cudgel", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_slinger_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "feral_goblin_death_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "goblin_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "item": "sling", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_chieftan_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "feral_goblin_death_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "goblin_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "goblin_chieftan_weapon_drops", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_armor_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "helmet_scrap_xs", "prob": 40, "damage": [ 1, 4 ] },
+      { "item": "xs_legguard_scrap", "prob": 40, "damage": [ 1, 4 ] },
+      { "item": "xs_boots_scrap", "prob": 40, "damage": [ 1, 4 ] },
+      { "item": "xs_armguard_scrap", "prob": 40, "damage": [ 1, 4 ] },
+      { "item": "xs_cuirass_scrap", "prob": 40, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_chieftan_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "survivor_stabbing", "prob": 96, "damage": [ 1, 4 ] },
+      { "item": "spear_steel_plus_one", "prob": 3, "damage": [ 1, 4 ] },
+      { "item": "rune_biomancer_weapon", "prob": 1, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_bugbear_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bugbear_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_clothing_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_weapon_drops", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "goblin_bugbear_stalker_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bugbear_armor_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_clothing_drops", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "bugbear_stalker_weapon_drops", "prob": 95, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "bugbear_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "survivor_machete", "prob": 98 }, { "item": "broadsword_plus_one", "prob": 2 } ]
+  },
+  {
+    "id": "bugbear_stalker_weapon_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "survivor_stabbing", "prob": 97 }, { "item": "spear_steel_plus_one", "prob": 3 } ]
+  },
+  {
+    "id": "bugbear_clothing_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "loincloth_fur", "prob": 75 },
+      { "item": "footrags_fur", "prob": 25 },
+      { "item": "gloves_wraps_fur", "prob": 25 },
+      { "item": "bellywrap_fur", "prob": 10 },
+      { "item": "chestwrap_fur", "prob": 25 }
+    ]
+  },
+  {
+    "id": "bugbear_armor_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xl_helmet_larmor", "prob": 20 },
+      { "item": "xl_gauntlets_larmor", "prob": 20 },
+      { "item": "xl_boots_larmor", "prob": 20 },
+      { "item": "xl_armguard_larmor", "prob": 20 },
+      { "item": "xl_armor_larmor_chest", "prob": 10 }
+    ]
+  },
+  {
+    "id": "orc_warrior_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bugbear_armor_drops", "prob": 96 },
+      { "item": "loincloth_fur", "prob": 10 },
+      { "item": "footrags_fur", "prob": 10 },
+      { "item": "gloves_wraps_fur", "prob": 10 },
+      { "item": "bellywrap_fur", "prob": 5 },
+      { "item": "chestwrap_fur", "prob": 5 },
+      { "group": "bugbear_stalker_drops", "prob": 95 }
+    ]
+  },
+  {
     "id": "mossling_drops",
     "type": "item_group",
     "subtype": "collection",
