@@ -27,6 +27,6 @@
     "apply_message": "",
     "rating": "bad",
     "max_duration": "1 s",
-    "enchantments": [ { "values": [ { "value": "ARMOR_BASH", "multiply": -0.33 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "bash", "multiply": -0.33 } ] } ]
   }
 ]

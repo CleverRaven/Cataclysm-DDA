@@ -6,7 +6,8 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }, { "value": "ARMOR_COLD", "add": -15 } ]
+    "incoming_damage_mod": [ { "type": "cold", "add": -15 } ],
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 } ]
   },
   {
     "id": "ench_climate_periapta_feline",

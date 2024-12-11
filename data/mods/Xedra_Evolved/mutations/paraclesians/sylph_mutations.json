@@ -223,7 +223,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "ARMOR_COLD", "add": -10 } ]
+        "incoming_damage_mod": [ { "type": "cold", "add": -10 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -240,7 +241,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.75 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 } ]
       }
     ],
     "category": [ "SYLPH" ]
@@ -259,7 +261,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }, { "value": "ARMOR_COLD", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.75 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 150 } ]
       }
     ]
   },

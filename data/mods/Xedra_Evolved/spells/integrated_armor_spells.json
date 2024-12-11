@@ -19,11 +19,8 @@
     "name": { "str": "Salamander" },
     "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you.",
     "condition": "ALWAYS",
-    "values": [
-      { "value": "ARMOR_HEAT", "multiply": -0.2 },
-      { "value": "CLIMATE_CONTROL_HEAT", "add": 15 },
-      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-    ],
+    "incoming_damage_mod": [ { "type": "heat", "multiply": -0.2 } ],
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 15 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ],
     "hit_me_effect": [
       {
         "id": "integrated_coal_skin_burnback",
@@ -52,11 +49,8 @@
     "name": { "str": "Salamonstrous" },
     "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you.",
     "condition": "ALWAYS",
-    "values": [
-      { "value": "ARMOR_HEAT", "multiply": -0.5 },
-      { "value": "CLIMATE_CONTROL_HEAT", "add": 45 },
-      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-    ],
+    "incoming_damage_mod": [ { "type": "heat", "multiply": -0.5 } ],
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 45 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ],
     "hit_me_effect": [
       {
         "id": "integrated_coal_skin_burnback",

@@ -40,11 +40,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -2 },
-            { "value": "ARMOR_BASH", "add": -2 },
-            { "value": "ARMOR_STAB", "add": -2 },
-            { "value": "ARMOR_BULLET", "add": -1 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -2 },
+            { "type": "stab", "add": -2 },
+            { "type": "cut", "add": -2 },
+            { "type": "bullet", "add": -1 }
           ]
         }
       ]
@@ -64,11 +64,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -4 },
-            { "value": "ARMOR_BASH", "add": -4 },
-            { "value": "ARMOR_STAB", "add": -4 },
-            { "value": "ARMOR_BULLET", "add": -2 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -4 },
+            { "type": "stab", "add": -4 },
+            { "type": "cut", "add": -4 },
+            { "type": "bullet", "add": -2 }
           ]
         }
       ]
@@ -86,7 +86,7 @@
     "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
     "relic_data": {
       "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -5 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -5 } ] } ]
     },
     "use_action": { "type": "cast_spell", "spell_id": "jolt", "no_fail": true, "level": 15, "need_worn": true }
   },
@@ -102,7 +102,7 @@
     "flags": [ "BELTED", "STURDY", "BLOCK_WHILE_WORN", "NO_UNLOAD", "NO_RELOAD" ],
     "relic_data": {
       "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -10 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "incoming_damage_mod": [ { "type": "electric", "add": -10 } ] } ]
     },
     "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true }
   },

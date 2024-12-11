@@ -2903,8 +2903,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.4 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.4 },
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
@@ -7162,8 +7162,8 @@
     "category": [ "BIRD", "SLIME", "ELFA" ],
     "enchantments": [
       {
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
           { "value": "CARRY_WEIGHT", "multiply": -0.4 }

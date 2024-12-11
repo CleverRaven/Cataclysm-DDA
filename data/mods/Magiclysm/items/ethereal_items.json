@@ -1472,11 +1472,11 @@
           "condition": "ALWAYS",
           "hit_me_effect": [ { "id": "druid_thorn_skin_attacked", "hit_self": false, "once_in": 2 } ],
           "melee_damage_bonus": [ { "type": "stab", "add": 3 } ],
+          "incoming_damage_mod": [ { "type": "heat", "multiply": 0.6 } ],
           "values": [
             { "value": "DEXTERITY", "add": -1 },
             { "value": "STRENGTH", "add": 1 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
-            { "value": "ARMOR_HEAT", "multiply": 0.6 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }
           ]
         }
       ]

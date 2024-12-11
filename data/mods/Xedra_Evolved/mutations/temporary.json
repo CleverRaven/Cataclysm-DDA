@@ -379,12 +379,12 @@
       },
       {
         "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
         "values": [
           { "value": "PERCEPTION", "add": 4 },
           { "value": "BODYTEMP_SLEEP", "add": 0.5 },
           { "value": "OVERMAP_SIGHT", "add": 4 },
           { "value": "METABOLISM", "multiply": -0.2 },
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
           { "value": "CARRY_WEIGHT", "multiply": -0.1 },
