@@ -744,12 +744,11 @@
     "id": "RAVENFOLK_LEGS",
     "copy-from": "BIRD_LEGS",
     "name": { "str": "Ravenfolk Legs" },
-    "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
+    "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement, and you could use them as part of a leaping attack.",
     "category": [ "SPECIES_RAVENFOLK" ],
     "purifiable": false,
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
-    "active": false
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
   },
   {
     "type": "mutation",
