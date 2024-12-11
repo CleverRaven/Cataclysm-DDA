@@ -156,7 +156,7 @@
     "name": { "str": "carnivore stomach" },
     "description": "The stomach of an carnivorous creature.  It is surprisingly durable."
   },
-    {
+  {
     "id": "small_carnivore_stomach",
     "copy-from": "stomach",
     "type": "COMESTIBLE",
