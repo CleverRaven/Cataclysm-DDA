@@ -149,7 +149,7 @@
     "hit_size": 0.5,
     "hit_difficulty": 1.15,
     "limb_type": "sensor",
-    "limb_score_mods": [ { "limb_score": "vision", "modifier": 1 }, { "limb_score": "night_vis", "modifier": 1.5 } ],
+    "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.5 ], [ "reaction", 1 ] ],
     "side": "both",
     "base_hp": 60,
     "drench_capacity": 0,
