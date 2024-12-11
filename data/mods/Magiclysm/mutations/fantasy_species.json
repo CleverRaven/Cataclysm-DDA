@@ -748,7 +748,8 @@
     "category": [ "SPECIES_RAVENFOLK" ],
     "purifiable": false,
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
-    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ]
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "active": false
   },
   {
     "type": "mutation",
@@ -769,6 +770,7 @@
     "flags": [ "WINGS_2", "WING_GLIDE" ],
     "active": true,
     "activated_is_setup": false,
+    "activation_msg": "",
     "activated_eocs": [ "EOC_RAVENFOLK_LEAP" ]
   },
   {
@@ -778,7 +780,7 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 5,
-    "description": "Your large beak allows you to imitate nearly every sound humans can make.  And also rip into flesh, if it comes to that.",
+    "description": "Your large beak allows you to imitate nearly every sound humans can make, as well as let out very loud screeches.  And also rip into flesh, if it comes to that.",
     "purifiable": false,
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
@@ -795,7 +797,11 @@
         "chance": 15,
         "base_damage": { "damage_type": "stab", "amount": 12 }
       }
-    ]
+    ],
+    "active": true,
+    "activated_is_setup": false,
+    "activation_msg": "",
+    "activated_eocs": [ "EOC_RAVENFOLK_SCREECH" ]
   },
   {
     "type": "mutation",
