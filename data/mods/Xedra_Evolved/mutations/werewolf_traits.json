@@ -1,0 +1,204 @@
+[
+  {
+    "//": "Werewolf traits should focus on hunting, fighting extradimensional threats, the moon, battle fury, shapeshifting",
+    "type": "mutation",
+    "id": "WEREWOLF_MANA_TRAIT",
+    "name": { "str": "Werewolf Mana", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "Your mana is calculated differently because you're a werewolf.", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "(-1000 * (1 + ( (0.2 + (u_val('intelligence') * 0.1 ) - 1) ) )" ] } } ]
+      }
+    ]
+  },
+  {
+    "//": "Tier 1 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_SMELL_NEARBY_ENEMIES",
+    "name": { "str": "Scent the Prey" },
+    "points": 2,
+    "description": "Your sense of smell is heightened even in human form, allowing you to smell nearby enemies. In war or wolf form, this range is extended.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "or": [ "npc_is_npc", { "and": [ { "npc_has_species": "FERAL" }, { "not": { "npc_has_species": "ZOMBIE" } } ] } ] },
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell the scent of a human." } ]
+          },
+          {
+            "condition": { "npc_has_species": "ZOMBIE" },
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell something long-dead." } ]
+          },
+          {
+            "condition": {
+              "and": [
+                { "not": { "npc_has_species": "ZOMBIE" } },
+                {
+                  "or": [
+                    { "npc_has_species": "MAMMAL" },
+                    { "npc_has_species": "BIRD" },
+                    { "npc_has_species": "REPTILE" },
+                    { "npc_has_species": "AMPHIBIAN" },
+                    { "npc_has_species": "MAMMAL" }
+                  ]
+                }
+              ]
+            },
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell a wild animal." } ]
+          },
+          {
+            "condition": {
+              "and": [
+                { "not": { "npc_has_species": "ZOMBIE" } },
+                {
+                  "or": [
+                    { "npc_has_species": "INSECT" },
+                    { "npc_has_species": "INSECT_FLYING" },
+                    { "npc_has_species": "SPIDER" },
+                    { "npc_has_species": "CENTIPEDE" }
+                  ]
+                }
+              ]
+            },
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell the dull smell of a mutated bug." } ]
+          },
+          {
+            "condition": { "npc_has_species": "MIGO" },
+            "distance": { "math": [ "2 + (u_has_trait('WEREWOLF_HYBRID_FORM_TRAITS') * 2) + (u_has_trait('VAMPIRE_WOLF_FORM_TRAITS') * 4)" ] },
+            "descriptions": [ { "id": "moving_creature", "text": "You smell something strange." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEREWOLF_NO_SCENT",
+    "name": { "str": "Running through the River" },
+    "points": 2,
+    "description": "As a hunter, you know that catching a scent is the first step to getting the prey's neck between your jaws, so it's best to avoid that first step.  While active, you have no scent at all.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 20,
+    "active_flags": [ "NO_SCENT" ]
+  },
+  {
+    "//": "Tier 2 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS",
+    "name": { "str": "Sense the Outsider" },
+    "points": 2,
+    "description": "The People have long fought the things from Outside and developed a keen sense when one of them is near.  When active, you can sense nearby creatures of the Nether or beings from Under the Hill.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "mana": true,
+    "active": true,
+    "activated_is_setup": true,
+    "cost": 1,
+    "time": 10,
+    "activated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ON",
+    "deactivated_eocs": "EOC_WEREWOLF_SENSE_SPIRITS_AND_ALIENS_OFF"
+  },
+  {
+    "id": "WEREWOLF_SENSE_SPIRITS_AND_ALIENS_ACTIVE",
+    "name": { "str": "Sense the Outsider Active", "//~": "NO_I18N" },
+    "points": 2,
+    "description": { "str": "The active trait for Sense the Outsider. This should not be player-visible.", "//~": "NO_I18N" },
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": {
+              "or": [
+                { "npc_has_species": "ARVORE" },
+                { "npc_has_species": "CHANGELING" },
+                { "npc_has_species": "IERDE" },
+                { "npc_has_species": "HOMULLUS" },
+                { "npc_has_species": "SALAMANDER" },
+                { "npc_has_species": "SYLPH" },
+                { "npc_has_species": "UNDINE" }
+              ]
+            },
+            "distance": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ), 35)"
+              ]
+            },
+            "descriptions": [ { "id": "fae_sense", "text": "You sense a creature of Faerie." } ]
+          },
+          {
+            "condition": { "or": [ { "npc_has_species": "PLANT" }, { "npc_has_species": "MIGO" }, { "npc_has_species": "FUNGUS" } ] },
+            "distance": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.2) + (werewolf_tier_four_traits() * 0.3) + (werewolf_tier_five_traits() * 0.4) ), 35)"
+              ]
+            },
+            "descriptions": [ { "id": "alien_being_sense", "text": "You sense an alien being." } ]
+          },
+          {
+            "condition": {
+              "or": [
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "nether_player_hate" },
+                { "npc_has_species": "HORROR" },
+                { "npc_has_species": "ABOMINATION" }
+              ]
+            },
+            "distance": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.3) + (werewolf_tier_four_traits() * 0.45) + (werewolf_tier_five_traits() * 0.6) ), 50)"
+              ]
+            },
+            "descriptions": [ { "id": "nether_creature_sense", "text": "You sense an otherworldly horror." } ]
+          },
+          {
+            "condition": { "or": [ { "npc_has_species": "VAMPIRE" }, { "npc_has_species": "RENFIELD" } ] },
+            "distance": {
+              "math": [
+                "min( (10 + (werewolf_tier_three_traits() * 0.3) + (werewolf_tier_four_traits() * 0.45) + (werewolf_tier_five_traits() * 0.6) ), 50)"
+              ]
+            },
+            "descriptions": [ { "id": "vampire_sense", "text": "You sense one of the blood-drinkers or their minions." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "//": "Tier 3 traits begin here",
+    "type": "mutation",
+    "id": "WEREWOLF_PARTIAL_SHIFT",
+    "name": { "str": "Partial Shift" },
+    "points": 2,
+    "description": "Transforming fully is very useful but the real mark of mastery is changing only a part of your body.  This is most useful in human form, but can be used in other forms as well, such as transforming your hands back into human ones for easier manipulation.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_eocs": [ "EOC_WEREWOLF_PARTIAL_SHIFT_activated" ]
+  }
+]
