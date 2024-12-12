@@ -16,7 +16,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_REMOVE_MAGUS_LIGHT",
-          "condition": { "u_query": "Dimiss the imperishable light?", "default": false },
+          "condition": { "u_query": "Dismiss the imperishable light?", "default": false },
           "effect": [
             {
               "u_map_run_eocs": [
