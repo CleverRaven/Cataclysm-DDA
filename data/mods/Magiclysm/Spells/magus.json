@@ -786,7 +786,7 @@
     "id": "magus_permanent_light",
     "type": "SPELL",
     "name": "Imperishable Light",
-    "description": "Enchant the air in a location to glow, producing a orb of soft light.  While not particularly bright, the light will last years if you're unlucky and millennia if you are.",
+    "description": "Enchant the air in a location to glow, producing a orb of soft light.  While not particularly bright, the light will last years if you're not lucky and millennia if you are.",
     "valid_targets": [ "ground" ],
     "effect": "ter_transform",
     "effect_str": "ter_magus_permanent_light",
