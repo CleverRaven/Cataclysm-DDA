@@ -1,6 +1,23 @@
 [
   {
     "type": "item_group",
+    "id": "bed",
+    "subtype": "distribution",
+    "entries": [ { "item": "grass_blanket", "prob": 2500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "midden_heap",
+    "//": "a large pile of trash, made for goblin encampments.",
+    "subtype": "collection",
+    "items": [
+      { "group": "trash_forest", "prob": 95 },
+      { "group": "trash_forest", "prob": 70 },
+      { "group": "trash_forest", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "feral_goblin_death_drops",
     "entries": [
@@ -11,7 +28,7 @@
       { "item": "chestwrap_leather", "prob": 20, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
       { "group": "pants_male", "prob": 75, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
       { "group": "npc_coat", "prob": 2, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
-      { "group": "npc_gloves", "prob": 50, "damage": [ 1, 4 ] },
+      { "group": "npc_gloves", "prob": 50, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
       { "item": "wicker_backpack", "prob": 1, "damage": [ 1, 4 ] }
     ]
   },
