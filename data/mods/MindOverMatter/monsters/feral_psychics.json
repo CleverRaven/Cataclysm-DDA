@@ -1439,7 +1439,7 @@
           "spell_data": { "id": "vitakinetic_regeneration_monster" },
           "cooldown": { "math": [ "10 + rand(20)" ] },
           "allow_no_target": true,
-          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_regeneration" } } ] },
           "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
         }
       ],
@@ -1536,7 +1536,7 @@
           "spell_data": { "id": "vitakinetic_regeneration_monster" },
           "cooldown": { "math": [ "8 + rand(16)" ] },
           "allow_no_target": true,
-          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_regeneration" } } ] },
           "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
         }
       ],
