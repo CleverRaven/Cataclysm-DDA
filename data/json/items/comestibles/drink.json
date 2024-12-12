@@ -1141,7 +1141,7 @@
     "id": "pine_tea",
     "looks_like": "tea",
     "name": { "str_sp": "pine needle tea" },
-    "weight": "265 g",
+    "weight": "262 g",
     "color": "light_green",
     "comestible_type": "DRINK",
     "symbol": "~",
