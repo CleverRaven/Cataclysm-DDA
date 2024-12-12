@@ -2885,14 +2885,16 @@ bool map::has_vehicle_floor( const tripoint_bub_ms &p ) const
 
 void map::drop_everything( const tripoint_bub_ms &p )
 {
-    if( has_floor_or_water( p ) ) {
-        return;
-    }
+    // Creature has their own gravity check
+    drop_creature( p );
 
-    drop_furniture( p );
-    drop_items( p );
-    drop_vehicle( p );
-    drop_fields( p );
+    // TODO: Should be more nuance here, only low density items/furniture should float on water etc
+    if( !has_floor_or_water( p ) ) {
+        drop_furniture( p );
+        drop_items( p );
+        drop_vehicle( p );
+        drop_fields( p );
+    }
 }
 
 void map::drop_furniture( const tripoint_bub_ms &p )
@@ -3181,6 +3183,21 @@ void map::drop_fields( const tripoint_bub_ms &p )
             add_field( below, entry.get_field_type(), entry.get_field_intensity(), entry.get_field_age() );
             remove_field( p, entry.get_field_type() );
         }
+    }
+}
+
+void map::drop_creature( const tripoint_bub_ms &p ) const
+{
+    monster *mon_at_p = get_creature_tracker().creature_at<monster>( p );
+    if( mon_at_p ) {
+        mon_at_p->gravity_check();
+        // Handle character potentially standing on monster ("zed walking")
+        drop_creature( p + tripoint_rel_ms::above );
+        return;
+    }
+    Character *char_at_p = get_creature_tracker().creature_at<Character>( p );
+    if( char_at_p ) {
+        char_at_p->gravity_check();
     }
 }
 

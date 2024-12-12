@@ -488,9 +488,6 @@ bool do_turn()
         }
     }
 
-    // Make sure players cant defy gravity by standing still, Looney tunes style.
-    u.gravity_check();
-
     // If you're inside a wall or something and haven't been telefragged, let's get you out.
     if( ( m.impassable( u.pos_bub() ) && !m.impassable_field_at( u.pos_bub() ) ) &&
         !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos_bub() ) ) {
@@ -557,6 +554,7 @@ bool do_turn()
     if( !u.has_effect( effect_sleep ) || g->uquit == QUIT_WATCH ) {
         if( u.get_moves() > 0 || g->uquit == QUIT_WATCH ) {
             while( u.get_moves() > 0 || g->uquit == QUIT_WATCH ) {
+                m.process_falling();
                 g->cleanup_dead();
                 g->mon_info_update();
                 // Process any new sounds the player caused during their turn.

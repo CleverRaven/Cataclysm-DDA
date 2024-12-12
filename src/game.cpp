@@ -11749,7 +11749,6 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
-        m.drop_furniture( fdest );
         return true;
     }
 
