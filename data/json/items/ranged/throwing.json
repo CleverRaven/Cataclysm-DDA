@@ -123,7 +123,7 @@
     "category": "weapons",
     "price": "52 USD",
     "price_postapoc": "5 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "name": { "str": "throwing knife", "str_pl": "throwing knives" },
     "symbol": ";",
     "color": "light_gray",
@@ -133,7 +133,6 @@
     "weight": "200 g",
     "longest_side": "35 cm",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "melee_damage": { "stab": 10 }
