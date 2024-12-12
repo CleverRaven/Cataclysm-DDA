@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": [ "cave_underground_innawood" ],
     "weight": 300,
     "object": {
       "fill_ter": "t_dirt_underground",
