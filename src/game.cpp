@@ -6822,7 +6822,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     int tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R1>-Add" ) ) + 2;
     tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R2>-Personal" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<\u23F4>-Remove" ) ) + 2;
+    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<\u23F8>-Remove" ) ) + 2;
 
 	tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green, _( "<X>-Enable" ) ) + 2;

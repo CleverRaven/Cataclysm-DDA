@@ -667,7 +667,7 @@ const
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
 static const std::string display_help_hotkeys =
-    "defguvwxyzlpmi";
+    "defguvwxyzlmiDEFGUVWXYZLM";
 
 namespace
 {
@@ -703,19 +703,19 @@ keybindings_ui::keybindings_ui( bool permit_execute_action,
     }
     buttons.assign( {
         {
-            "REMOVE", string_format( _( "[<color_yellow>\u23F4+R1</color>] Remove keybinding" ),
+            "REMOVE", string_format( _( "[<color_yellow>\u23F8+R1</color>] Remove keybinding" ),
                                      fallback_keys.at( fallback_action::remove ) )
         },
         {
-            "ADD_LOCAL", string_format( _( "[<color_yellow>\u23F4+R2</color>] Add local keybinding" ),
+            "ADD_LOCAL", string_format( _( "[<color_yellow>\u23F8+R2</color>] Add local keybinding" ),
                                         fallback_keys.at( fallback_action::add_local ) )
         },
         {
-            "ADD_GLOBAL", string_format( _( "[<color_yellow>\u23F4+L1</color>] Add global keybinding" ),
+            "ADD_GLOBAL", string_format( _( "[<color_yellow>\u23F8+L1</color>] Add global keybinding" ),
                                          fallback_keys.at( fallback_action::add_global ) )
         },
         {
-            "RESET", string_format( _( "[<color_yellow>\u23F4+Y</color>] Reset keybinding" ),
+            "RESET", string_format( _( "[<color_yellow>\u23F8+Y</color>] Reset keybinding" ),
                                     fallback_keys.at( fallback_action::reset ) )
         } } );
 }

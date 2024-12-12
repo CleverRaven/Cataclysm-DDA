@@ -809,7 +809,7 @@ static void draw_header( const catacurses::window &w )
 {
     int tmpx = 0;
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
-                            _( "<\u23F4>-Remove Custom Color" ) ) + 2;
+                            _( "<\u23F8>-Remove Custom Color" ) ) + 2;
     shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<A>-Edit" ) );
     tmpx = 0;
     tmpx += shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green,

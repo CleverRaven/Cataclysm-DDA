@@ -346,7 +346,7 @@ void user_interface::show()
         // Redraw the header
         int tmpx = 0;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R1>-Add" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<\u23F4>-Remove" ) ) + 1;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<\u23F8>-Remove" ) ) + 1;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<\u23F5>-Copy" ) ) + 1;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<X>-Enable" ) ) + 1;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Y>-Disable" ) ) + 1;

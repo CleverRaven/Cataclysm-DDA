@@ -30,10 +30,10 @@ std::string convert_to_gamepad( const std::string keybind_in_pre )
     std::string gp_lstick = "L3";
     std::string gp_rstick = "R3";
 
-	std::string gp_select = "\u23F4";
+	std::string gp_select = "\u23F8";
     std::string gp_start = "\u23F5";
 	std::string gp_hotkey = "HOTKEY";
-	std::string gp_hotkey_mod = "\u23F4+";
+	std::string gp_hotkey_mod = "\u23F8+";
 	
     std::string gp_up = "\u2191";
     std::string gp_down = "\u2193";
