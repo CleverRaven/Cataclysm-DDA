@@ -1376,7 +1376,7 @@
     "id": "mon_feral_human_vita2",
     "type": "MONSTER",
     "name": "feral regenerator",
-    "description": "This feral human doesn't even have bloodshot eyes.   Their skin shines, their eyes are clear, and they move with a relaxed confidence among the apocalypse.  Only the indifference of the nearby zombies indicates something is deeply wrong.",
+    "description": "This feral human doesn't even have bloodshot eyes.  Their skin shines, their eyes are clear, and they move with a relaxed confidence among the apocalypse.  Only the indifference of the nearby zombies indicates something is deeply wrong.",
     "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.45 },
     "color": "green",
