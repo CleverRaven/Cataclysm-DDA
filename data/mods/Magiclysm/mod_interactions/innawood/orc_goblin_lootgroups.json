@@ -1,5 +1,21 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_goblin_death_drops",
+    "entries": [
+      { "group": "shoes_unisex", "prob": 40, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_hat", "prob": 10, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "male_underwear_bottom", "prob": 100, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "female_underwear_top", "prob": 100, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "chestwrap_leather", "prob": 20, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "pants_male", "prob": 75, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_coat", "prob": 2, "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ] },
+      { "group": "npc_gloves", "prob": 50, "damage": [ 1, 4 ] },
+      { "item": "wicker_backpack", "prob": 1, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
     "id": "goblin_armor_drops",
     "type": "item_group",
     "subtype": "collection",
@@ -22,7 +38,7 @@
     "id": "bugbear_weapon_drops",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "survivor_cutting", "prob": 100 } ]
+    "entries": [ { "group": "survivor_cutting", "prob": 100 } ]
   },
   {
     "id": "bugbear_stalker_weapon_drops",

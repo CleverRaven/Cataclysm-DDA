@@ -326,7 +326,7 @@
         "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
       }
     ],
-    "death_drops": "goblin_bugbear_stalker_drops",
+    "death_drops": "goblin_bugbear_stalker_death_drops",
     "extend": { "flags": [ "CAMOUFLAGE", "SILENTMOVES" ] }
   }
 ]
