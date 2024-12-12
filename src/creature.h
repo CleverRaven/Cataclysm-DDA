@@ -320,8 +320,8 @@ class Creature : public viewer
         }
         virtual void gravity_check();
         // TODO: Get rid of untyped overload
-        void setpos( const tripoint &p, const bool check_gravity = true );
-        void setpos( const tripoint_bub_ms &p, const bool check_gravity = true );
+        void setpos( const tripoint &p, bool check_gravity = true );
+        void setpos( const tripoint_bub_ms &p, bool check_gravity = true );
 
         /** Checks if the creature fits confortably into a given tile. */
         bool will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const;
