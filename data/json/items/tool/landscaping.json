@@ -344,7 +344,7 @@
     "longest_side": "100 cm",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "green",
