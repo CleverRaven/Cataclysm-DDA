@@ -143,7 +143,7 @@
       { "category": "food", "price": 0 },
       { "category": "guns", "premium": 0.1 },
       { "category": "ammo", "premium": 0.1 },
-      { "category": "artifacts", "premium": 10 }
+      { "category": "artifacts", "premium": 1000 }
     ],
     "relations": {
       "lobby_beggars": {
