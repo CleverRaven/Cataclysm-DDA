@@ -174,7 +174,8 @@
     "volume": "3550 ml",
     "longest_side": "150 cm",
     "price": "30 USD",
-    "price_postapoc": "5 cent"
+    "price_postapoc": "5 cent",
+    "material": [ "plastic" ]
   },
   {
     "id": "shovel",
