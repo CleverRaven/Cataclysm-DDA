@@ -1460,12 +1460,12 @@
     "regenerates": 5,
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ], [ "effect_psi_null", -5 ], [ "effect_feral_regeneration", 10 ] ],
     "bleed_rate": 0,
-    "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "death_function": {
       "eoc": "EOC_VITAKIN3_DEATH_EFFECT",
-      "message": "As %s succumbs to their wounds, they suddenly rise up with new vitality!"
+      "message": "As %s succumbs to their wounds, they suddenly rise up with new vigor!",
+      "corpse_type": "NO_CORPSE"
     },
     "extend": {
       "special_attacks": [
@@ -1549,6 +1549,7 @@
     "name": "font of vitality",
     "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
     "copy-from": "mon_feral_human_vita3",
+    "death_drops": "feral_humans_death_drops_vita",
     "death_function": {  }
   }
 ]

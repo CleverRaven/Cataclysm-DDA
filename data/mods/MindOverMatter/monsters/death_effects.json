@@ -208,27 +208,16 @@
     "id": "EOC_VITAKIN3_DEATH_EFFECT",
     "effect": [
       { "npc_location_variable": { "context_val": "spawn_place" }, "min_radius": 0 },
-      {
-        "npc_map_run_item_eocs": "all",
-        "loc": { "context_val": "spawn_place" },
-        "true_eocs": [ { "id": "EOC_EOC_VITAKIN3_DEATH_EFFECT_HANDLING_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
-      },
-      {
-        "npc_spawn_monster": "mon_feral_human_vita3_revived",
-        "target_var": { "context_val": "spawn_place" },
-        "min_radius": 0
-      },
-      {
-        "npc_location_variable": { "context_val": "loc" },
-        "monster": "mon_feral_human_vita3_revived",
-        "min_radius": 2
-      },
-      { "run_eocs": "EOC_VITAKIN3_DEATH_EFFECT_2", "alpha_loc": { "context_val": "loc" } }
+      { "npc_spawn_monster": "mon_feral_human_vita3_revived", "real_count": 1, "min_radius": 0, "max_radius": 0 },
+      { "run_eocs": "EOC_VITAKIN3_DEATH_EFFECT_2", "alpha_loc": { "context_val": "spawn_place" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN3_DEATH_EFFECT_2",
-    "effect": [ { "u_add_effect": "effect_feral_regeneration", "duration": [ "15 seconds", "30 seconds" ] } ]
+    "effect": [
+      { "math": [ "u_hp('ALL') = 25" ] },
+      { "u_add_effect": "effect_feral_regeneration", "duration": [ "15 seconds", "30 seconds" ] }
+    ]
   }
 ]
