@@ -564,6 +564,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
+    "types": [ "EYES" ],
     "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human, even being able to craft in the dark.",
     "category": [ "SPECIES_GOBLIN" ],
     "enchantments": [ "ench_goblin_eyes" ],
