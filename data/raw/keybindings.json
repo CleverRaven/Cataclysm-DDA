@@ -1801,13 +1801,6 @@
   },
   {
     "type": "keybinding",
-    "id": "HIDE",
-    "category": "APP_INTERACT",
-    "name": "Hide/Unhide wiring",
-    "bindings": [ { "input_method": "keyboard_any", "key": "h" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "DISCONNECT_GRID",
     "category": "APP_INTERACT",
     "name": "Separate from power grid",

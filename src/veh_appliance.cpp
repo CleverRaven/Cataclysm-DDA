@@ -599,7 +599,7 @@ void veh_app_interact::populate_app_actions()
         app_actions.emplace_back( [this]() {
             hide();
         } );
-        imenu.addentry( -1, true, ctxt.keys_bound_to( "HIDE" ).front(), ctxt.get_action_name( "HIDE" ) );
+        imenu.addentry( -1, true, 0, "Hide/Unhide wiring" );
     }
 #endif
 
