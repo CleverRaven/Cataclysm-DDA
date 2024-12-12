@@ -10539,7 +10539,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 
     if( m.is_open_air( dest_loc ) ) {
         if( !veh_dest && !u.has_effect_with_flag( json_flag_LEVITATION ) ) {
-            harmful_stuff.push_back( "ledge" );
+            harmful_stuff.emplace_back( "ledge" );
             if( harmful_stuff.size() == max ) {
                 return harmful_stuff;
             }

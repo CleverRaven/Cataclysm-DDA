@@ -1462,7 +1462,7 @@ bool construct::check_unblocked( const tripoint_bub_ms &p )
     // first know how to handle constructing on top of an invisible trap!
     // Should also check for empty space rather than open air, when such a check exists.
     return !here.has_furn( p ) &&
-           ( g->is_empty( p ) || here.ter( p ) == ter_t_open_air ) && ( here.tr_at( p ).is_null() ) &&
+           ( g->is_empty( p ) || here.ter( p ) == ter_t_open_air ) && here.tr_at( p ).is_null() &&
            here.i_at( p ).empty() && !here.veh_at( p );
 }
 

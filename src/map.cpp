@@ -136,8 +136,8 @@ static const efftype_id effect_weakened_gravity( "weakened_gravity" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
-static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_JETPACK( "JETPACK" );
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
@@ -10447,7 +10447,7 @@ void map::maybe_trigger_prox_trap( const tripoint_bub_ms &pos, Creature &c,
 }
 
 // TODO: Should be moved to submap or Creature?
-bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
+bool map::try_fall( const tripoint_bub_ms &p, Creature *c ) const
 {
     if( c == nullptr ) {
         return false;
