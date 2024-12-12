@@ -1,3 +1,4 @@
+#include "cached_options.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "imgui/imgui.h"
@@ -594,11 +595,12 @@ void veh_app_interact::populate_app_actions()
                                    veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
 #if defined(TILES)
     // Hide
-    app_actions.emplace_back( [this]() {
-        hide();
-    } );
-    imenu.addentry( -1, use_tiles && vp->info().has_flag( flag_WIRING ),
-                    ctxt.keys_bound_to( "HIDE" ).front(), ctxt.get_action_name( "HIDE" ) );
+    if( use_tiles && vp->info().has_flag( flag_WIRING ) ) {
+        app_actions.emplace_back( [this]() {
+            hide();
+        } );
+        imenu.addentry( -1, true, ctxt.keys_bound_to( "HIDE" ).front(), ctxt.get_action_name( "HIDE" ) );
+    }
 #endif
 
     if( veh->is_powergrid() && veh->part_count() > 1 && !vp->info().has_flag( VPFLAG_WALL_MOUNTED ) ) {
