@@ -92,7 +92,11 @@
     "time": "30 m",
     "flags": [ "SECRET" ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "carnivore_stomach", 2 ], [ "small_carnivore_stomach", 4 ] ] ]
+    "components": [
+      [ [ "scrap_dreamdross", 1 ] ],
+      [ [ "scrap_shadowstuff", 1 ] ],
+      [ [ "carnivore_stomach", 2 ], [ "small_carnivore_stomach", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -105,7 +109,11 @@
     "time": "30 m",
     "flags": [ "SECRET" ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "herbivore_stomach", 2 ], [ "small_herbivore_stomach", 4 ] ] ]
+    "components": [
+      [ [ "scrap_dreamdross", 1 ] ],
+      [ [ "scrap_shadowstuff", 1 ] ],
+      [ [ "herbivore_stomach", 2 ], [ "small_herbivore_stomach", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -118,6 +126,10 @@
     "time": "30 m",
     "flags": [ "SECRET" ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
-    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "omnivore_stomach", 2 ], [ "small_omnivore_stomach", 4 ] ] ]
+    "components": [
+      [ [ "scrap_dreamdross", 1 ] ],
+      [ [ "scrap_shadowstuff", 1 ] ],
+      [ [ "omnivore_stomach", 2 ], [ "small_omnivore_stomach", 4 ] ]
+    ]
   }
 ]
