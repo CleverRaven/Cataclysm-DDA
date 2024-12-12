@@ -1974,6 +1974,21 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                    has_flag( mon_flag_FLIES ) || has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE );
         }
     }
+    for( const flag_id &flag : effect->immune_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool monster::check_immunity_data( const field_immunity_data &ft ) const
+{
+    for( const flag_id &flag : ft.immunity_data_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -2624,7 +2639,7 @@ float monster::stability_roll() const
 
 float monster::get_dodge() const
 {
-    if( has_effect( effect_downed ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+    if( has_effect( effect_downed ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         return 0.0f;
     }
 

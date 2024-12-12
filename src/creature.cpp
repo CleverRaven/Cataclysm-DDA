@@ -903,7 +903,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    if( has_flag( mon_flag_IMMOBILE ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
         // miss a smaller target, especially when wielding a
@@ -1367,7 +1367,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam, const weakpoint_attack &attack )
 {
-    if( is_dead_state() || has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+    if( is_dead_state() || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
     }
     int total_damage = 0;
@@ -1682,7 +1682,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
                            const time_duration &dur, bodypart_id bp, bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
-    if( !force && is_immune_effect( eff_id ) || has_effect_with_flag( json_flag_CANNOT_GAIN_EFFECTS ) ) {
+    if( !force && is_immune_effect( eff_id ) || has_flag( json_flag_CANNOT_GAIN_EFFECTS ) ) {
         return;
     }
     if( eff_id == effect_knockdown && ( has_effect( effect_ridden ) ||
@@ -2036,7 +2036,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Do not freeze the effect with the FREEZE_EFFECTS flag.
-            if( has_effect_with_flag( json_flag_FREEZE_EFFECTS ) &&
+            if( has_flag( json_flag_FREEZE_EFFECTS ) &&
                 !_it.second.has_flag( json_flag_FREEZE_EFFECTS ) ) {
                 continue;
             }
