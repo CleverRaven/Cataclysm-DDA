@@ -1449,7 +1449,7 @@
   {
     "id": "mon_feral_human_vita3",
     "type": "MONSTER",
-    "name": "font of vitality",
+    "name": { "str": "font of vitality", "str_pl": "fonts of vitality" },
     "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
     "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.75 },
@@ -1546,7 +1546,7 @@
   {
     "id": "mon_feral_human_vita3_revived",
     "type": "MONSTER",
-    "name": "font of vitality",
+    "name": { "str": "font of vitality", "str_pl": "fonts of vitality" },
     "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
     "copy-from": "mon_feral_human_vita3",
     "death_drops": "feral_humans_death_drops_vita",
