@@ -26,7 +26,7 @@
     "id": "EOC_FERAL_VITAKIN3_ENERVATING_TOUCH",
     "condition": "npc_is_character",
     "effect": [
-      { "npc_add_effect": "effect_vitakinetic_healing_down", "duration": [ 620000, 1620000 ] },
+      { "npc_add_effect": "effect_vitakinetic_healing_down_super", "duration": [ 620000, 1620000 ] },
       { "math": [ "n_calories()", "-=", "350" ] },
       { "math": [ "n_calories('dont_affect_weariness': true)", "+=", "350" ] }
     ],
