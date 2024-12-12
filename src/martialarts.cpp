@@ -2214,8 +2214,8 @@ class ma_details_ui_impl : public cataimgui::window
 
         matype_id ma_style;
         std::vector<std::string> general_info_text;
-        std::map<std::string, std::string> buffs_text;
-        std::map<std::string, std::string> techniques_text;
+        std::map<std::string, std::vector<std::string>> buffs_text;
+        std::map<std::string, std::vector<std::string>> techniques_text;
         std::map<std::string, std::string> weapons_text;
         int buffs_total = 0;
         int weapons_total = 0;
@@ -2271,11 +2271,11 @@ void ma_details_ui_impl::init_data()
 
         if( ma.force_unarmed ) {
             general_info_text.emplace_back(
-                _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" ) );
+                _( "This style <bold>forces you to use unarmed strikes</bold>, even if wielding a weapon." ) );
         } else if( ma.allow_all_weapons ) {
-            general_info_text.emplace_back( _( "<bold>This style can be used with all weapons.</bold>" ) );
+            general_info_text.emplace_back( _( "This style can be used with <bold>all</bold> weapons." ) );
         } else if( ma.strictly_melee ) {
-            general_info_text.emplace_back( _( "<bold>This is an armed combat style.</bold>" ) );
+            general_info_text.emplace_back( _( "This is an <bold>armed</bold> combat style." ) );
         }
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
@@ -2309,31 +2309,38 @@ void ma_details_ui_impl::init_data()
                 }
             }
         }
+        for( std::string &entry : general_info_text ) {
+            entry = replace_colors( entry );
+        }
 
         auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,
         bool passive = false ) {
             if( !buffs.empty() ) {
                 for( const auto &buff : buffs ) {
                     buffs_total++;
-                    buffs_text[ title ] = buff->get_description( passive );
+                    std::vector<std::string> buff_lines =
+                        string_split( replace_colors( buff->get_description( passive ) ), '\n' );
+                    buffs_text[title] = buff_lines;
                 }
             }
         };
 
-        buff_desc( _( "Passive" ), ma.static_buffs, true );
-        buff_desc( _( "Move" ), ma.onmove_buffs );
-        buff_desc( _( "Pause" ), ma.onpause_buffs );
-        buff_desc( _( "Hit" ), ma.onhit_buffs );
-        buff_desc( _( "Miss" ), ma.onmiss_buffs );
-        buff_desc( _( "Attack" ), ma.onattack_buffs );
-        buff_desc( _( "Crit" ), ma.oncrit_buffs );
-        buff_desc( _( "Kill" ), ma.onkill_buffs );
-        buff_desc( _( "Dodge" ), ma.ondodge_buffs );
-        buff_desc( _( "Block" ), ma.onblock_buffs );
-        buff_desc( _( "Get hit" ), ma.ongethit_buffs );
+        buff_desc( _( "Passive buffs" ), ma.static_buffs, true );
+        buff_desc( _( "Move buffs" ), ma.onmove_buffs );
+        buff_desc( _( "Pause buffs" ), ma.onpause_buffs );
+        buff_desc( _( "Hit buffs" ), ma.onhit_buffs );
+        buff_desc( _( "Miss buffs" ), ma.onmiss_buffs );
+        buff_desc( _( "Attack buffs" ), ma.onattack_buffs );
+        buff_desc( _( "Crit buffs" ), ma.oncrit_buffs );
+        buff_desc( _( "Kill buffs" ), ma.onkill_buffs );
+        buff_desc( _( "Dodge buffs" ), ma.ondodge_buffs );
+        buff_desc( _( "Block buffs" ), ma.onblock_buffs );
+        buff_desc( _( "Get hit buffs" ), ma.ongethit_buffs );
 
         for( const auto &tech : ma.techniques ) {
-            techniques_text[ tech.obj().name.translated() ] = tech.obj().get_description();
+            std::vector<std::string> tehcnique_lines =
+                string_split( replace_colors( tech.obj().get_description() ), '\n' );
+            techniques_text[tech.obj().name.translated() ] = tehcnique_lines;
         }
 
         // Copy set to vector for sorting
@@ -2406,14 +2413,12 @@ void ma_details_ui_impl::init_data()
 
 void ma_details_ui_impl::draw_ma_details_text() const
 {
-    // TODO: Need to make proper width calculations
-    const float window_width_in_chars = window_width * 0.4;
 
     if( !general_info_text.empty() &&
         ImGui::CollapsingHeader( _( "General info" ),
                                  general_info_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         for( const auto &entry : general_info_text ) {
-            cataimgui::draw_colored_text( entry, window_width_in_chars );
+            cataimgui::TextColoredParagraph( c_light_gray, entry );
             ImGui::NewLine();
         }
     }
@@ -2423,9 +2428,12 @@ void ma_details_ui_impl::draw_ma_details_text() const
                                  buffs_total, buffs_text.size() ).c_str(),
                                  buffs_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         for( const auto &entry : buffs_text ) {
-            cataimgui::draw_colored_text( string_format( _( "<header>%s buffs:</header>" ), entry.first ) );
+            cataimgui::TextColoredParagraph( c_header, entry.first );
             ImGui::NewLine();
-            cataimgui::draw_colored_text( entry.second, window_width_in_chars );
+            for( const auto &buff_line : entry.second ) {
+                cataimgui::TextColoredParagraph( c_light_gray, buff_line );
+                ImGui::NewLine();
+            }
             ImGui::Separator();
         }
     }
@@ -2434,10 +2442,14 @@ void ma_details_ui_impl::draw_ma_details_text() const
         ImGui::CollapsingHeader( string_format( _( "Techniques (%d)" ), techniques_text.size() ).c_str(),
                                  techniques_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         for( const auto &entry : techniques_text ) {
-            cataimgui::draw_colored_text( string_format( _( "<header>Technique:</header> <bold>%s</bold>" ),
-                                          entry.first ) );
+            cataimgui::TextColoredParagraph( c_header, _( "Technique: " ) );
+            ImGui::SameLine();
+            cataimgui::TextColoredParagraph( c_bold, entry.first );
             ImGui::NewLine();
-            cataimgui::draw_colored_text( entry.second, window_width_in_chars );
+            for( const auto &technique_line : entry.second ) {
+                cataimgui::TextColoredParagraph( c_light_gray, technique_line );
+                ImGui::NewLine();
+            }
             ImGui::Separator();
         }
     }
@@ -2447,9 +2459,10 @@ void ma_details_ui_impl::draw_ma_details_text() const
                                  weapons_total, weapons_text.size() ).c_str(),
                                  weapons_group_collapsed ? ImGuiTreeNodeFlags_None : ImGuiTreeNodeFlags_DefaultOpen ) ) {
         for( const auto &entry : weapons_text ) {
-            cataimgui::draw_colored_text( string_format( _( "<header>%s</header>" ), entry.first ) );
+            cataimgui::TextColoredParagraph( c_header, entry.first );
             ImGui::NewLine();
-            cataimgui::draw_colored_text( entry.second, window_width_in_chars );
+            cataimgui::TextColoredParagraph( c_white, entry.second );
+            ImGui::NewLine();
             ImGui::Separator();
         }
     }
