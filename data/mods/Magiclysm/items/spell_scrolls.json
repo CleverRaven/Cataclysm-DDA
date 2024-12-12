@@ -2121,5 +2121,14 @@
     "name": { "str": "Scroll of Mind Crush", "str_pl": "Scrolls of Mind Crush" },
     "description": "Use your own spirit to attack the target's spirit.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_do_psionic_damage_to_head" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_permanent_light",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Imperishable Light", "str_pl": "Scrolls of Imperishable Light" },
+    "description": "Create a permanent glowing orb of light in the air.  Well, it will take a few years to see if it's really permanent; hopefully you'll live to know the answer.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_permanent_light" ] }
   }
 ]

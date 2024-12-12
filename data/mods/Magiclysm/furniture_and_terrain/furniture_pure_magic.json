@@ -1,0 +1,15 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_magus_permanent_light",
+    "name": "imperishable light",
+    "description": "A glowing orb of light floats here, emitting a soft radiance.",
+    "symbol": "*",
+    "color": "white",
+    "move_cost_mod": 0,
+    "light_emitted": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "TINY", "THIN_OBSTACLE" ],
+    "bash": { "str_min": 9999, "str_max": 9999 }
+  }
+]
