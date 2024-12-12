@@ -655,9 +655,9 @@ struct advanced_inv_sorter {
                 break;
             case SORTBY_PRICEPERVOLUME: {
                 const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d1.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d1.items.front()->volume().value() ) );
                 const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d2.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d2.items.front()->volume().value() ) );
                 if( price_density1 != price_density2 ) {
                     return price_density1 > price_density2;
                 }
@@ -866,9 +866,10 @@ void advanced_inventory::redraw_pane( side p )
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    const std::string &filter = pane.get_filter();
     if( !filter_edit ) {
-        if( !pane.filter.empty() ) {
-            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
+        if( !filter.empty() ) {
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, filter );
         } else {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
         }
@@ -876,10 +877,9 @@ void advanced_inventory::redraw_pane( side p )
     if( active ) {
         wattroff( w, c_white );
     }
-    if( !filter_edit && !pane.filter.empty() ) {
+    if( !filter_edit && !filter.empty() ) {
         std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
-        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
-                   pane.filter );
+        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white, filter );
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
@@ -1956,7 +1956,7 @@ void advanced_inventory::display()
                 recalc = true;
             }
         } else if( action == "FILTER" ) {
-            std::string filter = spane.filter;
+            const std::string &filter = spane.get_filter();
             filter_edit = true;
             if( ui ) {
                 spopup = std::make_unique<string_input_popup>();
