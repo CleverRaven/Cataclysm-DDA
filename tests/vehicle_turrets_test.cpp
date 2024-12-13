@@ -25,6 +25,8 @@
 
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
+static const vproto_id vehicle_prototype_test_turret_rig("test_turret_rig");
+
 static std::vector<const vpart_info *> all_turret_types()
 {
     std::vector<const vpart_info *> res;
@@ -39,8 +41,6 @@ static std::vector<const vpart_info *> all_turret_types()
 }
 
 // Install, reload and fire every possible vehicle turret.
-static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
-
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
     clear_map();
