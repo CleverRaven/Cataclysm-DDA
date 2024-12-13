@@ -133,6 +133,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "difficulty": 4,
     "time": "6 h 30 m",
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ] ],
     "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ], [ [ "armor_blarmor", 3 ] ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
