@@ -113,9 +113,6 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
-    },
     "armor": [
       {
         "encumbrance": 0,
@@ -146,9 +143,6 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
-    },
     "armor": [
       {
         "encumbrance": 0,

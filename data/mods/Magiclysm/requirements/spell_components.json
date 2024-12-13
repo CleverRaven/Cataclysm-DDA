@@ -318,5 +318,11 @@
         [ "wintergreen_berry", 1 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_magus_permanent_light",
+    "type": "requirement",
+    "//": "Precious metals for the Imperishable Light spell",
+    "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 5 ] ], [ [ "copper", 5 ] ] ]
   }
 ]

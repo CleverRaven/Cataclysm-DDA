@@ -86,62 +86,6 @@
         "power_per_increment": 10
       },
       {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ACID",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BASH",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_CUT",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ELEC",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_HEAT",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_STAB",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BULLET",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
         "weight": 50,
         "min_value": -0.4,
         "max_value": 0.2,
@@ -363,62 +307,6 @@
         "type": "SHOUT_NOISE",
         "increment": 0.2,
         "power_per_increment": 10
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ACID",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BASH",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_CUT",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ELEC",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_HEAT",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_STAB",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BULLET",
-        "increment": 0.1,
-        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -646,62 +534,6 @@
         "type": "SHOUT_NOISE",
         "increment": 0.2,
         "power_per_increment": 10
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ACID",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BASH",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_CUT",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_ELEC",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_HEAT",
-        "increment": 0.1,
-        "power_per_increment": -125
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_STAB",
-        "increment": 0.1,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 100,
-        "min_value": -0.2,
-        "max_value": 1,
-        "type": "ARMOR_BULLET",
-        "increment": 0.1,
-        "power_per_increment": -250
       },
       {
         "weight": 50,

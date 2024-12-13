@@ -381,7 +381,7 @@
     "effect": "ter_transform",
     "effect_str": "druidic_renewal",
     "shape": "blast",
-    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "IGNORE_WALLS", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
     "spell_class": "DRUID",
     "energy_source": "HP",
     "difficulty": 6,

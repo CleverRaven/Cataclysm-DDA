@@ -519,6 +519,9 @@ struct vehicle_part {
         /** door is locked */
         bool locked = false;
 
+        // If the part's sprite/symbol shouldn't be shown
+        bool hidden = false;
+
         /** direction the part is facing */
         units::angle direction = 0_degrees;
 

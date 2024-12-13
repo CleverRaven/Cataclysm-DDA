@@ -29,7 +29,6 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const itype_id itype_debug_item_search( "debug_item_search" );
 static const requirement_id requirement_data_uncraft_book( "uncraft_book" );
 
 recipe_dictionary recipe_dict;
@@ -195,6 +194,27 @@ static std::unordered_set<bodypart_id> filtered_bodyparts;
 static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
 static std::unordered_set<layer_level> filtered_layers;
 
+template<typename Unit>
+static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
+                                std::vector<std::pair<std::string, Unit>> units )
+{
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
+        throw math::runtime_error( _( string_format( hint, txt ) ) );
+    };
+    // Start at max. On convert failure: results are empty and user knows it is unusable.
+    Unit uni = max;
+    try {
+        uni = detail::read_from_json_string_common<Unit>( txt, units, error );
+    } catch( math::runtime_error &err ) {
+        popup( err.what() );
+    }
+    // copy the debug item template (itype)
+    filtered_fake_itype = itype( *( item_controller->find( []( const itype & i ) {
+        return i.get_id() == STATIC( itype_id( "debug_item_search" ) );
+    } )[0] ) );
+    return uni;
+}
+
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -339,23 +359,10 @@ std::vector<const recipe *> recipe_subset::search(
     // prepare search
     switch( key ) {
         case search_type::length: {
-            auto const error = [txt]( char const *, size_t /* offset */ ) {
-                // Showcase in the examples that the spacing doesn't matter.
-                throw math::runtime_error( _( string_format(
-                                                  "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
-                                                  txt ) ) );
-            };
-            // Start at max. On convert failure: results are empty and user knows it is unusable.
-            units::length len = units::length_max;
-            try {
-                len = detail::read_from_json_string_common<units::length>( txt, units::length_units, error );
-            } catch( math::runtime_error &err ) {
-                popup( err.what() );
-            }
-            // copy the debug item template (itype)
-            filtered_fake_itype = itype( *( item_controller->find( []( const itype & i ) {
-                return i.get_id() == itype_debug_item_search;
-            } )[0] ) );
+            units::length len = can_contain_filter(
+                                    "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
+                                    txt, units::length_max, units::length_units );
+
             filtered_fake_itype.longest_side = len;
             filtered_fake_item = item( &filtered_fake_itype );
             // make the item hard, otherwise longest_side is ignored
@@ -363,43 +370,19 @@ std::vector<const recipe *> recipe_subset::search(
             break;
         }
         case search_type::volume: {
-            auto const error = [txt]( char const *, size_t /* offset */ ) {
-                throw math::runtime_error( _( string_format(
-                                                  "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
-                                                  txt ) ) );
-            };
-            // Start at max. On convert failure: results are empty and user knows it is unusable.
-            units::volume vol = units::volume_max;
-            try {
-                vol = detail::read_from_json_string_common<units::volume>( txt, units::volume_units, error );
-            } catch( math::runtime_error &err ) {
-                popup( err.what() );
-            }
-            // copy the debug item template (itype)
-            filtered_fake_itype = itype( *( item_controller->find( []( const itype & i ) {
-                return i.get_id() == itype_debug_item_search;
-            } )[0] ) );
+            units::volume vol = can_contain_filter(
+                                    "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
+                                    txt, units::volume_max, units::volume_units );
+
             filtered_fake_itype.volume = vol;
             filtered_fake_item = item( &filtered_fake_itype );
             break;
         }
         case search_type::mass: {
-            auto const error = [txt]( char const *, size_t /* offset */ ) {
-                throw math::runtime_error( _( string_format(
-                                                  "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
-                                                  txt ) ) );
-            };
-            // Start at max. On convert failure: results are empty and user knows it is unusable.
-            units::mass mas = units::mass_max;
-            try {
-                mas = detail::read_from_json_string_common<units::mass>( txt, units::mass_units, error );
-            } catch( math::runtime_error &err ) {
-                popup( err.what() );
-            }
-            // copy the debug item template (itype)
-            filtered_fake_itype = itype( *( item_controller->find( []( const itype & i ) {
-                return i.get_id() == itype_debug_item_search;
-            } )[0] ) );
+            units::mass mas = can_contain_filter(
+                                  "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
+                                  txt, units::mass_max, units::mass_units );
+
             filtered_fake_itype.weight = mas;
             filtered_fake_item = item( &filtered_fake_itype );
             break;
