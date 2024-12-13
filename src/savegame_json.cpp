@@ -3234,6 +3234,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
     data.read( "last_charged", last_charged );
+    data.read( "hidden", hidden );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3289,6 +3290,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "locked", locked );
     json.member( "last_disconnected", last_disconnected );
     json.member( "last_charged", last_charged );
+    json.member( "hidden", hidden );
     json.end_object();
 }
 
