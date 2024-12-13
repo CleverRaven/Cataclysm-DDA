@@ -39,13 +39,14 @@ static std::vector<const vpart_info *> all_turret_types()
 }
 
 // Install, reload and fire every possible vehicle turret.
+static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
+
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
     clear_map();
     clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
-    static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
     const tripoint_bub_ms veh_pos( 65, 65, here.get_abs_sub().z() );
     // TODO: Get rid of this set of tests when the cause of this test randomly failing has been elimined.
     REQUIRE( veh_pos.z() == 0 );
