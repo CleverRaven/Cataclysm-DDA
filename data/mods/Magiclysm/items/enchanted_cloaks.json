@@ -29,6 +29,17 @@
     "required_event": "character_wears_item",
     "condition": { "compare_string": [ "wildshape_cloak_fish", { "context_val": "itype" } ] },
     "effect": [
+      { "math": [ "u_preshift_size = u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [  ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "2" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "10" ] } ] }
+        ]
+      },
       { "u_add_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" },
       { "u_add_trait": "BESTIAL_MIND" },
       { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP", "time_in_future": 1 }
@@ -39,7 +50,20 @@
     "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP",
     "condition": { "u_has_trait": "WILDSHAPE:FISH" },
     "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP", "time_in_future": 1 } ],
-    "false_effect": [ { "u_lose_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" }, { "u_lose_trait": "BESTIAL_MIND" } ]
+    "false_effect": [
+      { "u_lose_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" },
+      { "u_lose_trait": "BESTIAL_MIND" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [  ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "2" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "6" ] } ] },
+          { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "10" ] } ] }
+        ]
+      }
+    ]
   },
   {
     "id": "ench_bearform",
@@ -158,7 +182,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP",
-    "condition": { "u_has_trait": "WILDSHAPE:BEAR" },
+    "condition": { "u_has_trait": "WILDSHAPE:DEER" },
     "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP", "time_in_future": 1 } ],
     "false_effect": [
       { "u_lose_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },

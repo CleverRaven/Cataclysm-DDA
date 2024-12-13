@@ -62,5 +62,23 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BESTIAL_MIND",
+    "name": [ "Animalistic Mind" ],
+    "desc": [ "It's hard to think.  Let the instinct take over." ],
+    "points": -2,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BESTIAL_MIND_COMBAT",
+    "name": [ "Predator's Mind" ],
+    "desc": [ "Hunt.  Kill.  Feed.  Sleep." ],
+    "points": 0,
+    "mixed_effect": true,
+    "enchantments": [ { "values": [ { "value": "COMBAT_CATCHUP", "multiply": 1 } ] } ],
+    "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
   }
 ]
