@@ -60,6 +60,9 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     clear_character( *guy );
     guy->setpos( next_to );
+    talk_function::follow( *guy );
+    // rules don't work unless they're an ally.
+    REQUIRE( guy->is_player_ally() );
     npc_follower_rules &tester_rules = guy->rules;
     tester_rules = npc_follower_rules(); // just to be sure
     tester_rules.clear_overrides(); // just to be sure
@@ -147,6 +150,9 @@ TEST_CASE( "NPC rules (close doors)", "[npc_rules]" )
     // if this fails, we somehow didn't find a path
     REQUIRE( !test_subject->path.empty() );
 
+    // we must force them to actually walk the path for this test
+    test_subject->goto_to_this_pos = here.getglobal( test_subject->path.back() );
+
     // copy our path before we lose it
     std::vector<tripoint_bub_ms> path_taken = test_subject->path;
     int turns_taken = 0;
@@ -155,11 +161,13 @@ TEST_CASE( "NPC rules (close doors)", "[npc_rules]" )
         test_subject->move();
     }
 
-    // if this fails we didn't make it to the chair, somehow!
+    // if one of these fails we didn't make it to the chair, somehow!
+    CHECK( turns_taken < 100 );
     CHECK( test_subject->pos_bub() == chair_target );
 
     for( tripoint_bub_ms &loc : path_taken ) {
         // any other terrain on the way is valid, as long as it's not an open door.
+        // (since test area is spawned *nearby* they might walk over some random dirt, grass, w/e on the way to the test area)
         CHECK( here.ter( loc ).id() != ter_t_door_o );
     }
 
