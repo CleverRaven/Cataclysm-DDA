@@ -1516,14 +1516,15 @@ std::string trim_trailing_punctuations( const std::string_view s )
     } );
 }
 
-std::string remove_punctuations( const std::string_view s )
+std::string remove_punctuations( const std::string &s )
 {
-    std::string result;
-    std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
-    []( unsigned char ch ) {
-        return std::ispunct( ch ) && ch != '_';
+    std::wstring ws = utf8_to_wstr( s );
+    std::wstring result;
+    std::remove_copy_if( ws.begin(), ws.end(), std::back_inserter( result ),
+    []( wchar_t ch ) {
+        return std::iswpunct( ch ) && ch != '_';
     } );
-    return result;
+    return wstr_to_utf8( result );
 }
 
 using char_t = std::string::value_type;
