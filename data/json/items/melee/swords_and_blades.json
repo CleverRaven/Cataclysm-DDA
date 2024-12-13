@@ -648,7 +648,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "LEATHER_AWL", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 6 },
     "weapon_category": [ "SHIVS" ]
