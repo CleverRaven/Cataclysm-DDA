@@ -10,7 +10,7 @@
     "id": "wildshape_cloak_fish",
     "type": "ARMOR",
     "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
-    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.  You should probably stand in water before you use it.",
+    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.  You should probably stand in water before you put it on.",
     "looks_like": "cloak_leather",
     "weight": "2060 g",
     "volume": "3050 ml",

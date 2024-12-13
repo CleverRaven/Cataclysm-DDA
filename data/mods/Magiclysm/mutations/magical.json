@@ -223,7 +223,7 @@
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
       },
       {
-        "condition": { "not": [ { "u_is_on_terrain_with_flag": "SWIMMABLE" } ] },
+        "condition": { "not": { "u_is_on_terrain_with_flag": "SWIMMABLE" } },
         "ench_effects": [ { "effect": "effect_druid_shifter_fish_form_cant_move", "intensity": 1 } ]
       },
       {
@@ -231,7 +231,8 @@
         "values": [
           { "value": "DEXTERITY", "add": 8 },
           { "value": "PERCEPTION", "add": 4 },
-          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.6 }
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.6 },
+          { "value": "REGEN_STAMINA", "multiply": 10 }
         ]
       },
       {
@@ -251,7 +252,19 @@
       "WALK_UNDERWATER",
       "WEBBED_HANDS"
     ],
-    "override_look": { "id": "mon_raven", "tile_category": "monster" }
+    "wet_protection": [
+      { "part": "head", "ignored": 100 },
+      { "part": "leg_l", "ignored": 100 },
+      { "part": "leg_r", "ignored": 100 },
+      { "part": "foot_l", "ignored": 100 },
+      { "part": "foot_r", "ignored": 100 },
+      { "part": "arm_l", "ignored": 100 },
+      { "part": "arm_r", "ignored": 100 },
+      { "part": "hand_l", "ignored": 100 },
+      { "part": "hand_r", "ignored": 100 },
+      { "part": "torso", "ignored": 100 }
+    ],
+    "override_look": { "id": "mon_fish_carp", "tile_category": "monster" }
   },
   {
     "type": "mutation",
