@@ -27,7 +27,12 @@
     "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition": { "compare_string": [ "wildshape_cloak_fish", { "context_val": "itype" } ] },
+    "condition": {
+      "and": [
+        { "compare_string": [ "wildshape_cloak_fish", { "context_val": "itype" } ] },
+        { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } }
+      ]
+    },
     "effect": [
       { "math": [ "u_preshift_size = u_val('size')" ] },
       {
@@ -93,7 +98,12 @@
     "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition": { "compare_string": [ "wildshape_cloak_bear", { "context_val": "itype" } ] },
+    "condition": {
+      "and": [
+        { "compare_string": [ "wildshape_cloak_bear", { "context_val": "itype" } ] },
+        { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } }
+      ]
+    },
     "effect": [
       { "math": [ "u_preshift_size = u_val('size')" ] },
       {
@@ -161,7 +171,12 @@
     "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition": { "compare_string": [ "wildshape_cloak_deer", { "context_val": "itype" } ] },
+    "condition": {
+      "and": [
+        { "compare_string": [ "wildshape_cloak_deer", { "context_val": "itype" } ] },
+        { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } }
+      ]
+    },
     "effect": [
       { "math": [ "u_preshift_size = u_val('size')" ] },
       {
