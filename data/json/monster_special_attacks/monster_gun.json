@@ -225,10 +225,12 @@
     "looks_like": "modular_ar15",
     "flags": [ "PSEUDO" ],
     "type": "GUN",
+    "ammo": [ "223" ],
     "name": { "str_sp": "Cops' AR15" },
     "//": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
     "dispersion": 960,
-    "durability": 5
+    "durability": 5,
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30" ] } ]
   },
   {
     "id": "acid_spit",
