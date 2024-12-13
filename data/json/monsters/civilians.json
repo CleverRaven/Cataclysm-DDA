@@ -98,7 +98,7 @@
     "id": "mon_civilian_police_rifle",
     "type": "MONSTER",
     "name": { "str": "overconfident officer" },
-    "description": "Assault rifle in hand, this police officer is determined to make a last stand against the horde.",
+    "description": "Rifle in hand, this police officer is determined to make a last stand against the horde.",
     "copy-from": "mon_civilian_panic",
     "diff": 5,
     "aggro_character": false,
@@ -117,7 +117,10 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "death_drops": {
       "subtype": "collection",
-      "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "modular_ar15", "prob": 100, "charges": [ 0, 6 ] } ]
+      "items": [
+        { "group": "mon_zombie_cop_death_drops", "prob": 100 },
+        { "group": "modular_ar15", "prob": 100, "charges": [ 0, 6 ] }
+      ]
     },
     "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO", "WIELDED_WEAPON" ] },
@@ -177,10 +180,7 @@
     "melee_dice_sides": 3,
     "death_drops": {
       "subtype": "collection",
-      "items": [
-        { "group": "default_zombie_death_drops", "prob": 100 },
-        { "group": "feral_handgun", "prob": 100, "charges": [ 0, 10 ] }
-      ]
+      "items": [ { "group": "default_zombie_death_drops", "prob": 100 }, { "item": "glock_19", "prob": 100, "charges": [ 0, 6 ] } ]
     },
     "starting_ammo": { "9mm": 10 },
     "//3": "Range starts from 0 to get some shots out",
