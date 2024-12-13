@@ -509,11 +509,6 @@ bool Character::melee_attack( Creature &t, bool allow_special )
 
 damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
 {
-    return dam;
-}
-
-damage_instance Character::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
-{
     damage_instance modified;
 
     std::vector<damage_type_id> types_used;
@@ -529,9 +524,12 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
             continue;
         }
 
-        modified.add_damage( dt.id, enchantment_cache->modify_melee_damage( dt.id, 0.0f ) );
-        modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
-                             0.0f ) );
+        double dmg_mod = enchantment_cache->modify_melee_damage( dt.id, 0.0f );
+        if( dmg_mod != 0 ) {
+            modified.add_damage( dt.id, dmg_mod );
+            modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
+                                 0.0f ) );
+        }
     }
 
     return modified;

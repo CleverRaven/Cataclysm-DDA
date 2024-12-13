@@ -37,11 +37,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -6 },
-            { "value": "ARMOR_BASH", "add": -6 },
-            { "value": "ARMOR_STAB", "add": -6 },
-            { "value": "ARMOR_BULLET", "add": -3 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -6 },
+            { "type": "stab", "add": -6 },
+            { "type": "cut", "add": -6 },
+            { "type": "bullet", "add": -3 }
           ]
         }
       ]
