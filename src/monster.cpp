@@ -2225,6 +2225,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return true;
     }
 
+    if( hitspread >= 0 && !is_hallucination() ) {
+        enchantment_cache->cast_hit_you( *this, target );
+    }
+
     if( total_dealt <= 0 ) {
         return true;
     }
@@ -3837,6 +3841,8 @@ void monster::on_hit( Creature *source, bodypart_id,
             type->families.practice_hit( *attacker );
         }
     }
+    
+    enchantment_cache->cast_hit_me( *this, source );
 
     check_dead_state();
     // TODO: Faction relations

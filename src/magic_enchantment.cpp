@@ -373,6 +373,10 @@ bool enchantment::is_monster_relevant() const
             return true;
         }
     }
+    // check for hit you / me effects
+    if( hit_you_effect.size() > 0 || hit_me_effect.size() > 0 ) {
+        return true;
+    }
     return false;
 }
 
@@ -1339,6 +1343,20 @@ void enchant_cache::activate_passive( Character &guy ) const
     }
 }
 
+void enchant_cache::cast_hit_you( Creature &caster, const Creature &target ) const
+{
+    for( const fake_spell &sp : hit_you_effect ) {
+        cast_enchantment_spell( caster, &target, sp );
+    }
+}
+
+void enchant_cache::cast_hit_me( Creature &caster, const Creature *target ) const
+{
+    for( const fake_spell &sp : hit_me_effect ) {
+        cast_enchantment_spell( caster, target, sp );
+    }
+}
+
 void enchant_cache::cast_hit_you( Character &caster, const Creature &target ) const
 {
     for( const fake_spell &sp : hit_you_effect ) {
@@ -1353,7 +1371,7 @@ void enchant_cache::cast_hit_me( Character &caster, const Creature *target ) con
     }
 }
 
-void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *target,
+void enchant_cache::cast_enchantment_spell( Creature &caster, const Creature *target,
         const fake_spell &sp ) const
 {
     // check the chances

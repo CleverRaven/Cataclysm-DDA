@@ -339,15 +339,17 @@ class enchant_cache : public enchantment
         // checks if the enchantments have the same active_conditions
         bool stacks_with( const enchantment &rhs ) const;
         // performs cooldown and distance checks before casting enchantment spells
-        void cast_enchantment_spell( Character &caster, const Creature *target,
+        void cast_enchantment_spell( Creature &caster, const Creature *target,
                                      const fake_spell &sp ) const;
         //Clears all the maps and vectors in the cache.
         void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;
+        void cast_hit_you( Creature &caster, const Creature &target ) const;
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
+        void cast_hit_me( Creature &caster, const Creature *target ) const;
         void serialize( JsonOut &jsout ) const;
         void add_value_add( enchant_vals::mod value, int add_value );
 
