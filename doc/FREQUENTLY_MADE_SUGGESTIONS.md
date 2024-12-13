@@ -157,7 +157,7 @@ But not now. Skill rust was changed over the years to be a **purely positive mec
 - Skills overall were made floats, which means the difference between skill level 3 and skill level 2.99 is only 0.01, not an entire 1 level;
 - The UI was changed to ensure the reptilian brain of ours will not associate skill rust with red numbers (because red = bad)
 and skill rust impact (and benefit) would be even stronger once #67580 is implemented fully.
-This combined, the only way i can see someone wanting to remove skill rust is purely because of rumors by people not familiar with the changes, that are based themselves either on their outdated experience or by rumors of yet another people.
+This combined, the only way I can see someone wanting to remove skill rust is purely because of rumors by people not familiar with the changes, that are based themselves either on their outdated experience or by rumors of yet another people.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
