@@ -343,7 +343,7 @@
     "remove_message": "Electric clouds are gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "emitter": "emit_shock_cloud_big", "values": [ { "value": "ARMOR_ELEC", "add": -100 } ] } ]
+    "enchantments": [ { "emitter": "emit_shock_cloud_big", "incoming_damage_mod": [ { "type": "electric", "add": -100 } ] } ]
   },
   {
     "id": "XAEA_mod_moves",

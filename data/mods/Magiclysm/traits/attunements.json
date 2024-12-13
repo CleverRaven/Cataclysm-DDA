@@ -306,8 +306,8 @@
     "spells_learned": [ [ "quake", 5 ], [ "rock_blast", 5 ] ],
     "enchantments": [
       {
+        "incoming_damage_mod": [ { "type": "cut", "add": -15 } ],
         "values": [
-          { "value": "ARMOR_CUT", "add": -15 },
           { "value": "STRENGTH", "add": 5 },
           { "value": "MAX_STAMINA", "multiply": 3 },
           { "value": "REGEN_STAMINA", "multiply": 3 }
@@ -353,11 +353,8 @@
     "description": "You have used your expertise in Biomancy to change your body more toward your affinity for fire as a Kelvinist.  Fire doesn't bother you as much anymore, and your blood is flammable when it touches the air, resulting in a gout of flame when something hurts you.  You are also starting to study more spells that focus on using your own body's affinity for fire.\n\nSalamander: Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also, your body emits streams of blistering heat towards anyone who attacks you.",
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_HEAT", "multiply": -0.4 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-        ]
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -0.4 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
       },
       {
         "hit_me_effect": [
@@ -682,11 +679,8 @@
     "enchantments": [
       {
         "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
-        "values": [
-          { "value": "ARMOR_COLD", "multiply": -0.4 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
-        ]
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.4 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
       },
       {
         "hit_you_effect": [
@@ -780,7 +774,7 @@
     "purifiable": false,
     "valid": false,
     "description": "This attunement grants you a magical control over the forces of magnetism.\n\nPower: Your Magnetism Mage abilities grant you a good defense against firearms, perfect electric immunity, and the ability to see electric creatures from any distance.",
-    "enchantments": [ "ELECTRIC_VISION", { "values": [ { "value": "ARMOR_BULLET", "add": -50 } ] } ],
+    "enchantments": [ "ELECTRIC_VISION", { "incoming_damage_mod": [ { "type": "bullet", "add": -50 } ] } ],
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
     "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ], [ "robot_disabler_explosion", 5 ] ],
     "cancels": [
@@ -1040,7 +1034,7 @@
     "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.\n\nCyclone: Your Storm Elemental abilities grant you total electric immunity, and reflective zippers to anyone who tries to attack you.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
     "enchantments": [
-      { "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ] },
+      { "incoming_damage_mod": [ { "type": "electric", "multiply": -0.4 } ] },
       {
         "hit_me_effect": [
           {
@@ -1282,7 +1276,10 @@
     "spells_learned": [ [ "lava_bomb_main", 5 ], [ "vulcanist_pyroclastic_flow", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "enchantments": [
-      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] },
+      {
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ]
+      },
       { "ench_effects": [ { "effect": "effect_vulcanist_no_smoke_or_blisters", "intensity": 1 } ] }
     ],
     "cancels": [

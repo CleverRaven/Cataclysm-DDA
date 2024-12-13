@@ -239,6 +239,7 @@
       [ "spell_scroll_summon_magic_motorcycle", 5 ],
       [ "spell_scroll_animist_spirit_walking", 10 ],
       [ "spell_scroll_magus_haste", 50 ],
+      [ "spell_scroll_magus_permanent_light", 30 ],
       [ "bio_sneeze_beam", 50 ],
       [ "spell_scroll_druid_beguile_savage_beast", 10 ],
       [ "spell_scroll_druid_thornskin", 20 ],

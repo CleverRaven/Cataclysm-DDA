@@ -439,6 +439,10 @@ class Creature : public viewer
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
+                                         bool round_output = false ) const;
+        void adjust_taken_damage_by_enchantments( damage_unit &du ) const;
+        void adjust_taken_damage_by_enchantments_post_absorbed( damage_unit &du ) const;
         virtual void knock_back_to( const tripoint &to ) = 0;
 
         // Converts the "cover_vitals" protection on the specified body part into
@@ -910,6 +914,7 @@ class Creature : public viewer
         virtual bool has_grab_break_tec() const = 0;
         virtual int get_throw_resist() const;
 
+        pimpl<enchant_cache> enchantment_cache;
         /*
          * Setters for stats and bonuses
          */

@@ -122,7 +122,6 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated multitool" },
     "description": "Integrated bionic tools implanted in your fingers.",
-    "to_hit": -1,
     "armor": [
       {
         "material": [
@@ -178,7 +177,6 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated welder" },
     "description": "Integrated bionic miniature welding tool implanted in your fingers.",
-    "to_hit": -1,
     "use_action": [
       {
         "type": "repair_item",
@@ -216,8 +214,7 @@
     ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
-    "charged_qualities": [ [ "WELD", 2 ] ],
-    "melee_damage": { "bash": 2, "cut": -1 }
+    "charged_qualities": [ [ "WELD", 2 ] ]
   },
   {
     "id": "integrated_multimeter",
@@ -246,7 +243,6 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated multimeter" },
     "description": "Integrated bionic multimeter implanted in your fingers.",
-    "to_hit": -1,
     "use_action": [ { "type": "VOLTMETER" } ]
   },
   {
@@ -276,7 +272,6 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated soldering iron" },
     "description": "Integrated soldering iron and screwdriver set.",
-    "to_hit": -1,
     "use_action": [
       {
         "type": "repair_item",

@@ -10155,33 +10155,6 @@ std::vector<enchantment> item::get_defined_enchantments() const
     return type->relic_data->get_defined_enchantments();
 }
 
-double item::calculate_by_enchantment( const Character &owner, double modify,
-                                       enchant_vals::mod value, bool round_value ) const
-{
-    double add_value = 0.0;
-    double mult_value = 1.0;
-    for( const enchant_cache &ench : get_proc_enchantments() ) {
-        if( ench.is_active( owner, *this ) ) {
-            add_value += ench.get_value_add( value );
-            mult_value += ench.get_value_multiply( value );
-        }
-    }
-    if( type->relic_data ) {
-        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
-            if( ench.is_active( owner, *this ) ) {
-                add_value += ench.get_value_add( value, owner );
-                mult_value += ench.get_value_multiply( value, owner );
-            }
-        }
-    }
-    modify += add_value;
-    modify *= mult_value;
-    if( round_value ) {
-        modify = std::round( modify );
-    }
-    return modify;
-}
-
 double item::calculate_by_enchantment_wield( const Character &owner, double modify,
         enchant_vals::mod value,
         bool round_value ) const
