@@ -20,7 +20,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "field_type.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -48,6 +47,9 @@
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+
+static const field_type_str_id field_fd_sludge( "fd_sludge" );
+static const field_type_str_id field_fd_web( "fd_web" );
 
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
 
@@ -852,7 +854,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos_bub(), fd_web, 1 );
+        get_map().add_field( pos_bub(), field_fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_LONG_TONGUE2 ||
                mut == trait_GASTROPOD_EXTREMITY2 ||
@@ -861,7 +863,7 @@ void Character::activate_mutation( const trait_id &mut )
         assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
-        get_map().add_field( pos_bub(), fd_sludge, 1 );
+        get_map().add_field( pos_bub(), field_fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;

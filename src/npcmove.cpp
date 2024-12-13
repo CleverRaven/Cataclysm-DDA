@@ -36,7 +36,6 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
-#include "field_type.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game.h"
@@ -136,6 +135,7 @@ static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const field_type_str_id field_fd_fire( "fd_fire" );
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const itype_id itype_inhaler( "inhaler" );
@@ -770,11 +770,11 @@ void npc::assess_danger()
     }
     map &here = get_map();
     // cache string_id -> int_id conversion before hot loop
-    const field_type_id fd_fire = ::fd_fire;
+    const field_type_id field_fd_fire_int = field_fd_fire.id();
     // first, check if we're about to be consumed by fire
     // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
     for( const tripoint_bub_ms &pt : here.points_in_radius( pos_bub(), 6 ) ) {
-        if( pt == pos_bub() || !here.get_field( pt, fd_fire ) ||
+        if( pt == pos_bub() || !here.get_field( pt, field_fd_fire_int ) ||
             here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
         }

@@ -32,7 +32,6 @@
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
-#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "item.h"
@@ -67,6 +66,9 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
+
+static const field_type_str_id field_fd_fatigue_field( "fd_fatigue_field" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const flag_id json_flag_FIT( "FIT" );
 
@@ -520,7 +522,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.make_sound( target, caster );
         sp.create_field( target, caster );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
-            here.add_field( target, fd_fire, 1, 10_minutes );
+            here.add_field( target, field_fd_fire, 1, 10_minutes );
 
             Character &player_character = get_player_character();
             if( player_character.has_trait( trait_PYROMANIA ) &&
@@ -1002,7 +1004,7 @@ void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoi
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
             sp.make_sound( caster.pos_bub(), caster );
 
-            if( fd.first.id() == fd_fatigue ) {
+            if( fd.first.id() == field_fd_fatigue_field ) {
                 handle_remove_fd_fatigue_field( field_removed, caster );
             } else {
                 caster.add_msg_if_player( m_neutral, _( "The %s dissipates." ),

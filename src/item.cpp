@@ -50,7 +50,6 @@
 #include "explosion.h"
 #include "faction.h"
 #include "fault.h"
-#include "field_type.h"
 #include "fire.h"
 #include "flag.h"
 #include "game.h"
@@ -150,6 +149,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_overheat_safety( "fault_overheat_safety" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
+static const field_type_str_id field_fd_weedsmoke( "fd_weedsmoke" );
 
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
@@ -13423,7 +13425,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         }
         if( typeId() == itype_joint_lit && carrier != nullptr ) {
             carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-            here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
+            here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_fd_weedsmoke, 2 );
             weed_msg( *carrier );
         }
         active = false;
@@ -13492,11 +13494,11 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
                 if( i.typeId() == typeId() ) {
                     if( here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, pos ) ||
                         here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, pos ) ) {
-                        here.add_field( pos, fd_fire, 1 );
+                        here.add_field( pos, field_fd_fire, 1 );
                         break;
                     }
                 } else if( i.flammable( 0 ) ) {
-                    here.add_field( pos, fd_fire, 1 );
+                    here.add_field( pos, field_fd_fire, 1 );
                     break;
                 }
             }

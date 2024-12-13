@@ -43,7 +43,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field_type.h"
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
@@ -135,6 +134,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
@@ -928,9 +929,10 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
         const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
-        if( pnt && here.is_flammable( *pnt ) && !here.get_field( tripoint_bub_ms( *pnt ), fd_fire ) ) {
+        if( pnt && here.is_flammable( *pnt ) &&
+            !here.get_field( tripoint_bub_ms( *pnt ), field_fd_fire ) ) {
             add_msg_activate();
-            here.add_field( *pnt, fd_fire, 1 );
+            here.add_field( *pnt, field_fd_fire, 1 );
             if( has_trait( trait_PYROMANIA ) ) {
                 add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
                 rem_morale( morale_pyromania_nofire );

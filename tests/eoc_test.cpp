@@ -136,6 +136,9 @@ effect_on_condition_run_eocs_talker_mixes( "run_eocs_talker_mixes" );
 static const effect_on_condition_id
 effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 
+static const field_type_str_id field_fd_blood( "fd_blood" );
+static const field_type_str_id field_fd_blood_insect( "fd_blood_insect" );
+
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
@@ -510,9 +513,8 @@ TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
-
-    get_map().add_field( get_avatar().pos_bub(), fd_blood, 3 );
-    get_map().add_field( get_avatar().pos_bub() + point::south, fd_blood_insect, 3 );
+    get_map().add_field( get_avatar().pos_bub(), field_fd_blood, 3 );
+    get_map().add_field( get_avatar().pos_bub() + point::south, field_fd_blood_insect, 3 );
 
     REQUIRE( globvars.get_global_value( "key_field_strength" ).empty() );
     REQUIRE( globvars.get_global_value( "key_field_strength_north" ).empty() );

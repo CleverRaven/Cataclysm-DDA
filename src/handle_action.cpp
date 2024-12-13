@@ -41,7 +41,6 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "field.h"
-#include "field_type.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -130,6 +129,8 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
 
 static const flag_id json_flag_MOP( "MOP" );
 
@@ -1028,7 +1029,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( is_smashable_corpse( maybe_corpse ) ) {
             if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
-                !is_immune_field( fd_acid ) ) {
+                !is_immune_field( field_fd_acid ) ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return ret; // Player doesn't want an acid bath
                 }

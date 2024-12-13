@@ -22,7 +22,6 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
-#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "line.h"
@@ -75,7 +74,17 @@ static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_churned_earth( "fd_churned_earth" );
+static const field_type_str_id field_fd_electricity( "fd_electricity" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
+static const field_type_str_id field_fd_fungal_haze( "fd_fungal_haze" );
+static const field_type_str_id field_fd_fungicidal_gas( "fd_fungicidal_gas" );
+static const field_type_str_id field_fd_insecticidal_gas( "fd_insecticidal_gas" );
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
+static const field_type_str_id field_fd_sap( "fd_sap" );
+static const field_type_str_id field_fd_sludge( "fd_sludge" );
+static const field_type_str_id field_fd_web( "fd_web" );
 
 static const flag_id json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
@@ -96,19 +105,19 @@ static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
 
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
-    if( fid == fd_fungal_haze ) {
+    if( fid == field_fd_fungal_haze ) {
         return has_flag( mon_flag_NO_BREATHE ) || type->in_species( species_FUNGUS );
     }
-    if( fid == fd_fungicidal_gas ) {
+    if( fid == field_fd_fungicidal_gas ) {
         return !type->in_species( species_FUNGUS );
     }
-    if( fid == fd_insecticidal_gas ) {
+    if( fid == field_fd_insecticidal_gas ) {
         return !made_of( material_iflesh ) || has_flag( mon_flag_INSECTICIDEPROOF );
     }
-    if( fid == fd_web ) {
+    if( fid == field_fd_web ) {
         return has_flag( mon_flag_WEBWALK );
     }
-    if( fid == fd_sludge || fid == fd_sap ) {
+    if( fid == field_fd_sludge || fid == field_fd_sap ) {
         return flies();
     }
     const field_type &ft = fid.obj();
@@ -245,11 +254,11 @@ bool monster::know_danger_at( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) && !is_immune_field( fd_fire ) ) {
+        if( avoid_fire && target_field.find_field( field_fd_fire ) && !is_immune_field( field_fd_fire ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( fd_electricity ) &&
-            !is_immune_field( fd_electricity ) ) {
+        if( avoid_simple && target_field.find_field( field_fd_electricity ) &&
+            !is_immune_field( field_fd_electricity ) ) {
             return false;
         }
     }
@@ -1982,23 +1991,23 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                 factor = 4;
                 break;
         }
-        here.add_field( pos_bub(), fd_churned_earth, 2 );
+        here.add_field( pos_bub(), field_fd_churned_earth, 2 );
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dest ) && one_in( factor ) ) {
-                here.add_field( dest, fd_churned_earth, 2 );
+                here.add_field( dest, field_fd_churned_earth, 2 );
             }
         }
     }
 
     // Acid trail monsters leave... a trail of acid
     if( has_flag( mon_flag_ACIDTRAIL ) ) {
-        here.add_field( pos_bub(), fd_acid, 3 );
+        here.add_field( pos_bub(), field_fd_acid, 3 );
     }
 
     // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
     if( has_flag( mon_flag_SHORTACIDTRAIL ) ) {
         if( one_in( 5 ) ) {
-            here.add_field( pos_bub(), fd_acid, 3 );
+            here.add_field( pos_bub(), field_fd_acid, 3 );
         }
     }
 
@@ -2006,14 +2015,14 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         for( const tripoint_bub_ms &sludge_p : here.points_in_radius( pos_bub(), 1 ) ) {
             const int fstr = 3 - ( std::abs( sludge_p.x() - posx() ) + std::abs( sludge_p.y() - posy() ) );
             if( fstr >= 2 ) {
-                here.add_field( sludge_p, fd_sludge, fstr );
+                here.add_field( sludge_p, field_fd_sludge, fstr );
             }
         }
     }
 
     if( has_flag( mon_flag_SMALLSLUDGETRAIL ) ) {
         if( one_in( 2 ) ) {
-            here.add_field( pos_bub(), fd_sludge, 1 );
+            here.add_field( pos_bub(), field_fd_sludge, 1 );
         }
     }
 

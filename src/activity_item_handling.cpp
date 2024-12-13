@@ -29,7 +29,6 @@
 #include "enums.h"
 #include "faction.h"
 #include "field.h"
-#include "field_type.h"
 #include "fire.h"
 #include "flag.h"
 #include "game.h"
@@ -102,6 +101,8 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const addiction_id addiction_alcohol( "alcohol" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const flag_id json_flag_CUT_HARVEST( "CUT_HARVEST" );
 static const flag_id json_flag_MOP( "MOP" );
@@ -2092,7 +2093,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, _fac_id( you ) ) ||
                 ignore_contents ||
-                here.get_field( src_loc, fd_fire ) != nullptr ||
+                here.get_field( src_loc, field_fd_fire ) != nullptr ||
                 !here.can_put_items_ter_furn( src_loc ) || here.impassable_field_at( src_loc ) ) {
                 continue;
             }
@@ -3393,7 +3394,7 @@ static std::optional<tripoint_bub_ms> find_best_fire( const std::vector<tripoint
     time_duration best_fire_age = 1_days;
     map &here = get_map();
     for( const tripoint_bub_ms &pt : from ) {
-        field_entry *fire = here.get_field( pt, fd_fire );
+        field_entry *fire = here.get_field( pt, field_fd_fire );
         if( fire == nullptr || fire->get_field_intensity() > 1 ||
             !here.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -3676,7 +3677,7 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
     // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
     bool contained = here.has_flag_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
-    time_duration fire_age = here.get_field_age( *best_fire, fd_fire );
+    time_duration fire_age = here.get_field_age( *best_fire, field_fd_fire );
 
     // Maybe TODO: - refueling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel

@@ -31,8 +31,6 @@
 #include "drawing_primitives.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "field.h"
-#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -82,6 +80,14 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 #include "creature_tracker.h"
+
+static const field_type_str_id field_fd_acid_vent( "fd_acid_vent" );
+static const field_type_str_id field_fd_construction_site( "fd_construction_site" );
+static const field_type_str_id field_fd_fire_vent( "fd_fire_vent" );
+static const field_type_str_id field_fd_gas_vent( "fd_gas_vent" );
+static const field_type_str_id field_fd_push_items( "fd_push_items" );
+static const field_type_str_id field_fd_shock_vent( "fd_shock_vent" );
+static const field_type_str_id field_fd_smoke_vent( "fd_smoke_vent" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
@@ -6101,9 +6107,9 @@ void map::draw_lab( mapgendata &dat )
                             if( one_in( 200 ) && ( nearby_ter == ter_t_thconc_floor ||
                                                    nearby_ter == ter_t_strconc_floor ) ) {
                                 if( is_toxic ) {
-                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_gas_vent, 1 );
+                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, field_fd_gas_vent, 1 );
                                 } else {
-                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_smoke_vent, 2 );
+                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, field_fd_smoke_vent, 2 );
                                 }
                             }
                         }
@@ -7673,7 +7679,7 @@ void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property p
             for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
                 for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
                     if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
-                        add_field( tripoint_bub_ms{ i, j, z }, fd_push_items, 1 );
+                        add_field( tripoint_bub_ms{ i, j, z }, field_fd_push_items, 1 );
                         if( one_in( 3 ) ) {
                             spawn_item( point_bub_ms( i, j ), "rock" );
                         }
@@ -7750,18 +7756,18 @@ void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property p
 
         case ARTPROP_ELECTRIC:
         case ARTPROP_CRACKLING:
-            add_field( { c, abs_sub.z() }, fd_shock_vent, 3 );
+            add_field( { c, abs_sub.z() }, field_fd_shock_vent, 3 );
             break;
 
         case ARTPROP_SLIMY:
-            add_field( { c, abs_sub.z() }, fd_acid_vent, 3 );
+            add_field( { c, abs_sub.z() }, field_fd_acid_vent, 3 );
             break;
 
         case ARTPROP_WARM:
             for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
                 for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
                     if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
-                        add_field( tripoint_bub_ms{ i, j, abs_sub.z() }, fd_fire_vent,
+                        add_field( tripoint_bub_ms{ i, j, abs_sub.z() }, field_fd_fire_vent,
                                    1 + ( rl_dist( c, point_bub_ms( i, j ) ) % 3 ) );
                     }
                 }
@@ -8102,9 +8108,9 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
             for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
                 if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( pos ) ) {
                     if( apply ) {
-                        update_tmap.add_field( pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
+                        update_tmap.add_field( pos, field_fd_construction_site, 1, time_duration::from_turns( 0 ), false );
                     } else {
-                        update_tmap.delete_field( pos, fd_construction_site );
+                        update_tmap.delete_field( pos, field_fd_construction_site );
                     }
                 }
             }

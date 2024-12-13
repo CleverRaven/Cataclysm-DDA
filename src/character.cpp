@@ -49,7 +49,6 @@
 #include "faction.h"
 #include "fault.h"
 #include "field.h"
-#include "field_type.h"
 #include "flag.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -277,7 +276,15 @@ static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_bile( "fd_bile" );
+static const field_type_str_id field_fd_blood( "fd_blood" );
+static const field_type_str_id field_fd_blood_insect( "fd_blood_insect" );
+static const field_type_str_id field_fd_blood_invertebrate( "fd_blood_invertebrate" );
+static const field_type_str_id field_fd_blood_veggy( "fd_blood_veggy" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
+static const field_type_str_id field_fd_fungal_haze( "fd_fungal_haze" );
+static const field_type_str_id field_fd_gibs_flesh( "fd_gibs_flesh" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -791,22 +798,22 @@ void Character::starting_inv_damage_worn( int days )
 field_type_id Character::bloodType() const
 {
     if( has_flag( json_flag_ACIDBLOOD ) ) {
-        return fd_acid;
+        return field_fd_acid;
     }
     if( has_flag( json_flag_PLANTBLOOD ) ) {
-        return fd_blood_veggy;
+        return field_fd_blood_veggy;
     }
     if( has_flag( json_flag_INSECTBLOOD ) ) {
-        return fd_blood_insect;
+        return field_fd_blood_insect;
     }
     if( has_flag( json_flag_INVERTEBRATEBLOOD ) ) {
-        return fd_blood_invertebrate;
+        return field_fd_blood_invertebrate;
     }
-    return fd_blood;
+    return field_fd_blood;
 }
 field_type_id Character::gibType() const
 {
-    return fd_gibs_flesh;
+    return field_fd_gibs_flesh;
 }
 
 bool Character::in_species( const species_id &spec ) const
@@ -7464,7 +7471,7 @@ void Character::vomit()
     get_event_bus().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
-        get_map().add_field( adjacent_tile(), fd_bile, 1 );
+        get_map().add_field( adjacent_tile(), field_fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
     // needed to ensure digesting vitamin_type::DRUGs are also emptied, even on an empty stomach.
@@ -8489,7 +8496,7 @@ void Character::blossoms()
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
     for( const tripoint_bub_ms &tmp : here.points_in_radius( pos_bub(), 2 ) ) {
-        here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
+        here.add_field( tmp, field_fd_fungal_haze, rng( 1, 2 ) );
     }
 }
 

@@ -1435,9 +1435,6 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
     }
 
     item &corpse_item = *target;
-    const mtype *corpse = corpse_item.get_mtype();
-    const field_type_id type_blood = corpse->bloodType();
-    const field_type_id type_gib = corpse->gibType();
 
     // Dump items from the "container" before destroying it.
     // Presumably, the character would be doing this while setting up for butchering.
@@ -1449,6 +1446,10 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         act->index = true;
         return;
     }
+
+    const mtype *corpse = corpse_item.get_mtype();
+    const field_type_id type_blood = corpse->bloodType();
+    const field_type_id type_gib = corpse->gibType();
 
     map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {

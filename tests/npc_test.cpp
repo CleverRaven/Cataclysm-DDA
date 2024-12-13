@@ -14,7 +14,6 @@
 #include "creature_tracker.h"
 #include "faction.h"
 #include "field.h"
-#include "field_type.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
@@ -39,6 +38,8 @@ class Creature;
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
 
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
@@ -461,7 +462,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                here.add_field( p, fd_acid, 3 );
+                here.add_field( p, field_fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -487,7 +488,7 @@ TEST_CASE( "npc-movement" )
                 guy->remove_worn_items_with( [&]( item & armor ) {
                     return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
                 } );
-                REQUIRE( !guy->is_immune_field( fd_acid ) );
+                REQUIRE( !guy->is_immune_field( field_fd_acid ) );
                 guy->spawn_at_precise( get_map().getglobal( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them

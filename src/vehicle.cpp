@@ -40,7 +40,6 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "faction.h"
-#include "field_type.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
@@ -101,6 +100,8 @@ static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
 static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
@@ -4267,7 +4268,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_field( j, p, fd_smoke, bad_filter ? fd_smoke->get_max_intensity() : 1 );
+                    spew_field( j, p, field_fd_smoke, bad_filter ? field_fd_smoke->get_max_intensity() : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -4282,8 +4283,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     /// TODO: handle other engine types: muscle / animal / wind / coal / ...
 
     if( exhaust_part != -1 && engine_on ) {
-        spew_field( mufflesmoke, exhaust_part, fd_smoke,
-                    bad_filter ? fd_smoke->get_max_intensity() : 1 );
+        spew_field( mufflesmoke, exhaust_part, field_fd_smoke,
+                    bad_filter ? field_fd_smoke->get_max_intensity() : 1 );
     }
     if( is_rotorcraft() ) {
         noise *= 2;

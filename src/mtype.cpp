@@ -7,7 +7,6 @@
 
 #include "behavior_strategy.h"
 #include "creature.h"
-#include "field_type.h"
 #include "item.h"
 #include "itype.h"
 #include "mod_manager.h"
@@ -17,6 +16,17 @@
 #include "translations.h"
 #include "units.h"
 #include "weakpoint.h"
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_bile( "fd_bile" );
+static const field_type_str_id field_fd_blood( "fd_blood" );
+static const field_type_str_id field_fd_blood_insect( "fd_blood_insect" );
+static const field_type_str_id field_fd_blood_invertebrate( "fd_blood_invertebrate" );
+static const field_type_str_id field_fd_blood_veggy( "fd_blood_veggy" );
+static const field_type_str_id field_fd_gibs_flesh( "fd_gibs_flesh" );
+static const field_type_str_id field_fd_gibs_insect( "fd_gibs_insect" );
+static const field_type_str_id field_fd_gibs_invertebrate( "fd_gibs_invertebrate" );
+static const field_type_str_id field_fd_gibs_veggy( "fd_gibs_veggy" );
 
 static const harvest_id harvest_list_human( "human" );
 
@@ -397,18 +407,6 @@ std::vector<std::string> mtype::species_descriptions() const
     return ret;
 }
 
-field_type_id mtype::get_bleed_type() const
-{
-    if( bleed_rate > 0 ) {
-        for( const species_id &s : species ) {
-            if( !s->bleeds.is_empty() ) {
-                return s->bleeds;
-            }
-        }
-    }
-    return fd_null;
-}
-
 bool mtype::same_species( const mtype &other ) const
 {
     return std::any_of( species.begin(), species.end(), [&]( const species_id & s ) {
@@ -418,45 +416,51 @@ bool mtype::same_species( const mtype &other ) const
 
 field_type_id mtype::bloodType() const
 {
-    if( has_flag( mon_flag_ACID_BLOOD ) )
+    if( has_flag( mon_flag_ACID_BLOOD ) ) {
         //A monster that has the death effect "ACID" does not need to have acid blood.
-    {
-        return fd_acid;
+        return field_fd_acid;
     }
     if( has_flag( mon_flag_BILE_BLOOD ) ) {
-        return fd_bile;
+        return field_fd_bile;
     }
     if( has_flag( mon_flag_ARTHROPOD_BLOOD ) ) {
-        return fd_blood_invertebrate;
+        return field_fd_blood_invertebrate;
     }
     if( made_of( material_veggy ) ) {
-        return fd_blood_veggy;
+        return field_fd_blood_veggy;
     }
     if( made_of( material_iflesh ) ) {
-        return fd_blood_insect;
+        return field_fd_blood_insect;
     }
     if( has_flag( mon_flag_WARM ) && made_of( material_flesh ) ) {
-        return fd_blood;
+        return field_fd_blood;
     }
-    return get_bleed_type();
+    if( bleed_rate > 0 ) {
+        for( const species_id &s : species ) {
+            if( !s->bleeds.is_empty() ) {
+                return s->bleeds;
+            }
+        }
+    }
+    return field_type_str_id::NULL_ID();
 }
 
 field_type_id mtype::gibType() const
 {
     if( in_species( species_MOLLUSK ) ) {
-        return fd_gibs_invertebrate;
+        return field_fd_gibs_invertebrate;
     }
     if( made_of( material_veggy ) ) {
-        return fd_gibs_veggy;
+        return field_fd_gibs_veggy;
     }
     if( made_of( material_iflesh ) ) {
-        return fd_gibs_insect;
+        return field_fd_gibs_insect;
     }
     if( made_of( material_flesh ) ) {
-        return fd_gibs_flesh;
+        return field_fd_gibs_flesh;
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
-    return fd_null;
+    return field_type_str_id::NULL_ID();
 }
 
 itype_id mtype::get_meat_itype() const

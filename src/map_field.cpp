@@ -32,7 +32,6 @@
 #include "emit.h"
 #include "enums.h"
 #include "field.h"
-#include "field_type.h"
 #include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -81,6 +80,36 @@ static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_acid_vent( "fd_acid_vent" );
+static const field_type_str_id field_fd_dazzling( "fd_dazzling" );
+static const field_type_str_id field_fd_electricity( "fd_electricity" );
+static const field_type_str_id field_fd_electricity_unlit( "fd_electricity_unlit" );
+static const field_type_str_id field_fd_extinguisher( "fd_extinguisher" );
+static const field_type_str_id field_fd_fatigue( "fd_fatigue" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
+static const field_type_str_id field_fd_fire_vent( "fd_fire_vent" );
+static const field_type_str_id field_fd_flame_burst( "fd_flame_burst" );
+static const field_type_str_id field_fd_fungal_haze( "fd_fungal_haze" );
+static const field_type_str_id field_fd_fungicidal_gas( "fd_fungicidal_gas" );
+static const field_type_str_id field_fd_hot_air1( "fd_hot_air1" );
+static const field_type_str_id field_fd_hot_air2( "fd_hot_air2" );
+static const field_type_str_id field_fd_hot_air3( "fd_hot_air3" );
+static const field_type_str_id field_fd_hot_air4( "fd_hot_air4" );
+static const field_type_str_id field_fd_incendiary( "fd_incendiary" );
+static const field_type_str_id field_fd_insecticidal_gas( "fd_insecticidal_gas" );
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
+static const field_type_str_id field_fd_nuke_gas( "fd_nuke_gas" );
+static const field_type_str_id field_fd_push_items( "fd_push_items" );
+static const field_type_str_id field_fd_relax_gas( "fd_relax_gas" );
+static const field_type_str_id field_fd_sap( "fd_sap" );
+static const field_type_str_id field_fd_shock_vent( "fd_shock_vent" );
+static const field_type_str_id field_fd_sludge( "fd_sludge" );
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+static const field_type_str_id field_fd_tear_gas( "fd_tear_gas" );
+static const field_type_str_id field_fd_toxic_gas( "fd_toxic_gas" );
+static const field_type_str_id field_fd_web( "fd_web" );
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
@@ -423,16 +452,16 @@ void map::create_hot_air( const tripoint_bub_ms &p, int intensity )
     field_type_id hot_air;
     switch( intensity ) {
         case 1:
-            hot_air = fd_hot_air1;
+            hot_air = field_fd_hot_air1;
             break;
         case 2:
-            hot_air = fd_hot_air2;
+            hot_air = field_fd_hot_air2;
             break;
         case 3:
-            hot_air = fd_hot_air3;
+            hot_air = field_fd_hot_air3;
             break;
         case 4:
-            hot_air = fd_hot_air4;
+            hot_air = field_fd_hot_air4;
             break;
         default:
             debugmsg( "Tried to spread hot air with intensity %d", intensity );
@@ -485,8 +514,8 @@ void map::process_fields_in_submap( submap *const current_submap,
         om_ter,
         *this,
         map_tile,
-        fd_null,
-        &( *fd_null )
+        field_type_str_id::NULL_ID(),
+        &( *field_type_str_id::NULL_ID() )
     };
 
     // Loop through all tiles in this submap indicated by current_submap
@@ -578,9 +607,9 @@ static void field_processor_fd_acid( const tripoint &p, field_entry &cur, field_
     // Try to fall by a z-level
     tripoint_bub_ms dst{ p.x, p.y, p.z - 1 };
     if( pd.here.valid_move( p, dst.raw(), true, true ) ) {
-        field_entry *acid_there = pd.here.get_field( dst, fd_acid );
+        field_entry *acid_there = pd.here.get_field( dst, field_fd_acid );
         if( !acid_there ) {
-            pd.here.add_field( dst, fd_acid, cur.get_field_intensity(), cur.get_field_age() );
+            pd.here.add_field( dst, field_fd_acid, cur.get_field_intensity(), cur.get_field_age() );
         } else {
             // Math can be a bit off,
             // but "boiling" falling acid can be allowed to be stronger
@@ -605,10 +634,10 @@ static void field_processor_fd_extinguisher( const tripoint &p, field_entry &cur
         field_proc_data &pd )
 {
     //  if( cur_fd_type_id == fd_extinguisher )
-    if( field_entry *fire_here = pd.map_tile.find_field( fd_fire ) ) {
+    if( field_entry *fire_here = pd.map_tile.find_field( field_fd_fire ) ) {
         // extinguisher fights fire in 1:1 ratio
         const int min_int = std::min( fire_here->get_field_intensity(), cur.get_field_intensity() );
-        pd.here.mod_field_intensity( p, fd_fire, -min_int );
+        pd.here.mod_field_intensity( p, field_fd_fire, -min_int );
         cur.mod_field_intensity( -min_int );
     }
 }
@@ -674,7 +703,7 @@ void field_processor_fd_fire_vent( const tripoint &p, field_entry &cur, field_pr
         }
         pd.here.create_hot_air( p, cur.get_field_intensity() );
     } else {
-        pd.here.add_field( p, fd_flame_burst, 3, cur.get_field_age() );
+        pd.here.add_field( p, field_fd_flame_burst, 3, cur.get_field_age() );
         cur.set_field_intensity( 0 );
     }
 }
@@ -686,7 +715,7 @@ void field_processor_fd_flame_burst( const tripoint &p, field_entry &cur, field_
         cur.set_field_intensity( cur.get_field_intensity() - 1 );
         pd.here.create_hot_air( p, cur.get_field_intensity() );
     } else {
-        pd.here.add_field( p, fd_fire_vent, 3, cur.get_field_age() );
+        pd.here.add_field( p, field_fd_fire_vent, 3, cur.get_field_age() );
         cur.set_field_intensity( 0 );
     }
 }
@@ -840,7 +869,7 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
         } else {
             std::vector<tripoint_bub_ms> valid;
             for( const tripoint_bub_ms &dst : points_in_radius( tripoint_bub_ms( p ), 1 ) ) {
-                if( dst.raw() != p && pd.here.get_field( dst, fd_push_items ) ) {
+                if( dst.raw() != p && pd.here.get_field( dst, field_fd_push_items ) ) {
                     valid.push_back( dst );
                 }
             }
@@ -895,7 +924,7 @@ static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
             point bolt = p.xy();
             for( int n = 0; n < dist; n++ ) {
                 bolt += dir;
-                pd.here.add_field( tripoint_bub_ms( bolt.x, bolt.y, p.z ), fd_electricity, rng( 2, 3 ) );
+                pd.here.add_field( tripoint_bub_ms( bolt.x, bolt.y, p.z ), field_fd_electricity, rng( 2, 3 ) );
                 if( one_in( 4 ) ) {
                     if( dir.x == 0 ) {
                         dir.x = rng( 0, 1 ) * 2 - 1;
@@ -925,14 +954,14 @@ static void field_processor_fd_acid_vent( const tripoint &p, field_entry &cur, f
     } else {
         cur.set_field_intensity( 3 );
         for( const tripoint_bub_ms &t : points_in_radius( tripoint_bub_ms( p ), 5 ) ) {
-            const field_entry *acid = pd.here.get_field( t, fd_acid );
+            const field_entry *acid = pd.here.get_field( t, field_fd_acid );
             if( acid && acid->get_field_intensity() == 0 ) {
                 int new_intensity = 3 - rl_dist( p, t.raw() ) / 2 + ( one_in( 3 ) ? 1 : 0 );
                 if( new_intensity > 3 ) {
                     new_intensity = 3;
                 }
                 if( new_intensity > 0 ) {
-                    pd.here.add_field( t, fd_acid, new_intensity );
+                    pd.here.add_field( t, field_fd_acid, new_intensity );
                 }
             }
         }
@@ -947,12 +976,12 @@ void field_processor_fd_incendiary( const tripoint &p, field_entry &cur, field_p
     if( pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, dst ) ||
         pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, dst ) ||
         pd.here.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD, dst ) ) {
-        pd.here.add_field( dst, fd_fire, 1 );
+        pd.here.add_field( dst, field_fd_fire, 1 );
     }
 
     // Check piles for flammable items and set those on fire
     if( pd.here.flammable_items_at( dst ) ) {
-        pd.here.add_field( dst, fd_fire, 1 );
+        pd.here.add_field( dst, field_fd_fire, 1 );
     }
 
     pd.here.create_hot_air( p, cur.get_field_intensity() );
@@ -983,7 +1012,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
 void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_data &pd )
 {
     const tripoint_bub_ms pos{ p }; // TODO: Remove when operation typified
-    const field_type_id fd_fire = ::fd_fire;
+
     map &here = pd.here;
     maptile &map_tile = pd.map_tile;
     const oter_id om_ter = pd.om_ter;
@@ -1135,9 +1164,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             tripoint_bub_ms dst{ pos.x(), pos.y(), pos.z() - 1};
             if( here.valid_move( pos, dst, true, true ) ) {
                 maptile dst_tile = here.maptile_at_internal( dst );
-                field_entry *fire_there = dst_tile.find_field( fd_fire );
+                field_entry *fire_there = dst_tile.find_field( field_fd_fire );
                 if( !fire_there ) {
-                    here.add_field( dst, fd_fire, 1, 0_turns, false );
+                    here.add_field( dst, field_fd_fire, 1, 0_turns, false );
                     cur.mod_field_intensity( -1 );
                 } else {
                     // Don't fuel raging fires or they'll burn forever
@@ -1212,7 +1241,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                      count != neighs.size() && cur.get_field_age() < 0_turns;
                      i = ( i + 1 ) % neighs.size(), count++ ) {
                     maptile &dst = neighs[i].second;
-                    field_entry *dstfld = dst.find_field( fd_fire );
+                    field_entry *dstfld = dst.find_field( field_fd_fire );
                     // If the fire exists and is weaker than ours, boost it
                     if( dstfld &&
                         ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
@@ -1237,7 +1266,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                      count != neighbour_vec.size() && cur.get_field_age() < 0_turns;
                      i = ( i + 1 ) % neighbour_vec.size(), count++ ) {
                     maptile &dst = neighs[neighbour_vec[i]].second;
-                    field_entry *dstfld = dst.find_field( fd_fire );
+                    field_entry *dstfld = dst.find_field( field_fd_fire );
                     // If the fire exists and is weaker than ours, boost it
                     if( dstfld &&
                         ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
@@ -1275,7 +1304,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 maximum_intensity = 3;
             } else {
                 for( auto &neigh : neighs ) {
-                    if( neigh.second.get_field().find_field( fd_fire ) ) {
+                    if( neigh.second.get_field().find_field( field_fd_fire ) ) {
                         adjacent_fires++;
                     }
                 }
@@ -1308,11 +1337,11 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
             dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
             dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD ) ) {
-            field_entry *nearfire = dst.find_field( fd_fire );
+            field_entry *nearfire = dst.find_field( field_fd_fire );
             if( nearfire != nullptr ) {
                 nearfire->mod_field_age( -2_turns );
             } else {
-                here.add_field( dst_p, fd_fire, 1, 0_turns, false );
+                here.add_field( dst_p, field_fd_fire, 1, 0_turns, false );
             }
             // Fueling fires above doesn't cost fuel
         }
@@ -1336,12 +1365,12 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // This will create small oddities on map edges, but nothing more noticeable than
             // "cut-off" that happens with bounds checks.
 
-            if( dst.find_field( fd_fire ) ) {
+            if( dst.find_field( field_fd_fire ) ) {
                 // We handled supporting fires in the section above, no need to do it here
                 continue;
             }
 
-            field_entry *nearwebfld = dst.find_field( fd_web );
+            field_entry *nearwebfld = dst.find_field( field_fd_web );
             int spread_chance = 25 * ( cur.get_field_intensity() - 1 );
             if( nearwebfld ) {
                 spread_chance = 50 + spread_chance / 2;
@@ -1366,7 +1395,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, false ) ) {
+                if( here.add_field( dst_p, field_fd_fire, 1, 2_minutes, false ) ) {
                     // Consume a bit of our fuel
                     cur.set_field_age( cur.get_field_age() + 1_minutes );
                 }
@@ -1396,12 +1425,12 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // This will create small oddities on map edges, but nothing more noticeable than
             // "cut-off" that happens with bounds checks.
 
-            if( dst.find_field( fd_fire ) ) {
+            if( dst.find_field( field_fd_fire ) ) {
                 // We handled supporting fires in the section above, no need to do it here
                 continue;
             }
 
-            field_entry *nearwebfld = dst.find_field( fd_web );
+            field_entry *nearwebfld = dst.find_field( field_fd_web );
             int spread_chance = 25 * ( cur.get_field_intensity() - 1 );
             if( nearwebfld ) {
                 spread_chance = 50 + spread_chance / 2;
@@ -1426,7 +1455,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                if( here.add_field( dst_p, fd_fire, 1, 2_minutes, false ) ) {
+                if( here.add_field( dst_p, field_fd_fire, 1, 2_minutes, false ) ) {
                     // Consume a bit of our fuel
                     cur.set_field_age( cur.get_field_age() + 1_minutes );
                 }
@@ -1444,7 +1473,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         if( smoke_up ) {
             tripoint_bub_ms up{pos + tripoint::above};
             if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, up ) ) {
-                here.add_field( up, fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns, false );
+                here.add_field( up, field_fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns, false );
             } else {
                 // Can't create smoke above
                 smoke_up = false;
@@ -1453,7 +1482,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
         if( !smoke_up ) {
             // Create thicker smoke
-            here.add_field( pos, fd_smoke, cur.get_field_intensity(), 0_turns, false );
+            here.add_field( pos, field_fd_smoke, cur.get_field_intensity(), 0_turns, false );
         }
     }
 
@@ -1507,8 +1536,9 @@ void map::player_in_field( Character &you )
         }
 
         // Do things based on what field effect we are currently in.
+        // TODO: Would this be better as a static map of field_type_id/field_type_str_id -> function?
         const field_type_id ft = cur.get_field_type();
-        if( ft == fd_acid ) {
+        if( ft == field_fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
             if( !you.in_vehicle && !you.has_trait( trait_ACIDPROOF ) ) {
@@ -1543,29 +1573,26 @@ void map::player_in_field( Character &you )
                                                        you.string_for_ground_contact_bodyparts( bps ) ) );
                 } else if( on_ground ) {
                     you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
-                } else if( !you.is_immune_field( fd_acid ) ) {
+                } else if( !you.is_immune_field( field_fd_acid ) ) {
                     you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid!" ) );
                 }
 
                 you.check_dead_state();
             }
-        }
-        if( ft == fd_sap ) {
+        } else if( ft == field_fd_sap ) {
             // Sap does nothing to cars.
             if( !you.in_vehicle ) {
                 // Use up sap.
                 mod_field_intensity( you.pos_bub(), ft, -1 );
             }
-        }
-        if( ft == fd_sludge ) {
+        } else if( ft == field_fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
             if( !you.has_trait( trait_GASTROPOD_FOOT ) && ( !you.in_vehicle ) ) {
                 you.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
                 you.mod_moves( -cur.get_field_intensity() * 300 );
                 cur.set_field_intensity( 0 );
             }
-        }
-        if( ft == fd_fire ) {
+        } else if( ft == field_fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
             if( !you.has_flag( json_flag_HEATSINK ) && !you.is_wearing( itype_rm13_armor_on ) ) {
 
@@ -1652,8 +1679,7 @@ void map::player_in_field( Character &you )
                 }
             }
 
-        }
-        if( ft == fd_tear_gas ) {
+        } else if( ft == field_fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
                 you.add_env_effect( effect_teargas, bodypart_id( "mouth" ), 5, 20_seconds );
@@ -1662,28 +1688,12 @@ void map::player_in_field( Character &you )
                 you.add_env_effect( effect_blind, bodypart_id( "eyes" ), cur.get_field_intensity() * 2,
                                     10_seconds );
             }
-        }
-        if( ft == fd_fungal_haze ) {
+        } else if( ft == field_fd_fungal_haze ) {
             if( !you.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
                 you.add_env_effect( effect_fungus, bodypart_id( "mouth" ), 4, 10_minutes, true );
                 you.add_env_effect( effect_fungus, bodypart_id( "eyes" ), 4, 10_minutes, true );
             }
-        }
-
-        if( cur.get_intensity_level().extra_radiation_min > 0 ) {
-            const field_intensity_level &int_level = cur.get_intensity_level();
-            // Get irradiated by the nuclear fallout.
-            const float rads = rng( int_level.extra_radiation_min + 1,
-                                    int_level.extra_radiation_max * ( int_level.extra_radiation_max + 1 ) );
-            const bool rad_proof = !you.irradiate( rads );
-            // TODO: Reduce damage for rad resistant?
-            if( int_level.extra_radiation_min > 0 && !rad_proof ) {
-                you.add_msg_if_player( m_bad, int_level.radiation_hurt_message.translated() );
-                you.hurtall( rng( int_level.radiation_hurt_damage_min, int_level.radiation_hurt_damage_max ),
-                             nullptr );
-            }
-        }
-        if( ft == fd_flame_burst ) {
+        } else if( ft == field_fd_flame_burst ) {
             // A burst of flame? Only hits the legs and torso.
             if( !inside ) {
                 // Fireballs can't touch you inside a car.
@@ -1701,8 +1711,7 @@ void map::player_in_field( Character &you )
                                                _( "Those flames do not burn <npcname>." ) );
                 }
             }
-        }
-        if( ft == fd_electricity ) {
+        } else if( ft == field_fd_electricity ) {
             // Small universal damage based on intensity, only if not electroproofed and not in vehicle.
             if( cur.get_field_intensity() > 0 && !you.is_elec_immune() && !you.in_vehicle ) {
                 const bodypart_id &main_part = bodypart_id( "torso" );
@@ -1724,8 +1733,7 @@ void map::player_in_field( Character &you )
                                                _( "The electric cloud doesn't seem to affect <npcname>." ) );
                 }
             }
-        }
-        if( ft == fd_fatigue ) {
+        } else if( ft == field_fd_fatigue ) {
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !you.in_vehicle ) {
                 // Teleports you... somewhere.
@@ -1735,13 +1743,11 @@ void map::player_in_field( Character &you )
                     teleport::teleport( you );
                 }
             }
-        }
-        // Why do these get removed???
-        // Stepping on a shock vent shuts it down.
-        if( ft == fd_shock_vent || ft == fd_acid_vent ) {
+        } else if( ft == field_fd_shock_vent || ft == field_fd_acid_vent ) {
+            // Why do these get removed???
+            // Stepping on a shock vent shuts it down.
             cur.set_field_intensity( 0 );
-        }
-        if( ft == fd_incendiary ) {
+        } else if( ft == field_fd_incendiary ) {
             // Mysterious incendiary substance melts you horribly.
             if( you.has_trait( trait_M_SKIN2 ) ||
                 you.has_trait( trait_M_SKIN3 ) ||
@@ -1755,9 +1761,8 @@ void map::player_in_field( Character &you )
                 you.add_effect( effect_onfire, 8_turns, bodypart_id( "torso" ) );
                 you.hurtall( rng( 2, 6 ), nullptr );
             }
-        }
-        // Both gases are unhealthy and become deadly if you cross a related threshold.
-        if( ft == fd_fungicidal_gas || ft == fd_insecticidal_gas ) {
+        } else if( ft == field_fd_fungicidal_gas || ft == field_fd_insecticidal_gas ) {
+            // Both gases are unhealthy and become deadly if you cross a related threshold.
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
@@ -1768,7 +1773,7 @@ void map::player_in_field( Character &you )
                     bool inhaled = you.add_env_effect( effect_poison, bodypart_id( "mouth" ), 5,
                                                        intensity * 1_minutes );
                     if( you.has_trait( trait_THRESH_MYCUS ) || you.has_trait( trait_THRESH_MARLOSS ) ||
-                        ( ft == fd_insecticidal_gas &&
+                        ( ft == field_fd_insecticidal_gas &&
                           ( you.has_trait( trait_THRESH_INSECT ) ||
                             you.has_trait( trait_THRESH_SPIDER ) ) ) ) {
                         inhaled |= you.add_env_effect( effect_badpoison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
@@ -1780,6 +1785,20 @@ void map::player_in_field( Character &you )
                         you.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name() );
                     }
                 }
+            }
+        }
+
+        if( cur.get_intensity_level().extra_radiation_min > 0 ) {
+            const field_intensity_level &int_level = cur.get_intensity_level();
+            // Get irradiated by the nuclear fallout.
+            const float rads = rng( int_level.extra_radiation_min + 1,
+                                    int_level.extra_radiation_max * ( int_level.extra_radiation_max + 1 ) );
+            const bool rad_proof = !you.irradiate( rads );
+            // TODO: Reduce damage for rad resistant?
+            if( int_level.extra_radiation_min > 0 && !rad_proof ) {
+                you.add_msg_if_player( m_bad, int_level.radiation_hurt_message.translated() );
+                you.hurtall( rng( int_level.radiation_hurt_damage_min, int_level.radiation_hurt_damage_max ),
+                             nullptr );
             }
         }
         // Process npc complaints (moved here from fields processing)
@@ -1889,27 +1908,26 @@ void map::monster_in_field( monster &z )
         if( !cur.is_field_alive() ) {
             continue;
         }
+
+        // TODO: Would this be better as a static map of field_type_id/field_type_str_id -> function?
         const field_type_id cur_field_type = cur.get_field_type();
-        if( cur_field_type == fd_acid ) {
+        if( cur_field_type == field_fd_acid ) {
             if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
                 z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_acid, d ) );
                 z.check_dead_state();
             }
 
-        }
-        if( cur_field_type == fd_sap ) {
+        } else if( cur_field_type == field_fd_sap ) {
             z.mod_moves( -cur.get_field_intensity() * 5 );
             mod_field_intensity( z.pos_bub(), cur.get_field_type(), -1 );
-        }
-        if( cur_field_type == fd_sludge ) {
+        } else if( cur_field_type == field_fd_sludge ) {
             if( !z.digs() && !z.flies() &&
                 !z.has_flag( mon_flag_SLUDGEPROOF ) ) {
                 z.mod_moves( -cur.get_field_intensity() * 300 );
                 cur.set_field_intensity( 0 );
             }
-        }
-        if( cur_field_type == fd_fire ) {
+        } else if( cur_field_type == field_fd_fire ) {
             // TODO: MATERIALS Use fire resistance
             if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 return;
@@ -1951,8 +1969,7 @@ void map::monster_in_field( monster &z )
                     }
                 }
             }
-        }
-        if( cur_field_type == fd_smoke ) {
+        } else if( cur_field_type == field_fd_smoke ) {
             if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.1, 0.2 ) );
@@ -1963,8 +1980,7 @@ void map::monster_in_field( monster &z )
                 }
             }
 
-        }
-        if( cur_field_type == fd_tear_gas ) {
+        } else if( cur_field_type == field_fd_tear_gas ) {
             if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
@@ -1978,28 +1994,24 @@ void map::monster_in_field( monster &z )
                 }
             }
 
-        }
-        if( cur_field_type == fd_relax_gas ) {
+        } else if( cur_field_type == field_fd_relax_gas ) {
             if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 z.add_effect( effect_stunned, rng( cur.get_field_intensity() * 4_turns,
                                                    cur.get_field_intensity() * 8_turns ) );
             }
-        }
-        if( cur_field_type == fd_dazzling ) {
+        } else if( cur_field_type == field_fd_dazzling ) {
             if( z.has_flag( mon_flag_SEES ) && !z.has_flag( mon_flag_ELECTRONIC ) ) {
                 z.add_effect( effect_blind, cur.get_field_intensity() * 12_turns );
                 z.add_effect( effect_stunned, cur.get_field_intensity() * rng( 5_turns, 12_turns ) );
             }
 
-        }
-        if( cur_field_type == fd_toxic_gas ) {
+        } else if( cur_field_type == field_fd_toxic_gas ) {
             if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 dam += cur.get_field_intensity();
                 z.mod_moves( -cur.get_field_intensity() );
             }
 
-        }
-        if( cur_field_type == fd_nuke_gas ) {
+        } else if( cur_field_type == field_fd_nuke_gas ) {
             if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.6, 1.2 ) );
@@ -2018,8 +2030,7 @@ void map::monster_in_field( monster &z )
                 }
             }
 
-        }
-        if( cur_field_type == fd_flame_burst ) {
+        } else if( cur_field_type == field_fd_flame_burst ) {
             // TODO: MATERIALS Use fire resistance
             if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 return;
@@ -2038,20 +2049,17 @@ void map::monster_in_field( monster &z )
             }
             dam += rng( 0, 8 );
             z.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
-        }
-        if( cur_field_type == fd_electricity ) {
+        } else if( cur_field_type == field_fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
             const int field_dmg = std::max( 1, rng( cur.get_field_intensity() / 2,
                                                     cur.get_field_intensity() ) );
             z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_electric, field_dmg ) );
-        }
-        if( cur_field_type == fd_fatigue ) {
+        } else if( cur_field_type == field_fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
                 teleport::teleport( z );
             }
-        }
-        if( cur_field_type == fd_incendiary ) {
+        } else if( cur_field_type == field_fd_incendiary ) {
             // TODO: MATERIALS Use fire resistance
             if( z.has_flag( mon_flag_FIREPROOF ) || z.has_flag( mon_flag_FIREY ) ) {
                 return;
@@ -2084,8 +2092,7 @@ void map::monster_in_field( monster &z )
                     z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                 }
             }
-        }
-        if( cur_field_type == fd_fungal_haze ) {
+        } else if( cur_field_type == field_fd_fungal_haze ) {
             if( !z.type->in_species( species_FUNGUS ) &&
                 !z.type->has_flag( mon_flag_NO_BREATHE ) &&
                 !z.make_fungus() ) {
@@ -2094,15 +2101,13 @@ void map::monster_in_field( monster &z )
                 z.mod_moves( -rng( 10 * intensity, 30 * intensity ) );
                 dam += rng( 0, 10 * intensity );
             }
-        }
-        if( cur_field_type == fd_fungicidal_gas ) {
+        } else if( cur_field_type == field_fd_fungicidal_gas ) {
             if( z.type->in_species( species_FUNGUS ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.mod_moves( -rng( 10 * intensity, 30 * intensity ) );
                 dam += rng( 4, 7 * intensity );
             }
-        }
-        if( cur_field_type == fd_insecticidal_gas ) {
+        } else if( cur_field_type == field_fd_insecticidal_gas ) {
             if( z.made_of( material_iflesh ) && !z.has_flag( mon_flag_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.mod_moves( -rng( 10 * intensity, 30 * intensity ) );
@@ -2292,43 +2297,33 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
 
     // Per-type processors:
-    if( ft.id == fd_acid ) {
+    // TODO: Would this be better as a static map?
+    const field_type_id fti = ft.id;
+    if( fti == field_fd_acid ) {
         processors.push_back( &field_processor_fd_acid );
-    }
-    if( ft.id == fd_extinguisher ) {
+    } else if( fti == field_fd_extinguisher ) {
         processors.push_back( &field_processor_fd_extinguisher );
-    }
-    if( ft.id == fd_fire ) {
+    } else if( fti == field_fd_fire ) {
         processors.push_back( &field_processor_fd_fire );
-    }
-    if( ft.id == fd_fungal_haze ) {
+    } else if( fti == field_fd_fungal_haze ) {
         processors.push_back( &field_processor_fd_fungal_haze );
-    }
-    if( ft.id == fd_fire_vent ) {
+    } else if( fti == field_fd_fire_vent ) {
         processors.push_back( &field_processor_fd_fire_vent );
-    }
-    if( ft.id == fd_flame_burst ) {
+    } else if( fti == field_fd_flame_burst ) {
         processors.push_back( &field_processor_fd_flame_burst );
-    }
-    if( ft.id == fd_electricity || ft.id == fd_electricity_unlit ) {
+    } else if( fti == field_fd_electricity || fti == field_fd_electricity_unlit ) {
         processors.push_back( &field_processor_fd_electricity );
-    }
-    if( ft.id == fd_push_items ) {
+    } else if( fti == field_fd_push_items ) {
         processors.push_back( &field_processor_fd_push_items );
-    }
-    if( ft.id == fd_shock_vent ) {
+    } else if( fti == field_fd_shock_vent ) {
         processors.push_back( &field_processor_fd_shock_vent );
-    }
-    if( ft.id == fd_acid_vent ) {
+    } else if( fti == field_fd_acid_vent ) {
         processors.push_back( &field_processor_fd_acid_vent );
-    }
-    if( ft.id == fd_incendiary ) {
+    } else if( fti == field_fd_incendiary ) {
         processors.push_back( &field_processor_fd_incendiary );
-    }
-    if( ft.id == fd_fungicidal_gas ) {
+    } else if( fti == field_fd_fungicidal_gas ) {
         processors.push_back( &field_processor_fd_fungicidal_gas );
-    }
-    if( ft.id == fd_last_known ) {
+    } else if( fti == field_fd_last_known ) {
         processors.push_back( &field_processor_fd_last_known );
     }
 
@@ -2337,5 +2332,5 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
 
 const field_type_str_id &map::get_applicable_electricity_field( const tripoint_bub_ms &p ) const
 {
-    return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
+    return is_transparent( p ) ? field_fd_electricity : field_fd_electricity_unlit;
 }
