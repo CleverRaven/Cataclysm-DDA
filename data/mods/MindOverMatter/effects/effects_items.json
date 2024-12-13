@@ -57,6 +57,14 @@
     "flags": [ "TELEKIN_SHIELD" ]
   },
   {
+    "id": "effect_suppression_belt_fire_protection",
+    "type": "effect_type",
+    "//": "Blank to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "HEAT_IMMUNE" ]
+  },
+  {
     "type": "effect_type",
     "id": "effect_black_nether_water_disease",
     "name": [ "Unearthly Cold" ],
