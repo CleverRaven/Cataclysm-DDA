@@ -1237,7 +1237,8 @@
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
           { "item": "spell_scroll_magus_haste", "prob": 50 },
           { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 },
-          { "item": "spell_scroll_magus_slow", "prob": 50 }
+          { "item": "spell_scroll_magus_slow", "prob": 50 },
+          { "item": "spell_scroll_magus_permanent_light", "prob": 30 }
         ],
         "prob": 10
       },

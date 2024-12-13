@@ -781,5 +781,28 @@
     "energy_source": "MANA",
     "base_casting_time": 100,
     "base_energy_cost": 75
+  },
+  {
+    "id": "magus_permanent_light",
+    "type": "SPELL",
+    "name": "Imperishable Light",
+    "description": "Enchant the air in a location to glow, producing a orb of soft light.  While not particularly bright, the light will last years if you're not lucky and millennia if you are.",
+    "valid_targets": [ "ground" ],
+    "effect": "ter_transform",
+    "effect_str": "ter_magus_permanent_light",
+    "shape": "blast",
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL" ],
+    "components": "spell_components_magus_permanent_light",
+    "max_level": 15,
+    "spell_class": "MAGUS",
+    "energy_source": "MANA",
+    "difficulty": 8,
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 180000,
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1500,
+    "energy_increment": -75,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   }
 ]
