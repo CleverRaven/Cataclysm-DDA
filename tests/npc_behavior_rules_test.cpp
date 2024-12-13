@@ -16,6 +16,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
+#include "gates.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -48,6 +49,8 @@ static const furn_str_id furn_f_chair( "f_chair" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked( "t_door_locked" );
 static const ter_str_id ter_t_door_o( "t_door_o" );
+
+static const vproto_id veh_locked_as_hell_car( "locked_as_hell_car" );
 
 static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
@@ -170,5 +173,85 @@ TEST_CASE( "NPC rules (close doors)", "[npc_rules]" )
         // (since test area is spawned *nearby* they might walk over some random dirt, grass, w/e on the way to the test area)
         CHECK( here.ter( loc ).id() != ter_t_door_o );
     }
+
+}
+
+TEST_CASE( "NPC rules (avoid locks)", "[npc_rules]" )
+{
+    /* Avoid locked doors rule
+    * Target is a the north side of a locked door (otherwise inaccessible room)
+    * We can open the door, but our rules forbid it
+    * Test succeeds if NPC fails to path to other side of door
+    *
+    * For the second part, we repeat the test with a vehicle locked door.
+    * The NPC is placed inside the vehicle for this test.
+    * In this case, our target is the north side of a locked door (otherwise inaccessible vehicle)
+    * We can unlock and open the door, but our rules forbid it.
+    * Test succeeds if NPC fails to path to outside the vehicle.
+    */
+    const ally_rule rule_to_test = ally_rule::avoid_locks;
+    const shared_ptr_fast<npc> &test_subject = setup_generic_rules_test( rule_to_test,
+            update_mapgen_debug_npc_rules_test_close_doors );
+    // Some sanity checking to make sure we can even do this test
+    REQUIRE( !test_subject->rules.has_flag( ally_rule::avoid_doors ) );
+    map &here = get_map();
+
+
+    tripoint_bub_ms door_position;
+    for( const tripoint_bub_ms &ter_loc : here.points_in_radius( test_subject->pos_bub(), 60 ) ) {
+        if( here.ter( ter_loc ) == ter_t_door_locked ) {
+            door_position = ter_loc;
+            break;
+        }
+    }
+    tripoint_bub_ms door_unlock_position = door_position + point::south;
+    tripoint_bub_ms past_the_door = door_position + point::north;
+    here.set_outside_cache_dirty( door_position.z() );
+    here.build_outside_cache( door_position.z() );
+    REQUIRE( !here.is_outside( door_unlock_position ) );
+
+    test_subject->update_path( door_unlock_position, true, true );
+    REQUIRE( !test_subject->path.empty() ); // we can reach the unlock position
+    test_subject->path.clear();
+    test_subject->update_path( past_the_door, true, true );
+    // FIXME: NPC rules do not consider locked terrain doors, only vehicles
+    // CHECK( test_subject->path.empty() );
+    test_subject->path.clear();
+
+    const tripoint_bub_ms car_center_pos = test_subject->pos_bub() + tripoint_rel_ms{0, 10, 0};
+    const tripoint_bub_ms car_door_pos = car_center_pos + point_rel_ms{0, -2};
+    const tripoint_bub_ms car_door_unlock_pos = car_door_pos + point::south;
+    const tripoint_bub_ms outside_car_door_pos = car_door_pos + point::north;
+
+
+    // all sides of the vehicle are locked doors
+    vehicle *test_vehicle = here.add_vehicle( veh_locked_as_hell_car,
+                            car_center_pos, 0_degrees, 0, 0 );
+
+    // vehicle is a 5x5 grid, car_door_pos is the only door/exit
+    std::vector<vehicle_part *> parts_at_target = test_vehicle->get_parts_at(
+                car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
+    vehicle_part *door = parts_at_target.front();
+    REQUIRE( !parts_at_target.empty() );
+
+    // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
+    const int door_index = test_vehicle->index_of_part( door );
+    const int door_lock_index = test_vehicle->next_part_to_lock( door_index );
+    REQUIRE( door_lock_index != -1 );
+    vehicle_part &door_lock = test_vehicle->part( door_lock_index );
+    door_lock.locked = true;
+    REQUIRE( ( door_lock.is_available() && door_lock.locked ) );
+
+
+    test_subject->setpos( car_door_unlock_pos );
+    here.board_vehicle( car_door_unlock_pos, &*test_subject );
+
+    CHECK( doors::can_unlock_door( here, *test_subject, car_door_pos ) );
+
+    test_subject->update_path( outside_car_door_pos, true, true );
+    // if this check fails with a path size of 2, we pathed straight through the door.
+    // if size is > 2, we somehow pathed out of the vehicle without going through the door
+    CAPTURE( test_subject->path.size() );
+    CHECK( test_subject->path.empty() );
 
 }

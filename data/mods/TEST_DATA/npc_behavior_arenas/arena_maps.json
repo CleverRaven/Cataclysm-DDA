@@ -3,7 +3,14 @@
     "type": "palette",
     "id": "npc_behavior_test_palette",
     "furniture": { "a": "f_chair" },
-    "terrain": { ".": "t_thconc_floor", "X": "t_concrete_wall", "C": "t_door_c", "O": "t_door_o", "u": "t_door_frame", "W": "t_door_locked" }
+    "terrain": {
+      ".": "t_thconc_floor",
+      "X": "t_concrete_wall",
+      "C": "t_door_c",
+      "O": "t_door_o",
+      "u": "t_door_frame",
+      "W": "t_door_locked"
+    }
   },
   {
     "type": "mapgen",
@@ -74,5 +81,44 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "npc_behavior_test_palette" ]
     }
+  },
+  {
+    "id": "locked_as_hell_car",
+    "type": "vehicle",
+    "name": "DEBUG locked car DEBUG",
+    "blueprint": [
+      [ "BBDBB" ],
+      [ "B===B" ],
+      [ "B===B" ],
+      [ "B===B" ],
+      [ "BBBBB" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame", "board", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame", "board", "roof" ] },
+      { "x": 1, "y": 2, "parts": [ "frame", "board", "roof" ] },
+      { "x": 2, "y": 2, "parts": [ "frame", "board", "roof" ] },
+      { "x": 0, "y": -2, "parts": [ "frame", "door", "door_lock", "roof" ] },
+      { "x": 1, "y": -2, "parts": [ "frame", "board", "roof" ] },
+      { "x": 2, "y": -1, "parts": [ "frame", "board", "roof" ] },
+      { "x": 2, "y": 0, "parts": [ "frame", "board", "roof" ] },
+      { "x": 2, "y": 1, "parts": [ "frame", "board", "roof" ] },
+      { "x": -2, "y": -1, "parts": [ "frame", "board", "roof" ] },
+      { "x": -2, "y": 0, "parts": [ "frame", "board", "roof" ] },
+      { "x": -2, "y": -2, "parts": [ "frame", "board", "roof" ] },
+      { "x": -1, "y": -2, "parts": [ "frame", "board", "roof" ] },
+      { "x": 2, "y": -2, "parts": [ "frame", "board", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame", "board", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame", "board", "roof" ] }
+    ]
   }
 ]
