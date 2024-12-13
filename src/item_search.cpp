@@ -5,14 +5,45 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "flag.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "itype.h"
+#include "make_static.h"
 #include "material.h"
 #include "requirements.h"
 #include "type_id.h"
 
 static std::pair<std::string, std::string> get_both( std::string_view a );
+
+template<typename Unit>
+static std::function< bool( const item & )> can_contain_filter( std::string_view hint,
+        std::string_view filter, Unit max, std::vector<std::pair<std::string, Unit>> units,
+        std::function<item( itype *, Unit u )> set_function )
+{
+    auto const error = [hint, filter]( char const *, size_t /* offset */ ) {
+        throw math::runtime_error( _( string_format( hint, filter ) ) );
+    };
+    // Start at max. On convert failure: results are empty and user knows it is unusable.
+    Unit uni = max;
+    try {
+        uni = detail::read_from_json_string_common<Unit>( filter, units, error );
+    } catch( math::runtime_error &err ) {
+        // TODO notify the user: popup( err.what() );
+    }
+    // copy the debug item template (itype), put it on heap so the itype pointer doesn't move
+    // TODO unique_ptr
+    std::shared_ptr<itype> filtered_fake_itype = std::make_shared<itype>( *( item_controller->find( [](
+    const itype & i ) {
+        return i.get_id() == STATIC( itype_id( "debug_item_search" ) );
+    } )[0] ) );
+    item filtered_fake_item = set_function( filtered_fake_itype.get(), uni );
+    // pass to keep filtered_fake_itype valid until lambda capture is destroyed (while item is needed)
+    return [filtered_fake_itype, filtered_fake_item]( const item & i ) {
+        return i.can_contain( filtered_fake_item ).success();
+    };
+}
 
 std::function<bool( const item & )> basic_item_filter( std::string filter )
 {
@@ -87,6 +118,32 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 }
                 return false;
             };
+        // by can contain length
+        case 'L': {
+            return can_contain_filter<units::length>( "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
+            filter, units::length_max, units::length_units, []( itype * typ, units::length len ) {
+                typ->longest_side = len;
+                item itm( typ );
+                itm.set_flag( flag_HARD );
+                return itm;
+            } );
+        }
+        // by can contain volume
+        case 'V': {
+            return can_contain_filter<units::volume>( "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
+            filter, units::volume_max, units::volume_units, []( itype * typ, units::volume vol ) {
+                typ->volume = vol;
+                return item( typ );
+            } );
+        }
+        // by can contain mass
+        case 'M': {
+            return can_contain_filter<units::mass>( "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
+            filter, units::mass_max, units::mass_units, []( itype * typ, units::mass mas ) {
+                typ->weight = mas;
+                return item( typ );
+            } );
+        }
         // covers bodypart
         case 'v': {
             std::unordered_set<bodypart_id> filtered_bodyparts;
