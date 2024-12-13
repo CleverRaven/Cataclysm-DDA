@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "npc_behavior_test_palette",
     "furniture": { "a": "f_chair" },
-    "terrain": { ".": "t_thconc_floor", "X": "t_concrete_wall", "C": "t_door_c", "O": "t_door_o", "u": "t_door_frame" }
+    "terrain": { ".": "t_thconc_floor", "X": "t_concrete_wall", "C": "t_door_c", "O": "t_door_o", "u": "t_door_frame", "W": "t_door_locked" }
   },
   {
     "type": "mapgen",
@@ -30,6 +30,41 @@
         "X......................X",
         "X......................X",
         "XXXXXXXXXXXuXXXXXXXXXXXX",
+        "X......................X",
+        "X......................X",
+        "XXXXXXXXXXX.XXXXXXXXXXXX",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "npc_behavior_test_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "debug_npc_rules_test_close_doors",
+    "object": {
+      "rows": [
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "X......................X",
+        "X......................X",
+        "X......................X",
+        "X..........a...........X",
+        "X......................X",
+        "X......................X",
+        "X......................X",
+        "X......................X",
+        "X......................X",
+        "X......................X",
+        "X......................X",
+        "XXXXXXXXXXXOXXXXXXXXXXXX",
+        "X......................X",
+        "X......................X",
+        "XXXXXXXXXXXCXXXXXXXXXXXX",
+        "X......................X",
+        "X......................X",
+        "XXXXXXXXXXXWXXXXXXXXXXXX",
         "X......................X",
         "X......................X",
         "XXXXXXXXXXX.XXXXXXXXXXXX",
