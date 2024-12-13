@@ -2500,7 +2500,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                              uilist * )
 {
     const std::string &action = ctxt.input_to_action( event );
-    if( entnum == 0  || action != "SHOW_DESCRIPTION" )  {
+    if( entnum < static_cast<int>( offset ) || action != "SHOW_DESCRIPTION" )  {
         return false;
     }
 
