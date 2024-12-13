@@ -1,12 +1,12 @@
-[
+[   
   {
     "id": "dwarf_supercompact_car",
     "type": "vehicle",
     "name": "Dwarven Supercompact Car",
     "copy-from": "scompact_abstract",
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "pedal_extenders" ] },
       { "x": 1, "y": 0, "parts": [ "engine_vtwin", "alternator_motorbike" ] },
+      { "x": 0, "y": 0, "parts": [ { "part": "pedal_extenders"} ] },
       { "x": -1, "y": -1, "parts": [ { "part": "tank_medium", "fuel": "gasoline" } ] },
       { "x": -1, "y": 0, "parts": [ "muffler" ] }
     ]
