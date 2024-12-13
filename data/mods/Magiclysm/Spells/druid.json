@@ -387,6 +387,8 @@
     "difficulty": 6,
     "base_casting_time": 600,
     "base_energy_cost": 25,
+    "final_energy_cost": 10,
+    "energy_increment": -1,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 20,
     "min_aoe": 1,
@@ -1052,7 +1054,7 @@
     "id": "druid_renew_forest_spell",
     "type": "SPELL",
     "name": "Renewing the Forest",
-    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.\n\nIn <color_yellow>addition to</color> mana, this spell also requires <color_red>hit points</color> to cast and <color_yellow>will fail</color> if you are too injured.",
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
     "max_level": 25,
@@ -1062,7 +1064,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_RENEW_FOREST_SPELL",
     "energy_source": "MANA",
-    "base_energy_cost": 1500,
+    "base_energy_cost": 150,
     "base_casting_time": 6000,
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
@@ -1075,7 +1077,36 @@
         {
           "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
           "condition": { "math": [ "u_val('pos_z') == 0" ] },
-          "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
+          "effect": [
+            { "math": [ "u_renew_forest_hp_cost = max( (25 - (u_spell_level('druid_renew_forest_spell') / 2 ) ), 15 )" ] },
+            {
+              "if": {
+                "and": [
+                  { "math": [ "u_hp('arm_l') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('arm_r') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('leg_l') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('leg_r') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('torso') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('head') > u_renew_forest_hp_cost" ] }
+                ]
+              },
+              "then": [
+                {
+                  "u_transform_radius": {
+                    "math": [ "( (u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+                  },
+                  "ter_furn_transform": "ter_druid_renew_forest"
+                },
+                { "math": [ "u_hp('arm_l') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('arm_r') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('leg_l') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('leg_r') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('torso') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('head') -= u_renew_forest_hp_cost" ] }
+              ],
+              "else": [ { "u_message": "You do not have enough life force to donate it to renew the forest!", "type": "bad" } ]
+            }
+          ],
           "false_effect": {
             "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
             "type": "bad"
