@@ -5424,7 +5424,8 @@ void oxytorch_activity_actor::start( player_activity &act, Character &who )
     if( tool->ammo_sufficient( &who, act.moves_total / 100 ) ||
         query_yn(
             _( "Your %1$s doesn't have enough charges to complete the job. Continue anyway?" ), tool->tname()
-        )
+        ) ||
+        test_mode
       ) {
         add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
         act.moves_left = act.moves_total;
