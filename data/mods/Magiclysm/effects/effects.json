@@ -1359,7 +1359,15 @@
     "desc": [ "You have shed your physical form." ],
     "rating": "good",
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": 3 },
+          { "value": "MOVE_COST", "multiply": -0.66 },
+          { "value": "PHASE_DISTANCE", "add": 1 }
+        ]
+      }
+    ],
     "flags": [
       "ETHEREAL",
       "FEATHER_FALL",
