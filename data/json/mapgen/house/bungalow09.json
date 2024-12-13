@@ -50,7 +50,10 @@
         "l": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "s": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 9, "y": 0 } ],
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 9, "y": 0 },
+        { "chunks": [ [ "null", 10 ], [ "carcrash_8x8_straight", 90 ] ], "x": [ 14, 15 ], "y": 0 }
+      ],
       "place_loot": [ { "item": "laptop", "x": 17, "y": 5, "chance": 100 }, { "item": "television", "x": 9, "y": 7, "chance": 100 } ]
     }
   },
