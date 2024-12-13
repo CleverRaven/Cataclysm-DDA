@@ -2561,9 +2561,9 @@
     "result": "fan",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ], [ [ "plastic_chunk", 15 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 30 ] ] ]
   },
   {
     "result": "fancy_sunglasses",
