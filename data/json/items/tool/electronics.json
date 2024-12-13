@@ -75,13 +75,16 @@
     "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
     "power_draw": "500 mW",
     "revert_to": "cell_phone",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "cell_phone",
-      "msg": "You turn off the screen.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "cell_phone",
+        "msg": "You turn off the screen.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
