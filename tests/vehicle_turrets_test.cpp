@@ -25,7 +25,7 @@
 
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
-static const vproto_id vehicle_prototype_test_turret_rig("test_turret_rig");
+static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
 static std::vector<const vpart_info *> all_turret_types()
 {
