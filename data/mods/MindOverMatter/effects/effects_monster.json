@@ -360,6 +360,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vitakinetic_healing_down_super",
+    "name": [ "Feeling Extremely Unwell" ],
+    "desc": [ "You feel exhausted and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "18 hours",
+    "base_mods": {
+      "str_mod": [ -3 ],
+      "dex_mod": [ -1 ],
+      "h_mod_min": [ -3 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 4 ],
+      "h_mod_tick": [ 300 ],
+      "healing_rate": [ 0.25 ]
+    },
+    "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "psi_vitakinetic_degeneration",
     "name": [ "Deteriorating" ],
     "desc": [ "Your skin seems to be slowly crumbling as you watch." ],
