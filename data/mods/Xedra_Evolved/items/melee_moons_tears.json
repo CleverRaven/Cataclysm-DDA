@@ -74,9 +74,8 @@
   {
     "type": "TOOL",
     "id": "moons_tears_battleaxe",
-    "copy-from": "battleaxe",
-    "looks_like": "battleaxe",
-    "//": "copy from ch_battleaxe once that exists",
+    "copy-from": "ch_battleaxe",
+    "looks_like": "ch_battleaxe",
     "name": { "str_sp": "moon's tears battle axe" },
     "description": "A huge axe designed for warfare, forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
     "material": [ { "type": "moon_tears", "portion": 1 }, { "type": "wood", "portion": 4 } ],

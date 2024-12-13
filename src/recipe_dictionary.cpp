@@ -12,6 +12,7 @@
 #include "crafting_gui.h"
 #include "display.h"
 #include "debug.h"
+#include "flag.h"
 #include "init.h"
 #include "input.h"
 #include "item.h"
@@ -19,6 +20,7 @@
 #include "itype.h"
 #include "make_static.h"
 #include "mapgen.h"
+#include "math_parser.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "requirements.h"
@@ -186,9 +188,32 @@ static std::string cached_item_info( const itype_id &item_type )
 }
 
 // keep data for one search cycle
+static itype filtered_fake_itype;
+static item filtered_fake_item;
 static std::unordered_set<bodypart_id> filtered_bodyparts;
 static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
 static std::unordered_set<layer_level> filtered_layers;
+
+template<typename Unit>
+static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
+                                std::vector<std::pair<std::string, Unit>> units )
+{
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
+        throw math::runtime_error( _( string_format( hint, txt ) ) );
+    };
+    // Start at max. On convert failure: results are empty and user knows it is unusable.
+    Unit uni = max;
+    try {
+        uni = detail::read_from_json_string_common<Unit>( txt, units, error );
+    } catch( math::runtime_error &err ) {
+        popup( err.what() );
+    }
+    // copy the debug item template (itype)
+    filtered_fake_itype = itype( *( item_controller->find( []( const itype & i ) {
+        return i.get_id() == STATIC( itype_id( "debug_item_search" ) );
+    } )[0] ) );
+    return uni;
+}
 
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
@@ -230,6 +255,11 @@ std::vector<const recipe *> recipe_subset::search(
             case search_type::quality_result: {
                 return item::find_type( r->result() )->has_any_quality( txt );
             }
+
+            case search_type::length:
+            case search_type::volume:
+            case search_type::mass:
+                return item( r->result() ).can_contain( filtered_fake_item ).success();
 
             case search_type::covers: {
                 const item result_item( r->result() );
@@ -328,6 +358,35 @@ std::vector<const recipe *> recipe_subset::search(
 
     // prepare search
     switch( key ) {
+        case search_type::length: {
+            units::length len = can_contain_filter(
+                                    "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
+                                    txt, units::length_max, units::length_units );
+
+            filtered_fake_itype.longest_side = len;
+            filtered_fake_item = item( &filtered_fake_itype );
+            // make the item hard, otherwise longest_side is ignored
+            filtered_fake_item.set_flag( flag_HARD );
+            break;
+        }
+        case search_type::volume: {
+            units::volume vol = can_contain_filter(
+                                    "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
+                                    txt, units::volume_max, units::volume_units );
+
+            filtered_fake_itype.volume = vol;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::mass: {
+            units::mass mas = can_contain_filter(
+                                  "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
+                                  txt, units::mass_max, units::mass_units );
+
+            filtered_fake_itype.weight = mas;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
         case search_type::covers: {
             filtered_bodyparts.clear();
             filtered_sub_bodyparts.clear();

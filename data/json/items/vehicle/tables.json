@@ -5,7 +5,7 @@
     "name": { "str": "fancy table" },
     "description": "A very fancy table for those with fancy lives.  If times were better, it might be useful for something other than firewood.",
     "weight": "9071 g",
-    "to_hit": -8,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
     "color": "red",
     "symbol": "0",
     "material": [ "wood" ],

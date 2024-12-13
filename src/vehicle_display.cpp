@@ -66,6 +66,9 @@ vpart_display vehicle::get_display_of_tile( const point_rel_ms &dp, bool rotate,
     }
 
     const vehicle_part &vp = part( part_idx );
+    if( vp.hidden ) {
+        return {};
+    }
     const vpart_info &vpi = vp.info();
 
     auto variant_it = vpi.variants.find( vp.variant );

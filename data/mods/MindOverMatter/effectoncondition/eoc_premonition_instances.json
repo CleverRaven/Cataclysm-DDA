@@ -43,7 +43,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_ACTUAL",
     "effect": [
-      { "math": [ "u_Shadow_Lurking", "--" ] },
+      { "math": [ "u_Shadow_Lurking--" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
     ]
@@ -157,7 +157,7 @@
         "max_radius": 25,
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -172,7 +172,7 @@
         "max_radius": 40,
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -231,7 +231,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -247,7 +247,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -305,7 +305,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
@@ -321,7 +321,7 @@
         "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you.",
         "spawn_message_plural": "Rough-looking people step out of hiding and begin rapidly approaching you."
       },
-      { "math": [ "u_bandit_assassins_sent", "++" ] }
+      { "math": [ "u_bandit_assassins_sent++" ] }
     ]
   },
   {
