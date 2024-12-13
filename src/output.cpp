@@ -1040,14 +1040,14 @@ std::string string_replace( std::string text, const std::string &before, const s
 std::string replace_colors( std::string text )
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
-        {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_light_blue )},
-        {"header", get_all_colors().get_name( c_magenta )},
-        {"bold", get_all_colors().get_name( c_white )},
-        {"dark", get_all_colors().get_name( c_dark_gray )},
-        {"good", get_all_colors().get_name( c_green )},
-        {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_yellow )}
+        {"info", get_all_colors().get_name( c_info ) },
+        {"stat", get_all_colors().get_name( c_stat ) },
+        {"header", get_all_colors().get_name( c_header ) },
+        {"bold", get_all_colors().get_name( c_bold ) },
+        {"dark", get_all_colors().get_name( c_dark ) },
+        {"good", get_all_colors().get_name( c_good ) },
+        {"bad", get_all_colors().get_name( c_bad ) },
+        {"neutral", get_all_colors().get_name( c_neutral ) },
     };
 
     for( const auto &elem : info_colors ) {
