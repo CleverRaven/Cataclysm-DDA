@@ -48,7 +48,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
     map &here = get_map();
     Character &player_character = get_player_character();
     const tripoint_bub_ms veh_pos( 65, 65, here.get_abs_sub().z() );
-    // TODO: Get rid of this set of tests when the cause of this test randomly failing has been elimined.
+    // TODO: Get rid of this set of tests when the cause of this test randomly failing has been eliminated.
     REQUIRE( veh_pos.z() == 0 );
     REQUIRE( vehicle_prototype_test_turret_rig.is_valid() );
     REQUIRE( here.inbounds( veh_pos ) );
