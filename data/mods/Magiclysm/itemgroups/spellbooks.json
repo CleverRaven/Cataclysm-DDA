@@ -129,6 +129,7 @@
       [ "spell_scroll_earthshaper_harden_earth", 40 ],
       [ "spell_scroll_druid_breathing_underwater", 30 ],
       [ "spell_scroll_biomancer_coagulant_weave", 30 ],
+      [ "spell_scroll_biomancer_get_more_blood", 20 ],
       [ "spell_scroll_repelling_arc", 30 ],
       [ "spell_scroll_knock", 35 ],
       [ "spell_scroll_caustic_aura", 30 ],
