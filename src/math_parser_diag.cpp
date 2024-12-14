@@ -1114,19 +1114,13 @@ diag_eval_dbl_f spell_exp_for_level_eval( char /* scope */,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[sid = params[0], level = params[1]]( const_dialogue const & d ) -> double {
-        std::vector<spell_type> all_spells = spell_type::get_all();
-        auto it = std::find_if( all_spells.begin(), all_spells.end(), [&sid, &d]( const spell_type & obj )
-        {
-            return obj.id.c_str() == sid.str( d );
-        } );
-        if( it != all_spells.end() )
-        {
-            return it->exp_for_level( level.dbl( d ) );
-        } else
-        {
-            throw math::runtime_error( R"(Unknown spell id "%s" for spell_exp_for_level)", sid.str( d ) );
-            return -1;
+        std::string sid_str = sid.str( d );
+        spell_id spell( sid_str );
+        if( spell.is_valid() ) {
+            return spell->exp_for_level( level.dbl( d ) );
         }
+
+        throw math::runtime_error( R"(Unknown spell id "%s" for spell_exp_for_level)", sid_str );
     };
 }
 
