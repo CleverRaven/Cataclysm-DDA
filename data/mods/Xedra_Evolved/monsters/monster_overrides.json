@@ -1,0 +1,26 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_tindalos",
+    "copy-from": "mon_tindalos",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hound_tindalos",
+    "copy-from": "mon_hound_tindalos",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lieutenant_shadow",
+    "copy-from": "mon_lieutenant_shadow",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_xe_unicorn",
+    "copy-from": "mon_xe_unicorn",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  }
+]
