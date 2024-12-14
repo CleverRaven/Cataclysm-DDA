@@ -78,20 +78,5 @@
         }
       ],
       "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
-    },
-    {
-      "type": "monstergroup",
-      "name": "GROUP_ZOMBIE_UPGRADE",
-      "monsters": [ { "monster": "mon_zombie_monochrome", "weight": 30 } ]
-    },
-    {
-      "type": "monstergroup",
-      "name": "GROUP_ZOMBIE_MONOCHROME_UPGRADE",
-      "default": "mon_zombie_monochrome",
-      "monsters": [
-        { "monster": "mon_zombie_monochrome", "weight": 450 },
-        { "monster": "mon_zombie_monochrome_2", "weight": 225 },
-        { "monster": "mon_zombie_monochrome_3", "weight": 100 }
-      ]
     }
 ]
