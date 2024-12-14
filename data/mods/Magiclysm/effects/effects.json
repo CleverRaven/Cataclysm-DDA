@@ -1413,6 +1413,10 @@
         "values": [
           { "value": "MOVE_COST", "multiply": { "math": [ "((u_spell_level('druid_traverse_the_wilds') * -0.015) - 0.05)" ] } }
         ]
+      },
+      {
+        "condition": { "math": [ "u_spell_level('druid_traverse_the_wilds') > 7" ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 2 } ]
       }
     ]
   },
