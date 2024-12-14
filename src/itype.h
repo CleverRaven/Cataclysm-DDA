@@ -1228,6 +1228,14 @@ struct itype {
 
         using FlagsSetType = std::set<flag_id>;
 
+    protected:
+        // private because is should only be accessed through itype::nname!
+        // nname() is used for display purposes
+        translation name = no_translation( "none" );
+
+    public:
+        translation description; // Flavor text
+
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
          * this before using it.
@@ -1390,14 +1398,6 @@ struct itype {
         // How should the item explode
         explosion_data explosion;
 
-        translation description; // Flavor text
-
-    protected:
-        // private because is should only be accessed through itype::nname!
-        // nname() is used for display purposes
-        translation name = no_translation( "none" );
-
-    public:
         // Total of item's material portions (materials->second)
         int mat_portion_total = 0;
 
