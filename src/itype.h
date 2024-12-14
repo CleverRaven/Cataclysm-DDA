@@ -1204,7 +1204,7 @@ class islot_milling
         void deserialize( const JsonObject &jo );
 };
 
-struct temperature_effect{
+struct temperature_effect {
     std::optional<units::temperature> temperature_above;
     std::optional<units::temperature> temperature_below;
 
@@ -1215,8 +1215,7 @@ struct temperature_effect{
     void load( const JsonObject &jo );
 };
 
-struct islot_temperature_effects
-{
+struct islot_temperature_effects {
     std::vector<temperature_effect> effects;
 };
 
