@@ -171,8 +171,7 @@
     "id": "counterweight",
     "name": { "str": "counterweight" },
     "description": "A heavy block of steel used for balancing other heavy things.  Can be used as a makeshift anvil.",
-    "weight": "750000 g",
-    "to_hit": -10,
+    "weight": "750 kg",
     "color": "dark_gray",
     "symbol": "]",
     "material": [ "steel" ],
@@ -181,7 +180,6 @@
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
     "category": "veh_parts",
-    "qualities": [ [ "ANVIL", 2 ] ],
-    "melee_damage": { "bash": 25 }
+    "qualities": [ [ "ANVIL", 2 ] ]
   }
 ]

@@ -1217,7 +1217,7 @@
     "volume": "450 ml",
     "price": "75 cent",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "neutral", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "looks_like": "scrap",
     "symbol": "[",
