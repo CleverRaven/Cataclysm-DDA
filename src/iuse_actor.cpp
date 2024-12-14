@@ -433,7 +433,7 @@ std::string iuse_transform::get_name() const
     return iuse_actor::get_name();
 }
 
-void iuse_transform::finalize( const itype_id & )
+void iuse_transform::finalize( const itype_id &my_item_type )
 {
     if( !item::type_is_defined( target ) && target_group.is_empty() ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
@@ -446,6 +446,19 @@ void iuse_transform::finalize( const itype_id & )
 
         // todo: check contents fit container?
         // transform uses migration pocket if not
+    }
+
+    if( my_item_type.obj().can_use( "link_up" ) ) {
+        // The linkage logic currently assumes that the links persist
+        // through transformation, and fails pretty badly (segfaults)
+        // if that happens to not be the case.
+        // It is not unreasonable to want items that violate this assumption (one example is
+        // the infamous Apple mouse which cannot be operated while charging),
+        // but we don't have any of those implemented right now, so the check stays.
+        if( !target.obj().can_use( "link_up" ) ) {
+            debugmsg( "Item %s has link_up action, yet transforms into %s which doesn't.",
+                      my_item_type.c_str(), target.c_str() );
+        }
     }
 }
 
