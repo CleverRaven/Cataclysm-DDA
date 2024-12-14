@@ -39,18 +39,18 @@
 
 class Creature;
 
-static const update_mapgen_id
-update_mapgen_debug_npc_rules_test_avoid_doors( "debug_npc_rules_test_avoid_doors" );
-
-static const update_mapgen_id
-update_mapgen_debug_npc_rules_test_close_doors( "debug_npc_rules_test_close_doors" );
-
 static const furn_str_id furn_f_chair( "f_chair" );
+
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked( "t_door_locked" );
 static const ter_str_id ter_t_door_o( "t_door_o" );
 
-static const vproto_id veh_locked_as_hell_car( "locked_as_hell_car" );
+static const update_mapgen_id
+update_mapgen_debug_npc_rules_test_avoid_doors( "debug_npc_rules_test_avoid_doors" );
+static const update_mapgen_id
+update_mapgen_debug_npc_rules_test_close_doors( "debug_npc_rules_test_close_doors" );
+
+static const vproto_id vehicle_prototype_locked_as_hell_car( "locked_as_hell_car" );
 
 static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
@@ -76,7 +76,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     return guy;
 }
 
-TEST_CASE( "NPC rules (avoid doors)", "[npc_rules]" )
+TEST_CASE( "NPC-rules-avoid-doors", "[npc_rules]" )
 {
     /* Avoid doors rule
     * Allows: Door frame, Open doors(??? pre-existing behavior)
@@ -112,7 +112,7 @@ TEST_CASE( "NPC rules (avoid doors)", "[npc_rules]" )
     }
 }
 
-TEST_CASE( "NPC rules (close doors)", "[npc_rules]" )
+TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
 {
     /* Close doors rule
     * Target is a chair in a room fully enclosed by concrete walls
@@ -176,7 +176,7 @@ TEST_CASE( "NPC rules (close doors)", "[npc_rules]" )
 
 }
 
-TEST_CASE( "NPC rules (avoid locks)", "[npc_rules]" )
+TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 {
     /* Avoid locked doors rule
     * Target is a the north side of a locked door (otherwise inaccessible room)
@@ -225,7 +225,7 @@ TEST_CASE( "NPC rules (avoid locks)", "[npc_rules]" )
 
 
     // all sides of the vehicle are locked doors
-    vehicle *test_vehicle = here.add_vehicle( veh_locked_as_hell_car,
+    vehicle *test_vehicle = here.add_vehicle( vehicle_prototype_locked_as_hell_car,
                             car_center_pos, 0_degrees, 0, 0 );
 
     // vehicle is a 5x5 grid, car_door_pos is the only door/exit
