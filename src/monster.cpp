@@ -1326,7 +1326,7 @@ bool monster::has_flag( const mon_flag_id &f ) const
     return type->has_flag( f );
 }
 
-bool monster::has_flag( const flag_id f ) const
+bool monster::has_flag( const flag_id &f ) const
 {
     mon_flag_str_id checked( f.c_str() );
     add_msg_debug( debugmode::DF_MONSTER,
