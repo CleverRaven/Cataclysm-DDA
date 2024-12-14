@@ -1682,7 +1682,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
                            const time_duration &dur, bodypart_id bp, bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
-    if( !force && is_immune_effect( eff_id ) || has_flag( json_flag_CANNOT_GAIN_EFFECTS ) ) {
+    if( ( !force && is_immune_effect( eff_id ) ) || has_flag( json_flag_CANNOT_GAIN_EFFECTS ) ) {
         return;
     }
     if( eff_id == effect_knockdown && ( has_effect( effect_ridden ) ||
