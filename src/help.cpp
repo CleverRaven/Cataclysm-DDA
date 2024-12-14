@@ -104,24 +104,26 @@ std::string help_window::get_dir_grid()
     return movement;
 }
 
-std::string help_window::get_note_colors()
+void help_window::note_colors()
 {
-    std::string text = _( "Note colors: " );
+    ImGui::Text( _( "Note colors: " ) );
+    ImGui::SameLine( 0.f, 0.f );
     for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         //~ %1$s: note color abbreviation, %2$s: note color name
-        text += string_format( pgettext( "note color", "%1$s:%2$s, " ),
-                               colorize( color_pair.first, color_pair.second.color ),
-                               color_pair.second.name );
+        cataimgui::TextColoredParagraph( c_white, string_format( pgettext( "note color", "%1$s:%2$s, " ),
+                                         colorize( color_pair.first, color_pair.second.color ),
+                                         color_pair.second.name ) );
+        // TODO: Has a stray comma at the end
+        ImGui::SameLine( 0.f, 0.f );
     }
-
-    return text;
 }
 
 help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse )
 {
+    // TODO: ImGui auto arrow key handling doesn't work with ImTui
     ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -158,7 +160,7 @@ void help_window::draw_category_selection()
     //~ Help menu header
     format_title( _( "Help" ) );
     // Split the categories in half
-    if( ImGui::BeginTable( "Category Options", 3, ImGuiTableFlags_None ) ) {
+    if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
         ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch,
                                  static_cast<float>( window_width / 2.0f ) );
         ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch,
@@ -169,7 +171,6 @@ void help_window::draw_category_selection()
         auto jt = data.help_categories.begin();
         std::advance( jt, half_size );
         for( auto it = data.help_categories.begin(); it != half_it; it++, jt++ ) {
-            ImGui::TableNextRow();
             ImGui::TableNextColumn();
             draw_category_option( it->first, it->second );
             ImGui::TableNextColumn();
@@ -202,46 +203,111 @@ void help_window::draw_category_option( const int &option, const help_category &
     }
 }
 
-std::string help_window::seperator( int length, char c )
-{
-    std::string ret = "<color_light_blue>";
-    ret += std::string( length, c );
-    ret += "</color>";
-    return ret;
-}
-
 void help_window::format_title( const std::string translated_category_name )
 {
-    cataimgui::PushMonoFont();
     if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
-        cataimgui::draw_colored_text( translated_category_name );
+        cataimgui::TextColoredParagraph( c_white, translated_category_name );
         ImGui::NewLine();
         return;
     }
-    std::string row3 = "<color_light_blue>║</color> ";
-    row3 += translated_category_name;
-    row3 += " <color_light_blue>║</color>";
-    std::string div = seperator( remove_color_tags( row3 ).length() - 4, '=' );
-    cataimgui::draw_colored_text( div );
-    cataimgui::draw_colored_text( row3 );
-    cataimgui::draw_colored_text( div );
-    cataimgui::draw_colored_text( seperator( TERMX, '_' ) );
-    ImGui::NewLine();
+    const float title_length = ImGui::CalcTextSize( remove_color_tags(
+                                   translated_category_name ).c_str() ).x;
+    cataimgui::PushMonoFont();
+    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+
+    ImGui::Text( "╔" );
+    ImGui::SameLine( 0.f, 0.f );
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "═" );
+        ImGui::SameLine( 0.f, 0.f );
+    }
+    ImGui::Text( "╗" );
+    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
+    ImGui::Text( "┇ " );
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PopStyleColor();
     ImGui::PopFont();
+    cataimgui::TextColoredParagraph( c_white, translated_category_name );
+    cataimgui::PushMonoFont();
+    ImGui::SameLine( 0.f, 0.f );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+    ImGui::Text( " ┇" );
+    ImGui::Text( "╚" );
+    ImGui::SameLine( 0.f, 0.f );
+    for( int i = sep_len; i > 0; i-- ) {
+        ImGui::Text( "═" );
+        ImGui::SameLine( 0.f, 0.f );
+    }
+    ImGui::Text( "╝" );
+    ImGui::PopStyleColor();
+    ImGui::PopFont();
+    ImGui::NewLine();
+    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
+    ImGui::Separator();
+    ImGui::PopStyleColor();
+    ImGui::NewLine();
 }
+
+//void help_window::format_subtitle( const std::string translated_category_name )
+//{
+//    if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
+//        cataimgui::TextColoredParagraph( c_white, translated_category_name );
+//        ImGui::NewLine();
+//        return;
+//    }
+//    const float title_length = ImGui::CalcTextSize( remove_color_tags(
+//                                   translated_category_name ).c_str() ).x;
+//    cataimgui::PushMonoFont();
+//    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
+//    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+//    for( int i = sep_len; i > 0; i-- ) {
+//        ImGui::Text( "▁" );
+//        ImGui::SameLine( 0.f, 0.f );
+//    }
+//    ImGui::NewLine();
+//    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
+//    ImGui::Text( "▏ " );
+//    ImGui::SameLine( 0.f, 0.f );
+//    ImGui::PopStyleColor();
+//    ImGui::PopFont();
+//    cataimgui::TextColoredParagraph( c_white, translated_category_name );
+//    cataimgui::PushMonoFont();
+//    ImGui::SameLine( 0.f, 0.f );
+//    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+//    ImGui::Text( " ▕" );
+//    for( int i = sep_len; i > 0; i-- ) {
+//        ImGui::Text( "▔" );
+//        ImGui::SameLine( 0.f, 0.f );
+//    }
+//    ImGui::PopStyleColor();
+//    ImGui::PopFont();
+//    ImGui::NewLine();
+//    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
+//    ImGui::Separator();
+//    ImGui::PopStyleColor();
+//}
 
 void help_window::draw_category()
 {
     const help_category &cat = data.help_categories[loaded_option];
     format_title( cat.name.translated() );
+    // Use a table so we can scroll the category paragraphs without the title
     if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
                            ImGuiTableFlags_ScrollY ) ) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        for( const translation &paragraph : cat.paragraphs ) {
-            std::string translated_paragraph = paragraph.translated();
-            parse_tags_help_window( translated_paragraph );
-            cataimgui::draw_colored_text( translated_paragraph, wrap_width );
+        for( const std::string &translated_paragraph : translated_paragraphs ) {
+            if( translated_paragraph == "<DRAW_NOTE_COLORS>" ) {
+                note_colors();
+                continue;
+            } else if( translated_paragraph == "<HELP_DRAW_DIRECTIONS>" ) {
+                static const std::string dir_grid = get_dir_grid();
+                cataimgui::draw_colored_text( dir_grid, wrap_width );
+                continue;
+            }
+            cataimgui::TextColoredParagraph( c_white, translated_paragraph );
+            ImGui::NewLine();
             ImGui::NewLine();
         }
         ImGui::EndTable();
@@ -249,29 +315,31 @@ void help_window::draw_category()
 }
 
 // Would ideally be merged with parse_tags()?
-void help_window::parse_tags_help_window( std::string &translated_line )
+void help_window::parse_tags_help_window()
 {
-    if( translated_line == "<DRAW_NOTE_COLORS>" ) {
-        translated_line = get_note_colors();
-    } else if( translated_line == "<HELP_DRAW_DIRECTIONS>" ) {
-        translated_line = get_dir_grid();
-    }
-    size_t pos = translated_line.find( "<press_", 0, 7 );
-    while( pos != std::string::npos ) {
-        size_t pos2 = translated_line.find( ">", pos, 1 );
-
-        std::string action = translated_line.substr( pos + 7, pos2 - pos - 7 );
-        std::string replace = "<color_light_blue>" +
-                              press_x( look_up_action( action ), "", "" ) + "</color>";
-
-        if( replace.empty() ) {
-            debugmsg( "Help json: Unknown action: %s", action );
-        } else {
-            translated_line = string_replace(
-                                  translated_line, "<press_" + std::move( action ) + ">", replace );
+    for( std::string &translated_paragraph : translated_paragraphs ) {
+        if( translated_paragraph == "<DRAW_NOTE_COLORS>" ) {
+            continue;
+        } else if( translated_paragraph == "<HELP_DRAW_DIRECTIONS>" ) {
+            continue;
         }
+        size_t pos = translated_paragraph.find( "<press_", 0, 7 );
+        while( pos != std::string::npos ) {
+            size_t pos2 = translated_paragraph.find( ">", pos, 1 );
 
-        pos = translated_line.find( "<press_", pos2, 7 );
+            std::string action = translated_paragraph.substr( pos + 7, pos2 - pos - 7 );
+            std::string replace = "<color_light_blue>" +
+                                  press_x( look_up_action( action ), "", "" ) + "</color>";
+
+            if( replace.empty() ) {
+                debugmsg( "Help json: Unknown action: %s", action );
+            } else {
+                translated_paragraph = string_replace( translated_paragraph, "<press_" + std::move( action ) + ">",
+                                                       replace );
+            }
+
+            pos = translated_paragraph.find( "<press_", pos2, 7 );
+        }
     }
 }
 
@@ -300,6 +368,12 @@ void help_window::show()
                 has_selected_category = data.help_categories.find( selected_option ) != data.help_categories.end();
                 if( has_selected_category ) {
                     loaded_option = selected_option;
+                    translated_paragraphs.clear();
+                    const help_category &cat = data.help_categories[loaded_option];
+                    for( const translation &paragraph : cat.paragraphs ) {
+                        translated_paragraphs.emplace_back( paragraph.translated() );
+                    }
+                    parse_tags_help_window();
                     data.read_categories.insert( loaded_option );
                 } else {
                     debugmsg( "Category not found: option %s", selected_option );

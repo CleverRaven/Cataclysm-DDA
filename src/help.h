@@ -72,17 +72,17 @@ class help_window : public cataimgui::window
 
         void draw_category_selection();
         void format_title( const std::string translated_category_name );
-        std::string seperator( int length, char c );
 
         void draw_category_option( const int &option, const help_category &category );
         int selected_option;
         bool has_selected_category = false;
         int loaded_option;
+        std::vector<std::string> translated_paragraphs;
+        void parse_tags_help_window();
 
         void draw_category();
-        void parse_tags_help_window( std::string &translated_line );
-        static std::string get_note_colors();
-        static std::string get_dir_grid();
+        void note_colors();
+        std::string get_dir_grid();
 };
 
 std::string get_hint();
