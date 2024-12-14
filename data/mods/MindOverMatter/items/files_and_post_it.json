@@ -318,7 +318,11 @@
         "phavan_office_skyscraper_lab_upper_nw",
         "phavan_office_skyscraper_lab_upper_ne",
         "phavan_office_skyscraper_lab_upper_sw",
-        "phavan_office_skyscraper_lab_upper_se"
+        "phavan_office_skyscraper_lab_upper_se",
+        "phavian_hospital_basement_nw",
+        "phavian_hospital_basement_ne",
+        "phavian_hospital_basement_sw",
+        "phavian_hospital_basement_se"
       ]
     }
   }
