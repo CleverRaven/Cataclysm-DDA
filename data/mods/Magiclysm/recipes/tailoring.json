@@ -82,6 +82,7 @@
     "copy-from": "gambeson_parabolan",
     "time": "97 h",
     "using": [ [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "parabolan_felt_patch", 3555 ] ],
@@ -94,6 +95,7 @@
     "copy-from": "gambeson_parabolan",
     "time": "49 h",
     "using": [ [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "parabolan_felt_patch", 1777 ] ],
@@ -125,6 +127,7 @@
     "copy-from": "gambeson_parabolan_thinsleeved",
     "time": "87 h",
     "using": [ [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "parabolan_felt_patch", 3114 ] ],
@@ -137,6 +140,7 @@
     "copy-from": "gambeson_parabolan_thinsleeved",
     "time": "44 h",
     "using": [ [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "parabolan_felt_patch", 1572 ] ],
@@ -168,6 +172,7 @@
     "copy-from": "gambeson_parabolan_vest",
     "time": "54 h",
     "using": [ [ "fastener_large", 2 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "parabolan_felt_patch", 2736 ] ],
@@ -180,6 +185,7 @@
     "copy-from": "gambeson_parabolan_vest",
     "time": "27 h",
     "using": [ [ "fastener_large", 2 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "parabolan_felt_patch", 1368 ] ],
@@ -207,6 +213,7 @@
     "copy-from": "gambeson_pants_parabolan",
     "time": "60 h",
     "using": [ [ "fastener_small", 7 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "parabolan_felt_patch", 820 ] ], [ [ "parabolan_yarn", 600 ] ] ]
   },
   {
@@ -215,6 +222,7 @@
     "copy-from": "gambeson_pants_parabolan",
     "time": "30 h",
     "using": [ [ "fastener_small", 5 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "parabolan_felt_patch", 410 ] ], [ [ "parabolan_yarn", 300 ] ] ]
   },
   {
@@ -238,6 +246,7 @@
     "copy-from": "gambeson_gloves_parabolan",
     "time": "12 h",
     "using": [ [ "fastener_small", 3 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "parabolan_felt_patch", 174 ] ], [ [ "parabolan_yarn", 135 ] ] ]
   },
   {
@@ -246,6 +255,7 @@
     "copy-from": "gambeson_gloves_parabolan",
     "time": "6 h",
     "using": [ [ "fastener_small", 2 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "parabolan_felt_patch", 87 ] ], [ [ "parabolan_yarn", 67 ] ] ]
   }
 ]

@@ -401,7 +401,7 @@ void write_min_archive()
     tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
-    fs::path const save_root( PATH_INFO::world_base_save_path_path() );
+    fs::path const save_root( PATH_INFO::world_base_save_path() );
     std::string const ofile = save_root.string() + "-trimmed.tar.gz";
 
     tgz_archiver tgz( ofile );
@@ -534,7 +534,7 @@ static void normalize_body( Character &u )
 
 static tripoint_abs_ms player_picks_tile()
 {
-    std::optional<tripoint> newpos = g->look_around();
+    std::optional<tripoint_bub_ms> newpos = g->look_around();
     return newpos ? get_map().getglobal( *newpos ) : get_player_character().get_location();
 }
 
@@ -1727,11 +1727,11 @@ static void spawn_artifact()
         if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
             && query_int( artifact_power_level, _( "Enter power level:" ) )
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
-            if( const std::optional<tripoint> center = g->look_around() ) {
+            if( const std::optional<tripoint_bub_ms> center = g->look_around() ) {
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
-                here.spawn_artifact( tripoint_bub_ms( *center ), relic_list[relic_menu.ret],
+                here.spawn_artifact( *center, relic_list[relic_menu.ret],
                                      artifact_max_attributes,
                                      artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
@@ -1741,9 +1741,9 @@ static void spawn_artifact()
 
 static void teleport_short()
 {
-    const std::optional<tripoint> where = g->look_around();
+    const std::optional<tripoint_bub_ms> where = g->look_around();
     const Character &player_character = get_player_character();
-    if( !where || *where == player_character.pos() ) {
+    if( !where || *where == player_character.pos_bub() ) {
         return;
     }
     g->place_player( *where );
@@ -1839,7 +1839,7 @@ static void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_ids.size() ) ) {
-        const std::optional<tripoint> where = g->look_around();
+        const std::optional<tripoint_bub_ms> where = g->look_around();
         if( !where ) {
             return;
         }
@@ -2606,7 +2606,7 @@ static void character_edit_menu()
             mission_debug::edit( you );
             break;
         case D_TELE: {
-            if( const std::optional<tripoint> newpos = g->look_around() ) {
+            if( const std::optional<tripoint_bub_ms> newpos = g->look_around() ) {
                 you.setpos( *newpos );
                 if( you.is_avatar() ) {
                     if( you.is_mounted() ) {
@@ -3159,7 +3159,7 @@ static void debug_menu_spawn_vehicle()
             if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 4 ) {
                 // TODO: Allow picking this when add_vehicle has 3d argument
                 vehicle *veh = here.add_vehicle(
-                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
+                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1, true, true );
                 if( veh != nullptr ) {
                     here.board_vehicle( dest, &player_character );
                 }
@@ -3429,7 +3429,7 @@ static void generate_effect_list()
 
 static void gen_sound()
 {
-    const std::optional<tripoint> where = g->look_around();
+    const std::optional<tripoint_bub_ms> where = g->look_around();
     if( !where ) {
         return;
     }
@@ -3485,7 +3485,7 @@ static void kill_area()
     popup.on_top( true );
     popup.message( "%s", _( "Select first point." ) );
 
-    tripoint initial_pos = get_avatar().pos();
+    tripoint_bub_ms initial_pos = get_avatar().pos_bub();
     const look_around_result first = g->look_around( false, initial_pos, initial_pos,
                                      false, true, false );
 
@@ -3594,15 +3594,15 @@ static void show_sound()
 static void set_automove()
 {
     avatar &player_character = get_avatar();
-    const std::optional<tripoint> dest = g->look_around();
-    if( !dest || *dest == player_character.pos() ) {
+    const std::optional<tripoint_bub_ms> dest = g->look_around();
+    if( !dest || *dest == player_character.pos_bub() ) {
         return;
     }
 
-    // TODO: fix point types
-    auto rt = get_map().route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
-                               player_character.get_pathfinding_settings(),
-                               player_character.get_path_avoid() );
+    std::vector<tripoint_bub_ms> rt = get_map().route( player_character.pos_bub(),
+                                      tripoint_bub_ms( *dest ),
+                                      player_character.get_pathfinding_settings(),
+                                      player_character.get_path_avoid() );
     if( !rt.empty() ) {
         player_character.set_destination( rt );
     } else {

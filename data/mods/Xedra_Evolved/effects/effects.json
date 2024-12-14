@@ -162,7 +162,7 @@
     "name": [ "Shadow Damage Reduction" ],
     "desc": [ "You are flatter and less real in ways that makes you less susceptible to damage." ],
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "multiply": -0.75 }, { "value": "ARMOR_BASH", "multiply": -0.75 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "bash", "multiply": -0.75 }, { "type": "bullet", "multiply": -0.75 } ] } ]
   },
   {
     "type": "effect_type",
@@ -551,9 +551,9 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06)), -0.66)"
@@ -561,15 +561,7 @@
             }
           },
           {
-            "value": "ARMOR_CUT",
-            "multiply": {
-              "math": [
-                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025)), -0.25)"
@@ -577,7 +569,15 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075)), -0.85)"
@@ -741,21 +741,7 @@
     "rating": "good",
     "show_intensity": false,
     "//": "+1 armor for each lvl",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } } ] } ]
   },
   {
     "id": "spell_melee_damage",
@@ -800,21 +786,8 @@
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } }
-        ]
-      }
-    ]
+    "//": "todo: doesn't do anything, because monster do not have u_spell_level('spell_weak'); solution: store u_spell_level('spell_weak') as monster variable, and use variable in calculations instead",
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -1166,19 +1139,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_tree_immobility",
-    "name": [ "Rooted" ],
-    "desc": [ "Your roots sink into the ground and you are nearly immobile." ],
-    "apply_message": "",
-    "remove_message": "",
-    "rating": "mixed",
-    "max_intensity": 100000,
-    "show_intensity": false,
-    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_arvore_seedbearer_available",
     "name": [ "Seed-Bearer" ],
     "desc": [ "You can bring forth a fine bunch of seeds, ready for planting." ]
@@ -1245,6 +1205,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_rooted_in_place",
+    "name": [ "The Root of the Mountain" ],
+    "desc": [ "Drawing on the immobility of the mountain, you are resilient but rooted in place." ],
+    "removes_effects": [ "stunned", "dazed", "downed" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.25 },
+          { "type": "stab", "multiply": -0.25 },
+          { "type": "cut", "multiply": -0.25 },
+          { "type": "bullet", "multiply": -0.25 },
+          { "type": "heat", "multiply": -0.25 }
+        ]
+      }
+    ],
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_buff_armor_allies",
     "name": [ "Skin of the Mountains" ],
     "desc": [ "Your skin is much harder than it appears." ],
@@ -1253,13 +1232,13 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.3 },
-          { "value": "ARMOR_BULLET", "multiply": -0.3 },
-          { "value": "ARMOR_CUT", "multiply": -0.3 },
-          { "value": "ARMOR_STAB", "multiply": -0.3 },
-          { "value": "MOVE_COST", "multiply": 0.1 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.3 },
+          { "type": "stab", "multiply": -0.3 },
+          { "type": "cut", "multiply": -0.3 },
+          { "type": "bullet", "multiply": -0.3 }
+        ],
+        "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
       }
     ],
     "flags": [ "BLEEDSLOW1" ]
@@ -1414,7 +1393,12 @@
     "rating": "good",
     "show_in_info": true,
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "heat", "add": -1000 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1424,7 +1408,12 @@
     "desc": [ "" ],
     "rating": "good",
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "heat", "add": -1000 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1669,7 +1658,7 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "undine_acid_resist_ally_thorns", "hit_self": false, "once_in": 3 } ],
-        "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "acid", "multiply": -0.75 } ]
       }
     ]
   },
@@ -2422,21 +2411,7 @@
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_BASH", "add": -15 },
-          { "value": "ARMOR_STAB", "add": -15 },
-          { "value": "ARMOR_CUT", "add": -15 },
-          { "value": "ARMOR_HEAT", "add": -15 },
-          { "value": "ARMOR_COLD", "add": -15 },
-          { "value": "ARMOR_ELEC", "add": -15 },
-          { "value": "ARMOR_ACID", "add": -15 },
-          { "value": "ARMOR_BULLET", "add": -15 }
-        ]
-      }
-    ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "add": -15 } ] } ]
   },
   {
     "id": "effect_moon_withdrawal",

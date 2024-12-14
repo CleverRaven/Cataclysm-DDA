@@ -1177,7 +1177,7 @@ bool gun_actor::call( monster &z ) const
 
 bool gun_actor::try_target( monster &z, Creature &target ) const
 {
-    if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
+    if( require_sunlight && !g->is_in_sunlight( z.pos_bub() ) ) {
         add_msg_debug( debugmode::DF_MATTACK, "Requires sunlight" );
         if( one_in( 3 ) ) {
             add_msg_if_player_sees( z, failure_msg.translated(), z.name() );

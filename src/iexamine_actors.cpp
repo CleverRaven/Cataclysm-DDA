@@ -107,14 +107,14 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
             continue;
         }
         if( omt_allowed_radius ) {
-            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint::invalid );
+            tripoint_abs_omt cardloc = it->get_var( "spawn_location_omt", tripoint_abs_omt::min );
             // Cards without a location are treated as valid
-            if( cardloc == tripoint::min ) {
+            if( cardloc == tripoint_abs_omt::min ) {
                 ret.push_back( it );
                 continue;
             }
             int dist = rl_dist( cardloc.xy(),
-                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy().raw() );
+                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }

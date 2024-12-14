@@ -1094,7 +1094,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 const int vol = weapon->volume() * glass_fraction / units::legacy_volume_factor;
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
-                    weapon->spill_contents( pos() );
+                    weapon->spill_contents( pos_bub() );
                     sounds::sound( pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
                     deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
@@ -1497,30 +1497,30 @@ static void loot()
     mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
-                                 player_character.pos() ) ? SortLoot : 0;
-    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
-             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
-    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
+                                 player_character.pos_bub() ) ? SortLoot : 0;
+    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos_bub() ) ||
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos_bub() ) ? UnloadLoot : 0;
+    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos_bub() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
-                                 player_character.pos() ) ? ConstructPlots : 0;
+                                 player_character.pos_bub() ) ? ConstructPlots : 0;
 
     flags |= g->check_near_zone( zone_type_CHOP_TREES,
-                                 player_character.pos() ) ? Multichoptrees : 0;
+                                 player_character.pos_bub() ) ? Multichoptrees : 0;
     flags |= g->check_near_zone( zone_type_LOOT_WOOD,
-                                 player_character.pos() ) ? Multichopplanks : 0;
+                                 player_character.pos_bub() ) ? Multichopplanks : 0;
     flags |= g->check_near_zone( zone_type_VEHICLE_DECONSTRUCT,
-                                 player_character.pos() ) ? Multideconvehicle : 0;
+                                 player_character.pos_bub() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_VEHICLE_REPAIR,
-                                 player_character.pos() ) ? Multirepairvehicle : 0;
+                                 player_character.pos_bub() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
-                                 player_character.pos() ) ? MultiButchery : 0;
-    flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
+                                 player_character.pos_bub() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_MINING, player_character.pos_bub() ) ? MultiMining : 0;
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
-                                 player_character.pos() ) ? MultiDis : 0;
-    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
+                                 player_character.pos_bub() ) ? MultiDis : 0;
+    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1715,7 +1715,7 @@ static void read()
         item the_book = *loc.get_item();
         if( avatar_action::check_stealing( get_player_character(), the_book ) ) {
             if( loc->type->can_use( "learn_spell" ) ) {
-                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos() );
+                the_book.get_use( "learn_spell" )->call( &player_character, the_book, player_character.pos_bub() );
             } else {
                 loc = loc.obtain( player_character );
                 player_character.read( loc );
@@ -2133,8 +2133,8 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
             break;
 
         case ACTION_CENTER:
-            player_character.view_offset.x() = g->driving_view_offset.x;
-            player_character.view_offset.y() = g->driving_view_offset.y;
+            player_character.view_offset.x() = g->driving_view_offset.x();
+            player_character.view_offset.y() = g->driving_view_offset.y();
             player_character.view_offset.z() = 0;
             break;
 
@@ -2239,7 +2239,7 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
 }
 
 bool game::do_regular_action( action_id &act, avatar &player_character,
-                              const std::optional<tripoint> &mouse_target )
+                              const std::optional<tripoint_bub_ms> &mouse_target )
 {
     item_location weapon = player_character.get_wielded_item();
     const bool in_shell = player_character.has_active_mutation( trait_SHELL2 )
@@ -2400,18 +2400,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
-                    std::vector<tripoint> pts;
+                    std::vector<tripoint_bub_ms> pts;
 
                     // Check tiles around player character for open air
                     for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p .raw() );
+                            pts.push_back( p );
                         }
                     }
 
                     // If we found tiles with open air, prompt player with query on direction they want to climb
                     if( !pts.empty() ) {
-                        const std::optional<tripoint> pnt = point_selection_menu( pts, false );
+                        const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts, false );
                         if( !pnt ) {
                             break;
                         }
@@ -2476,7 +2476,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_EXAMINE_AND_PICKUP:
             if( mouse_target ) {
                 // Examine including item pickup if ACTION_EXAMINE_AND_PICKUP is used
-                examine( *mouse_target, act == ACTION_EXAMINE_AND_PICKUP );
+                examine( tripoint_bub_ms( *mouse_target ), act == ACTION_EXAMINE_AND_PICKUP );
             } else {
                 examine( act == ACTION_EXAMINE_AND_PICKUP );
             }
@@ -2489,7 +2489,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
             if( mouse_target ) {
-                pickup( *mouse_target );
+                pickup( tripoint_bub_ms( *mouse_target ) );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
                     pickup_all();
@@ -2675,11 +2675,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DROP:
-            drop_in_direction( player_character.pos() );
+            drop_in_direction( player_character.pos_bub() );
             break;
         case ACTION_DIR_DROP:
-            if( const std::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-                if( *pnt != player_character.pos() && in_shell ) {
+            if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Drop where?" ) ) ) {
+                if( *pnt != player_character.pos_bub() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
                     drop_in_direction( *pnt );
@@ -3207,7 +3207,8 @@ bool game::handle_action()
                 return false;
             }
 
-            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(),
+            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain,
+                    ter_view_p.raw().xy(),
                     true );
             if( !mouse_pos ) {
                 return false;
@@ -3275,8 +3276,7 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !player_character.is_dead_state() ) {
-        if( !do_regular_action( act, player_character,
-                                mouse_target ? std::make_optional( mouse_target->raw() ) : std::nullopt ) ) {
+        if( !do_regular_action( act, player_character, mouse_target ) ) {
             return false;
         }
     }

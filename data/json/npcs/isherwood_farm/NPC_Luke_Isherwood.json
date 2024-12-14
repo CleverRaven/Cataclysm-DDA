@@ -548,7 +548,7 @@
         "place_vehicles": [ { "vehicle": "truck_trailer_explosives", "chance": 100, "rotation": 270, "x": [ 7 ], "y": [ 7 ] } ]
       }
     },
-    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming", "++" ] } ] },
+    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming++" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//2": "Dialogue for this mission is handled externally.",
     "dialogue": {

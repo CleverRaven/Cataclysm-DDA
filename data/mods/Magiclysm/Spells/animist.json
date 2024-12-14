@@ -1025,8 +1025,17 @@
       {
         "u_add_effect": "incorporeal",
         "duration": { "math": [ "( 30 + (u_spell_level('animist_spirit_walking') * 3) ) * (enhancement_proficiency_modifier() )" ] }
-      }
+      },
+      { "u_add_trait": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANIMIST_SPIRIT_WALKING_LOSE_APPEARANCE",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_spirit_walking", { "context_val": "effect" } ] } ] },
+    "effect": [ { "u_lose_trait": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE" } ]
   },
   {
     "id": "animist_add_evasion_spell",
@@ -1140,5 +1149,32 @@
     "energy_source": "MANA",
     "base_casting_time": 250,
     "base_energy_cost": 250
+  },
+  {
+    "id": "animist_do_psionic_damage_to_head",
+    "type": "SPELL",
+    "name": "Mind Crush",
+    "description": "Directly assault the target's spirit, bypassing any physical protections they have.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_LEGS" ],
+    "max_level": 15,
+    "spell_class": "ANIMIST",
+    "effect": "attack",
+    "effect_str": "stunned",
+    "damage_type": "psionic",
+    "affected_body_parts": [ "head" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 5,
+    "min_damage": { "math": [ "10 + (u_spell_level('animist_do_psionic_damage_to_head') * 2.5)" ] },
+    "max_damage": { "math": [ "25 + (u_spell_level('animist_do_psionic_damage_to_head') * 6)" ] },
+    "min_duration": { "math": [ "150 + (u_spell_level('animist_do_psionic_damage_to_head') * 10)" ] },
+    "max_duration": { "math": [ "250 + (u_spell_level('animist_do_psionic_damage_to_head') * 25)" ] },
+    "min_range": 3,
+    "max_range": 15,
+    "range_increment": 0.9,
+    "energy_source": "MANA",
+    "base_casting_time": 75,
+    "base_energy_cost": 350
   }
 ]

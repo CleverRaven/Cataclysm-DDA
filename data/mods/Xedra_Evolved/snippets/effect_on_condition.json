@@ -1,15 +1,54 @@
 [
   {
     "type": "snippet",
-    "category": "XE_NIGHT_MESSAGES_1",
+    "category": "<XE_NIGHT_MESSAGES_GENERAL_1>",
     "text": [
       "The clopping of hooves pass you by with a swift breeze, yet you did not see anything except for local flora brushed by the wind.",
       "As you are walking you suddenly hear a woman singing mournfully.  As you look around trying to see where the sound is coming from you slowly realize that if you take more than a step and a half in any direction the song fades away.  Eventually you are unable to find it again.",
-      "Winged shadows cross the ground, but when you look into the sky you can't seem to see any movement or shapes at all.",
-      "There is a bright red star with a dark heart that looks like a pupil, staring down on you from the sky above.  Is that star in the sky every night?  Is it coming closer to the planet?",
-      "A helicopter passes by overhead.  All it's running lights have been blacked out and you suspect the rotors have been muffled.  If it hadn't passed right over you, you'd have never known it was there.",
       "Something roars in the night, similar sounding to one of the Kaiju you heard destroying a nearby town during the Cataclysm.",
-      "The night suddenly goes dead silent."
+      "The night suddenly goes dead silent.",
+      "You hear a wolf howl in the distance, swiftly joined by several others.  After a moment of silence, you hear another series of howls, and then another.  It's only after the third set fades that you realize the howls were all in exactly the same pattern; two long, three short.",
+      "You hear a scream in the distance.  Probably a deer or a bobcat, but it sure sounded like a human.",
+      "Disturbed by your approach, a small animal darts away into the underbrush.  It's only after it disappears that you realize it had six legs.",
+      "Your ears pop, leaving behind a high-pitched whine that fades as normal sounds slowly return.",
+      "For a moment, the air smells so strongly metallic that you can almost taste it.",
+      "You hear a rush of unfelt wind.",
+      "The wind makes a low murmur that sounds almost like words.  When you stop to pay attention to it, it falls silent."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_NIGHT_MESSAGES_CLEAR_1",
+    "text": [
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "Winged shadows cross the ground, but when you look into the sky you can't see any movement or shapes.",
+      "There is a bright red star with a dark heart that looks like a pupil, staring down on you from the sky above.  Is that star in the sky every night?  Is it coming closer to the planet?",
+      "A helicopter passes by overhead.  All its running lights have been blacked out and you suspect the rotors have been muffled.  If it hadn't passed right over you, you'd have never known it was there.",
+      "Something passes across the moon for a moment, completely blotting it out.",
+      "A shooting star flashes across the sky.",
+      "A pair of owls flies by, so close that they're almost wingtip to wingtip.",
+      "For a moment, all the stars turn a dim reddish color."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "XE_NIGHT_MESSAGES_CLOUDY_1",
+    "text": [
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "<XE_NIGHT_MESSAGES_GENERAL_1>",
+      "A single raindrop falls on your exposed skin.  You look up, but no further droplets fall.",
+      "Something above the clouds glows, creating a hazy patch of light.  It stays in place for a few moments before speeding away to the <random_direction>.",
+      "You see the vague outlines of a humanoid figure in the distance.  As soon as you catch sight of it, there is a blur of motion and it vanishes.",
+      "You step in a small puddle, but when you bend down to look, there's nothing there.",
+      "You feel something tap on your shoulder but when you spin around to look, there's no one there.",
+      "You hear a slithering sound in the distance.  It's far enough away that whatever is making it must be very large.",
+      "You hear a cracking sound and then the night falls totally silent."
     ]
   },
   {
@@ -23,7 +62,11 @@
       "You hear a distant explosion.  You can't tell if it came from one of the tendrils of smoke at the edge of your vision or if it's new.",
       "A single shot fires in the distance then silence.",
       "The birds are no longer singing here.  It's quiet, scary quiet.",
-      "A rare plane leaves contrails high in the sky.  You wonder where it could be coming from and where it could possibly be going."
+      "A rare plane leaves contrails high in the sky.  You wonder where it could be coming from and where it could possibly be going.",
+      "The sunlight seems to dim for a moment.  When you blink, it's as bright as it was before.",
+      "Your footstep suddenly crunch loudly.  When you look down, the ground beneath you is carpeted with dead insects.",
+      "The grass nearby is trampled down in a sinuous pattern.",
+      "The air suddenly smells sickly sweet."
     ]
   },
   {

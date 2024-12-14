@@ -98,7 +98,7 @@ void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
     //General prerequisites for glare
-    if( g->is_sheltered( player_character.pos() ) ||
+    if( g->is_sheltered( player_character.pos_bub() ) ||
         player_character.in_sleep_state() ||
         player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
         player_character.has_flag( json_flag_GLARE_RESIST ) ||
@@ -965,9 +965,9 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
 
     if( !g->new_game ) {
         units::temperature_delta temp_mod;
-        temp_mod = get_heat_radiation( location );
-        temp_mod += get_convection_temperature( location );
-        temp_mod += get_map().get_temperature_mod( location );
+        temp_mod = get_heat_radiation( tripoint_bub_ms( location ) );
+        temp_mod += get_convection_temperature( tripoint_bub_ms( location ) );
+        temp_mod += get_map().get_temperature_mod( tripoint_bub_ms( location ) );
 
         temp += temp_mod;
     }

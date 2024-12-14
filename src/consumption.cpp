@@ -112,6 +112,7 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
@@ -156,7 +157,6 @@ static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
@@ -232,7 +232,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
+    if( you.has_flag( json_flag_CARNIVORE_DIET ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_vitamin( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
@@ -918,7 +918,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
-    if( has_trait( trait_CARNIVORE ) && compute_effective_nutrients( food ).kcal() > 0 &&
+    if( has_flag( json_flag_CARNIVORE_DIET ) && compute_effective_nutrients( food ).kcal() > 0 &&
         food.has_any_vitamin( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "Eww.  Inedible plant stuff!" ) );
@@ -993,7 +993,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    const bool carnivore = has_trait( trait_CARNIVORE );
+    const bool carnivore = has_flag( json_flag_CARNIVORE_DIET );
     const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
@@ -1432,7 +1432,7 @@ void Character::modify_morale( item &food, const int nutr )
     // Organs are still usually negative due to fun values as low as -35.
     // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
     if( food.has_flag( flag_PREDATOR_FUN ) ) {
-        const bool carnivore = has_trait( trait_CARNIVORE );
+        const bool carnivore = has_flag( json_flag_CARNIVORE_DIET );
         const bool culler = has_flag( json_flag_PRED1 );
         const bool hunter = has_flag( json_flag_PRED2 );
         const bool predator = has_flag( json_flag_PRED3 );
@@ -1477,7 +1477,7 @@ void Character::modify_morale( item &food, const int nutr )
             }
             // Carnivores CAN eat junk food, but they won't like it much.
             // Pizza-scraping happens in consume_effects.
-            if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+            if( has_flag( json_flag_CARNIVORE_DIET ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
                 add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
                 add_morale( morale_no_digest, -25, -125, 30_minutes, 24_minutes );
             }
@@ -1519,10 +1519,10 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
-// Remove the water volume from the food, as that gets absorbed and used as water.
+// Separate the water volume from the food, as that gets absorbed and used as water.
 // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
 // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
-units::volume Character::masticated_volume( const item &food ) const
+std::pair<units::volume, units::volume> Character::masticated_volume( const item &food ) const
 {
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
@@ -1531,12 +1531,17 @@ units::volume Character::masticated_volume( const item &food ) const
     units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
     units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
 
-    if( units::to_milliliter( food_dry_volume ) != 0 &&
+    // Should not return minus volume.
+    if( units::to_milliliter( food_dry_volume ) <= 0 ) {
+        return { water_vol, 0_ml };
+    }
+
+    if( units::to_gram( food_dry_weight ) > 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
         food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
     }
 
-    return food_dry_volume;
+    return { water_vol, food_dry_volume };
 }
 
 // Used when displaying effective food satiation values.
@@ -1552,13 +1557,23 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal();
     }
-    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = food_vol * energy_density_ratio;
-    if( kcalories == 0 && effective_volume == 0.0 ) {
+    if( kcalories == 0 ) {
+        // Quick bail out if it does not cotain any energy.
         return 0;
     }
-    return std::round( kcalories / effective_volume );
+    units::volume water_volume = masticated_volume( food ).first;
+    units::volume dry_volume = masticated_volume( food ).second;
+    // Water is digested more quickly than solid mass, see get_digest_rates().
+    // stomach_ratio is 0.278 for a default character, will be higher for mutants.
+    const double stomach_ratio = stomach.capacity( *this ) / ( 36.000 * 250_ml );
+    water_volume *= stomach_ratio;
+    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+    dry_volume *= energy_density_ratio;
+    const int effective_volume = dry_volume.value() + water_volume.value();
+    if( effective_volume == 0 ) {
+        return 2000;
+    }
+    return std::round( kcalories * 1000 / effective_volume );
 }
 
 static void activate_consume_eocs( Character &you, item &target )
@@ -1662,7 +1677,7 @@ bool Character::consume_effects( item &food )
         mod_pain( 5 );
         int numslime = 1;
         for( int i = 0; i < numslime; i++ ) {
-            if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+            if( monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 ) ) {
                 slime->friendly = -1;
             }
         }
@@ -1674,10 +1689,8 @@ bool Character::consume_effects( item &food )
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
-    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
-                                    food.get_comestible()->quench *
-                                    5_ml : 0_ml;
-    units::volume food_vol = masticated_volume( food );
+    const units::volume water_vol = masticated_volume( food ).first;
+    units::volume food_vol = masticated_volume( food ).second;
     if( food.count() == 0 ) {
         debugmsg( "Tried to eat food with count of zero." );
         return false;

@@ -318,5 +318,17 @@
         [ "wintergreen_berry", 1 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_magus_permanent_light",
+    "type": "requirement",
+    "//": "Precious metals for the Imperishable Light spell",
+    "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 5 ] ], [ [ "copper", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_biomancer_get_more_blood",
+    "type": "requirement",
+    "//": "Water for the Carmine Infusion spell",
+    "components": [ [ [ "salt_water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]

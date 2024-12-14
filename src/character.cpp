@@ -1656,7 +1656,7 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
-    tripoint pnt = z.pos();
+    tripoint_bub_ms pnt = z.pos_bub();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
         add_msg_debug( debugmode::DF_CHARACTER, "mount_creature(): monster not found in critter_tracker" );
@@ -1911,7 +1911,7 @@ void Character::dismount()
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
     }
-    if( const std::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -2411,7 +2411,7 @@ void Character::process_turn()
     last_item = itype_null;
 
     cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
-        it.process_relic( this, pos() );
+        it.process_relic( this, pos_bub() );
     } );
 
     suffer();
@@ -7158,7 +7158,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt.raw(), this );
+        const int consumed = used->activation_consume( charges_used.value(), pt, this );
         if( consumed == 0 ) {
             // Nothing was consumed from within the item. "Eat" the item itself away.
             i_rem( actually_used );
@@ -7166,7 +7166,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return ret;
     }
 
-    actually_used->activation_consume( charges_used.value(), pt.raw(), this );
+    actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
         actually_used->is_deployable() ) {
@@ -7746,17 +7746,6 @@ void Character::recalculate_enchantment_cache()
     recalc_hp();
 }
 
-double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
-        bool round_output ) const
-{
-    modify += enchantment_cache->get_value_add( value );
-    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
-    if( round_output ) {
-        modify = std::round( modify );
-    }
-    return modify;
-}
-
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
     // >0 check because some mutations provide negative armor
@@ -8190,7 +8179,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     // And slimespawners too
     if( has_trait( trait_SLIMESPAWNER ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
-        if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+        if( monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 ) ) {
             slime->friendly = -1;
             add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
         }
@@ -9606,10 +9595,10 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         cache_visit_items_with( flag_IS_UPS, [&qty]( item & it ) {
             if( it.is_tool() && it.type->tool->fuel_efficiency >= 0 ) {
-                qty -= it.energy_consume( qty, tripoint::zero, nullptr,
+                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr,
                                           it.type->tool->fuel_efficiency );
             } else {
-                qty -= it.energy_consume( qty, tripoint::zero, nullptr );
+                qty -= it.energy_consume( qty, tripoint_bub_ms::zero, nullptr );
             }
         } );
     }
@@ -9660,7 +9649,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
     if( qty > 0 ) {
         visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
-            if( e->use_charges( what, qty, res, pos(), filter, this, in_tools ) ) {
+            if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -9692,7 +9681,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             const use_function *usef = it.type->get_use( "firestarter" );
             if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, tripoint::zero ).success() ) {
+                if( actor->can_use( *this->as_character(), it, tripoint_bub_ms::zero ).success() ) {
                     ret = it;
                     return true;
                 }
@@ -9983,11 +9972,11 @@ float Character::adjust_for_focus( float amount ) const
     return amount * ( effective_focus / 100.0f );
 }
 
-std::function<bool( const tripoint & )> Character::get_path_avoid() const
+std::function<bool( const tripoint_bub_ms & )> Character::get_path_avoid() const
 {
     // TODO: Add known traps in a way that doesn't destroy performance
 
-    return [this]( const tripoint & p ) {
+    return [this]( const tripoint_bub_ms & p ) {
         Creature *critter = get_creature_tracker().creature_at( p, true );
         return critter && critter->is_npc() && this->sees( *critter );
     };
@@ -10954,7 +10943,7 @@ void Character::process_one_effect( effect &it, bool is_new )
 void Character::process_effects()
 {
     //Special Removals
-    if( has_effect( effect_darkness ) && g->is_in_sunlight( pos() ) ) {
+    if( has_effect( effect_darkness ) && g->is_in_sunlight( pos_bub() ) ) {
         remove_effect( effect_darkness );
     }
     if( has_trait( trait_M_IMMUNE ) && has_effect( effect_fungus ) ) {
@@ -12225,7 +12214,7 @@ void Character::recalc_speed_bonus()
     // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
     if( g != nullptr ) {
-        if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
+        if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos_bub() ) ) {
             //FIXME get trait name directly
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ), _( "Sunlight Dependent" ) );
         }
@@ -12740,11 +12729,11 @@ void Character::leak_items()
 {
     std::vector<item_location> removed_items;
     if( weapon.is_container() ) {
-        if( weapon.leak( get_map(), this, pos() ) ) {
-            weapon.spill_contents( pos() );
+        if( weapon.leak( get_map(), this, pos_bub() ) ) {
+            weapon.spill_contents( pos_bub() );
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
-        if( weapon.leak( get_map(), this, pos() ) ) {
+        if( weapon.leak( get_map(), this, pos_bub() ) ) {
             get_map().add_item_or_charges( pos_bub(), weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
@@ -12755,8 +12744,8 @@ void Character::leak_items()
         if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
             continue;
         }
-        if( it->leak( get_map(), this, pos() ) ) {
-            it->spill_contents( pos() );
+        if( it->leak( get_map(), this, pos_bub() ) ) {
+            it->spill_contents( pos_bub() );
             removed_items.push_back( it );
         }
     }
@@ -12767,8 +12756,8 @@ void Character::leak_items()
 
 void Character::process_items()
 {
-    if( weapon.process( get_map(), this, pos() ) ) {
-        weapon.spill_contents( pos() );
+    if( weapon.process( get_map(), this, pos_bub() ) ) {
+        weapon.spill_contents( pos_bub() );
         remove_weapon();
     }
 
@@ -12777,8 +12766,8 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->process( get_map(), this, pos() ) ) {
-            it->spill_contents( pos() );
+        if( it->process( get_map(), this, pos_bub() ) ) {
+            it->spill_contents( pos_bub() );
             removed_items.push_back( it );
         }
     }

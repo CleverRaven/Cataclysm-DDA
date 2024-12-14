@@ -3092,7 +3092,7 @@ static bool generic_multi_activity_do(
         you.activity.targets.emplace_back( you, &best_rod );
         // TODO: fix point types
         you.activity.coord_set =
-            g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc.raw() );
+            g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.

@@ -559,7 +559,7 @@
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "BROWNIE_HOMEBODY" } },
-    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "++" ] }, { "math": [ "u_brownie_sense_intruders", "++" ] } ]
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus++" ] }, { "math": [ "u_brownie_sense_intruders++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -663,7 +663,7 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "--" ] }, { "math": [ "u_brownie_sense_intruders = 0" ] } ]
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus--" ] }, { "math": [ "u_brownie_sense_intruders = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -792,7 +792,7 @@
                 "1 + u_has_trait('POOKA_SHAPESHIFT_GOOD') + (u_has_trait('POOKA_SHAPESHIFT_GOOD2') * 2) + (u_has_trait('POOKA_SHAPESHIFT_GOOD3') * 4) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 50)"
               ]
             },
-            "effect": [ { "math": [ "u_val('mana')", "--" ] } ]
+            "effect": [ { "math": [ "u_val('mana')--" ] } ]
           }
         ]
       }

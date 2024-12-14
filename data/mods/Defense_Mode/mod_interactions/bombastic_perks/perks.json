@@ -69,7 +69,7 @@
     "points": 0,
     "description": "You're like a cat, and it always seemed to you like you've had nine lives.  When things get rough, by pure luck or divine intervention, you can get out of it.",
     "category": [ "perk" ],
-    "processed_eocs": [ { "id": "extra_life_addup", "effect": { "math": [ "revivication_counter", "++" ] } } ]
+    "processed_eocs": [ { "id": "extra_life_addup", "effect": { "math": [ "revivication_counter++" ] } } ]
   },
   {
     "type": "mutation",

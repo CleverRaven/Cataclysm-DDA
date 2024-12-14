@@ -1418,7 +1418,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( jetpack.ammo_sufficient( you ) ) {
             you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
                                         _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
-            jetpack.activation_consume( 1, you->pos(), you );
+            jetpack.activation_consume( 1, you->pos_bub(), you );
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
@@ -1603,15 +1603,15 @@ bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
     map &here = get_map();
     // Monsters and npcs are completely ignored here, should they?
     for( int tries = 0; tries < 10; tries++ ) {
-        tripoint monp = p;
+        tripoint_bub_ms monp{ p };
         if( one_in( 2 ) ) {
-            monp.x = p.x + rng( -5, +5 );
-            monp.y = p.y + ( one_in( 2 ) ? -5 : +5 );
+            monp.x() = p.x + rng( -5, +5 );
+            monp.y() = p.y + ( one_in( 2 ) ? -5 : +5 );
         } else {
-            monp.x = p.x + ( one_in( 2 ) ? -5 : +5 );
-            monp.y = p.y + rng( -5, +5 );
+            monp.x() = p.x + ( one_in( 2 ) ? -5 : +5 );
+            monp.y() = p.y + rng( -5, +5 );
         }
-        if( !here.sees( monp, p, 10 ) ) {
+        if( !here.sees( monp, tripoint_bub_ms( p ), 10 ) ) {
             continue;
         }
         if( monster *const spawned = g->place_critter_at( mon_shadow, monp ) ) {
@@ -1729,15 +1729,15 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
     }
     if( one_in( 3 ) ) {
         for( int tries = 0; tries < 10; tries++ ) {
-            tripoint monp = p;
+            tripoint_bub_ms monp{ p };
             if( one_in( 2 ) ) {
-                monp.x = p.x + rng( -5, +5 );
-                monp.y = p.y + ( one_in( 2 ) ? -5 : +5 );
+                monp.x() = p.x + rng( -5, +5 );
+                monp.y() = p.y + ( one_in( 2 ) ? -5 : +5 );
             } else {
-                monp.x = p.x + ( one_in( 2 ) ? -5 : +5 );
-                monp.y = p.y + rng( -5, +5 );
+                monp.x() = p.x + ( one_in( 2 ) ? -5 : +5 );
+                monp.y() = p.y + rng( -5, +5 );
             }
-            if( !here.sees( monp, p, 10 ) ) {
+            if( !here.sees( monp, tripoint_bub_ms( p ), 10 ) ) {
                 continue;
             }
             if( monster *const spawned = g->place_critter_at( mon_shadow_snake, monp ) ) {

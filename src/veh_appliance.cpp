@@ -1,3 +1,4 @@
+#include "cached_options.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "imgui/imgui.h"
@@ -195,13 +196,15 @@ void veh_app_interact::init_ui_windows()
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
+    // Try to align the imgui window to be below the header.
+    // to that end, we have some awkward math translating character positions to screen positions here:
     ImVec2 text_metrics = { ImGui::CalcTextSize( "X" ).x, ImGui::GetTextLineHeight() };
     ImVec2 origin = text_metrics * ImVec2{ static_cast<float>( topleft.x ), static_cast<float>( topleft.y + win_height ) };
     ImVec2 size = text_metrics * ImVec2{ static_cast<float>( win_width ), static_cast<float>( height_input ) };
     imenu.desired_bounds = { origin.x,
                              origin.y,
-                             size.x,
-                             size.y + 4.0f * ( ImGui::GetStyle().FramePadding.y + ImGui::GetStyle().WindowBorderSize )
+                             size.x,  // align the width of the input to be the same as the header
+                             -1,      // but let uilist choose the height as it pleases.
                            };
 
     imenu.allow_cancel = true;
@@ -534,6 +537,13 @@ void veh_app_interact::plug()
     }
 }
 
+void veh_app_interact::hide()
+{
+    const int part_idx = veh->part_at( veh->coord_translate( a_point ) );
+    vehicle_part &vp = veh->part( part_idx );
+    vp.hidden = !vp.hidden;
+}
+
 void veh_app_interact::populate_app_actions()
 {
     map &here = get_map();
@@ -583,6 +593,15 @@ void veh_app_interact::populate_app_actions()
                     string_format( "%s%s", ctxt.get_action_name( "PLUG" ),
                                    //~ An addendum to Plug In's description, as in: Plug in appliance / merge power grid".
                                    veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
+#if defined(TILES)
+    // Hide
+    if( use_tiles && vp->info().has_flag( flag_WIRING ) ) {
+        app_actions.emplace_back( [this]() {
+            hide();
+        } );
+        imenu.addentry( -1, true, 0, "Hide/Unhide wiring" );
+    }
+#endif
 
     if( veh->is_powergrid() && veh->part_count() > 1 && !vp->info().has_flag( VPFLAG_WALL_MOUNTED ) ) {
         // Disconnect from power grid
@@ -605,7 +624,6 @@ void veh_app_interact::populate_app_actions()
         imenu.addentry( -1, it._enabled, hotkey, it._text );
         app_actions.emplace_back( it._on_submit );
     }
-    imenu.setup();
 }
 
 shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()

@@ -1237,7 +1237,8 @@
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
           { "item": "spell_scroll_magus_haste", "prob": 50 },
           { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 },
-          { "item": "spell_scroll_magus_slow", "prob": 50 }
+          { "item": "spell_scroll_magus_slow", "prob": 50 },
+          { "item": "spell_scroll_magus_permanent_light", "prob": 30 }
         ],
         "prob": 10
       },
@@ -1267,7 +1268,8 @@
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
-          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
+          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 },
+          { "item": "spell_scroll_animist_do_psionic_damage_to_head", "prob": 30 }
         ],
         "prob": 35
       },
@@ -1476,7 +1478,8 @@
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
           { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
           { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
-          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 }
+          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 },
+          { "item": "spell_scroll_biomancer_get_more_blood", "prob": 25 }
         ],
         "prob": 35
       },

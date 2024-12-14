@@ -28,11 +28,11 @@
     "name": { "str": "large fire extinguisher" },
     "description": "An emergency fire extinguisher containing five gallons of fire-retardant foam.  Useful for putting out adjacent fires.",
     "weight": "7030 g",
-    "volume": "20000 ml",
+    "volume": "20 L",
     "longest_side": "50 cm",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
@@ -112,7 +112,7 @@
     "longest_side": "40 cm",
     "price": "40 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
@@ -141,7 +141,7 @@
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
@@ -154,7 +154,7 @@
       "type": "transform"
     },
     "flags": [ "ACT_IN_FIRE", "BOMB", "GRENADE" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "throw_extinguisher_act",
@@ -166,14 +166,14 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_red",
     "emits": [ "emit_extinguisher_burst" ],
     "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "pike_pole",
@@ -191,7 +191,7 @@
     "//": " If the pole itself has a diameter of around 3 cm which is thick, to be frank, then we half it for the radius -> 1,5 cm, square it -> 2,25, mulitplicate with pi -> ~7,07 cm² multiplicate with 160 cm length -> 1130 cm³ which is 1,13 liters. We add the hook which is around 100 ml of volume.",
     "volume": "1250 ml",
     "longest_side": "160 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 20, "cut": 6 }
@@ -220,7 +220,7 @@
     "weight": "2900 g",
     "volume": "400 ml",
     "longest_side": "90 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "DIG", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 15, "stab": 13 }

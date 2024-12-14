@@ -626,7 +626,7 @@ std::string trim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
-std::string remove_punctuations( std::string_view s );
+std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 

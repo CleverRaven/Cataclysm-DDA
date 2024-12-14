@@ -90,7 +90,7 @@
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('sleepiness') = 0" ] },
       { "math": [ "u_val('stamina') = 8500" ] },
-      { "math": [ "revivication_counter", "--" ] },
+      { "math": [ "revivication_counter--" ] },
       { "u_cast_spell": { "id": "remove_opponents" } },
       {
         "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",

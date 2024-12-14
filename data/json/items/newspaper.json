@@ -227,7 +227,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_BIO",
-          "effect": [ { "u_message": "log_mutagen_animal", "snippet": true, "same_snippet": true, "popup": true } ]
+          "effect": [ { "u_message": "log_mutagen_animal", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
         }
       ]
     }
@@ -250,7 +250,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_PSY",
-          "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true } ]
+          "effect": [ { "u_message": "log_psych", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
         }
       ]
     }
@@ -294,7 +294,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_LAB_FILE_SEC",
-          "effect": [ { "u_message": "log_sec", "snippet": true, "same_snippet": true, "popup": true } ]
+          "effect": [ { "u_message": "log_sec", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
         }
       ]
     }

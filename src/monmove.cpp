@@ -174,7 +174,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( p ) ) {
+    if( has_flag( mon_flag_SUNDEATH ) && g->is_in_sunlight( tripoint_bub_ms( p ) ) ) {
         return false;
     }
 
@@ -1025,21 +1025,21 @@ void monster::move()
         }
 
         if( !is_wandering() || move_without_target ) {
-            while( !path.empty() && path.front() == pos() ) {
+            while( !path.empty() && path.front() == pos_bub() ) {
                 path.erase( path.begin() );
             }
 
             const pathfinding_settings &pf_settings = get_pathfinding_settings();
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest.raw() ) ) {
+                ( path.empty() || rl_dist( pos_bub(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
                 if( can_pathfind() ) {
-                    path = here.route( pos(), local_dest.raw(), pf_settings, get_path_avoid() );
+                    path = here.route( pos_bub(), local_dest, pf_settings, get_path_avoid() );
                     if( path.empty() ) {
                         increment_pathfinding_cd();
                     }
                 } else {
-                    path = here.straight_route( pos(), local_dest.raw() );
+                    path = here.straight_route( pos_bub(), local_dest );
                     if( !path.empty() ) {
                         if( std::any_of( path.begin(), path.end(), get_path_avoid() ) ) {
                             path.clear();
@@ -1052,8 +1052,8 @@ void monster::move()
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
-            if( !path.empty() && path.back() == local_dest.raw() ) {
-                destination = tripoint_bub_ms( path.front() );
+            if( !path.empty() && path.back() == local_dest ) {
+                destination = path.front();
                 moved = true;
                 pathed = true;
             } else {
@@ -2336,7 +2336,8 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    auto path = get_map().route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    const std::vector<tripoint_bub_ms> path = get_map().route( pos_bub(), tripoint_bub_ms( p.x, p.y,
+            posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
@@ -2362,22 +2363,23 @@ int monster::turns_to_reach( const point &p )
 {
     map &here = get_map();
     // HACK: This function is a(n old) temporary hack that should soon be removed
-    auto path = here.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    const std::vector<tripoint_bub_ms> path = here.route( pos_bub(), tripoint_bub_ms( p.x, p.y,
+            posz() ), get_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }
 
     double turns = 0.;
     for( size_t i = 0; i < path.size(); i++ ) {
-        const tripoint &next = path[i];
+        const tripoint_bub_ms &next = path[i];
         if( here.impassable( next ) ) {
             // No bashing through, it looks stupid when you go back and find
             // the doors intact.
             return 999;
         } else if( i == 0 ) {
-            turns += static_cast<double>( calc_movecost( pos(), next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( pos(), next.raw() ) ) / get_speed();
         } else {
-            turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();
+            turns += static_cast<double>( calc_movecost( path[i - 1].raw(), next.raw() ) ) / get_speed();
         }
     }
 

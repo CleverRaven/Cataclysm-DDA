@@ -142,7 +142,7 @@
       }
     },
     "effect": [
-      { "math": [ "u_stormwrought_blood_charge", "++" ] },
+      { "math": [ "u_stormwrought_blood_charge++" ] },
       {
         "run_eocs": [
           {

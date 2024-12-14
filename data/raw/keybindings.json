@@ -4863,6 +4863,48 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MONSTER_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle monster group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NPC_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle NPC group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_GENERAL_INFO_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle general info group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_BUFFS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle buffs group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_TECHNIQUES_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle techniques group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_WEAPONS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle weapons group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
     "name": "Display keybindings menu",
     "category": "STRING_EDITOR",

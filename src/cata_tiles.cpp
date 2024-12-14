@@ -1941,14 +1941,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     } else if( you.view_offset != tripoint_rel_ms::zero && !you.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                             tripoint( g->ter_view_p.xy(), center.z ), 0, 0, lit_level::LIT,
+                             tripoint( g->ter_view_p.raw().xy(), center.z ), 0, 0, lit_level::LIT,
                              false );
     }
     if( you.controlling_vehicle ) {
-        std::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true );
+        std::optional<tripoint_rel_ms> indicator_offset = g->get_veh_dir_indicator_location( true );
         if( indicator_offset ) {
             draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                                 indicator_offset->xy() +
+                                 indicator_offset->raw().xy() +
                                  tripoint( you.posx(), you.posy(), center.z ),
                                  0, 0, lit_level::LIT, false );
         }

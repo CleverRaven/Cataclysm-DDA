@@ -985,6 +985,31 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::quality_result, progress_callback );
                     break;
 
+                case 'L':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::length, progress_callback );
+                    break;
+
+                case 'V':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::volume, progress_callback );
+                    break;
+
+                case 'M':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::mass, progress_callback );
+                    break;
+
+                case 'v':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::covers, progress_callback );
+                    break;
+
+                case 'e':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::layer, progress_callback );
+                    break;
+
                 case 'd':
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::description_result, progress_callback );
@@ -1018,7 +1043,7 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                 case 'r': {
                     recipe_subset result;
                     for( const itype *e : item_controller->all() ) {
-                        if( wildcard_match( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
+                        if( lcmatch( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
                             result.include( recipe_subset( available_recipes,
                                                            available_recipes.recipes_that_produce( e->get_id() ) ) );
                         }
@@ -1068,7 +1093,12 @@ static const std::vector<SearchPrefix> prefixes = {
     { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
-    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
+    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>" ) },
+    { 'L', to_translation( "122 cm" ), to_translation( "result can contain item of <color_cyan>length</color>" ) },
+    { 'V', to_translation( "450 ml" ), to_translation( "result can contain item of <color_cyan>volume</color>" ) },
+    { 'M', to_translation( "250 kg" ), to_translation( "result can contain item of <color_cyan>mass</color>" ) },
+    { 'v', to_translation( "head" ), to_translation( "<color_cyan>body part</color> the result covers" ) },
+    { 'e', to_translation( "close to skin" ), to_translation( "<color_cyan>layer</color> the result covers" ) },
     { 'a', to_translation( "brisk" ), to_translation( "recipe's <color_cyan>activity level</color>" ) }
 };
 
