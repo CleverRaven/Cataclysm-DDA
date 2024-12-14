@@ -66,8 +66,7 @@
       [ [ "afs_circuitry_1", 4 ] ],
       [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "afs_material_1", 7 ] ]
-    ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
+    ]
   },
   {
     "result": "bot_utilibot_beehive",
@@ -80,8 +79,7 @@
       [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "afs_material_1", 8 ] ],
       [ [ "robot_controls", 1 ] ]
-    ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
+    ]
   },
   {
     "type": "recipe",
