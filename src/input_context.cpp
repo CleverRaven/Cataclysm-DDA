@@ -711,7 +711,7 @@ keybindings_ui::keybindings_ui( bool permit_execute_action,
                                         fallback_keys.at( fallback_action::add_local ) )
         },
         {
-            "ADD_GLOBAL", string_format( _( "[<color_yellow>\u23F8+L1</color>] Add global keybinding" ),
+            "ADD_GLOBAL", string_format( _( "[<color_yellow>\u23F8+L2</color>] Add global keybinding" ),
                                          fallback_keys.at( fallback_action::add_global ) )
         },
         {
