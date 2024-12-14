@@ -175,7 +175,12 @@
     },
     "end": {
       "effect": [
-        { "queue_eocs": "godco_place_warehouse_new", "time_in_future": "336 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "queue_eocs": "godco_place_warehouse_new",
+          "time_in_future": "336 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 137 }
       ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
@@ -305,8 +310,13 @@
     },
     "end": {
       "effect": [
+        { "npc_location_variable": { "context_val": "search_locale" } },
         { "math": [ "darryl_building_coop", "=", "1" ] },
-        { "queue_eocs": "godco_place_coop_new", "time_in_future": "168 hours" },
+        {
+          "queue_eocs": "godco_place_coop_new",
+          "time_in_future": "168 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 6 }
       ]
     }
@@ -938,7 +948,12 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
-        { "queue_eocs": "godco_place_herb_garden_new", "time_in_future": "72 hours" }
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "queue_eocs": "godco_place_herb_garden_new",
+          "time_in_future": "72 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1200,7 +1215,12 @@
     "end": {
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
-        { "queue_eocs": "godco_place_wall_new", "time_in_future": "432 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "queue_eocs": "godco_place_wall_new",
+          "time_in_future": "432 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 40 }
       ]
     },
