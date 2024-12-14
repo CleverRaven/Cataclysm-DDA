@@ -5245,9 +5245,8 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         }
     }
     bool parse = jo.get_bool( "parse_tags", false );
-    bool parse_output = jo.get_bool( "parse_output_tags", false );
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    return [i18n, input_params, str_vals, i18n_vals, var, parse, parse_output]( dialogue & d ) {
+    return [i18n, input_params, str_vals, i18n_vals, var, parse]( dialogue & d ) {
         int index = rng( 0, ( i18n ? i18n_vals.size() : str_vals.size() ) - 1 );
         std::string str = i18n ? i18n_vals[index].evaluate( d ) : str_vals[index].evaluate( d );
 
@@ -5292,14 +5291,7 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
             talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
             parse_tags( str, alpha, beta, d );
         }
-        std::string output_var_name = var.name;
-        if( parse_output ) {
-            std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
-            talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
-            talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
-            parse_tags( output_var_name, alpha, beta, d );
-        }
-        write_var_value( var.type, output_var_name, &d, str );
+        write_var_value( var.type, var.name, &d, str );
     };
 }
 
