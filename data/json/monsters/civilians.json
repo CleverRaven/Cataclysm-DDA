@@ -114,7 +114,7 @@
     "id": "mon_civilian_icu",
     "type": "MONSTER",
     "name": { "str": "hospitalized human" },
-    "description": "This being is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
+    "description": "This person is severely ill in some form or another, requiring intensive care that is not available anymore after the Cataclysm.  There is nothing you can do for them.",
     "chat_topics": [ "TALK_CIVILIAN_ICU" ],
     "speed": 0,
     "//": "So they are not perpetually fleeing despite lying in a hospital bed",
