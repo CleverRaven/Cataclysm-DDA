@@ -1397,7 +1397,7 @@ class Character : public Creature, public visitable
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
         /** Returns true if player has a trait, bionic, effect, bodypart, or martial arts buff with a flag */
-        bool has_flag( const json_character_flag &flag ) const;
+        bool has_flag( const json_character_flag &flag ) const override;
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
 

@@ -167,7 +167,7 @@ class monster : public Creature
         bool has_flag( const mon_flag_id &f ) const final;
         // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
         using Creature::has_flag;
-        bool has_flag( const flag_id &f ) const;
+        bool has_flag( const flag_id &f ) const override;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
         bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
