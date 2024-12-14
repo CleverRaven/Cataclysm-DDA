@@ -3032,7 +3032,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
         guy.revert_after_activity();
         return;
     }
-    if( rl_dist( guy.pos(), mon->pos() ) <= 1 ) {
+    if( rl_dist( guy.pos_bub(), mon->pos_bub() ) <= 1 ) {
         if( mon->has_effect( effect_controlled ) ) {
             mon->remove_effect( effect_controlled );
         }
@@ -3835,7 +3835,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             }
 
             if( spell_being_cast.has_flag( spell_flag::VERBAL ) && !you->has_flag( json_flag_SILENT_SPELL ) ) {
-                sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
+                sounds::sound( you->pos_bub(), you->get_shout_volume() / 2, sounds::sound_t::speech,
                                _( "cast a spell" ),
                                false );
             }

@@ -68,7 +68,7 @@ static std::string vision_test_info( map_test_case &t )
     using namespace map_test_case_common;
 
     out << "origin: " << t.get_origin() << '\n';
-    out << "player: " << get_player_character().pos() << '\n';
+    out << "player: " << get_player_character().pos_bub() << '\n';
     out << "unimpaired_range: " << get_player_character().unimpaired_range()  << '\n';
     out << "vision_threshold: " << here.get_visibility_variables_cache().vision_threshold << '\n';
 

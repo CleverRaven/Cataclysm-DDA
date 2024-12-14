@@ -1638,7 +1638,8 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
                                            _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
-                sounds::sound( you.pos(), 5000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                sounds::sound( you.pos_bub(), 5000, sounds::sound_t::movement,
+                               _( "A horribly loud grinding sound!" ),
                                true, "misc", "scraping" );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad,

@@ -330,7 +330,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
         monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
-        REQUIRE( mon.pos() == dude.pos() + tripoint::east );
+        REQUIRE( mon.pos_bub() == dude.pos_bub() + tripoint::east );
         REQUIRE( mon.get_armor_type( damage_test_fire, body_part_bp_null ) == expected_resist );
         REQUIRE( mon.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( mon.get_hp() == mon.get_hp_max() );
@@ -359,7 +359,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
     monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
-    REQUIRE( mon.pos() == dude.pos() + tripoint::east );
+    REQUIRE( mon.pos_bub() == dude.pos_bub() + tripoint::east );
     REQUIRE( mon.get_hp() == mon.get_hp_max() );
     REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
     REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
@@ -396,7 +396,7 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
             REQUIRE( dude2.wear_item( item( itm ), false ).has_value() );
         }
         dude2.set_movement_mode( move_mode_prone ); // no dodging allowed :)
-        REQUIRE( dude2.pos() == dude.pos() + tripoint::east );
+        REQUIRE( dude2.pos_bub() == dude.pos_bub() + tripoint::east );
         REQUIRE( dude2.get_armor_type( damage_test_fire, checked_bp ) == expected_resist );
         REQUIRE( dude2.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( dude2.get_hp() == dude2.get_hp_max() );

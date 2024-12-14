@@ -177,7 +177,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {
-        const int z_change = map_starting_point.z() - player_character.pos_bub().z();
+        const int z_change = map_starting_point.z() - player_character.posz();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
         player_character.setpos( map_starting_point );

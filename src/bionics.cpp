@@ -897,7 +897,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_resonator ) {
         add_msg_activate();
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
+        sounds::sound( pos_bub(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
                        static_cast<std::string>( bio_resonator ) );
         for( const tripoint_bub_ms &bashpoint : here.points_in_radius( pos_bub(), 1 ) ) {
             here.bash( bashpoint, 110 );

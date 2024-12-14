@@ -117,7 +117,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         } );
         num_survivors += survivors.size();
         for( Creature *survivor : survivors ) {
-            survivor_stats << survivor->pos() << " " << survivor->get_hp() << ", ";
+            survivor_stats << survivor->pos_bub() << " " << survivor->get_hp() << ", ";
             bool wounded = survivor->get_hp() < survivor->get_hp_max() * 0.75;
             num_wounded += wounded ? 1 : 0;
             total_hp += survivor->get_hp();

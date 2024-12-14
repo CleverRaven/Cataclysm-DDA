@@ -1336,8 +1336,8 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     if( critter != nullptr ) {
         // It's easier to dodge at close range (thrower needs to adjust more)
         // Dodge x10 at point blank, x5 at 1 dist, then flat
-        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos(),
-                                critter->pos() ) );
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos_bub(),
+                                critter->pos_bub() ) );
         dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
     }
     // 1 perception per 1 eye encumbrance
@@ -2319,7 +2319,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
 {
     const item::sound_data data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
+        sounds::sound( p.pos_bub(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
     tname::segment_bitset segs( tname::unprefixed_tname );
@@ -2629,7 +2629,7 @@ target_handler::trajectory target_ui::run()
 
     avatar &player_character = get_avatar();
     on_out_of_scope cleanup( [&here, &player_character]() {
-        here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z() );
+        here.invalidate_map_cache( player_character.posz() + player_character.view_offset.z() );
     } );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
@@ -2993,7 +2993,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     } else if( action == "SELECT" &&
                ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.raw().xy() ) ) ) {
         // Set pos by clicking with mouse
-        mouse_pos->z() = you->pos().z + you->view_offset.z();
+        mouse_pos->z() = you->posz() + you->view_offset.z();
         set_cursor_pos( tripoint_bub_ms( *mouse_pos ) );
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
         // Shift view/cursor up/down one z level
@@ -3170,7 +3170,8 @@ void target_ui::update_target_list()
     // Get targets in range and sort them by distance (targets[0] is the closest)
     targets = you->get_targetable_creatures( range, mode == TargetMode::Reach );
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist_exact( lhs->pos(), you->pos() ) < rl_dist_exact( rhs->pos(), you->pos() );
+        return rl_dist_exact( lhs->pos_bub(), you->pos_bub() ) < rl_dist_exact( rhs->pos_bub(),
+                you->pos_bub() );
     } );
 }
 

@@ -230,7 +230,7 @@ static void mount_step_on_trap_make_slow_give_msg( monster *z, const tripoint &p
     map &here = get_map();
     Character *rider = nullptr;
     for( npc &guy : g->all_npcs() ) {
-        if( guy.pos() == p && guy.pos() == z->pos() ) {
+        if( guy.pos() == p && guy.pos_bub() == z->pos_bub() ) {
             rider = &guy;
             break;
         }
@@ -420,7 +420,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
             }
             if( !valid.empty() ) {
                 player_character.setpos( random_entry( valid ) );
-                z->setpos( player_character.pos() );
+                z->setpos( player_character.pos_bub() );
             }
             player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
@@ -1353,7 +1353,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         }
 
         if( valid.empty() ) {
-            critter->setpos( c->pos() );
+            critter->setpos( c->pos_bub() );
             add_msg( m_bad, _( "You fall down under %s!" ), critter->disp_name() );
         } else {
             critter->setpos( random_entry( valid ) );
@@ -1378,7 +1378,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( c->has_effect( effect_strengthened_gravity ) ) {
             height += 1;
         }
-        c->impact( height * 10, where.raw() );
+        c->impact( height * 10, where );
         return true;
     }
 
@@ -1422,11 +1422,11 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
-            you->impact( height * 30, where.raw() );
+            you->impact( height * 30, where );
 
         }
     } else {
-        you->impact( height * 30, where.raw() );
+        you->impact( height * 30, where );
     }
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {

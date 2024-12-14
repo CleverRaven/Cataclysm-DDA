@@ -3292,7 +3292,7 @@ bool overmap::monster_check( const std::pair<tripoint_om_sm, monster> &candidate
     const auto matching_range = monster_map.equal_range( candidate.first );
     return std::find_if( matching_range.first, matching_range.second,
     [candidate]( const std::pair<tripoint_om_sm, monster> &match ) {
-        return candidate.second.pos() == match.second.pos() &&
+        return candidate.second.pos_bub() == match.second.pos_bub() &&
                candidate.second.type == match.second.type;
     } ) != matching_range.second;
 }

@@ -177,7 +177,7 @@ void push( monster &z )
     }
 
     point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    if( z.move_to( tripoint( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+    if( z.move_to( tripoint_bub_ms( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
         add_msg( _( "You pushed the %s." ), pet_name );
     } else {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );

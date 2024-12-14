@@ -37,7 +37,7 @@ void run_activities( Character &u, int max_moves )
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( get_map().bub_from_abs( tripoint_abs_ms( *u.destination_point ) ) );
-            get_map().build_map_cache( u.pos().z );
+            get_map().build_map_cache( u.posz() );
             u.start_destination_activity();
         }
         u.activity.do_turn( u );
@@ -124,7 +124,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with pre_terrain" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_door", tri_door, tripoint_bub_ms() );
@@ -137,7 +137,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {
         u.setpos( tripoint_bub_ms{ ACTIVITY_SEARCH_DISTANCE - 1, 0, 0} );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_door", tri_window, tripoint_bub_ms() );
@@ -149,7 +149,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with pre_flags" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
@@ -160,7 +160,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with prereq with only pre_special" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_gravel( tripoint::south );
         construction const pre_build =
             setup_testcase( u, "test_constr_railroad_rubble", tri_gravel, tripoint_bub_ms() );
@@ -179,7 +179,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity - alternative build from same group" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
@@ -191,7 +191,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with existing partial" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
@@ -204,7 +204,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with alternative partial" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
@@ -217,7 +217,7 @@ void run_test_case( Character &u )
 
     SECTION( "1-step construction activity with mismatched partial" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
@@ -232,7 +232,7 @@ void run_test_case( Character &u )
     SECTION( "visible but unreachable construction" ) {
         u.setpos( tripoint::zero );
         u.path_settings->bash_strength = 0;
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_window = { 0, 5, 0 };
         for( tripoint_bub_ms const &it : here.points_in_radius( tri_window, 1 ) ) {
             here.ter_set( it, ter_t_metal_grate_window );
@@ -250,7 +250,7 @@ void run_test_case( Character &u )
 
     SECTION( "multiple-step construction activity with fetch required" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_door_peep", tri_door, { 0, PICKUP_RANGE * 2 + 1, 0 } );
@@ -260,7 +260,7 @@ void run_test_case( Character &u )
 
     SECTION( "multiple-step construction activity with prereq from a different group" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         construction const build =
             setup_testcase( u, "test_constr_palisade_gate", tri_door, tripoint_bub_ms( tripoint::south_east ) );
@@ -270,7 +270,7 @@ void run_test_case( Character &u )
 
     SECTION( "multiple-step construction activity with partial of a recursive prerequisite" ) {
         u.setpos( tripoint::zero );
-        here.build_map_cache( u.pos().z );
+        here.build_map_cache( u.posz() );
         tripoint_bub_ms const tri_door( tripoint::south );
         partial_con pc;
         pc.id = get_construction( "test_constr_pit_shallow" ).id;

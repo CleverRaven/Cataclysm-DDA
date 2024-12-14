@@ -178,7 +178,7 @@ TEST_CASE( "visitable_zone_surface_test" )
             spawn_site = it->name_;
         }
         CAPTURE( spawn_site );
-        CAPTURE( mon->pos() );
+        CAPTURE( mon->pos_bub() );
         CAPTURE( mon->get_reachable_zone() );
         CHECK( mon->get_reachable_zone() != 0 );
     }
