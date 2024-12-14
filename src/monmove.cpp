@@ -142,7 +142,7 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     map &here = get_map();
-    
+
     const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at( p );
     if( !here.passable_skip_fields( p ) || ( !impassable_field_ids.empty() &&
             !is_immune_fields( impassable_field_ids ) ) ) {
@@ -1831,10 +1831,11 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
-    const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at( destination );
+    const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at(
+                destination );
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, destination ) ) {
         if( ( !here.passable_skip_fields( destination ) || ( !impassable_field_ids.empty() &&
-            !is_immune_fields( impassable_field_ids ) ) ) && critter == nullptr) {
+                !is_immune_fields( impassable_field_ids ) ) ) && critter == nullptr ) {
             if( flies() ) {
                 mod_moves( -get_speed() );
                 force = true;
@@ -1873,7 +1874,8 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                            static_cast<float>( climbs() &&
                                                here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos_bub().raw(),
                                                        destination.raw() ) : calc_movecost( pos_bub().raw(),
-                                                               destination.raw(), ( !impassable_field_ids.empty() && is_immune_fields( impassable_field_ids ) ) ) );
+                                                               destination.raw(), ( !impassable_field_ids.empty() &&
+                                                                       is_immune_fields( impassable_field_ids ) ) ) );
         if( cost > 0.0f ) {
             mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {

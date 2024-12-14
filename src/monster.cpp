@@ -3841,7 +3841,7 @@ void monster::on_hit( Creature *source, bodypart_id,
             type->families.practice_hit( *attacker );
         }
     }
-    
+
     enchantment_cache->cast_hit_me( *this, source );
 
     check_dead_state();
