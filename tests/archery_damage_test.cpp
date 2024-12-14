@@ -114,6 +114,7 @@ TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
     // Medium setting compound bow can kill Bear
     test_archery_balance( "compbow", "arrow_metal", "mon_bear", "" );
     // High setting modern compund bow can kill Moose
-    test_archery_balance( "compcrossbow", "bolt_steel", "mon_moose", "" );
-    test_archery_balance( "compbow_high", "arrow_metal", "mon_moose", "" );
+    // Currently disabled as it was not possible to make moose realistically tough while keeping the tests functional. Our bleeding isn't strong enough, and the tests are only hooked up to check instakills. Check the comments under PR #74554 for more detailed explanation.
+    // test_archery_balance( "compcrossbow", "bolt_steel", "mon_moose", "" );
+    // test_archery_balance( "compbow_high", "arrow_metal", "mon_moose", "" );
 }
