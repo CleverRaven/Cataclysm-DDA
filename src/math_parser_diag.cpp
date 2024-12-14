@@ -517,14 +517,14 @@ diag_assign_dbl_f hp_ass( char scope, std::vector<diag_value> const &params,
     };
 }
 
-diag_eval_dbl_f degradation_eval( char scope, std::vector<diag_value> const &params,
+diag_eval_dbl_f degradation_eval( char scope, std::vector<diag_value> const & /* params */,
                                   diag_kwargs const & )
 {
     return[beta = is_beta( scope )]( const_dialogue const & d ) {
         return d.const_actor( beta )->get_degradation();
     };
 }
-diag_assign_dbl_f degradation_ass( char scope, std::vector<diag_value> const &params,
+diag_assign_dbl_f degradation_ass( char scope, std::vector<diag_value> const & /* params */,
                                    diag_kwargs const & /* kwargs */ )
 {
     return [beta = is_beta( scope )]( dialogue const & d, double val ) {
