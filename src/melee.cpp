@@ -1806,7 +1806,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
             new_.y = b.y;
         }
 
-        const tripoint &dest = tripoint( new_, b.z );
+        const tripoint_bub_ms &dest{ new_.x, new_.y, b.z };
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
@@ -1836,7 +1836,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
             // Check if it's possible to move to the new tile
             bool move_issue =
-                g->is_dangerous_tile( prev_pos.raw() ) || // Tile contains fire, etc
+                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle

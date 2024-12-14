@@ -955,7 +955,7 @@ class Creature : public viewer
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
         /** Returns a set of points we do not want to path through. */
-        virtual std::function<bool( const tripoint & )> get_path_avoid() const = 0;
+        virtual std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const = 0;
 
         bool underwater;
         void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;

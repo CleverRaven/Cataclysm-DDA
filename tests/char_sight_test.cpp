@@ -63,7 +63,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
         calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
         // Build map cache including lightmap
         here.build_map_cache( 0, false );
-        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
         // ambient_light_at is ~100.0 at this time of day (this fails if lightmap cache is not built)
         REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( 100.0f ).margin( 1 ) );
 
@@ -90,7 +90,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
         tripoint const z_shift = GENERATE( tripoint::above, tripoint::zero );
         dummy.setpos( dummy.pos() + z_shift ); // This implicitly rebuilds the light map.
         CAPTURE( z_shift );
-        REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE_FALSE( g->is_in_sunlight( dummy.pos_bub() ) );
         REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
 
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
@@ -170,7 +170,7 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
     GIVEN( "it is midnight with a new moon" ) {
         calendar::turn = calendar::turn_zero;
         here.build_map_cache( 0, false );
-        REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE_FALSE( g->is_in_sunlight( dummy.pos_bub() ) );
 
         THEN( "sight limit is 60 tiles away" ) {
             dummy.recalc_sight_limits();
@@ -318,7 +318,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos_bub() );
-            REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+            REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
             REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );
 
             THEN( "impaired sight, with 12 tiles of range" ) {

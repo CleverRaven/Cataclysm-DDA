@@ -6710,7 +6710,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
-            tripoint spawn_point;
+            tripoint_bub_ms spawn_point;
             if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
@@ -6719,7 +6719,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     target_monster = *copy->as_monster();
                 }
             }
-            if( g->find_nearby_spawn_point( target_pos.raw(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
@@ -6740,7 +6740,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
             }
         }
         for( int i = 0; i < real_count; i++ ) {
-            tripoint spawn_point;
+            tripoint_bub_ms spawn_point;
             if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
@@ -6749,7 +6749,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     target_monster = *copy->as_monster();
                 }
             }
-            if( g->find_nearby_spawn_point( target_pos.raw(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 if( spawned ) {
@@ -6845,8 +6845,8 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < real_count; i++ ) {
-            tripoint spawn_point;
-            if( g->find_nearby_spawn_point( target_pos.raw(), min_radius,
+            tripoint_bub_ms spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
@@ -6865,8 +6865,8 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         }
         cur_traits.emplace_back( trait_HALLUCINATION );
         for( int i = 0; i < hallucination_count; i++ ) {
-            tripoint spawn_point;
-            if( g->find_nearby_spawn_point( target_pos.raw(), min_radius,
+            tripoint_bub_ms spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
