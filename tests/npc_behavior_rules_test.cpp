@@ -254,4 +254,9 @@ TEST_CASE( "NPC rules (avoid locks)", "[npc_rules]" )
     CAPTURE( test_subject->path.size() );
     CHECK( test_subject->path.empty() );
 
+    // and now we check that the opposite is true, that they are allowed to exit the vehicle when the flag is not set
+    test_subject->rules.clear_flag( rule_to_test );
+    test_subject->update_path( outside_car_door_pos, true, true );
+    CHECK( !test_subject->path.empty() );
+
 }
