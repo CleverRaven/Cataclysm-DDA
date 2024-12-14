@@ -1245,7 +1245,7 @@ struct itype {
         using FlagsSetType = std::set<flag_id>;
 
     protected:
-        // private because is should only be accessed through itype::nname!
+        // private because it should only be accessed through itype::nname!
         // nname() is used for display purposes
         translation name = no_translation( "none" );
 
