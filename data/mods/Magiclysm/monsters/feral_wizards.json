@@ -139,7 +139,7 @@
     "id": "mon_feral_radiation_mage",
     "type": "MONSTER",
     "name": { "str": "feral radiation mage" },
-    "description": "A research thaumaturge with the international radiation danger symbol in front of a pentagram on their lab coat.  If you had a geiger counter active, it would probably be going crazy right now.",
+    "description": "A research thaumaturge with the international radiation danger symbol in front of a pentagram on their lab coat.  If you had a Geiger counter active, it would probably be going crazy right now.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",

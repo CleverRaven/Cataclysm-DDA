@@ -13,8 +13,8 @@ Orbiting Space telescopes discover a seemingly stable spatial property that allo
 
 - 2105 The Soviet Union launches its first jump-capable factory fleet, in an all too ambitious plan to create an interstellar civilization. Other nations are quick to follow, and generally more successful on their colonization endeavors.
 - 2110 Incredibly powerful strong AI systems are created by leveraging the principles of FTL communication.
-- 2115 An unknown concern of biotechnology companies buys the explotation rights of Salus IV, quoting interest in studying the native lifeforms.
-- 2140 Exponential growth in the capabalities of Hypercomms AI leads to unheard advances in all levels of human existence, although little of these transformations manage to assert themselves outside of the solar system before the discontinuity happens.
+- 2115 An unknown concern of biotechnology companies buys the exploration rights of Salus IV, quoting interest in studying the native lifeforms.
+- 2140 Exponential growth in the capabilities of Hypercomms AI leads to unheard advances in all levels of human existence, although little of these transformations manage to assert themselves outside of the solar system before the discontinuity happens.
 
 ### The discontinuity (2152- 2375)
 
