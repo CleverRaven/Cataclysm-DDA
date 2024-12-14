@@ -34,10 +34,8 @@ static std::function< bool( const item & )> can_contain_filter( std::string_view
     }
     // copy the debug item template (itype), put it on heap so the itype pointer doesn't move
     // TODO unique_ptr
-    std::shared_ptr<itype> filtered_fake_itype = std::make_shared<itype>( *( item_controller->find( [](
-    const itype & i ) {
-        return i.get_id() == STATIC( itype_id( "debug_item_search" ) );
-    } )[0] ) );
+    std::shared_ptr<itype> filtered_fake_itype = std::make_shared<itype>
+            ( *item_controller->find_template( STATIC( itype_id( "debug_item_search" ) ) ) );
     item filtered_fake_item = set_function( filtered_fake_itype.get(), uni );
     // pass to keep filtered_fake_itype valid until lambda capture is destroyed (while item is needed)
     return [filtered_fake_itype, filtered_fake_item]( const item & i ) {
