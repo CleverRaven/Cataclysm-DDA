@@ -1116,7 +1116,8 @@ diag_eval_dbl_f spell_exp_for_level_eval( char /* scope */,
     return[sid = params[0], level = params[1]]( const_dialogue const & d ) -> double {
         std::string sid_str = sid.str( d );
         spell_id spell( sid_str );
-        if( spell.is_valid() ) {
+        if( spell.is_valid() )
+        {
             return spell->exp_for_level( level.dbl( d ) );
         }
 
