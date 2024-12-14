@@ -171,8 +171,8 @@ void uilist_impl::draw_controls()
                         std::string &str2 = entry.ctxt;
                         nc_color color = entry.enabled || entry.force_color ? entry.text_color : parent.disabled_color;
                         if( is_selected || is_hovered ) {
-                            str1 = entry._txt_nocolor;
-                            str2 = entry._ctxt_nocolor;
+                            str1 = entry._txt_nocolor();
+                            str2 = entry._ctxt_nocolor();
                             color = parent.hilight_color;
                         }
 
@@ -248,81 +248,73 @@ static std::optional<input_event> hotkey_from_char( const int ch )
 
 uilist_entry::uilist_entry( const std::string &txt )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
-      text_color( c_red_red )
+      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
-      desc( desc ), text_color( c_red_red )
+      desc( desc ), text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const int key )
     : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      text_color( c_red_red )
+      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_event> &key )
     : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
-      text_color( c_red_red )
+      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      text_color( c_red_red )
+      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
                             const std::optional<input_event> &key,
                             const std::string &txt )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
-      text_color( c_red_red )
+      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt, const std::string &desc )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      desc( desc ), text_color( c_red_red )
+      desc( desc ), text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
                             const std::optional<input_event> &key, const std::string &txt, const std::string &desc )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
-      desc( desc ), text_color( c_red_red )
+      desc( desc ), text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      desc( desc ), ctxt( column ), text_color( c_red_red )
+      desc( desc ), ctxt( column ), text_color( c_red_red ), _txt_nocolor_cached( "" ),
+      _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -330,20 +322,36 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
-      desc( desc ), ctxt( column ), text_color( c_red_red )
+      desc( desc ), ctxt( column ), text_color( c_red_red ), _txt_nocolor_cached( "" ),
+      _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt,
                             const nc_color &keycolor, const nc_color &txtcolor )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      hotkey_color( keycolor ), text_color( txtcolor )
+      hotkey_color( keycolor ), text_color( txtcolor ), _txt_nocolor_cached( "" ),
+      _ctxt_nocolor_cached( "" )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
+}
+
+const std::string uilist_entry::_txt_nocolor()
+{
+    if( _txt_nocolor_cached.empty() && !txt.empty() ) {
+        _txt_nocolor_cached = remove_color_tags( txt );
+    }
+    return _txt_nocolor_cached;
+}
+
+const std::string uilist_entry::_ctxt_nocolor()
+{
+    if( _ctxt_nocolor_cached.empty() && !ctxt.empty() ) {
+        _ctxt_nocolor_cached = remove_color_tags( ctxt );
+    }
+    return _ctxt_nocolor_cached;
 }
 
 uilist::size_scalar &uilist::size_scalar::operator=( auto_assign )
