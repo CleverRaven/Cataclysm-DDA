@@ -425,7 +425,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "XEDRA_CHRONOMANCER" },
-    "effect": [ { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_BEGIN" }, { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS" } ]
+    "effect": [ { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_BEGIN" }, { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS" }, { "math": [ "u_vitamin('xedra_chronomancer_insight') = 50" ] } ]
   },
   {
     "type": "effect_on_condition",
