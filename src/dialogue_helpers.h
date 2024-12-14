@@ -33,26 +33,19 @@ struct dbl_or_var;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-template<class T>
-struct abstract_var_info {
-    abstract_var_info( var_type in_type, std::string in_name ): type( in_type ),
+struct var_info {
+    var_info( var_type in_type, std::string in_name ): type( in_type ),
         name( std::move( in_name ) ) {}
-    abstract_var_info( var_type in_type, std::string in_name, T in_default_val ): type( in_type ),
-        name( std::move( in_name ) ), default_val( std::move( in_default_val ) ) {}
-    abstract_var_info() : type( var_type::global ) {}
+    var_info() : type( var_type::last ) {}
     var_type type;
     std::string name;
-    T default_val;
 };
 #pragma GCC diagnostic pop
-
-using var_info = abstract_var_info<std::string>;
-using translation_var_info = abstract_var_info<translation>;
 
 template<class T>
 struct abstract_str_or_var {
     std::optional<T> str_val;
-    std::optional<abstract_var_info<T>> var_val;
+    std::optional<var_info> var_val;
     std::optional<T> default_val;
     std::optional<std::function<T( const_dialogue const & )>> function;
     std::string evaluate( const_dialogue const & ) const;
@@ -92,11 +85,9 @@ struct talk_effect_fun_t {
         }
 };
 
-template<class T>
-std::string read_var_value( const abstract_var_info<T> &info, const_dialogue const &d );
-template<class T>
+std::string read_var_value( const var_info &info, const_dialogue const &d );
 std::optional<std::string> maybe_read_var_value(
-    const abstract_var_info<T> &info, const_dialogue const &d, int call_depth = 0 );
+    const var_info &info, const_dialogue const &d, int call_depth = 0 );
 
 var_info process_variable( const std::string &type );
 
