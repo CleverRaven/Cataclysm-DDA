@@ -119,7 +119,7 @@ void timed_event::actualize()
             // 50% chance to spawn a dark wyrm near every orifice on the level.
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_id( "t_orifice" ) ) {
-                    g->place_critter_around( mon_dark_wyrm, p.raw(), 1 );
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
 
@@ -274,7 +274,7 @@ void timed_event::actualize()
                 }
             };
             const mtype_id &montype = random_entry( temple_monsters );
-            g->place_critter_around( montype, player_character.pos(), 2 );
+            g->place_critter_around( montype, player_character.pos_bub(), 2 );
         }
         break;
 

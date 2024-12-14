@@ -616,5 +616,17 @@
         "message": ""
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_magus_permanent_light",
+    "furniture": [
+      { "result": "f_magus_permanent_light", "valid_furniture": [ "f_null" ], "message": "The air begins glowing softly." },
+      {
+        "result": "f_null",
+        "valid_furniture": [ "f_magus_permanent_light" ],
+        "message": "The imperishable light winks out."
+      }
+    ]
   }
 ]

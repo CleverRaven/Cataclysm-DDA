@@ -796,5 +796,38 @@
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 1500
+  },
+  {
+    "id": "biomancer_get_more_blood",
+    "type": "SPELL",
+    "name": "Carmine Infusion",
+    "description": "Using water as a catalyst, restore some of your lost blood.  This spell has no effect if you're healthy and uninjured.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_GET_MORE_BLOOD",
+    "components": "spell_components_biomancer_get_more_blood",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "base_casting_time": 1500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_GET_MORE_BLOOD",
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('blood') < 0" ] },
+        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      },
+      {
+        "if": { "math": [ "u_vitamin('redcells') < 0" ] },
+        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      }
+    ]
   }
 ]

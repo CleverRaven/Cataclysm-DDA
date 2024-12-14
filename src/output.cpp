@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cwctype>
 #include <map>
 #include <sstream>
 #include <stack>
@@ -1081,6 +1082,9 @@ static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
     { 'f', to_translation( "freezerburn" ), to_translation( "<color_cyan>hidden flags</color> of an item" ) },
     { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
     { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
+    { 'L', to_translation( "122 cm" ), to_translation( "can contain item of <color_cyan>length</color>" ) },
+    { 'V', to_translation( "450 ml" ), to_translation( "can contain item of <color_cyan>volume</color>" ) },
+    { 'M', to_translation( "250 kg" ), to_translation( "can contain item of <color_cyan>mass</color>" ) },
     { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
     { 'e', to_translation( "close to skin" ), to_translation( "covers <color_cyan>layer</color>" ) },
     { 'b', to_translation( "mre;sealed" ), to_translation( "items satisfying <color_cyan>both</color> conditions" ) }
@@ -1513,14 +1517,15 @@ std::string trim_trailing_punctuations( const std::string_view s )
     } );
 }
 
-std::string remove_punctuations( const std::string_view s )
+std::string remove_punctuations( const std::string &s )
 {
-    std::string result;
-    std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
-    []( unsigned char ch ) {
-        return std::ispunct( ch ) && ch != '_';
+    std::wstring ws = utf8_to_wstr( s );
+    std::wstring result;
+    std::remove_copy_if( ws.begin(), ws.end(), std::back_inserter( result ),
+    []( wchar_t ch ) {
+        return std::iswpunct( ch ) && ch != '_';
     } );
-    return result;
+    return wstr_to_utf8( result );
 }
 
 using char_t = std::string::value_type;

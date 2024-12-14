@@ -250,7 +250,7 @@
     "remove_message": "The tingling fades.",
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_ACID", "multiply": { "math": [ "((u_spell_level('acid_resistance') * -0.02) - 0.2)" ] } } ]
+        "incoming_damage_mod": [ { "type": "acid", "multiply": { "math": [ "((u_spell_level('acid_resistance') * -0.02) - 0.2)" ] } } ]
       }
     ]
   },
@@ -261,7 +261,7 @@
     "desc": [ "You are greatly protected from acid damage." ],
     "apply_message": "Your body tingles.",
     "remove_message": "The tingling fades.",
-    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "acid", "multiply": -0.75 } ] } ]
   },
   {
     "type": "effect_type",
@@ -740,7 +740,7 @@
     "remove_message": "Sparks under your skin vanish.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ARMOR_ELEC", "add": -35 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "add": -35 } ] } ]
   },
   {
     "type": "effect_type",
@@ -822,7 +822,7 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
+        "incoming_damage_mod": [ { "type": "bash", "add": -10 }, { "type": "stab", "add": -10 }, { "type": "cut", "add": -10 } ]
       }
     ]
   },
@@ -1016,10 +1016,8 @@
     "enchantments": [
       {
         "emitter": "emit_kelvinist_anti_cold",
-        "values": [
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-          { "value": "ARMOR_COLD", "add": { "math": [ "( u_spell_level('kelvinist_anti_cold') * -1)" ] } }
-        ]
+        "incoming_damage_mod": [ { "type": "cold", "add": { "math": [ "( u_spell_level('kelvinist_anti_cold') * -1)" ] } } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
       }
     ]
   },
@@ -1035,10 +1033,8 @@
     "enchantments": [
       {
         "emitter": "emit_kelvinist_anti_heat",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } }
-        ]
+        "incoming_damage_mod": [ { "type": "heat", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
       }
     ]
   },
@@ -1353,7 +1349,7 @@
     "show_in_info": true,
     "blocks_effects": [ "blisters" ],
     "removes_effects": [ "onfire" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ],
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ] } ],
     "flags": [ "HEAT_IMMUME" ]
   },
   {
@@ -1363,7 +1359,15 @@
     "desc": [ "You have shed your physical form." ],
     "rating": "good",
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": 3 },
+          { "value": "MOVE_COST", "multiply": -0.66 },
+          { "value": "PHASE_DISTANCE", "add": 1 }
+        ]
+      }
+    ],
     "flags": [
       "ETHEREAL",
       "FEATHER_FALL",
@@ -1409,6 +1413,10 @@
         "values": [
           { "value": "MOVE_COST", "multiply": { "math": [ "((u_spell_level('druid_traverse_the_wilds') * -0.015) - 0.05)" ] } }
         ]
+      },
+      {
+        "condition": { "math": [ "u_spell_level('druid_traverse_the_wilds') > 7" ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 2 } ]
       }
     ]
   },
@@ -1827,21 +1835,7 @@
     "rating": "good",
     "show_intensity": false,
     "show_in_info": false,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": -20 },
-          { "value": "ARMOR_CUT", "add": -20 },
-          { "value": "ARMOR_STAB", "add": -20 },
-          { "value": "ARMOR_BULLET", "add": -20 },
-          { "value": "ARMOR_HEAT", "add": -20 },
-          { "value": "ARMOR_COLD", "add": -20 },
-          { "value": "ARMOR_ELEC", "add": -20 },
-          { "value": "ARMOR_ACID", "add": -20 },
-          { "value": "ARMOR_BIO", "add": -20 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": -20 } ] } ]
   },
   {
     "id": "sun_mage_buff",

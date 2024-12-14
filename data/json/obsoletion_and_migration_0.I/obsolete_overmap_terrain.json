@@ -39,7 +39,10 @@
       "bunker_shop_b_south": "solid_earth",
       "bunker_shop_b_east": "solid_earth",
       "bunker_shop_b_west": "solid_earth",
-      "megastore_parking": "omt_obsolete"
+      "megastore_parking_north": "s_lot_no_sidewalk_north",
+      "megastore_parking_east": "s_lot_no_sidewalk_east",
+      "megastore_parking_south": "s_lot_no_sidewalk_south",
+      "megastore_parking_west": "s_lot_no_sidewalk_west"
     }
   },
   {

@@ -433,7 +433,7 @@ std::string iuse_transform::get_name() const
     return iuse_actor::get_name();
 }
 
-void iuse_transform::finalize( const itype_id & )
+void iuse_transform::finalize( const itype_id &my_item_type )
 {
     if( !item::type_is_defined( target ) && target_group.is_empty() ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
@@ -446,6 +446,19 @@ void iuse_transform::finalize( const itype_id & )
 
         // todo: check contents fit container?
         // transform uses migration pocket if not
+    }
+
+    if( my_item_type.obj().can_use( "link_up" ) ) {
+        // The linkage logic currently assumes that the links persist
+        // through transformation, and fails pretty badly (segfaults)
+        // if that happens to not be the case.
+        // It is not unreasonable to want items that violate this assumption (one example is
+        // the infamous Apple mouse which cannot be operated while charging),
+        // but we don't have any of those implemented right now, so the check stays.
+        if( !target.obj().can_use( "link_up" ) ) {
+            debugmsg( "Item %s has link_up action, yet transforms into %s which doesn't.",
+                      my_item_type.c_str(), target.c_str() );
+        }
     }
 }
 
@@ -944,14 +957,14 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, const tripoi
     newmon.init_from_item( it );
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
-        if( !g->place_critter_around( newmon_ptr, p->pos(), 1 ) ) {
+        if( !g->place_critter_around( newmon_ptr, p->pos_bub(), 1 ) ) {
             p->add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                   newmon.name() );
             return std::nullopt;
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const std::optional<tripoint> pnt_ = choose_adjacent( query );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( query );
         if( !pnt_ ) {
             return std::nullopt;
         }

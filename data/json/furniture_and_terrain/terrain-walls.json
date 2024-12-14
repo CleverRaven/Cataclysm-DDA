@@ -59,7 +59,8 @@
     "name": { "str": "abstract concrete wall", "//~": "NO_I18N" },
     "description": "Encompasses most concrete-like walls.  If you see this in-game, it's a bug.",
     "roof": "t_concrete_roof",
-    "color": "light_gray"
+    "color": "light_gray",
+    "extend": { "flags": [ "WIRED_WALL" ] }
   },
   {
     "type": "terrain",
@@ -68,7 +69,8 @@
     "name": { "str": "abstract brick wall", "//~": "NO_I18N" },
     "description": "Encompasses most brick-like walls.  If you see this in-game, it's a bug.",
     "roof": "t_brick_roof",
-    "color": "brown"
+    "color": "brown",
+    "extend": { "flags": [ "WIRED_WALL" ] }
   },
   {
     "type": "terrain",

@@ -2937,8 +2937,6 @@ class item : public visitable
 
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
-                                         bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
         double calculate_by_enchantment_wield( const Character &owner, double modify,
                                                enchant_vals::mod value,

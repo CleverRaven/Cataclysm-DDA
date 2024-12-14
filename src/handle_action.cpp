@@ -1497,30 +1497,30 @@ static void loot()
     mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
-                                 player_character.pos() ) ? SortLoot : 0;
-    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
-             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
-    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
+                                 player_character.pos_bub() ) ? SortLoot : 0;
+    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos_bub() ) ||
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos_bub() ) ? UnloadLoot : 0;
+    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos_bub() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
-                                 player_character.pos() ) ? ConstructPlots : 0;
+                                 player_character.pos_bub() ) ? ConstructPlots : 0;
 
     flags |= g->check_near_zone( zone_type_CHOP_TREES,
-                                 player_character.pos() ) ? Multichoptrees : 0;
+                                 player_character.pos_bub() ) ? Multichoptrees : 0;
     flags |= g->check_near_zone( zone_type_LOOT_WOOD,
-                                 player_character.pos() ) ? Multichopplanks : 0;
+                                 player_character.pos_bub() ) ? Multichopplanks : 0;
     flags |= g->check_near_zone( zone_type_VEHICLE_DECONSTRUCT,
-                                 player_character.pos() ) ? Multideconvehicle : 0;
+                                 player_character.pos_bub() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_VEHICLE_REPAIR,
-                                 player_character.pos() ) ? Multirepairvehicle : 0;
+                                 player_character.pos_bub() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
-                                 player_character.pos() ) ? MultiButchery : 0;
-    flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
+                                 player_character.pos_bub() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_MINING, player_character.pos_bub() ) ? MultiMining : 0;
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
-                                 player_character.pos() ) ? MultiDis : 0;
-    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
+                                 player_character.pos_bub() ) ? MultiDis : 0;
+    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -2239,7 +2239,7 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
 }
 
 bool game::do_regular_action( action_id &act, avatar &player_character,
-                              const std::optional<tripoint> &mouse_target )
+                              const std::optional<tripoint_bub_ms> &mouse_target )
 {
     item_location weapon = player_character.get_wielded_item();
     const bool in_shell = player_character.has_active_mutation( trait_SHELL2 )
@@ -2489,7 +2489,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
             if( mouse_target ) {
-                pickup( *mouse_target );
+                pickup( tripoint_bub_ms( *mouse_target ) );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
                     pickup_all();
@@ -3276,8 +3276,7 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !player_character.is_dead_state() ) {
-        if( !do_regular_action( act, player_character,
-                                mouse_target ? std::make_optional( mouse_target->raw() ) : std::nullopt ) ) {
+        if( !do_regular_action( act, player_character, mouse_target ) ) {
             return false;
         }
     }
