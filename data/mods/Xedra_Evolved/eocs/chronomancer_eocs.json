@@ -589,6 +589,24 @@
       },
       { "math": [ "v_target_var = u_vitamin('rad')" ] },
       {
+        "set_string_var": "u_xedra_calcium_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('calcium')" ] },
+      {
+        "set_string_var": "u_xedra_iron_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('iron')" ] },
+      {
+        "set_string_var": "u_xedra_vitC_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_vitamin('vitC')" ] },
+      {
         "set_string_var": "u_xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
         "parse_tags": true
@@ -695,6 +713,24 @@
         "parse_tags": true
       },
       { "math": [ "u_vitamin('redcells') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_calcium_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('calcium') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_iron_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('iron') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_vitC_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_vitamin('vitC') = v_temp_var" ] },
       {
         "set_string_var": "u_xedra_rad_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
