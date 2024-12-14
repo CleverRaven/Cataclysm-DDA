@@ -833,8 +833,9 @@ void Item_factory::finalize_post( itype &obj )
                 debugmsg( "Exactly one of temperature_above and temperature_above must be set in %s temperature_effects",
                           obj.id.str() );
             }
-            if( !eff.transform_into.is_valid() ) {
-                debugmsg( "%s is not a valid item id (in %s temperature_effects)", obj.id.str() );
+            if( eff.transform_into.is_null() || !eff.transform_into.is_valid() ) {
+                debugmsg( "'%s' is not a valid item id (in %s temperature_effects)",
+                          eff.transform_into.c_str(), obj.id.str() );
             }
         }
     }
