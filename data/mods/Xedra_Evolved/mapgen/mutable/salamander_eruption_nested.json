@@ -310,5 +310,5 @@
       "terrain": { ">": "t_slope_up" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
-  },
+  }
 ]
