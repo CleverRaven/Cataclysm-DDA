@@ -13225,8 +13225,8 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
     const islot_temperature_effects *te_data = type->temperature_effects_data.get();
     if( te_data != nullptr ) {
         for( const temperature_effect &eff : te_data->effects ) {
-            if( eff.temperature_above.has_value() && eff.temperature_above.value() <= new_temperature ||
-                eff.temperature_below.has_value() && eff.temperature_below.value() >= new_temperature
+            if( ( eff.temperature_above.has_value() && eff.temperature_above.value() <= new_temperature ) ||
+                ( eff.temperature_below.has_value() && eff.temperature_below.value() >= new_temperature )
               ) {
                 if( eff.transform_into ) {
                     convert( eff.transform_into );
