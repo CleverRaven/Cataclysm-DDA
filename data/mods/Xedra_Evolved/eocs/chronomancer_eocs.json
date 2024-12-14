@@ -546,111 +546,111 @@
     "id": "EOC_XEDRA_TIME_SAVE_VARIABLES_DYNAMIC",
     "condition": { "expects_vars": [ "xedra_chronomancer_prefix" ] },
     "effect": [
-      { "u_location_variable": { "context_val": "temp_var" }, "min_radius": 0, "max_radius": 0 },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_location_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_location_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_pain()" ] },
+      { "u_location_variable": { "var_val": "target_var" }, "min_radius": 0, "max_radius": 0 },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_pain_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_pain_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_calories()" ] },
+      { "math": [ "v_target_var = u_pain()" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_kcal_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_kcal_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_val('thirst')" ] },
+      { "math": [ "v_target_var = u_calories()" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_thirst_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_thirst_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_vitamin('blood')" ] },
+      { "math": [ "v_target_var = u_val('thirst')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_blood_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_blood_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_vitamin('redcells')" ] },
+      { "math": [ "v_target_var = u_vitamin('blood')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_redcells_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_redcells_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_val('rad')" ] },
+      { "math": [ "v_target_var = u_vitamin('redcells')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_rad_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_rad_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_val('sleepiness')" ] },
+      { "math": [ "v_target_var = u_vitamin('rad')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_val('sleep_deprivation')" ] },
+      { "math": [ "v_target_var = u_val('sleepiness')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_sleep_deprivation_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_sleep_deprivation_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_val('stamina')" ] },
+      { "math": [ "v_target_var = u_val('sleep_deprivation')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_stamina_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_stamina_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_hp('torso')" ] },
+      { "math": [ "v_target_var = u_val('stamina')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_hp('head')" ] },
+      { "math": [ "v_target_var = u_hp('torso')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_hp_head_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_hp_head_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_hp('arm_l')" ] },
+      { "math": [ "v_target_var = u_hp('head')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_hp('arm_r')" ] },
+      { "math": [ "v_target_var = u_hp('arm_l')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_hp('leg_l')" ] },
+      { "math": [ "v_target_var = u_hp('arm_r')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
-      { "math": [ "_temp_var = u_hp('leg_r')" ] },
+      { "math": [ "v_target_var = u_hp('leg_l')" ] },
       {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "set_string_var": "u_xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('leg_r')" ] },
+      {
+        "set_string_var": "u_xedra_bleed_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
       },
       {
         "if": { "u_has_effect": "bleed" },
-        "then": { "math": [ "_temp_var=1" ] },
-        "else": { "math": [ "_temp_var=0" ] }
-      },
-      {
-        "set_string_var": { "context_val": "temp_var" },
-        "target_var": { "u_val": "xedra_bleed_before_<context_val:xedra_chronomancer_prefix>" },
-        "parse_output_tags": true
+        "then": { "math": [ "v_target_var = 1" ] },
+        "else": { "math": [ "v_target_var = 0" ] }
       }
     ]
   },
@@ -660,107 +660,107 @@
     "condition": { "expects_vars": [ "xedra_chronomancer_prefix" ] },
     "effect": [
       {
-        "set_string_var": "<u_val:xedra_location_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_location_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "u_teleport": { "context_val": "temp_var" } },
+      { "u_teleport": { "var_val": "temp_var" } },
       {
-        "set_string_var": "<u_val:xedra_pain_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_pain_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_pain() = _temp_var" ] },
+      { "math": [ "u_pain() = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_kcal_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_kcal_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_calories() = _temp_var" ] },
+      { "math": [ "u_calories() = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_thirst_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_thirst_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_val('thirst') = _temp_var" ] },
+      { "math": [ "u_val('thirst') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_blood_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_blood_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_vitamin('blood') = _temp_var" ] },
+      { "math": [ "u_vitamin('blood') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_redcells_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_redcells_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_vitamin('redcells') = _temp_var" ] },
+      { "math": [ "u_vitamin('redcells') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_rad_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_rad_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_val('rad') = _temp_var" ] },
+      { "math": [ "u_val('rad') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_sleepiness_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_val('sleepiness') = _temp_var" ] },
+      { "math": [ "u_val('sleepiness') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_sleep_deprivation_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_sleep_deprivation_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_val('sleep_deprivation') = _temp_var" ] },
+      { "math": [ "u_val('sleep_deprivation') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_stamina_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_stamina_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_val('stamina') = _temp_var" ] },
+      { "math": [ "u_val('stamina') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_hp('torso') = _temp_var" ] },
+      { "math": [ "u_hp('torso') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_hp_head_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_hp_head_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_hp('head') = _temp_var" ] },
+      { "math": [ "u_hp('head') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_hp('arm_l') = _temp_var" ] },
+      { "math": [ "u_hp('arm_l') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_hp('arm_r') = _temp_var" ] },
+      { "math": [ "u_hp('arm_r') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_hp('leg_l') = _temp_var" ] },
+      { "math": [ "u_hp('leg_r') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "math": [ "u_hp('leg_r') = _temp_var" ] },
+      { "math": [ "u_hp('leg_l') = v_temp_var" ] },
       {
-        "set_string_var": "<u_val:xedra_bleed_before_<context_val:xedra_chronomancer_prefix>>",
+        "set_string_var": "u_xedra_bleed_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "if": { "math": [ "_temp_var == 0" ] }, "then": { "u_lose_effect": "bleed" } }
+      { "if": { "math": [ "v_temp_var == 0" ] }, "then": { "u_lose_effect": "bleed" } }
     ]
   }
 ]
