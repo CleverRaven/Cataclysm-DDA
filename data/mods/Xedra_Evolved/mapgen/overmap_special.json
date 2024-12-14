@@ -287,9 +287,7 @@
   {
     "type": "overmap_special",
     "id": "xedra_monochrome_meadow",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "xedra_monochrome_meadow_north" }
-    ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "xedra_monochrome_meadow_north" } ],
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],

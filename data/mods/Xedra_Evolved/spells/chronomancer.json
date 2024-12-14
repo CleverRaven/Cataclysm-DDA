@@ -475,11 +475,7 @@
     "experience_calc_constant_a": 500.0,
     "energy_source": "MANA",
     "base_energy_cost": 20,
-    "base_casting_time": {
-      "math": [
-        " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_wound_causality') ) ), 50 )"
-      ]
-    }
+    "base_casting_time": { "math": [ " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_wound_causality') ) ), 50 )" ] }
   },
   {
     "id": "xedra_chronomancer_rewrite_equipment_causality",
@@ -500,10 +496,6 @@
     "experience_calc_constant_a": 500.0,
     "energy_source": "MANA",
     "base_energy_cost": 20,
-    "base_casting_time": {
-      "math": [
-        " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_equipment_causality') ) ), 50 )"
-      ]
-    }
+    "base_casting_time": { "math": [ " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_equipment_causality') ) ), 50 )" ] }
   }
 ]

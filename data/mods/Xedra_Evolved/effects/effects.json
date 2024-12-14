@@ -2863,7 +2863,14 @@
     "remove_message": "Everything is suddenly different.",
     "rating": "neutral",
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE", "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
+    "flags": [
+      "CANNOT_ATTACK",
+      "CANNOT_MOVE",
+      "CANNOT_TAKE_DAMAGE",
+      "CANNOT_CHANGE_TEMPERATURE",
+      "FREEZE_EFFECTS",
+      "CANNOT_GAIN_EFFECTS"
+    ],
     "show_in_info": true
   },
   {
@@ -2923,19 +2930,11 @@
         "values": [
           {
             "value": "SPEED",
-            "add": {
-              "math": [
-                "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 5, 0 )"
-              ]
-            }
+            "add": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 5, 0 )" ] }
           },
           {
             "value": "MAX_MANA",
-            "add": {
-              "math": [
-                "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )"
-              ]
-            }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
           }
         ]
       }
@@ -2951,17 +2950,13 @@
     "rating": "good",
     "max_intensity": 1,
     "show_in_info": true,
-    "enchantments": [ 
+    "enchantments": [
       { "hit_you_effect": [ { "id": "xedra_chronomancer_destabilizing_strikes_attack" } ] },
       {
         "values": [
           {
             "value": "MAX_MANA",
-            "add": {
-              "math": [
-                "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )"
-              ]
-            }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
           }
         ]
       }
@@ -2983,11 +2978,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": {
-              "math": [
-                "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )"
-              ]
-            }
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
           }
         ]
       }
@@ -3008,11 +2999,7 @@
         "values": [
           {
             "value": "MAX_MANA",
-            "add": {
-              "math": [
-                "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ), 250 )"
-              ]
-            }
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ), 250 )" ] }
           }
         ]
       }
@@ -3029,19 +3016,11 @@
         "values": [
           {
             "value": "REGEN_HP",
-            "multiply": {
-              "math": [
-                "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )"
-              ]
-            }
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
           },
           {
             "value": "MENDING_MODIFIER",
-            "multiply": {
-              "math": [
-                "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )"
-              ]
-            }
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
           },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 }
         ]

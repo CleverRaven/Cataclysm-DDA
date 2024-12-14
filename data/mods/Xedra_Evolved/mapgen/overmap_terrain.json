@@ -166,9 +166,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "xedra_monochrome_meadow"
-    ],
+    "id": [ "xedra_monochrome_meadow" ],
     "name": "monochrome meadow",
     "sym": "O",
     "color": "light_gray",

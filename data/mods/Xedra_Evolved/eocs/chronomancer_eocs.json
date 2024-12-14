@@ -11,12 +11,7 @@
         {
           "or": [
             {
-              "compare_string": [
-                { "context_val": "victim_type" },
-                "mon_tindalos",
-                "mon_zombie_monochrome_3",
-                "mon_lieutenant_shadow"
-              ]
+              "compare_string": [ { "context_val": "victim_type" }, "mon_tindalos", "mon_zombie_monochrome_3", "mon_lieutenant_shadow" ]
             }
           ]
         }
@@ -39,12 +34,7 @@
         {
           "or": [
             {
-              "compare_string": [
-                { "context_val": "victim_type" },
-                "mon_hound_tindalos",
-                "mon_zombie_monochrome_2",
-                "mon_skeleton_master"
-              ]
+              "compare_string": [ { "context_val": "victim_type" }, "mon_hound_tindalos", "mon_zombie_monochrome_2", "mon_skeleton_master" ]
             }
           ]
         }
@@ -425,7 +415,11 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "XEDRA_CHRONOMANCER" },
-    "effect": [ { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_BEGIN" }, { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS" }, { "math": [ "u_vitamin('xedra_chronomancer_insight') = 50" ] } ]
+    "effect": [
+      { "run_eocs": "EOC_XEDRA_LOOPING_WOUND_BEGIN" },
+      { "run_eocs": "EOC_XEDRA_CHRONOMANCER_UNSTABLE_POWERS" },
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') = 50" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

@@ -184,7 +184,11 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_karma_arms')", "+=", "(spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')+1) - spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')))/spell_train_factor(200)" ]
+        "math": [
+          "u_spell_exp('spell_karma_arms')",
+          "+=",
+          "(spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')+1) - spell_exp_for_level('spell_karma_arms', u_spell_level('spell_karma_arms')))/spell_train_factor(200)"
+        ]
       }
     ],
     "false_effect": [
@@ -218,7 +222,11 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_devil_tail')", "+=", "(spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')+1) - spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')))/spell_train_factor(100)" ]
+        "math": [
+          "u_spell_exp('spell_devil_tail')",
+          "+=",
+          "(spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')+1) - spell_exp_for_level('spell_devil_tail', u_spell_level('spell_devil_tail')))/spell_train_factor(100)"
+        ]
       }
     ],
     "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
