@@ -3502,6 +3502,14 @@ Weakpoints only match if they share the same id, so it's important to define the
   "recipe": "paste_nut_mill_10_1"            // Reference to the recipe that performs the task. The syntax is <product name>_mill_<source amount>_<product amount>. The recipe is then defined as a normal recipe for the source with the product as its result and an id_suffix of "mill_X_Y". 
                                              // See data/json/recipes/food/milling.json for such recipes. Can also use "milling": { "into": "null", "recipe": "" } to override milling from a copied base item.
 },
+"temperature_effects": [{           // Optional. Specifies certain effects happening to the item when it reaches certain internal temperature thresholds.
+                                    // Holds an array of objects
+    "temperature_above": "373 K",   // Temperature needs to be at least this high for the effect to happen.
+    "temperature_below": "0 K",     // Temperature needs to be at least this low for the effect to happen.
+                                    // Exactly one of temperature_above and temperature_below must be set.
+    "transform": "water_clean",     // The item id that we transform into upon reaching the temperature. Boiling water gives clean water, as an example.
+    "remove_poison": true           // Whether we should remove poison from comestible item. Defaults to false.
+}],
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "nanofab_template_group": "nanofab_recipes", // This item is nanofabricator recipe, and point to itemgroup with items, that it could possibly contain; require nanofab_template_group
 "template_requirements": "nanofabricator",   // `requirement`, that needed to craft any of this templates; used as "one full requirememt per 250 ml of item's volume" - item with volume 750 ml would require three times of `requirement`, item of 2L - eight times of `requirement`

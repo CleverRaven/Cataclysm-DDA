@@ -1500,6 +1500,11 @@
     "container": "bottle_plastic",
     "sealed": false,
     "delete": { "flags": [ "DECAYS_IN_AIR" ] },
+    "temperature_effects": [{
+      "temperature_above": "373 K",
+      "transform": "water_clean",
+      "remove_poison": true
+    }],
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
   },
   {
@@ -1508,7 +1513,8 @@
     "copy-from": "water",
     "name": { "str_sp": "murky water" },
     "description": "Water, the stuff of life.  This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
-    "quench": 30,
+    "temperature_effects": [],
+    "quench": 30,    
     "parasites": 5,
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ]
   },

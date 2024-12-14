@@ -825,6 +825,19 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
     }
+
+    // temperature_effects consistency
+    if( obj.temperature_effects_data ) {
+        for( const temperature_effect &eff : obj.temperature_effects_data->effects ) {
+            if( eff.temperature_above.has_value() == eff.temperature_below.has_value() ) {
+                debugmsg( "Exactly one of temperature_above and temperature_above must be set in %s temperature_effects",
+                          obj.id.str() );
+            }
+            if( !eff.transform_into.is_valid() ) {
+                debugmsg( "%s is not a valid item id (in %s temperature_effects)", obj.id.str() );
+            }
+        }
+    }
 }
 
 void Item_factory::finalize_post_armor( itype &obj )
@@ -2667,6 +2680,29 @@ void islot_milling::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+void temperature_effect::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "temperature_above", temperature_above );
+    optional( jo, was_loaded, "temperature_below", temperature_below );
+    optional( jo, was_loaded, "transform", transform_into );
+    optional( jo, was_loaded, "remove_poison", remove_poison );
+}
+
+static void load_temperature_effects(
+    const JsonObject &jo, const std::string_view member,
+    cata::value_ptr<islot_temperature_effects> &slotptr, const std::string &src )
+{
+    if( !jo.has_member( member ) ) {
+        return;
+    }
+    slotptr = cata::make_value<islot_temperature_effects>();
+    for( const JsonObject &tejo : jo.get_array( member ) ) {
+        temperature_effect eff;
+        eff.load( tejo );
+        slotptr->effects.push_back( eff );
+    }
+}
+
 static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
 {
     mcd.data_chance = jo.get_float( "data_chance", 1.0f );
@@ -4494,6 +4530,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "compostable", def.compostable, src == "dda" );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );
+    load_temperature_effects( jo, "temperature_effects", def.temperature_effects_data, src );
+
 
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {

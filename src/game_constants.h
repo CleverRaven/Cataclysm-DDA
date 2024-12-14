@@ -109,9 +109,6 @@ constexpr units::temperature freezer = units::from_celsius( -5 ); // -5 Celsius
 
 // Temperature in which water freezes.
 constexpr units::temperature freezing = units::from_celsius( 0 ); // 0 Celsius
-
-// Temperature in which water boils.
-constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.

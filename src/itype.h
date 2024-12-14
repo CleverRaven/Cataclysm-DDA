@@ -1204,6 +1204,22 @@ class islot_milling
         void deserialize( const JsonObject &jo );
 };
 
+struct temperature_effect{
+    std::optional<units::temperature> temperature_above;
+    std::optional<units::temperature> temperature_below;
+
+    itype_id transform_into;
+    bool remove_poison = false;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+struct islot_temperature_effects
+{
+    std::vector<temperature_effect> effects;
+};
+
 struct memory_card_info {
     float data_chance;
     itype_id on_read_convert_to;
@@ -1260,6 +1276,7 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<relic> relic_data;
         cata::value_ptr<islot_milling> milling_data;
+        cata::value_ptr<islot_temperature_effects> temperature_effects_data;
         /*@}*/
 
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */

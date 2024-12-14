@@ -182,8 +182,6 @@ static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
@@ -13222,9 +13220,22 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
         set_flag( flag_COLD );
     }
 
-    // Convert water into clean water if it starts boiling
-    if( typeId() == itype_water && new_temperature > temperatures::boiling ) {
-        convert( itype_water_clean ).poison = 0;
+    // Execute temperature effects if a new threshold is reached.
+    // Water turning into clean water when boiling is a canonical example.
+    const islot_temperature_effects *te_data = type->temperature_effects_data.get();
+    if( te_data != nullptr ) {
+        for( const temperature_effect &eff : te_data->effects ) {
+            if( eff.temperature_above.has_value() && eff.temperature_above.value() <= new_temperature ||
+                eff.temperature_below.has_value() && eff.temperature_below.value() >= new_temperature
+              ) {
+                if( eff.transform_into ) {
+                    convert( eff.transform_into );
+                }
+                if( eff.remove_poison ) {
+                    poison = 0;
+                }
+            }
+        }
     }
 }
 
