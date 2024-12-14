@@ -56,6 +56,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
     clear_map();
+    clear_vehicles();
     clear_avatar();
     Character &player = get_player_character();
     tripoint_bub_ms next_to = player.pos_bub() + point::north;
@@ -224,15 +225,14 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     const tripoint_bub_ms outside_car_door_pos = car_door_pos + point::north;
 
 
-    // all sides of the vehicle are locked doors
     vehicle *test_vehicle = here.add_vehicle( vehicle_prototype_locked_as_hell_car,
                             car_center_pos, 0_degrees, 0, 0 );
 
     // vehicle is a 5x5 grid, car_door_pos is the only door/exit
     std::vector<vehicle_part *> parts_at_target = test_vehicle->get_parts_at(
                 car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
-    vehicle_part *door = parts_at_target.front();
     REQUIRE( !parts_at_target.empty() );
+    vehicle_part *door = parts_at_target.front();
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
     const int door_index = test_vehicle->index_of_part( door );
