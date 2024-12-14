@@ -16,6 +16,8 @@ static const vproto_id vehicle_prototype_cross_split_test( "cross_split_test" );
 
 TEST_CASE( "vehicle_split_section", "[vehicle]" )
 {
+    wipe_map_terrain();
+    clear_vehicles();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( units::angle dir = 0_degrees; dir < 360_degrees; dir += vehicles::steer_increment ) {

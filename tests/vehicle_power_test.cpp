@@ -274,6 +274,7 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
 
 TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
 {
+    clear_map();
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
     clear_vehicles();

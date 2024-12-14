@@ -1228,6 +1228,9 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     d.add_topic( "TALK_TEST_ARITHMETIC" );
     gen_response_lines( d, 31 );
 
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
