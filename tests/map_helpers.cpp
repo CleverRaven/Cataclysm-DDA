@@ -139,6 +139,8 @@ void clear_basecamps()
 void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
+    // Reset z level to 0
+    here.load( tripoint_abs_sm( here.get_abs_sub().xy(), 0 ), false );
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
     for( int z = zmin; z <= zmax; ++z ) {
