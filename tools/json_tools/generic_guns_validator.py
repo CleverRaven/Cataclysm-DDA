@@ -60,6 +60,8 @@ ID_WHITELIST = {
     'gene_sting_gun',
     'ppsh',
     'af2011a1_38super',
+    'civilian_AR-15'
+    'civilian_glock19'
     # Magazines
     'a180mag',
     'a180mag1',
