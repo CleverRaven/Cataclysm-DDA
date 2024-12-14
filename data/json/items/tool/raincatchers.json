@@ -8,7 +8,6 @@
     "volume": "250ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "white",
@@ -31,7 +30,6 @@
     "volume": "500 ml",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "yellow",
@@ -43,8 +41,7 @@
       "practice": 0,
       "done_message": "You place the funnel, waiting to collect rain."
     },
-    "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "leather_funnel",
@@ -55,7 +52,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": ";",
     "color": "brown",
@@ -78,7 +74,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "cyan",
@@ -101,7 +96,7 @@
     "volume": "4 L",
     "price": "15 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
