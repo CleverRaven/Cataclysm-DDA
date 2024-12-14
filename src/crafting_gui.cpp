@@ -2290,7 +2290,8 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
         if( !to_compare ) {
             break;
         }
-        game_menus::inv::compare_items( recipe_item, *to_compare );
+        game_menus::inv::compare_item_menu menu( recipe_item, *to_compare );
+        menu.show();
     } while( true );
 }
 

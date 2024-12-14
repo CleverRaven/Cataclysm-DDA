@@ -5327,7 +5327,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
 
         modded_gun.put_in( mod_copy, pocket_type::MOD );
 
-        if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
+        if( !game_menus::inv::compare_item_menu( *loc, modded_gun, _( "Attach modification?" ) ).show() ) {
             continue;
         }
 
