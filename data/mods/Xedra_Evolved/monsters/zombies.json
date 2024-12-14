@@ -91,7 +91,7 @@
       "monsters": [
         { "monster": "mon_zombie_monochrome", "weight": 450 },
         { "monster": "mon_zombie_monochrome_2", "weight": 225 },
-        { "monster": "mon_zombie_monochrome_2", "weight": 100 }
+        { "monster": "mon_zombie_monochrome_3", "weight": 100 }
       ]
     }
 ]
