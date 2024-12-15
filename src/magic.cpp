@@ -1700,7 +1700,7 @@ int spell_type::get_level( int experience ) const
     // you aren't at the next level unless you have the requisite xp, so floor
     if( experience_formula == xp_formula::constant ) {
         return std::max( static_cast<int>( std::floor( experience / a ) ), 0 );
-    } else if ( experience_formula == xp_formula::linear ) {
+    } else if( experience_formula == xp_formula::linear ) {
         return std::max( static_cast<int>( std::sqrt( ( 2.0 / a ) * experience + 0.25 ) - 0.5 ), 0 );
     } else {
         return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
