@@ -353,7 +353,7 @@ bool enchantment::is_monster_relevant() const
     }
 
     // check for hit you / me effects
-    if( hit_you_effect.size() > 0 || hit_me_effect.size() > 0 ) {
+    if( !hit_you_effect.empty() || !hit_me_effect.empty() ) {
         return true;
     }
 
