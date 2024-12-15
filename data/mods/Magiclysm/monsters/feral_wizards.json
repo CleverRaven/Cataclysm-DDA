@@ -293,7 +293,7 @@
       {
         "id": "feral_druid_veggrasp_spell",
         "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
         "cooldown": 35,
         "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
@@ -372,7 +372,7 @@
       {
         "id": "feral_high_druid_veggrasp_spell",
         "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
         "cooldown": 25,
         "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"

@@ -40,7 +40,7 @@
       {
         "id": "triffid_vineweaver_druid_veggrasp",
         "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 2 },
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 2 },
         "cooldown": 30,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s twitches its base and roots burst from the ground around %3$s."

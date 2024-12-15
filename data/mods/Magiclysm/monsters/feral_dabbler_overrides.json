@@ -729,14 +729,10 @@
         {
           "id": "feral_dabbler_ethereal_grasp",
           "type": "spell",
-          "spell_data": { "id": "ethereal_grasp", "min_level": 5 },
+          "spell_data": { "id": "ethereal_grasp_monster", "min_level": 5 },
           "cooldown": 30,
           "condition": {
-            "and": [
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] }
-            ]
+            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] } ]
           },
           "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
         }
@@ -856,14 +852,10 @@
         {
           "id": "feral_dabbler_ethereal_grasp",
           "type": "spell",
-          "spell_data": { "id": "ethereal_grasp", "min_level": 5 },
+          "spell_data": { "id": "ethereal_grasp_monster", "min_level": 5 },
           "cooldown": 30,
           "condition": {
-            "and": [
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] }
-            ]
+            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] } ]
           },
           "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
         }

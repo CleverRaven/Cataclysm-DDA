@@ -142,6 +142,37 @@
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],
     "max_intensity": 4,
+    "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
+    "remove_message": "The ghostly arms fade away.",
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_val('size')== 1" ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-30 + (u_ethereal_grasp_affected_level * -4)" ] } } ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 2" ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-20 + (u_ethereal_grasp_affected_level * -3)" ] } } ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 3" ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-10 + (u_ethereal_grasp_affected_level * -2)" ] } } ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 4" ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-5 + (u_ethereal_grasp_affected_level * -1)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 5" ] }, { "math": [ "u_ethereal_grasp_affected_level >= 15" ] } ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-5 + clamp( (u_ethereal_grasp_affected_level - 15), 0, -5)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ethereal_grasp_monster",
+    "name": [ "Ethereal Hold" ],
+    "desc": [ "Ghostly arms are trying to hold you in place!" ],
+    "max_intensity": 4,
     "int_add_val": 1,
     "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
     "remove_message": "The ghostly arms fade away.",
@@ -199,6 +230,35 @@
   {
     "type": "effect_type",
     "id": "entangled",
+    "name": [ "Vegetative Grasp" ],
+    "desc": [ "Roots and vines entangle your foes." ],
+    "max_intensity": 4,
+    "show_in_info": true,
+    "apply_message": "Roots and vines burst from the ground and entangle you!",
+    "remove_message": "The roots and vines wither up and die.",
+    "enchantments": [
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-20 + (u_vegetative_grasp_affected_level * -4)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-15 + (u_vegetative_grasp_affected_level * -3)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "-5 + (u_vegetative_grasp_affected_level * -2)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": { "math": [ "(u_vegetative_grasp_affected_level * -1)" ] } } ]
+      }
+    ],
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "entangled_monster",
     "name": [ "Vegetative Grasp" ],
     "desc": [ "Roots and vines entangle your foes." ],
     "max_intensity": 4,
