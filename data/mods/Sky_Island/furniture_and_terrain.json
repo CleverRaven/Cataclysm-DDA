@@ -199,7 +199,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
     "examine_action": "autodoc",
-    "surgery_skill_multiplier": 2,
+    "surgery_skill_multiplier": 2.5,
     "deconstruct": {
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
@@ -247,7 +247,7 @@
     "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
     "examine_action": "autodoc",
     "light_emitted": 3,
-    "surgery_skill_multiplier": 5,
+    "surgery_skill_multiplier": 8,
     "deconstruct": {
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
