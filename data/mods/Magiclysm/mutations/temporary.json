@@ -82,6 +82,7 @@
     "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
   },
   {
+    "type": "mutation",
     "id": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE",
     "name": { "str": "Body of Spirit", "//~": "NO_I18N" },
     "description": { "str": "You're a disembodied spirit so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
