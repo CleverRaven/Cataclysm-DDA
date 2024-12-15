@@ -47,19 +47,13 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
     clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
-    const tripoint_bub_ms veh_pos( 65, 65, here.get_abs_sub().z() );
-    // TODO: Get rid of this set of tests when the cause of this test randomly failing has been eliminated.
-    REQUIRE( veh_pos.z() == 0 );
-    REQUIRE( vehicle_prototype_test_turret_rig.is_valid() );
-    REQUIRE( here.inbounds( veh_pos ) );
-    // TODO: End
+    const tripoint_bub_ms veh_pos( 65, 65, 0 );
 
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
-            vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos, 270_degrees, 0, 0,
-                                             false );
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos, 270_degrees, 0, 2,
+                                             false, true );
             REQUIRE( veh );
-            veh->unlock();
 
             const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
