@@ -15,8 +15,25 @@
     "order": 1,
     "name": "Movement",
     "messages": [
-      "Movement is performed using the numpad, the arrow keys, or vikeys.",
-      "<HELP_DRAW_DIRECTIONS>",
+      "Movement is typically performed using the numpad, vikeys, the mouse or arrow keys. Here are the layouts for numpad and vikeys, where the central bind is to wait in place:",
+      {
+        "force_monospaced": "<color_light_blue>7 8 9     y k u\n \\|/       \\|/ \n4-5-6     h-.-l\n /|\\       /|\\ \n1 2 3     b j n\n"
+      },
+      "Movement is also possible using the arrow keys by first enabling the \"Diagonal movement with cursor keys and modifiers\" setting in the Interface tab to one of these four modes:",
+      "- Numpad Emulation: In this mode you hold Ctrl throughout, first pressing a direction which will then modify further key presses to be in altered by that direction, for example if you first press Up, then further Left, Up, Right and Down presses will become NW, N, NE, and wait respectively.",
+      {
+        "force_monospaced": "<color_light_blue>   After Up     After Right\n      N            NE\n   NW O  NE      O SE E\n"
+      },
+      "- CW/CCW: In this mode holding Shift modifies each key 45 degrees clockwise while holding Ctrl modifies each key 45 degrees counter-clockwise.",
+      {
+        "force_monospaced": "<color_light_blue>  With Shift    With Ctrl\n      NE            NW\n   NW SW SE      SW SE NE\n"
+      },
+      "- L/R Tilt: In this mode holding Shift/Ctrl makes Left and Right behave as NW/SW and NE/SE respectively.  Up and Down behave normally regardless of modifiers.",
+      {
+        "force_monospaced": "<color_light_blue>  With Shift    With Ctrl\n      N             NW\n   NW S  NE      SW S  SE\n"
+      },
+      "- Diagonal Lock: In this mode holding Shift or Ctrl results in only diagonal combinations of two directions being accepted for example Ctrl + Up + Right becomes NE.",
+      { "seperator": "color_green" },
       "Each step will take 100 movement points (or more, depending on the terrain); you will then replenish a variable amount of movement points, depending on many factors (press <press_player_data> to see the exact amount).",
       "To attempt to hit a monster with your weapon, simply move into it.",
       "You may find doors, ('+'); these may be opened with <press_open> or closed with <press_close>.  Some doors are locked.  Locked doors, windows, and some other obstacles can be destroyed by smashing them (<press_smash>, then choose a direction).  Smashing down obstacles is much easier with a good weapon or a strong character.",
@@ -276,18 +293,23 @@
   {
     "type": "help",
     "order": 19,
-    "name": "Description of map symbols",
+    "name": "Overmap key",
     "messages": [
-      "MAP SYMBOLS:",
+      "OVERMAP SYMBOLS:",
       "<color_brown>.</color>           Field - Empty grassland with occasional wild fruit.",
+      "<color_brown>,</color>           Meadow - .",
       "<color_green>F</color>           Forest - May be dense or sparse.  Movement will be slowed.  You might be able to forage for food here.",
-      "<color_dark_gray>│─└┌┐┘├┴┤┬┼</color> Road - Safe from burrowing animals.",
-      "<color_dark_gray>H=</color>          Highway - Like roads, but lined with guard rails.",
-      "<color_dark_gray>|-</color>          Bridge - Helps you cross rivers.",
-      "<color_blue>R</color>           River - Most creatures cannot swim across them, but you can.",
-      "<color_dark_gray>O</color>           Parking lot - Empty lot, few items.  Mostly useless.",
-      "<color_light_green>^>v<</color>        House - Filled with a variety of items.  Good place to sleep.",
-      "<color_light_blue>^>v<</color>        Gas station - A good place to collect gasoline.  Risk of explosion.",
+      "<color_green>│─└┌┐┘├┴┤┬┼</color>           Forest Trail - A path through the forest. Faster and more open than walking through the forest proper.  Consider breaking line of sight through the forest if anything does catch up with you.",
+      "<color_brown>T</color>           Trailhead - The start of a trail.  If you're lucky you'll find a map and maybe even a working vehicle here.",
+      "<color_cyan>F</color>           Freshwater Swamp - .",
+      "<color_dark_gray>│─└┌┐┘├┴┤┬┼</color>           Road - Safe from burrowing animals.",
+      "><color_blue>-</color><          Roadbridge - Helps you cross rivers.",
+      "<color_light_blue>.</color>           Stream - A small body of water that you can drive over.",
+      "<color_light_blue>R</color><color_blue>R</color>           River - Most creatures cannot swim across them, but you can.",
+      "<color_light_blue>#</color><color_blue>#</color>           Lake/Ocean - .",
+      "<color_light_gray>X</color>           Radio Tower - A tall tower useful for getting a good view of the surrounding area.  Beware any fauna that may have made its home here.",
+      "<color_light_green>^>v<</color>        House - Come in many forms.  Good place to find basic supplies and everyday tools.",
+      "<color_light_blue>^>v<</color>        Gas station - A good place to collect gasoline.",
       "<color_light_red>^>v<</color>        Pharmacy - The best source for vital medications.",
       "<color_green>^>v<</color>        Grocery store - A good source of canned food and other supplies.",
       "<color_cyan>^>v<</color>        Hardware store - Home to tools, melee weapons and crafting goods.",
@@ -296,9 +318,7 @@
       "<color_red>^>v<</color>        Gun store - Firearms and ammunition are very valuable.",
       "<color_blue>^>v<</color>        Clothing store - High-capacity clothing, some light armor.",
       "<color_brown>^>v<</color>        Library - Home to books, both entertaining and informative.",
-      "<color_white>^>v<</color>        Man-made buildings - The pointed side indicates the front door.",
-      "            There are many others out there… search for them!",
-      "<DRAW_NOTE_COLORS>"
+      "<color_white>^>v<</color>        Man-made buildings - The pointed side indicates the front door."
     ]
   },
   {
