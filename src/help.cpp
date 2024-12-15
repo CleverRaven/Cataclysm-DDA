@@ -106,7 +106,7 @@ std::string help_window::get_dir_grid()
 
 void help_window::note_colors()
 {
-    ImGui::Text( _( "Note colors: " ) );
+    ImGui::TextUnformatted( _( "Note colors: " ) );
     ImGui::SameLine( 0.f, 0.f );
     for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
@@ -212,19 +212,19 @@ void help_window::format_title( const std::string translated_category_name )
     }
     const float title_length = ImGui::CalcTextSize( remove_color_tags(
                                    translated_category_name ).c_str() ).x;
+    ImGui::PushStyleVarY( ImGuiStyleVar_ItemSpacing, 0 );
     cataimgui::PushMonoFont();
     const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
     ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-
     ImGui::Text( "╔" );
     ImGui::SameLine( 0.f, 0.f );
     for( int i = sep_len; i > 0; i-- ) {
         ImGui::Text( "═" );
         ImGui::SameLine( 0.f, 0.f );
     }
+    int x = ImGui::GetCursorPosX();
     ImGui::Text( "╗" );
-    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
-    ImGui::Text( "┇ " );
+    ImGui::Text( "║ " );
     ImGui::SameLine( 0.f, 0.f );
     ImGui::PopStyleColor();
     ImGui::PopFont();
@@ -232,7 +232,8 @@ void help_window::format_title( const std::string translated_category_name )
     cataimgui::PushMonoFont();
     ImGui::SameLine( 0.f, 0.f );
     ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-    ImGui::Text( " ┇" );
+    ImGui::SetCursorPosX( x );
+    ImGui::Text( "║" );
     ImGui::Text( "╚" );
     ImGui::SameLine( 0.f, 0.f );
     for( int i = sep_len; i > 0; i-- ) {
@@ -242,6 +243,8 @@ void help_window::format_title( const std::string translated_category_name )
     ImGui::Text( "╝" );
     ImGui::PopStyleColor();
     ImGui::PopFont();
+    ImGui::PopStyleVar();
+
     ImGui::NewLine();
     ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
     ImGui::Separator();
