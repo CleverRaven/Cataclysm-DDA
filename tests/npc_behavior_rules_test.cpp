@@ -55,7 +55,7 @@ static const vproto_id vehicle_prototype_locked_as_hell_car( "locked_as_hell_car
 static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
-    clear_map();
+    wipe_map_terrain();
     clear_vehicles();
     clear_avatar();
     Character &player = get_player_character();
@@ -238,6 +238,10 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
     const int door_index = test_vehicle->index_of_part( door );
+    for( vehicle_part *part_at_door_loc : test_vehicle->get_parts_at( car_door_pos, "",
+            part_status_flag::any ) ) {
+        UNSCOPED_INFO( part_at_door_loc->name() );
+    }
     const int door_lock_index = test_vehicle->next_part_to_lock( door_index );
     REQUIRE( door_lock_index != -1 );
     vehicle_part &door_lock = test_vehicle->part( door_lock_index );
