@@ -719,28 +719,6 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "id": "aura_caustic",
-    "type": "ARMOR",
-    "name": "acid aura",
-    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "o",
-    "color": "blue",
-    "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
-  },
-  {
     "id": "aura_werewolf",
     "type": "ARMOR",
     "name": "werewolf aura",
@@ -875,7 +853,7 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "OUTER", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
     "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
