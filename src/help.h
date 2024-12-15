@@ -55,6 +55,7 @@ class help_window : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
+        const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
         help &data = get_help();
         input_context ctxt;
         std::map<int, input_event> hotkeys;
