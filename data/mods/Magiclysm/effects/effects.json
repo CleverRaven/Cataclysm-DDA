@@ -856,10 +856,10 @@
       "ELECTRIC_VISION",
       {
         "values": [
-          { "value": "BONUS_BLOCK", "add": 1 },
           { "value": "BONUS_DODGE", "add": 1 },
-          { "value": "DEXTERITY", "add": 2 },
-          { "value": "PERCEPTION", "add": 4 }
+          { "value": "DODGE_CHANCE", "add": { "math": [ "u_spell_level('electric_eye') / 7" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "u_spell_level('electric_eye') / 10" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "u_spell_level('electric_eye') / 5" ] } }
         ]
       }
     ]
