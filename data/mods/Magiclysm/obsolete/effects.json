@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_petrified",
+    "name": [ "Petrified" ],
+    "desc": [ "You skin feels like stone.  You can't move." ],
+    "rating": "bad",
+    "apply_message": "Your whole body goes rigid and you can't move a muscle!",
+    "remove_message": "The rigidity fades and you can move again.",
+    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
+    "max_intensity": 1000,
+    "flags": [ "EFFECT_IMPEDING" ]
+  }
+]

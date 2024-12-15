@@ -561,7 +561,9 @@
         "effects_require_dmg": false,
         "dodgeable": true,
         "blockable": false,
-        "effects": [ { "id": "effect_petrified", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false } ],
+        "effects": [
+          { "id": "effect_earthshaper_petrifying_touch", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false }
+        ],
         "hit_dmg_u": "%1$s reaches out and touches your %2$s!",
         "hit_dmg_npc": "%1$s reaches out and touches <npcname>'s %2$s!",
         "miss_msg_u": "%1$s reaches out and you narrowly avoid their touch!",
