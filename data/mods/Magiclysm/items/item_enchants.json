@@ -8,8 +8,10 @@
     "description": "The damage done and light emitted by this sword increase with intelligence.",
     "melee_damage_bonus": [
       {
-        "type": "cut",
-        "add": { "math": [ "(u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))" ] }
+        "type": "light",
+        "add": {
+          "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus') ) ),40)" ]
+        }
       }
     ],
     "values": [
