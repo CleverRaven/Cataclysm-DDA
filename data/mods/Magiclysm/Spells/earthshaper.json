@@ -398,7 +398,8 @@
     "final_casting_time": 40,
     "casting_time_increment": -6,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
   },
   {
     "id": "reactive_armor",
