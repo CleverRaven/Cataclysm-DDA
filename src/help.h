@@ -24,7 +24,7 @@ class window;
 
 struct help_category {
     translation name;
-    std::vector<translation> paragraphs;
+    std::vector<std::pair<translation, int>> paragraphs;
 };
 
 class help
@@ -60,6 +60,7 @@ class help_window : public cataimgui::window
         float window_height = static_cast<float>( str_width_to_pixels( TERMY ) );
         float wrap_width = window_width * 0.95f;
         cataimgui::bounds bounds{ 0.f, 0.f, static_cast<float>( str_width_to_pixels( TERMX ) ), static_cast<float>( str_height_to_pixels( TERMY ) ) };
+        const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
 
         // 66 is optimal characters per line for reading?
         //float window_width = static_cast<float>( wrap_width ) * 2.025f;
@@ -80,12 +81,10 @@ class help_window : public cataimgui::window
         int loaded_option;
 
         void swap_translated_paragraphs();
-        std::vector<std::string> translated_paragraphs;
-        void parse_tags_help_window();
+        std::vector<std::pair<std::string, int>> translated_paragraphs;
+        void parse_keybind_tags();
 
         void draw_category();
-        void note_colors();
-        std::string get_dir_grid();
         cataimgui::scroll s;
 };
 
