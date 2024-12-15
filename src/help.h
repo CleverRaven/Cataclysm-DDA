@@ -4,22 +4,17 @@
 
 #include <map>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "cata_imgui.h"
 #include "input_context.h"
-#include "imgui/imgui.h"
+#include "input_enums.h"
 #include "options.h"
-#include "output.h"
+#include "translation.h"
 
 class JsonObject;
-struct input_event;
-
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
 
 struct help_category {
     translation name;
@@ -54,19 +49,7 @@ class help_window : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
-        // Fullscreen
-        float window_width = static_cast<float>( str_width_to_pixels( TERMX ) );
-        float window_height = static_cast<float>( str_width_to_pixels( TERMY ) );
-        float wrap_width = window_width * 0.95f;
-        cataimgui::bounds bounds{ 0.f, 0.f, static_cast<float>( str_width_to_pixels( TERMX ) ), static_cast<float>( str_height_to_pixels( TERMY ) ) };
         const bool screen_reader = get_option<bool>( "SCREEN_READER_MODE" );
-
-        // 66 is optimal characters per line for reading?
-        //float window_width = static_cast<float>( wrap_width ) * 2.025f;
-        //float window_height = static_cast<float>( str_width_to_pixels( TERMY ) ) * 0.8f;
-        //float wrap_width = std::min( window_width * 0.95f, static_cast<float>( str_width_to_pixels( 66 ) ) );
-        //cataimgui::bounds bounds{ 0.f, 0.f, window_width, window_height };
-
         help &data = get_help();
         input_context ctxt;
         std::map<int, input_event> hotkeys;
