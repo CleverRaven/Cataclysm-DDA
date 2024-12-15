@@ -376,7 +376,7 @@
     "id": "pertifying_touch",
     "type": "SPELL",
     "name": "Petrifying Touch",
-    "description": "Your hands tries to transform the body of your enemy into a pure stone.  The effect is temporary, but it can deal significant damage.",
+    "description": "Your hands tries to transform the body of your enemy into pure stone.  The effect is temporary, but it can deal significant damage.",
     "valid_targets": [ "hostile" ],
     "flags": [ "EVOCATION_SPELL", "NO_PROJECTILE", "SILENT", "NO_HANDS" ],
     "effect": "attack",
