@@ -165,10 +165,8 @@ void help_window::draw_category_selection()
     format_title( _( "Help" ) );
     // Split the categories in half
     if( ImGui::BeginTable( "Category Options", 2, ImGuiTableFlags_None ) ) {
-        ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch,
-                                 static_cast<float>( window_width / 2.0f ) );
-        ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch,
-                                 static_cast<float>( window_width / 2.0f ) );
+        ImGui::TableSetupColumn( "Left Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
+        ImGui::TableSetupColumn( "Right Column", ImGuiTableColumnFlags_WidthStretch, 1.0f );
         int half_size = static_cast<float>( data.help_categories.size() / 2.0f ) + 1;
         auto half_it = data.help_categories.begin();
         std::advance( half_it, half_size );
@@ -309,7 +307,7 @@ void help_window::draw_category()
                 continue;
             } else if( translated_paragraph == "<HELP_DRAW_DIRECTIONS>" ) {
                 static const std::string dir_grid = get_dir_grid();
-                cataimgui::draw_colored_text( dir_grid, wrap_width );
+                cataimgui::draw_colored_text( dir_grid );
                 continue;
             }
             cataimgui::TextColoredParagraph( c_white, translated_paragraph );
@@ -351,7 +349,7 @@ void help_window::parse_tags_help_window()
 
 cataimgui::bounds help_window::get_bounds()
 {
-    return bounds;
+    return {0, 0, 1.0, 1.0};
 }
 
 void help_window::show()
