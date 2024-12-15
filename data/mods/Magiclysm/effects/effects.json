@@ -201,8 +201,13 @@
     "int_add_val": 1,
     "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
     "remove_message": "The ghostly arms fade away.",
-    "base_mods": { "speed_mod": [ -40 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "enchantments": [
+      { "condition": { "math": [ "u_val('size')== 1" ] }, "values": [ { "value": "SPEED", "add": -60 } ] },
+      { "condition": { "math": [ "u_val('size')== 2" ] }, "values": [ { "value": "SPEED", "add": -40 } ] },
+      { "condition": { "math": [ "u_val('size')== 3" ] }, "values": [ { "value": "SPEED", "add": -30 } ] },
+      { "condition": { "math": [ "u_val('size')== 4" ] }, "values": [ { "value": "SPEED", "add": -15 } ] },
+      { "condition": { "math": [ "u_val('size')== 5" ] }, "values": [ { "value": "SPEED", "add": -5 } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -311,8 +316,24 @@
     "show_in_info": true,
     "apply_message": "Roots and vines burst from the ground and entangle you!",
     "remove_message": "The roots and vines wither up and die.",
-    "base_mods": { "speed_mod": [ -20 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] },
+    "enchantments": [
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -40 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -30 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -20 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -10 } ]
+      }
+    ],
     "flags": [ "EFFECT_IMPEDING" ]
   },
   {
