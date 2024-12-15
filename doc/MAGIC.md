@@ -67,6 +67,10 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
+    "exp_formula": "constant",                                // choose between "constant", "linear", "exponential".  Exp Per level: Constant: a, Linear: a(level), Exponential (probably): e^(level * b) * e^(b) * e^(-c * b) - e^(level * b) * e^(-c * b).  Defaults to exponential if no value is given.
+    "experience_calc_constant_a": 1000,                       // adjusts the constants used in the experience level calculation formula.
+    "experience_calc_constant_b": 0.146661,
+    "experience_calc_constant_c": -62.5,
     "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
     "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
     "accuracy_increment": 1.5
