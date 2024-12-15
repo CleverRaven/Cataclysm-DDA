@@ -143,7 +143,12 @@
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0
+    "aoe_increment": 5.0,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_intensity_increment": 1,
+    "field_chance": 3
   },
   {
     "id": "bio_fleshpouch",
@@ -381,7 +386,12 @@
     "min_dot": 2,
     "max_dot": 2,
     "min_duration": 300,
-    "max_duration": 300
+    "max_duration": 300,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_chance": 2
   },
   {
     "id": "biomancer_caustic_aura",
