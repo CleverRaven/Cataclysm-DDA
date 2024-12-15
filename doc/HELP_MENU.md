@@ -1,3 +1,4 @@
+BEFOREMERGE Update
 # Help Menu
 
 The help menu consists of scrollable categorised help pages that would ideally explain everything a new survivor needs to know, as well as any information the game can't convey clearly in an immersive way.
