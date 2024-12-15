@@ -177,7 +177,7 @@
       "effect": [
         { "npc_location_variable": { "context_val": "search_locale" } },
         {
-          "queue_eocs": "godco_place_warehouse_new",
+          "queue_eoc_with": "godco_place_warehouse_new",
           "time_in_future": "336 hours",
           "variables": { "search_locale": { "context_val": "search_locale" } }
         },
@@ -313,7 +313,7 @@
         { "npc_location_variable": { "context_val": "search_locale" } },
         { "math": [ "darryl_building_coop", "=", "1" ] },
         {
-          "queue_eocs": "godco_place_coop_new",
+          "queue_eoc_with": "godco_place_coop_new",
           "time_in_future": "168 hours",
           "variables": { "search_locale": { "context_val": "search_locale" } }
         },
@@ -950,7 +950,7 @@
         { "u_spawn_item": "icon", "count": 90 },
         { "npc_location_variable": { "context_val": "search_locale" } },
         {
-          "queue_eocs": "godco_place_herb_garden_new",
+          "queue_eoc_with": "godco_place_herb_garden_new",
           "time_in_future": "72 hours",
           "variables": { "search_locale": { "context_val": "search_locale" } }
         }
@@ -1217,7 +1217,7 @@
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
         { "npc_location_variable": { "context_val": "search_locale" } },
         {
-          "queue_eocs": "godco_place_wall_new",
+          "queue_eoc_with": "godco_place_wall_new",
           "time_in_future": "432 hours",
           "variables": { "search_locale": { "context_val": "search_locale" } }
         },
