@@ -423,6 +423,7 @@
     "copy-from": "mon_cow",
     "volume": "600 L",
     "weight": "600 kg",
+    "weakpoint_sets": [  ],
     "hp": 300,
     "dodge": 2,
     "bleed_rate": 60,
