@@ -368,8 +368,8 @@
     "min_damage": 80,
     "max_damage": 20,
     "damage_increment": -6,
-    "min_aoe": 6,
-    "max_aoe": 1,
+    "min_aoe": 5,
+    "max_aoe": 0,
     "aoe_increment": -0.5
   },
   {
