@@ -11892,7 +11892,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return false;
     }
 
-    if( c->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+    if( c->has_flag( json_flag_CANNOT_MOVE ) ) {
         // cannot fling creatures that cannot move.
         return false;
     }

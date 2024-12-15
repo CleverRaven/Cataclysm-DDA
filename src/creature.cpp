@@ -902,7 +902,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    if( has_flag( mon_flag_IMMOBILE ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
         // miss a smaller target, especially when wielding a
@@ -1366,7 +1366,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam, const weakpoint_attack &attack )
 {
-    if( is_dead_state() || has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+    if( is_dead_state() || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
     }
     int total_damage = 0;
@@ -2035,7 +2035,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Do not freeze the effect with the FREEZE_EFFECTS flag.
-            if( has_effect_with_flag( json_flag_FREEZE_EFFECTS ) &&
+            if( has_flag( json_flag_FREEZE_EFFECTS ) &&
                 !_it.second.has_flag( json_flag_FREEZE_EFFECTS ) ) {
                 continue;
             }

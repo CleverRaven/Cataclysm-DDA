@@ -10585,7 +10585,7 @@ void Character::echo_pulse()
             }
             // It's not moving. Must be an obstacle
             if( critter->has_flag( mon_flag_IMMOBILE ) ||
-                critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+                critter->has_flag( json_flag_CANNOT_MOVE ) ) {
                 echo_string = _( "click." );
             }
             sounds::sound( origin, echo_volume, sounds::sound_t::sensory, _( echo_string ), false,
