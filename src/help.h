@@ -77,6 +77,8 @@ class help_window : public cataimgui::window
         int selected_option;
         bool has_selected_category = false;
         int loaded_option;
+
+        void swap_translated_paragraphs();
         std::vector<std::string> translated_paragraphs;
         void parse_tags_help_window();
 
