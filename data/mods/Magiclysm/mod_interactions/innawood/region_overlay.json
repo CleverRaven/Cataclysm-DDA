@@ -1,0 +1,7 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "forest_mapgen_settings": { "forest_thick": { "terrains": [ "druid_giant_tree_empty_z0" ] } }
+  }
+]
