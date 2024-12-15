@@ -129,12 +129,13 @@ enum class spell_shape : int {
 };
 
 enum class xp_formula : int {
-    // e^(level * b) * e^(b) * e^(-c * b) - e^(level * b) * e^(-c * b).  Probably
+    // e^(level * b) * e^(-c * b) * ( e^(b) - 1 ) per level.  Probably
     exponential,
-    // a(level)
+    // a(level) per level
     linear,
-    // a
-    constant
+    // a per level
+    constant,
+    num_formulas
 };
 
 template<>
@@ -159,7 +160,7 @@ struct enum_traits<spell_flag> {
 
 template<>
 struct enum_traits<xp_formula> {
-    static constexpr xp_formula last = xp_formula::exponential;
+    static constexpr xp_formula last = xp_formula::num_formulas;
 };
 
 struct fake_spell {

@@ -201,6 +201,7 @@ std::string enum_to_string<xp_formula>( xp_formula data )
     case xp_formula::exponential: return "exponential";
     case xp_formula::linear: return "linear";
     case xp_formula::constant: return "constant";
+    case xp_formula::num_formulas: break;
     }
     cata_fatal( "Invalid xp_formula" );
 }
@@ -1667,9 +1668,6 @@ bool spell::ignore_by_species_id( const tripoint_bub_ms &p ) const
     }
     return valid;
 }
-
-
-
 
 std::string spell::description() const
 {
