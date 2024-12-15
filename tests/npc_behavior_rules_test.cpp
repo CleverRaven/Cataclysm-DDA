@@ -62,6 +62,8 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     tripoint_bub_ms next_to = player.pos_bub() + point::north;
     REQUIRE( next_to != player.pos_bub() );
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    overmap_buffer.insert_npc( guy );
+    g->load_npcs();
     clear_character( *guy );
     guy->setpos( next_to );
     talk_function::follow( *guy );
