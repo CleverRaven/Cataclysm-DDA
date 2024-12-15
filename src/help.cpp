@@ -69,7 +69,7 @@ void help::load_object( const JsonObject &jo, const std::string &src )
     jo.read( "name", category.name );
     const int modified_order = jo.get_int( "order" ) + current_order_start;
     if( !help_categories.try_emplace( modified_order, category ).second ) {
-        jo.throw_error_at( "order", "\"order\" must be unique (per src)" );
+        jo.throw_error_at( "order", "\"order\" must be unique per source" );
     }
 }
 
@@ -123,7 +123,7 @@ help_window::help_window() : cataimgui::window( "help",
             ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse )
 {
-    // TODO: ImGui auto arrow key handling doesn't work with ImTui
+
     ctxt = input_context( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -132,6 +132,10 @@ help_window::help_window() : cataimgui::window( "help",
     ctxt.register_action( "MOUSE_MOVE" );
     // Generated shortcuts
     ctxt.register_action( "ANY_INPUT" );
+    // Scrolling open category
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_updown();
     // Switching between categories while open
     ctxt.register_leftright();
     ctxt.register_action( "PREV_TAB" );
@@ -298,6 +302,7 @@ void help_window::draw_category()
     // Use a table so we can scroll the category paragraphs without the title
     if( ImGui::BeginTable( "HELP_PARAGRAPHS", 1,
                            ImGuiTableFlags_ScrollY ) ) {
+        cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
         for( const std::string &translated_paragraph : translated_paragraphs ) {
@@ -389,17 +394,36 @@ void help_window::show()
             ui_manager::redraw_invalidated();
             std::string action = ctxt.handle_input( 50 );
 
-            if( action == "CONFIRM" || action == "QUIT" ) {
+            if( action == "UP" ) {
+                s = cataimgui::scroll::line_up;
+            } else if( action == "DOWN" ) {
+                s = cataimgui::scroll::line_down;
+            } else if( action == "PAGE_UP" ) {
+                s = cataimgui::scroll::page_up;
+            } else if( action == "PAGE_DOWN" ) {
+                s = cataimgui::scroll::page_down;
+            } else if( action == "CONFIRM" || action == "QUIT" ) {
                 has_selected_category = false;
             } else if( action == "LEFT" || action == "PREV_TAB" ) {
                 auto it = data.help_categories.find( loaded_option );
                 loaded_option = it != data.help_categories.begin() ? ( --it )->first :
                                 data.help_categories.rbegin()->first;
+                translated_paragraphs.clear();
+                const help_category &cat = data.help_categories[loaded_option];
+                for( const translation &paragraph : cat.paragraphs ) {
+                    translated_paragraphs.emplace_back( paragraph.translated() );
+                }
+                parse_tags_help_window();
                 data.read_categories.insert( loaded_option );
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 auto it = data.help_categories.find( loaded_option );
                 it++;
                 loaded_option = it != data.help_categories.end() ? it->first : data.help_categories.begin()->first;
+                translated_paragraphs.clear();
+                const help_category &cat = data.help_categories[loaded_option];
+                for( const translation &paragraph : cat.paragraphs ) {
+                    translated_paragraphs.emplace_back( paragraph.translated() );
+                }
                 data.read_categories.insert( loaded_option );
             }
         }

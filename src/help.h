@@ -83,6 +83,7 @@ class help_window : public cataimgui::window
         void draw_category();
         void note_colors();
         std::string get_dir_grid();
+        cataimgui::scroll s;
 };
 
 std::string get_hint();
