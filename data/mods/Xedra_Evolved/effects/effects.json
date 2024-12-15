@@ -2882,5 +2882,15 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_monster_erosion",
+    "name": [ "Eroding Time" ],
+    "desc": [ "This creature destabilizes time around it, eroding everything it touches." ],
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
   }
 ]

@@ -352,6 +352,11 @@ bool enchantment::is_monster_relevant() const
         }
     }
 
+    // check for hit you / me effects
+    if( !hit_you_effect.empty() || !hit_me_effect.empty() ) {
+        return true;
+    }
+
     if( !damage_values_add.empty() || !damage_values_multiply.empty() ||
         !armor_values_add.empty() || !armor_values_multiply.empty() ) {
         return true;
@@ -1384,6 +1389,20 @@ void enchant_cache::activate_passive( Character &guy ) const
     }
 }
 
+void enchant_cache::cast_hit_you( Creature &caster, const Creature &target ) const
+{
+    for( const fake_spell &sp : hit_you_effect ) {
+        cast_enchantment_spell( caster, &target, sp );
+    }
+}
+
+void enchant_cache::cast_hit_me( Creature &caster, const Creature *target ) const
+{
+    for( const fake_spell &sp : hit_me_effect ) {
+        cast_enchantment_spell( caster, target, sp );
+    }
+}
+
 void enchant_cache::cast_hit_you( Character &caster, const Creature &target ) const
 {
     for( const fake_spell &sp : hit_you_effect ) {
@@ -1398,7 +1417,7 @@ void enchant_cache::cast_hit_me( Character &caster, const Creature *target ) con
     }
 }
 
-void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *target,
+void enchant_cache::cast_enchantment_spell( Creature &caster, const Creature *target,
         const fake_spell &sp ) const
 {
     // check the chances

@@ -127,6 +127,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( ft.immune_mtypes.count( type->id ) > 0 ) {
         return true;
     }
+    if( check_immunity_data( ft.immunity_data ) ) {
+        return true;
+    }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
 }
@@ -139,7 +142,9 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     map &here = get_map();
-    if( here.impassable( p ) ) {
+    const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at( p );
+    if( !here.passable_skip_fields( p ) || ( !impassable_field_ids.empty() &&
+            !is_immune_fields( impassable_field_ids ) ) ) {
         if( digging() ) {
             if( !here.has_flag( ter_furn_flag::TFLAG_BURROWABLE, p ) ) {
                 return false;
@@ -1520,13 +1525,13 @@ tripoint monster::scent_move()
     return random_entry( smoves, next );
 }
 
-int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
+int monster::calc_movecost( const tripoint &f, const tripoint &t, bool ignore_fields ) const
 {
     int movecost = 0;
 
     map &here = get_map();
-    const int source_cost = here.move_cost( f );
-    const int dest_cost = here.move_cost( t );
+    const int source_cost = here.move_cost( f, nullptr, ignore_fields );
+    const int dest_cost = here.move_cost( t, nullptr, ignore_fields );
     // Digging and flying monsters ignore terrain cost
     if( flies() || ( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, t ) ) ) {
         movecost = 100;
@@ -1535,36 +1540,36 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
             movecost += 25;
         } else {
-            movecost += 50 * here.move_cost( f );
+            movecost += 50 * source_cost;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
             movecost += 25;
         } else {
-            movecost += 50 * here.move_cost( t );
+            movecost += 50 * dest_cost;
         }
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, f ) ) {
             movecost += 250;
         } else {
-            movecost += 50 * here.move_cost( f );
+            movecost += 50 * source_cost;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, t ) ) {
             movecost += 250;
         } else {
-            movecost += 50 * here.move_cost( t );
+            movecost += 50 * dest_cost;
         }
         movecost /= 2;
     } else if( climbs() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, f ) ) {
             movecost += 150;
         } else {
-            movecost += 50 * here.move_cost( f );
+            movecost += 50 * source_cost;
         }
         if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, t ) ) {
             movecost += 150;
         } else {
-            movecost += 50 * here.move_cost( t );
+            movecost += 50 * dest_cost;
         }
         movecost /= 2;
     } else {
@@ -1825,8 +1830,11 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
+    const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at(
+                destination );
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, destination ) ) {
-        if( here.impassable( destination ) && critter == nullptr ) {
+        if( ( !here.passable_skip_fields( destination ) || ( !impassable_field_ids.empty() &&
+                !is_immune_fields( impassable_field_ids ) ) ) && critter == nullptr ) {
             if( flies() ) {
                 mod_moves( -get_speed() );
                 force = true;
@@ -1865,7 +1873,8 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                            static_cast<float>( climbs() &&
                                                here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos_bub().raw(),
                                                        destination.raw() ) : calc_movecost( pos_bub().raw(),
-                                                               destination.raw() ) );
+                                                               destination.raw(), ( !impassable_field_ids.empty() &&
+                                                                       is_immune_fields( impassable_field_ids ) ) ) );
         if( cost > 0.0f ) {
             mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {

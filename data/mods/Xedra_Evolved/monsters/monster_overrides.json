@@ -1,5 +1,23 @@
 [
   {
+    "type": "MONSTER",
+    "id": "mon_tindalos",
+    "copy-from": "mon_tindalos",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hound_tindalos",
+    "copy-from": "mon_hound_tindalos",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lieutenant_shadow",
+    "copy-from": "mon_lieutenant_shadow",
+    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
     "id": "mon_bear_cub",
     "type": "MONSTER",
     "copy-from": "mon_bear",

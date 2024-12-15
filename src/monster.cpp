@@ -1326,7 +1326,7 @@ bool monster::has_flag( const mon_flag_id &f ) const
     return type->has_flag( f );
 }
 
-bool monster::has_flag( const flag_id f ) const
+bool monster::has_flag( const flag_id &f ) const
 {
     mon_flag_str_id checked( f.c_str() );
     add_msg_debug( debugmode::DF_MONSTER,
@@ -1941,6 +1941,21 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
                    has_flag( mon_flag_FLIES ) || has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE );
         }
     }
+    for( const flag_id &flag : effect->immune_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool monster::check_immunity_data( const field_immunity_data &ft ) const
+{
+    for( const flag_id &flag : ft.immunity_data_flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -2179,6 +2194,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
             die( nullptr );
         }
         return true;
+    }
+
+    if( hitspread >= 0 && !is_hallucination() ) {
+        enchantment_cache->cast_hit_you( *this, target );
     }
 
     if( total_dealt <= 0 ) {
@@ -2595,7 +2614,7 @@ float monster::stability_roll() const
 
 float monster::get_dodge() const
 {
-    if( has_effect( effect_downed ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+    if( has_effect( effect_downed ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         return 0.0f;
     }
 
@@ -3793,6 +3812,8 @@ void monster::on_hit( Creature *source, bodypart_id,
             type->families.practice_hit( *attacker );
         }
     }
+
+    enchantment_cache->cast_hit_me( *this, source );
 
     check_dead_state();
     // TODO: Faction relations

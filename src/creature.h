@@ -765,6 +765,9 @@ class Creature : public viewer
         virtual bool has_flag( const mon_flag_id & ) const {
             return false;
         }
+        virtual bool has_flag( const flag_id & ) const {
+            return false;
+        }
         virtual bool uncanny_dodge() {
             return false;
         }
