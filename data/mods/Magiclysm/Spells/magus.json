@@ -791,7 +791,7 @@
     "effect": "ter_transform",
     "effect_str": "ter_magus_permanent_light",
     "shape": "blast",
-    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL" ],
+    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL" ],
     "components": "spell_components_magus_permanent_light",
     "max_level": 15,
     "spell_class": "MAGUS",
