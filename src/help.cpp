@@ -52,6 +52,13 @@ void help::reset_instance()
     read_categories.clear();
 }
 
+enum message_modifier {
+    MM_NORMAL = 0, // Normal message
+    MM_SUBTITLE, // Formatted subtitle
+    MM_MONOFONT, // Forced monofont for fixed space diagrams
+    MM_SEPERATOR // ImGui seperator, value is the color to use
+};
+
 void help::load_object( const JsonObject &jo, const std::string &src )
 {
     if( src == "dda" ) {
@@ -62,60 +69,32 @@ void help::load_object( const JsonObject &jo, const std::string &src )
         current_order_start = help_categories.empty() ? 0 : help_categories.crbegin()->first + 1;
         current_src = src;
     }
+
     help_category category;
-    jo.read( "messages", category.paragraphs );
 
     translation name;
     jo.read( "name", category.name );
+
+    for( JsonValue jv : jo.get_array( "messages" ) ) {
+        if( jv.test_string() ) {
+            category.paragraphs.emplace_back( to_translation( jv.get_string() ), MM_NORMAL );
+        } else {
+            JsonObject jobj = jv.get_object();
+            if( jobj.has_string( "subtitle" ) ) {
+                category.paragraphs.emplace_back( to_translation( jobj.get_string( "subtitle" ) ), MM_SUBTITLE );
+            } else if( jobj.has_string( "force_monospaced" ) ) {
+                category.paragraphs.emplace_back( to_translation( jobj.get_string( "force_monospaced" ) ),
+                                                  MM_MONOFONT );
+            } else if( jobj.has_string( "seperator" ) ) {
+                category.paragraphs.emplace_back( no_translation( jobj.get_string( "seperator" ) ), MM_SEPERATOR );
+            }
+        }
+    }
+
+
     const int modified_order = jo.get_int( "order" ) + current_order_start;
     if( !help_categories.try_emplace( modified_order, category ).second ) {
         jo.throw_error_at( "order", "\"order\" must be unique per source" );
-    }
-}
-
-std::string help_window::get_dir_grid()
-{
-    static const std::array<action_id, 9> movearray = {{
-            ACTION_MOVE_FORTH_LEFT, ACTION_MOVE_FORTH, ACTION_MOVE_FORTH_RIGHT,
-            ACTION_MOVE_LEFT,  ACTION_PAUSE,  ACTION_MOVE_RIGHT,
-            ACTION_MOVE_BACK_LEFT, ACTION_MOVE_BACK, ACTION_MOVE_BACK_RIGHT
-        }
-    };
-
-    std::string movement = "<LEFTUP_0>  <UP_0>  <RIGHTUP_0>   <LEFTUP_1>  <UP_1>  <RIGHTUP_1>\n"
-                           " \\ | /     \\ | /\n"
-                           "  \\|/       \\|/\n"
-                           "<LEFT_0>--<pause_0>--<RIGHT_0>   <LEFT_1>--<pause_1>--<RIGHT_1>\n"
-                           "  /|\\       /|\\\n"
-                           " / | \\     / | \\\n"
-                           "<LEFTDOWN_0>  <DOWN_0>  <RIGHTDOWN_0>   <LEFTDOWN_1>  <DOWN_1>  <RIGHTDOWN_1>";
-
-    for( action_id dir : movearray ) {
-        std::vector<input_event> keys = keys_bound_to( dir, /*maximum_modifier_count=*/0 );
-        for( size_t i = 0; i < 2; i++ ) {
-            movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
-                                       i < keys.size()
-                                       ? string_format( "<color_light_blue>%s</color>",
-                                               keys[i].short_description() )
-                                       : "<color_red>?</color>" );
-        }
-    }
-
-    return movement;
-}
-
-void help_window::note_colors()
-{
-    ImGui::TextUnformatted( _( "Note colors: " ) );
-    ImGui::SameLine( 0.f, 0.f );
-    for( const auto &color_pair : get_note_color_names() ) {
-        // The color index is not translatable, but the name is.
-        //~ %1$s: note color abbreviation, %2$s: note color name
-        cataimgui::TextColoredParagraph( c_white, string_format( pgettext( "note color", "%1$s:%2$s, " ),
-                                         colorize( color_pair.first, color_pair.second.color ),
-                                         color_pair.second.name ) );
-        // TODO: Has a stray comma at the end
-        ImGui::SameLine( 0.f, 0.f );
     }
 }
 
@@ -194,6 +173,10 @@ void help_window::draw_category_option( const int &option, const help_category &
     }
     cat_name += category.name.translated();
     if( data.read_categories.find( option ) != data.read_categories.end() ) {
+        if( screen_reader ) {
+            //~ Prefix for options that has already been viewed when using a screen reader
+            cat_name = _( "(read) " ) + cat_name;
+        }
         ImGui::PushStyleColor( ImGuiCol_Text, c_light_gray );
         ImGui::Selectable( remove_color_tags( cat_name ).c_str() );
         ImGui::PopStyleColor();
@@ -207,7 +190,7 @@ void help_window::draw_category_option( const int &option, const help_category &
 
 void help_window::format_title( const std::string translated_category_name )
 {
-    if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
+    if( screen_reader ) {
         cataimgui::TextColoredParagraph( c_white, translated_category_name );
         ImGui::NewLine();
         return;
@@ -301,16 +284,37 @@ void help_window::draw_category()
         cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        for( const std::string &translated_paragraph : translated_paragraphs ) {
-            if( translated_paragraph == "<DRAW_NOTE_COLORS>" ) {
-                note_colors();
-                continue;
-            } else if( translated_paragraph == "<HELP_DRAW_DIRECTIONS>" ) {
-                static const std::string dir_grid = get_dir_grid();
-                cataimgui::draw_colored_text( dir_grid );
-                continue;
+        for( const std::pair<std::string, int> &translated_paragraph :
+             translated_paragraphs ) {
+            switch( translated_paragraph.second ) {
+                case MM_NORMAL:
+                    cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
+                    break;
+                case MM_SUBTITLE:
+                    // BEFOREMERGE: Do something different
+                    cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
+                    break;
+                case MM_MONOFONT:
+                    cataimgui::PushMonoFont();
+                    cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
+                    ImGui::PopFont();
+                    break;
+                // Causing a missing EndChild() ImGui crash?
+                //case MM_SEPERATOR: {
+                //    nc_color col = get_all_colors().name_to_color( translated_paragraph.first );
+                //    ImGui::PushStyleColor( ImGuiCol_Separator, cataimgui::imvec4_from_color( col ) );
+                //    ImGui::Separator();
+                //    ImGui::PopStyleColor();
+                //    break;
+                //}
+                // Temporary until crash is worked out
+                case MM_SEPERATOR:
+                    ImGui::Separator();
+                    break;
+                default:
+                    debugmsg( "Unexpected help message modifier" );
+                    continue;
             }
-            cataimgui::TextColoredParagraph( c_white, translated_paragraph );
             ImGui::NewLine();
             ImGui::NewLine();
         }
@@ -318,31 +322,26 @@ void help_window::draw_category()
     }
 }
 
-// Would ideally be merged with parse_tags()?
-void help_window::parse_tags_help_window()
+// Would ideally share parse_tags() code for keybinds
+void help_window::parse_keybind_tags()
 {
-    for( std::string &translated_paragraph : translated_paragraphs ) {
-        if( translated_paragraph == "<DRAW_NOTE_COLORS>" ) {
-            continue;
-        } else if( translated_paragraph == "<HELP_DRAW_DIRECTIONS>" ) {
-            continue;
-        }
-        size_t pos = translated_paragraph.find( "<press_", 0, 7 );
+    for( std::pair<std::string, int> &translated_paragraph : translated_paragraphs ) {
+        std::string &text = translated_paragraph.first;
+        size_t pos = text.find( "<press_", 0, 7 );
         while( pos != std::string::npos ) {
-            size_t pos2 = translated_paragraph.find( ">", pos, 1 );
+            size_t pos2 = text.find( ">", pos, 1 );
 
-            std::string action = translated_paragraph.substr( pos + 7, pos2 - pos - 7 );
+            std::string action = text.substr( pos + 7, pos2 - pos - 7 );
             std::string replace = "<color_light_blue>" +
                                   press_x( look_up_action( action ), "", "" ) + "</color>";
 
             if( replace.empty() ) {
                 debugmsg( "Help json: Unknown action: %s", action );
             } else {
-                translated_paragraph = string_replace( translated_paragraph, "<press_" + std::move( action ) + ">",
-                                                       replace );
+                text = string_replace( text, "<press_" + std::move( action ) + ">", replace );
             }
 
-            pos = translated_paragraph.find( "<press_", pos2, 7 );
+            pos = text.find( "<press_", pos2, 7 );
         }
     }
 }
@@ -416,10 +415,10 @@ void help_window::swap_translated_paragraphs()
 {
     translated_paragraphs.clear();
     const help_category &cat = data.help_categories[loaded_option];
-    for( const translation &paragraph : cat.paragraphs ) {
-        translated_paragraphs.emplace_back( paragraph.translated() );
+    for( const std::pair<translation, int> &paragraph : cat.paragraphs ) {
+        translated_paragraphs.emplace_back( paragraph.first.translated(), paragraph.second );
     }
-    parse_tags_help_window();
+    parse_keybind_tags();
 }
 
 std::string get_hint()
