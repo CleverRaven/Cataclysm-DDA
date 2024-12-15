@@ -1787,7 +1787,7 @@ int spell_type::exp_for_level( int level ) const
         return 0;
     }
     if( experience_formula == xp_formula::constant ) {
-        return std::ceil( a );
+        return std::ceil( a * level );
     } else if( experience_formula == xp_formula::linear ) {
         return std::ceil( a * 0.5 * level * ( level + 1 ) );
     } else {
