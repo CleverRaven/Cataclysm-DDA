@@ -42,6 +42,11 @@
     "condition": "has_alpha",
     "effect": [
       { "math": [ "u_vegetative_grasp_affected_level = n_spell_level('druid_veggrasp')" ] },
+      {
+        "math": [
+          "u_evocation_spell_affected_proficiency = (1 + (n_has_proficiency('prof_magic_evocation_beginner') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_apprentice') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_master') * 0.1 ) )"
+        ]
+      },
       { "u_add_effect": "entangled", "duration": { "math": [ "10 + (u_vegetative_grasp_affected_level * 5)" ] } }
     ]
   },

@@ -147,23 +147,48 @@
     "enchantments": [
       {
         "condition": { "math": [ "u_val('size')== 1" ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-30 + (u_ethereal_grasp_affected_level * -4)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-30 + (u_ethereal_grasp_affected_level * -4) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "math": [ "u_val('size')== 2" ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-20 + (u_ethereal_grasp_affected_level * -3)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-20 + (u_ethereal_grasp_affected_level * -3) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "math": [ "u_val('size')== 3" ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-10 + (u_ethereal_grasp_affected_level * -2)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-10 + (u_ethereal_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "math": [ "u_val('size')== 4" ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-5 + (u_ethereal_grasp_affected_level * -1)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_ethereal_grasp_affected_level * -1) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "and": [ { "math": [ "u_val('size')== 5" ] }, { "math": [ "u_ethereal_grasp_affected_level >= 15" ] } ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-5 + clamp( (u_ethereal_grasp_affected_level - 15), 0, -5)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + clamp( (u_ethereal_grasp_affected_level - 15), 0, -5) )* u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       }
     ]
   },
@@ -239,19 +264,39 @@
     "enchantments": [
       {
         "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-20 + (u_vegetative_grasp_affected_level * -4)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-20 + (u_vegetative_grasp_affected_level * -4) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-15 + (u_vegetative_grasp_affected_level * -3)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-15 + (u_vegetative_grasp_affected_level * -3) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "-5 + (u_vegetative_grasp_affected_level * -2)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_vegetative_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       },
       {
         "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
-        "values": [ { "value": "SPEED", "add": { "math": [ "(u_vegetative_grasp_affected_level * -1)" ] } } ]
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "( (u_vegetative_grasp_affected_level * -1) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
       }
     ],
     "flags": [ "EFFECT_IMPEDING" ]
