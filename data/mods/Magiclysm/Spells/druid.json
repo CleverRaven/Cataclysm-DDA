@@ -1476,7 +1476,7 @@
     "duration_increment": 7000,
     "energy_source": "MANA",
     "base_casting_time": 500,
-    "base_energy_cost": 1250,
+    "base_energy_cost": 850,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
   },
   {
