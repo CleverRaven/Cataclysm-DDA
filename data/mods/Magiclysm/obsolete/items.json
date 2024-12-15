@@ -35,5 +35,27 @@
         }
       ]
     }
+  },
+  {
+    "id": "aura_caustic",
+    "type": "ARMOR",
+    "name": "acid aura",
+    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
   }
 ]

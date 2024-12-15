@@ -559,6 +559,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biomancer_aura_caustic",
+    "name": [ "Caustic Aura" ],
+    "desc": [ "An aura of thin acid, swirling around your body ready to corrode your enemies when struck or while striking." ],
+    "rating": "good",
+    "enchantments": [ "ench_aura_caustic" ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_weave",
     "name": [ "Coagulant Weave" ],
     "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
