@@ -151,13 +151,14 @@ However, the Magiclysm mod is distributed with the game and is very extensible i
 
 #### Remove skill rust: no
 
-First things first: 99% of people ask to remove skill rust because they are based on very outdated information. Skill rust is a very old mechanic; it was added before Cataclysm DDA was a thing, by Whales, the original author of Cataclysm. While it is unknown to me why it was added in the first place, it was indeed pretty terrible - you could level your skill now, but not being able to use it in crafting a few hours after, purely because the skill was rusted.
+First things first: 99% of people ask to remove skill rust because their informations is based on very outdated information. Skill rust is a very old mechanic; it was added before Cataclysm DDA, by Whales, in Cataclysm. While I do not know why it was added in the first place, it was pretty terrible - you could level your skill now, but not being able to use it in crafting a few hours after, purely because the skill was rusted.
 But not now. Skill rust was changed over the years to be a **purely positive mechanic**:
 - Skills were divided into theoretical and practical levels, and a lot of functions were revisited to use the theoretical level, and increasing the practical level while having theory brings additional xp. Rust, meanwhile, is limited by only 1 ***practical*** level and grants even more free xp when restored;
 - Skills overall were made floats, which means the difference between skill level 3 and skill level 2.99 is only 0.01, not an entire 1 level;
 - The UI was changed to ensure the reptilian brain of ours will not associate skill rust with red numbers (because red = bad)
 and skill rust impact (and benefit) would be even stronger once #67580 is implemented fully.
 This combined, the only way I can see someone wanting to remove skill rust is purely because of rumors by people not familiar with the changes, that are based themselves either on their outdated experience or by rumors of yet another people.
+- To further clarify, if someone uses a mod to remove skill rust their character will level skills slower than a character experiencing skill rust.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
