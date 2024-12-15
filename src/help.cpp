@@ -216,44 +216,42 @@ void help_window::format_title( const std::string translated_category_name )
     }
     const float title_length = ImGui::CalcTextSize( remove_color_tags(
                                    translated_category_name ).c_str() ).x;
+    ImGui::PushStyleVarX( ImGuiStyleVar_ItemSpacing, 0 );
     ImGui::PushStyleVarY( ImGuiStyleVar_ItemSpacing, 0 );
+    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
     cataimgui::PushMonoFont();
     const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 2 );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
     ImGui::Text( "╔" );
-    ImGui::SameLine( 0.f, 0.f );
+    ImGui::SameLine();
     for( int i = sep_len; i > 0; i-- ) {
         ImGui::Text( "═" );
-        ImGui::SameLine( 0.f, 0.f );
+        ImGui::SameLine();
     }
-    int x = ImGui::GetCursorPosX();
+    const int x = ImGui::GetCursorPosX();
     ImGui::Text( "╗" );
     ImGui::Text( "║ " );
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::PopStyleColor();
-    ImGui::PopFont();
-    cataimgui::TextColoredParagraph( c_white, translated_category_name );
-    cataimgui::PushMonoFont();
-    ImGui::SameLine( 0.f, 0.f );
-    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+    ImGui::SameLine();
+    const ImVec2 text_pos = ImGui::GetCursorPos();
     ImGui::SetCursorPosX( x );
     ImGui::Text( "║" );
     ImGui::Text( "╚" );
-    ImGui::SameLine( 0.f, 0.f );
+    ImGui::SameLine();
     for( int i = sep_len; i > 0; i-- ) {
         ImGui::Text( "═" );
-        ImGui::SameLine( 0.f, 0.f );
+        ImGui::SameLine();
     }
     ImGui::Text( "╝" );
-    ImGui::PopStyleColor();
-    ImGui::PopFont();
-    ImGui::PopStyleVar();
-
     ImGui::NewLine();
-    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
     ImGui::Separator();
-    ImGui::PopStyleColor();
     ImGui::NewLine();
+    const ImVec2 end_pos = ImGui::GetCursorPos();
+    ImGui::PopFont();
+    ImGui::PopStyleColor( 2 );
+    ImGui::PopStyleVar( 2 );
+    ImGui::SetCursorPos( text_pos );
+    cataimgui::TextColoredParagraph( c_white, translated_category_name );
+    ImGui::SetCursorPos( end_pos );
 }
 
 //void help_window::format_subtitle( const std::string translated_category_name )
@@ -376,12 +374,7 @@ void help_window::show()
                 has_selected_category = data.help_categories.find( selected_option ) != data.help_categories.end();
                 if( has_selected_category ) {
                     loaded_option = selected_option;
-                    translated_paragraphs.clear();
-                    const help_category &cat = data.help_categories[loaded_option];
-                    for( const translation &paragraph : cat.paragraphs ) {
-                        translated_paragraphs.emplace_back( paragraph.translated() );
-                    }
-                    parse_tags_help_window();
+                    swap_translated_paragraphs();
                     data.read_categories.insert( loaded_option );
                 } else {
                     debugmsg( "Category not found: option %s", selected_option );
@@ -408,27 +401,27 @@ void help_window::show()
                 auto it = data.help_categories.find( loaded_option );
                 loaded_option = it != data.help_categories.begin() ? ( --it )->first :
                                 data.help_categories.rbegin()->first;
-                translated_paragraphs.clear();
-                const help_category &cat = data.help_categories[loaded_option];
-                for( const translation &paragraph : cat.paragraphs ) {
-                    translated_paragraphs.emplace_back( paragraph.translated() );
-                }
-                parse_tags_help_window();
+                swap_translated_paragraphs();
                 data.read_categories.insert( loaded_option );
             } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
                 auto it = data.help_categories.find( loaded_option );
                 it++;
                 loaded_option = it != data.help_categories.end() ? it->first : data.help_categories.begin()->first;
-                translated_paragraphs.clear();
-                const help_category &cat = data.help_categories[loaded_option];
-                for( const translation &paragraph : cat.paragraphs ) {
-                    translated_paragraphs.emplace_back( paragraph.translated() );
-                }
+                swap_translated_paragraphs();
                 data.read_categories.insert( loaded_option );
             }
         }
     }
+}
 
+void help_window::swap_translated_paragraphs()
+{
+    translated_paragraphs.clear();
+    const help_category &cat = data.help_categories[loaded_option];
+    for( const translation &paragraph : cat.paragraphs ) {
+        translated_paragraphs.emplace_back( paragraph.translated() );
+    }
+    parse_tags_help_window();
 }
 
 std::string get_hint()
