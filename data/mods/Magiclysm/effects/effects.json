@@ -884,7 +884,9 @@
     "remove_message": "Sparks under your skin vanish.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "add": -35 } ] } ]
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level('electric_arts') * -1.5" ] } } ] }
+    ]
   },
   {
     "type": "effect_type",
