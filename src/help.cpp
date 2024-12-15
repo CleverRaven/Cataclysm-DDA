@@ -1,32 +1,29 @@
 #include "help.h"
 
-#include <algorithm>
-#include <array>
+#include <cmath>
 #include <cstddef>
-#include <functional>
 #include <iterator>
-#include <numeric>
+#include <optional>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 #include "action.h"
 #include "cata_imgui.h"
+#include "cata_path.h"
 #include "color.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "output.h"
 #include "path_info.h"
-#include "point.h"
 #include "string_formatter.h"
+#include "text.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_helpers.h"
 #include "ui_manager.h"
-
-class JsonObject;
 
 help &get_help()
 {
