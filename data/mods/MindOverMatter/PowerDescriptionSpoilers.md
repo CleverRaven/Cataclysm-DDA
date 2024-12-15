@@ -1141,7 +1141,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: One attuned location<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
-*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 30 minutes per power level of Gateway to a minimum of 30 minutes<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
 *Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
 *Prerequisites*: Farstep 10, Extended Stride 10 <br />
 

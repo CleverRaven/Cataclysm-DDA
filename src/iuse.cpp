@@ -1742,7 +1742,7 @@ std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_b
 
 static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
 {
-    std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos.raw() );
+    std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     map &here = get_map();
     // isolated little body of water with no definite fish population
@@ -1785,7 +1785,7 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations( 60, found->raw() );
+    p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
 
@@ -1884,7 +1884,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
         }
 
         //get the fishables around the trap's spot
-        std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos.raw() );
+        std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
         std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
         for( int i = 0; i < fishes; i++ ) {
             player.practice( skill_survival, rng( 3, 10 ) );
@@ -1893,7 +1893,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
                 // reduce the abstract fish_population marker of that fish
                 chosen_fish->fish_population -= 1;
                 if( chosen_fish->fish_population <= 0 ) {
-                    g->catch_a_monster( chosen_fish, pos.raw(), p, 300_hours ); //catch the fish!
+                    g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
                 } else {
                     here.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
                                               calendar::turn + rng( 0_turns,
@@ -7518,7 +7518,7 @@ static bool multicooker_hallu( Character &p )
         case 6:
             if( !one_in( 5 ) ) {
                 add_msg( m_warning, _( "The multi-cooker runs away!" ) );
-                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
+                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos_bub(), 1 ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1_turns, true );
                 }
@@ -8077,7 +8077,7 @@ bool item::release_monster( const tripoint_bub_ms &target, const int radius )
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
         return false;
     }
-    if( !g->place_critter_around( new_monster, target.raw(), radius ) ) {
+    if( !g->place_critter_around( new_monster, target, radius ) ) {
         return false;
     }
     erase_var( "contained_name" );

@@ -2130,5 +2130,14 @@
     "name": { "str": "Scroll of Imperishable Light", "str_pl": "Scrolls of Imperishable Light" },
     "description": "Create a permanent glowing orb of light in the air.  Well, it will take a few years to see if it's really permanent; hopefully you'll live to know the answer.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_permanent_light" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_get_more_blood",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Carmine Infusion", "str_pl": "Scrolls of Carmine Infusion" },
+    "description": "Using water as a medium, restore some of your lost blood.  Be more careful where you put that blood next time.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_get_more_blood" ] }
   }
 ]

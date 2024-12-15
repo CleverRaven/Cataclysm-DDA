@@ -869,7 +869,7 @@ void Character::activate_mutation( const trait_id &mut )
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 );
+        monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 );
         if( !slime ) {
             // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slime microbian!" ) );

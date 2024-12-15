@@ -219,7 +219,7 @@
   {
     "id": "geiger_off",
     "type": "TOOL",
-    "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
+    "name": { "str": "Geiger counter (off)", "str_pl": "Geiger counters (off)" },
     "description": "A tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn on continuous scan, which will provide continuous feedback on ambient radiation.  It is currently off.",
     "//": "https://www.amazon.com/dp/B0B541D433 but AA instead of 14500",
     "weight": "231 g",
@@ -247,13 +247,13 @@
     "id": "geiger_on",
     "copy-from": "geiger_off",
     "type": "TOOL",
-    "name": { "str": "geiger counter (on)", "str_pl": "geiger counters (on)" },
+    "name": { "str": "Geiger counter (on)", "str_pl": "Geiger counters (on)" },
     "description": "A tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.",
     "power_draw": "200 mW",
     "revert_to": "geiger_off",
     "use_action": {
       "target": "geiger_off",
-      "msg": "The geiger counter's SCANNING LED turns off.",
+      "msg": "The Geiger counter's SCANNING LED turns off.",
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform"
@@ -264,7 +264,7 @@
   {
     "id": "resonance_measurement_device",
     "type": "TOOL",
-    "name": { "str": "Otherworldy measuring device" },
+    "name": { "str": "Otherworldly measuring device" },
     "description": "This strange contraption appears to be little more than a laminated box built around a battery, a poorly backlit screen, and a wound spool of cloth netting.  The letters \"X E D R A\" are emblazoned on the side.  To operate the device, unfurl the netting and place it around the object to analyze.  Despite not appearing to do anything, it consumes an enormous amount of electricity and provides a brief numerical readout.",
     "weight": "600 g",
     "volume": "900 ml",

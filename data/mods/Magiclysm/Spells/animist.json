@@ -1025,8 +1025,17 @@
       {
         "u_add_effect": "incorporeal",
         "duration": { "math": [ "( 30 + (u_spell_level('animist_spirit_walking') * 3) ) * (enhancement_proficiency_modifier() )" ] }
-      }
+      },
+      { "u_add_trait": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANIMIST_SPIRIT_WALKING_LOSE_APPEARANCE",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "effect_spirit_walking", { "context_val": "effect" } ] } ] },
+    "effect": [ { "u_lose_trait": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE" } ]
   },
   {
     "id": "animist_add_evasion_spell",

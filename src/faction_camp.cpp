@@ -103,6 +103,9 @@ static const item_group_id Item_spawn_data_forest( "forest" );
 static const item_group_id
 Item_spawn_data_gathering_faction_camp_firewood( "gathering_faction_camp_firewood" );
 
+static const itype_id itype_camp_meal_large( "camp_meal_large" );
+static const itype_id itype_camp_meal_medium( "camp_meal_medium" );
+static const itype_id itype_camp_meal_small( "camp_meal_small" );
 static const itype_id itype_duffelbag( "duffelbag" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
@@ -113,38 +116,21 @@ static const mongroup_id GROUP_CAMP_HUNTING( "GROUP_CAMP_HUNTING" );
 static const mongroup_id GROUP_CAMP_HUNTING_LARGE( "GROUP_CAMP_HUNTING_LARGE" );
 static const mongroup_id GROUP_CAMP_TRAPPING( "GROUP_CAMP_TRAPPING" );
 
-static const oter_str_id oter_dirt_road_3way_forest_east( "dirt_road_3way_forest_east" );
-static const oter_str_id oter_dirt_road_3way_forest_north( "dirt_road_3way_forest_north" );
-static const oter_str_id oter_dirt_road_3way_forest_south( "dirt_road_3way_forest_south" );
-static const oter_str_id oter_dirt_road_3way_forest_west( "dirt_road_3way_forest_west" );
-static const oter_str_id oter_dirt_road_forest_east( "dirt_road_forest_east" );
-static const oter_str_id oter_dirt_road_forest_north( "dirt_road_forest_north" );
-static const oter_str_id oter_dirt_road_forest_south( "dirt_road_forest_south" );
-static const oter_str_id oter_dirt_road_forest_west( "dirt_road_forest_west" );
-static const oter_str_id oter_dirt_road_turn_forest_east( "dirt_road_turn_forest_east" );
-static const oter_str_id oter_dirt_road_turn_forest_north( "dirt_road_turn_forest_north" );
-static const oter_str_id oter_dirt_road_turn_forest_south( "dirt_road_turn_forest_south" );
-static const oter_str_id oter_dirt_road_turn_forest_west( "dirt_road_turn_forest_west" );
-static const oter_str_id oter_forest( "forest" );
-static const oter_str_id oter_forest_thick( "forest_thick" );
-static const oter_str_id oter_rural_road_3way_forest_east( "rural_road_3way_forest_east" );
-static const oter_str_id oter_rural_road_3way_forest_north( "rural_road_3way_forest_north" );
-static const oter_str_id oter_rural_road_3way_forest_south( "rural_road_3way_forest_south" );
-static const oter_str_id oter_rural_road_3way_forest_west( "rural_road_3way_forest_west" );
-static const oter_str_id oter_rural_road_forest_east( "rural_road_forest_east" );
-static const oter_str_id oter_rural_road_forest_north( "rural_road_forest_north" );
-static const oter_str_id oter_rural_road_forest_south( "rural_road_forest_south" );
-static const oter_str_id oter_rural_road_forest_west( "rural_road_forest_west" );
-static const oter_str_id oter_rural_road_turn1_forest_east( "rural_road_turn1_forest_east" );
-static const oter_str_id oter_rural_road_turn1_forest_north( "rural_road_turn1_forest_north" );
-static const oter_str_id oter_rural_road_turn1_forest_south( "rural_road_turn1_forest_south" );
-static const oter_str_id oter_rural_road_turn1_forest_west( "rural_road_turn1_forest_west" );
-static const oter_str_id oter_rural_road_turn_forest_east( "rural_road_turn_forest_east" );
-static const oter_str_id oter_rural_road_turn_forest_north( "rural_road_turn_forest_north" );
-static const oter_str_id oter_rural_road_turn_forest_south( "rural_road_turn_forest_south" );
-static const oter_str_id oter_rural_road_turn_forest_west( "rural_road_turn_forest_west" );
-static const oter_str_id oter_special_forest( "special_forest" );
-static const oter_str_id oter_special_forest_thick( "special_forest_thick" );
+static const oter_str_id oter_faction_hide_site_0( "faction_hide_site_0" );
+static const oter_str_id oter_field( "field" );
+
+static const oter_type_str_id oter_type_faction_hide_site_0( "faction_hide_site_0" );
+static const oter_type_str_id oter_type_field( "field" );
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+static const oter_type_str_id oter_type_forest_trail_intersection( "forest_trail_intersection" );
+static const oter_type_str_id oter_type_forest_water( "forest_water" );
+static const oter_type_str_id oter_type_road( "road" );
+static const oter_type_str_id oter_type_rural_road( "rural_road" );
+static const oter_type_str_id oter_type_rural_road_forest( "rural_road_forest" );
+static const oter_type_str_id oter_type_special_forest( "special_forest" );
+static const oter_type_str_id oter_type_special_forest_thick( "special_forest_thick" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_combat( "combat" );
@@ -179,23 +165,28 @@ static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
+static const update_mapgen_id
+update_mapgen_faction_expansion_salt_water_pipe_N( "faction_expansion_salt_water_pipe_N" );
+static const update_mapgen_id
+update_mapgen_faction_expansion_salt_water_pipe_NE( "faction_expansion_salt_water_pipe_NE" );
+static const update_mapgen_id
+update_mapgen_faction_expansion_salt_water_pipe_swamp_N( "faction_expansion_salt_water_pipe_swamp_N" );
+static const update_mapgen_id
+update_mapgen_faction_expansion_salt_water_pipe_swamp_NE( "faction_expansion_salt_water_pipe_swamp_NE" );
+static const update_mapgen_id update_mapgen_faction_wall_level_E_0( "faction_wall_level_E_0" );
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
-//static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
-//    faction_wall_level_n_1_string.c_str() );
+static const update_mapgen_id update_mapgen_faction_wall_level_N_0( "faction_wall_level_N_0" );
+static const update_mapgen_id update_mapgen_faction_wall_level_N_1( "faction_wall_level_N_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_S_0( "faction_wall_level_S_0" );
 static const update_mapgen_id update_mapgen_faction_wall_level_S_1( "faction_wall_level_S_1" );
+static const update_mapgen_id update_mapgen_faction_wall_level_W_0( "faction_wall_level_W_0" );
 static const update_mapgen_id update_mapgen_faction_wall_level_W_1( "faction_wall_level_W_1" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
-//  Moved the constant compound "string" declaration into a jumble here rather than where they belong
-//  because placing them together with their context is rejected by 'cata-static-string_id-constants, -warnings-as-errors'
 static const std::string faction_wall_level_n_0_string = "faction_wall_level_N_0";
 static const std::string faction_wall_level_n_1_string = "faction_wall_level_N_1";
-static const std::string faction_hide_site_0_string = "faction_hide_site_0";
-static const oter_str_id oter_faction_hide_site_0( faction_hide_site_0_string );
-static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
-    faction_wall_level_n_1_string.c_str() );
 
 static const std::string camp_om_fortifications_trench_parameter = faction_wall_level_n_0_string;
 static const std::string camp_om_fortifications_spiked_trench_parameter =
@@ -209,6 +200,7 @@ static const std::string var_timer_time_of_last_succession =
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
+// TODO: Replace with enum?
 static const std::string base_recipe_group_string = "BASE";
 static const std::string cook_recipe_group_string = "COOK";
 static const std::string farm_recipe_group_string = "FARM";
@@ -285,10 +277,9 @@ static bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
  */
 static tripoint_abs_omt om_target_tile(
     const tripoint_abs_omt &omt_pos, int min_range = 1, int range = 1,
-    const std::vector<std::string> &possible_om_types = {}, ot_match_type match_type =
-        ot_match_type::exact, bool must_see = true,
-    const tripoint_abs_omt &source = tripoint_abs_omt::invalid,
-    bool bounce = false, const std::optional<std::string> &message = std::nullopt );
+    const std::unordered_set<oter_type_str_id> &possible_om_types = {}, bool must_see = true,
+    const tripoint_abs_omt &source = tripoint_abs_omt::invalid, bool bounce = false,
+    const std::optional<std::string> &message = std::nullopt );
 static void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
                            const std::string &message = "Y;X: MAX RANGE" );
 static void om_line_mark(
@@ -333,22 +324,6 @@ static std::string camp_trip_description( const time_duration &total_time,
  * TODO: Convert to JSON basic on dynamic line type structure
  */
 static bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
-
-//  Hard coded blueprint names used to route the code to the salt water pipe code.
-static const std::string faction_expansion_salt_water_pipe_swamp_base =
-    "faction_expansion_salt_water_pipe_swamp_";
-static const std::string faction_expansion_salt_water_pipe_swamp_N =
-    faction_expansion_salt_water_pipe_swamp_base + "N";
-static const std::string faction_expansion_salt_water_pipe_swamp_NE =
-    faction_expansion_salt_water_pipe_swamp_base + "NE";
-static const std::string faction_expansion_salt_water_pipe_base =
-    "faction_expansion_salt_water_pipe_";
-static const std::string faction_expansion_salt_water_pipe_N =
-    faction_expansion_salt_water_pipe_base +
-    "N";
-static const std::string faction_expansion_salt_water_pipe_NE =
-    faction_expansion_salt_water_pipe_base +
-    "NE";
 
 static std::string mission_ui_activity_of( const mission_id &miss_id )
 {
@@ -1413,7 +1388,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
             for( const auto &dir : base_camps::all_directions ) {
                 if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() ) {
                     const oter_id &omt_ref = overmap_buffer.ter( omt_pos + dir.first );
-                    if( !free_non_field_found && omt_ref != oter_id( "field" ) ) {
+                    if( !free_non_field_found && omt_ref->get_type_id() != oter_type_field ) {
                         free_non_field_found = true;
                     }
                     if( !possible_expansion_found ) {
@@ -2101,10 +2076,10 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
 void basecamp::start_upgrade( const mission_id &miss_id )
 {
     const recipe &making = *recipe_id( miss_id.parameters );
-    if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_swamp_N ) {
+    if( making.get_blueprint() == update_mapgen_faction_expansion_salt_water_pipe_swamp_N ) {
         start_salt_water_pipe( miss_id );
         return;
-    } else if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_N ) {
+    } else if( making.get_blueprint() == update_mapgen_faction_expansion_salt_water_pipe_N ) {
         continue_salt_water_pipe( miss_id );
         return;
     }
@@ -2517,93 +2492,49 @@ static void change_cleared_terrain( tripoint_abs_omt forest )
 {
     if( om_cutdown_trees_est( forest ) < 5 ) {
         const oter_id &omt_trees = overmap_buffer.ter( forest );
-        const std::string omt_trees_string = static_cast<std::string>( omt_trees.id() );
 
-        if( omt_trees_string.find( "dirt_road" ) != std::string::npos ) {}
+        // Oter types before and after clear cutting, if value (after) is linear, key (before) should also be linear, otherwise any combination of rotatable/linear/not rotatable should work
+        static const std::unordered_map<oter_type_str_id, oter_type_str_id> clear_cut_conversion = {
+            { oter_type_forest, oter_type_field },
+            { oter_type_forest_thick, oter_type_field },
+            { oter_type_forest_trail, oter_type_field },
+            { oter_type_forest_trail_intersection, oter_type_field },
+            { oter_type_rural_road_forest, oter_type_rural_road },
+            { oter_type_special_forest, oter_type_field },
+            { oter_type_special_forest_thick, oter_type_field }
+        };
 
-        if( omt_trees.id() == oter_dirt_road_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_west" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_west" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_west" ) );
-        }
-
-        else if( omt_trees.id() == oter_forest || omt_trees.id() == oter_forest_thick ||
-                 omt_trees.id() == oter_special_forest || omt_trees.id() == oter_special_forest_thick ||
-                 omt_trees_string.find( "forest_trail" ) != std::string::npos ) {
-            overmap_buffer.ter_set( forest, oter_id( "field" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_west" ) );
-        } else {
+        auto converted_it = clear_cut_conversion.find( omt_trees->get_type_id() );
+        if( converted_it == clear_cut_conversion.end() ) {
             popup( _( "%s isn't a recognized terrain.  Please file a bug report." ), omt_trees.id().c_str() );
             return;
+        } else {
+            const oter_type_str_id &oter_type_clearcut = converted_it->second;
+            oter_id oter_to_place;
+            // Maintain rotation
+            if( oter_type_clearcut->is_linear() ) {
+                oter_to_place = oter_type_clearcut->get_linear( omt_trees->get_line() );
+            } else {
+                oter_to_place = oter_type_clearcut->get_rotated( omt_trees->get_dir() );
+            }
+            overmap_buffer.ter_set( forest, oter_to_place );
         }
         popup( _( "The logged tile has been cleared and cannot be logged further after this mission." ),
                omt_trees.id().c_str() );
     }
 }
 
-static const std::vector<std::string> terrains_forest = { "forest", "forest_thick", "forest_trail", "rural_road_forest", "rural_road_turn_forest", "rural_road_turn1_forest", "rural_road_3way_forest", "dirt_road_forest", "dirt_road_3way_forest", "dirt_road_turn_forest", "forest_trail_intersection", "special_forest", "special_forest_thick", "forest_trail_isolated", "forest_trail_end" };
-static const std::vector<std::string> terrains_field_swamp_forest = [] {
-    std::vector<std::string> tmp = terrains_forest;
-    tmp.emplace_back( "field" );
-    tmp.emplace_back( "forest_water" );
+static const std::unordered_set<oter_type_str_id> terrains_forest = { oter_type_forest, oter_type_forest_thick, oter_type_forest_trail, oter_type_forest_trail_intersection, oter_type_rural_road_forest, oter_type_special_forest, oter_type_special_forest_thick };
+static const std::unordered_set<oter_type_str_id> terrains_field_swamp_forest = [] {
+    std::unordered_set<oter_type_str_id> tmp = terrains_forest;
+    tmp.insert( oter_type_field );
+    tmp.insert( oter_type_forest_water );
     return tmp;
 }();
 
-
 void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 {
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest, ot_match_type::type,
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest,
                               _( "Select a forest (or road/trail) from %d to %d tiles away." ) );
     if( !forest.is_invalid() ) {
         standard_npc sample_npc( "Temp" );
@@ -2649,7 +2580,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
 {
     popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest, ot_match_type::type );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, terrains_forest );
     if( !forest.is_invalid() ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -2682,9 +2613,8 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
 
 void basecamp::start_setup_hide_site( const mission_id &miss_id, float exertion_level )
 {
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, terrains_field_swamp_forest,
-                              ot_match_type::type,
-                              true, omt_pos, true, _( "Select a forest, swamp, or field from %d to %d tiles away." ) );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, terrains_field_swamp_forest, true,
+                              omt_pos, true, _( "Select a forest, swamp, or field from %d to %d tiles away." ) );
     if( !forest.is_invalid() ) {
         pf::simple_path<tripoint_abs_omt> path = overmap_buffer.get_travel_path( omt_pos, forest,
                 overmap_path_params::for_npc() );
@@ -2724,13 +2654,12 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id, float exertion_
 }
 
 static const tripoint_omt_ms relay_site_stash{ 11, 10, 0 };
-static const std::vector<std::string> hide_locations = { faction_hide_site_0_string };
 
 void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_level )
 {
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::exact,
-                              true, omt_pos, true, string_format(
-                                  _( "Select an existing hide site from %d to %d tiles away." ), 10, 90 ) );
+    const std::unordered_set<oter_type_str_id> hide_locations = { oter_type_faction_hide_site_0 };
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, omt_pos, true,
+                              string_format( _( "Select an existing hide site from %d to %d tiles away." ), 10, 90 ) );
     if( !forest.is_invalid() ) {
         pf::simple_path<tripoint_abs_omt> path = overmap_buffer.get_travel_path( omt_pos, forest,
                 overmap_path_params::for_npc() );
@@ -2797,54 +2726,48 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
 // Stupid "the const qualified parameter 'comp' is copied for each invocation; consider making it a reference [performance-unnecessary-value-param,-warnings-as-errors]" demands the pointer to be referenced...
 static void apply_fortifications( const mission_id &miss_id, const npc_ptr *comp, bool start )
 {
-    update_mapgen_id build_n{ faction_wall_level_n_0_string };
-    update_mapgen_id build_e{ "faction_wall_level_E_0" };
-    update_mapgen_id build_s{ "faction_wall_level_S_0" };
-    update_mapgen_id build_w{ "faction_wall_level_W_0" };
-    if( miss_id.parameters == faction_wall_level_n_1_string ||
-        //  Handling of old format (changed mid 0.F) below
-        ( miss_id.parameters.empty() &&
-          comp[0]->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
-        build_n = update_mapgen_faction_wall_level_N_1;
-        build_e = update_mapgen_faction_wall_level_E_1;
-        build_s = update_mapgen_faction_wall_level_S_1;
-        build_w = update_mapgen_faction_wall_level_W_1;
-    }
-    update_mapgen_id build_first = build_e;
-    update_mapgen_id build_second = build_w;
-    bool build_dir_NS = comp[0]->companion_mission_points[0].y() !=
-                        comp[0]->companion_mission_points[1].y();
-    if( build_dir_NS ) {
-        build_first = build_s;
-        build_second = build_n;
-    }
-    //Add fences
     auto &build_point = comp[0]->companion_mission_points;
+    static const std::array<std::pair<update_mapgen_id, update_mapgen_id>, 4> pits { {
+            { update_mapgen_faction_wall_level_S_0, update_mapgen_faction_wall_level_N_0 },
+            { update_mapgen_faction_wall_level_E_0,  update_mapgen_faction_wall_level_W_0 },
+            { update_mapgen_faction_wall_level_S_1, update_mapgen_faction_wall_level_N_1 },
+            { update_mapgen_faction_wall_level_E_1,  update_mapgen_faction_wall_level_W_1 }
+        } };
+    const bool is_ns = build_point[0].y() != build_point[1].y();
+    const bool is_spiked =  miss_id.parameters == faction_wall_level_n_1_string ||
+                            //  Handling of old format (changed mid 0.F) below
+                            ( miss_id.parameters.empty() &&
+                              comp[0]->companion_mission_role_id == faction_wall_level_n_1_string );
+    const std::pair<update_mapgen_id, update_mapgen_id> &build = is_spiked ?
+            ( is_ns ? pits[0] : pits[1] ) :
+            ( is_ns ? pits[2] : pits[3] );
+
+    //Add fences
     for( size_t pt = 0; pt < build_point.size(); pt++ ) {
         //First point is always at top or west since they are built in a line and sorted
         if( pt == 0 ) {
             if( !start ) {
-                run_mapgen_update_func( build_first, build_point[pt], {} );
+                run_mapgen_update_func( build.first, build_point[pt], {} );
             }
-            apply_construction_marker( build_first, build_point[pt],
+            apply_construction_marker( build.first, build_point[pt],
                                        miss_id.mapgen_args, false,
                                        false, false, start );
         } else if( pt == build_point.size() - 1 ) {
             if( !start ) {
-                run_mapgen_update_func( build_second, build_point[pt], {} );
+                run_mapgen_update_func( build.second, build_point[pt], {} );
             }
-            apply_construction_marker( build_second, build_point[pt],
+            apply_construction_marker( build.second, build_point[pt],
                                        miss_id.mapgen_args, false,
                                        false, false, start );
         } else {
             if( !start ) {
-                run_mapgen_update_func( build_first, build_point[pt], {} );
-                run_mapgen_update_func( build_second, build_point[pt], {} );
+                run_mapgen_update_func( build.first, build_point[pt], {} );
+                run_mapgen_update_func( build.second, build_point[pt], {} );
             }
-            apply_construction_marker( build_first, build_point[pt],
+            apply_construction_marker( build.first, build_point[pt],
                                        miss_id.mapgen_args, false,
                                        false, false, start );
-            apply_construction_marker( build_second, build_point[pt],
+            apply_construction_marker( build.second, build_point[pt],
                                        miss_id.mapgen_args, false,
                                        false, false, start );
         }
@@ -2856,14 +2779,13 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
-    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest,
-                             ot_match_type::type, true, omt_pos, _( "Select a start point from %d to %d tiles away." ) );
+    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest, true, omt_pos,
+                             _( "Select a start point from %d to %d tiles away." ) );
     if( start.is_invalid() ) {
         return;
     }
-    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest,
-                                            ot_match_type::type,
-                                            true, start, _( "Select an end point from %d to %d tiles away." ) );
+    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, terrains_field_swamp_forest, true, start,
+                                            _( "Select an end point from %d to %d tiles away." ) );
     if( stop.is_invalid() ) {
         return;
     }
@@ -2906,16 +2828,8 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
     time_duration travel_time = 0_hours;
     int dist = 0;
     for( tripoint_abs_omt &fort_om : fortify_om ) {
-        bool valid = false;
-        const oter_id &omt_ref = overmap_buffer.ter( fort_om );
-        for( const std::string &pos_om : terrains_field_swamp_forest ) {
-            if( omt_ref.id().c_str() == pos_om ) {
-                valid = true;
-                break;
-            }
-        }
-
-        if( !valid ) {
+        const oter_type_str_id &omt_ref = overmap_buffer.ter( fort_om )->get_type_id();
+        if( terrains_field_swamp_forest.find( omt_ref ) == terrains_field_swamp_forest.end() ) {
             popup( _( "Invalid terrain in construction path." ) );
             return;
         }
@@ -3225,13 +3139,13 @@ bool basecamp::common_salt_water_pipe_construction(
                                                 mirror_horizontal, rotation );
 
         if( orthogonal ) {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
+            apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_swamp_N,
+                                       pipe->segments[segment_number].point,
                                        miss_id.mapgen_args, mirror_horizontal,
                                        mirror_vertical, rotation, true );
         } else {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
+            apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_swamp_NE,
+                                       pipe->segments[segment_number].point,
                                        miss_id.mapgen_args, mirror_horizontal,
                                        mirror_vertical, rotation, true );
         }
@@ -3266,13 +3180,13 @@ bool basecamp::common_salt_water_pipe_construction(
                                                 mirror_vertical, mirror_horizontal, rotation );
 
         if( orthogonal ) {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
+            apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_N,
+                                       pipe->segments[segment_number].point,
                                        miss_id.mapgen_args, mirror_horizontal,
                                        mirror_vertical, rotation, true );
         } else {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
+            apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_NE,
+                                       pipe->segments[segment_number].point,
                                        miss_id.mapgen_args, mirror_horizontal,
                                        mirror_vertical, rotation, true );
         }
@@ -3281,13 +3195,13 @@ bool basecamp::common_salt_water_pipe_construction(
                                                 mirror_horizontal, rotation );
 
         if( orthogonal ) {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
+            apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_N,
+                                       pipe->segments[segment_number].point,
                                        miss_id.mapgen_args, mirror_horizontal,
                                        mirror_vertical, rotation, true );
         } else {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
+            apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_NE,
+                                       pipe->segments[segment_number].point,
                                        miss_id.mapgen_args, mirror_horizontal,
                                        mirror_vertical, rotation, true );
         }
@@ -3313,178 +3227,159 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
     }
 
     expansion_salt_water_pipe *pipe = nullptr;
-    bool pipe_is_new = true;
 
     for( expansion_salt_water_pipe *element : salt_water_pipes ) {
         if( element->expansion == dir ) {
             if( element->segments[0].finished ) {
                 debugmsg( "Trying to start construction of a salt water pipe that's already been constructed" );
-                return;
             }
             //  Assume we've started the construction but it has been cancelled.
-            pipe = element;
-            pipe_is_new = false;
-            break;
+            return;
         }
     }
 
-    if( pipe_is_new ) {
-        pipe = new expansion_salt_water_pipe;
-        pipe->expansion = dir;
-        pipe->connection_direction = connection_dir;
+    pipe = new expansion_salt_water_pipe;
+    pipe->expansion = dir;
+    pipe->connection_direction = connection_dir;
+    const oter_type_str_id &allowed_start_location = oter_type_forest_water;
+    const std::unordered_set<oter_type_str_id> allowed_locations = { oter_type_forest, oter_type_forest_thick, oter_type_forest_trail, oter_type_field, oter_type_road };
+    PathMap path_map;
 
-        std::string allowed_start_location =
-            "forest_water";  //  That's what a swamp is called, for some reason.
-        std::vector<std::string> allowed_locations = {
-            "forest", "forest_thick", "forest_trail", "field", "road"
-        };
-        PathMap path_map;
-
-        for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
-            for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
-                tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + i,
-                                        omt_pos.y() + dir.y + connection_dir.y + k, omt_pos.z() );
-                const oter_id &omt_ref = overmap_buffer.ter( tile );
-                bool match = false;
-                for( const std::string &pos_om : allowed_locations ) {
-                    if( omt_ref->get_type_id() == oter_type_str_id( pos_om ) ) {
-                        match = true;
-                        break;
-                    }
-                }
-                if( match ) {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
-                } else if( omt_ref->get_type_id() == oter_type_str_id( allowed_start_location ) ) {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
-                } else {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
-                }
-                //  if this is an expansion tile, forbid it. Only allocated ones have their type changed.
-                if( i >= -dir.x - connection_dir.x - 1 && i <= -dir.x - connection_dir.x + 1 &&
-                    k >= -dir.y - connection_dir.y - 1 && k <= -dir.y - connection_dir.y + 1 ) {
-                    path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
-                }
+    for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
+        for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
+            tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + i,
+                                    omt_pos.y() + dir.y + connection_dir.y + k, omt_pos.z() );
+            const oter_type_str_id &omt_ref = overmap_buffer.ter( tile )->get_type_id();
+            if( allowed_locations.find( omt_ref ) != allowed_locations.end() ) {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_legal;
+            } else if( omt_ref == allowed_start_location ) {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_swamp;
+            } else {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
+            }
+            //  if this is an expansion tile, forbid it. Only allocated ones have their type changed.
+            if( i >= -dir.x - connection_dir.x - 1 && i <= -dir.x - connection_dir.x + 1 &&
+                k >= -dir.y - connection_dir.y - 1 && k <= -dir.y - connection_dir.y + 1 ) {
+                path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] = salt_pipe_illegal;
             }
         }
+    }
 
-        if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] == salt_pipe_illegal ) {
-            auto e = expansions.find( dir );
-            basecamp::update_provides( miss_id.parameters, e->second );
+    if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] == salt_pipe_illegal ) {
+        auto e = expansions.find( dir );
+        basecamp::update_provides( miss_id.parameters, e->second );
 
-            popup( _( "This functionality cannot be constructed as the tile directly adjacent to "
-                      "this expansion is not of a type a pipe can be constructed through.  Supported "
-                      "terrain is forest, field, road, and swamp.  This recipe will now be "
-                      "removed from the set of available recipes and won't show up again." ) );
-            return;
-        }
+        popup( _( "This functionality cannot be constructed as the tile directly adjacent to "
+                  "this expansion is not of a type a pipe can be constructed through.  Supported "
+                  "terrain is forest, field, road, and swamp.  This recipe will now be "
+                  "removed from the set of available recipes and won't show up again." ) );
+        return;
+    }
 
-        point destination;
-        double destination_cost = -10000.0;
-        bool path_found = false;
+    point destination;
+    double destination_cost = -10000.0;
+    bool path_found = false;
 
-        if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
-            salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
-            destination = point::zero;
-            path_found = true;
-        } else {
-            path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
-                1.0;  //  Always an orthogonal connection to the connection tile.
+    if( path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] ==
+        salt_pipe_swamp ) { //  The connection_dir tile is a swamp tile
+        destination = point::zero;
+        path_found = true;
+    } else {
+        path_map[max_salt_water_pipe_distance][max_salt_water_pipe_distance] =
+            1.0;  //  Always an orthogonal connection to the connection tile.
 
-            for( int distance = 1; distance <= max_salt_water_pipe_length; distance++ ) {
-                int dist = distance > max_salt_water_pipe_distance ? max_salt_water_pipe_distance : distance;
-                for( int i = -dist; i <= dist; i++ ) { //  No path that can be extended can reach further than dist.
-                    for( int k = -dist; k <= dist; k++ ) {
-                        if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
-                            0.0 ) { // Tile has been assigned a distance and isn't a swamp
-                            point temp = check_salt_pipe_neighbors( path_map, { i, k } );
-                            if( !temp.is_invalid() ) {
-                                if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
-                                    destination_cost ) {
-                                    destination_cost = path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance +
-                                                       temp.y];
-                                    destination = temp;
-                                    path_found = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if( !path_found ) {
-            auto e = expansions.find( dir );
-            basecamp::update_provides( miss_id.parameters, e->second );
-
-            popup( _( "This functionality cannot be constructed as no valid path to a swamp has "
-                      "been found with a maximum length (20 tiles) at a maximum range of 10 tiles.  "
-                      "Supported terrain is forest, field, and road.  This recipe will now be "
-                      "removed from the set of available recipes and won't show up again." ) );
-            return;
-        };
-
-        point candidate;
-        //  Flip the sign of the starting swamp tile to fit the logic expecting positive values rather than check that it isn't the first one every time.
-        path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance + destination.y]
-            = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
-                    destination.y];
-
-        while( destination != point::zero ) {
-            pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
-            path_found = false;  //  Reuse of existing variable after its original usability has been passed.
-            for( int i = -1; i <= 1; i++ ) {
-                for( int k = -1; k <= 1; k++ ) {
-                    if( destination.x + i > -max_salt_water_pipe_distance &&
-                        destination.x + i < max_salt_water_pipe_distance &&
-                        destination.y + k > -max_salt_water_pipe_distance &&
-                        destination.y + k < max_salt_water_pipe_distance ) {
-                        if( path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
-                                destination.y + k] > 0.0 &&
-                            path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
-                                    destination.y + k] < path_map[max_salt_water_pipe_distance +
-                                            destination.x][max_salt_water_pipe_distance + destination.y] ) {
-                            if( path_found ) {
-                                if( path_map [max_salt_water_pipe_distance + candidate.x][max_salt_water_pipe_distance +
-                                        candidate.y] >
-                                    path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
-                                            destination.y + k] ) {
-                                    candidate = destination + point( i, k );
-                                }
-                            } else {
-                                candidate = destination +  point( i, k );
+        for( int distance = 1; distance <= max_salt_water_pipe_length; distance++ ) {
+            int dist = distance > max_salt_water_pipe_distance ? max_salt_water_pipe_distance : distance;
+            for( int i = -dist; i <= dist; i++ ) { //  No path that can be extended can reach further than dist.
+                for( int k = -dist; k <= dist; k++ ) {
+                    if( path_map[max_salt_water_pipe_distance + i][max_salt_water_pipe_distance + k] >
+                        0.0 ) { // Tile has been assigned a distance and isn't a swamp
+                        point temp = check_salt_pipe_neighbors( path_map, { i, k } );
+                        if( !temp.is_invalid() ) {
+                            if( path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance + temp.y] >
+                                destination_cost ) {
+                                destination_cost = path_map[max_salt_water_pipe_distance + temp.x][max_salt_water_pipe_distance +
+                                                   temp.y];
+                                destination = temp;
                                 path_found = true;
                             }
                         }
                     }
                 }
             }
-            destination = candidate;
         }
-
-        pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x, omt_pos.y() + dir.y + connection_dir.y, omt_pos.z() ), false, false } );
     }
 
-    if( common_salt_water_pipe_construction( miss_id, pipe, 0 ) ) {
-        if( pipe_is_new ) {
-            pipe->segments[0].started = true;
-            salt_water_pipes.push_back( pipe );
+    if( !path_found ) {
+        auto e = expansions.find( dir );
+        basecamp::update_provides( miss_id.parameters, e->second );
 
-            //  Provide "salt_water_pipe_*_scheduled" for all the segments needed.
-            //  The guts of basecamp::update_provides modified to feed it generated tokens rather than
-            //  those actually in the recipe, as the tokens needed can't be determined by the recipe.
-            //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
-            auto e = expansions.find( dir );
-            for( size_t i = 1; i < pipe->segments.size(); i++ ) {
-                std::string token = salt_water_pipe_string_base;
-                token += std::to_string( i );
-                token += salt_water_pipe_string_suffix;
-                if( e->second.provides.find( token ) == e->second.provides.end() ) {
-                    e->second.provides[token] = 0;
+        popup( _( "This functionality cannot be constructed as no valid path to a swamp has "
+                  "been found with a maximum length (20 tiles) at a maximum range of 10 tiles.  "
+                  "Supported terrain is forest, field, and road.  This recipe will now be "
+                  "removed from the set of available recipes and won't show up again." ) );
+        return;
+    };
+
+    point candidate;
+    //  Flip the sign of the starting swamp tile to fit the logic expecting positive values rather than check that it isn't the first one every time.
+    path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance + destination.y]
+        = -path_map[max_salt_water_pipe_distance + destination.x][max_salt_water_pipe_distance +
+                destination.y];
+
+    while( destination != point::zero ) {
+        pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x + destination.x, omt_pos.y() + dir.y + connection_dir.y + destination.y, omt_pos.z() ), false, false } );
+        path_found = false;  //  Reuse of existing variable after its original usability has been passed.
+        for( int i = -1; i <= 1; i++ ) {
+            for( int k = -1; k <= 1; k++ ) {
+                if( destination.x + i > -max_salt_water_pipe_distance &&
+                    destination.x + i < max_salt_water_pipe_distance &&
+                    destination.y + k > -max_salt_water_pipe_distance &&
+                    destination.y + k < max_salt_water_pipe_distance ) {
+                    if( path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                            destination.y + k] > 0.0 &&
+                        path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                destination.y + k] < path_map[max_salt_water_pipe_distance +
+                                        destination.x][max_salt_water_pipe_distance + destination.y] ) {
+                        if( path_found ) {
+                            if( path_map [max_salt_water_pipe_distance + candidate.x][max_salt_water_pipe_distance +
+                                    candidate.y] >
+                                path_map[max_salt_water_pipe_distance + destination.x + i][max_salt_water_pipe_distance +
+                                        destination.y + k] ) {
+                                candidate = destination + point( i, k );
+                            }
+                        } else {
+                            candidate = destination +  point( i, k );
+                            path_found = true;
+                        }
+                    }
                 }
-                e->second.provides[token]++;
             }
         }
-    } else if( pipe_is_new ) {
+        destination = candidate;
+    }
+
+    pipe->segments.push_back( { tripoint_abs_omt( omt_pos.x() + dir.x + connection_dir.x, omt_pos.y() + dir.y + connection_dir.y, omt_pos.z() ), false, false } );
+
+    if( common_salt_water_pipe_construction( miss_id, pipe, 0 ) ) {
+        pipe->segments[0].started = true;
+        salt_water_pipes.push_back( pipe );
+
+        //  Provide "salt_water_pipe_*_scheduled" for all the segments needed.
+        //  The guts of basecamp::update_provides modified to feed it generated tokens rather than
+        //  those actually in the recipe, as the tokens needed can't be determined by the recipe.
+        //  Shouldn't need to check that the tokens don't exist previously, so could just set them to 1.
+        auto e = expansions.find( dir );
+        for( size_t i = 1; i < pipe->segments.size(); i++ ) {
+            std::string token = salt_water_pipe_string_base;
+            token += std::to_string( i );
+            token += salt_water_pipe_string_suffix;
+            if( e->second.provides.find( token ) == e->second.provides.end() ) {
+                e->second.provides[token] = 0;
+            }
+            e->second.provides[token]++;
+        }
+    } else {
         delete pipe;
     }
 }
@@ -4082,9 +3977,9 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
         return false;
     }
 
-    if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_swamp_N ) {
+    if( making.get_blueprint() == update_mapgen_faction_expansion_salt_water_pipe_swamp_N ) {
         return salt_water_pipe_swamp_return( miss_id, npc_list );
-    } else if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_N ) {
+    } else if( making.get_blueprint() == update_mapgen_faction_expansion_salt_water_pipe_N ) {
         return salt_water_pipe_return( miss_id, npc_list );
     }
 
@@ -4271,17 +4166,19 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
                                             mirror_horizontal, rotation );
 
     if( orthogonal ) {
-        const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
-        run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
+        run_mapgen_update_func( update_mapgen_faction_expansion_salt_water_pipe_swamp_N,
+                                pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
+        apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_swamp_N,
+                                   pipe->segments[segment_number].point,
                                    miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, false );
     } else {
-        const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
-        run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
+        run_mapgen_update_func( update_mapgen_faction_expansion_salt_water_pipe_swamp_NE,
+                                pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
+        apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_swamp_NE,
+                                   pipe->segments[segment_number].point,
                                    miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, false );
     }
@@ -4371,17 +4268,19 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
                                             mirror_vertical, mirror_horizontal, rotation );
 
     if( orthogonal ) {
-        const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
-        run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
+        run_mapgen_update_func( update_mapgen_faction_expansion_salt_water_pipe_N,
+                                pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
+        apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_N,
+                                   pipe->segments[segment_number].point,
                                    miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, false );
     } else {
-        const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
-        run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
+        run_mapgen_update_func( update_mapgen_faction_expansion_salt_water_pipe_NE,
+                                pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
+        apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_NE,
+                                   pipe->segments[segment_number].point,
                                    miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, false );
     }
@@ -4390,17 +4289,19 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
                                             mirror_horizontal, rotation );
 
     if( orthogonal ) {
-        const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
-        run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
+        run_mapgen_update_func( update_mapgen_faction_expansion_salt_water_pipe_N,
+                                pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
+        apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_N,
+                                   pipe->segments[segment_number].point,
                                    miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, false );
     } else {
-        const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
-        run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
+        run_mapgen_update_func( update_mapgen_faction_expansion_salt_water_pipe_NE,
+                                pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
+        apply_construction_marker( update_mapgen_faction_expansion_salt_water_pipe_NE,
+                                   pipe->segments[segment_number].point,
                                    miss_id.mapgen_args, mirror_horizontal,
                                    mirror_vertical, rotation, false );
     }
@@ -4634,7 +4535,7 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
             }
         }
 
-        if( overmap_buffer.ter_existing( where ) == oter_id( "field" ) ) {
+        if( overmap_buffer.ter_existing( where ) == oter_field ) {
             if( query_yn(
                     _( "This location is already a field.  Do you want to finish this mission?  If not, another tile can be checked." ) ) ) {
                 finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
@@ -4667,7 +4568,7 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
             }
         }
 
-        overmap_buffer.ter_set( where, oter_id( "field" ) );
+        overmap_buffer.ter_set( where, oter_field );
         if( query_yn(
                 _( "This location has now been converted into a field!  Do you want to finish the mission?  If not, another tile can be checked." ) ) ) {
             finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
@@ -5104,11 +5005,11 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
 }
 
 tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range, int range,
-                                 const std::vector<std::string> &possible_om_types, ot_match_type match_type, bool must_see,
+                                 const std::unordered_set<oter_type_str_id> &possible_om_types, bool must_see,
                                  const tripoint_abs_omt &source, bool bounce, const std::optional<std::string> &message )
 {
     bool errors = false;
-    std::vector<std::string> bounce_locations = { faction_hide_site_0_string };
+    const std::unordered_set<oter_type_str_id> bounce_locations = { oter_type_faction_hide_site_0 };
 
     tripoint_abs_omt where;
     om_range_mark( omt_pos, range );
@@ -5135,7 +5036,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
 
     tripoint_abs_omt omt_tgt = where;
 
-    const oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
+    const oter_type_str_id &omt_ref = overmap_buffer.ter( omt_tgt )->get_type_id();
 
     if( must_see && overmap_buffer.seen( omt_tgt ) == om_vision_level::unseen ) {
         errors = true;
@@ -5143,32 +5044,24 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
     }
 
     if( !errors ) {
-        for( const std::string &pos_om : bounce_locations ) {
-            if( bounce && omt_ref.id().c_str() == pos_om && range > 5 ) {
+        for( const oter_type_str_id &pos_om : bounce_locations ) {
+            if( bounce && pos_om == omt_ref && range > 5 ) {
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
                     tripoint_abs_omt dest =
-                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, match_type, true,
-                                        omt_tgt, true );
+                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, omt_tgt, true );
                     om_line_mark( omt_pos, omt_tgt, false );
                     return dest;
                 }
             }
         }
 
-        if( possible_om_types.empty() ) {
+        if( possible_om_types.empty() || possible_om_types.find( omt_ref ) != possible_om_types.end() ) {
             return omt_tgt;
-        }
-
-        for( const std::string &pos_om : possible_om_types ) {
-            if( is_ot_match( pos_om, omt_ref, match_type ) ) {
-                return omt_tgt;
-            }
         }
     }
 
-    return om_target_tile( omt_pos, min_range, range, possible_om_types, match_type, must_see,
-                           omt_pos );
+    return om_target_tile( omt_pos, min_range, range, possible_om_types, must_see, omt_pos );
 }
 
 void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
@@ -5292,7 +5185,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
 
     target_bay.save();
 
-    overmap_buffer.ter_set( omt_tgt, oter_id( faction_hide_site_0_string ) );
+    overmap_buffer.ter_set( omt_tgt, oter_faction_hide_site_0 );
 
     overmap_buffer.reveal( omt_tgt.xy(), 3, 0 );
     return true;
@@ -5340,8 +5233,7 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
         if( range == 0 ) {
             message = _( "Confirm again to finalize the path, or cancel to undo." );
         }
-        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, ot_match_type::exact, false, last,
-                                               false, message );
+        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, false, last, false, message );
         if( spt.is_invalid() ) {
             if( scout_segments.empty() ) {
                 return {};
@@ -5375,9 +5267,9 @@ pf::simple_path<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &sta
         range -= note_pts.cost / 24;
         last = spt;
 
-        const oter_id &omt_ref = overmap_buffer.ter( last );
+        const oter_type_str_id &omt_ref = overmap_buffer.ter( last )->get_type_id();
 
-        if( bounce && omt_ref.id() == oter_faction_hide_site_0 ) {
+        if( bounce && omt_ref == oter_type_faction_hide_site_0 ) {
             range = def_range * .75;
             def_range = range;
         }
@@ -5714,23 +5606,18 @@ std::string basecamp::farm_description( const point &dir, size_t &plots_count,
                                         farm_ops operation )
 {
     std::pair<size_t, std::string> farm_data = farm_action( dir, operation );
-    std::string entry;
     plots_count = farm_data.first;
     switch( operation ) {
         case farm_ops::harvest:
-            entry += _( "Harvestable: " ) + std::to_string( plots_count ) + "\n" + farm_data.second;
-            break;
+            return _( "Harvestable: " ) + std::to_string( plots_count ) + "\n" + farm_data.second;
         case farm_ops::plant:
-            entry += _( "Ready for Planting: " ) + std::to_string( plots_count ) + "\n";
-            break;
+            return _( "Ready for Planting: " ) + std::to_string( plots_count ) + "\n";
         case farm_ops::plow:
-            entry += _( "Needs Plowing: " ) + std::to_string( plots_count ) + "\n";
-            break;
+            return _( "Needs Plowing: " ) + std::to_string( plots_count ) + "\n";
         default:
             debugmsg( "Farm operations called with no operation" );
-            break;
+            return {};
     }
-    return entry;
 }
 
 // food supply
@@ -5888,14 +5775,10 @@ int basecamp::time_to_food( time_duration total_time, float work_exertion_level,
 
 item basecamp::make_fake_food( const nutrients &to_use ) const
 {
-    // This is dumb, but effective.
-    std::string food_id = "camp_meal_small";
-    if( to_use.kcal() > 3000 ) {
-        food_id = "camp_meal_large";
-    } else if( to_use.kcal() > 1000 ) {
-        food_id = "camp_meal_medium";
-    }
-    item food_item( food_id );
+    //TODO: If we're dynamically deciding its nutrition why not weight + volume and them just append the name like this?
+    item food_item = to_use.kcal() > 3000 ?
+                     item( itype_camp_meal_large ) : to_use.kcal() > 1000 ?
+                     item( itype_camp_meal_medium ) : item( itype_camp_meal_small );
     // Set the default nutritional of the item.
     // This doesn't persist through save/load, but that's ok, we will be eating it immediately.
     food_item.get_comestible()->set_default_nutrition( to_use );
@@ -6041,17 +5924,15 @@ bool basecamp::distribute_food( bool player_command )
         return false;
     }
 
-    std::string popup_msg;
-    if( nutrients_to_add.kcal() > 0 ) {
-        popup_msg = string_format( _( "You distribute %d kcal worth of food to your companions." ),
-                                   nutrients_to_add.kcal() );
-    } else {
-        popup_msg = _( "You distribute vitamins and medicine to your companions." );
+    if( player_command ) {
+        if( nutrients_to_add.kcal() > 0 ) {
+            popup( string_format( _( "You distribute %d kcal worth of food to your companions." ),
+                                  nutrients_to_add.kcal() ) );
+        } else {
+            popup( _( "You distribute vitamins and medicine to your companions." ) );
+        }
     }
 
-    if( player_command ) {
-        popup( popup_msg );
-    }
     camp_food_supply( nutrients_to_add );
     return true;
 }
