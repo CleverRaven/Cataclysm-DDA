@@ -237,6 +237,8 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     vehicle_part *door = door_parts_at_target.front();
     // The door must be closed for the lock to be effective.
     door->open = false;
+    // For some reason, both the door and the door lock must be set to locked.
+    door->locked = true;
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
     std::vector<vehicle_part *> door_lock_parts_at_target = test_vehicle->get_parts_at(
