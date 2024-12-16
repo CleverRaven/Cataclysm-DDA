@@ -250,9 +250,10 @@
     },
     "furniture": {
       "6": "f_console_broken",
-      "h": "f_chair",
+      "b": "f_bench",
       "d": "f_desk",
       "g": [ [ "f_generator_broken", 3 ], [ "f_active_backup_generator", 1 ] ],
+      "h": "f_chair",
       "v": "f_table",
       "C": "f_filing_cabinet",
       "D": "f_dumpster",
