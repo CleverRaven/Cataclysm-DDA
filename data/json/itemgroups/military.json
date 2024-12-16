@@ -1086,6 +1086,7 @@
       { "group": "SUS_junk_drawer", "prob": 20 },
       { "group": "SUS_cookware", "prob": 20 },
       { "group": "SUS_toilet", "prob": 75 },
+      { "group": "SUS_office_filing_cabinet", "prob": 50, "count": [ 3, 6 ] },
       { "group": "SUS_kitchen_sink", "prob": 20 }
     ]
   },

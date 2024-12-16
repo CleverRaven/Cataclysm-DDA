@@ -10,7 +10,7 @@
         "..=..........________...",
         ".#$§#########$$$$$$$$##.",
         ".#,,,,,,,,,,,,,,,,,,,&#.",
-        ".#,,,,,,,,,,,,,,,,,,,,#.",
+        ".#,,,,,,T,,,,,,,,,,,,,#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
@@ -18,17 +18,17 @@
         ".#W,,W,,W,,W,,,,,,,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
-        ".#W,,W,,W,,W,,,Á,,,,,W#.",
+        ".#W,,W,,W,,W,,,,,Á,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
         ".#W,,W,,W,,W,,,,,,,,,W#.",
-        ".#W,,W,,W,,W,,,,,,,,,W#.",
-        ".#W,,W,,W,,W,,,,,,,,,W#.",
+        ".#W,,W,,W,,W,,,,É,,,,W#.",
+        ".#W,,W,,W,,W,,,,,,,,TW#.",
         ".#W,,W,,W,,W,,,,|O|+||#.",
         ".#W,,W,,W,,W,,,,O6,,,d#.",
-        ".#W,,,,,,,,,,,,,Od,,hd#.",
+        ".#W,,,,,T,,,,,,,Od,,hd#.",
         ".#W,,,,,,,,,,,,,Odh,,,#.",
-        ".#WWWWWWWWWWWW,,Od,CCC#.",
+        ".#WWWWWWWWWWWWT,Od,CCC#.",
         ".######################.",
         "........................"
       ],
@@ -41,7 +41,11 @@
         "d": { "item": "SUS_office_filing_cabinet", "chance": 75, "repeat": [ 1, 2 ] },
         "W": { "item": "military_warehouse", "chance": 75, "repeat": [ 1, 4 ] }
       },
-      "vehicles": { "Á": { "vehicle": "military_cargo_trucks", "chance": 75, "rotation": 90 } },
+      "item": { "d": { "item": "id_military", "chance": 20 } },
+      "vehicles": {
+        "Á": { "vehicle": "military_cargo_trucks", "chance": 75, "rotation": 90 },
+        "É": { "vehicle": "forklift_vehicles", "chance": 75, "rotation": 0 }
+      },
       "place_nested": [ { "chunks": [ "24x24_military_warehouse_nest_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },

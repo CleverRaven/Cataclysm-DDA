@@ -43,6 +43,7 @@
         "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] },
         "V": { "item": "tools_gunsmith", "chance": 40 }
       },
+      "item": { "d": { "item": "id_military", "chance": 20 } },
       "place_nested": [ { "chunks": [ "mil_base_armory_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
@@ -125,6 +126,7 @@
         "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] },
         "V": { "item": "tools_gunsmith", "chance": 40 }
       },
+      "item": { "d": { "item": "id_military", "chance": 20 } },
       "vehicles": { "Á": { "vehicle": "military_cargo_trucks", "chance": 75, "rotation": 90 } },
       "place_nested": [ { "chunks": [ "mil_base_armory_2_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
