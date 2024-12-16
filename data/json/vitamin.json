@@ -84,6 +84,18 @@
     "disease_excess": [ [ 10, 216 ] ]
   },
   {
+    "id": "vit_mme",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Morphine Milligram Equivalent (percentile)" },
+    "//": "1 vit_mme is equivalent to 1% of an MME.  Need to adjust excess and rate at minimum.",
+    "excess": "opiate_eff",
+    "min": 0,
+    "max": 40000,
+    "rate": "100 s",
+    "disease_excess": [ [ 100, 216 ] ]
+  },
+  {
     "id": "mutant_toxin",
     "type": "vitamin",
     "vit_type": "toxin",
