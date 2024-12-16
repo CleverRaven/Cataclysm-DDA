@@ -386,12 +386,6 @@ class spell_type
         static void reset_all();
         bool is_valid() const;
 
-        // constants defined below are for the experience formula to be used,
-        // in order for the inverse formula to be equivalent
-        double a = 6200.0;
-        double b = 0.146661;
-        double c = -62.5;
-
         // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
         std::optional<jmath_func_id> get_level_formula_id;
         std::optional<jmath_func_id> exp_for_level_formula_id;

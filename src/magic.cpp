@@ -627,6 +627,8 @@ void spell_type::serialize( JsonOut &json ) const
                  static_cast<int>( base_casting_time.min.dbl_val.value() ) );
     json.member( "casting_time_increment",
                  static_cast<float>( casting_time_increment.min.dbl_val.value() ), casting_time_increment_default );
+    json.member( "get_level_formula_id", get_level_formula_id );
+    json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
@@ -1674,6 +1676,12 @@ std::string spell::damage_type_string() const
     }
     return dmg_type()->name.translated();
 }
+
+// constants defined below are just for the formula to be used,
+// in order for the inverse formula to be equivalent
+static constexpr double a = 6200.0;
+static constexpr double b = 0.146661;
+static constexpr double c = -62.5;
 
 int spell::get_level() const
 {
