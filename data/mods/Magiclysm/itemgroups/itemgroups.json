@@ -1351,7 +1351,8 @@
           { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
           { "item": "spell_scroll_hoary_blast", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 }
+          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 },
+          { "item": "spell_scroll_kelvinist_set_everyone_on_fire", "prob": 2 }
         ],
         "prob": 10
       }
