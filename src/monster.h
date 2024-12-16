@@ -269,7 +269,8 @@ class monster : public Creature
         bool die_if_drowning( const tripoint_bub_ms &at_pos, int chance = 1 );
 
         tripoint_bub_ms scent_move();
-        int calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t, bool ignore_fields = false ) const;
+        int calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                           bool ignore_fields = false ) const;
         int calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
