@@ -794,8 +794,10 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
                                       const point &dir )
 {
     const mission_id miss_id = {kind, "DUMMY_RECIPE_REPLACED_IN_CAMP", {}, dir};
-    std::string miss_desc =
-        "This will open the regular crafting screen where you may select a recipe and batch size.";
+    std::string miss_desc = string_format( _( "Notes:\n"
+                                           "This will open the regular crafting screen where you may select a recipe and batch size.\n\n"
+                                           "You will be prompted to select a NPC to perform the craft after selecting the recipe.\n\n"
+                                           "Kcal cost will be shown last, you will be prompted to accept or back out." ) );
     mission_key.add_start( miss_id, _( "Crafting" ), miss_desc, true );
 }
 
@@ -3557,6 +3559,10 @@ void basecamp::start_combat_mission( const mission_id &miss_id, float exertion_l
 
 void basecamp::start_crafting( const mission_id &miss_id )
 {
+    if( assigned_npcs.empty() ) {
+        popup( _( "There's nobody assigned to work at the camp!" ) );
+        return;
+    }
     int num_to_make = 1;
     npc dummy;
     for( const recipe_id &some_known_recipe : recipe_deck_all() ) {
@@ -3591,15 +3597,30 @@ void basecamp::start_crafting( const mission_id &miss_id )
     }
     const recipe *making = crafter_recipe_pair.second;
 
+    // validates if we have anywhere to place liquid
+    form_storage_zones( get_camp_map(), bb_pos );
+
+    if( making->result()->phase != phase_id::SOLID && get_liquid_dumping_spot().empty() ) {
+        // we do a little shuffling to minimize unique strings to translate
+        std::string query_msg = string_format(
+                                    _( "You don't have anything in which to store %s and may have to pour it out as soon as it is prepared!  Proceed?" ),
+                                    making->result()->nname( num_to_make ) );
+        query_msg += "\n\n";
+        query_msg +=
+            _( "Eligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile." );
+        if( !query_yn( query_msg ) ) {
+            return;
+        }
+    }
+
     uilist choose_crafter;
     choose_crafter.title = _( "Choose a NPC to craft" );
     int i = 0;
     for( const npc_ptr &guy : assigned_npcs ) {
         if( guy.get() ) {
-            const recipe *r = crafter_recipe_pair.second;
-            bool has_skills = r->skill_used.is_null() ||
-                              guy->get_skill_level( r->skill_used ) >= r->get_difficulty( *guy );
-            bool has_profs = r->character_has_required_proficiencies( *guy );
+            bool has_skills = making->skill_used.is_null() ||
+                              guy->get_skill_level( making->skill_used ) >= making->get_difficulty( *guy );
+            bool has_profs = making->character_has_required_proficiencies( *guy );
             bool is_available_for_work = !guy->has_companion_mission();
             bool can_be_picked = has_skills && has_profs && is_available_for_work;
             std::string refusal_reason;
