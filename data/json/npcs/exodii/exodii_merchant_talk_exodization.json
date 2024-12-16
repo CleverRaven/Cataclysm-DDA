@@ -150,7 +150,7 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
       "str": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
     },
     "responses": [
@@ -196,7 +196,7 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik.",
+      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik.",
       "str": "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik."
     },
     "responses": [
@@ -251,7 +251,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodized2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you s tarted, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
+      "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you started, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
       "str": "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more."
     },
     "responses": [

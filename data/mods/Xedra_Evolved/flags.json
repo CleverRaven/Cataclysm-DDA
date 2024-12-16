@@ -52,5 +52,9 @@
     "id": "STABILIZED_TIMELINE",
     "type": "json_flag",
     "info": "You are immune to adverse affects on your timeline."
+  },
+  {
+    "id": "STABILIZED_TIMELINE",
+    "type": "monster_flag"
   }
 ]
