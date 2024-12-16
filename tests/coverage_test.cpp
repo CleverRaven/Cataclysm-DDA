@@ -27,6 +27,8 @@ static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0
 static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint_bub_ms badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 static void check_near( const std::string &subject, float actual, const float expected,
                         const float tolerance )
 {
@@ -235,6 +237,45 @@ TEST_CASE( "Ghost_ablative_vest", "[coverage]" )
         // make sure the armor is counting even if the base vest doesn't do anything
         check_not_near( "Average damage", dmg_full, dmg_empty, 0.5f );
     }
+}
+
+TEST_CASE( "helmet_with_face_shield_coverage", "[coverage]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    item hat_hard( "hat_hard" );
+    CHECK( hat_hard.get_coverage( body_part_eyes ) == 0 );
+
+    WHEN( "wearing helmet with face shield should cover eyes and mouth" ) {
+        item face_shield( "face_shield" );
+        REQUIRE( hat_hard.put_in( face_shield, pocket_type::CONTAINER ).success() );
+        dummy.wear_item( hat_hard );
+
+        CHECK( hat_hard.get_coverage( body_part_eyes ) == 100 );
+        CHECK( hat_hard.get_coverage( body_part_mouth ) == 100 );
+        CHECK( hat_hard.get_coverage( sub_body_part_eyes_right ) == 100 );
+    }
+
+}
+
+TEST_CASE( "vest_with_plate_coverage", "[coverage]" )
+{
+    //Vest covers torso_upper and torso_lower
+    item vest = item( "ballistic_vest_esapi" );
+    //100 (torso_upper coverage) * 0.6 (torso_upper max_coverage) + 80 (torso_lower coverage) * 0.4
+    CHECK( vest.get_coverage( body_part_torso ) == 92 );
+
+    WHEN( "inserting 2 plates" ) {
+        //Each plate covers torso_upper with coverage 45
+        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+
+        THEN( "vest with plates should retain the same coverage" ) {
+            CHECK( vest.get_coverage( body_part_torso ) == 92 );
+        }
+    }
+
 }
 
 TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
