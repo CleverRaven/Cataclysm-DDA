@@ -667,14 +667,14 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    g->place_critter_at( mon_zombie, a.pos() + tripoint::east );
-    monster *friendo = g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
-    g->place_critter_at( mon_triffid, a.pos() + tripoint{ 3, 0, 0 } );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint::north );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 3, 0 } );
-    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 10, 0, 0 } );
-    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 11, 0, 0 } );
+    g->place_critter_at( mon_zombie, a.pos_bub() + tripoint::east );
+    monster *friendo = g->place_critter_at( mon_zombie, a.pos_bub() + tripoint{ 2, 0, 0 } );
+    g->place_critter_at( mon_triffid, a.pos_bub() + tripoint{ 3, 0, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint::north );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint{ 0, 2, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint{ 0, 3, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos_bub() + tripoint{ 10, 0, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos_bub() + tripoint{ 11, 0, 0 } );
 
     REQUIRE( globvars.get_global_value( "mons" ).empty() );
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );

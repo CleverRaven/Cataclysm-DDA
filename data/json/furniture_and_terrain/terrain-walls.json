@@ -59,7 +59,8 @@
     "name": { "str": "abstract concrete wall", "//~": "NO_I18N" },
     "description": "Encompasses most concrete-like walls.  If you see this in-game, it's a bug.",
     "roof": "t_concrete_roof",
-    "color": "light_gray"
+    "color": "light_gray",
+    "extend": { "flags": [ "WIRED_WALL" ] }
   },
   {
     "type": "terrain",
@@ -68,7 +69,8 @@
     "name": { "str": "abstract brick wall", "//~": "NO_I18N" },
     "description": "Encompasses most brick-like walls.  If you see this in-game, it's a bug.",
     "roof": "t_brick_roof",
-    "color": "brown"
+    "color": "brown",
+    "extend": { "flags": [ "WIRED_WALL" ] }
   },
   {
     "type": "terrain",
@@ -1462,6 +1464,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_glass_lab",
+    "copy-from": "t_wall_glass",
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_strconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_laminated_glass",
     "copy-from": "t_abstract_wall_glass",
     "name": "laminated glass",
@@ -1524,6 +1541,21 @@
       "reduce_damage_laser": [ 0, 10 ],
       "destroy_damage": [ 60, 160 ],
       "no_laser_destroy": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_reinforced_glass_lab",
+    "copy-from": "t_reinforced_glass",
+    "bash": {
+      "str_min": 40,
+      "str_max": 210,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_strconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "mc_wire", "prob": 20 } ]
     }
   },
   {

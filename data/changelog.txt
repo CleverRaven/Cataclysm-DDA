@@ -407,6 +407,8 @@ Wildlife foods adjust morale
 Add dormant zombies to more locations
 Add tupelo and nannyberry,  hobblebush and autumn olive trees
 New exodii rifle
+Remade the 3x3 hospital
+Some houses are under construction
 
 
 ## Interface:
@@ -532,6 +534,9 @@ shorten `memorize` hint in crafting GUI search
 some little improvements to the AIM drop menu
 Allow fine user customization of ImGui colors
 Migrate scores window to imgui
+Audit `satiety`
+Add filter for body part coverage to the crafting GUI
+Add filter for clothing layer to the crafting GUI, AIM, inventory etc.
 
 
 ## Mods:
@@ -873,6 +878,9 @@ Mods can add categories to the help menu
 Martial Mastery: Insight is cleared when using other martial arts
 [MoM] Change id of Sense Minds sensing effect to use new tileset sprite
 [MoM/XE] Add deactivate_conditions to recurring EoCs that don't need to recur for everyone
+[Xedra Evolved] Add new time related powers for each default dream class
+Aftershock: Replace exosuit forcefield with backpack generator
+[MoM] Add new `u_cancel_activity` to unlocking new power/wakeful rest
 
 
 ## Balance:
@@ -1371,6 +1379,7 @@ fix limb drying rate and related test data
 crash on keybind reset in UILIST
 Fix broken macOS build due removed folder
 Fix an EOC that was looping infinitely and starting more loops as you travel
+Allow attacking with CANNOT_MOVE flag
 
 
 ## Performance:

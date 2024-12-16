@@ -1148,8 +1148,6 @@ class Character : public Creature, public visitable
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
-        // modifies the damage dealt based on the character's enchantments
-        damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const override;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -1399,7 +1397,7 @@ class Character : public Creature, public visitable
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
         /** Returns true if player has a trait, bionic, effect, bodypart, or martial arts buff with a flag */
-        bool has_flag( const json_character_flag &flag ) const;
+        bool has_flag( const json_character_flag &flag ) const override;
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
 
@@ -1574,8 +1572,6 @@ class Character : public Creature, public visitable
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
@@ -3281,7 +3277,7 @@ class Character : public Creature, public visitable
         int run_cost( int base_cost, bool diag = false ) const;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::function<bool( const tripoint & )> get_path_avoid() const override;
+        std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -4174,10 +4170,6 @@ class Character : public Creature, public visitable
     public:
         mutable time_point next_climate_control_check;
         mutable bool last_climate_control_ret;
-
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchant_cache> enchantment_cache;
 
     private:
         /* cached recipes, which are invalidated if the turn changes */

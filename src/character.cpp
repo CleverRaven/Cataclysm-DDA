@@ -401,7 +401,6 @@ static const species_id species_HUMAN( "HUMAN" );
 static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
-static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -1911,7 +1910,7 @@ void Character::dismount()
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
     }
-    if( const std::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -7746,17 +7745,6 @@ void Character::recalculate_enchantment_cache()
     recalc_hp();
 }
 
-double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
-        bool round_output ) const
-{
-    modify += enchantment_cache->get_value_add( value );
-    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
-    if( round_output ) {
-        modify = std::round( modify );
-    }
-    return modify;
-}
-
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
     // >0 check because some mutations provide negative armor
@@ -8190,7 +8178,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     // And slimespawners too
     if( has_trait( trait_SLIMESPAWNER ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
-        if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+        if( monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 ) ) {
             slime->friendly = -1;
             add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
         }
@@ -9983,11 +9971,11 @@ float Character::adjust_for_focus( float amount ) const
     return amount * ( effective_focus / 100.0f );
 }
 
-std::function<bool( const tripoint & )> Character::get_path_avoid() const
+std::function<bool( const tripoint_bub_ms & )> Character::get_path_avoid() const
 {
     // TODO: Add known traps in a way that doesn't destroy performance
 
-    return [this]( const tripoint & p ) {
+    return [this]( const tripoint_bub_ms & p ) {
         Creature *critter = get_creature_tracker().creature_at( p, true );
         return critter && critter->is_npc() && this->sees( *critter );
     };
@@ -10597,7 +10585,7 @@ void Character::echo_pulse()
             }
             // It's not moving. Must be an obstacle
             if( critter->has_flag( mon_flag_IMMOBILE ) ||
-                critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+                critter->has_flag( json_flag_CANNOT_MOVE ) ) {
                 echo_string = _( "click." );
             }
             sounds::sound( origin, echo_volume, sounds::sound_t::sensory, _( echo_string ), false,
@@ -10954,7 +10942,7 @@ void Character::process_one_effect( effect &it, bool is_new )
 void Character::process_effects()
 {
     //Special Removals
-    if( has_effect( effect_darkness ) && g->is_in_sunlight( pos() ) ) {
+    if( has_effect( effect_darkness ) && g->is_in_sunlight( pos_bub() ) ) {
         remove_effect( effect_darkness );
     }
     if( has_trait( trait_M_IMMUNE ) && has_effect( effect_fungus ) ) {
@@ -11307,9 +11295,6 @@ bool Character::sees( const Creature &critter ) const
     const int dist = rl_dist( pos_bub(), critter.pos_bub() );
     if( std::abs( pos_bub().z() - critter.pos_bub().z() ) > fov_3d_z_range ) {
         return false;
-    }
-    if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
-        return true;
     }
     if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
         return true;
@@ -12225,7 +12210,7 @@ void Character::recalc_speed_bonus()
     // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
     if( g != nullptr ) {
-        if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
+        if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos_bub() ) ) {
             //FIXME get trait name directly
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ), _( "Sunlight Dependent" ) );
         }

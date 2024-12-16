@@ -4799,6 +4799,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     }
     const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool store_in_lore = jo.get_bool( "store_in_lore", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
@@ -4818,13 +4819,13 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
         type_string.str_val = "neutral";
     }
     return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
-                     popup_w_interrupt_query_msg, popup_flag, interrupt_type, global, is_npc]
+                     popup_w_interrupt_query_msg, popup_flag, interrupt_type, global, store_in_lore, is_npc]
     ( dialogue const & d ) {
-        Character const *target;
+        Character *target;
         if( global ) {
             target = &get_player_character();
         } else {
-            target = d.actor( is_npc )->get_const_character();
+            target = d.actor( is_npc )->get_character();
         }
         if( !target || target->is_npc() ) {
             return;
@@ -4854,19 +4855,30 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             debugmsg( "Invalid message type." );
         }
         std::string translated_message;
+        std::string sid;
         if( snippet ) {
             if( same_snippet ) {
-                talker *target = d.actor( !is_npc );
-                std::string sid = target->get_value( snip_id.evaluate( d ) + "_snippet_id" );
+                talker *target_talker = d.actor( !is_npc );
+                sid = target_talker->get_value( snip_id.evaluate( d ) + "_snippet_id" );
                 if( sid.empty() ) {
                     sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
-                    target->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
+                    target_talker->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
+                    if( store_in_lore ) {
+                        target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    }
                 }
                 translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                         translation() ).translated() );
             } else {
-                translated_message = SNIPPET.expand( SNIPPET.random_from_category( snip_id.evaluate( d ) ).value_or(
-                        translation() ).translated() );
+                if( store_in_lore ) {
+                    sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
+                    target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                            translation() ).translated() );
+                } else {
+                    translated_message = SNIPPET.expand( SNIPPET.random_from_category( snip_id.evaluate( d ) ).value_or(
+                            translation() ).translated() );
+                }
             }
         } else {
             translated_message = message.evaluate( d );
@@ -6698,7 +6710,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
-            tripoint spawn_point;
+            tripoint_bub_ms spawn_point;
             if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
@@ -6707,7 +6719,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     target_monster = *copy->as_monster();
                 }
             }
-            if( g->find_nearby_spawn_point( target_pos.raw(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
@@ -6728,7 +6740,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
             }
         }
         for( int i = 0; i < real_count; i++ ) {
-            tripoint spawn_point;
+            tripoint_bub_ms spawn_point;
             if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
@@ -6737,7 +6749,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     target_monster = *copy->as_monster();
                 }
             }
-            if( g->find_nearby_spawn_point( target_pos.raw(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 if( spawned ) {
@@ -6833,8 +6845,8 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < real_count; i++ ) {
-            tripoint spawn_point;
-            if( g->find_nearby_spawn_point( target_pos.raw(), min_radius,
+            tripoint_bub_ms spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
@@ -6853,8 +6865,8 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         }
         cur_traits.emplace_back( trait_HALLUCINATION );
         for( int i = 0; i < hallucination_count; i++ ) {
-            tripoint spawn_point;
-            if( g->find_nearby_spawn_point( target_pos.raw(), min_radius,
+            tripoint_bub_ms spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {

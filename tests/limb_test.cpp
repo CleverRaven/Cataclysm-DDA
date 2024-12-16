@@ -172,11 +172,9 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     const weather_manager &weather = get_weather();
     w_point &weather_point = *weather.weather_precise;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
-    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                weather_point.temperature );
+    restore_on_out_of_scope restore_temp( weather_point.temperature );
     weather_point.temperature = units::from_fahrenheit( 65 );
-    restore_on_out_of_scope<std::optional<double>> restore_humidity(
-                weather_point.humidity );
+    restore_on_out_of_scope restore_humidity( weather_point.humidity );
     weather_point.humidity = 66.0f;
 
     CAPTURE( weather.weather_id.c_str() );

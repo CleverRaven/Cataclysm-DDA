@@ -2112,5 +2112,32 @@
     "name": { "str": "Scroll of Goodberry", "str_pl": "Scrolls of Goodberry" },
     "description": "Transform a set of berries into a set of even better berries that keep you full and heal your wounds.  Delicious and nutritious.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_goodberry" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_do_psionic_damage_to_head",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Mind Crush", "str_pl": "Scrolls of Mind Crush" },
+    "description": "Use your own spirit to attack the target's spirit.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_do_psionic_damage_to_head" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_permanent_light",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Imperishable Light", "str_pl": "Scrolls of Imperishable Light" },
+    "description": "Create a permanent glowing orb of light in the air.  Well, it will take a few years to see if it's really permanent; hopefully you'll live to know the answer.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_permanent_light" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_get_more_blood",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Carmine Infusion", "str_pl": "Scrolls of Carmine Infusion" },
+    "description": "Using water as a medium, restore some of your lost blood.  Be more careful where you put that blood next time.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_get_more_blood" ] }
   }
 ]

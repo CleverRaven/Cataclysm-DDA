@@ -12,7 +12,7 @@
     ],
     "weight": "2630 g",
     "longest_side": "50 cm",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "yellow",
     "symbol": "]",
     "material": [ "glass" ],

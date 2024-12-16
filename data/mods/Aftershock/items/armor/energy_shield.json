@@ -77,9 +77,8 @@
             "variables": {
               "transform_target": "afs_backpack_shieldgen_on",
               "shield_max_hp": "600",
-              "shield_regen": "1",
+              "shield_regen": "2",
               "shield_regen_rate": "1",
-              "bionic": "0",
               "turn_cost": "1",
               "success_message": "a",
               "failure_message": "b"
@@ -103,9 +102,11 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "SHD-1k Riemann Shield Generator (active)", "str_pl": "SHD-1k Riemann Shield Generators (active)" },
     "copy-from": "afs_backpack_shieldgen",
-    "description": "A backpack mounted shield generator for infantry use, capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consumption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",
-    "power_draw": "100000 mW",
+    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to withstand prolonged assault from anti-vehicle weaponry.",
+    "//": "A hundred watts isnt much IRL, but this is powered with laser magazines, so theres an extra layer of abstraction here.",
+    "power_draw": "1 kW",
     "revert_to": "afs_backpack_shieldgen",
+    "charges_per_use": 0,
     "extend": { "flags": [ "SHIELD_GENERATOR" ] },
     "use_action": {
       "type": "effect_on_conditions",
@@ -151,7 +152,7 @@
     "type": "effect_on_condition",
     "effect": [
       {
-        "if": "has_ammo",
+        "if": { "and": [ { "not": { "u_has_worn_with_flag": "ENERGY_SHIELD" } }, "has_ammo" ] },
         "then": [
           { "turn_cost": { "context_val": "turn_cost" } },
           { "u_cast_spell": { "id": "spawn_shield", "hit_self": true } },
@@ -160,11 +161,6 @@
           { "math": [ "_shield_uid = rand(1200)" ] },
           { "math": [ "n_shield_gen_uid = _shield_uid" ] },
           {
-            "if": { "math": [ "_is_bionic" ] },
-            "then": [ { "math": [ "u_shield_power_ratio = u_val('power_percentage')" ] } ],
-            "else": [ { "math": [ "u_shield_power_ratio = n_val('power_percentage')" ] } ]
-          },
-          {
             "u_run_inv_eocs": "all",
             "search_data": [ { "id": [ "afs_energy_shield" ] } ],
             "true_eocs": [
@@ -172,6 +168,7 @@
                 "id": "_SHIELD_SETUP",
                 "effect": [
                   { "math": [ "n_shield_uid = _shield_uid" ] },
+                  { "math": [ "n_shield_is_bionic = 0" ] },
                   { "math": [ "n_shield_turn = 0" ] },
                   { "math": [ "n_SHIELD_REGEN = 0" ] },
                   { "math": [ "n_SHIELD_REGEN_RATE = 0" ] },
@@ -197,14 +194,21 @@
       { "math": [ "_shield_uid = n_shield_uid" ] },
       { "math": [ "u_shield_ratio = n_ENERGY_SHIELD_HP/n_ENERGY_SHIELD_MAX_HP*100" ] },
       {
-        "//": "We check if the shield generator that made this shield is still active.",
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "worn_only": true, "flags": [ "SHIELD_GENERATOR" ] } ],
-        "true_eocs": [
+        "//": "If the shield is bionic, we check if the bionic is still active.  Else we proceed to check for a shield generator item.",
+        "if": { "and": [ { "math": [ "n_shield_is_bionic", "==", "1" ] }, { "u_has_flag": "BIO_SHIELD_ACTIVE" } ] },
+        "then": [ { "math": [ "u_proceed_shield = 1" ] } ],
+        "else": [
           {
-            "id": "_afs_actually_do_shield",
-            "condition": { "math": [ "_shield_uid", "==", "n_shield_gen_uid" ] },
-            "effect": [ { "math": [ "u_proceed_shield = 1" ] } ]
+            "//": "We check if the shield generator that made this shield is still active.",
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "worn_only": true, "flags": [ "SHIELD_GENERATOR" ] } ],
+            "true_eocs": [
+              {
+                "id": "_afs_actually_do_shield",
+                "condition": { "math": [ "_shield_uid", "==", "n_shield_gen_uid" ] },
+                "effect": [ { "math": [ "u_proceed_shield = 1" ] } ]
+              }
+            ]
           }
         ]
       },

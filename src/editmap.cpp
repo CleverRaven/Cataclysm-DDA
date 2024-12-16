@@ -347,7 +347,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( player_character.view_offset );
+    restore_on_out_of_scope view_offset_prev( player_character.view_offset );
     target = player_character.pos_bub() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -381,8 +381,8 @@ std::optional<tripoint_bub_ms> editmap::edit()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     creature_tracker &creatures = get_creature_tracker();
     do {
@@ -1129,8 +1129,8 @@ void editmap::edit_feature()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     blink = true;
     bool quit = false;
@@ -1250,8 +1250,8 @@ void editmap::edit_fld()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     blink = true;
@@ -1415,8 +1415,8 @@ void editmap::edit_itm()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
 
@@ -1700,8 +1700,8 @@ int editmap::select_shape( shapetype shape, int mode )
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     do {
         if( moveall ) {
@@ -1745,8 +1745,8 @@ int editmap::select_shape( shapetype shape, int mode )
                 on_out_of_scope invalidate_current_ui_2( [this]() {
                     do_ui_invalidation();
                 } );
-                restore_on_out_of_scope<std::string> info_txt_prev_2( info_txt_curr );
-                restore_on_out_of_scope<std::string> info_title_prev_2( info_title_curr );
+                restore_on_out_of_scope info_txt_prev_2( info_txt_curr );
+                restore_on_out_of_scope info_title_prev_2( info_title_curr );
 
                 do {
                     info_txt_curr.clear();
@@ -1855,9 +1855,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<tinymap *> tinymap_ptr_prev( tmpmap_ptr );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope tinymap_ptr_prev( tmpmap_ptr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     int lastsel = gmenu.selected;
@@ -2063,8 +2063,8 @@ void editmap::mapgen_retarget()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     blink = true;
     do {
@@ -2130,8 +2130,8 @@ void editmap::edit_mapgen()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     do {

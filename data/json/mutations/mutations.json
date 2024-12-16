@@ -2903,8 +2903,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.4 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.4 },
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
@@ -4920,7 +4920,18 @@
     "active": true,
     "starts_active": true,
     "restricts_gear": [ "head_crown" ],
-    "allow_soft_gear": true
+    "allow_soft_gear": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "distance": 3,
+            "descriptions": [ { "id": "antennae_sense", "symbol": "?", "color": "c_white", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -7162,8 +7173,8 @@
     "category": [ "BIRD", "SLIME", "ELFA" ],
     "enchantments": [
       {
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
           { "value": "CARRY_WEIGHT", "multiply": -0.4 }
@@ -7888,6 +7899,7 @@
     "types": [ "DIET" ],
     "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
+    "flags": [ "CARNIVORE_DIET" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {

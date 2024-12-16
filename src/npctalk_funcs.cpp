@@ -231,7 +231,7 @@ void talk_function::buy_cow( npc &p )
 
 void spawn_animal( npc &p, const mtype_id &mon )
 {
-    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
+    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos_bub(), 1 ) ) {
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {

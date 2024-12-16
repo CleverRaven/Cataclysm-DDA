@@ -570,13 +570,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": -0.5 },
-          { "value": "ARMOR_BASH", "add": 15 },
-          { "value": "ARMOR_STAB", "add": 15 },
-          { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_BULLET", "add": 50 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": 15 },
+          { "type": "stab", "add": 15 },
+          { "type": "cut", "add": 15 },
+          { "type": "bullet", "add": 50 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": -0.5 } ]
       }
     ]
   },
@@ -591,12 +591,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "stab", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "cut", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "bullet", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ],
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } } ]
       }
     ]
   },

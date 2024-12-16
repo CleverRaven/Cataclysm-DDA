@@ -166,7 +166,8 @@ class monster : public Creature
         // // Returns true if f is set (see mtype.h)
         bool has_flag( const mon_flag_id &f ) const final;
         // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
-        bool has_flag( flag_id f ) const;
+        using Creature::has_flag;
+        bool has_flag( const flag_id &f ) const override;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
         bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
@@ -268,10 +269,11 @@ class monster : public Creature
         bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
 
         tripoint scent_move();
-        int calc_movecost( const tripoint &f, const tripoint &t ) const;
+        int calc_movecost( const tripoint &f, const tripoint &t, bool ignore_fields = false ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
+        bool check_immunity_data( const field_immunity_data &ft ) const override;
 
         /**
          * Attempt to move to p.
@@ -587,8 +589,6 @@ class monster : public Creature
 
         std::optional<time_point> lastseen_turn;
 
-        pimpl<enchant_cache> enchantment_cache;
-
         // Stair data.
         int staircount = 0;
 
@@ -620,9 +620,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::function<bool( const tripoint & )> get_path_avoid() const override;
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
+        std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -643,7 +641,7 @@ class monster : public Creature
         time_point stomach_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
-        std::vector<tripoint> path;
+        std::vector<tripoint_bub_ms> path;
 
         // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
         time_point pathfinding_cd = calendar::turn;

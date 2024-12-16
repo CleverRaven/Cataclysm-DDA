@@ -751,7 +751,6 @@
       },
       "river": { "chance": 1, "extras": { "mx_null": 66, "mx_riverside_boat": 1, "mx_reed": 33 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
-      "sewer": { "chance": 80, "extras": { "mx_null": 100 } },
       "agricultural": {
         "chance": 38,
         "extras": {

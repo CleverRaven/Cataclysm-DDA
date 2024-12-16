@@ -509,11 +509,6 @@ bool Character::melee_attack( Creature &t, bool allow_special )
 
 damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
 {
-    return dam;
-}
-
-damage_instance Character::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
-{
     damage_instance modified;
 
     std::vector<damage_type_id> types_used;
@@ -529,9 +524,12 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
             continue;
         }
 
-        modified.add_damage( dt.id, enchantment_cache->modify_melee_damage( dt.id, 0.0f ) );
-        modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
-                             0.0f ) );
+        double dmg_mod = enchantment_cache->modify_melee_damage( dt.id, 0.0f );
+        if( dmg_mod != 0 ) {
+            modified.add_damage( dt.id, dmg_mod );
+            modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
+                                 0.0f ) );
+        }
     }
 
     return modified;
@@ -699,8 +697,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-            !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) &&
-               t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+            !( t.has_flag( json_flag_CANNOT_MOVE ) &&
+               t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
         }
 
@@ -881,8 +879,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
             if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
-                !( t.has_effect_with_flag( json_flag_CANNOT_MOVE ) &&
-                   t.has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
+                !( t.has_flag( json_flag_CANNOT_MOVE ) &&
+                   t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
@@ -1788,7 +1786,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     }
 
     if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
-                                    t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
+                                    t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint b = t.pos();
         point new_;
 
@@ -1808,14 +1806,14 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
             new_.y = b.y;
         }
 
-        const tripoint &dest = tripoint( new_, b.z );
+        const tripoint_bub_ms &dest{ new_.x, new_.y, b.z };
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
     }
     map &here = get_map();
     if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
-                                       t.has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
+                                       t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
@@ -1838,7 +1836,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
             // Check if it's possible to move to the new tile
             bool move_issue =
-                g->is_dangerous_tile( prev_pos.raw() ) || // Tile contains fire, etc
+                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle

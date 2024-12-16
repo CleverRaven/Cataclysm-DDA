@@ -902,7 +902,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    if( has_flag( mon_flag_IMMOBILE ) || has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
         // miss a smaller target, especially when wielding a
@@ -1366,7 +1366,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam, const weakpoint_attack &attack )
 {
-    if( is_dead_state() || has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+    if( is_dead_state() || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
     }
     int total_damage = 0;
@@ -2035,7 +2035,7 @@ void Creature::process_effects()
     for( auto &elem : *effects ) {
         for( auto &_it : elem.second ) {
             // Do not freeze the effect with the FREEZE_EFFECTS flag.
-            if( has_effect_with_flag( json_flag_FREEZE_EFFECTS ) &&
+            if( has_flag( json_flag_FREEZE_EFFECTS ) &&
                 !_it.second.has_flag( json_flag_FREEZE_EFFECTS ) ) {
                 continue;
             }
@@ -3357,6 +3357,38 @@ void Creature::knock_back_from( const tripoint &p )
     }
 
     knock_back_to( to );
+}
+
+double Creature::calculate_by_enchantment( double modify, enchant_vals::mod value,
+        bool round_output ) const
+{
+    modify += enchantment_cache->get_value_add( value );
+    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
+    if( round_output ) {
+        modify = std::round( modify );
+    }
+    return modify;
+}
+
+void Creature::adjust_taken_damage_by_enchantments( damage_unit &du ) const
+{
+    //If we're not dealing any damage of the given type, don't even bother.
+    if( du.amount < 0.1f ) {
+        return;
+    }
+
+    double total = enchantment_cache->modify_damage_units_by_armor_protection( du.type, du.amount );
+    if( !du.type->no_resist ) {
+        total = calculate_by_enchantment( total, enchant_vals::mod::ARMOR_ALL );
+    }
+
+    du.amount = std::max( 0.0, total );
+}
+
+void Creature::adjust_taken_damage_by_enchantments_post_absorbed( damage_unit &du ) const
+{
+    du.amount = std::max( 0.0, enchantment_cache->modify_damage_units_by_extra_damage( du.type,
+                          du.amount ) );
 }
 
 void Creature::add_msg_if_player( const translation &msg ) const

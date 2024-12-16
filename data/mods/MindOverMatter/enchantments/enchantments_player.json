@@ -91,7 +91,7 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "hit_you_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 2 } ],
-    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('electrokinetic_melee_attacks') * -1" ] } } ]
+    "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level('electrokinetic_melee_attacks') * -1" ] } } ]
   },
   {
     "id": "electrokin_zap_attack",
@@ -129,6 +129,24 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "emitter": "emit_pyrokin_cloak",
+    "incoming_damage_mod": [
+      {
+        "type": "heat",
+        "multiply": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
+      },
+      {
+        "type": "cold",
+        "multiply": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
+      }
+    ],
     "values": [
       {
         "value": "CLIMATE_CONTROL_CHILL",
@@ -143,22 +161,6 @@
         "add": {
           "math": [
             "( ( u_spell_level('pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
-          ]
-        }
-      },
-      {
-        "value": "ARMOR_HEAT",
-        "add": {
-          "math": [
-            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
-          ]
-        }
-      },
-      {
-        "value": "ARMOR_COLD",
-        "add": {
-          "math": [
-            "( ( u_spell_level('pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
           ]
         }
       }
@@ -268,7 +270,7 @@
     "id": "enchant_electrokin_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "ARMOR_ELEC", "add": -5 } ],
+    "incoming_damage_mod": [ { "type": "electric", "add": -5 } ],
     "hit_me_effect": [ { "id": "electro_potion_attacked", "hit_self": false } ]
   },
   {
@@ -297,7 +299,7 @@
     "id": "enchant_pyrokin_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "ARMOR_HEAT", "add": -50 } ],
+    "incoming_damage_mod": [ { "type": "heat", "add": -50 } ],
     "hit_me_effect": [ { "id": "pyro_aura_attacked", "hit_self": false } ]
   },
   {

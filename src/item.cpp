@@ -187,6 +187,7 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
@@ -216,7 +217,6 @@ static const species_id species_ROBOT( "ROBOT" );
 static const sub_bodypart_str_id sub_body_part_torso_lower( "torso_lower" );
 static const sub_bodypart_str_id sub_body_part_torso_upper( "torso_upper" );
 
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
@@ -2756,7 +2756,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            std::abs( static_cast<int>( food_item->count() ) * batch ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && player_character.has_trait( trait_CARNIVORE ) ) ) ) {
+        ( debug || ( g != nullptr && player_character.has_flag( json_flag_CARNIVORE_DIET ) ) ) ) {
         info.emplace_back( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() );
     }
 
@@ -7206,7 +7206,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
-    ret *= ret_mul;
+    // prevent units::mass_max * 1.0, which results in -units::mass_max
+    if( ret_mul != 1 ) {
+        ret *= ret_mul;
+    }
 
     // if it has additional pockets include the mass of those
     if( contents.has_additional_pockets() ) {
@@ -10152,33 +10155,6 @@ std::vector<enchantment> item::get_defined_enchantments() const
     return type->relic_data->get_defined_enchantments();
 }
 
-double item::calculate_by_enchantment( const Character &owner, double modify,
-                                       enchant_vals::mod value, bool round_value ) const
-{
-    double add_value = 0.0;
-    double mult_value = 1.0;
-    for( const enchant_cache &ench : get_proc_enchantments() ) {
-        if( ench.is_active( owner, *this ) ) {
-            add_value += ench.get_value_add( value );
-            mult_value += ench.get_value_multiply( value );
-        }
-    }
-    if( type->relic_data ) {
-        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
-            if( ench.is_active( owner, *this ) ) {
-                add_value += ench.get_value_add( value, owner );
-                mult_value += ench.get_value_multiply( value, owner );
-            }
-        }
-    }
-    modify += add_value;
-    modify *= mult_value;
-    if( round_value ) {
-        modify = std::round( modify );
-    }
-    return modify;
-}
-
 double item::calculate_by_enchantment_wield( const Character &owner, double modify,
         enchant_vals::mod value,
         bool round_value ) const
@@ -12967,8 +12943,8 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
         units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            temp_mod = get_heat_radiation( pos.raw() );
-            temp_mod += get_convection_temperature( pos.raw() );
+            temp_mod = get_heat_radiation( pos );
+            temp_mod += get_convection_temperature( pos );
             temp_mod += here.get_temperature_mod( pos );
         } else {
             temp_mod = units::from_kelvin_delta( 0 );
@@ -13361,7 +13337,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
             here.trap_set( pos, trap_id( "tr_dormant_corpse" ) );
         } else if( trap_here->loadid != trap_id( "tr_dormant_corpse" ) ) {
             // if there is a trap, but it isn't the right one, we need to revive the zombie manually.
-            return g->revive_corpse( pos.raw(), *this, 3 );
+            return g->revive_corpse( pos, *this, 3 );
         }
         return false;
     }
@@ -13377,7 +13353,7 @@ bool item::process_corpse( map &here, Character *carrier, const tripoint_bub_ms 
         return false;
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt &&
-        g->revive_corpse( pos.raw(), *this ) ) {
+        g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( corpse->in_species( species_ROBOT ) ) {
                 add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
