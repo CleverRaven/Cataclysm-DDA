@@ -336,5 +336,17 @@
         }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xedra_frozen_person_dead",
+    "name": "unmoving figure",
+    "looks_like": "f_statue",
+    "description": "A person stands before you, completely motionless in spite of the horrific wound marring their body.  Every part of their figure is leeched of color, and you are completely incapable of affecting them in any way.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1
   }
 ]
