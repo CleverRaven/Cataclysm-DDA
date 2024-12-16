@@ -1466,7 +1466,7 @@
     "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "SILENT", "VERBAL" ],
     "valid_targets": [ "self" ],
     "spell_class": "DRUID",
-    "difficulty": 10,
+    "difficulty": 12,
     "max_level": 20,
     "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_TREE_AWAKENING",
