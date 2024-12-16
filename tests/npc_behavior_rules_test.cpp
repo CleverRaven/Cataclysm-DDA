@@ -231,22 +231,17 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
                             car_center_pos, 0_degrees, 0, 0 );
 
     // vehicle is a 5x5 grid, car_door_pos is the only door/exit
-    std::vector<vehicle_part *> parts_at_target = test_vehicle->get_parts_at(
+    std::vector<vehicle_part *> door_parts_at_target = test_vehicle->get_parts_at(
                 car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
-    REQUIRE( !parts_at_target.empty() );
-    vehicle_part *door = parts_at_target.front();
+    REQUIRE( !door_parts_at_target.empty() );
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
-    const int door_index = test_vehicle->index_of_part( door );
-    for( vehicle_part *part_at_door_loc : test_vehicle->get_parts_at( car_door_pos, "",
-            part_status_flag::any ) ) {
-        UNSCOPED_INFO( part_at_door_loc->name() );
-    }
-    const int door_lock_index = test_vehicle->next_part_to_lock( door_index );
-    REQUIRE( door_lock_index != -1 );
-    vehicle_part &door_lock = test_vehicle->part( door_lock_index );
-    door_lock.locked = true;
-    REQUIRE( ( door_lock.is_available() && door_lock.locked ) );
+    std::vector<vehicle_part *> door_lock_parts_at_target = test_vehicle->get_parts_at(
+                car_door_pos, "DOOR_LOCKING", part_status_flag::available );
+    REQUIRE( !door_lock_parts_at_target.empty() );
+    vehicle_part *door_lock = door_lock_parts_at_target.front();
+    door_lock->locked = true;
+    REQUIRE( ( door_lock->is_available() && door_lock->locked ) );
 
 
     test_subject->setpos( car_door_unlock_pos );
