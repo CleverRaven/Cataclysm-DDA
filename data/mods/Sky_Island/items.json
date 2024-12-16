@@ -330,7 +330,7 @@
     "material": [ "alien_resin" ],
     "symbol": "A",
     "color": "pink"
-  }
+  },
   {
     "id": "warp_grassbag",
     "type": "AMMO",
