@@ -134,7 +134,18 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape.",
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } },
+          { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_spell_level('dark_sight') >= 4" ] } ] },
+        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "u_spell_level('dark_sight') / 4" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -142,11 +153,82 @@
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],
     "max_intensity": 4,
+    "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
+    "remove_message": "The ghostly arms fade away.",
+    "show_in_info": true,
+    "//": "FIXME--top enchant is due to bug #78597",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-10 + (u_ethereal_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')<= 1" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-30 + (u_ethereal_grasp_affected_level * -4) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 2" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-20 + (u_ethereal_grasp_affected_level * -3) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 3" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-10 + (u_ethereal_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 4" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_ethereal_grasp_affected_level * -1) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')>= 5" ] }, { "math": [ "u_ethereal_grasp_affected_level >= 15" ] } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + clamp( (u_ethereal_grasp_affected_level - 15), 0, -5) )* u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ethereal_grasp_monster",
+    "name": [ "Ethereal Hold" ],
+    "desc": [ "Ghostly arms are trying to hold you in place!" ],
+    "max_intensity": 4,
     "int_add_val": 1,
     "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
     "remove_message": "The ghostly arms fade away.",
-    "base_mods": { "speed_mod": [ -40 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "enchantments": [
+      { "condition": { "math": [ "u_val('size')== 1" ] }, "values": [ { "value": "SPEED", "add": -60 } ] },
+      { "condition": { "math": [ "u_val('size')== 2" ] }, "values": [ { "value": "SPEED", "add": -40 } ] },
+      { "condition": { "math": [ "u_val('size')== 3" ] }, "values": [ { "value": "SPEED", "add": -30 } ] },
+      { "condition": { "math": [ "u_val('size')== 4" ] }, "values": [ { "value": "SPEED", "add": -15 } ] },
+      { "condition": { "math": [ "u_val('size')== 5" ] }, "values": [ { "value": "SPEED", "add": -5 } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -202,12 +284,85 @@
     "name": [ "Vegetative Grasp" ],
     "desc": [ "Roots and vines entangle your foes." ],
     "max_intensity": 4,
+    "show_in_info": true,
+    "apply_message": "Roots and vines burst from the ground and entangle you!",
+    "remove_message": "The roots and vines wither up and die.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_vegetative_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-20 + (u_vegetative_grasp_affected_level * -4) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-15 + (u_vegetative_grasp_affected_level * -3) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_vegetative_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "( (u_vegetative_grasp_affected_level * -1) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      }
+    ],
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "entangled_monster",
+    "name": [ "Vegetative Grasp" ],
+    "desc": [ "Roots and vines entangle your foes." ],
+    "max_intensity": 4,
     "int_add_val": 1,
     "show_in_info": true,
     "apply_message": "Roots and vines burst from the ground and entangle you!",
     "remove_message": "The roots and vines wither up and die.",
-    "base_mods": { "speed_mod": [ -20 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] },
+    "enchantments": [
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -40 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -30 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -20 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -10 } ]
+      }
+    ],
     "flags": [ "EFFECT_IMPEDING" ]
   },
   {
@@ -219,8 +374,7 @@
     "int_add_val": 1,
     "apply_message": "Roots rip out from the ground and impale your enemies!",
     "remove_message": "The roots wither up and die.",
-    "base_mods": { "speed_mod": [ -30 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": -25 } ] } ]
   },
   {
     "type": "effect_type",
@@ -454,6 +608,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biomancer_aura_caustic",
+    "name": [ "Caustic Aura" ],
+    "desc": [ "An aura of thin acid, swirling around your body ready to corrode your enemies when struck or while striking." ],
+    "rating": "good",
+    "enchantments": [ "ench_aura_caustic" ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_weave",
     "name": [ "Coagulant Weave" ],
     "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
@@ -514,6 +676,31 @@
     "rating": "bad",
     "max_duration": "2 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_earthshaper_petrifying_touch",
+    "name": [ "Petrified" ],
+    "desc": [ "You are made of stone.  Fortunately it's temporary." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -30 },
+          { "type": "stab", "add": -80 },
+          { "type": "cut", "add": -80 },
+          { "type": "bullet", "add": -120 },
+          { "type": "heat", "add": -80 },
+          { "type": "cold", "add": -50 },
+          { "type": "necrotic", "add": -120 },
+          { "type": "poison", "add": -120 },
+          { "type": "gravity", "multiply": -0.5 }
+        ]
+      }
+    ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
   },
   {
     "type": "effect_type",
@@ -712,10 +899,10 @@
       "ELECTRIC_VISION",
       {
         "values": [
-          { "value": "BONUS_BLOCK", "add": 1 },
           { "value": "BONUS_DODGE", "add": 1 },
-          { "value": "DEXTERITY", "add": 2 },
-          { "value": "PERCEPTION", "add": 4 }
+          { "value": "DODGE_CHANCE", "add": { "math": [ "u_spell_level('electric_eye') / 7" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "u_spell_level('electric_eye') / 10" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "u_spell_level('electric_eye') / 5" ] } }
         ]
       }
     ]
@@ -740,7 +927,9 @@
     "remove_message": "Sparks under your skin vanish.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "incoming_damage_mod": [ { "type": "electric", "add": -35 } ] } ]
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level('electric_arts') * -1.5" ] } } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -1246,18 +1435,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_petrified",
-    "name": [ "Petrified" ],
-    "desc": [ "You skin feels like stone.  You can't move." ],
-    "rating": "bad",
-    "apply_message": "Your whole body goes rigid and you can't move a muscle!",
-    "remove_message": "The rigidity fades and you can move again.",
-    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
-    "max_intensity": 1000,
-    "flags": [ "EFFECT_IMPEDING" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_biomancer_hyper_regeneration",
     "name": [ "Rapid Regeneration" ],
     "desc": [ "You are healing unbelievably quickly." ],
@@ -1538,7 +1715,6 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
-      "effect_petrified",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
@@ -1670,7 +1846,7 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
-      "effect_petrified",
+      "effect_earthshaper_petrifying_touch",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
