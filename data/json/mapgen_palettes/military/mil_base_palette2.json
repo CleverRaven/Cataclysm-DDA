@@ -225,7 +225,7 @@
     "terrain": {
       ".": "t_region_groundcover",
       ",": "t_thconc_floor",
-      "'": [ [ "t_region_soil", 2 ], [ "t_region_groundcover", 3 ] ],
+      "'": [ [ "t_region_soil", 4 ], [ "t_region_groundcover", 3 ] ],
       "#": "t_strconc_wall",
       "|": "t_concrete_wall",
       "!": "t_guardrail",
@@ -239,17 +239,20 @@
       "^": "t_bollard",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
+      "≷": "t_ladder_up_down",
       "$": "t_door_metal_locked",
       "+": [ [ "t_door_c", 2 ], [ "t_door_o", 5 ] ],
-      "£": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_o", 3 ] ],
+      "£": [ [ "t_door_metal_pickable", 1 ], [ "t_door_metal_c", 1 ], [ "t_door_metal_o", 3 ] ],
       "§": "t_card_military",
       "1": "t_bulk_tank",
+      "4": "t_gutter_downspout",
       "O": [ [ "t_reinforced_glass_shutter", 3 ], [ "t_reinforced_glass_shutter_open", 1 ] ]
     },
     "furniture": {
       "6": "f_console_broken",
       "h": "f_chair",
       "d": "f_desk",
+      "g": [ [ "f_generator_broken", 3 ], [ "f_active_backup_generator", 1 ] ],
       "v": "f_table",
       "C": "f_filing_cabinet",
       "D": "f_dumpster",
@@ -259,6 +262,7 @@
       "W": "f_warehouse_shelf"
     },
     "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
+    "vehicles": { "P": { "vehicle": "portable_generator", "rotation": 90, "chance": 100, "fuel": 25, "status": 1 } },
     "gaspumps": { "°": { "fuel": "jp8", "amount": [ 2000, 10000 ] } },
     "liquids": {  },
     "toilets": { "t": {  } }
