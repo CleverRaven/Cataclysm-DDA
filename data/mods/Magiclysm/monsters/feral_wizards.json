@@ -1104,7 +1104,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral high technomancer" },
-    "description": "At first seeming like just another feral, a closer look shows the implanted metal amid the flesh, a tell-tale sign of a technomancer.  Their movements are more controlled than most of the other ferals, but they still have bloodshot eyes.",
+    "description": "This feral human has obvious bionic enhancements in what would have been the sign of a powerful technomancer before the Cataclysm.  They move with much more speed and grace than most feral humans you've seen.",
     "symbol": "@",
     "color": "dark_gray",
     "dissect": "dissect_mon_feral_high_technomancer",
