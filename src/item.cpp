@@ -5709,7 +5709,7 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
     const std::vector<std::pair<item const *, int>> counted_contents = get_item_duplicate_counts(
                 all_contents );
     bool contents_header = false;
-    for( const auto content_w_count : counted_contents ) {
+    for( const std::pair<const item *, int> &content_w_count : counted_contents ) {
         const item *contents_item = content_w_count.first;
         int count = content_w_count.second;
         if( !contents_header ) {
