@@ -13638,9 +13638,10 @@ bool game::slip_down( climb_maneuver maneuver, climbing_aid_id aid_id,
         if( slip >= 100 ) {
             add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
         }
-        // Check for traps if climbing UP or DOWN.  Note that ledges (open air) count as traps.
+        // Check for traps and gravity if climbing up or down.
         if( maneuver != climb_maneuver::over_obstacle ) {
             m.creature_on_trap( u );
+            u.gravity_check();
         }
         return true;
     }
