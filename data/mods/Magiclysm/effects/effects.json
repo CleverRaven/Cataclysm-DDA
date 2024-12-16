@@ -315,6 +315,7 @@
     "apply_message": "Your mind accelerates.",
     "remove_message": "Your mind returns to normal speed.",
     "rating": "good",
+    "show_in_info": true,
     "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 30 ] }
   },
   {
