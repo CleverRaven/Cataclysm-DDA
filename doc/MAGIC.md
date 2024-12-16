@@ -619,9 +619,10 @@ See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-
 
 ### Custom Spell Experience Requirements
 
-Spells may have customer formulas for their xp requirements to level by combining the `get_level_formula_id` and `exp_for_level_formula_id` fields.
+Spells may have custom formulas for their xp requirements to level by combining the `get_level_formula_id` and `exp_for_level_formula_id` fields.
 These fields both take the id of a jmath_function that they can use to calculate the xp requirement instead of the default formula.
 The given jmath functions must only have 1 argument (for the spell level or experience) and they should not make any calls to the alpha or beta talkers.  Spell calculations are intended to be character agnostic, and while using functions such as u_skill('DEDUCTION') will not error, it will always be calculated from the player characters data, even if for an npc or other uses of spell xp calculations.
+Also, keep in mind that changing the spell experience requirements of an existing spell will likely do strange things to any characters that already knew the spell before the xp requirements were changed.
 
 Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
 
