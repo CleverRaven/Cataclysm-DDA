@@ -1525,7 +1525,8 @@ tripoint_bub_ms monster::scent_move()
     return random_entry( smoves, next );
 }
 
-int monster::calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t, bool ignore_fields ) const
+int monster::calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                            bool ignore_fields ) const
 {
     int movecost = 0;
 
