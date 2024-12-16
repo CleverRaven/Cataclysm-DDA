@@ -24,7 +24,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `3b57fb2e1ff55613db14d2aaf0a30529289c7050` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
-***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
+***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace or special symbols. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` and `C:/C++Projects/vcpkg` is not.***
 
 In a `cmd.exe` shell:
 ```cmd

@@ -1566,13 +1566,13 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
         !critter->has_flag( mon_flag_IMMOBILE ) &&
-        !critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+        !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
                !critter->has_flag( mon_flag_IMMOBILE ) &&
-               !critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+               !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
