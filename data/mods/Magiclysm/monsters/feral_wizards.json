@@ -996,5 +996,117 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "armor": { "electric": 40 },
     "special_when_hit": [ "ZAPBACK", 100 ]
+  },
+  {
+    "id": "mon_feral_technomancer",
+    "type": "MONSTER",
+    "name": { "str": "feral technomancer" },
+    "description": "At first seeming like just another feral, a closer look shows the implanted metal amid the flesh, a tell-tale sign of a technomancer.  Their movements are more controlled than most of the other ferals, but they still have bloodshot eyes.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "FERAL" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 84,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "yellow",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
+    "dodge": 1,
+    "harvest": "human",
+    "dissect": "dissect_mon_feral_technomancer",
+    "vision_day": 45,
+    "vision_night": 3,
+    "stomach_size": 700,
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_stormshaper_spell_lightning_blast",
+        "cooldown": 8,
+        "move_cost": 100,
+        "range": 9,
+        "accuracy": 4,
+        "damage_max_instance": [ { "damage_type": "electric", "amount": 20 } ],
+        "dodgeable": true,
+        "blockable": false,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
+        "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
+        "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
+        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
+      },
+      {
+        "id": "feral_stormshaper_wall_of_fog",
+        "type": "spell",
+        "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 5 },
+        "cooldown": 20,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s gestures and fog rapidly condenses out of the air!"
+      },
+      {
+        "id": "feral_stormshaper_shocking dash",
+        "type": "spell",
+        "spell_data": { "id": "shocking_dash", "min_level": 5 },
+        "cooldown": 25,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s surges forward in a burst of sparks."
+      },
+      {
+        "id": "feral_stormshaper_blinding_flash",
+        "type": "spell",
+        "spell_data": { "id": "blinding_flash", "min_level": 3 },
+        "cooldown": 45,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s makes a quick gesture and the air erupts into eye-searing light!"
+      },
+      {
+        "id": "feral_stormshaper_summon_stormhammer",
+        "type": "spell",
+        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 5, "hit_self": true },
+        "cooldown": 50,
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+          ]
+        },
+        "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "feral_stormshaper_stormhammer_attack",
+        "cooldown": 2,
+        "move_cost": 100,
+        "accuracy": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
+        "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
+        "hit_dmg_u": "%1$s stormhammers your %2$s!",
+        "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s tries to stormhammers you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to stormhammer <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s stormhammers your %2$s, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s stormhammers <npcname>'s %2$s, but they do no damage."
+      },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
+    "death_drops": "mon_feral_stormshaper_death_drops",
+    "zombify_into": "mon_zombie",
+    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
   }
 ]
