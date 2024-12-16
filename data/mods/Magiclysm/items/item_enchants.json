@@ -104,8 +104,6 @@
     "id": "ench_aura_caustic",
     "has": "WORN",
     "condition": "ALWAYS",
-    "name": { "str": "Caustic Aura" },
-    "description": "A thin shell of acid hangs in the air around you.",
     "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
     "incoming_damage_mod": [
       {

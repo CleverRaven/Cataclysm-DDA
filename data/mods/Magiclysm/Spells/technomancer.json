@@ -741,7 +741,7 @@
     "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CONJURE_UPS_SWITCHER",
+    "effect_str": "EOC_CONJURE_UPS_INITIATE",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "difficulty": 7,

@@ -822,8 +822,8 @@
         "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
         "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
-        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
+        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of spark bolts, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of spark bolts, but they do no damage."
       },
       {
         "id": "feral_stormshaper_wall_of_fog",
