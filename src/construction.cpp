@@ -92,7 +92,6 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
-static const flag_id json_flag_PIT( "PIT" );
 
 static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
 static const furn_str_id furn_f_coffin_o( "f_coffin_o" );
