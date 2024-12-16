@@ -1439,6 +1439,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_druid_shifter_fish_form_cant_move",
+    "//": "Hidden effect, used in an enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_item_protection_water",
     "//": "Hidden effect, used for multiple druid spells",
     "name": [ "" ],

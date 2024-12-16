@@ -356,6 +356,11 @@ bool enchantment::is_monster_relevant() const
         return true;
     }
 
+    // check for hit you / me effects
+    if( !hit_you_effect.empty() || !hit_me_effect.empty() ) {
+        return true;
+    }
+
     if( !damage_values_add.empty() || !damage_values_multiply.empty() ||
         !armor_values_add.empty() || !armor_values_multiply.empty() ) {
         return true;

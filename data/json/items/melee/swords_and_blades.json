@@ -2561,7 +2561,7 @@
     "volume": "3250 ml",
     "longest_side": "140 cm",
     "material": [ "monolith" ],
-    "//": "The stone blade isnt fully solid, and the idea is it gets AOE techniques and reach attacks from that (besides actually being quite long), should normally be inferior DPS wise vs a katana or nodachi.",
+    "//": "The stone blade isn't fully solid, and the idea is it gets AOE techniques and reach attacks from that (besides actually being quite long), should normally be inferior DPS wise vs a katana or nodachi.",
     "flags": [ "SPEAR", "REACH_ATTACK", "UNBREAKABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
