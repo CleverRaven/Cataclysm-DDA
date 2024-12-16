@@ -351,10 +351,6 @@ bool enchantment::is_monster_relevant() const
             return true;
         }
     }
-    // check for hit you / me effects
-    if( hit_you_effect.size() > 0 || hit_me_effect.size() > 0 ) {
-        return true;
-    }
 
     // check for hit you / me effects
     if( !hit_you_effect.empty() || !hit_me_effect.empty() ) {

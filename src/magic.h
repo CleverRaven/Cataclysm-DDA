@@ -385,7 +385,6 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
-
     private:
         // default values
 

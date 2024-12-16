@@ -486,8 +486,6 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
-
-
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
         difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
@@ -1682,7 +1680,6 @@ std::string spell::damage_type_string() const
 static constexpr double a = 6200.0;
 static constexpr double b = 0.146661;
 static constexpr double c = -62.5;
-
 
 int spell::get_level() const
 {

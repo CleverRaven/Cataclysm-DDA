@@ -142,7 +142,6 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     map &here = get_map();
-  
     const std::vector<field_type_id> impassable_field_ids = here.get_impassable_field_type_ids_at( p );
     if( !here.passable_skip_fields( p ) || ( !impassable_field_ids.empty() &&
             !is_immune_fields( impassable_field_ids ) ) ) {
