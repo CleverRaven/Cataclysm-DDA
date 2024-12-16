@@ -1033,7 +1033,7 @@
         {
           "id": "feral_technomancer_summon_mage_blade",
           "type": "spell",
-          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 15, "hit_self": true },
+          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
           "cooldown": 40,
           "condition": {
             "and": [
@@ -1047,7 +1047,7 @@
         {
           "id": "feral_technomancer_summon_mage_armor",
           "type": "spell",
-          "spell_data": { "id": "feral_technomancer_summon_mage_armor_spell", "min_level": 15, "hit_self": true },
+          "spell_data": { "id": "feral_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
           "cooldown": 40,
           "condition": {
             "and": [
@@ -1085,7 +1085,7 @@
         {
           "id": "feral_technomancer_bless",
           "type": "spell",
-          "spell_data": { "id": "feral_technomancer_bless_spell", "min_level": 2 },
+          "spell_data": { "id": "feral_technomancer_bless_spell", "min_level": 2, "hit_self": true },
           "cooldown": 20,
           "condition": {
             "and": [

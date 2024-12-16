@@ -1546,6 +1546,7 @@
     "id": "effect_feral_technomancer_mage_armor",
     "name": [ "Mage Armor" ],
     "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true,
     "enchantments": [
       {
         "incoming_damage_mod": [
@@ -1569,6 +1570,7 @@
     "id": "effect_feral_technomancer_bless",
     "name": [ "Bless" ],
     "desc": [ { "str": "You get bonuses to hit and dodge because monsters don't have stats.", "//~": "NO_I18N" } ],
+    "show_in_info": true,
     "base_mods": { "hit_mod": [ 2 ], "dodge_mod": [ 2 ] }
   },
   {
@@ -1576,6 +1578,7 @@
     "id": "effect_feral_high_technomancer_mage_armor",
     "name": [ "Mage Armor" ],
     "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true,
     "enchantments": [
       {
         "values": [ { "value": "LUMINATION", "add": 15 } ],
@@ -1662,6 +1665,7 @@
       "effect_feral_stormshaper_stormhammer",
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
+      "effect_feral_technomancer_bless",
       "enchant_windrun_monster"
     ]
   },
@@ -1814,6 +1818,7 @@
       "effect_feral_stormshaper_stormhammer",
       "effect_feral_technomancer_mage_blade",
       "effect_feral_technomancer_mage_armor",
+      "effect_feral_technomancer_bless",
       "enchant_windrun_monster"
     ]
   },
