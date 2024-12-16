@@ -819,7 +819,7 @@
     "name": { "str": "Flames of the Apocalypse Target", "//~": "NO_I18N" },
     "description": { "str": "Stop hitting yourself (with the flames of the apocalypse). You should never see this.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "SPLIT_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "VERBAL", "SOMATIC", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "effect_str": "onfire",
     "shape": "blast",
