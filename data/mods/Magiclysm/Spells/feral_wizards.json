@@ -388,7 +388,6 @@
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 2,
-    "damage_increment": 0.15,
     "min_range": 1,
     "max_range": 5,
     "range_increment": 0.25,
