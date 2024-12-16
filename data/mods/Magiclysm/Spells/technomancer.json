@@ -751,9 +751,7 @@
     "duration_increment": 10000,
     "energy_source": "MANA",
     "base_casting_time": 3000,
-    "base_energy_cost": 300,
-    "final_energy_cost": 450,
-    "energy_increment": 7
+    "base_energy_cost": 350
   },
   {
     "type": "effect_on_condition",
@@ -763,17 +761,18 @@
         "run_eocs": "EOC_CONJURE_UPS_REMOVER",
         "time_in_future": { "math": [ "((u_spell_level('technomancer_conjure_ups') * 100 ) + 1000) * summoning_proficiency_modifier()" ] }
       },
-      { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true }
+      { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_BEGIN" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONJURE_UPS_EFFECT_BEGIN",
-    "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
+    "condition": { "u_has_item": "technomancer_summoned_ups" },
     "effect": [
       { "run_eocs": "EOC_CONJURE_UPS_EFFECT_BEGIN", "time_in_future": 60 },
       {
-        "math": [ "u_technomancer_conjure_ups_powering", "=", "( (u_spell_level('technomancer_conjure_ups') / 5) + 1) " ]
+        "math": [ "u_technomancer_conjure_ups_powering", "=", "( (u_spell_level('technomancer_conjure_ups') / 3) + 1) " ]
       },
       { "run_eocs": "EOC_CONJURE_UPS_EFFECT" }
     ]
