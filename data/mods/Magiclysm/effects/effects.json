@@ -1528,6 +1528,67 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_blade",
+    "name": [ { "str": "Wielding Mage Blade", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are a monster wielding a mage blade, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_blade_cooldown",
+    "//": "Longer internal cooldown for feral mage blade",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_armor",
+    "name": [ "Mage Armor" ],
+    "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "cut", "add": -15 },
+          { "type": "bash", "add": -15 },
+          { "type": "stab", "add": -15 },
+          { "type": "bullet", "add": -15 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_armor_cooldown",
+    "//": "Longer internal cooldown for feral mage armor",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_bless",
+    "name": [ "Bless" ],
+    "desc": [ { "str": "You get bonuses to hit and dodge because monsters don't have stats.", "//~": "NO_I18N" } ],
+    "base_mods": { "hit_mod": [ 2 ], "dodge_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_high_technomancer_mage_armor",
+    "name": [ "Mage Armor" ],
+    "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": 15 } ],
+        "incoming_damage_mod": [
+          { "type": "cut", "add": -30 },
+          { "type": "bash", "add": -30 },
+          { "type": "stab", "add": -30 },
+          { "type": "bullet", "add": -30 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1599,6 +1660,8 @@
       "effect_technomancer_gain_electronics_computer",
       "effect_technomancer_pain_ignore",
       "effect_feral_stormshaper_stormhammer",
+      "effect_feral_technomancer_mage_blade",
+      "effect_feral_technomancer_mage_armor",
       "enchant_windrun_monster"
     ]
   },
@@ -1749,6 +1812,8 @@
       "effect_burning_trail",
       "effect_ring_of_flight",
       "effect_feral_stormshaper_stormhammer",
+      "effect_feral_technomancer_mage_blade",
+      "effect_feral_technomancer_mage_armor",
       "enchant_windrun_monster"
     ]
   },
