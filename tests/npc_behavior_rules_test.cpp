@@ -234,6 +234,9 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     std::vector<vehicle_part *> door_parts_at_target = test_vehicle->get_parts_at(
                 car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
     REQUIRE( !door_parts_at_target.empty() );
+    vehicle_part *door = door_parts_at_target.front();
+    // The door must be closed for the lock to be effective.
+    door->open = false;
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
     std::vector<vehicle_part *> door_lock_parts_at_target = test_vehicle->get_parts_at(
@@ -241,6 +244,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     REQUIRE( !door_lock_parts_at_target.empty() );
     vehicle_part *door_lock = door_lock_parts_at_target.front();
     door_lock->locked = true;
+    door_lock->open = false;
     REQUIRE( ( door_lock->is_available() && door_lock->locked ) );
 
 
