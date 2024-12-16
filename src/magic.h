@@ -128,16 +128,6 @@ enum class spell_shape : int {
     num_shapes
 };
 
-enum class xp_formula : int {
-    // e^(level * b) * e^(-c * b) * ( e^(b) - 1 ) per level.  Probably
-    exponential,
-    // a(level) per level
-    linear,
-    // a per level
-    constant,
-    num_formulas
-};
-
 template<>
 struct enum_traits<magic_energy_type> {
     static constexpr magic_energy_type last = magic_energy_type::last;
@@ -156,11 +146,6 @@ struct enum_traits<spell_target> {
 template<>
 struct enum_traits<spell_flag> {
     static constexpr spell_flag last = spell_flag::LAST;
-};
-
-template<>
-struct enum_traits<xp_formula> {
-    static constexpr xp_formula last = xp_formula::num_formulas;
 };
 
 struct fake_spell {
@@ -407,8 +392,9 @@ class spell_type
         double b = 0.146661;
         double c = -62.5;
 
-        // what energy do you use to cast this spell
-        xp_formula experience_formula = xp_formula::exponential;
+        // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
+        std::optional<jmath_func_id> get_level_formula_id;
+        std::optional<jmath_func_id> exp_for_level_formula_id;
 
         // returns the exp required for the given level of the spell.
         int exp_for_level( int level ) const;
@@ -461,7 +447,6 @@ class spell_type
         static const trait_id spell_class_default;
         static const magic_energy_type energy_source_default;
         static const damage_type_id dmg_type_default;
-        static const xp_formula experience_formula_default;
         static const int difficulty_default;
         static const int multiple_projectiles_default;
         static const int max_level_default;

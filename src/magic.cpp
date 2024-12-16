@@ -38,6 +38,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "math_parser_jmath.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -194,17 +195,6 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
     }
     cata_fatal( "Invalid magic_energy_type" );
 }
-template<>
-std::string enum_to_string<xp_formula>( xp_formula data )
-{
-    switch( data ) {
-    case xp_formula::exponential: return "exponential";
-    case xp_formula::linear: return "linear";
-    case xp_formula::constant: return "constant";
-    case xp_formula::num_formulas: break;
-    }
-    cata_fatal( "Invalid xp_formula" );
-}
 // *INDENT-ON*
 
 } // namespace io
@@ -261,7 +251,6 @@ const float spell_type::energy_increment_default = 0.0f;
 const trait_id spell_type::spell_class_default = trait_NONE;
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
 const damage_type_id spell_type::dmg_type_default = damage_type_id::NULL_ID();
-const xp_formula spell_type::experience_formula_default = xp_formula::exponential;
 const int spell_type::multiple_projectiles_default = 0;
 const int spell_type::difficulty_default = 0;
 const int spell_type::max_level_default = 0;
@@ -498,10 +487,8 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
-    optional( jo, was_loaded, "experience_formula", experience_formula, experience_formula_default );
-    optional( jo, was_loaded, "experience_formula_constant_a", a, 6200.0 );
-    optional( jo, was_loaded, "experience_formula_constant_b", b, 0.146661 );
-    optional( jo, was_loaded, "experience_formula_constant_c", c, -62.5 );
+    optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
+    optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
         difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
@@ -629,8 +616,6 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "spell_class", spell_class, spell_class_default );
     json.member( "energy_source", io::enum_to_string( energy_source ),
                  io::enum_to_string( energy_source_default ) );
-    json.member( "experience_formula", io::enum_to_string( experience_formula ),
-                 io::enum_to_string( experience_formula_default ) );
     json.member( "damage_type", dmg_type, dmg_type_default );
     json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
     json.member( "multiple_projectiles", static_cast<int>( multiple_projectiles.min.dbl_val.value() ),
@@ -1698,13 +1683,12 @@ int spell::get_level() const
 int spell_type::get_level( int experience ) const
 {
     // you aren't at the next level unless you have the requisite xp, so floor
-    if( experience_formula == xp_formula::constant ) {
-        return std::max( static_cast<int>( std::floor( experience / a ) ), 0 );
-    } else if ( experience_formula == xp_formula::linear ) {
-        return std::max( static_cast<int>( std::sqrt( ( 2.0 / a ) * experience + 0.25 ) - 0.5 ), 0 );
-    } else {
-        return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
+    if( get_level_formula_id.has_value() ) {
+        return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
+                                               get_talker_for( get_avatar() ), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
     }
+
+    return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
 int spell::get_effective_level() const
@@ -1786,13 +1770,11 @@ int spell_type::exp_for_level( int level ) const
     if( level == 0 ) {
         return 0;
     }
-    if( experience_formula == xp_formula::constant ) {
-        return std::ceil( a * level );
-    } else if( experience_formula == xp_formula::linear ) {
-        return std::ceil( a * 0.5 * level * ( level + 1 ) );
-    } else {
-        return std::ceil( std::exp( ( level - c ) * b ) ) - a;
+    if( exp_for_level_formula_id.has_value() ) {
+        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( get_talker_for( get_avatar() ),
+                          nullptr ), { static_cast<double>( level ) } ) );
     }
+    return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }
 
 int spell::exp_to_next_level() const
