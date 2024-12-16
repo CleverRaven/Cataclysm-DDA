@@ -657,7 +657,7 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_rock_floor",
-    "connect_groups": ["INDOORFLOOR", "ROCKFLOOR"],
+    "connect_groups": [ "INDOORFLOOR", "ROCKFLOOR" ],
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS", "ROAD"],
