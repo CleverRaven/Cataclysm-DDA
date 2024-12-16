@@ -1897,7 +1897,6 @@ static bool consume_med( item &target, Character &you )
         nutrients food_nutrients = you.compute_effective_nutrients( target );
         for( const auto &vitamin : food_nutrients.vitamins() ) {
             std::map<vitamin_id, int> vitamins;
-            const vitamin_type &vitamin_type = vitamin.first->type();
             vitamins[vitamin.first] = vitamin.second;
             you.vitamins_mod( you.effect_vitamin_mod( vitamins ) );
         }
