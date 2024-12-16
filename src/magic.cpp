@@ -1703,7 +1703,7 @@ int spell_type::get_level( int experience ) const
     // you aren't at the next level unless you have the requisite xp, so floor
     if( get_level_formula_id.has_value() ) {
         return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
-                                               get_talker_for( get_avatar() ), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
+                                               std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
     }
 
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
@@ -1789,7 +1789,7 @@ int spell_type::exp_for_level( int level ) const
         return 0;
     }
     if( exp_for_level_formula_id.has_value() ) {
-        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( get_talker_for( get_avatar() ),
+        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
                           nullptr ), { static_cast<double>( level ) } ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;
