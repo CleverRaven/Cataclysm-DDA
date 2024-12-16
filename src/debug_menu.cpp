@@ -1387,9 +1387,7 @@ static void change_spells( Character &character )
             character.magic->get_spellbook().emplace( splt.id, spl );
         }
 
-        // storing the spell to be used instead of getting it twice somehow breaks the debug functionality.
-        int set_to_exp = character.magic->get_spell( splt.id ).exp_for_level( spell_level );
-        character.magic->get_spell( splt.id ).set_exp( set_to_exp );
+        character.magic->get_spell( splt.id ).set_exp( spell::exp_for_level( spell_level ) );
     };
 
     ui_adaptor spellsui;

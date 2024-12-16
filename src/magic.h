@@ -386,18 +386,6 @@ class spell_type
         static void reset_all();
         bool is_valid() const;
 
-        // constants defined below are for the experience formula to be used,
-        // in order for the inverse formula to be equivalent
-        double a = 6200.0;
-        double b = 0.146661;
-        double c = -62.5;
-
-        // Whether to use a formula that results in a linear increase in exp required per level instead of the default exponential formula.
-        bool linear_experience_formula = false;
-        // returns the exp required for the given level of the spell.
-        int exp_for_level( int level ) const;
-        // returns the level of this spell type if the spell has the given experience.
-        int get_level( int experience ) const;
     private:
         // default values
 
@@ -499,7 +487,7 @@ class spell
 
         double bash_scaling( const Creature &caster ) const;
 
-        int exp_for_level( int level ) const;
+        static int exp_for_level( int level );
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent
