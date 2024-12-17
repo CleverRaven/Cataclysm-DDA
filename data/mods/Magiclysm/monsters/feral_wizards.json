@@ -293,7 +293,7 @@
       {
         "id": "feral_druid_veggrasp_spell",
         "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
         "cooldown": 35,
         "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
@@ -372,7 +372,7 @@
       {
         "id": "feral_high_druid_veggrasp_spell",
         "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
         "cooldown": 25,
         "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
@@ -561,7 +561,9 @@
         "effects_require_dmg": false,
         "dodgeable": true,
         "blockable": false,
-        "effects": [ { "id": "effect_petrified", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false } ],
+        "effects": [
+          { "id": "effect_earthshaper_petrifying_touch", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false }
+        ],
         "hit_dmg_u": "%1$s reaches out and touches your %2$s!",
         "hit_dmg_npc": "%1$s reaches out and touches <npcname>'s %2$s!",
         "miss_msg_u": "%1$s reaches out and you narrowly avoid their touch!",
@@ -820,8 +822,8 @@
         "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
         "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
-        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
+        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of spark bolts, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of spark bolts, but they do no damage."
       },
       {
         "id": "feral_stormshaper_wall_of_fog",
