@@ -662,7 +662,7 @@ void sounds::process_sound_markers( Character *you )
         if( you->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( you );
-                guy->handle_sound( sound.category, description, heard_volume, pos.raw() );
+                guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
         }

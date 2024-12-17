@@ -508,7 +508,8 @@ void Character::update_bodytemp()
             0_C_delta;
     const int best_fire = get_best_fire( pos_bub() );
 
-    const units::temperature_delta lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0_C_delta;
+    const units::temperature_delta lying_warmth = use_floor_warmth ? floor_warmth(
+                pos_bub() ) : 0_C_delta;
     const units::temperature water_temperature =
         get_weather().get_cur_weather_gen().get_water_temperature();
 

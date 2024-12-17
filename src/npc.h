@@ -504,7 +504,7 @@ struct npc_follower_rules {
 };
 
 struct dangerous_sound {
-    tripoint abs_pos;
+    tripoint_abs_ms abs_pos;
     sounds::sound_t type = sounds::sound_t::LAST;
     int volume = 0;
 };
@@ -539,7 +539,7 @@ struct npc_short_term_cache {
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
-    tripoint s_abs_pos;
+    tripoint_abs_ms s_abs_pos;
     // number of times we haven't moved when investigating a sound
     int stuck = 0;
     // Position to return to guarding
@@ -558,7 +558,7 @@ struct npc_short_term_cache {
     std::vector<sphere> dangerous_explosives;
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
-    lru_cache<tripoint, int> searched_tiles;
+    lru_cache<tripoint_abs_ms, int> searched_tiles;
     // returns the value of the distance between a friendly creature and the closest enemy to that
     // friendly creature.
     // returns nullopt if not applicable
@@ -955,7 +955,7 @@ class npc : public Character
         void do_npc_read( bool ebook = false );
         void stow_item( item &it );
         bool wield( item &it ) override;
-        void drop( const drop_locations &what, const tripoint &target,
+        void drop( const drop_locations &what, const tripoint_bub_ms &target,
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
@@ -1072,7 +1072,8 @@ class npc : public Character
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint::zero );
+                         const std::string &name = "", int range = -1,
+                         const tripoint_bub_ms &danger_pos = tripoint_bub_ms::zero );
         // return snippet strings by given range
         std::string distance_string( int range ) const;
 
@@ -1080,7 +1081,7 @@ class npc : public Character
         bool complain();
 
         void handle_sound( sounds::sound_t priority, const std::string &description,
-                           int heard_volume, const tripoint &spos );
+                           int heard_volume, const tripoint_bub_ms &spos );
 
         void witness_thievery( item *it ) override;
 
@@ -1088,7 +1089,7 @@ class npc : public Character
          * from one submap to an adjacent submap.  It updates our position (shifting by
          * 12 tiles), as well as our plans.
          */
-        void shift( const point &s );
+        void shift( const point_rel_sm &s );
 
         // Movement; the following are defined in npcmove.cpp
         void move(); // Picks an action & a target and calls execute_action
@@ -1303,7 +1304,7 @@ class npc : public Character
         npc_mission get_previous_mission() const;
         void revert_after_activity();
         // Craft related stuff
-        void do_npc_craft( const std::optional<tripoint> &loc = std::nullopt,
+        void do_npc_craft( const std::optional<tripoint_bub_ms> &loc = std::nullopt,
                            const recipe_id &goto_recipe = recipe_id() );
         item_location get_item_to_craft();
 
@@ -1470,7 +1471,7 @@ class standard_npc : public npc
 {
     public:
         explicit standard_npc( const std::string &name = "",
-                               const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
+                               const tripoint_bub_ms &pos = tripoint_bub_ms( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
                                const std::vector<std::string> &clothing = {},
                                int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };

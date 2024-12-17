@@ -1291,7 +1291,7 @@ void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
             const trap &tr = here.tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
-                player_character.add_known_trap( p.raw(), tr );
+                player_character.add_known_trap( p, tr );
             }
             if( seen && !known ) {
                 // hard to miss!

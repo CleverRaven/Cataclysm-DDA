@@ -1079,7 +1079,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 }
                 item base( vpinfo.base_item );
                 // TODO: fix point types
-                const units::mass max_lift = you.best_nearby_lifting_assist( src_loc.raw() );
+                const units::mass max_lift = you.best_nearby_lifting_assist( src_loc );
                 const bool use_aid = max_lift >= base.weight();
                 const bool use_str = you.can_lift( base );
                 if( !( use_aid || use_str ) ) {
@@ -1125,7 +1125,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const requirement_data &reqs = vpinfo.repair_requirements();
                 // TODO: fix point types
                 const inventory &inv =
-                    you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+                    you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 you.set_value( "veh_index_type", vpinfo.name() );
                 // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
@@ -1289,7 +1289,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             nearest_src_loc = route.back();
         }
         // TODO: fix point types
-        const inventory pre_inv = you.crafting_inventory( nearest_src_loc.raw(), PICKUP_RANGE );
+        const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
@@ -1369,7 +1369,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( p ) {
             item_location to_craft = p->get_item_to_craft();
             if( to_craft && to_craft->is_craft() ) {
-                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
+                const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
                 const recipe &r = to_craft->get_making();
                 std::vector<std::vector<item_comp>> item_comp_vector =
                                                      to_craft->get_continue_reqs().get_components();
@@ -1388,7 +1388,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
-        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
+        const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -2656,7 +2656,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
-        if( !dark_capable && you.fine_detail_vision_mod( set_pt.raw() ) > 4.0 ) {
+        if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
             continue;
         }
@@ -3311,7 +3311,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             activity_to_restore != ACT_MULTIPLE_MOP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
-            you.fine_detail_vision_mod( you.pos() ) > 4.0 ) {
+            you.fine_detail_vision_mod( you.pos_bub() ) > 4.0 ) {
             you.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return false;
         }
