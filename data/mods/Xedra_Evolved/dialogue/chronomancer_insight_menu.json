@@ -453,7 +453,7 @@
         "topic": "TALK_CHRONOMANCER_INSIGHT_MENU_MAIN",
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('xedra_chronomancer_insight') > u_chronomancer_menu_insight_cost" ] },
+            { "math": [ "u_vitamin('xedra_chronomancer_insight') >= u_chronomancer_menu_insight_cost" ] },
             { "get_condition": "chronomancer_menu_spell_conditions" }
           ]
         },
