@@ -1654,6 +1654,17 @@
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Randomize trait",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Randomize scenario",
     "bindings": [
