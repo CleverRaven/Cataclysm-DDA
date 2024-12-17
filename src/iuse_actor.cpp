@@ -4421,7 +4421,7 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
         if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
-            if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+            if( game_menus::inv::compare_item_menu( it, gun_copy, _( "Remove modification?" ) ).show() ) {
                 p->gunmod_remove( it, *mods[mod_index] );
                 return 0;
             }
