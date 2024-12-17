@@ -4806,7 +4806,7 @@ void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_item
         field fields_copy = fields_there;
         for( const std::pair<const field_type_id, field_entry> &fd : fields_copy ) {
             const std::optional<map_fd_bash_info> &bash_info = fd.first->bash_info;
-            if( bash_info && bash_info->str_min > 0 ) {
+            if( bash_info && bash_info->str_min > 0 && !fd.first->indestructible ) {
                 if( incendiary ) {
                     add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
                 } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
