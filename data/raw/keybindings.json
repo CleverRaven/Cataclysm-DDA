@@ -1160,7 +1160,7 @@
     "type": "keybinding",
     "id": "TOGGLE_LAND_USE_CODES",
     "category": "OVERMAP",
-    "name": "Toggle land use codes",
+    "name": "Toggle land codes",
     "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
@@ -1181,7 +1181,7 @@
     "type": "keybinding",
     "id": "TOGGLE_MAP_REVEALS",
     "category": "OVERMAP",
-    "name": "Toggle highlighting map reveals",
+    "name": "Toggle map reveals",
     "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
   },
   {
@@ -1195,14 +1195,14 @@
     "type": "keybinding",
     "id": "TOGGLE_OVERMAP_WEATHER",
     "category": "OVERMAP",
-    "name": "Toggle visible weather",
+    "name": "Toggle weather",
     "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
     "id": "TOGGLE_FOREST_TRAILS",
     "category": "OVERMAP",
-    "name": "Toggle forest trails",
+    "name": "Toggle trails",
     "bindings": [ { "input_method": "keyboard_char", "key": "T" }, { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] } ]
   },
   {
@@ -4865,7 +4865,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display keybindings menu",
+    "name": "Display keybinds",
     "category": "STRING_INPUT",
     "//": "'?' is treated as text input, so a different key is used.",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]

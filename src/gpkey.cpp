@@ -32,7 +32,7 @@ std::string convert_to_gamepad( const std::string keybind_in_pre )
 
 	std::string gp_select = "\u23F8";
     std::string gp_start = "\u23F5";
-	std::string gp_hotkey = "HOTKEY";
+	std::string gp_hotkey = "\u25CD";
 	std::string gp_hotkey_mod = "\u23F8+";
 	
     std::string gp_up = "\u2191";
