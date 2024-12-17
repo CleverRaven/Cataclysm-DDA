@@ -427,5 +427,10 @@
     "type": "ammo_effect",
     "//": "runs EoC that cause you to mutate",
     "eoc": [ "EOC_random_mutate" ]
+  },
+  {
+    "id": "LIQUID",
+    "type": "ammo_effect",
+    "//": "This is basically a flag for liquid ammo, it is set automatically when the material of the ammo is liquid"
   }
 ]
