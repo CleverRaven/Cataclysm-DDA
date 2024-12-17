@@ -8,7 +8,7 @@
     "description": "A gate for translocation.  Cast the translocation spell or use a translocator to choose this gate as a destination.",
     "color": "light_gray",
     "required_str": 25,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT" ],
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "FREE_TO_EXAMINE" ],
     "examine_action": "translocator"
   },
   {
