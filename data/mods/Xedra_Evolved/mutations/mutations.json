@@ -952,6 +952,16 @@
   },
   {
     "type": "mutation",
+    "id": "FALSE_ARVORE_HATRED",
+    "name": { "str": "False Arvore" },
+    "points": -4,
+    "description": "The arvore can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "ARVORE", 100 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "FALSE_HOMULLUS_HATRED",
     "name": { "str": "False Homullus" },
     "points": -4,
