@@ -124,7 +124,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "metal charcoal kiln" },
-    "description": "A stout metal box used for producing charcoal via pyrolysis: the incomplete burning of organic materials in the absence of oxygen. Needs to be placed via the construction menu.",
+    "description": "A stout metal box used for producing charcoal via pyrolysis: the incomplete burning of organic materials in the absence of oxygen.  Needs to be placed via the construction menu.",
     "weight": "16770 g",
     "volume": "65 L",
     "price": "160 USD",
