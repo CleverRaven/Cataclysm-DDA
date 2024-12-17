@@ -657,10 +657,10 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_rock_floor",
-    "connect_groups": "ROCKFLOOR",
+    "connect_groups": [ "INDOORFLOOR", "ROCKFLOOR" ],
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
@@ -671,10 +671,10 @@
     "symbol": ".",
     "color": "light_gray",
     "looks_like": "t_rock_floor",
-    "connect_groups": [ "INDOORFLOOR", "ROCKFLOOR" ],
+    "connect_groups": "ROCKFLOOR",
     "connects_to": "ROCKFLOOR",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "SUPPORTS_ROOF", "INDOORS", "ROAD" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
