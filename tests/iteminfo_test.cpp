@@ -46,13 +46,13 @@ static const recipe_id recipe_pur_tablets( "pur_tablets" );
 
 static const skill_id skill_survival( "survival" );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
-
-static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
 
 // ITEM INFO
 // =========
