@@ -168,12 +168,12 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
-        if( !ignore_dest_terrain && !z.will_move_to( candidate.raw() ) ) {
+        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate place it can't enter, discarded" );
             continue;
         }
-        if( !ignore_dest_danger && !z.know_danger_at( candidate.raw() ) ) {
+        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate with dangerous conditions, discarded" );
             continue;
@@ -619,7 +619,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             if( z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
                 tripoint_bub_ms zpt = z.pos_bub();
-                z.move_to( target_square.raw(), false, false, grab_data.drag_movecost_mod );
+                z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
                     return 0;
                 }
@@ -720,7 +720,7 @@ bool melee_actor::call( monster &z ) const
 
     if( uncanny_dodgeable && target->uncanny_dodge() ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
+        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
@@ -730,7 +730,7 @@ bool melee_actor::call( monster &z ) const
 
     if( dodgeable ) {
         if( hitspread < 0 ) {
-            sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
+            sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
                                      sfx::get_heard_angle( z.pos() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
@@ -865,7 +865,7 @@ bool melee_actor::call( monster &z ) const
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
     } else {
-        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
+        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
@@ -884,8 +884,8 @@ bool melee_actor::call( monster &z ) const
         }
     }
     if( throw_strength > 0 && !( target->has_flag( mon_flag_IMMOBILE ) ||
-                                 target->has_flag( json_flag_CANNOT_MOVE ) ) ) {
-        if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
+                                 target->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) ) {
+        if( g->fling_creature( target, coord_to_angle( z.pos_bub(), target->pos_bub() ),
                                throw_strength ) ) {
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
                                            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : translation(),
@@ -907,9 +907,9 @@ bool melee_actor::call( monster &z ) const
                     // the item is ripped off your character
                     if( sturdiness < chance ) {
                         float path_distance = rng_float( 0, 1.0 );
-                        tripoint vector = target->pos() - z.pos();
-                        vector = tripoint( vector.x * path_distance, vector.y * path_distance, vector.z * path_distance );
-                        pd[index]->spill_contents( z.pos() + vector );
+                        tripoint_rel_ms vector = target->pos_bub() - z.pos_bub();
+                        vector = { vector.x() *path_distance, vector.y() *path_distance, vector.z() *path_distance };
+                        pd[index]->spill_contents( z.pos() + vector.raw() );
                         add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
                         popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
                     }
@@ -1194,7 +1194,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
 
     if( not_targeted || not_laser_locked ) {
         if( targeting_volume > 0 && !targeting_sound.empty() ) {
-            sounds::sound( z.pos(), targeting_volume, sounds::sound_t::alarm,
+            sounds::sound( z.pos_bub(), targeting_volume, sounds::sound_t::alarm,
                            targeting_sound );
         }
         if( not_targeted ) {
@@ -1259,7 +1259,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
 
     if( !gun.ammo_sufficient( nullptr ) ) {
         if( !no_ammo_sound.empty() ) {
-            sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
+            sounds::sound( z.pos_bub(), 10, sounds::sound_t::combat, no_ammo_sound );
         }
         return false;
     }

@@ -1504,7 +1504,7 @@ bool construct::check_support( const tripoint_bub_ms &p )
 bool construct::check_support_below( const tripoint_bub_ms &p )
 {
     bool blocking_creature = g->get_creature_if( [&]( const Creature & creature ) {
-        return creature.pos() == p.raw();
+        return creature.pos_bub() == p;
     } ) != nullptr;
 
     map &here = get_map();

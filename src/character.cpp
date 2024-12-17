@@ -1631,7 +1631,7 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
         add_msg_debug( debugmode::DF_CHARACTER,
                        "npc %s at pos %s, activity target is not inbounds at %s therefore "
                        "activity was stashed",
-                       disp_name(), pos().to_string_writable(),
+                       disp_name(), pos_bub().to_string_writable(),
                        act.placement.to_string_writable() );
         return true;
     }
@@ -1722,8 +1722,8 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
                 continue;
             }
             Attitude att = critter.attitude_to( *this );
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
-                rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
+            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= 15 &&
+                rl_dist( dest_loc, critter.pos_bub().raw() ) < rl_dist( pos_bub(), critter.pos_bub() ) ) {
                 add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
                 return false;
             }
@@ -1757,8 +1757,8 @@ bool Character::check_mount_is_spooked()
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 10 ) {
-                chance += 10 - rl_dist( pos(), critter.pos() );
+            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= 10 ) {
+                chance += 10 - rl_dist( pos_bub(), critter.pos_bub() );
                 if( critter.get_size() >= mount_size ) {
                     chance *= 2;
                 }
@@ -2041,7 +2041,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
     martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
-    if( source && square_dist( pos(), source->pos() ) == 1 ) {
+    if( source && square_dist( pos_bub(), source->pos_bub() ) == 1 ) {
         matec_id tec = std::get<0>( pick_technique( *source, used_weapon(), false, true, false ) );
 
         if( tec != tec_none && !is_dead_state() ) {
@@ -2076,7 +2076,7 @@ bool Character::uncanny_dodge()
     if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
     }
-    tripoint adjacent = adjacent_tile();
+    tripoint_bub_ms adjacent{ adjacent_tile() };
 
     if( can_dodge_both ) {
         mod_power_level( -trigger_cost / 2 );
@@ -2097,7 +2097,7 @@ bool Character::uncanny_dodge()
     if( in_vehicle && veh_part ) {
         here.unboard_vehicle( pos_bub() );
     }
-    if( adjacent.x != posx() || adjacent.y != posy() ) {
+    if( adjacent.xy() != pos_bub().xy() ) {
         set_pos_only( adjacent );
 
         //landed in a vehicle tile
@@ -2312,11 +2312,11 @@ void Character::make_footstep_noise() const
         return;
     }
     if( is_mounted() ) {
-        sounds::sound( pos(), volume, sounds::sound_t::movement,
+        sounds::sound( pos_bub(), volume, sounds::sound_t::movement,
                        mounted_creature.get()->type->get_footsteps(),
                        false, "none", "none" );
     } else {
-        sounds::sound( pos(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
+        sounds::sound( pos_bub(), volume, sounds::sound_t::movement, _( "footsteps" ), true,
                        "none", "none" );    // Sound of footsteps may awaken nearby monsters
     }
     sfx::do_footstep();
@@ -2329,7 +2329,7 @@ void Character::make_clatter_sound() const
     if( volume <= 0 ) {
         return;
     }
-    sounds::sound( pos(), volume, sounds::sound_t::movement, _( "clattering equipment" ), true,
+    sounds::sound( pos_bub(), volume, sounds::sound_t::movement, _( "clattering equipment" ), true,
                    "none", "none" );   // Sound of footsteps may awaken nearby monsters
 }
 
@@ -2877,8 +2877,8 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
     tripoint_bub_ms const check_p = p.is_invalid() ? pos_bub() : tripoint_bub_ms( p );
-    tripoint const avatar_p = get_avatar().pos();
-    if( is_avatar() || check_p.z() == avatar_p.z ) {
+    tripoint_bub_ms const avatar_p = get_avatar().pos_bub();
+    if( is_avatar() || check_p.z() == avatar_p.z() ) {
         ambient_light = std::max( 1.0f,
                                   LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {
@@ -3145,10 +3145,10 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
     Creature::on_move( old_pos );
     // Ugly to compare a tripoint_bub_ms with a tripoint_abs_ms, but the 'z' component
     // is the same regardless of the x/y reference point.
-    if( this->pos_bub().z() != old_pos.z() ) {
+    if( this->posz() != old_pos.z() ) {
         // Make sure caches are rebuilt in a timely manner to ensure companions aren't
         // caught in the "dark" because the caches aren't updated on their next move.
-        get_map().build_map_cache( this->pos_bub().z() );
+        get_map().build_map_cache( this->posz() );
     }
     // In case we've moved out of range of lifting assist.
     if( using_lifting_assist ) {
@@ -5695,7 +5695,7 @@ nc_color Character::symbol_color() const
         return cyan_background( basic );
     }
 
-    const field &fields = get_map().field_at( pos() );
+    const field &fields = get_map().field_at( pos_bub() );
 
     // Priority: electricity, fire, acid, gases
     bool has_elec = false;
@@ -7314,7 +7314,7 @@ void Character::cough( bool harmful, int loudness )
     if( !is_npc() ) {
         add_msg( m_bad, _( "You cough heavily." ) );
     }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
+    sounds::sound( pos_bub(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
                    "cough" );
 
     mod_moves( -get_speed() * 0.8 );
@@ -7447,7 +7447,8 @@ void Character::shout( std::string msg, bool order )
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
-    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
+    sounds::sound( pos_bub(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg,
+                   false,
                    "shout", shout );
 }
 
@@ -8191,7 +8192,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int cut_dam = dealt_dams.type_damage( damage_cut );
     if( source && has_flag( json_flag_ACIDBLOOD ) && !bp->has_flag( json_flag_BIONIC_LIMB ) &&
         !one_in( 3 ) &&
-        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
+        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos_bub(), source->pos_bub() ) <= 1 ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
                      source->disp_name() );
@@ -8473,7 +8474,7 @@ void Character::spores()
     map &here = get_map();
     fungal_effects fe;
     //~spore-release sound
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    sounds::sound( pos_bub(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     for( const tripoint_bub_ms &sporep : here.points_in_radius( pos_bub(), 1 ) ) {
         if( sporep == pos_bub() ) {
             continue;
@@ -8485,7 +8486,7 @@ void Character::spores()
 void Character::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    sounds::sound( pos_bub(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
     for( const tripoint_bub_ms &tmp : here.points_in_radius( pos_bub(), 2 ) ) {
         here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
@@ -10387,14 +10388,14 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
+    return sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= range;
 }
 
 std::vector<Creature *> Character::get_visible_creatures( const int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
-        rl_dist( pos(), critter.pos() ) <= range && sees( critter );
+        return this != &critter && pos_bub() != critter.pos_bub() &&
+        rl_dist( pos_bub(), critter.pos_bub() ) <= range && sees( critter );
     } );
 }
 
@@ -10418,9 +10419,8 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
                 }
             }
         }
-        bool in_range = std::round( rl_dist_exact( pos(), critter.pos() ) ) <= range;
-        // TODO: get rid of fake npcs (pos() check)
-        bool valid_target = this != &critter && pos() != critter.pos() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
+        bool in_range = std::round( rl_dist_exact( pos_bub(), critter.pos_bub() ) ) <= range;
+        bool valid_target = this != &critter && pos_bub() != critter.pos_bub() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
         return valid_target && in_range && can_see;
     } );
 }
@@ -10433,7 +10433,7 @@ int Character::get_mutation_visibility_cap( const Character *observed ) const
     // 3 perception and 3 distance would see all mutations - cap 0
     // 3 perception and 15 distance - cap 5, some mutations visible
     // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
-    const int dist = rl_dist( pos(), observed->pos() );
+    const int dist = rl_dist( pos_bub(), observed->pos_bub() );
     int visibility_cap;
     if( per_cur <= 1 ) {
         visibility_cap = INT_MAX;
@@ -10447,8 +10447,8 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 {
     return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
         // Fixes circular distance range for ranged attacks
-        float dist_to_creature = std::round( rl_dist_exact( pos(), critter.pos() ) );
-        return this != &critter && pos() != critter.pos() && // TODO: get rid of fake npcs (pos() check)
+        float dist_to_creature = std::round( rl_dist_exact( pos_bub(), critter.pos_bub() ) );
+        return this != &critter && pos_bub() != critter.pos_bub() &&
         dist_to_creature <= range && critter.attitude_to( *this ) == Creature::Attitude::HOSTILE
         && sees( critter );
     } );
@@ -10462,13 +10462,13 @@ void Character::echo_pulse()
     // Sound travels farther underwater
     if( has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
         pulse_range = 16;
-        sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "boop." ), true,
+        sounds::sound( this->pos_bub(), 5, sounds::sound_t::movement, _( "boop." ), true,
                        "none", "none" );
     } else if( !has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
         add_msg_if_player( m_warning, _( "You can't echolocate underwater!" ) );
         return;
     } else {
-        sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp." ), true,
+        sounds::sound( this->pos_bub(), 5, sounds::sound_t::movement, _( "chirp." ), true,
                        "none", "none" );
     }
     for( tripoint_bub_ms origin : points_in_radius( pos_bub(), pulse_range ) ) {
@@ -10623,10 +10623,10 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
     }
 
     // source is in-ear and at our square, we can hear it
-    if( source == pos() && volume == 0 ) {
+    if( source == pos_bub().raw() && volume == 0 ) {
         return true;
     }
-    const int dist = rl_dist( source, pos() );
+    const int dist = rl_dist( source, pos_bub().raw() );
     const float volume_multiplier = hearing_ability();
     return ( volume - get_weather().weather_id->sound_attn ) * volume_multiplier >= dist;
 }
@@ -11040,7 +11040,7 @@ void Character::gravity_check()
 {
     if( get_map().tr_at( pos_bub() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
         get_map().tr_at( pos_bub() ).trigger( pos(), *this );
-        get_map().update_visibility_cache( pos_bub().z() );
+        get_map().update_visibility_cache( posz() );
     }
 }
 
@@ -11293,7 +11293,7 @@ bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos_bub(), critter.pos_bub() );
-    if( std::abs( pos_bub().z() - critter.pos_bub().z() ) > fov_3d_z_range ) {
+    if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
     if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
@@ -11445,7 +11445,7 @@ int Character::intimidation() const
 bool Character::defer_move( const tripoint &next )
 {
     // next must be adjacent to current pos
-    if( square_dist( next, pos() ) != 1 ) {
+    if( square_dist( next, pos_bub().raw() ) != 1 ) {
         return false;
     }
     // next must be adjacent to subsequent move in any preexisting automove route
@@ -11891,7 +11891,7 @@ void Character::invalidate_pseudo_items()
     pseudo_items_valid = false;
 }
 
-bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
+bool Character::avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const
 {
     /** @EFFECT_DEX increases chance to avoid traps */
 
@@ -12453,7 +12453,7 @@ float Character::fall_damage_mod() const
 }
 
 // force is maximum damage to hp before scaling
-int Character::impact( const int force, const tripoint &p )
+int Character::impact( const int force, const tripoint_bub_ms &p )
 {
     // Falls over ~30m are fatal more often than not
     // But that would be quite a lot considering 21 z-levels in game
@@ -12475,7 +12475,7 @@ int Character::impact( const int force, const tripoint &p )
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
-    const bool slam = p != pos();
+    const bool slam = p != pos_bub();
     std::string target_name = "a swarm of bugs";
     Creature *critter = get_creature_tracker().creature_at( p );
     map &here = get_map();
@@ -12638,9 +12638,9 @@ bool Character::can_fly()
 }
 
 // FIXME: Relies on hardcoded bash damage type
-void Character::knock_back_to( const tripoint &to )
+void Character::knock_back_to( const tripoint_bub_ms &to )
 {
-    if( to == pos_bub().raw() ) {
+    if( to == pos_bub() ) {
         return;
     }
 
@@ -12652,7 +12652,7 @@ void Character::knock_back_to( const tripoint &to )
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
-            critter->knock_back_from( pos() ); // Chain reaction!
+            critter->knock_back_from( pos_bub() ); // Chain reaction!
             critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
@@ -12682,7 +12682,7 @@ void Character::knock_back_to( const tripoint &to )
     if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( here, get_avatar(), tripoint_bub_ms( to ) );
+            avatar_action::swim( here, get_avatar(), to );
         }
         // TODO: NPCs can't swim!
     } else if( here.impassable( to ) ) { // Wait, it's a wall
@@ -13175,7 +13175,7 @@ void Character::pause()
         }
 
         // Don't drop on the ground when the ground is on fire
-        if( total_left > 1_minutes && !is_dangerous_fields( here.field_at( pos() ) ) ) {
+        if( total_left > 1_minutes && !is_dangerous_fields( here.field_at( pos_bub() ) ) ) {
             add_effect( effect_downed, 2_turns, false, 0, true );
             add_msg_player_or_npc( m_warning,
                                    _( "You roll on the ground, trying to smother the fire!" ),

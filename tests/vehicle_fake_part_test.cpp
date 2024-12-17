@@ -412,7 +412,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
             continue;
         }
         CAPTURE( prev_player_pos );
-        CAPTURE( you.pos() );
+        CAPTURE( you.pos_bub() );
         REQUIRE( veh->can_close( vp.part_index(), you ) );
         REQUIRE( veh->can_close( fake_door.part_index(), you ) );
         you.setpos( vp.pos_bub() );

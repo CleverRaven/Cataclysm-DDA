@@ -49,7 +49,7 @@ static void check_not_near( const std::string &subject, float actual, const floa
 
 static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk = false )
 {
-    monster zed( mon_manhack, mon_pos.raw() );
+    monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     if( infect_risk ) {
@@ -85,7 +85,7 @@ static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk
 
 static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 {
-    monster zed( mon_manhack, mon_pos.raw() );
+    monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );

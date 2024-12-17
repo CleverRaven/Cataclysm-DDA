@@ -57,7 +57,7 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
                                     dealt_projectile_attack &attack, const std::string &weapon_type )
 {
     for( int i = 0; i < 10; ++i ) {
-        monster target{ mtype_id( target_type ), tripoint::zero };
+        monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         //the missed_by field is modified by deal_projectile_attack() and must be reset
         attack.missed_by = accuracy_critical * 0.75;
         target.deal_projectile_attack( nullptr, attack, false );

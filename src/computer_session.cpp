@@ -500,7 +500,7 @@ void computer_session::action_toll()
         reset_terminal();
     } else {
         comp.next_attempt = calendar::turn + 1_minutes;
-        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::alarm,
+        sounds::sound( get_player_character().pos_bub(), 120, sounds::sound_t::alarm,
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 
@@ -545,7 +545,8 @@ void computer_session::action_release()
 {
     get_event_bus().send<event_type::releases_subspace_specimens>();
     Character &player_character = get_player_character();
-    sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+    sounds::sound( player_character.pos_bub(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                   false,
                    "environment",
                    "alarm" );
     get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 25.0,
@@ -563,7 +564,8 @@ void computer_session::action_release_disarm()
 void computer_session::action_release_bionics()
 {
     Character &player_character = get_player_character();
-    sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+    sounds::sound( player_character.pos_bub(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                   false,
                    "environment",
                    "alarm" );
     get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 3.0,
@@ -1345,7 +1347,8 @@ void computer_session::action_irradiator()
                         print_error( _( "  >> Radiation spike detected!\n" ) );
                         print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                         print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                        sounds::sound( player_character.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                        sounds::sound( player_character.pos_bub(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                                       false,
                                        "environment",
                                        "alarm" );
                         here.i_rem( dest, it );
@@ -1615,7 +1618,8 @@ void computer_session::failure_alarm()
 {
     Character &player_character = get_player_character();
     get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
-    sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+    sounds::sound( player_character.pos_bub(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                   false,
                    "environment",
                    "alarm" );
 }

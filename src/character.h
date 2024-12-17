@@ -2523,7 +2523,7 @@ class Character : public Creature, public visitable
         bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint> &target );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+        bool avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const override;
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id ) const;
@@ -2620,11 +2620,11 @@ class Character : public Creature, public visitable
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
+        int impact( int force, const tripoint_bub_ms &pos ) override;
         /** Checks to see if the character is able to use their wings properly */
         bool can_fly();
         /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &to ) override;
+        void knock_back_to( const tripoint_bub_ms &to ) override;
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;

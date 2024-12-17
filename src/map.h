@@ -2041,7 +2041,9 @@ class map
         // Light/transparency
         float light_transparency( const tripoint_bub_ms &p ) const;
         // Assumes 0,0 is light map center
+        // TODO: Get rid of untyped overload.
         lit_level light_at( const tripoint &p ) const;
+        lit_level light_at( const tripoint_bub_ms &p ) const;
         // Raw values for tilesets
         float ambient_light_at( const tripoint_bub_ms &p ) const;
         /**
