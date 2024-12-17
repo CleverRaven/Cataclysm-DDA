@@ -66,6 +66,15 @@
     "armor": { "bash": 15, "cut": 15, "bullet": 15 }
   },
   {
+    "id": "mon_animated_blade_feral",
+    "type": "MONSTER",
+    "name": "animated blade",
+    "copy-from": "mon_animated_blade",
+    "description": "A conjured glowing longsword that darts and dodges around, slicing and cutting enemies into small pieces.",
+    "looks_like": "longsword",
+    "default_faction": "zombie"
+  },
+  {
     "id": "mon_battle_hologram",
     "type": "MONSTER",
     "name": "hologram",

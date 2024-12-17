@@ -1,5 +1,26 @@
 [
   {
+    "id": "mon_feral_wizard_default",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "//": "interstitial copy-from to edit flags and special attacks appropriately",
+    "special_attacks": [ [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "PRIORITIZE_TARGETS",
+      "EATS"
+    ]
+  },
+  {
     "id": "mon_feral_human_magician",
     "type": "MONSTER",
     "name": { "str": "feral wizard" },
@@ -998,5 +1019,206 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "armor": { "electric": 40 },
     "special_when_hit": [ "ZAPBACK", 100 ]
+  },
+  {
+    "id": "mon_feral_technomancer",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
+    "name": { "str": "feral technomancer" },
+    "description": "At first seeming like just another feral, a closer look shows the implanted metal amid the flesh, a tell-tale sign of a technomancer.  Their movements are more controlled than most of the other ferals, but they still have bloodshot eyes.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "dissect": "dissect_mon_feral_technomancer",
+    "death_drops": "mon_feral_technomancer_death_drops",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_technomancer_summon_mage_blade",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_flag": "MUTE" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
+        },
+        {
+          "id": "feral_technomancer_summon_mage_armor",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_technomancer_mageblade_attack",
+          "cooldown": 2,
+          "move_cost": 100,
+          "accuracy": 5,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 20 } ],
+          "condition": { "u_has_effect": "effect_feral_technomancer_mage_blade" },
+          "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
+          "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
+          "miss_msg_npc": "%1$s swings a blade of light at <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s swings a blade of light at your %2$s, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
+        },
+        {
+          "id": "feral_technomancer_lase",
+          "type": "spell",
+          "spell_data": { "id": "laze", "min_level": 2 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s points and fires a beam of light!"
+        },
+        {
+          "id": "feral_technomancer_bless",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_bless_spell", "min_level": 2, "hit_self": true },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters some words and their body is limned in light."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_technomancer_enhanced",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
+    "name": { "str": "feral high technomancer" },
+    "description": "This feral human has obvious bionic enhancements in what would have been the sign of a powerful technomancer before the Cataclysm.  They move with much more speed and grace than most feral humans you've seen.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "dissect": "dissect_mon_feral_high_technomancer",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_technomancer_death_drops", "prob": 100 } ]
+    },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_high_technomancer_summon_mage_blade",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_flag": "MUTE" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
+        },
+        {
+          "id": "feral_high_technomancer_summon_mage_armor",
+          "type": "spell",
+          "spell_data": { "id": "feral_high_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_technomancer_mageblade_attack",
+          "cooldown": 2,
+          "move_cost": 100,
+          "accuracy": 5,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 32 } ],
+          "condition": { "u_has_effect": "effect_feral_technomancer_mage_blade" },
+          "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
+          "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
+          "miss_msg_npc": "%1$s swings a blade of light at <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s swings a blade of light at your %2$s, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
+        },
+        {
+          "id": "feral_technomancer_lase",
+          "type": "spell",
+          "spell_data": { "id": "laze", "min_level": 4 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s points and fires a beam of light!"
+        },
+        {
+          "id": "feral_technomancer_bless",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_bless_spell", "min_level": 2, "hit_self": true },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters some words and their body is limned in light."
+        },
+        {
+          "id": "feral_high_technomancer_invisibility",
+          "type": "spell",
+          "spell_data": { "id": "feral_invisibility", "min_level": 2, "hit_self": true },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
+              { "math": [ "u_val('morale') <= -20" ] },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s makes a gesture and disappears."
+        },
+        {
+          "id": "feral_high_technomancer_summon_blade",
+          "type": "spell",
+          "spell_data": { "id": "feral_animated_blade", "min_level": 10 },
+          "cooldown": 65,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s gestures and swords appear out of thin air!"
+        },
+        {
+          "id": "feral_high_technomancer_synaptic_stim",
+          "type": "spell",
+          "spell_data": { "id": "feral_synaptic_stimulation", "min_level": 4, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "synaptic_stim" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters some words and begins moving much faster."
+        }
+      ]
+    }
   }
 ]
