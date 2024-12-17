@@ -202,7 +202,7 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN", "FREE_TO_EXAMINE" ],
     "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
     "bash": {
       "str_min": 6,
