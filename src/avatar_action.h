@@ -68,6 +68,11 @@ bool fire_turret_manual( avatar &you, map &m, turret_data &turret );
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
               const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
+
+// Throw the wielded item
+void plthrow_wielded( avatar &you,
+                      const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
+
 /**
  * Opens up a menu to Unload a container, gun, or tool
  * If it's a gun, some gunmods can also be loaded
