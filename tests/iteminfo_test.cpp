@@ -27,15 +27,15 @@
 static const itype_id itype_candle_wax( "candle_wax" );
 static const itype_id itype_dress_shirt( "dress_shirt" );
 static const itype_id itype_match( "match" );
-static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
-static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
 static const itype_id itype_test_armor_chitin_copy_prop( "test_armor_chitin_copy_prop" );
 static const itype_id itype_test_armor_chitin_copy_rel( "test_armor_chitin_copy_rel" );
-static const itype_id itype_test_armor_chitin_copy_w_armor( "test_armor_chitin_copy_w_armor" );
 static const itype_id
 itype_test_armor_chitin_copy_w_armor_prop( "test_armor_chitin_copy_w_armor_prop" );
 static const itype_id
 itype_test_armor_chitin_copy_w_armor_rel( "test_armor_chitin_copy_w_armor_rel" );
+static const itype_id itype_test_armor_chitin_copy_w_armor( "test_armor_chitin_copy_w_armor" );
+static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
+static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
 static const itype_id itype_textbook_chemistry( "textbook_chemistry" );
 static const itype_id itype_tshirt( "tshirt" );
 static const itype_id itype_zentai( "zentai" );

@@ -22,12 +22,12 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 static const int num_iters = 10000;
 static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint_bub_ms badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
-
-static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
 
 static void check_near( const std::string &subject, float actual, const float expected,
                         const float tolerance )
