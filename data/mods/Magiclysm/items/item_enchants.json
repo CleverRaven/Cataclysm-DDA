@@ -8,8 +8,10 @@
     "description": "The damage done and light emitted by this sword increase with intelligence.",
     "melee_damage_bonus": [
       {
-        "type": "cut",
-        "add": { "math": [ "(u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))" ] }
+        "type": "light",
+        "add": {
+          "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus') ) ),40)" ]
+        }
       }
     ],
     "values": [
@@ -30,25 +32,33 @@
       {
         "type": "bash",
         "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
         }
       },
       {
         "type": "stab",
         "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
         }
       },
       {
         "type": "cut",
         "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
         }
       },
       {
         "type": "bullet",
         "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
         }
       }
     ],
@@ -94,8 +104,6 @@
     "id": "ench_aura_caustic",
     "has": "WORN",
     "condition": "ALWAYS",
-    "name": { "str": "Caustic Aura" },
-    "description": "A thin shell of acid hangs in the air around you.",
     "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
     "incoming_damage_mod": [
       {

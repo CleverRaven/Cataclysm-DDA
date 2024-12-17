@@ -52,6 +52,8 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 // ITEM INFO
 // =========
 //
@@ -1235,6 +1237,83 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
     expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
+
+}
+
+
+TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
+{
+    bodypart_id bp_head = body_part_head.id();
+    bodypart_id bp_eyes = body_part_eyes.id();
+    sub_bodypart_id eye_r = sub_body_part_eyes_right.id();
+
+    item hh( "hat_hard" );
+    THEN( "base stats" ) {
+        //resistance stats
+        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
+        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 0.f ) );
+        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 0.f ) );
+        //warmth stats: 5 (hat's warmth) * 0.4 (hat's body part coverage)
+        CHECK( hh.get_warmth( bp_head ) == 2 );
+        CHECK( hh.get_warmth( bp_eyes ) == 0 );
+    }
+
+
+    WHEN( "inserting face shield" ) {
+        item face_shield( "face_shield" );
+        REQUIRE( hh.put_in( face_shield, pocket_type::CONTAINER ).success() );
+        THEN( "eyes should be protected" ) {
+            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
+            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 6.f ) );
+            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 6.f ) );
+        }
+        THEN( "warmth should not change" ) {
+            CHECK( hh.get_warmth( bp_head ) == 2 );
+            CHECK( hh.get_warmth( bp_eyes ) == 0 );
+        }
+        THEN( "breathbility should be 0" ) {
+            CHECK( hh.breathability( bp_eyes ) == 0 );
+        }
+    }
+    WHEN( "adding nape protector to the helmet" ) {
+        item nape_protector( "nape_protector" );
+        REQUIRE( hh.put_in( nape_protector, pocket_type::CONTAINER ).success() );
+        THEN( "head's warmth is increased" ) {
+            CHECK( nape_protector.get_warmth( bp_head ) == 2 );
+            //2 (base warmth) + 4 (nape's warmth) * 0.4 (nape's body part coverage)
+            CHECK( hh.get_warmth( bp_head ) == 4 );
+        }
+        WHEN( "adding ear muffs to the helmet" ) {
+            item ear_muffs( "attachable_ear_muffs" );
+            REQUIRE( hh.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
+            THEN( "head's warmth should be increased even more" ) {
+                CHECK( ear_muffs.get_warmth( bp_head ) == 2 );
+                CHECK( hh.get_warmth( bp_head ) == 6 );
+            }
+        }
+    }
+
+}
+
+
+TEST_CASE( "vest_with_plate_stats", "[iteminfo][armor][protection]" )
+{
+    bodypart_id bp_torso = body_part_torso.id();
+
+    item vest = item( "ballistic_vest_esapi" );
+    //nylon: 1 (mat resist) * 1 (thickness)
+    //kevlar: 1.5 * 4.4
+    CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 7.6f ) );
+
+    WHEN( "inserting plate" ) {
+        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+
+        THEN( "resist should be increased" ) {
+            //previous + 1 * 25
+            CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 32.6f ) );
+        }
+    }
+
 }
 
 // Check that a string is provided in some iteminfo

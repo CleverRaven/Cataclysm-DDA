@@ -1095,7 +1095,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
                     weapon->spill_contents( pos_bub() );
-                    sounds::sound( pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
+                    sounds::sound( pos_bub(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
                     deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
                                  rng( 0,
@@ -2779,7 +2779,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 add_msg( m_info, _( "Ignoring enemy!" ) );
                 for( auto &elem : player_character.get_mon_visible().new_seen_mon ) {
                     monster &critter = *elem;
-                    critter.ignoring = rl_dist( player_character.pos(), critter.pos() );
+                    critter.ignoring = rl_dist( player_character.pos_bub(), critter.pos_bub() );
                 }
                 set_safe_mode( SAFE_MODE_ON );
             } else if( player_character.has_effect( effect_laserlocked ) ) {

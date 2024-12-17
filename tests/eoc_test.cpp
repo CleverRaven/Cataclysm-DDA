@@ -336,7 +336,7 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
         return p.xy() != get_avatar().pos().xy();
     } );
     REQUIRE( dest.has_value() );
-    npc.setpos( { dest.value().xy(), get_avatar().pos().z } );
+    npc.setpos( { dest.value().xy(), get_avatar().posz() } );
 
     tripoint_abs_ms const start = get_avatar().get_location();
     tripoint_abs_ms const end = npc.get_location();

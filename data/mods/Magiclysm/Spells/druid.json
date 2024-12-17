@@ -3,11 +3,11 @@
     "id": "druid_veggrasp",
     "type": "SPELL",
     "name": "Vegetative Grasp",
-    "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
+    "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.\n\nLarger targets will be <color_yellow>less affected</color> by the spell, and it has <color_red>no effect</color> on targets not on natural ground.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
-    "effect": "attack",
-    "effect_str": "entangled",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_VEGGRASP_ENTANGLED",
     "shape": "blast",
     "spell_class": "DRUID",
     "base_casting_time": 100,
@@ -18,9 +18,9 @@
     "min_damage": 1,
     "max_damage": 10,
     "damage_increment": 0.5,
-    "min_aoe": 4,
-    "max_aoe": 15,
-    "aoe_increment": 1.0,
+    "min_aoe": 2,
+    "max_aoe": 8,
+    "aoe_increment": 0.5,
     "min_range": 3,
     "max_range": 10,
     "range_increment": 1.0,
@@ -30,8 +30,25 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.25,
+    "min_dot": 0.1,
+    "max_dot": 0.3,
+    "dot_increment": 0.01,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_VEGGRASP_ENTANGLED",
+    "condition": "has_alpha",
+    "effect": [
+      { "math": [ "u_vegetative_grasp_affected_level = n_spell_level('druid_veggrasp')" ] },
+      {
+        "math": [
+          "u_evocation_spell_affected_proficiency = (1 + (n_has_proficiency('prof_magic_evocation_beginner') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_apprentice') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_master') * 0.1 ) )"
+        ]
+      },
+      { "u_add_effect": "entangled", "duration": { "math": [ "10 + (u_vegetative_grasp_affected_level * 5)" ] } }
+    ]
   },
   {
     "id": "druid_rootstrike",
@@ -412,13 +429,13 @@
     "difficulty": 5,
     "base_casting_time": 400,
     "base_energy_cost": 35,
-    "final_energy_cost": 20,
-    "energy_increment": -1.5,
+    "final_energy_cost": 15,
+    "energy_increment": -2,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 10,
     "min_damage": -4,
-    "max_damage": -12,
-    "damage_increment": -0.8,
+    "max_damage": -20,
+    "damage_increment": -1.6,
     "min_aoe": 0,
     "max_aoe": 2,
     "aoe_increment": 0.2,
