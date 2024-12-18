@@ -65,7 +65,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ocean_surface",
+    "id": [ "ocean_surface", "ocean_boat" ],
     "copy-from": "generic_ocean",
     "travel_cost_type": "water"
   },
