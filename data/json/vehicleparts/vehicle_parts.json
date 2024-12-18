@@ -601,6 +601,8 @@
   {
     "type": "vehicle_part",
     "id": "big_portable_fridge",
+    "//": "add looks_like so that it rotates properly in vehicles",
+    "looks_like": "minifridge",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
     "copy-from": "ap_big_portable_fridge"
   },
@@ -619,6 +621,8 @@
   {
     "type": "vehicle_part",
     "id": "big_portable_freezer",
+    "//": "add looks_like so that it rotates properly in vehicles",
+    "looks_like": "minifridge",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
     "copy-from": "ap_big_portable_freezer"
   },
