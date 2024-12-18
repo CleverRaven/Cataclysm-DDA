@@ -606,7 +606,7 @@
     },
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_08", "EOC_TELEPORT_GATEWAY_ATTUNE_07" ],
+        "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_08", "EOC_TELEPORT_GATEWAY_ATTUNE_08" ],
         "names": [ "Destination: <u_val:gateway_destination_name_8>", "Attune to Area" ],
         "keys": [ "1", "2" ],
         "descriptions": [ "Teleport to <u_val:gateway_destination_name_8>.", "Attune to a new destination." ],
@@ -666,9 +666,9 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_09", "EOC_TELEPORT_GATEWAY_ATTUNE_09" ],
-        "names": [ "Destination: <u_val:gateway_destination_name_3>", "Attune to Area" ],
+        "names": [ "Destination: <u_val:gateway_destination_name_9>", "Attune to Area" ],
         "keys": [ "1", "2" ],
-        "descriptions": [ "Teleport to <u_val:gateway_destination_name_3>.", "Attune to a new destination." ],
+        "descriptions": [ "Teleport to <u_val:gateway_destination_name_9>.", "Attune to a new destination." ],
         "hide_failing": true,
         "allow_cancel": true
       }
