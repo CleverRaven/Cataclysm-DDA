@@ -27,15 +27,15 @@
 static const itype_id itype_candle_wax( "candle_wax" );
 static const itype_id itype_dress_shirt( "dress_shirt" );
 static const itype_id itype_match( "match" );
+static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
+static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
 static const itype_id itype_test_armor_chitin_copy_prop( "test_armor_chitin_copy_prop" );
 static const itype_id itype_test_armor_chitin_copy_rel( "test_armor_chitin_copy_rel" );
+static const itype_id itype_test_armor_chitin_copy_w_armor( "test_armor_chitin_copy_w_armor" );
 static const itype_id
 itype_test_armor_chitin_copy_w_armor_prop( "test_armor_chitin_copy_w_armor_prop" );
 static const itype_id
 itype_test_armor_chitin_copy_w_armor_rel( "test_armor_chitin_copy_w_armor_rel" );
-static const itype_id itype_test_armor_chitin_copy_w_armor( "test_armor_chitin_copy_w_armor" );
-static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
-static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
 static const itype_id itype_textbook_chemistry( "textbook_chemistry" );
 static const itype_id itype_tshirt( "tshirt" );
 static const itype_id itype_zentai( "zentai" );
@@ -46,13 +46,13 @@ static const recipe_id recipe_pur_tablets( "pur_tablets" );
 
 static const skill_id skill_survival( "survival" );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
-
-static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
 
 // ITEM INFO
 // =========
