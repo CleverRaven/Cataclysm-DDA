@@ -7,12 +7,16 @@
 #include <numeric>
 #include <string>
 #include <vector>
+#include <ranges>
+#include <string_view>
 
 #include "action.h"
 #include "cata_imgui.h"
 #include "color.h"
 #include "debug.h"
 #include "imgui/imgui.h"
+#include "imgui_md/imgui_md.h"
+#include "md4c/md4c.h"
 #include "input_context.h"
 #include "json_error.h"
 #include "output.h"
@@ -88,6 +92,13 @@ void help::load_object( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if (jo.has_string("filename")) {
+        std::string filename = jo.get_string( "filename" );
+        auto res = read_whole_file(PATH_INFO::jsondir() / filename);
+        if (res.has_value()) {
+            category.markdown = res.value();
+        }
+    }
 
     const int modified_order = jo.get_int( "order" ) + current_order_start;
     if( !help_categories.try_emplace( modified_order, category ).second ) {
@@ -232,44 +243,122 @@ void help_window::format_title( const std::string translated_category_name )
     ImGui::SetCursorPos( end_pos );
 }
 
-//void help_window::format_subtitle( const std::string translated_category_name )
+// void help_window::format_subtitle( const std::string translated_category_name
+// )
 //{
-//    if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
-//        cataimgui::TextColoredParagraph( c_white, translated_category_name );
-//        ImGui::NewLine();
-//        return;
-//    }
-//    const float title_length = ImGui::CalcTextSize( remove_color_tags(
-//                                   translated_category_name ).c_str() ).x;
-//    cataimgui::PushMonoFont();
-//    const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═" ).x )  + 4 );
-//    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-//    for( int i = sep_len; i > 0; i-- ) {
-//        ImGui::Text( "▁" );
-//        ImGui::SameLine( 0.f, 0.f );
-//    }
-//    ImGui::NewLine();
-//    // Using the matching box character doesn't look good bc there's forced(?) y spacing on NewLine
-//    ImGui::Text( "▏ " );
-//    ImGui::SameLine( 0.f, 0.f );
-//    ImGui::PopStyleColor();
-//    ImGui::PopFont();
-//    cataimgui::TextColoredParagraph( c_white, translated_category_name );
-//    cataimgui::PushMonoFont();
-//    ImGui::SameLine( 0.f, 0.f );
-//    ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
-//    ImGui::Text( " ▕" );
-//    for( int i = sep_len; i > 0; i-- ) {
-//        ImGui::Text( "▔" );
-//        ImGui::SameLine( 0.f, 0.f );
-//    }
-//    ImGui::PopStyleColor();
-//    ImGui::PopFont();
-//    ImGui::NewLine();
-//    ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
-//    ImGui::Separator();
-//    ImGui::PopStyleColor();
-//}
+//     if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
+//         cataimgui::TextColoredParagraph( c_white, translated_category_name );
+//         ImGui::NewLine();
+//         return;
+//     }
+//     const float title_length = ImGui::CalcTextSize( remove_color_tags(
+//                                    translated_category_name ).c_str() ).x;
+//     cataimgui::PushMonoFont();
+//     const int sep_len = std::ceil( ( title_length / ImGui::CalcTextSize( "═"
+//     ).x )  + 4 ); ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue ); for(
+//     int i = sep_len; i > 0; i-- ) {
+//         ImGui::Text( "▁" );
+//         ImGui::SameLine( 0.f, 0.f );
+//     }
+//     ImGui::NewLine();
+//     // Using the matching box character doesn't look good bc there's
+//     forced(?) y spacing on NewLine ImGui::Text( "▏ " ); ImGui::SameLine( 0.f,
+//     0.f ); ImGui::PopStyleColor(); ImGui::PopFont();
+//     cataimgui::TextColoredParagraph( c_white, translated_category_name );
+//     cataimgui::PushMonoFont();
+//     ImGui::SameLine( 0.f, 0.f );
+//     ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+//     ImGui::Text( " ▕" );
+//     for( int i = sep_len; i > 0; i-- ) {
+//         ImGui::Text( "▔" );
+//         ImGui::SameLine( 0.f, 0.f );
+//     }
+//     ImGui::PopStyleColor();
+//     ImGui::PopFont();
+//     ImGui::NewLine();
+//     ImGui::PushStyleColor( ImGuiCol_Separator, c_light_blue );
+//     ImGui::Separator();
+//     ImGui::PopStyleColor();
+// }
+
+// A markdown renderer specific to the help window
+//
+// This is still a WIP, with some important known defects.
+//
+// * No support for our color tags, or the tags used specifically for
+//   the help system.
+//
+// * Incorrect handling of whitespace in wrapped paragraphs. In HTML,
+//   all whitespace is collapsed and rendered as a single space
+//   character. MD4C is usually used to create HTML from a Markdown
+//   file, so this isn’t handled. As a result no space will be
+//   rendered between consecutive words in a wrapped paragraph.
+//
+// * We don't have italic or bold fonts, or fonts at additional
+//   sizes. However that is fairly trivial for us to add to our font
+//   loader.
+//
+// * It allocates a lot, and the way it’s written it does the same
+//   work every frame. This is not ideal, but for the Help window it’s
+//   not the end of the world; we could live with it. If Markdown were
+//   to be used anywhere else in the game I would be more worried
+//   about it. It would be nice to make MD4C use an arena allocator
+//   (or to otherwise only allocate whole pages) in order to prevent
+//   memory fragmentation.
+//
+// * This code loads the content of the markdown file(s) at game
+//   startup. There’s no reason it couldn’t postpone that work until
+//   the user actually opens the Help window. Trivial to implement as
+//   well.
+//
+// * The system by which translators contribute translations only
+//   works for JSON files. I’m sure that wouldn’t be too hard to
+//   handle.
+struct help_markdown : public imgui_md::imgui_md
+{
+    void BLOCK_QUOTE(bool e) override
+    {
+        if (e) {
+            ImGui::Indent();
+        } else {
+            ImGui::Unindent();
+        }
+        imgui_md::imgui_md::BLOCK_QUOTE(e);
+    }
+
+    void BLOCK_CODE(const md4c::MD_BLOCK_CODE_DETAIL* d, bool e) override
+    {
+        if (e) {
+            ImGui::NewLine();
+            ImGui::Indent();
+        } else {
+            ImGui::Unindent();
+        }
+        imgui_md::imgui_md::BLOCK_CODE(d, e);
+    }
+
+    ImFont* get_font() const override
+    {
+        if (m_is_code) {
+            return ImGui::GetIO().Fonts->Fonts[1];
+        } else {
+            return ImGui::GetIO().Fonts->Fonts[0];
+        }
+    };
+
+    void open_url() const override
+    {
+        // I don’t know if we want this, but let’s leave it in and see what happens
+        //platform dependent code
+        SDL_OpenURL(m_href.c_str());
+    }
+};
+
+static void draw_movement_category(std::string src) {
+  static help_markdown printer;
+  const char *s = src.data();
+  printer.print(s, s+src.length());
+}
 
 void help_window::draw_category()
 {
@@ -281,9 +370,12 @@ void help_window::draw_category()
         cataimgui::set_scroll( s );
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        for( const std::pair<std::string, int> &translated_paragraph :
-             translated_paragraphs ) {
-            switch( translated_paragraph.second ) {
+        if (!cat.markdown.empty()) {
+            draw_movement_category( cat.markdown );
+        } else {
+            for( const std::pair<std::string, int> &translated_paragraph :
+                     translated_paragraphs ) {
+                switch( translated_paragraph.second ) {
                 case MM_NORMAL:
                     cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
                     break;
@@ -296,24 +388,25 @@ void help_window::draw_category()
                     cataimgui::TextColoredParagraph( c_white, translated_paragraph.first );
                     ImGui::PopFont();
                     break;
-                // Causing a missing EndChild() ImGui crash?
-                //case MM_SEPERATOR: {
-                //    nc_color col = get_all_colors().name_to_color( translated_paragraph.first );
-                //    ImGui::PushStyleColor( ImGuiCol_Separator, cataimgui::imvec4_from_color( col ) );
-                //    ImGui::Separator();
-                //    ImGui::PopStyleColor();
-                //    break;
-                //}
-                // Temporary until crash is worked out
+                    // Causing a missing EndChild() ImGui crash?
+                    //case MM_SEPERATOR: {
+                    //    nc_color col = get_all_colors().name_to_color( translated_paragraph.first );
+                    //    ImGui::PushStyleColor( ImGuiCol_Separator, cataimgui::imvec4_from_color( col ) );
+                    //    ImGui::Separator();
+                    //    ImGui::PopStyleColor();
+                    //    break;
+                    //}
+                    // Temporary until crash is worked out
                 case MM_SEPERATOR:
                     ImGui::Separator();
                     break;
                 default:
                     debugmsg( "Unexpected help message modifier" );
                     continue;
+                }
+                ImGui::NewLine();
+                ImGui::NewLine();
             }
-            ImGui::NewLine();
-            ImGui::NewLine();
         }
         ImGui::EndTable();
     }

@@ -14,6 +14,7 @@
     "type": "help",
     "order": 1,
     "name": "Movement",
+    "filename": "help_movement.md",
     "messages": [
       "Movement is typically performed using the numpad, vikeys, the mouse or arrow keys. Here are the layouts for numpad and vikeys, where the central bind is to wait in place:",
       {

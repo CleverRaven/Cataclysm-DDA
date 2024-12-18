@@ -25,6 +25,7 @@ class window;
 struct help_category {
     translation name;
     std::vector<std::pair<translation, int>> paragraphs;
+    std::string markdown;
 };
 
 class help

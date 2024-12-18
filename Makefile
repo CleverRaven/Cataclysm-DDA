@@ -118,6 +118,7 @@ ifeq ($(NATIVE), emscripten)
   # The EM_ASM macro triggers this warning.
   WARNINGS += -Wno-gnu-zero-variadic-macro-arguments
 endif
+CXXFLAGS += -std=c++20
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -169,6 +170,8 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 IMGUI_DIR = $(SRC_DIR)/third-party/imgui
 IMTUI_DIR = $(SRC_DIR)/third-party/imtui
+IMGUI_MD_DIR = $(SRC_DIR)/third-party/imgui_md
+MD4C_DIR = $(SRC_DIR)/third-party/md4c
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
@@ -971,7 +974,7 @@ else
 	IMGUI_SOURCES += $(IMTUI_DIR)/imtui-impl-ncurses.cpp $(IMTUI_DIR)/imtui-impl-text.cpp
 	DEFINES += -DIMTUI
 endif
-
+IMGUI_SOURCES += $(MD4C_DIR)/entity.cpp $(MD4C_DIR)/md4c.cpp $(IMGUI_MD_DIR)/imgui_md.cpp
 SOURCES += $(IMGUI_SOURCES)
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
@@ -1100,6 +1103,12 @@ $(ODIR)/third-party/imgui/%.o: $(IMGUI_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/third-party/imtui/%.o: $(IMTUI_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+
+$(ODIR)/third-party/imgui_md/%.o: $(IMGUI_MD_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+
+$(ODIR)/third-party/md4c/%.o: $(MD4C_DIR)/%.c
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
