@@ -625,6 +625,12 @@
       },
       { "math": [ "v_target_var = u_val('stamina')" ] },
       {
+        "set_string_var": "u_xedra_hp_all_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('ALL')" ] },
+      {
         "set_string_var": "u_xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
         "parse_tags": true
@@ -637,11 +643,29 @@
       },
       { "math": [ "v_target_var = u_hp('head')" ] },
       {
+        "set_string_var": "u_xedra_hp_eyes_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('eyes')" ] },
+      {
+        "set_string_var": "u_xedra_hp_mouth_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('mouth')" ] },
+      {
         "set_string_var": "u_xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
         "parse_tags": true
       },
       { "math": [ "v_target_var = u_hp('arm_l')" ] },
+      {
+        "set_string_var": "u_xedra_hp_hand_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('hand_l')" ] },
       {
         "set_string_var": "u_xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
@@ -649,17 +673,35 @@
       },
       { "math": [ "v_target_var = u_hp('arm_r')" ] },
       {
+        "set_string_var": "u_xedra_hp_hand_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('hand_r')" ] },
+      {
         "set_string_var": "u_xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
         "parse_tags": true
       },
       { "math": [ "v_target_var = u_hp('leg_l')" ] },
       {
+        "set_string_var": "u_xedra_hp_foot_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('foot_l')" ] },
+      {
         "set_string_var": "u_xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
         "parse_tags": true
       },
       { "math": [ "v_target_var = u_hp('leg_r')" ] },
+      {
+        "set_string_var": "u_xedra_hp_foot_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "target_var" },
+        "parse_tags": true
+      },
+      { "math": [ "v_target_var = u_hp('foot_r')" ] },
       {
         "set_string_var": "u_xedra_bleed_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "target_var" },
@@ -756,6 +798,12 @@
       },
       { "math": [ "u_val('stamina') = v_temp_var" ] },
       {
+        "set_string_var": "u_xedra_hp_all_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('ALL') = v_temp_var" ] },
+      {
         "set_string_var": "u_xedra_hp_torso_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
@@ -768,11 +816,29 @@
       },
       { "math": [ "u_hp('head') = v_temp_var" ] },
       {
+        "set_string_var": "u_xedra_hp_eyes_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('eyes') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_mouth_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('mouth') = v_temp_var" ] },
+      {
         "set_string_var": "u_xedra_hp_arm_l_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
       { "math": [ "u_hp('arm_l') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_hand_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('hand_l') = v_temp_var" ] },
       {
         "set_string_var": "u_xedra_hp_arm_r_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
@@ -780,17 +846,35 @@
       },
       { "math": [ "u_hp('arm_r') = v_temp_var" ] },
       {
+        "set_string_var": "u_xedra_hp_hand_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('hand_r') = v_temp_var" ] },
+      {
         "set_string_var": "u_xedra_hp_leg_r_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
       { "math": [ "u_hp('leg_r') = v_temp_var" ] },
       {
+        "set_string_var": "u_xedra_hp_foot_r_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('foot_r') = v_temp_var" ] },
+      {
         "set_string_var": "u_xedra_hp_leg_l_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
       { "math": [ "u_hp('leg_l') = v_temp_var" ] },
+      {
+        "set_string_var": "u_xedra_hp_foot_l_before_<context_val:xedra_chronomancer_prefix>",
+        "target_var": { "context_val": "temp_var" },
+        "parse_tags": true
+      },
+      { "math": [ "u_hp('foot_l') = v_temp_var" ] },
       {
         "set_string_var": "u_xedra_bleed_before_<context_val:xedra_chronomancer_prefix>",
         "target_var": { "context_val": "temp_var" },

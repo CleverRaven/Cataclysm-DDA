@@ -2846,6 +2846,7 @@
       "FREEZE_EFFECTS",
       "CANNOT_GAIN_EFFECTS"
     ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
     "show_in_info": true
   },
   {
@@ -3017,6 +3018,7 @@
     "remove_message": "Your time loop ends!",
     "rating": "good",
     "flags": [ "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
     "show_in_info": true
   },
   {

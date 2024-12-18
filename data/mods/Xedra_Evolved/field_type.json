@@ -264,6 +264,7 @@
     "description_affix": "in",
     "half_life": "1 seconds",
     "linear_half_life": true,
+    "indestructible": true,
     "bash": { "str_min": 10000, "sound_vol": 0, "sound_fail_vol": 0, "msg_success": "Your strength is stronger than time itself!" },
     "immunity_data": { "flags": [ "STABILIZED_TIMELINE" ] }
   },

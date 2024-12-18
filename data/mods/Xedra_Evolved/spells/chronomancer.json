@@ -28,9 +28,9 @@
     "casting_time_increment": -5
   },
   {
-    "id": "xedra_chronomancer_restore_normal_time",
+    "id": "xedra_chronomancer_normalize_time",
     "type": "SPELL",
-    "name": "Restore Normal Time",
+    "name": "Normalize Time",
     "description": "Fix the target area's timestream, unfreezing frozen targets and ending any active timeloops.",
     "teachable": false,
     "valid_targets": [ "self", "ally", "ground", "hostile" ],
@@ -41,9 +41,9 @@
     "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
     "effect": "remove_effect",
     "effect_str": "effect_xedra_time_freeze",
-    "extra_effects": [ { "id": "xedra_chronomancer_restore_normal_time_terrain" }, { "id": "xedra_chronomancer_restore_normal_time_loop" } ],
+    "extra_effects": [ { "id": "xedra_chronomancer_normalize_time_terrain" }, { "id": "xedra_chronomancer_normalize_time_loop" } ],
     "shape": "blast",
-    "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_restore_normal_time'), 2, 1 ), 80 )" ] },
+    "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_normalize_time'), 2, 1 ), 80 )" ] },
     "max_range": 80,
     "energy_source": "NONE",
     "base_energy_cost": 0,
@@ -52,7 +52,7 @@
     "casting_time_increment": -5
   },
   {
-    "id": "xedra_chronomancer_restore_normal_time_loop",
+    "id": "xedra_chronomancer_normalize_time_loop",
     "type": "SPELL",
     "name": "Unfreeze Time - Loop",
     "description": "Remove a time loop.  Part of the main unfreeze spell.  Having this spell is a bug.",
@@ -73,7 +73,7 @@
     "base_casting_time": 0
   },
   {
-    "id": "xedra_chronomancer_restore_normal_time_terrain",
+    "id": "xedra_chronomancer_normalize_time_terrain",
     "type": "SPELL",
     "name": "Unfreeze Time - Terrain",
     "description": "Unfreeze terrain from frozen time.  Part of the main unfreeze spell.  Having this spell is a bug.",
@@ -85,7 +85,7 @@
     "difficulty": 0,
     "max_level": 1,
     "effect": "ter_transform",
-    "effect_str": "xedra_chronomancer_restore_normal_time_terrain_furn_transform",
+    "effect_str": "xedra_chronomancer_normalize_time_terrain_furn_transform",
     "shape": "blast",
     "min_range": 80,
     "max_range": 80,
@@ -138,7 +138,7 @@
     "difficulty": 0,
     "max_level": 0,
     "effect": "ter_transform",
-    "effect_str": "xedra_chronomancer_restore_normal_time_terrain_furn_transform",
+    "effect_str": "xedra_chronomancer_normalize_time_terrain_furn_transform",
     "shape": "blast",
     "min_aoe": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_entropic_burst'), 0.5, 1 ), 15 )" ] },
     "max_aoe": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_entropic_burst'), 0.5, 1 ), 15 )" ] },
@@ -173,7 +173,7 @@
   },
   {
     "type": "ter_furn_transform",
-    "id": "xedra_chronomancer_restore_normal_time_terrain_furn_transform",
+    "id": "xedra_chronomancer_normalize_time_terrain_furn_transform",
     "field": [ { "result": [ "fd_null" ], "valid_field": [ "fd_frozen_time" ], "message": "You unfreeze a zone of frozen time." } ]
   },
   {
