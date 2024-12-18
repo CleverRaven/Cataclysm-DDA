@@ -2,13 +2,7 @@
   {
     "type": "palette",
     "id": "struc_damage",
-    "parameters": {
-      "crashvariant": {
-        "type": "string",
-        "scope": "omt",
-        "default": { "distribution": [ "fromleft", "fromright" ] }
-      }
-    },
+    "parameters": { "crashvariant": { "type": "string", "scope": "omt", "default": { "distribution": [ "fromleft", "fromright" ] } } },
     "ter_furn_transforms": {
       "c": {
         "transform": {
