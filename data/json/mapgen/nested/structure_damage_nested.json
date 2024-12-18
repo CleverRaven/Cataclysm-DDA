@@ -17,13 +17,7 @@
         "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "tft_null", "fromright": "struc_carcrash_dirt" } }
       },
       "w": {
-        "transform": {
-          "switch": { "param": "crashvariant" },
-          "cases": {
-            "fromleft": "struc_carcrash_rubble",
-            "fromright": "tft_null"
-          }
-        }
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "struc_carcrash_rubble", "fromright": "tft_null" } }
       },
       "j": {
         "transform": {
