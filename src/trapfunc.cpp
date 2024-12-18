@@ -225,7 +225,7 @@ static void mount_step_on_trap_make_slow_give_msg( monster *z, const tripoint &p
     map &here = get_map();
     Character *rider = nullptr;
     for( npc &guy : g->all_npcs() ) {
-        if( guy.pos() == p && guy.pos() == z->pos() ) {
+        if( guy.pos() == p && guy.pos_bub() == z->pos_bub() ) {
             rider = &guy;
             break;
         }
@@ -415,7 +415,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
             }
             if( !valid.empty() ) {
                 player_character.setpos( random_entry( valid ) );
-                z->setpos( player_character.pos() );
+                z->setpos( player_character.pos_bub() );
             }
             player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );

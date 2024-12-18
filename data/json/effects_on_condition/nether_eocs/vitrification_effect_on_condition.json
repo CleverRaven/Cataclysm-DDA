@@ -12,7 +12,7 @@
     },
     "effect": [
       {
-        "u_message": "There is a soft, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.",
+        "u_message": "<color_red>There is a soft, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.</color>",
         "type": "neutral",
         "popup": true
       },

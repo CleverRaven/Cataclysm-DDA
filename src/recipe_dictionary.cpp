@@ -209,9 +209,8 @@ static Unit can_contain_filter( std::string_view hint, std::string_view txt, Uni
         popup( err.what() );
     }
     // copy the debug item template (itype)
-    filtered_fake_itype = itype( *( item_controller->find( []( const itype & i ) {
-        return i.get_id() == STATIC( itype_id( "debug_item_search" ) );
-    } )[0] ) );
+    filtered_fake_itype = itype( *item_controller->find_template( STATIC(
+                                     itype_id( "debug_item_search" ) ) ) );
     return uni;
 }
 

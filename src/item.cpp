@@ -955,7 +955,7 @@ bool item::is_frozen_liquid() const
     return made_of( phase_id::SOLID ) && made_of_from_type( phase_id::LIQUID );
 }
 
-bool item::covers( const sub_bodypart_id &bp ) const
+bool item::covers( const sub_bodypart_id &bp, bool check_ablative_armor ) const
 {
     // if the item has no armor data it doesn't cover that part
     const islot_armor *armor = find_armor_data();
@@ -982,18 +982,18 @@ bool item::covers( const sub_bodypart_id &bp ) const
 
     iterate_covered_sub_body_parts_internal( get_side(), [&]( const sub_bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
-    } );
+    }, check_ablative_armor );
 
     return does_cover || subpart_cover;
 }
 
-bool item::covers( const bodypart_id &bp ) const
+bool item::covers( const bodypart_id &bp, bool check_ablative_armor ) const
 {
     bool does_cover = false;
     bool subpart_cover = false;
     iterate_covered_body_parts_internal( get_side(), [&]( const bodypart_str_id & covered ) {
         does_cover = does_cover || bp == covered;
-    } );
+    }, check_ablative_armor );
 
     return does_cover || subpart_cover;
 }
@@ -1111,12 +1111,14 @@ static void iterate_helper_sbp( const item *i, const side s,
 }
 
 void item::iterate_covered_sub_body_parts_internal( const side s,
-        const std::function<void( const sub_bodypart_str_id & )> &cb ) const
+        const std::function<void( const sub_bodypart_str_id & )> &cb,
+        bool check_ablative_armor ) const
+
 {
     iterate_helper_sbp( this, s, cb );
 
     //check for ablative armor too
-    if( is_ablative() ) {
+    if( check_ablative_armor && is_ablative() ) {
         for( const item_pocket *pocket : get_all_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
@@ -1159,12 +1161,13 @@ static void iterate_helper( const item *i, const side s,
 }
 
 void item::iterate_covered_body_parts_internal( const side s,
-        const std::function<void( const bodypart_str_id & )> &cb ) const
+        const std::function<void( const bodypart_str_id & )> &cb,
+        bool check_ablative_armor ) const
 {
     iterate_helper( this, s, cb );
 
     //check for ablative armor too
-    if( is_ablative() ) {
+    if( check_ablative_armor && is_ablative() ) {
         for( const item_pocket *pocket : get_all_ablative_pockets() ) {
             if( !pocket->empty() ) {
                 // get the contained plate
@@ -8411,36 +8414,75 @@ int item::get_avg_coverage( const cover_type &type ) const
 
 int item::get_coverage( const bodypart_id &bodypart, const cover_type &type ) const
 {
+    int coverage = 0;
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         switch( type ) {
-            case cover_type::COVER_DEFAULT:
-                return portion_data->coverage;
-            case cover_type::COVER_MELEE:
-                return portion_data->cover_melee;
-            case cover_type::COVER_RANGED:
-                return portion_data->cover_ranged;
-            case cover_type::COVER_VITALS:
-                return portion_data->cover_vitals;
+            case cover_type::COVER_DEFAULT: {
+                coverage = portion_data->coverage;
+                break;
+            }
+            case cover_type::COVER_MELEE: {
+                coverage = portion_data->cover_melee;
+                break;
+            }
+            case cover_type::COVER_RANGED: {
+                coverage = portion_data->cover_ranged;
+                break;
+            }
+            case cover_type::COVER_VITALS: {
+                coverage = portion_data->cover_vitals;
+                break;
+            }
         }
     }
-    return 0;
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                //Rationale for this kind of aggregation is that ablative armor
+                //can't be bigger than an armor that contains it. But it may cover
+                //new body parts, e.g. face shield attached to hard hat.
+                coverage = std::max( coverage, ablative_armor.get_coverage( bodypart ) );
+            }
+        }
+    }
+    return coverage;
 }
 
 int item::get_coverage( const sub_bodypart_id &bodypart, const cover_type &type ) const
 {
+    int coverage = 0;
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         switch( type ) {
-            case cover_type::COVER_DEFAULT:
-                return portion_data->coverage;
-            case cover_type::COVER_MELEE:
-                return portion_data->cover_melee;
-            case cover_type::COVER_RANGED:
-                return portion_data->cover_ranged;
-            case cover_type::COVER_VITALS:
-                return portion_data->cover_vitals;
+            case cover_type::COVER_DEFAULT: {
+                coverage = portion_data->coverage;
+                break;
+            }
+            case cover_type::COVER_MELEE: {
+                coverage = portion_data->cover_melee;
+                break;
+            }
+            case cover_type::COVER_RANGED: {
+                coverage = portion_data->cover_ranged;
+                break;
+            }
+            case cover_type::COVER_VITALS: {
+                coverage = portion_data->cover_vitals;
+                break;
+            }
         }
     }
-    return 0;
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                coverage = std::max( coverage, ablative_armor.get_coverage( bodypart ) );
+            }
+        }
+    }
+    return coverage;
 }
 
 bool item::has_sublocations() const
@@ -8501,6 +8543,7 @@ float item::get_thickness( const bodypart_id &bp ) const
     if( t == nullptr ) {
         return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
     }
+    float avg_thickness = 0.0f;
 
     for( const armor_portion_data &data : t->data ) {
         if( !data.covers.has_value() ) {
@@ -8508,12 +8551,33 @@ float item::get_thickness( const bodypart_id &bp ) const
         }
         for( const bodypart_str_id &bpid : data.covers.value() ) {
             if( bp == bpid ) {
-                return data.avg_thickness;
+                avg_thickness = data.avg_thickness;
+                break;
             }
         }
+        if( avg_thickness > 0.0f ) {
+            break;
+        }
     }
-    // body part not covered by this armour
-    return 0.0f;
+    if( is_ablative() ) {
+        int ablatives = 0;
+        float ablative_thickness = 0.0;
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                float tmp_thickness = ablative_armor.get_thickness( bp );
+                if( tmp_thickness > 0.0f ) {
+                    ablative_thickness += tmp_thickness;
+                    ablatives += 1;
+                }
+            }
+        }
+        if( ablatives ) {
+            avg_thickness += ablative_thickness / ablatives;
+        }
+    }
+    return avg_thickness;
 }
 
 float item::get_thickness( const sub_bodypart_id &bp ) const
@@ -8538,7 +8602,8 @@ int item::get_warmth( const bodypart_id &bp ) const
 {
     double warmth_val = 0.0;
     float limb_coverage = 0.0f;
-    if( !covers( bp ) ) {
+    bool check_ablative_armor = false;
+    if( !covers( bp, check_ablative_armor ) ) {
         return 0;
     }
     warmth_val = get_warmth();
@@ -8551,7 +8616,7 @@ int item::get_warmth( const bodypart_id &bp ) const
         limb_coverage = 100;
     } else {
         for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-            if( !covers( sbp ) ) {
+            if( !covers( sbp, check_ablative_armor ) ) {
                 continue;
             }
 
@@ -8559,7 +8624,19 @@ int item::get_warmth( const bodypart_id &bp ) const
             limb_coverage += sbp->max_coverage;
         }
     }
-    return std::round( warmth_val * limb_coverage / 100.0f );
+    int warmth = std::round( warmth_val * limb_coverage / 100.0f );
+
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                warmth += ablative_armor.get_warmth( bp );
+            }
+        }
+    }
+
+    return warmth;
 }
 
 units::volume item::get_pet_armor_max_vol() const
@@ -8927,6 +9004,19 @@ int item::breathability( const bodypart_id &bp ) const
     }
     const armor_portion_data *a = portion_for_bodypart( bp );
     if( a == nullptr ) {
+        //This body part might still be covered by attachments of this armor (for example face shield).
+        //Check their breathability.
+        if( is_ablative() ) {
+            for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+                if( !pocket->empty() ) {
+                    // get the contained plate
+                    const item &ablative_armor = pocket->front();
+                    if( ablative_armor.covers( bp ) ) {
+                        return ablative_armor.breathability( bp );
+                    }
+                }
+            }
+        }
         // if it doesn't cover it breathes great
         return 100;
     }
@@ -9289,7 +9379,28 @@ std::vector<const part_material *> item::armor_made_of( const bodypart_id &bp ) 
             for( const part_material &m : d.materials ) {
                 matlist.emplace_back( &m );
             }
-            return matlist;
+            break;
+        }
+        if( !matlist.empty() ) {
+            break;
+        }
+    }
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                auto abl_mat = ablative_armor.armor_made_of( bp );
+                //It is not clear how to aggregate armor material from different pockets.
+                //A vest might contain two different plates from different materials.
+                //But only one plate can be hit at one attack (according to Character::ablative_armor_absorb).
+                //So for now return here only material for one plate + base clothing materials.
+                if( !abl_mat.empty() ) {
+                    matlist.insert( std::end( matlist ), std::begin( abl_mat ), std::end( abl_mat ) );
+                    return matlist;
+                }
+
+            }
         }
     }
     return matlist;
@@ -9313,7 +9424,24 @@ std::vector<const part_material *> item::armor_made_of( const sub_bodypart_id &b
             for( const part_material &m : d.materials ) {
                 matlist.emplace_back( &m );
             }
-            return matlist;
+            break;
+        }
+        if( !matlist.empty() ) {
+            break;
+        }
+    }
+    if( is_ablative() ) {
+        for( const item_pocket *pocket : contents.get_all_ablative_pockets() ) {
+            if( !pocket->empty() ) {
+                // get the contained plate
+                const item &ablative_armor = pocket->front();
+                auto abl_mat = ablative_armor.armor_made_of( bp );
+                if( !abl_mat.empty() ) {
+                    matlist.insert( std::end( matlist ), std::begin( abl_mat ), std::end( abl_mat ) );
+                    return matlist;
+                }
+
+            }
         }
     }
     return matlist;

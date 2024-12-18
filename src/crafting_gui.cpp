@@ -265,6 +265,7 @@ struct availability {
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
+        // Used as an indicator to see if crafting is called via camp. if not nullptr, we must be camp crafting
         inventory *inv_override;
     private:
         const recipe *rec;
@@ -488,7 +489,7 @@ static std::vector<std::string> recipe_info(
                   "when it is not</color>.\n" );
     }
     std::string reason;
-    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason );
+    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason ) && !avail.inv_override ;
     if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() && !npc_cant ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components.</color>\n" );
@@ -2308,7 +2309,8 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
         if( !to_compare ) {
             break;
         }
-        game_menus::inv::compare_items( recipe_item, *to_compare );
+        game_menus::inv::compare_item_menu menu( recipe_item, *to_compare );
+        menu.show();
     } while( true );
 }
 

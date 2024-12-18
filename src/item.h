@@ -2111,11 +2111,11 @@ class item : public visitable
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( const bodypart_id &bp ) const;
+        bool covers( const bodypart_id &bp, bool check_ablative_armor = true ) const;
         /**
          * Whether this item (when worn) covers the given sub body part.
          */
-        bool covers( const sub_bodypart_id &bp ) const;
+        bool covers( const sub_bodypart_id &bp, bool check_ablative_armor = true ) const;
         // do both items overlap a bodypart at all? returns the side that conflicts via rhs
         std::optional<side> covers_overlaps( const item &rhs ) const;
         /**
@@ -3056,9 +3056,11 @@ class item : public visitable
         bool process_internal( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
                                temperature_flag flag, float spoil_modifier, bool watertight_container );
         void iterate_covered_body_parts_internal( side s,
-                const std::function<void( const bodypart_str_id & )> &cb ) const;
+                const std::function<void( const bodypart_str_id & )> &cb,
+                bool check_ablative_armor = true ) const;
         void iterate_covered_sub_body_parts_internal( side s,
-                const std::function<void( const sub_bodypart_str_id & )> &cb ) const;
+                const std::function<void( const sub_bodypart_str_id & )> &cb,
+                bool check_ablative_armor = true ) const;
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings

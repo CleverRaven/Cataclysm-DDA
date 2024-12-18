@@ -120,7 +120,7 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     tripoint const u_shift = GENERATE( tripoint::zero, tripoint::above );
     CAPTURE( u_shift );
     // Allow player to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
-    u.setpos( u.pos() + u_shift, false );
+    u.setpos( u.pos_bub() + u_shift, false );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     time_point time_dst;
@@ -139,11 +139,11 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     REQUIRE( u.fine_detail_vision_mod() == expected_vision );
     SECTION( "NPC on same z-level" ) {
         // Allow NPC to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
-        n.setpos( u.pos() + tripoint::east, false );
+        n.setpos( u.pos_bub() + tripoint_rel_ms::east, false );
         CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
     }
     SECTION( "NPC on a different z-level" ) {
-        n.setpos( u.pos() + tripoint::above, false );
+        n.setpos( u.pos_bub() + tripoint_rel_ms::above, false );
         // light map is not calculated outside the player character's z-level
         // even if fov_3d_z_range > 0, and building light map on multiple levels
         // could be expensive, so make NPCs able to see things in this case to
