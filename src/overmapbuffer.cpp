@@ -870,6 +870,7 @@ overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
     // 24 tiles = 24 seconds walking
+    ret.set_cost( oter_travel_cost_type::highway, 16 );
     ret.set_cost( oter_travel_cost_type::road, 24 );
     ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
     ret.set_cost( oter_travel_cost_type::field, 36 );
@@ -895,6 +896,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
+    ret.set_cost( oter_travel_cost_type::highway, 6 );
     ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
     const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );

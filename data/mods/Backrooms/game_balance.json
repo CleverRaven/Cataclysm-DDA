@@ -64,5 +64,12 @@
     "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "info": "Allows to place fixed distance highways during overmap generation.",
+    "stype": "bool",
+    "value": false
   }
 ]
