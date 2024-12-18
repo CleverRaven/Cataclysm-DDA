@@ -10476,7 +10476,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c ) const
 
     int height = 0;
     tripoint_bub_ms where( p );
-    tripoint_bub_ms below( where + tripoint::below );
+    tripoint_bub_ms below( where + tripoint_rel_ms::below );
     creature_tracker &creatures = get_creature_tracker();
     while( valid_move( where, below, false, true ) ) {
         where.z()--;
@@ -10529,7 +10529,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c ) const
         if( c->has_effect( effect_strengthened_gravity ) ) {
             height += 1;
         }
-        c->impact( height * 10, where.raw() );
+        c->impact( height * 10, where );
         return true;
     }
 
@@ -10578,11 +10578,11 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c ) const
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
-            you->impact( height * 30, where.raw() );
+            you->impact( height * 30, where );
 
         }
     } else {
-        you->impact( height * 30, where.raw() );
+        you->impact( height * 30, where );
     }
 
     if( has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
