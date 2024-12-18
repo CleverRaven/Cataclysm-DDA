@@ -62,6 +62,7 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
 {
     if( parts.empty() ) {
         debugmsg( "Asked for names of empty list" );
+        
         return {};
     }
 
