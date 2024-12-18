@@ -415,7 +415,6 @@ Remade the 3x3 hospital
 Some houses are under construction
 Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
 fungalize stages for rest of zombies
-Adds the potential for car crash structure damage to compatible bungalow houses.
 
 
 ## Interface:
@@ -549,7 +548,6 @@ Migrate popups in pocket settings menu to ImGui
 Migrate martial arts details window to imgui
 Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
-Fixes and standardizes spelling and punctuation
 
 
 ## Mods:
@@ -894,34 +892,16 @@ Martial Mastery: Insight is cleared when using other martial arts
 [Xedra Evolved] Add new time related powers for each default dream class
 Aftershock: Replace exosuit forcefield with backpack generator
 [MoM] Add new `u_cancel_activity` to unlocking new power/wakeful rest
-[Xedra Evolved] Moon's tears battleaxe copies from hardened steel battleaxe
-[MoM] Eaters can't attack through walls
-[MoM] Add Vitakinetic power Degenerating Touch
-[MoM] Add help files
 Aftershock: Shield bionics deploy Riemman shields
 [Xedra Evolved] Add more wilderness spooky messages
 [Xedra Evolved] Add Exhalation of Ashes spell to salamanders
-[Magiclysm] Add Mind Crush spell
-[Magiclysm] Balance everburning torch and magical reading light by swapping their prices
 [MoM] Psi passives turn off if you can't use psionics
 [Magiclysm/Xedra Evolved] Animals can't do that
-[Magiclysm] Ravenfolk tweaks
 [XE] Gracken Stomach Traits
-[MoM] Add `mon_hologram` appearance to Astral Projection
 [Magiclysm/Innawood] Revamp goblin/orc drops to separate itemgroups, make them fit Innawood
 [Magiclysm] The Forge of Wonders puts no value on food or drink, minimal value on guns and ammo (except the pirates)
 [Magiclysm/Innawood] Allow troll caves to spawn innawood
 [Magiclysm] Rock trolls actually turn to stone
-[Magiclysm] Give elves their own sight trait instead of using fey vision
-[MoM] Add the Font of Vitality, the tier 3 feral vitakinetic
-[Magiclysm] Add Imperishable Light spell
-[MoM] Gateway now auto-ends activity, attunes slightly faster, documention fixed
-[Magiclysm] Add sprite override to Spirit-Walking
-[Magiclysm] Add PHASE_DISTANCE to Traverse the Wilds
-[Magiclysm] Add Carmine Infusion biomancer spell
-[Magiclysm] Sacrificial Regrowth / Renewing the Forest rework
-[Magiclysm/Innawood] Add the giant trees as points of interest (sans druid base)
-[Magiclysm] Rework Wildshape cloaks
 [Xedra Evolved] Add Time Related Monsters
 
 
@@ -1052,9 +1032,6 @@ Rework faction camp mission travel calculations
 Long sticks can now be found in the forest trash group, too
 Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
 Washing kits are now craftable in the dark
-Merge peanut butter and imitation peanutbutter
-Add cut produce to more recipes
-Add awl quality to swiss army knife
 
 
 ## Bugfixes:
@@ -1425,25 +1402,7 @@ crash on keybind reset in UILIST
 Fix broken macOS build due removed folder
 Fix an EOC that was looping infinitely and starting more loops as you travel
 Allow attacking with CANNOT_MOVE flag
-[Xedra Evolved] Fix ierde faction relations
-fix checks for charges in EoC, excluding items with flags that do not have own charges
-Microlab glass walls and doors now break into reinf concrete flooring
-Typo fixed for 'f_empty_spike' involving bash drops
-Add cut pepper byproduct to bell pepper & chili pepper seeds recipes
-Fix negative sound when smashing satellite dish
-Make barter / volume sorting account for stack size
-[Magiclysm] Reduce zombie dwarves' speed
-[Innawood] Fix scrap from hematite giving too much scrap
-Change the material of armored gauntlets from iron to steel
-[Magiclysm] Freshup up bile fix
-[Magiclysm] Fix Sacrificial Regrowth
-[MoM] Fix Suppression Belt
-Fix crashes in macOS due to parsing UTF8 string improperly
-Faction camp clearcutting works on rural roads again
-cataimgui::TextColoredParagraph can now handle a < followed by a tag
 Killing hostile NPCs won't give "Killed innocent" morale debuff anymore
-Fix currently selected item not being visible in some menus
-Fixes Jewelry store mapgen.
 
 
 ## Performance:
