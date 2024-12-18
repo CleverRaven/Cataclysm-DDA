@@ -501,6 +501,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CHRONOMANCER_GAIN_MEMORIZE_LOCATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_learns_spell",
+    "condition": { "compare_string": [ "xedra_chronomancer_revert_location", { "context_val": "spell" } ] },
+    "effect": [
+      { "math": [ "u_spell_level('xedra_chronomancer_revert_location_attune') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_GAIN_EFFECT",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",

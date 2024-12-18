@@ -281,6 +281,57 @@
     "base_casting_time": 0
   },
   {
+    "id": "xedra_chronomancer_revert_location",
+    "type": "SPELL",
+    "name": "Revert Location",
+    "description": "Revert yourself to a location you have previously memorized.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "XEDRA_CHRONOMANCER",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
+    "effect": "translocate",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "final_energy_cost": 500,
+    "energy_increment": -25,
+    "base_casting_time": 200,
+    "final_casting_time": 50,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "xedra_chronomancer_revert_location_attune",
+    "type": "SPELL",
+    "name": "Memorize Location",
+    "description": "Spend time memorizing an area so you can revert your physical location to that spot.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "XEDRA_CHRONOMANCER",
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_FAIL" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "effect": "ter_transform",
+    "effect_str": "xedra_chronomancer_memorize_terrain_switch",
+    "shape": "blast",
+    "min_range": 0
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "xedra_chronomancer_memorize_terrain_switch",
+    "furniture": [
+      {
+        "result": "xedra_chronomancer_memorized_terrain",
+        "valid_furniture": [ "f_null" ],
+        "message": "You don't think you'd forget this spot.",
+        "message_good": true
+      }
+    ]
+  },
+  {
     "id": "xedra_chronomancer_cement_time",
     "type": "SPELL",
     "name": "Cement Time",
