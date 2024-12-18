@@ -9,6 +9,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_time_bubble>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_bubble>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -34,6 +35,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_entropic_burst>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_entropic_burst>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -62,6 +64,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_revert_wound>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 4" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_revert_wound>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -87,6 +90,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_time_loop>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 5" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_loop>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -112,6 +116,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_time_stop>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 150" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 10" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_stop>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -140,6 +145,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_revert_location>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_revert_location>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -168,6 +174,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_cement_time>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 10" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_cement_time>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -196,6 +203,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_chronal_acceleration>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_chronal_acceleration>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -221,6 +229,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_stable_loop>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 5" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_stable_loop>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -249,6 +258,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_destabilizing_strikes>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_destabilizing_strikes>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -274,6 +284,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_stabilize_timeline>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_stabilize_timeline>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -299,6 +310,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_reverse_entropy>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_reverse_entropy>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -324,6 +336,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_rewrite_wound_causality>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_wound_causality>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -352,6 +365,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_rewrite_equipment_causality>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_equipment_causality>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -468,7 +482,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRONOMANCER_SPELL_MENU_SELECT",
-    "dynamic_line": "<context_val:chronomancer_menu_choice_name>: \"<context_val:chronomancer_menu_choice_description>\"\n<context_val:chronomancer_menu_requirement_description>.\n<context_val:chronomancer_menu_additional_details>",
+    "dynamic_line": "<context_val:chronomancer_menu_choice_name>: \"<context_val:chronomancer_menu_choice_description>\"\nSpell Difficulty:<context_val:chronomancer_menu_difficulty>\n<context_val:chronomancer_menu_requirement_description>.\n<context_val:chronomancer_menu_additional_details>",
     "responses": [
       {
         "text": "Learn Power.",
