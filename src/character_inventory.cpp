@@ -595,7 +595,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     }
     invalidate_leak_level_cache();
     const std::optional<vpart_reference> vp = get_map().veh_at( target ).cargo();
-    if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+    if( rl_dist( pos_bub().raw(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );

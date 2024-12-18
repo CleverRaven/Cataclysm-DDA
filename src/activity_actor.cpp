@@ -1721,9 +1721,9 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         moved_tiles = 0;
     }
     you.mod_moves( -you.get_speed() * 0.5 );
-    get_map().update_visibility_cache( you.pos_bub().z() );
-    get_map().update_visibility_cache( you.pos_bub().x() );
-    get_map().update_visibility_cache( you.pos_bub().y() );
+    get_map().update_visibility_cache( you.posz() );
+    get_map().update_visibility_cache( you.posx() );
+    get_map().update_visibility_cache( you.posy() );
     if( you.is_avatar() ) {
         g->update_map( you );
     }

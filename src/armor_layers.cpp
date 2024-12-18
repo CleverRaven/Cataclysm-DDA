@@ -938,7 +938,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else {
             // Player is sorting NPC's armor here
-            if( rl_dist( player_character.pos(), guy.pos() ) > 1 ) {
+            if( rl_dist( player_character.pos_bub(), guy.pos_bub() ) > 1 ) {
                 guy.add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), guy.get_name() );
                 return;
             }

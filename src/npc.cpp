@@ -272,7 +272,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    set_pos_only( pos );
+    set_pos_only( tripoint_bub_ms( pos ) );
     if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
@@ -1916,11 +1916,11 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
 
     // Sound happens even if we can't hear it
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
-        sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
+        sounds::sound( pos_bub(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
         // Always shouting when in danger or short time since being in danger
-        sounds::sound( pos(), danger_assessment() > NPC_DANGER_VERY_LOW ?
+        sounds::sound( pos_bub(), danger_assessment() > NPC_DANGER_VERY_LOW ?
                        get_shout_volume() : indoor_voice(),
                        sounds::sound_t::speech,
                        sound, false, "speech",
@@ -2692,7 +2692,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return get_creature_tracker().creature_at<npc>( pos() ) == this;
+    return get_creature_tracker().creature_at<npc>( pos_bub() ) == this;
 }
 
 int npc::follow_distance() const

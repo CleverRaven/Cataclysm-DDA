@@ -1492,7 +1492,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
 
 std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
 {
-    if( u.pos().z < 0 ) {
+    if( u.posz() < 0 ) {
         return std::make_pair( _( "Underground" ), c_light_gray );
     } else {
         weather_manager &weather = get_weather();

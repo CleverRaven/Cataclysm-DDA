@@ -1745,7 +1745,7 @@ static void teleport_short()
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_character.pos() );
+    const tripoint_bub_ms new_pos( player_character.pos_bub() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
