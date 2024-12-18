@@ -2534,6 +2534,7 @@
     "city_sizes": [ 3, 20 ],
     "occurrences": [ 35, 100 ],
     "priority": 1,
+    "rotate": false,
     "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
