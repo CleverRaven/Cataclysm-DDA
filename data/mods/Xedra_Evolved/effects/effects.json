@@ -2838,7 +2838,15 @@
     "remove_message": "Everything is suddenly different.",
     "rating": "neutral",
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE", "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS" ],
+    "flags": [
+      "CANNOT_ATTACK",
+      "CANNOT_MOVE",
+      "CANNOT_TAKE_DAMAGE",
+      "CANNOT_CHANGE_TEMPERATURE",
+      "FREEZE_EFFECTS",
+      "CANNOT_GAIN_EFFECTS"
+    ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
     "show_in_info": true
   },
   {
@@ -2882,6 +2890,144 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_chronal_accel",
+    "name": [ "Chronal Acceleration" ],
+    "desc": [ "You are accelerating your relative progression of time compared to the universal baseline." ],
+    "apply_message": "The world slows down around you.",
+    "remove_message": "The world speeds up again.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 5, 0 )" ] }
+          },
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_destabilizing_strikes",
+    "name": [ "Destabilizing Strikes" ],
+    "desc": [ "You maintain a field of destabilized time around you.  Your attacks cause your targets to erode over time." ],
+    "apply_message": "Your hands turn gray as the air around them starts to flicker.",
+    "remove_message": "Your field of destabilized time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      { "hit_you_effect": [ { "id": "xedra_chronomancer_destabilizing_strikes_attack" } ] },
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stabilize_timeline",
+    "name": [ "Stabilized Timeline" ],
+    "desc": [ "You are protected from adverse changes in your personal timestream." ],
+    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic",
+    "remove_message": "You feel more vulnerable to manipulated time.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "flags": [ "STABILIZED_TIMELINE" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_reverse_entropy",
+    "name": [ "Reversed Entropy" ],
+    "desc": [ "Your equipment is slowly losing its damage, repairing itself to its original, ideal form." ],
+    "apply_message": "Your equipment obtains a gray tint and appears ever so slightly more whole.",
+    "remove_message": "Your equipment loses its gray tint.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_wound_causality",
+    "name": [ "Rewriting Wound Causality" ],
+    "desc": [ "Your injuries are disappearing in a harmless paradox." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_equipment_causality",
+    "name": [ "Rewriting Equipment Causality" ],
+    "desc": [ "The equipments' faults are disappearing in a harmless paradox." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_loop",
+    "name": [ "Time Looped" ],
+    "desc": [ "Every few seconds every change to your person reverts." ],
+    "remove_message": "Your time loop ends!",
+    "rating": "good",
+    "flags": [ "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stable_timeloop",
+    "name": [ "Stable Time Loop" ],
+    "desc": [ "You are prepared to revert yourself to a prior point in time." ],
+    "rating": "good",
+    "show_in_info": true
   },
   {
     "type": "effect_type",
