@@ -108,6 +108,62 @@
         "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
       },
       {
+        "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_stop') <= 0" ] },
+        "text": "Learn [<spell_name:xedra_chronomancer_time_stop>]",
+        "effect": [
+          { "math": [ "u_chronomancer_menu_insight_cost = 150" ] },
+          {
+            "set_string_var": "<spell_name:xedra_chronomancer_time_stop>",
+            "target_var": { "context_val": "chronomancer_menu_choice_name" }
+          },
+          {
+            "set_string_var": "<spell_description:xedra_chronomancer_time_stop>",
+            "target_var": { "context_val": "chronomancer_menu_choice_description" }
+          },
+          {
+            "set_string_var": "xedra_chronomancer_time_stop",
+            "target_var": { "context_val": "chronomancer_menu_choice_id" }
+          },
+          {
+            "set_string_var": "<u_val:chronomancer_menu_insight_cost> Insight and Level 20 <spell_name:xedra_chronomancer_time_freeze_target>",
+            "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+          },
+          {
+            "set_condition": "chronomancer_menu_spell_conditions",
+            "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') >= 20" ] }
+          }
+        ],
+        "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
+      },
+      {
+        "condition": { "math": [ "u_spell_level('xedra_chronomancer_cement_time') <= 0" ] },
+        "text": "Learn [<spell_name:xedra_chronomancer_cement_time>]",
+        "effect": [
+          { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
+          {
+            "set_string_var": "<spell_name:xedra_chronomancer_cement_time>",
+            "target_var": { "context_val": "chronomancer_menu_choice_name" }
+          },
+          {
+            "set_string_var": "<spell_description:xedra_chronomancer_cement_time>",
+            "target_var": { "context_val": "chronomancer_menu_choice_description" }
+          },
+          {
+            "set_string_var": "xedra_chronomancer_cement_time",
+            "target_var": { "context_val": "chronomancer_menu_choice_id" }
+          },
+          {
+            "set_string_var": "<u_val:chronomancer_menu_insight_cost> Insight and Level 16 <spell_name:xedra_chronomancer_time_freeze_target> + Level 16 <spell_name:xedra_chronomancer_time_bubble>",
+            "target_var": { "context_val": "chronomancer_menu_requirement_description" }
+          },
+          {
+            "set_condition": "chronomancer_menu_spell_conditions",
+            "condition": { "and": [ { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') >= 16" ] }, { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') >= 16" ] } ] }
+          }
+        ],
+        "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
+      },
+      {
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_chronal_acceleration') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_chronal_acceleration>]",
         "effect": [
@@ -207,34 +263,6 @@
             "target_var": { "context_val": "chronomancer_menu_requirement_description" }
           },
           { "set_condition": "chronomancer_menu_spell_conditions", "condition": { "math": [ "0 == 0" ] } }
-        ],
-        "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
-      },
-      {
-        "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_stop') <= 0" ] },
-        "text": "Learn [<spell_name:xedra_chronomancer_time_stop>]",
-        "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 150" ] },
-          {
-            "set_string_var": "<spell_name:xedra_chronomancer_time_stop>",
-            "target_var": { "context_val": "chronomancer_menu_choice_name" }
-          },
-          {
-            "set_string_var": "<spell_description:xedra_chronomancer_time_stop>",
-            "target_var": { "context_val": "chronomancer_menu_choice_description" }
-          },
-          {
-            "set_string_var": "xedra_chronomancer_time_stop",
-            "target_var": { "context_val": "chronomancer_menu_choice_id" }
-          },
-          {
-            "set_string_var": "<u_val:chronomancer_menu_insight_cost> Insight and Level 20 <spell_name:xedra_chronomancer_time_freeze_target>",
-            "target_var": { "context_val": "chronomancer_menu_requirement_description" }
-          },
-          {
-            "set_condition": "chronomancer_menu_spell_conditions",
-            "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') >= 20" ] }
-          }
         ],
         "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
       },
