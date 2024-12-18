@@ -164,7 +164,12 @@
           },
           {
             "set_condition": "chronomancer_menu_spell_conditions",
-            "condition": { "and": [ { "math": [ "u_spell_level('xedra_chronomancer_stable_loop') >= 16" ] }, { "math": [ "u_spell_level('xedra_chronomancer_revert_wound') >= 16" ] } ] }
+            "condition": {
+              "and": [
+                { "math": [ "u_spell_level('xedra_chronomancer_stable_loop') >= 16" ] },
+                { "math": [ "u_spell_level('xedra_chronomancer_revert_wound') >= 16" ] }
+              ]
+            }
           }
         ],
         "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
@@ -193,7 +198,12 @@
           },
           {
             "set_condition": "chronomancer_menu_spell_conditions",
-            "condition": { "and": [ { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') >= 16" ] }, { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') >= 16" ] } ] }
+            "condition": {
+              "and": [
+                { "math": [ "u_spell_level('xedra_chronomancer_time_freeze_target') >= 16" ] },
+                { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') >= 16" ] }
+              ]
+            }
           }
         ],
         "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"

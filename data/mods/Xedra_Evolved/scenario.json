@@ -117,9 +117,7 @@
       "XEDRA_CHRONOMANCER_TIME_SLOWDOWN",
       "XEDRA_CHRONOMANCER_UNSTABLE_POWERS"
     ],
-    "professions": [
-      "xedra_chronomancer_profession"
-    ],
+    "professions": [ "xedra_chronomancer_profession" ],
     "flags": [ "LONE_START" ]
   }
 ]

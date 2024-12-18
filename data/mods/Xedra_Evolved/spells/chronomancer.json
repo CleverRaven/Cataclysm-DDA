@@ -381,7 +381,13 @@
   {
     "type": "ter_furn_transform",
     "id": "xedra_chronomancer_cement_time_terrain_furn_transform",
-    "field": [ { "result": [ "fd_frozen_time_permanent" ], "valid_field": [ "fd_frozen_time" ], "message": "You permanently freeze a zone of frozen time." } ]
+    "field": [
+      {
+        "result": [ "fd_frozen_time_permanent" ],
+        "valid_field": [ "fd_frozen_time" ],
+        "message": "You permanently freeze a zone of frozen time."
+      }
+    ]
   },
   {
     "id": "xedra_chronomancer_stable_loop",

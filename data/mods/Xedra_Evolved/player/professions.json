@@ -858,9 +858,7 @@
     "name": "Paradox Survivor",
     "description": "Some would say that there's nothing particularly notable about you, but you've survived, and that's more than most could say right now.",
     "points": 0,
-    "skills": [
-      { "level": 3, "name": "deduction" }
-    ],
+    "skills": [ { "level": 3, "name": "deduction" } ],
     "items": {
       "both": {
         "entries": [
