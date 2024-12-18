@@ -998,7 +998,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info->str_min && one_in( 10 ) || fd_to_smsh.first->indestructible ) {
+        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
