@@ -2654,6 +2654,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "insert" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
+    ctxt.register_action( "throw_wielded" );
     ctxt.register_action( "fire" );
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
@@ -6319,9 +6320,13 @@ void game::peek( const tripoint_bub_ms &p )
         u.setpos( prev );
     }
 
-    if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        item_location loc;
-        avatar_action::plthrow( u, loc, p );
+    if( result.peek_action ) {
+        if( *result.peek_action == PA_BLIND_THROW ) {
+            item_location loc;
+            avatar_action::plthrow( u, loc, p );
+        } else if( *result.peek_action == PA_BLIND_THROW_WIELDED ) {
+            avatar_action::plthrow_wielded( u, p );
+        }
     }
     m.invalidate_map_cache( p.z() );
     m.invalidate_visibility_cache();
@@ -7661,6 +7666,7 @@ look_around_result game::look_around(
     ctxt.register_action( "SELECT" );
     if( peeking ) {
         ctxt.register_action( "throw_blind" );
+        ctxt.register_action( "throw_blind_wielded" );
     }
     if( !select_zone ) {
         ctxt.register_action( "TRAVEL_TO" );
@@ -7915,6 +7921,8 @@ look_around_result game::look_around(
             center.y() = center.y() + vec->y();
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
+        } else if( action == "throw_blind_wielded" ) {
+            result.peek_action = PA_BLIND_THROW_WIELDED;
         } else if( action == "zoom_in" ) {
             center.xy() = lp.xy();
             zoom_in();
@@ -7925,7 +7933,7 @@ look_around_result game::look_around(
             mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
-             action != "throw_blind" );
+             action != "throw_blind" && action != "throw_blind_wielded" );
 
     if( center.z() != old_levz ) {
         m.invalidate_map_cache( old_levz );

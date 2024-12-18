@@ -2616,6 +2616,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
         }
 
+        case ACTION_THROW_WIELDED: {
+            avatar_action::plthrow_wielded( player_character );
+            break;
+        }
+
         case ACTION_FIRE:
             fire();
             break;
