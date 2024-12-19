@@ -291,15 +291,25 @@
   {
     "type": "construction",
     "id": "constr_kiln_metal_empty",
-    "group": "place_metal_charcoal_kiln",
+    "group": "build_metal_charcoal_kiln",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "components": [ [ [ "metal_tank", 4 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_kiln_metal_empty"
+  },
+  {
+    "type": "construction",
+    "id": "constr_kiln_portable_empty",
+    "group": "place_char_kiln",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
     "components": [ [ [ "char_kiln", 1 ] ] ],
-    "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_kiln_metal_empty",
-    "activity_level": "MODERATE_EXERCISE"
+    "post_terrain": "f_kiln_portable_empty"
   },
   {
     "type": "construction",

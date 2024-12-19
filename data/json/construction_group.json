@@ -428,7 +428,12 @@
   },
   {
     "type": "construction_group",
-    "id": "place_metal_charcoal_kiln",
+    "id": "build_metal_charcoal_kiln",
+    "name": "Build Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_char_kiln",
     "name": "Place Metal Charcoal Kiln"
   },
   {
