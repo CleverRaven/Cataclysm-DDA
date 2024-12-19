@@ -172,8 +172,8 @@ struct uilist_entry {
         {}
 
     public:
-        const std::string _txt_nocolor();  // what it says on the tin
-        const std::string _ctxt_nocolor(); // second column text
+        const std::string &_txt_nocolor();  // what it says on the tin
+        const std::string &_ctxt_nocolor(); // second column text
     private:
         std::string _txt_nocolor_cached;   // cached return values of the above
         std::string _ctxt_nocolor_cached;

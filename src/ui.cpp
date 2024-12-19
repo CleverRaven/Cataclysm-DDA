@@ -248,28 +248,28 @@ static std::optional<input_event> hotkey_from_char( const int ch )
 
 uilist_entry::uilist_entry( const std::string &txt )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
-      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      text_color( c_red_red )
 {
 
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
-      desc( desc ), text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      desc( desc ), text_color( c_red_red )
 {
 
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const int key )
     : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      text_color( c_red_red )
 {
 
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_event> &key )
     : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
-      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      text_color( c_red_red )
 {
 
 }
@@ -277,7 +277,7 @@ uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_ev
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      text_color( c_red_red )
 {
 
 }
@@ -286,7 +286,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
                             const std::optional<input_event> &key,
                             const std::string &txt )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
-      text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      text_color( c_red_red )
 {
 
 }
@@ -294,7 +294,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt, const std::string &desc )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      desc( desc ), text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      desc( desc ), text_color( c_red_red )
 {
 
 }
@@ -302,7 +302,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
 uilist_entry::uilist_entry( const int retval, const bool enabled,
                             const std::optional<input_event> &key, const std::string &txt, const std::string &desc )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
-      desc( desc ), text_color( c_red_red ), _txt_nocolor_cached( "" ), _ctxt_nocolor_cached( "" )
+      desc( desc ), text_color( c_red_red )
 {
 
 }
@@ -311,8 +311,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      desc( desc ), ctxt( column ), text_color( c_red_red ), _txt_nocolor_cached( "" ),
-      _ctxt_nocolor_cached( "" )
+      desc( desc ), ctxt( column ), text_color( c_red_red )
 {
 
 }
@@ -322,8 +321,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
-      desc( desc ), ctxt( column ), text_color( c_red_red ), _txt_nocolor_cached( "" ),
-      _ctxt_nocolor_cached( "" )
+      desc( desc ), ctxt( column ), text_color( c_red_red )
 {
 
 }
@@ -332,13 +330,12 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt,
                             const nc_color &keycolor, const nc_color &txtcolor )
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
-      hotkey_color( keycolor ), text_color( txtcolor ), _txt_nocolor_cached( "" ),
-      _ctxt_nocolor_cached( "" )
+      hotkey_color( keycolor ), text_color( txtcolor )
 {
 
 }
 
-const std::string uilist_entry::_txt_nocolor()
+const std::string &uilist_entry::_txt_nocolor()
 {
     if( _txt_nocolor_cached.empty() && !txt.empty() ) {
         _txt_nocolor_cached = remove_color_tags( txt );
@@ -346,7 +343,7 @@ const std::string uilist_entry::_txt_nocolor()
     return _txt_nocolor_cached;
 }
 
-const std::string uilist_entry::_ctxt_nocolor()
+const std::string &uilist_entry::_ctxt_nocolor()
 {
     if( _ctxt_nocolor_cached.empty() && !ctxt.empty() ) {
         _ctxt_nocolor_cached = remove_color_tags( ctxt );
@@ -678,8 +675,8 @@ void uilist::calc_data()
         float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
         desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
-    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y + 2.0 *
-                              ( s.FramePadding.y + s.WindowBorderSize );
+    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y +
+                              2.0 * ( s.FramePadding.y + s.WindowBorderSize );
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
         0.9 * ImGui::GetMainViewport()->Size.y ) {
@@ -719,8 +716,8 @@ void uilist::calc_data()
         extra_space_right = callback->desired_extra_space_right( ) + s.FramePadding.x;
     }
 
-    float longest_line_width = std::max( std::max( title_size.x, text_size.x ),
-                                         std::max( calculated_menu_size.x, desc_size.x ) );
+    float longest_line_width = std::max( { title_size.x, text_size.x,
+                                           calculated_menu_size.x, desc_size.x } );
     calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
                           + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
     calculated_bounds.h = calculated_menu_size.y + additional_height;
