@@ -1436,7 +1436,7 @@
     "color": "light_gray",
     "name": { "str": "5-point anchor" },
     "looks_like": "chestguard_hard",
-    "description": "A featureless, disc-shaped device mounted on a harness.  The words \"X.E.D.R.A\" and \"5-point anchor\" are inscribed on its front and back.",
+    "description": "A featureless, disc-shaped device mounted on a harness with a retractable charging tether.  The words \"X.E.D.R.A\" and \"5-point anchor\" are inscribed on its front and back.",
     "price": "1 kUSD 500 USD",
     "price_postapoc": "80 USD",
     "material": [ "ceramic", "kevlar" ],
@@ -1446,12 +1446,16 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "item_restriction": [
+          "anchor_cell_atomic",
+          "anchor_cell_lithium",
+          "anchor_cell_robofac"
+        ]
       }
     ],
     "ammo": "battery",
-    "use_action": {
+    "use_action": [
+    {
       "type": "transform",
       "msg": "An LED light in the %s flickers on.",
       "target": "dimensional_anchor_on",
@@ -1459,6 +1463,12 @@
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
+    {
+      "type":"link_up",
+      "cable_length": 10,
+      "charge_rate": "140W"
+    }
+  ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "SOFT" ],
@@ -1473,13 +1483,20 @@
     "description": "The harness' shoulder-mounted LED glows with a soft green hue.  There's no further indication of anything happening.",
     "turns_per_charge": 100,
     "revert_to": "dimensional_anchor",
-    "use_action": {
+    "use_action": [
+    {
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
     },
+    {
+      "type":"link_up",
+      "cable_length": 10,
+      "charge_rate": "140W"
+    }
+  ],
     "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT" ]
   },
   {
@@ -1487,7 +1504,7 @@
     "copy-from": "dimensional_anchor",
     "type": "TOOL_ARMOR",
     "name": { "str": "malfunctioning 5-point anchor" },
-    "description": "A battered, disc-shaped device mounted on a harness.  The inscriptions \"X.E.D.R.A\" and \"5-point anchor\" are barely legible on its radiation-stained front and back.",
+    "description": "A battered, disc-shaped device mounted on a harness with a mangled cable hanging from it like a tail.  The inscriptions \"X.E.D.R.A\" and \"5-point anchor\" are barely legible on its radiation-stained front and back. ",
     "use_action": {
       "type": "transform",
       "msg": "The %s emits a low-pitched clicking alarm as its mounted LED light flashes yellow.",
