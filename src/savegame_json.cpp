@@ -535,6 +535,7 @@ void effect_source::deserialize( const JsonObject &data )
 void Character::trait_data::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "corrupted", corrupted );
     json.member( "key", key );
     json.member( "charge", charge );
     json.member( "powered", powered );
@@ -549,6 +550,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
 void Character::trait_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
+    data.read( "corrupted", corrupted );
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
@@ -818,13 +820,41 @@ void Character::load( const JsonObject &data )
     for( const std::pair<const trait_id, trait_data> &add : muts_to_add ) {
         my_mutations.emplace( add.first, add.second );
     }
-    // We need to ensure that my_mutations contains no invalid mutations before we do this
+
+    data.read( "cached_mutations", cached_mutations );
+
+    std::map<trait_id, trait_data> caches_to_add;
+    for( auto it = cached_mutations.begin(); it != cached_mutations.end(); ) {
+        const trait_id &mid = it->first;
+        if( mid.is_valid() ) {
+            ++it;
+            continue;
+        }
+
+        const trait_replacement &rules = mutation_branch::trait_migration( mid );
+        if( rules.prof ) {
+            add_proficiency( *rules.prof );
+        } else if( rules.trait ) {
+            const trait_id &added = rules.trait->trait;
+            const std::string &added_var = rules.trait->variant;
+            auto add_it = caches_to_add.emplace( added, it->second ).first;
+            add_it->second.variant = added->variant( added_var );
+        } else {
+            if( rules.error ) {
+                debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.str() );
+            }
+        }
+        it = cached_mutations.erase( it );
+    }
+    for( const std::pair<const trait_id, trait_data> &add : caches_to_add ) {
+        cached_mutations.emplace( add.first, add.second );
+        on_mutation_gain( add.first );
+    }
+    // We need to ensure that cached_mutations contains no invalid mutations before we do this
     // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
     // we have invalid mutations.
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        on_mutation_gain( mut.first );
-        cached_mutations.push_back( &mut.first.obj() );
-    }
+    recalculate_enchantment_cache();
+    
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
@@ -1275,7 +1305,6 @@ void Character::load( const JsonObject &data )
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
-    update_enchantment_mutations();
 }
 
 /**
@@ -1371,6 +1400,7 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
+    json.member( "cached_mutations", cached_mutations );
     json.member( "moncams", moncams );
     json.member( "magic", magic );
     json.member( "martial_arts_data", martial_arts_data );

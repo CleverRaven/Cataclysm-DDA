@@ -4352,7 +4352,7 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
         int &height_3d )
 {
-    std::vector<trait_id> override_look_muts = ch.get_mutations( true,
+    std::vector<trait_id> override_look_muts = ch.get_functioning_mutations( true,
     false, []( const mutation_branch & mut ) {
         return mut.override_look.has_value();
     } );
