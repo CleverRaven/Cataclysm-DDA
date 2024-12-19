@@ -765,8 +765,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     for( auto &fld : here.get_field( target ) ) {
         const field_entry &cur = fld.second;
         mvwputch( w_info, point( 1, off ), cur.color(), cur.symbol() );
-        mvwprintw( w_info, point( 2, off++ ), _( "Field: %s; Intensity:%d (%s); Age:%d" ),
-                   cur.get_field_type().id().str(), cur.get_field_intensity(), cur.name(),
+        mvwprintw( w_info, point( 2, off++ ), _( "Field: %s (%d); Intensity:%d (%s); Age:%d" ),
+                   cur.get_field_type().id().str(), cur.get_field_type().to_i(), cur.get_field_intensity(), cur.name(),
                    to_turns<int>( cur.get_field_age() ) ); // 5 (+1 for each field)
     }
 
