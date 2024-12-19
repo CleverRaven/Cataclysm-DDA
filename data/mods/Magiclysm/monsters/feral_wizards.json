@@ -1079,7 +1079,7 @@
         {
           "id": "feral_technomancer_lase",
           "type": "spell",
-          "spell_data": { "id": "laze", "min_level": 2 },
+          "spell_data": { "id": "feral_laze", "min_level": 2 },
           "cooldown": 20,
           "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
           "monster_message": "%1$s points and fires a beam of light!"
@@ -1161,9 +1161,9 @@
           "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
         },
         {
-          "id": "feral_technomancer_lase",
+          "id": "feral_high_technomancer_laze",
           "type": "spell",
-          "spell_data": { "id": "laze", "min_level": 4 },
+          "spell_data": { "id": "feral_laze", "min_level": 5 },
           "cooldown": 20,
           "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
           "monster_message": "%1$s points and fires a beam of light!"
