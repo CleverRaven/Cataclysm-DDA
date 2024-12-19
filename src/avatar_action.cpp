@@ -911,7 +911,7 @@ bool avatar_action::eat_here( avatar &you )
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        const ter_id &ter_underfoot = here.ter( you.pos() );
+        const ter_id &ter_underfoot = here.ter( you.pos_bub() );
         if( ter_underfoot == ter_t_grass_golf || ter_underfoot == ter_t_grass ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
@@ -1090,6 +1090,17 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
+}
+
+void avatar_action::plthrow_wielded( avatar &you,
+                                     const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
+{
+    item_location weapon = you.get_wielded_item();
+    if( !weapon ) {
+        add_msg( _( "You aren't holding something you can throw." ) );
+        return;
+    }
+    avatar_action::plthrow( you, weapon, blind_throw_from_pos );
 }
 
 static void update_lum( item_location loc, bool add )

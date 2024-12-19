@@ -675,6 +675,7 @@
         }
       },
       "ocean_bed": { "chance": 30, "extras": { "mx_kelp_patch": 1 } },
+      "ocean_shore": { "chance": 1, "extras": { "mx_sandy_beach": 100 } },
       "road": {
         "chance": 100,
         "extras": {

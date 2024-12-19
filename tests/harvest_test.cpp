@@ -22,7 +22,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const int max_iters = 1000;
-static constexpr tripoint mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
 
 static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *cbm_count,
                          int *sample_count, int *other_count )
