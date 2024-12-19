@@ -562,7 +562,7 @@ TEST_CASE( "npc_can_target_player" )
 
     Character &player_character = get_player_character();
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + point::south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
 
@@ -591,7 +591,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
     arm_shooter( hostile, "M24" );

@@ -93,7 +93,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     CAPTURE( target_location );
     CHECK( test_monster.sees( target_location ) == expect_vision );
     if( special_attack == nullptr ) {
-        CHECK( test_monster.attack_at( target_location.raw() ) == expect_attack );
+        CHECK( test_monster.attack_at( target_location ) == expect_attack );
     } else {
         CHECK( special_attack( &test_monster ) == expect_attack );
     }
@@ -219,7 +219,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         Creature *target = test_monster.attack_target();
         REQUIRE( target );
         REQUIRE( test_monster.sees( *target ) );
-        REQUIRE( rl_dist( test_monster.pos(), target->pos() ) <= 5 );
+        REQUIRE( rl_dist( test_monster.pos_bub(), target->pos_bub() ) <= 5 );
         statistics<int> damage_dealt;
         statistics<bool> hits;
         epsilon_threshold threshold{ expected_damage, 2.5 };

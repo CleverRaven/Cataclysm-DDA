@@ -295,6 +295,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "priority", priority, 0 );
     optional( jo, was_loaded, "half_life", half_life, 0_turns );
     optional( jo, was_loaded, "linear_half_life", linear_half_life, false );
+    optional( jo, was_loaded, "indestructible", indestructible, false );
     const auto description_affix_reader = enum_flags_reader<description_affix> { "description affixes" };
     optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
               description_affix::DESCRIPTION_AFFIX_IN );

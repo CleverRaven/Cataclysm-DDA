@@ -9,7 +9,7 @@
     "volume": "2 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -21,7 +21,7 @@
     "name": { "str": "vehicle cooler" },
     "description": "A vehicle-mounted area cooler.  Install a muffler in another part of the vehicle to direct the exhaust heat to that location.",
     "weight": "12500 g",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "light_cyan",
     "symbol": "C",
     "material": [ "steel" ],
@@ -29,7 +29,7 @@
     "category": "veh_parts",
     "price": "200 USD",
     "price_postapoc": "15 USD",
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -49,7 +49,7 @@
     "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",
     "weight": "12500 g",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "red",
     "symbol": ";",
     "material": [ "steel" ],
@@ -57,7 +57,7 @@
     "category": "veh_parts",
     "price": "200 USD",
     "price_postapoc": "15 USD",
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -76,8 +76,8 @@
     "id": "towel_hanger",
     "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",
-    "weight": "2000 g",
-    "to_hit": -1,
+    "weight": "2 kg",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "brown",
     "symbol": "-",
     "material": [ "wood" ],
@@ -92,8 +92,8 @@
     "id": "recharge_station",
     "name": { "str": "recharging station" },
     "description": "A universal recharging station designed to operate on vehicle power.  While on, it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
-    "weight": "10000 g",
-    "to_hit": 1,
+    "weight": "10 kg",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "color": "light_blue",
     "symbol": "-",
     "material": [ "steel", "plastic" ],
@@ -110,12 +110,10 @@
     "description": "A small device for recharging batteries, given a source of electricity.  It could easily be wired into a vehicle with power.  It will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  It can only be installed onto existing storage compartments.",
     "weight": "100 g",
     "volume": "250 ml",
-    "to_hit": -1,
     "price": "15 USD",
     "price_postapoc": "1 USD",
     "looks_like": "cable",
-    "copy-from": "recharge_station",
-    "melee_damage": { "bash": 4 }
+    "copy-from": "recharge_station"
   },
   {
     "type": "GENERIC",
@@ -220,7 +218,7 @@
     "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",
     "weight": "900 g",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "color": "light_gray",
     "symbol": ";",
     "material": [ "steel" ],
@@ -239,7 +237,6 @@
     "weight": "140 kg",
     "volume": "370 L",
     "longest_side": "88 cm",
-    "to_hit": -6,
     "material": [ "steel" ],
     "category": "veh_parts",
     "color": "green",

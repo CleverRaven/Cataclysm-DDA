@@ -166,6 +166,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "xedra_monochrome_meadow" ],
+    "name": "monochrome meadow",
+    "sym": "O",
+    "color": "light_gray",
+    "vision_levels": "open_land",
+    "looks_like": "field",
+    "see_cost": "none",
+    "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lodgev_ground1", "lodgev_ground2" ],
     "copy-from": "lodge_ground1"
   },

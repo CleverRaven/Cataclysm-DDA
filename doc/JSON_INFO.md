@@ -6270,7 +6270,8 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         { "item": "sheet_cotton", "count": [ 40, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ]
-    }
+    },
+    "indestructible": true // Field cannot be bashed or destroyed, but may still expire over time.  Useful when combined with the bash field because it can allow fields to prevent bashing terrain but not be destructible.
   }
 ```
 

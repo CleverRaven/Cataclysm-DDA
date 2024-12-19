@@ -30,7 +30,7 @@
         "You play a quick, Southern ditty on your banjo."
       ]
     },
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "bone_flute",
@@ -76,7 +76,7 @@
     "longest_side": "60 cm",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ { "type": "wood", "portion": 9 }, { "type": "silver" } ],
     "symbol": "|",
     "color": "light_gray",
@@ -94,7 +94,7 @@
         "You play an uplifting marching tune on your clarinet."
       ]
     },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "kantele",
@@ -108,7 +108,7 @@
     "longest_side": "46 cm",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -171,7 +171,7 @@
     "longest_side": "50 cm",
     "price": "75 USD",
     "price_postapoc": "3 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
@@ -189,7 +189,7 @@
         "You play a little ballad on your trumpet."
       ]
     },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "ukulele",
@@ -511,7 +511,7 @@
     "tick_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
-      "volume": 24,
+      "volume": 75,
       "fun": 2,
       "fun_bonus": 2,
       "description_frequency": 20,
@@ -547,7 +547,7 @@
     "weight": "13600 g",
     "color": "yellow",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
     "use_action": [ { "type": "play_instrument" } ],
     "tick_action": {
       "type": "musical_instrument",
@@ -589,7 +589,7 @@
     "weight": "2200 g",
     "color": "yellow",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "use_action": [ { "type": "play_instrument" } ],
     "tick_action": {
       "type": "musical_instrument",
@@ -625,6 +625,6 @@
         "specifically_covers": [ "torso_hanging_front", "torso_hanging_back", "torso_upper" ]
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 8 }
   }
 ]

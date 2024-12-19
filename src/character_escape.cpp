@@ -258,7 +258,7 @@ bool Character::try_remove_grab( bool attacking )
                                pd[index]->get_name(), sturdiness, chance );
                 // the item is ripped off your character
                 if( sturdiness < chance ) {
-                    pd[index]->spill_contents( adjacent_tile() );
+                    pd[index]->spill_contents( adjacent_tile().raw() );
                     add_msg_player_or_npc( m_bad,
                                            _( "As you struggle to escape the grab something comes loose and falls to the ground!" ),
                                            _( "As <npcname> struggles to escape the grab something comes loose and falls to the ground!" ) );

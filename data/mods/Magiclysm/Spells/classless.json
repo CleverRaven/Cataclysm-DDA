@@ -192,19 +192,16 @@
     "id": "ethereal_grasp",
     "type": "SPELL",
     "name": "Ethereal Grasp",
-    "description": "A mass of spectral hands emerge from the ground, slowing everything in range.  Higher levels allow a bigger AoE, and longer effect.",
-    "effect": "attack",
-    "effect_str": "effect_ethereal_grasp",
+    "description": "A mass of spectral hands emerge from the ground, grabbing and slowing everything in range.  Higher levels allow a bigger AoE, and longer effect\n\nLarger targets will be <color_yellow>less affected</color> by the spell.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLASSLESS_ETHEREAL_GRASP",
     "shape": "blast",
     "affected_body_parts": [ "foot_l", "foot_r" ],
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 20,
-    "min_damage": 10,
-    "max_damage": 30,
-    "damage_increment": 1,
     "min_aoe": 2,
-    "max_aoe": 20,
-    "aoe_increment": 0.5,
+    "max_aoe": 8,
+    "aoe_increment": 0.33,
     "min_range": 5,
     "max_range": 20,
     "range_increment": 2.0,
@@ -219,6 +216,23 @@
     "energy_source": "MANA",
     "difficulty": 3,
     "damage_type": "bash"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLASSLESS_ETHEREAL_GRASP",
+    "condition": "has_alpha",
+    "effect": [
+      { "math": [ "u_ethereal_grasp_affected_level = n_spell_level('ethereal_grasp')" ] },
+      {
+        "math": [
+          "u_evocation_spell_affected_proficiency = (1 + (n_has_proficiency('prof_magic_evocation_beginner') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_apprentice') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_master') * 0.1 ) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_ethereal_grasp",
+        "duration": { "math": [ "10 + (u_ethereal_grasp_affected_level * 2)" ] }
+      }
+    ]
   },
   {
     "id": "obfuscated_body",
@@ -494,6 +508,10 @@
     "type": "effect_on_condition",
     "id": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF",
     "effect": [
+      { "u_lose_effect": "bile_irritant" },
+      { "u_lose_effect": "bile_stink" },
+      { "u_lose_morale": "morale_bile" },
+      { "u_lose_effect": "boomered", "target_part": "eyes" },
       { "u_lose_effect": "wet" },
       { "u_lose_effect": "wet", "target_part": "head" },
       { "u_lose_effect": "wet", "target_part": "arm_l" },

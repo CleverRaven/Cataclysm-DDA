@@ -71,7 +71,7 @@
     "type": "TOOL",
     "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
     "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
-    "//": "https://www.amazon.com/dp/B07CDR4KFM",
+    "//": "Based on https://www.amazon.com/dp/B07CDR4KFM",
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "weight": "680 g",
     "volume": "1500 ml",
@@ -854,7 +854,7 @@
     "weight": "1360 g",
     "volume": "12585 ml",
     "longest_side": "30 cm",
-    "//": "size, weight, pricing, power, etc. was based on https://www.amazon.com/Hawaiian-Shaved-Ice-S900A-Machine/dp/B004UBMRKG/ref=asc_df_B004UBMRKG",
+    "//": "size, weight, pricing, power, etc. was based on https://www.amazon.com/dp/B004UBMRKG",
     "price": "50 USD",
     "price_postapoc": "1 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1013,7 +1013,7 @@
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "//": "Based on: https://www.amazon.com/Noxious-Additives-Material-Sandwich-Breakfast/dp/B07WWW1S84/ref=sr_1_1?crid=QSRJMOJRQ89G&keywords=manual+waffle+iron&qid=1680812963&sprefix=manualwaffle+iron%2Caps%2C183&sr=8-1",
+    "//": "Based on https://www.amazon.com/dp/B07WWW1S84",
     "melee_damage": { "bash": 10 }
   },
   {

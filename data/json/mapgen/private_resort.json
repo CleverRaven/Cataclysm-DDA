@@ -56,7 +56,7 @@
         "││││││││││││││││││││││││|......................|||||||..cc...|||+||#  F "
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
-      "terrain": { "│": "t_hole", "L": "t_thconc_floor" },
+      "terrain": { "│": "t_open_air", "L": "t_thconc_floor" },
       "place_fields": [ { "field": "fd_bile", "x": [ 25, 46 ], "y": [ 5, 22 ], "repeat": [ 40, 60 ] } ],
       "items": {
         "N": [

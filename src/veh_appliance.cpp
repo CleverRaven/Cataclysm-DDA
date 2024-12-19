@@ -1,3 +1,4 @@
+#include "cached_options.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "imgui/imgui.h"
@@ -536,6 +537,13 @@ void veh_app_interact::plug()
     }
 }
 
+void veh_app_interact::hide()
+{
+    const int part_idx = veh->part_at( veh->coord_translate( a_point ) );
+    vehicle_part &vp = veh->part( part_idx );
+    vp.hidden = !vp.hidden;
+}
+
 void veh_app_interact::populate_app_actions()
 {
     map &here = get_map();
@@ -585,6 +593,15 @@ void veh_app_interact::populate_app_actions()
                     string_format( "%s%s", ctxt.get_action_name( "PLUG" ),
                                    //~ An addendum to Plug In's description, as in: Plug in appliance / merge power grid".
                                    veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
+#if defined(TILES)
+    // Hide
+    if( use_tiles && vp->info().has_flag( flag_WIRING ) ) {
+        app_actions.emplace_back( [this]() {
+            hide();
+        } );
+        imenu.addentry( -1, true, 0, "Hide/Unhide wiring" );
+    }
+#endif
 
     if( veh->is_powergrid() && veh->part_count() > 1 && !vp->info().has_flag( VPFLAG_WALL_MOUNTED ) ) {
         // Disconnect from power grid

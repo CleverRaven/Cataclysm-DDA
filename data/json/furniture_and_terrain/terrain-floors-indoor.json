@@ -1702,6 +1702,7 @@
     "color": "white",
     "move_cost": 2,
     "connect_groups": "INDOORFLOOR",
+    "//": "TODO: Should break when you step on it if there's no supporting terrain below, might want some warning akin to examine_action ledge",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "INDOORS", "NO_FLOOR" ],
     "bash": {
       "str_min": 1,
@@ -1719,11 +1720,11 @@
     "name": "open air",
     "description": "An area of open air.",
     "//": "Actually, this is a thin membrane of bullshit to keep wasp eggs levitating.",
+    "//1": "Why do we want eggs to levitate??",
     "symbol": " ",
     "looks_like": "t_open_air",
     "color": "i_cyan",
     "move_cost": 2,
-    "trap": "tr_ledge",
     "flags": [ "TRANSPARENT" ],
     "examine_action": "ledge"
   }

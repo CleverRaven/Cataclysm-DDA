@@ -205,6 +205,7 @@
     "required_str": -1,
     "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "close": "f_cardboard_door",
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },

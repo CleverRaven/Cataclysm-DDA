@@ -85,7 +85,7 @@
       ],
       "sealed_item": { "#": { "item": { "item": "seed_corn", "chance": 100 }, "furniture": "f_plant_seedling" } },
       "terrain": {
-        "│": "t_hole",
+        "│": "t_open_air",
         " ": [ [ "t_region_groundcover", 99 ], [ "t_region_shrub", 1 ] ],
         ",": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ],
         ";": [ [ "t_dirtfloor_no_roof", 80 ], [ "t_region_soil", 20 ] ],

@@ -120,14 +120,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
         while( test_player.get_moves() >= 0 ) {
-            test_player.setpos( test_player.pos() + direction_of_flight );
-            if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.pos().x >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
-                test_player.pos().y >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
+            test_player.setpos( test_player.pos_bub() + direction_of_flight );
+            if( test_player.posx() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.posy() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.posx() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                test_player.posy() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
                 tripoint offset = center - test_player.pos();
                 test_player.setpos( center );
-                test_monster.setpos( test_monster.pos() + offset );
+                test_monster.setpos( test_monster.pos_bub() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
@@ -145,14 +145,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
             const int moves_before = test_monster.get_moves();
             test_monster.move();
             tracker.push_back( {'m', moves_before - test_monster.get_moves(),
-                                rl_dist( test_monster.pos(), test_player.pos() ),
+                                rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
                                 test_monster.pos()
                                } );
-            if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
+            if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) == 1 ) {
                 INFO( tracker );
                 clear_map();
                 return turn;
-            } else if( rl_dist( test_monster.pos(), test_player.pos() ) > 20 ) {
+            } else if( rl_dist( test_monster.pos_bub(), test_player.pos_bub() ) > 20 ) {
                 INFO( tracker );
                 clear_map();
                 return -turn;

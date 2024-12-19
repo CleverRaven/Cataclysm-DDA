@@ -143,7 +143,7 @@
             "cases": [
               {
                 "case": 2,
-                "effect": { "u_message": "It happens again.  Otherworldy nightmares haunt you.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "It happens again.  Otherworldly nightmares haunt you.", "type": "mixed", "popup": true }
               },
               {
                 "case": 3,

@@ -736,12 +736,12 @@
     "id": "technomancer_conjure_ups",
     "type": "SPELL",
     "name": "Power Supply",
-    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  It will continually recharge until the duration expires.",
+    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  Just keep it on your person and it will continually recharge your electronic devices until the duration expires.",
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CONJURE_UPS_SWITCHER",
+    "effect_str": "EOC_CONJURE_UPS_INITIATE",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "difficulty": 7,
@@ -751,29 +751,137 @@
     "duration_increment": 10000,
     "energy_source": "MANA",
     "base_casting_time": 3000,
-    "base_energy_cost": 300,
-    "final_energy_cost": 450,
-    "energy_increment": 7
+    "base_energy_cost": 350
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CONJURE_UPS_SWITCHER",
+    "id": "EOC_CONJURE_UPS_INITIATE",
     "effect": [
       {
         "run_eocs": "EOC_CONJURE_UPS_REMOVER",
         "time_in_future": { "math": [ "((u_spell_level('technomancer_conjure_ups') * 100 ) + 1000) * summoning_proficiency_modifier()" ] }
       },
+      { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_BEGIN" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_BEGIN",
+    "condition": { "u_has_item": "technomancer_summoned_ups" },
+    "effect": [
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_BEGIN", "time_in_future": 60 },
       {
-        "switch": { "math": [ "u_spell_level('technomancer_conjure_ups')" ] },
-        "cases": [
-          { "case": 0, "effect": [ { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true } ] },
-          { "case": 4, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_2", "suppress_message": true } ] },
-          { "case": 8, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_3", "suppress_message": true } ] },
-          { "case": 12, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_4", "suppress_message": true } ] },
-          { "case": 16, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_5", "suppress_message": true } ] },
-          { "case": 20, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_6", "suppress_message": true } ] }
+        "math": [ "u_technomancer_conjure_ups_powering", "=", "( (u_spell_level('technomancer_conjure_ups') / 3) + 1) " ]
+      },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT",
+    "//": "recursively runs until available power is < 1 or all items are charged",
+    "condition": { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] },
+    "effect": [
+      { "math": [ "u_technomancer_conjure_ups_item_count = 0" ] },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT" },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_AMMEND_ITEM_COUNT" },
+      {
+        "math": [
+          "u_technomancer_conjure_ups_max_indv_power",
+          "=",
+          "floor(u_technomancer_conjure_ups_powering / u_technomancer_conjure_ups_item_count)"
+        ]
+      },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS",
+    "//": "power uncharged items and calls the main eoc to deal with any remaining power left over",
+    "condition": {
+      "and": [
+        { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] },
+        { "math": [ "u_technomancer_conjure_ups_item_count >= 1" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS_DISTRIBUTION",
+            "condition": {
+              "and": [ { "math": [ "n_val('power') < n_val('power_max')" ] }, { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] } ]
+            },
+            "effect": [
+              {
+                "if": { "math": [ "u_technomancer_conjure_ups_max_indv_power >= 1" ] },
+                "then": {
+                  "math": [
+                    "u_technomancer_conjure_ups_powering_used",
+                    "=",
+                    "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_max_indv_power )"
+                  ]
+                },
+                "else": {
+                  "math": [
+                    "u_technomancer_conjure_ups_powering_used",
+                    "=",
+                    "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_powering )"
+                  ]
+                }
+              },
+              {
+                "math": [
+                  "u_technomancer_conjure_ups_powering_used",
+                  "=",
+                  "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_max_indv_power )"
+                ]
+              },
+              { "math": [ "n_val('power')", "+=", "u_technomancer_conjure_ups_powering_used" ] },
+              { "math": [ "u_technomancer_conjure_ups_powering", "-=", "u_technomancer_conjure_ups_powering_used" ] }
+            ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT",
+    "//": "get total items without max power",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT_2",
+            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "effect": [ { "math": [ "u_technomancer_conjure_ups_item_count++" ] } ]
+          }
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_AMMEND_ITEM_COUNT",
+    "//": "Reduce item count if the total chargeable power / uncharged item count is less than 1.",
+    "condition": {
+      "and": [
+        { "math": [ "u_technomancer_conjure_ups_powering", ">=", "1" ] },
+        { "math": [ "u_technomancer_conjure_ups_item_count", ">=", "1" ] },
+        { "math": [ "u_technomancer_conjure_ups_powering / u_technomancer_conjure_ups_item_count", "<", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_technomancer_conjure_ups_item_count--" ] },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_AMMEND_ITEM_COUNT" }
     ]
   },
   {

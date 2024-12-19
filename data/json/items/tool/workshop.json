@@ -248,7 +248,7 @@
     "weight": "40823 g",
     "volume": "250 L",
     "longest_side": "118 cm",
-    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artifically as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
+    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artificially as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
     "price": "400 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },

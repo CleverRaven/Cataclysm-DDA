@@ -103,7 +103,7 @@
     "show_in_info": true,
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -9 }, { "value": "ARMOR_STAB", "add": -4 } ]
+        "incoming_damage_mod": [ { "type": "bash", "add": -9 }, { "type": "stab", "add": -4 }, { "type": "cut", "add": -6 } ]
       }
     ]
   },
@@ -223,7 +223,7 @@
     "id": "effect_monster_pyrokinetic_fire_immunity",
     "name": [ "Flame Immunity" ],
     "desc": [ "You are immune to fire." ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -233,13 +233,13 @@
     "show_in_info": true,
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "multiply": -0.1 },
-          { "value": "ARMOR_BASH", "multiply": -0.1 },
-          { "value": "ARMOR_STAB", "multiply": -0.1 },
-          { "value": "ARMOR_BULLET", "multiply": -0.1 },
-          { "value": "SPEED", "multiply": 0.03 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.1 },
+          { "type": "stab", "multiply": -0.1 },
+          { "type": "cut", "multiply": -0.1 },
+          { "type": "bullet", "multiply": -0.1 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": 0.03 } ]
       }
     ]
   },
@@ -252,11 +252,11 @@
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "add": -15 },
-          { "value": "ARMOR_BASH", "add": -10 },
-          { "value": "ARMOR_STAB", "add": -20 },
-          { "value": "ARMOR_BULLET", "add": -35 }
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -10 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -35 }
         ]
       }
     ]
@@ -270,11 +270,11 @@
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "add": -25 },
-          { "value": "ARMOR_BASH", "add": -18 },
-          { "value": "ARMOR_STAB", "add": -32 },
-          { "value": "ARMOR_BULLET", "add": -50 }
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -18 },
+          { "type": "stab", "add": -32 },
+          { "type": "cut", "add": -25 },
+          { "type": "bullet", "add": -50 }
         ]
       }
     ]
@@ -355,6 +355,26 @@
       "h_mod_chance_bot": [ 4 ],
       "h_mod_tick": [ 500 ],
       "healing_rate": [ 0.5 ]
+    },
+    "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_healing_down_super",
+    "name": [ "Feeling Extremely Unwell" ],
+    "desc": [ "You feel exhausted and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "18 hours",
+    "base_mods": {
+      "str_mod": [ -3 ],
+      "dex_mod": [ -1 ],
+      "h_mod_min": [ -3 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 4 ],
+      "h_mod_tick": [ 300 ],
+      "healing_rate": [ 0.25 ]
     },
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
   },

@@ -2164,13 +2164,14 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         map &here = get_map();
-        for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
+        for( const tripoint_bub_ms &pos : closest_points_first( u.pos_bub(), radius ) ) {
             // can not reach this -> can not access its contents
-            if( u.pos() != pos && !here.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+            if( u.pos_bub() != pos &&
+                !here.clear_path( u.pos_bub(), pos, rl_dist( u.pos_bub(), pos ), 1, 100 ) ) {
                 continue;
             }
-            add_map_items( pos );
-            add_vehicle_items( pos );
+            add_map_items( pos.raw() );
+            add_vehicle_items( pos.raw() );
         }
     }
 }

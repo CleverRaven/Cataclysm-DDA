@@ -1115,7 +1115,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_bub_ms &p,
                                   critter->get_armor_type( damage_bash, bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
-                if( !critter->has_effect_with_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
+                if( !critter->has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
                     if( vpi.has_flag( "SHARP" ) ) {
                         critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
                                              critter->get_random_body_part_of_type( body_part_type::type::torso ) );
@@ -1291,7 +1291,7 @@ void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
             const trap &tr = here.tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
-                player_character.add_known_trap( p.raw(), tr );
+                player_character.add_known_trap( p, tr );
             }
             if( seen && !known ) {
                 // hard to miss!

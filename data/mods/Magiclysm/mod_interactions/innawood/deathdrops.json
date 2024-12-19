@@ -1,0 +1,43 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_zombie_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "default_innawood_zombie_clothes_male", "prob": 50 },
+          { "group": "default_innawood_zombie_clothes_female", "prob": 50 }
+        ],
+        "prob": 100
+      },
+      { "group": "coats_unisex", "prob": 20 },
+      { "group": "common_gloves", "prob": 20 },
+      { "group": "hatstore_hats", "prob": 20 },
+      { "group": "scarfs_unisex", "prob": 20 },
+      { "group": "shoes_unisex", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_innawood_zombie_clothes_male",
+    "entries": [
+      { "group": "male_underwear_bottom", "prob": 95 },
+      { "group": "male_underwear_top", "prob": 50 },
+      { "group": "pants_male", "prob": 95 },
+      { "group": "shirts", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "default_innawood_zombie_clothes_female",
+    "entries": [
+      { "group": "female_underwear_bottom", "prob": 95 },
+      { "group": "female_underwear_top", "prob": 95 },
+      { "group": "pants_female", "prob": 95 },
+      { "group": "shirts", "prob": 40 }
+    ]
+  }
+]

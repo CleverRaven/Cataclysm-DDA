@@ -143,7 +143,12 @@
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0
+    "aoe_increment": 5.0,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_intensity_increment": 1,
+    "field_chance": 3
   },
   {
     "id": "bio_fleshpouch",
@@ -381,7 +386,12 @@
     "min_dot": 2,
     "max_dot": 2,
     "min_duration": 300,
-    "max_duration": 300
+    "max_duration": 300,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_chance": 2
   },
   {
     "id": "biomancer_caustic_aura",
@@ -389,21 +399,17 @@
     "name": "Caustic Aura",
     "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_caustic",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_aura_caustic",
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "CONCENTRATE" ],
     "components": "spell_components_causticaura",
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "min_damage": 1,
-    "max_damage": 1,
     "base_casting_time": 400,
     "base_energy_cost": 350,
     "max_level": 15,
-    "min_range": 1,
-    "max_range": 1,
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
@@ -416,8 +422,8 @@
     "name": "Improved Caustic Aura",
     "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_caustic",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_aura_caustic",
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_causticaura",
@@ -796,5 +802,38 @@
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 1500
+  },
+  {
+    "id": "biomancer_get_more_blood",
+    "type": "SPELL",
+    "name": "Carmine Infusion",
+    "description": "Using water as a catalyst, restore some of your lost blood.  This spell has no effect if you're healthy and uninjured.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_GET_MORE_BLOOD",
+    "components": "spell_components_biomancer_get_more_blood",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "base_casting_time": 1500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_GET_MORE_BLOOD",
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('blood') < 0" ] },
+        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      },
+      {
+        "if": { "math": [ "u_vitamin('redcells') < 0" ] },
+        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      }
+    ]
   }
 ]

@@ -176,6 +176,8 @@ enum action_id : int {
     ACTION_MEND,
     /** Open the throw menu */
     ACTION_THROW,
+    /** Throw the currently wielded item */
+    ACTION_THROW_WIELDED,
     /** Fire the wielded weapon, or open fire menu if none */
     ACTION_FIRE,
     /** Burst-fire the current weapon */

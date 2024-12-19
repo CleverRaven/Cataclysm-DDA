@@ -12,13 +12,12 @@
     "has": "HELD",
     "condition": "ALWAYS",
     "skills": [ { "value": "dodge", "multiply": -1 } ],
+    "incoming_damage_mod": [ { "type": "bash", "multiply": -0.5 }, { "type": "cut", "multiply": -0.66 } ],
     "values": [
       { "value": "ATTACK_SPEED", "multiply": 2 },
       { "value": "MOVE_COST", "multiply": 1 },
       { "value": "BONUS_DODGE", "multiply": -1 },
-      { "value": "FOOTSTEP_NOISE", "multiply": 4 },
-      { "value": "ARMOR_CUT", "multiply": -0.66 },
-      { "value": "ARMOR_BASH", "multiply": -0.5 }
+      { "value": "FOOTSTEP_NOISE", "multiply": 4 }
     ]
   },
   {

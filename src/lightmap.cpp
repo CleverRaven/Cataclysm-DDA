@@ -661,18 +661,23 @@ void map::add_light_source( const tripoint_bub_ms &p, float luminance )
 
 lit_level map::light_at( const tripoint &p ) const
 {
+    return map::light_at( tripoint_bub_ms( p ) );
+}
+
+lit_level map::light_at( const tripoint_bub_ms &p ) const
+{
     if( !inbounds( p ) ) {
         return lit_level::DARK;    // Out of bounds
     }
 
-    const level_cache &map_cache = get_cache_ref( p.z );
+    const level_cache &map_cache = get_cache_ref( p.z() );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
-    if( sm[p.x][p.y] >= LIGHT_SOURCE_BRIGHT ) {
+    if( sm[p.x()][p.y()] >= LIGHT_SOURCE_BRIGHT ) {
         return lit_level::BRIGHT;
     }
 
-    const float max_light = lm[p.x][p.y].max();
+    const float max_light = lm[p.x()][p.y()].max();
     if( max_light >= LIGHT_AMBIENT_LIT ) {
         return lit_level::LIT;
     }

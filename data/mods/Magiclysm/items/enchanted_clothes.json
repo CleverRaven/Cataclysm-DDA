@@ -48,7 +48,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_BULLET", "add": -8 }, { "value": "ARMOR_STAB", "add": -3 }, { "value": "ARMOR_CUT", "add": -3 } ]
+          "incoming_damage_mod": [ { "type": "stab", "add": -3 }, { "type": "cut", "add": -3 }, { "type": "bullet", "add": -8 } ]
         }
       ]
     }

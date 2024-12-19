@@ -366,5 +366,20 @@
       { "monster": "mon_samhain_ghost_axe", "weight": 333 },
       { "monster": "mon_samhain_ghost_spear", "weight": 333 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_UPGRADE",
+    "monsters": [ { "monster": "mon_zombie_monochrome", "weight": 30 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_MONOCHROME_UPGRADE",
+    "default": "mon_zombie_monochrome",
+    "monsters": [
+      { "monster": "mon_zombie_monochrome", "weight": 450 },
+      { "monster": "mon_zombie_monochrome_2", "weight": 225 },
+      { "monster": "mon_zombie_monochrome_3", "weight": 100 }
+    ]
   }
 ]

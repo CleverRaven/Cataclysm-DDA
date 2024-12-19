@@ -57,7 +57,7 @@ static void test_projectile_attack( const std::string &target_type, bool killabl
                                     dealt_projectile_attack &attack, const std::string &weapon_type )
 {
     for( int i = 0; i < 10; ++i ) {
-        monster target{ mtype_id( target_type ), tripoint::zero };
+        monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         //the missed_by field is modified by deal_projectile_attack() and must be reset
         attack.missed_by = accuracy_critical * 0.75;
         target.deal_projectile_attack( nullptr, attack, false );
@@ -114,6 +114,7 @@ TEST_CASE( "archery_damage_thresholds", "[balance],[archery]" )
     // Medium setting compound bow can kill Bear
     test_archery_balance( "compbow", "arrow_metal", "mon_bear", "" );
     // High setting modern compund bow can kill Moose
-    test_archery_balance( "compcrossbow", "bolt_steel", "mon_moose", "" );
-    test_archery_balance( "compbow_high", "arrow_metal", "mon_moose", "" );
+    // Currently disabled as it was not possible to make moose realistically tough while keeping the tests functional. Our bleeding isn't strong enough, and the tests are only hooked up to check instakills. Check the comments under PR #74554 for more detailed explanation.
+    // test_archery_balance( "compcrossbow", "bolt_steel", "mon_moose", "" );
+    // test_archery_balance( "compbow_high", "arrow_metal", "mon_moose", "" );
 }

@@ -362,11 +362,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -2 },
-            { "value": "ARMOR_BASH", "add": -2 },
-            { "value": "ARMOR_STAB", "add": -2 },
-            { "value": "ARMOR_BULLET", "add": -1 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -2 },
+            { "type": "stab", "add": -2 },
+            { "type": "cut", "add": -2 },
+            { "type": "bullet", "add": -1 }
           ]
         }
       ]
@@ -384,11 +384,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -4 },
-            { "value": "ARMOR_BASH", "add": -4 },
-            { "value": "ARMOR_STAB", "add": -4 },
-            { "value": "ARMOR_BULLET", "add": -2 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -4 },
+            { "type": "stab", "add": -4 },
+            { "type": "cut", "add": -4 },
+            { "type": "bullet", "add": -2 }
           ]
         }
       ]
@@ -406,11 +406,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -6 },
-            { "value": "ARMOR_BASH", "add": -6 },
-            { "value": "ARMOR_STAB", "add": -6 },
-            { "value": "ARMOR_BULLET", "add": -3 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -6 },
+            { "type": "stab", "add": -6 },
+            { "type": "cut", "add": -6 },
+            { "type": "bullet", "add": -3 }
           ]
         }
       ]
@@ -428,11 +428,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -8 },
-            { "value": "ARMOR_BASH", "add": -8 },
-            { "value": "ARMOR_STAB", "add": -8 },
-            { "value": "ARMOR_BULLET", "add": -4 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -8 },
+            { "type": "stab", "add": -8 },
+            { "type": "cut", "add": -8 },
+            { "type": "bullet", "add": -4 }
           ]
         }
       ]
@@ -499,7 +499,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_HEAT", "multiply": -0.5 } ],
+          "incoming_damage_mod": [ { "type": "heat", "multiply": -0.5 } ],
           "ench_effects": [ { "effect": "effect_mring_fire_protection", "intensity": 1 } ]
         }
       ]

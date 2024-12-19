@@ -127,7 +127,7 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the albino trait" ) {
-        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
 
         dummy.toggle_trait( trait_ALBINO );
         REQUIRE( dummy.has_trait( trait_ALBINO ) );
@@ -225,7 +225,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
-        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
 
         dummy.toggle_trait( trait_SUNBURN );
         REQUIRE( dummy.has_trait( trait_SUNBURN ) );

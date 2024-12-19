@@ -55,7 +55,6 @@ bool pit( const tripoint &p, Creature *c, item *i );
 bool pit_spikes( const tripoint &p, Creature *c, item *i );
 bool pit_glass( const tripoint &p, Creature *c, item *i );
 bool lava( const tripoint &p, Creature *c, item *i );
-bool ledge( const tripoint &p, Creature *c, item *i );
 bool boobytrap( const tripoint &p, Creature *c, item *i );
 bool temple_flood( const tripoint &p, Creature *c, item *i );
 bool temple_toggle( const tripoint &p, Creature *c, item *i );

@@ -286,6 +286,16 @@
   },
   {
     "type": "overmap_special",
+    "id": "xedra_monochrome_meadow",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "xedra_monochrome_meadow_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "old cabin",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_sevenoclock_north" },

@@ -122,9 +122,9 @@ static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_grate( "t_grate" );
-static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_missile( "t_missile" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_rad_platform( "t_rad_platform" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
@@ -500,7 +500,7 @@ void computer_session::action_toll()
         reset_terminal();
     } else {
         comp.next_attempt = calendar::turn + 1_minutes;
-        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::alarm,
+        sounds::sound( get_player_character().pos_bub(), 120, sounds::sound_t::alarm,
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 
@@ -545,7 +545,8 @@ void computer_session::action_release()
 {
     get_event_bus().send<event_type::releases_subspace_specimens>();
     Character &player_character = get_player_character();
-    sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+    sounds::sound( player_character.pos_bub(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                   false,
                    "environment",
                    "alarm" );
     get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 25.0,
@@ -563,7 +564,8 @@ void computer_session::action_release_disarm()
 void computer_session::action_release_bionics()
 {
     Character &player_character = get_player_character();
-    sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+    sounds::sound( player_character.pos_bub(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                   false,
                    "environment",
                    "alarm" );
     get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 3.0,
@@ -779,9 +781,9 @@ void computer_session::action_miss_launch()
                      false );
 
         if( level < 0 ) {
-            tmpmap.translate( ter_t_missile, ter_t_hole );
+            tmpmap.translate( ter_t_missile, ter_t_open_air );
         } else {
-            tmpmap.translate( ter_t_metal_floor, ter_t_hole );
+            tmpmap.translate( ter_t_metal_floor, ter_t_open_air );
         }
         tmpmap.save();
     }
@@ -1345,7 +1347,8 @@ void computer_session::action_irradiator()
                         print_error( _( "  >> Radiation spike detected!\n" ) );
                         print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                         print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                        sounds::sound( player_character.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+                        sounds::sound( player_character.pos_bub(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                                       false,
                                        "environment",
                                        "alarm" );
                         here.i_rem( dest, it );
@@ -1615,7 +1618,8 @@ void computer_session::failure_alarm()
 {
     Character &player_character = get_player_character();
     get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
-    sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
+    sounds::sound( player_character.pos_bub(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ),
+                   false,
                    "environment",
                    "alarm" );
 }
@@ -1623,8 +1627,8 @@ void computer_session::failure_alarm()
 void computer_session::failure_manhacks()
 {
     int num_robots = rng( 4, 8 );
-    const tripoint_range<tripoint> range =
-        get_map().points_in_radius( get_player_character().pos(), 3 );
+    const tripoint_range<tripoint_bub_ms> range =
+        get_map().points_in_radius( get_player_character().pos_bub(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
         if( g->place_critter_within( mon_manhack, range ) ) {
             add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
@@ -1634,8 +1638,8 @@ void computer_session::failure_manhacks()
 
 void computer_session::failure_secubots()
 {
-    const tripoint_range<tripoint> range =
-        get_map().points_in_radius( get_player_character().pos(), 3 );
+    const tripoint_range<tripoint_bub_ms> range =
+        get_map().points_in_radius( get_player_character().pos_bub(), 3 );
     if( g->place_critter_within( mon_secubot, range ) ) {
         add_msg( m_warning, _( "A secubot emerges from a compartment in the floor." ) );
     }

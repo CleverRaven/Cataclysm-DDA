@@ -725,18 +725,19 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos_bub() ) ) ) {
+        ( rl_dist( player_character.pos_bub(), pos_bub() ) > SEEX * 2 ||
+          !player_character.sees( pos_bub() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
-            if( !( player_character.pos().z >= 0 && pos().z >= 0 ) &&
-                !( player_character.pos().z == pos().z ) ) {
+            if( !( player_character.posz() >= 0 && posz() >= 0 ) &&
+                !( player_character.posz() == posz() ) ) {
                 //Early exit
                 can_see = _( "Not within radio range" );
                 see_color = c_light_red;
             } else {
                 // TODO: better range calculation than just elevation.
                 const int base_range = 200;
-                float send_elev_boost = ( 1 + ( player_character.pos().z * 0.1 ) );
-                float recv_elev_boost = ( 1 + ( pos().z * 0.1 ) );
+                float send_elev_boost = ( 1 + ( player_character.posz() * 0.1 ) );
+                float recv_elev_boost = ( 1 + ( posz() * 0.1 ) );
                 if( ( square_dist( player_character.global_sm_location(),
                                    global_sm_location() ) <= base_range * send_elev_boost * recv_elev_boost ) ) {
                     //Direct radio contact, both of their elevation are in effect

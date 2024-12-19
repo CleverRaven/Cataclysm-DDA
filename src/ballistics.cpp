@@ -554,7 +554,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
-                                     sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos() ) );
         }
     }
 

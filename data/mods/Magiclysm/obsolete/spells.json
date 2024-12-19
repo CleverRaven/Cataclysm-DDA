@@ -1,0 +1,22 @@
+[
+  {
+    "id": "pertifying_touch_moves",
+    "type": "SPELL",
+    "name": { "str": "Petrifying Touch Moves Removing", "//~": "NO_I18N" },
+    "description": {
+      "str": "Delete some amount of moves from monster, and inflict DoT.  You can see it only in debug mode.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
+    "effect": "mod_moves",
+    "shape": "blast",
+    "min_damage": -1000,
+    "max_damage": -1,
+    "damage_increment": 50,
+    "min_dot": 0,
+    "max_dot": 10,
+    "dot_increment": 0.5,
+    "max_level": 20
+  }
+]

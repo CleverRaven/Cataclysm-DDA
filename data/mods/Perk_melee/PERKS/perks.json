@@ -16,9 +16,9 @@
   {
     "type": "mutation",
     "id": "MELEE_PERK_BASE",
-    "name": { "str": "Melee Perk" },
+    "name": { "str": "Melee Perk", "//~": "NO_I18N" },
     "points": 0,
-    "description": "We copy from this one.",
+    "description": { "str": "We copy from this one.", "//~": "NO_I18N" },
     "valid": false,
     "purifiable": false
   },

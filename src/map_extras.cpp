@@ -67,7 +67,13 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_barricade_road( "f_barricade_road" );
+static const furn_str_id furn_f_beach_log( "f_beach_log" );
+static const furn_str_id furn_f_beach_seaweed( "f_beach_seaweed" );
 static const furn_str_id furn_f_bench( "f_bench" );
+static const furn_str_id furn_f_boulder_large( "f_boulder_large" );
+static const furn_str_id furn_f_boulder_medium( "f_boulder_medium" );
+static const furn_str_id furn_f_boulder_small( "f_boulder_small" );
+static const furn_str_id furn_f_broken_boat( "f_broken_boat" );
 static const furn_str_id furn_f_camp_chair( "f_camp_chair" );
 static const furn_str_id furn_f_canvas_door( "f_canvas_door" );
 static const furn_str_id furn_f_canvas_wall( "f_canvas_wall" );
@@ -132,6 +138,7 @@ static const map_extra_id map_extra_mx_pond( "mx_pond" );
 static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
+static const map_extra_id map_extra_mx_sandy_beach( "mx_sandy_beach" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -153,6 +160,7 @@ static const oter_type_str_id oter_type_road( "road" );
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
 static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_fence_barbed( "t_fence_barbed" );
@@ -169,7 +177,10 @@ static const ter_str_id ter_t_pavement( "t_pavement" );
 static const ter_str_id ter_t_pavement_y( "t_pavement_y" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
+static const ter_str_id ter_t_tidepool( "t_tidepool" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -2177,6 +2188,32 @@ static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
     return true;
 }
 
+static bool mx_sandy_beach( map &m, const tripoint &abs_sub )
+{
+    weighted_int_list<furn_id> detritus;
+    detritus.add( furn_f_beach_log, 10 );
+    detritus.add( furn_f_beach_seaweed, 25 );
+    detritus.add( furn_f_boulder_small, 20 );
+    detritus.add( furn_f_boulder_medium, 10 );
+    detritus.add( furn_f_boulder_large, 3 );
+    detritus.add( furn_f_broken_boat, 1 );
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint_bub_ms loc( i, j, abs_sub.z );
+            const ter_id &ter_loc = m.ter( loc );
+            if( ter_loc == ter_t_sand && one_in( 20 ) ) {
+                !one_in( 10 ) ? m.furn_set( loc, detritus.pick()->id() ) : m.ter_set( loc, ter_t_tidepool );
+            }
+            if( ter_loc == ter_t_swater_surf && one_in( 10 ) ) {
+                m.ter_set( loc, ter_t_coast_rock_surf );
+            }
+        }
+    }
+
+    return true;
+}
+
 static FunctionMap builtin_functions = {
     { map_extra_mx_null, mx_null },
     { map_extra_mx_roadworks, mx_roadworks },
@@ -2196,6 +2233,7 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_city_trap, mx_city_trap },
     { map_extra_mx_reed, mx_reed },
     { map_extra_mx_fungal_zone, mx_fungal_zone },
+    { map_extra_mx_sandy_beach, mx_sandy_beach },
 };
 
 map_extra_pointer get_function( const map_extra_id &name )

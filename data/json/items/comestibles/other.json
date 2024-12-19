@@ -947,8 +947,7 @@
     "name": { "str_sp": "Kentucky coffee grounds" },
     "container": "bag_plastic_small",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "volume": "12 ml"
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "honey_glassed",

@@ -1234,7 +1234,7 @@ void Character::load( const JsonObject &data )
     data.read( "last_target_pos", last_target_pos );
     data.read( "ammo_location", ammo_location );
     // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint::min ) {
+    if( last_target_pos && *last_target_pos == tripoint_abs_ms::min ) {
         last_target_pos = std::nullopt;
     }
     if( tmptartyp == +1 ) {
@@ -3234,6 +3234,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
     data.read( "last_charged", last_charged );
+    data.read( "hidden", hidden );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3289,6 +3290,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "locked", locked );
     json.member( "last_disconnected", last_disconnected );
     json.member( "last_charged", last_charged );
+    json.member( "hidden", hidden );
     json.end_object();
 }
 
@@ -4660,6 +4662,31 @@ void ter_furn_migrations::check()
     }
     for( const auto &migration : furn_migrations ) {
         check_to_ids_valid( migration.second, migration.first.c_str() );
+    }
+}
+
+static std::unordered_map<trap_str_id, trap_str_id> tr_migrations;
+
+void trap_migrations::load( const JsonObject &jo )
+{
+    trap_str_id from_trap;
+    trap_str_id to_trap;
+    mandatory( jo, false, "from_trap", from_trap );
+    mandatory( jo, false, "to_trap", to_trap );
+    tr_migrations.insert( std::make_pair( from_trap, to_trap ) );
+}
+
+void trap_migrations::reset()
+{
+    tr_migrations.clear();
+}
+
+void trap_migrations::check()
+{
+    for( const auto &migration : tr_migrations ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "trap_migration specifies invalid to_trap id '%s'", migration.second.c_str() );
+        }
     }
 }
 

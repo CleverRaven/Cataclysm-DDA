@@ -181,8 +181,8 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     CAPTURE( units::to_fahrenheit( weather_point.temperature ) );
     CAPTURE( weather_point.humidity );
 
-    REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
-    REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
+    REQUIRE( here.ter( dude.pos_bub() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos_bub() ).id() == furn_str_id::NULL_ID() );
 
     REQUIRE( body_part_arm_l->drying_rate == 1.0f );
     dude.drench( 100, dude.get_drenching_body_parts(), false );
@@ -200,8 +200,8 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     // Birdify, clear water
     clear_character( dude, true );
     create_bird_char( dude );
-    REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
-    REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
+    REQUIRE( here.ter( dude.pos_bub() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos_bub() ).id() == furn_str_id::NULL_ID() );
     REQUIRE( body_part_test_bird_wing_l->drying_rate == 2.0f );
     REQUIRE( body_part_test_bird_wing_r->drying_rate == 0.5f );
     REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 0 );

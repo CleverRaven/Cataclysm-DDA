@@ -240,19 +240,21 @@
     "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_CUT",
-            "add": { "math": [ "( -4 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
-          },
-          {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "add": { "math": [ "( -6 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
           },
           {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "add": { "math": [ "( -3 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
           },
+          {
+            "type": "cut",
+            "add": { "math": [ "( -4 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
+          }
+        ],
+        "values": [
           {
             "value": "PAIN",
             "multiply": {
@@ -671,31 +673,7 @@
       {
         "values": [
           {
-            "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_COLD",
+            "value": "ARMOR_ALL",
             "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           }
         ]
@@ -1702,7 +1680,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "blocks_effects": [ "blisters" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ] } ],
     "flags": [ "HEAT_IMMUNE" ]
   },
   {
@@ -1717,17 +1695,9 @@
     "max_intensity": 41,
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_CUT",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1735,7 +1705,7 @@
             }
           },
           {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1743,13 +1713,23 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
-          },
+          }
+        ],
+        "values": [
           {
             "value": "MOVE_COST",
             "multiply": {
@@ -1854,17 +1834,9 @@
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_CUT",
-            "add": {
-              "math": [
-                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "add": {
               "math": [
                 "( -2 + ( u_spell_level('telekinetic_shield') * -0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1872,7 +1844,7 @@
             }
           },
           {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "add": {
               "math": [
                 "( -5 + ( u_spell_level('telekinetic_shield') * -1.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1880,7 +1852,15 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "add": {
+              "math": [
+                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "add": {
               "math": [
                 "( -12 + ( u_spell_level('telekinetic_shield') * -2.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1916,11 +1896,11 @@
     "removes_effects": [ "grabbed" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "add": -100000 },
-          { "value": "ARMOR_BASH", "add": -100000 },
-          { "value": "ARMOR_STAB", "add": -100000 },
-          { "value": "ARMOR_BULLET", "add": -100000 }
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -100000 },
+          { "type": "stab", "add": -100000 },
+          { "type": "cut", "add": -100000 },
+          { "type": "bullet", "add": -100000 }
         ]
       }
     ],

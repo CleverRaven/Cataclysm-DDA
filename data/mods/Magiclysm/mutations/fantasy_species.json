@@ -332,6 +332,17 @@
   },
   {
     "type": "mutation",
+    "id": "ELVEN_SIGHT",
+    "name": { "str": "Elvensight" },
+    "points": 2,
+    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.",
+    "types": [ "EYES" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 5 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "ELVEN_HEARING",
     "name": { "str": "Elven Hearing" },
     "purifiable": false,
@@ -341,7 +352,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SAFECRACK_NO_TOOL" ],
-    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -413,12 +424,6 @@
     "id": "DEFT",
     "copy-from": "DEFT",
     "extend": { "category": [ "SPECIES_ELF" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "ELFA_NV",
-    "copy-from": "ELFA_NV",
-    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -559,6 +564,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
+    "types": [ "EYES" ],
     "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human, even being able to craft in the dark.",
     "category": [ "SPECIES_GOBLIN" ],
     "enchantments": [ "ench_goblin_eyes" ],

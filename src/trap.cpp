@@ -323,7 +323,7 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
     if( is_always_invisible() ) {
         return false;
     }
-    return visibility < 0 || p.knows_trap( pos );
+    return visibility < 0 || p.knows_trap( tripoint_bub_ms( pos ) );
 }
 
 bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
