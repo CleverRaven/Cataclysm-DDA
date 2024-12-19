@@ -642,6 +642,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
+- ```FREE_TO_EXAMINE``` Examining this furniture/terrain won't upset the local faction (if any).
 - ```FRESH_WATER``` Source of fresh water.  Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
