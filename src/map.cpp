@@ -4495,7 +4495,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        explosion_handler::explosion( nullptr, p.raw(), bash->explosive, 0.8, false );
+        explosion_handler::explosion( nullptr, p, bash->explosive, 0.8, false );
     }
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
