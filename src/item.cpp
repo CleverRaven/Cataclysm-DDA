@@ -12859,7 +12859,7 @@ bool item::detonate( const tripoint_bub_ms &p, std::vector<item> &drops )
                              ? &get_player_character()
                              : nullptr;
     if( type->explosion.power >= 0 ) {
-        explosion_handler::explosion( source, p.raw(), type->explosion );
+        explosion_handler::explosion( source, p, type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
@@ -12871,7 +12871,7 @@ bool item::detonate( const tripoint_bub_ms &p, std::vector<item> &drops )
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
             float power = 3.0f * std::pow( rounds_exploded / 25.0f, 0.25f );
-            explosion_handler::explosion( nullptr, p.raw(), power, 0.0f, false, 0 );
+            explosion_handler::explosion( nullptr, p, power, 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {

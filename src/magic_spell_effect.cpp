@@ -1445,13 +1445,13 @@ void spell_effect::pull_to_caster( const spell &sp, Creature &caster,
 
 void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    explosion_handler::explosion( &caster, target.raw(), sp.damage( caster ), sp.aoe( caster ) / 10.0,
+    explosion_handler::explosion( &caster, target, sp.damage( caster ), sp.aoe( caster ) / 10.0,
                                   true );
 }
 
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    explosion_handler::flashbang( target.raw(), caster.is_avatar() &&
+    explosion_handler::flashbang( target, caster.is_avatar() &&
                                   !sp.is_valid_target( spell_target::self ) );
 }
 

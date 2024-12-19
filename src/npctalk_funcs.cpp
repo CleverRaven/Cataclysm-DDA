@@ -1245,12 +1245,12 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
 npc *pick_follower()
 {
     std::vector<npc *> followers;
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
 
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
             followers.push_back( &guy );
-            locations.push_back( guy.pos() );
+            locations.push_back( guy.pos_bub() );
         }
     }
 
@@ -1288,13 +1288,13 @@ void talk_function::distribute_food_auto( npc &p )
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint_abs_ms &npc_abs_loc = p.get_location();
     // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
-    // TODO: fix point types; Awful hack, zones want the raw value
-    const tripoint top_left = npc_abs_loc.raw() + point::north_west;
-    const tripoint bottom_right = npc_abs_loc.raw() + point::south_east;
+    const tripoint_abs_ms top_left = npc_abs_loc + point::north_west;
+    const tripoint_abs_ms bottom_right = npc_abs_loc + point::south_east;
     std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
     const faction_id &fac_id = p.get_fac_id();
-    mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );
-    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left, bottom_right );
+    mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left.raw(), bottom_right.raw() );
+    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left.raw(),
+             bottom_right.raw() );
     npc_camp->distribute_food( false );
     // Now we clean up all camp zones, though there SHOULD only be the two we just made
     auto lambda_remove_zones = [&mgr, &fac_id]( zone_type_id type_to_remove ) {

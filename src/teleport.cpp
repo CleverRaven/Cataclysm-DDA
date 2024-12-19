@@ -184,7 +184,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 collision_angle = rng( 0, 360 );
                 g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 40, false, true );
                 //spawn a mostly cosmetic explosion for flair.
-                explosion_handler::explosion( &critter, target.raw(), 10 );
+                explosion_handler::explosion( &critter, target, 10 );
                 //if it was grabbed, it isn't anymore.
                 for( const effect &grab : poor_soul->get_effects_with_flag( json_flag_GRAB ) ) {
                     poor_soul->remove_effect( grab.get_id() );

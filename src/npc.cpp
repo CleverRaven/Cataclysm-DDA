@@ -1136,7 +1136,6 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 
 void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
-    // TODO: fix point types
     const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
     spawn_at_omt( pos );
     const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
@@ -2890,10 +2889,10 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( tripoint_bub_ms &pos, const point &d )
+static void maybe_shift( tripoint_bub_ms &pos, const point_rel_ms &d )
 {
     if( !pos.is_invalid() ) {
-        pos += d;
+        pos += d.raw();  // TODO: Make += etc. available to corresponding relative coordinates.
     }
 }
 
@@ -2901,7 +2900,7 @@ void npc::shift( const point_rel_sm &s )
 {
     const point_rel_ms shift = coords::project_to<coords::ms>( s );
     // TODO: convert these to absolute coords and get rid of shift()
-    maybe_shift( wanted_item_pos, point( -shift.x(), -shift.y() ) );
+    maybe_shift( wanted_item_pos, -shift );
     path.clear();
 }
 

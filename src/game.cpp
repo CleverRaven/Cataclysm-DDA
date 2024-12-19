@@ -13171,17 +13171,17 @@ void game::display_visibility()
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
         if( display_overlay_state( ACTION_DISPLAY_VISIBILITY ) ) {
-            std::vector< tripoint > locations;
+            std::vector< tripoint_bub_ms > locations;
             uilist creature_menu;
             int num_creatures = 0;
             creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-            locations.emplace_back( get_player_character().pos() ); // add player first.
+            locations.emplace_back( get_player_character().pos_bub() ); // add player first.
             for( const Creature &critter : g->all_creatures() ) {
                 if( critter.is_avatar() ) {
                     continue;
                 }
                 creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
-                locations.emplace_back( critter.pos() );
+                locations.emplace_back( critter.pos_bub() );
             }
 
             pointmenu_cb callback( locations );

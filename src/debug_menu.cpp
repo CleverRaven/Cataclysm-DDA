@@ -697,12 +697,12 @@ static int creature_uilist()
 
 static void monster_edit_menu()
 {
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
     uilist monster_menu;
     int charnum = 0;
     for( const monster &mon : g->all_monsters() ) {
         monster_menu.addentry( charnum++, true, MENU_AUTOASSIGN, mon.disp_name() );
-        locations.emplace_back( mon.pos() );
+        locations.emplace_back( mon.pos_bub() );
     }
 
     if( locations.empty() ) {
@@ -2284,16 +2284,16 @@ static faction *select_faction()
 
 static void character_edit_menu()
 {
-    std::vector< tripoint > locations;
+    std::vector< tripoint_bub_ms > locations;
     uilist charmenu;
     charmenu.title = _( "Edit which character?" );
     int charnum = 0;
     avatar &player_character = get_avatar();
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-    locations.emplace_back( player_character.pos() );
+    locations.emplace_back( player_character.pos_bub() );
     for( const npc &guy : g->all_npcs() ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
-        locations.emplace_back( guy.pos() );
+        locations.emplace_back( guy.pos_bub() );
     }
 
     pointmenu_cb callback( locations );
