@@ -1127,7 +1127,7 @@ void talk_function::start_training_seminar( npc &p )
     d.spell = p.chatbin.dialogue_spell;
     d.prof = p.chatbin.proficiency;
     std::vector<npc *> followers = g->get_npcs_if( [&p]( const npc & n ) {
-        return n.is_player_ally() && n.is_following() && n.can_hear( p.pos(), p.get_shout_volume() );
+        return n.is_player_ally() && n.is_following() && n.can_hear( p.pos_bub(), p.get_shout_volume() );
     } );
     std::vector<Character *> students;
     for( npc *n : followers ) {

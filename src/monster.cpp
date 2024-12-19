@@ -380,6 +380,14 @@ bool monster::can_upgrade() const
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
 
+void monster::gravity_check()
+{
+    map &here = get_map();
+    if( here.is_open_air( pos_bub() ) && !flies() ) {
+        here.try_fall( pos_bub(), this );
+    }
+}
+
 // For master special attack.
 void monster::hasten_upgrade()
 {

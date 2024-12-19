@@ -87,8 +87,9 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
     SECTION( "midnight with a new moon" ) {
         // yes, surprisingly, we need to test for this
         calendar::turn = calendar::turn_zero;
-        tripoint const z_shift = GENERATE( tripoint::above, tripoint::zero );
-        dummy.setpos( dummy.pos_bub() + z_shift ); // This implicitly rebuilds the light map.
+        tripoint_rel_ms const z_shift = GENERATE( tripoint_rel_ms::above, tripoint_rel_ms::zero );
+        // This implicitly rebuilds the light map but in a hacky way so we need to prevent the player falling
+        dummy.setpos( dummy.pos_bub() + z_shift, false );
         CAPTURE( z_shift );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos_bub() ) );
         REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
@@ -96,7 +97,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
         CHECK( dummy.fine_detail_vision_mod() == Approx( 7.3f ) );
 
-        dummy.setpos( dummy.pos_bub() - z_shift );
+        dummy.setpos( dummy.pos_bub() - z_shift, false );
     }
 
     SECTION( "blindfolded" ) {
@@ -118,7 +119,8 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     clear_map();
     tripoint const u_shift = GENERATE( tripoint::zero, tripoint::above );
     CAPTURE( u_shift );
-    u.setpos( u.pos_bub() + u_shift );
+    // Allow player to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
+    u.setpos( u.pos_bub() + u_shift, false );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     time_point time_dst;
@@ -136,11 +138,12 @@ TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][ligh
     set_time( time_dst );
     REQUIRE( u.fine_detail_vision_mod() == expected_vision );
     SECTION( "NPC on same z-level" ) {
-        n.setpos( u.pos_bub() + tripoint::east );
+        // Allow NPC to float for purpose of purely testing this and not factoring in terrain potentially blocking vision etc
+        n.setpos( u.pos_bub() + tripoint_rel_ms::east, false );
         CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
     }
     SECTION( "NPC on a different z-level" ) {
-        n.setpos( u.pos_bub() + tripoint::above );
+        n.setpos( u.pos_bub() + tripoint_rel_ms::above, false );
         // light map is not calculated outside the player character's z-level
         // even if fov_3d_z_range > 0, and building light map on multiple levels
         // could be expensive, so make NPCs able to see things in this case to

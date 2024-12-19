@@ -2606,10 +2606,22 @@
   },
   {
     "type": "keybinding",
+    "name": "Throw wielded item",
+    "category": "DEFAULTMODE",
+    "id": "throw_wielded"
+  },
+  {
+    "type": "keybinding",
     "name": "Blind throw item",
     "category": "LOOK",
     "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind throw wielded item",
+    "category": "LOOK",
+    "id": "throw_blind_wielded"
   },
   {
     "type": "keybinding",

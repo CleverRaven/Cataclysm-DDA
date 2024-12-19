@@ -133,6 +133,7 @@ static const efftype_id effect_zapped( "zapped" );
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_CANNOT_GAIN_EFFECTS( "CANNOT_GAIN_EFFECTS" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
@@ -214,16 +215,19 @@ tripoint_bub_ms Creature::pos_bub() const
     return get_map().bub_from_abs( location );
 }
 
-void Creature::setpos( const tripoint &p )
+void Creature::setpos( const tripoint &p, bool check_gravity/* = true*/ )
 {
-    Creature::setpos( tripoint_bub_ms( p ) );
+    Creature::setpos( tripoint_bub_ms( p ), check_gravity );
 }
 
-void Creature::setpos( const tripoint_bub_ms &p )
+void Creature::setpos( const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = get_location();
     set_pos_only( p );
     on_move( old_loc );
+    if( check_gravity ) {
+        gravity_check();
+    }
 }
 
 bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
@@ -315,6 +319,10 @@ std::vector<std::string> Creature::get_grammatical_genders() const
 {
     // Returning empty list means we use the language-specified default
     return {};
+}
+
+void Creature::gravity_check()
+{
 }
 
 void Creature::normalize()
@@ -1681,7 +1689,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
                            const time_duration &dur, bodypart_id bp, bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
-    if( !force && is_immune_effect( eff_id ) ) {
+    if( ( !force && is_immune_effect( eff_id ) ) || has_flag( json_flag_CANNOT_GAIN_EFFECTS ) ) {
         return;
     }
     if( eff_id == effect_knockdown && ( has_effect( effect_ridden ) ||

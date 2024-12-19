@@ -549,7 +549,8 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 }
             }
 
-            target->setpos( pt );
+            // Don't try to fall mid pull
+            target->setpos( pt, false );
             pull_range--;
             if( animate ) {
                 g->invalidate_main_ui_adaptor();
@@ -566,6 +567,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         }
         // The monster might drag a target that's not on it's z level
         // So if they leave them on open air, make them fall
+        target->gravity_check();
         here.creature_on_trap( *target );
 
         target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name,
@@ -1264,7 +1266,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
         return false;
     }
     z.mod_moves( -move_cost );
-    standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
+    standard_npc tmp( _( "The " ) + z.name(), z.pos_bub(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
     tmp.set_fake( true );

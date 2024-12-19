@@ -786,7 +786,7 @@
     "effect": "ter_transform",
     "effect_str": "ter_magus_permanent_light",
     "shape": "blast",
-    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL" ],
+    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL" ],
     "components": "spell_components_magus_permanent_light",
     "max_level": 15,
     "spell_class": "MAGUS",
@@ -799,5 +799,29 @@
     "final_energy_cost": 1500,
     "energy_increment": -75,
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
+  },
+  {
+    "id": "magus_cannot_move_attack_or_damage_target",
+    "type": "SPELL",
+    "name": "Adamantine Gaol",
+    "description": "Create an impenetrable shell of force around the target, preventing them from moving or acting for the spell's duration.  The shell works in two directions and the target is also immune to all harm.\n\nAdamantine Gaol <color_yellow>cannot be dispelled</color>.",
+    "valid_targets": [ "ally", "hostile", "self" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "effect": "attack",
+    "effect_str": "effect_magus_cannot_move_attack_or_damage_target",
+    "shape": "blast",
+    "spell_class": "MAGUS",
+    "energy_source": "MANA",
+    "difficulty": 10,
+    "base_casting_time": 75,
+    "base_energy_cost": 750,
+    "max_level": 20,
+    "min_range": 5,
+    "max_range": 30,
+    "range_increment": 1.5,
+    "min_duration": 600,
+    "max_duration": 2500,
+    "duration_increment": 100
   }
 ]

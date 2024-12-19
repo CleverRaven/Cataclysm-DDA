@@ -1265,5 +1265,55 @@
         ]
       }
     ]
+  },
+  {
+    "id": "earthshaper_diggable_teleport",
+    "type": "SPELL",
+    "name": "Earth Gate",
+    "description": "While standing on natural earth, sink into it and emerge from any other patch of natural earth within the spell's range.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONVEYANCE_SPELL", "VERBAL", "SOMATIC", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_EARTH_GATE_TELEPORT_CHECK",
+    "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 8,
+    "spell_class": "EARTHSHAPER",
+    "teachable": false,
+    "max_level": 20,
+    "energy_source": "MANA",
+    "base_energy_cost": 650,
+    "base_casting_time": 250
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_EARTH_GATE_TELEPORT_CHECK",
+    "effect": [
+      {
+        "if": { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        "then": [
+          {
+            "if": {
+              "u_query_tile": "line_of_sight",
+              "target_var": { "global_val": "earthshaper_earth_gate_location" },
+              "range": { "math": [ "( (u_spell_level('earthshaper_diggable_teleport') * 2) + 3) * conveyance_proficiency_modifier()" ] },
+              "z_level": false,
+              "message": "Select nearby earth to gate to."
+            },
+            "then": {
+              "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "global_val": "earthshaper_earth_gate_location" } },
+              "then": [
+                { "u_teleport": { "global_val": "earthshaper_earth_gate_location" }, "force": true },
+                { "u_message": "You sink into the earth and re-emerge nearby.", "type": "neutral" }
+              ],
+              "else": { "u_message": "You must select a patch of earth to transport to." }
+            },
+            "else": { "u_message": "Canceled" }
+          }
+        ],
+        "else": { "u_message": "You must be on the living earth to use Earth Gate.", "type": "bad" }
+      }
+    ]
   }
 ]

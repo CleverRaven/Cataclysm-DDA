@@ -374,8 +374,6 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
-
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
 
@@ -2374,7 +2372,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     u.takeoff( locThisItem.obtain( u ) );
                     break;
                 case 'd':
-                    u.drop( locThisItem, u.pos() );
+                    u.drop( locThisItem, u.pos_bub() );
                     break;
                 case 'U':
                     u.unload( locThisItem );
@@ -2654,6 +2652,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "insert" );
     ctxt.register_action( "unload" );
     ctxt.register_action( "throw" );
+    ctxt.register_action( "throw_wielded" );
     ctxt.register_action( "fire" );
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
@@ -5201,7 +5200,11 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
         return nullptr;
     }
     mon->spawn( *where );
-    return critter_tracker->add( mon ) ? mon.get() : nullptr;
+    if( critter_tracker->add( mon ) ) {
+        mon->gravity_check();
+        return mon.get();
+    }
+    return nullptr;
 }
 
 monster *game::place_critter_within( const mtype_id &id,
@@ -5224,7 +5227,11 @@ monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
         return nullptr;
     }
     mon->spawn( *where );
-    return critter_tracker->add( mon ) ? mon.get() : nullptr;
+    if( critter_tracker->add( mon ) ) {
+        mon->gravity_check();
+        return mon.get();
+    }
+    return nullptr;
 }
 
 size_t game::num_creatures() const
@@ -6319,9 +6326,13 @@ void game::peek( const tripoint_bub_ms &p )
         u.setpos( prev );
     }
 
-    if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        item_location loc;
-        avatar_action::plthrow( u, loc, p );
+    if( result.peek_action ) {
+        if( *result.peek_action == PA_BLIND_THROW ) {
+            item_location loc;
+            avatar_action::plthrow( u, loc, p );
+        } else if( *result.peek_action == PA_BLIND_THROW_WIELDED ) {
+            avatar_action::plthrow_wielded( u, p );
+        }
     }
     m.invalidate_map_cache( p.z() );
     m.invalidate_visibility_cache();
@@ -7661,6 +7672,7 @@ look_around_result game::look_around(
     ctxt.register_action( "SELECT" );
     if( peeking ) {
         ctxt.register_action( "throw_blind" );
+        ctxt.register_action( "throw_blind_wielded" );
     }
     if( !select_zone ) {
         ctxt.register_action( "TRAVEL_TO" );
@@ -7915,6 +7927,8 @@ look_around_result game::look_around(
             center.y() = center.y() + vec->y();
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
+        } else if( action == "throw_blind_wielded" ) {
+            result.peek_action = PA_BLIND_THROW_WIELDED;
         } else if( action == "zoom_in" ) {
             center.xy() = lp.xy();
             zoom_in();
@@ -7925,7 +7939,7 @@ look_around_result game::look_around(
             mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
-             action != "throw_blind" );
+             action != "throw_blind" && action != "throw_blind_wielded" );
 
     if( center.z() != old_levz ) {
         m.invalidate_map_cache( old_levz );
@@ -9275,13 +9289,13 @@ void game::insert_item()
 void game::unload_container()
 {
     if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Unload where?" ) ) ) {
-        u.drop( game_menus::inv::unload_container(), pnt->raw() );
+        u.drop( game_menus::inv::unload_container(), *pnt );
     }
 }
 
 void game::drop_in_direction( const tripoint_bub_ms &pnt )
 {
-    u.drop( game_menus::inv::multidrop( u ), pnt.raw() );
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -10456,7 +10470,7 @@ bool game::prompt_dangerous_tile( const tripoint_bub_ms &dest_loc,
         !query_yn( _( "Really step into %s?" ), enumerate_as_string( *harmful_stuff ) ) ) {
         return false;
     }
-    if( !harmful_stuff->empty() && u.is_mounted() && m.tr_at( dest_loc ) == tr_ledge ) {
+    if( !harmful_stuff->empty() && u.is_mounted() && m.is_open_air( dest_loc ) ) {
         add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
                  u.mounted_creature->get_name() );
         return false;
@@ -10528,16 +10542,18 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
         }
     }
 
-    const trap &tr = m.tr_at( dest_loc );
-    // HACK: Hack for now, later ledge should stop being a trap
-    if( tr == tr_ledge ) {
+    if( m.is_open_air( dest_loc ) ) {
         if( !veh_dest && !u.has_effect_with_flag( json_flag_LEVITATION ) ) {
-            harmful_stuff.push_back( tr.name() );
+            harmful_stuff.emplace_back( "ledge" );
             if( harmful_stuff.size() == max ) {
                 return harmful_stuff;
             }
         }
-    } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
+    }
+
+    const trap &tr = m.tr_at( dest_loc );
+
+    if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
         harmful_stuff.push_back( tr.name() );
         if( harmful_stuff.size() == max ) {
             return harmful_stuff;
@@ -11738,7 +11754,6 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
-        m.drop_furniture( fdest );
         return true;
     }
 
@@ -12022,9 +12037,8 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
     // Fall down to the ground - always on the last reached tile
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, c->pos_bub() ) ) {
-        const trap &trap_under_creature = m.tr_at( c->pos_bub() );
         // Didn't smash into a wall or a floor so only take the fall damage
-        if( thru && trap_under_creature == tr_ledge ) {
+        if( thru && m.is_open_air( c->pos_bub() ) ) {
             m.creature_on_trap( *c, false );
         } else {
             // Fall on ground
@@ -12165,7 +12179,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( u.pos_bub().raw(), stairs.raw() );
+        const int cost = u.climbing_cost( u.pos_bub(), stairs );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
@@ -12512,11 +12526,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
-    // Upon force movement, traps can not be avoided.
-    if( !wall_cling && ( get_map().tr_at( u.pos_bub() ) == tr_ledge &&
-                         !u.has_effect( effect_gliding ) ) )  {
-        here.creature_on_trap( u, !force );
-    }
 
     u.recoil = MAX_RECOIL;
 
@@ -12596,7 +12605,7 @@ std::optional<tripoint_bub_ms> game::find_stairs( const map &mp, int z_after,
                                         z_after ) ) );
     tripoint_bub_ms omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
 
-    if( get_map().tr_at( u.pos_bub() ) != tr_ledge ) {
+    if( !get_map().is_open_air( u.pos_bub() ) ) {
         for( const tripoint_bub_ms &dest : mp.points_in_rectangle( omtile_align_start,
                 omtile_align_end ) ) {
             if( rl_dist( u.pos_bub(), dest ) <= best &&
@@ -12676,7 +12685,7 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
         return stairs;
     }
 
-    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos_bub() ) == tr_ledge ) {
+    if( u.has_effect( effect_gliding ) && get_map().is_open_air( u.pos_bub() ) ) {
         return stairs;
     }
 
@@ -12867,11 +12876,11 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
     // Shift monsters
     shift_monsters( { shift, 0 } );
     const point_rel_ms shift_ms = coords::project_to<coords::ms>( shift );
-    u.shift_destination( -shift_ms.raw() );
+    u.shift_destination( -shift_ms );
 
     // Shift NPCs
     for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
-        ( *it )->shift( shift.raw() );
+        ( *it )->shift( shift );
         if( ( *it )->posx() < 0 || ( *it )->posx() >= MAPSIZE_X ||
             ( *it )->posy() < 0 || ( *it )->posy() >= MAPSIZE_Y ) {
             //Remove the npc from the active list. It remains in the overmap list.
@@ -13638,9 +13647,10 @@ bool game::slip_down( climb_maneuver maneuver, climbing_aid_id aid_id,
         if( slip >= 100 ) {
             add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
         }
-        // Check for traps if climbing UP or DOWN.  Note that ledges (open air) count as traps.
+        // Check for traps and gravity if climbing up or down.
         if( maneuver != climb_maneuver::over_obstacle ) {
             m.creature_on_trap( u );
+            u.gravity_check();
         }
         return true;
     }
@@ -13786,7 +13796,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     // Scan the height of the drop and what's in the way.
     const climbing_aid::fall_scan fall( examp.raw() );
 
-    int estimated_climb_cost = you.climbing_cost( fall.pos_bottom(), examp.raw() );
+    int estimated_climb_cost = you.climbing_cost( tripoint_bub_ms( fall.pos_bottom() ), examp );
     const float fall_mod = you.fall_damage_mod();
     add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", estimated_climb_cost );
     add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
@@ -13910,7 +13920,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     float weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
     you.mod_moves( -to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult );
-    you.setpos( examp );
+    you.setpos( examp, false );
 
     // Pre-descent message.
     if( !aid.down.msg_before.empty() ) {
@@ -13963,7 +13973,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
         you.mod_thirst( aid.down.cost.thirst );
     }
 
-    // vertical_move with force=true triggers traps (ie, fall) at the end of the move.
+    // vertical_move with force=true triggers traps at the end of the move.
     g->vertical_move( -descended_levels, true );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() ) ) {

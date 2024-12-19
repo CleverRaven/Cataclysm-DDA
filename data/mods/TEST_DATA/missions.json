@@ -31,17 +31,9 @@
   {
     "//COMMENT": "Dummy EOCs to prevent the startup chain from triggering missions in the test environment.",
     "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMEBEGIN_CHECK",
+    "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",
     "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "effect": [  ]
-  },
-  {
-    "//COMMENT": "Dummy EOCs to prevent the startup chain from triggering missions in the test environment.",
-    "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMESTART_CHECK",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
+    "required_event": "game_avatar_new",
     "effect": [  ]
   }
 ]

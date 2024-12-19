@@ -998,7 +998,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
+        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
@@ -1882,7 +1882,7 @@ static void cast_spell()
 
 // returns true if the spell was assigned
 bool Character::cast_spell( spell &sp, bool fake_spell,
-                            const std::optional<tripoint> &target = std::nullopt )
+                            const std::optional<tripoint_bub_ms> &target = std::nullopt )
 {
     if( is_armed() && !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
@@ -2613,6 +2613,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_THROW: {
             item_location loc;
             avatar_action::plthrow( player_character, loc );
+            break;
+        }
+
+        case ACTION_THROW_WIELDED: {
+            avatar_action::plthrow_wielded( player_character );
             break;
         }
 

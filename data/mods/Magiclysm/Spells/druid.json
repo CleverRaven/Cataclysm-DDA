@@ -1396,5 +1396,116 @@
     "//": "EoC to summon because summoned comestibles don't have timers",
     "id": "EOC_DRUID_GOODBERRY",
     "effect": [ { "u_spawn_item": "item_druid_goodberry", "count": 1, "suppress_message": true } ]
+  },
+  {
+    "id": "druid_create_temporary_spring",
+    "type": "SPELL",
+    "name": "Fountain of the Depths",
+    "description": "Call to the waters beneath the earth and bring them to the surface, creating a natural spring.  The waters will subside when the spell's duration ends.",
+    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 9,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_TEMPORARY_SPRING",
+    "shape": "blast",
+    "min_duration": 30000,
+    "max_duration": 255000,
+    "duration_increment": 15000,
+    "energy_source": "MANA",
+    "base_casting_time": 9000,
+    "base_energy_cost": 750,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_TEMPORARY_SPRING",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "global_val": "druid_temporary_spring_location" },
+          "message": "Select natural earth:"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "global_val": "druid_temporary_spring_location" } },
+          "then": [
+            {
+              "u_transform_radius": 0,
+              "ter_furn_transform": "ter_druid_create_spring",
+              "target_var": { "global_val": "druid_temporary_spring_location" }
+            },
+            {
+              "u_transform_radius": 60,
+              "ter_furn_transform": "ter_druid_remove_spring",
+              "target_var": { "global_val": "druid_temporary_spring_location" },
+              "time_in_future": {
+                "math": [ "( (u_spell_level('druid_create_temporary_spring') * 150) + 300 ) * ( channeling_proficiency_modifier() )" ]
+              }
+            }
+          ],
+          "else": { "u_message": "You can only call up a spring on natural earth." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "id": "druid_turn_tree_into_treant",
+    "type": "SPELL",
+    "name": "Awakening of the Forest Guardian",
+    "description": "Grant a nearby tree awareness and mobility, letting it shake free from the soil and rise up to crush your enemies.  It will root itself again when the spell expires.\n\nYou must be <color_yellow>standing next to a tree</color> for the spell to take effect.",
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 12,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_TREE_AWAKENING",
+    "shape": "blast",
+    "min_duration": 15000,
+    "max_duration": 155000,
+    "duration_increment": 7000,
+    "energy_source": "MANA",
+    "base_casting_time": 500,
+    "base_energy_cost": 850,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_TREE_AWAKENING",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_DRUID_TREE_AWAKENING_ACTION",
+            "effect": [
+              {
+                "u_transform_radius": 0,
+                "ter_furn_transform": "ter_druid_tree_guardian_turn",
+                "target_var": { "context_val": "druid_tree_awakening_check" }
+              },
+              {
+                "u_spawn_monster": "mon_treant_druid",
+                "real_count": 1,
+                "min_radius": 0,
+                "max_radius": 0,
+                "temporary_drop_items": true,
+                "lifespan": {
+                  "math": [ "( (u_spell_level('druid_turn_tree_into_treant') * 70) + 150 ) * ( transformation_proficiency_modifier() )" ]
+                },
+                "target_var": { "context_val": "druid_tree_awakening_check" }
+              }
+            ],
+            "false_effect": { "u_message": "You need to be standing next to a tree to awaken it.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "druid_tree_awakening_check" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_tree_awakening_check" } }
+      }
+    ]
   }
 ]

@@ -12273,6 +12273,18 @@ int item::getlight_emit() const
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
+        // check if there's a link and it has a charge rate or charge interval
+        // if so, use its power supply
+        if( has_link_data() && ( link().charge_rate > 0 || link().charge_interval > 0 ) ) {
+            return lumint;
+        }
+
+        // If we somehow got this far without a battery/power,
+        // return an illumination value of 0
+        if( !has_ammo() ) {
+            return 0;
+        }
+
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         const ammotype &loaded_ammo = ammo_data()->ammo->type;
         if( ammo_capacity( loaded_ammo ) &&

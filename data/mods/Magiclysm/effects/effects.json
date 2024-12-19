@@ -1580,6 +1580,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_cannot_move_attack_or_damage_target",
+    "name": [ "Adamantine Gaol" ],
+    "desc": [ "You are totally immobile and invulnerable." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_traverse_the_wilds",
     "name": [ "Traverse the Wilds" ],
     "desc": [ "Nature is speeding your passage." ],

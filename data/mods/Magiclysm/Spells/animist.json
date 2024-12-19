@@ -548,6 +548,7 @@
     "final_casting_time": 1000,
     "casting_time_increment": -200,
     "energy_source": "MANA",
+    "damage_type": "pure",
     "extra_effects": [ { "id": "create_rune_animist", "hit_self": true }, { "id": "eoc_transformation_setup", "hit_self": true } ]
   },
   {

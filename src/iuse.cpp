@@ -3263,7 +3263,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
                             rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
-    if( !get_avatar().can_hear( pos.raw(), 6 ) ) {
+    if( !get_avatar().can_hear( pos, 6 ) ) {
         // can not hear it, but may have alarmed other creatures
         return 1;
     }
@@ -3865,7 +3865,7 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     std::string sound = "music";
 
     auto lambda_should_do_effects = [&source, &volume]( Character * p ) {
-        return p && p->can_hear( source.raw(), volume ) && !p->in_sleep_state();
+        return p && p->can_hear( source, volume ) && !p->in_sleep_state();
     };
 
     auto lambda_add_music_effects = [&max_morale, &volume]( Character & guy ) {
@@ -4146,7 +4146,7 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
         // number of nearby friends with gaming devices
         std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
             return n.is_player_ally() && p->sees( n ) &&
-                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+                   n.can_hear( p->pos_bub(), p->get_shout_volume() ) &&
             n.has_item_with( [&it]( const item & i ) {
                 return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
             } );
@@ -8862,7 +8862,7 @@ std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_m
 {
     if( p->is_avatar() ) {
         std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
-            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
         } );
         int fcount = followers.size();
         if( fcount > 0 ) {

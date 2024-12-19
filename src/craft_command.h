@@ -116,7 +116,7 @@ class craft_command
 
         // Location of the workbench to place the item on
         // zero_tripoint indicates crafting without a workbench
-        std::optional<tripoint> loc;
+        std::optional<tripoint_bub_ms> loc;
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;

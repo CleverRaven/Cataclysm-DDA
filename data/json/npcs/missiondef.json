@@ -984,19 +984,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "effect": [
-      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      {
-        "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE",
-        "deadline": { "math": [ "time('now') + time_between_succession" ] }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",
     "eoc_type": "EVENT",
     "required_event": "game_avatar_new",
@@ -1014,13 +1001,6 @@
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMEBEGIN_CHECK",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMESTART_CHECK",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
     "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
   },
   {
