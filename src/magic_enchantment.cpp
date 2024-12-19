@@ -1462,6 +1462,8 @@ void enchant_cache::clear()
     hit_me_effect.clear();
     hit_you_effect.clear();
     ench_effects.clear();
+    mutations.clear();
+    modified_bodyparts.clear();
 }
 
 bool enchant_cache::operator==( const enchant_cache &rhs ) const
