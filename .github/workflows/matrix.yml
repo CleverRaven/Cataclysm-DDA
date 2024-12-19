@@ -94,7 +94,7 @@ jobs:
             dont_skip_data_only_changes: 1
             mods: --mods=magiclysm
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
-            ccache_limit: 3G
+            ccache_limit: 5G
             ccache_key: linux-llvm-10-break1
 
           - compiler: clang++
