@@ -210,7 +210,7 @@
     "name": [ "The Knowledge" ],
     "desc": [ "You know for sure - right now you are the smartest human on this side of the planet." ],
     "apply_message": "With some effort you can outsmart reality.",
-    "remove_message": "You less intelligent than before.",
+    "remove_message": "You feel yourself much less smarter than before.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 12 } ] } ]
