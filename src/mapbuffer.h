@@ -82,6 +82,7 @@ class mapbuffer
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( const tripoint_abs_sm &addr );
         submap *unserialize_submaps( const tripoint_abs_sm &p );
+        bool submap_file_exists( const tripoint_abs_sm &p );
         void deserialize( const JsonArray &ja );
         void save_quad(
             const cata_path &dirname, const cata_path &filename,

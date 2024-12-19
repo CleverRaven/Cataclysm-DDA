@@ -124,7 +124,7 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
-            return unserialize_submaps( p );
+            return submap_file_exists( p );
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
         }
@@ -319,6 +319,16 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         return nullptr;
     }
     return submaps[ p ].get();
+}
+
+bool mapbuffer::submap_file_exists( const tripoint_abs_sm &p )
+{
+    // Map the tripoint to the submap quad that stores it.
+    const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
+    const cata_path dirname = find_dirname( om_addr );
+    cata_path quad_path = find_quad_path( dirname, om_addr );
+
+    return file_exist( quad_path );
 }
 
 void mapbuffer::deserialize( const JsonArray &ja )
