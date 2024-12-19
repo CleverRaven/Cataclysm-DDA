@@ -12,6 +12,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
+#include "input_context.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -49,7 +50,8 @@ class editmap
 {
     public:
         tripoint pos2screen( const tripoint_bub_ms &p );
-        bool eget_direction( tripoint_rel_ms &p, const std::string &action ) const;
+        bool eget_direction( tripoint_rel_ms &p, const std::string &action,
+                             const input_context &ctxt ) const;
         std::optional<tripoint_bub_ms> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view_with_help( const std::string &txt, const std::string &title );
@@ -74,7 +76,7 @@ class editmap
         catacurses::window w_info;
 
         void recalc_target( shapetype shape );
-        bool move_target( const std::string &action, int moveorigin = -1 );
+        bool move_target( const std::string &action, const input_context &ctxt, int moveorigin = -1 );
 
         int sel_field;
         int sel_field_intensity;
@@ -105,7 +107,7 @@ class editmap
 
         tinymap *tmpmap_ptr = nullptr;
 
-        const int width = 45;
+        const int width = 60;
         const int offsetX = 0;
         const int infoHeight = 20;
 
