@@ -47,7 +47,7 @@
     "id": "AT4",
     "type": "GUN",
     "copy-from": "m3_carlgustav",
-    "name": { "str": "AT4" },
+    "name": { "str": "AT4 recoilless rifle" },
     "description": "A milspec recoilless rifle - an 84mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
     "extend": { "flags": [ "FIRE_TWOHAND", "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD" ] },
     "delete": { "flags": [ "RELOAD_ONE" ] },

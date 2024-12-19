@@ -189,6 +189,7 @@ TYPE_DESCRIPTORS = [
     "rifle",
     "shotgun",
     "six-shooter",
+    "seven-shooter",
     "SMG",
     "submachine gun",
     "trenchgun",

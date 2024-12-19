@@ -10,28 +10,28 @@
     "id": "win70",
     "type": "GUN",
     "copy-from": "win70",
-    "name": { "str": "Winchester Model 70" },
+    "name": { "str": "Winchester Model 70 bolt-action rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "garand",
     "type": "GUN",
     "copy-from": "garand",
-    "name": { "str_sp": "M1 Garand" },
+    "name": { "str": "Garand battle rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m1903",
     "type": "GUN",
     "copy-from": "m1903",
-    "name": { "str": "M1903 Springfield" },
+    "name": { "str": "Springfield rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "m1918",
     "type": "GUN",
     "copy-from": "m1918",
-    "name": { "str": "Browning Automatic Rifle" },
+    "name": { "str": "BAR rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -52,28 +52,28 @@
     "id": "walther_ppk",
     "type": "GUN",
     "copy-from": "walther_ppk",
-    "name": { "str": "Walther PPK" },
+    "name": { "str": "Walther PPK pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "colt_navy",
     "type": "GUN",
     "copy-from": "colt_navy",
-    "name": { "str_sp": "Colt M1861 Navy" },
+    "name": { "str": "civil war six-shooter" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "model_10_revolver",
     "type": "GUN",
     "copy-from": "model_10_revolver",
-    "name": { "str": "S&W Model 10" },
+    "name": { "str": "six-shooter" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "hi_power_40",
     "type": "GUN",
     "copy-from": "hi_power_40",
-    "name": { "str": "Browning Hi-Power .40 S&W" },
+    "name": { "str": "Browning Hi-Power .40 S&W pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -87,21 +87,21 @@
     "id": "tommygun",
     "type": "GUN",
     "copy-from": "tommygun",
-    "name": { "str": "Thompson M1928A1" },
+    "name": { "str": "Thompson submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "greasegun",
     "type": "GUN",
     "copy-from": "greasegun",
-    "name": { "str": "M3 SMG" },
+    "name": { "str": ".45 WWII submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "1895sbl",
     "type": "GUN",
     "copy-from": "1895sbl",
-    "name": { "str_sp": "Marlin 1895 SBL" },
+    "name": { "str": "lever-action hunting rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -122,42 +122,42 @@
     "id": "p08",
     "type": "GUN",
     "copy-from": "p08",
-    "name": { "str": "Luger P08" },
+    "name": { "str": "Luger P08 pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "mauser_c96",
     "type": "GUN",
     "copy-from": "mauser_c96",
-    "name": { "str": "Broomhandle pistol" },
+    "name": { "str": "Mauser pistol" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "mp40",
     "type": "GUN",
     "copy-from": "mp40",
-    "name": { "str": "Schmeisser MP 40" },
+    "name": { "str": "MP 40 submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "sten",
     "type": "GUN",
     "copy-from": "sten",
-    "name": { "str": "STEN Mk II", "str_pl": "STENs Mk II" },
+    "name": { "str": "STEN Mk II submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "hi_power_9mm",
     "type": "GUN",
     "copy-from": "hi_power_9mm",
-    "name": { "str": "Browning Hi-Power 9x19mm" },
+    "name": { "str": "Browning Hi-Power 9x19mm handgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "walther_p38",
     "type": "GUN",
     "copy-from": "walther_p38",
-    "name": { "str": "Walther P38" },
+    "name": { "str": "Walther P38 handgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -227,14 +227,14 @@
     "id": "m2browning",
     "type": "GUN",
     "copy-from": "m2browning",
-    "name": { "str": "M2HB Browning HMG" },
+    "name": { "str": ".50-caliber heavy machine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
     "id": "shotgun_410",
     "type": "GUN",
     "copy-from": "shotgun_410",
-    "name": { "str": "Winchester M37 .410" },
+    "name": { "str": "Winchester M37 .410 shotgun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
