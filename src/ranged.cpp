@@ -903,7 +903,7 @@ bool Character::handle_gun_overheat( item &it )
             add_msg_if_player( m_bad, _( "Your %s detonates!" ),
                                it.tname() );
             it.faults.insert( fault_overheat_melting );
-            explosion_handler::explosion( this, this->pos(), 1200, 0.4 );
+            explosion_handler::explosion( this, this->pos_bub(), 1200, 0.4 );
             return false;
         } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
             add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),

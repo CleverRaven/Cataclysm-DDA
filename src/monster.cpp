@@ -2862,12 +2862,12 @@ void monster::process_turn()
                     }
                 }
                 if( zap != pos_bub() ) {
-                    explosion_handler::emp_blast( zap.raw() ); // Fries electronics due to the intensity of the field
+                    explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
                 const ter_id &t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( this, pos(), 40, 0.8, true );
+                        explosion_handler::explosion( this, pos_bub(), 40, 0.8, true );
                         add_msg_if_player_sees( zap.raw(), m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {

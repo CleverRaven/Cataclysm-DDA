@@ -527,7 +527,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( null_source ? nullptr : origin, tp.raw(),
+        explosion_handler::explosion( null_source ? nullptr : origin, tp,
                                       proj.get_custom_explosion() );
     }
 

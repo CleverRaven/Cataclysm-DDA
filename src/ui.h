@@ -556,7 +556,7 @@ class pointmenu_cb : public uilist_callback
 
         pimpl<impl_t> impl;
     public:
-        explicit pointmenu_cb( const std::vector< tripoint > &pts );
+        explicit pointmenu_cb( const std::vector< tripoint_bub_ms > &pts );
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };
