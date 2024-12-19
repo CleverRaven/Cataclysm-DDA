@@ -169,7 +169,8 @@
         "           ||           "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "druid_ritual_home" ]
+      "palettes": [ "druid_ritual_home" ],
+      "furniture": { " ": [ [ "f_null", 10 ], [ "f_region_forest_dense", 1 ] ] }
     }
   },
   {
