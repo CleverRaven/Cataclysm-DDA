@@ -543,6 +543,26 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
     return los;
 }
 
+static std::unordered_set<point_abs_omt> generated_omts;
+
+static void build_generated_omts()
+{
+    const int om_map_width = OVERMAP_WINDOW_WIDTH;
+    const int om_map_height = OVERMAP_WINDOW_HEIGHT;
+    const int om_half_width = om_map_width / 2;
+    const int om_half_height = om_map_height / 2;
+    const tripoint_abs_omt corner = g->overmap_data.cursor_pos - point_rel_omt( om_half_width,
+                                    om_half_height );
+    for( int i = 0; i < om_map_width; ++i ) {
+        for( int j = 0; j < om_map_height; ++j ) {
+            const tripoint_abs_omt omp = corner + point_rel_omt( i, j );
+            if( MAPBUFFER.submap_exists( project_to<coords::sm>( omp ) ) ) {
+                generated_omts.insert( omp.xy() );
+            }
+        }
+    }
+}
+
 static void draw_ascii(
     const catacurses::window &w, overmap_draw_data_t &data )
 {
@@ -796,7 +816,7 @@ static void draw_ascii(
                     }
                 }
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
+                if( generated_omts.find( omp.xy() ) != generated_omts.end() ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -1558,16 +1578,18 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                             _( "Highlighted regions already have map content generated.  Their overmap id will change, but not their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                 ( !terrain && uistate.place_special->is_rotatable() ) ) {
-                mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
+                mvwprintz( w_editor, point( 1, 10 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
-            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place" ),
+            mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Place" ),
                        ctxt.get_desc( "CONFIRM_MULTIPLE" ) );
-            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[%s] Place and close" ),
+            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place and close" ),
                        ctxt.get_desc( "CONFIRM" ) );
-            mvwprintz( w_editor, point( 1, 14 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
+            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wnoutrefresh( w_editor );
         } );
+
+        build_generated_omts();
 
         std::string action;
         do {
@@ -1576,8 +1598,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-                curs += vec->xy();
+            if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
+                curs += *vec;
             } else if( action == "zoom_out" ) {
                 g->zoom_out_overmap();
                 om_ui.mark_resize();
@@ -1597,9 +1619,6 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                         }
                     }
                 }
-                if( action == "CONFIRM" ) {
-                    break;
-                }
             } else if( action == "ROTATE" && can_rotate ) {
                 uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
                 if( terrain ) {
@@ -1609,8 +1628,9 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
             }
-        } while( action != "QUIT" );
+        } while( action != "CONFIRM" && action != "QUIT" );
 
+        generated_omts.clear();
         uistate.place_terrain = nullptr;
         uistate.place_special = nullptr;
     }
