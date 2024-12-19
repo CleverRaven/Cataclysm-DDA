@@ -4648,7 +4648,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     point expected_dim = mapgensize + m_offset.xy().raw();
     cata_assert( expected_dim.x >= 0 );
     cata_assert( expected_dim.y >= 0 );
-    const std::string default_row( expected_dim.x, ' ' );
+    const std::string default_row( total_size.x, ' ' );
     const bool default_rows = !jo.has_array( "rows" );
     if( !default_rows ) {
         parray = jo.get_array( "rows" );
