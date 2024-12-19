@@ -3,24 +3,87 @@
     "type": "palette",
     "id": "struc_damage",
     "parameters": { "crashvariant": { "type": "string", "scope": "omt", "default": { "distribution": [ "fromleft", "fromright" ] } } },
-    "terrain": {
-      "c": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "t_dirtmoundfloor", "fromright": "t_null" } },
-      "v": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "t_null", "fromright": "t_dirtmoundfloor" } },
-      "d": "t_dirtmoundfloor",
-      "r": "t_dirtmoundfloor",
-      "w": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "t_dirtmoundfloor", "fromright": "t_null" } },
-      "j": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "t_null", "fromright": "t_dirtmoundfloor" } }
+    "ter_furn_transforms": {
+      "c": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "struc_carcrash_dirt", "fromright": "tft_null" } }
+      },
+      "v": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "tft_null", "fromright": "struc_carcrash_dirt" } }
+      },
+      "w": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "struc_carcrash_rubble", "fromright": "tft_null" } }
+      },
+      "j": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "tft_null", "fromright": "struc_carcrash_rubble" } }
+      },
+      "r": { "transform": "struc_carcrash_rubble" },
+      "x": { "transform": "struc_carcrash_clear" },
+      "d": { "transform": "struc_carcrash_dirt" }
     },
     "fields": {
       "m": { "field": "fd_blood", "intensity": 2 },
       "h": { "field": "fd_blood", "intensity": 3 },
       "k": { "field": "fd_blood", "intensity": 3 }
-    },
-    "furniture": {
-      "r": "f_rubble",
-      "w": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "f_rubble", "fromright": "f_null" } },
-      "j": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "f_null", "fromright": "f_rubble" } }
     }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "tft_null",
+    "//": "transform won't accept null in a switch statement, so for now this is the solution. Does nothing.",
+    "terrain": [ { "result": "t_null", "valid_terrain": [ "t_null" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "struc_carcrash_rubble",
+    "terrain": [
+      {
+        "result": "t_floor",
+        "valid_terrain": [
+          "t_door_white_frame",
+          "t_door_frame",
+          "t_door_lab_frame",
+          "t_door_red_frame",
+          "t_door_green_frame",
+          "t_door_gray_frame",
+          "t_mdoor_lab_frame",
+          "t_mdoor_frame"
+        ],
+        "valid_flags": [ "DOOR", "WALL", "WINDOW", "BARRICADABLE_DOOR", "BARRICADABLE_DOOR_DAMAGED" ]
+      },
+      {
+        "result": "t_dirtmoundfloor",
+        "valid_terrain": [ "t_gutter_downspout" ],
+        "valid_flags": [ "DIGGABLE", "TREE", "SHRUB", "FLOWER" ]
+      }
+    ],
+    "furniture": [ { "result": "f_rubble", "valid_furniture": [ "f_null" ], "valid_flags": [ "BLOCKSDOOR", "TRANSPARENT" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "struc_carcrash_dirt",
+    "terrain": [ { "result": "t_dirtmoundfloor", "valid_flags": [ "DIGGABLE", "TREE", "SHRUB", "FLOWER" ] } ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "BLOCKSDOOR", "TRANSPARENT" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "struc_carcrash_clear",
+    "terrain": [
+      {
+        "result": "t_floor",
+        "valid_terrain": [
+          "t_door_white_frame",
+          "t_door_frame",
+          "t_door_lab_frame",
+          "t_door_red_frame",
+          "t_door_green_frame",
+          "t_door_gray_frame",
+          "t_mdoor_lab_frame",
+          "t_mdoor_frame"
+        ],
+        "valid_flags": [ "DOOR", "WINDOW", "WALL", "BARRICADABLE_DOOR", "BARRICADABLE_DOOR_DAMAGED" ]
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "BLOCKSDOOR", "TRANSPARENT" ] } ]
   },
   {
     "type": "mapgen",
@@ -61,10 +124,10 @@
         " cccdvvv",
         " ccdddvv",
         " ccdddv ",
-        " jddddw ",
-        " jddddw ",
-        "jvddddcw",
-        "jvddddcw",
+        " jxxxxw ",
+        " jxxxxw ",
+        "jjxxxxww",
+        "jjxxxxww",
         "jjrrrrww"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -84,10 +147,10 @@
         "dddd      ",
         "ddddd     ",
         "dddddddd  ",
-        "rdddddddw ",
-        "rdddddddrw",
-        "jrddddddrw",
-        "jjrrddddr ",
+        "rrrrxrrrw ",
+        "rrrxxxxrrw",
+        "jrxxxxxrrw",
+        "jjrrxxxrr ",
         "  jjjrrrw ",
         "          ",
         "          "
@@ -109,10 +172,10 @@
         "      dddd",
         "     ddddd",
         "  dddddddd",
-        " wdddddddr",
-        "wrdddddddr",
-        "wrddddddrj",
-        " rddddrrjj",
+        " wrrrxrrrr",
+        "wrrxxxxrrr",
+        "wrrxxxxxrj",
+        " rrxxxrrjj",
         " wrrrjjj  ",
         "          ",
         "          "
