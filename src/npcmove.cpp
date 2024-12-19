@@ -841,7 +841,7 @@ void npc::assess_danger()
                                "%s ignored %s because there's an obstacle in between.  Might warn about it.",
                                name, critter.type->nname() );
                 if( critter_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+                    warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
                 }
             } else {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -854,7 +854,7 @@ void npc::assess_danger()
         if( is_enemy() || !critter.friendly ) {
             mem_combat.assess_enemy += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
+                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos_bub() );
             }
             if( dist < preferred_medium_range ) {
                 hostile_count += 1;
@@ -927,7 +927,7 @@ void npc::assess_danger()
             // still warn about enemies behind impassable glass walls, but not as often.
             // since NPC threats have a higher chance of ignoring soft obstacles, we'll ignore them here.
             if( foe_threat > 2 * ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
+                warn_about( "monster", 10_minutes, bogey, dist, foe.pos_bub() );
             }
             return 0.0f;
         } else {
@@ -935,7 +935,7 @@ void npc::assess_danger()
                            name, bogey );
         }
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-            warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
+            warn_about( "monster", 10_minutes, bogey, dist, foe.pos_bub() );
         }
 
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
@@ -1381,7 +1381,7 @@ void npc::move()
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
-        tripoint cur_s_abs_pos = ai_cache.s_abs_pos;
+        tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = get_location();
         }
@@ -1412,7 +1412,7 @@ void npc::move()
         }
         if( action == npc_investigate_sound ) {
             add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
-                           ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
+                           ai_cache.s_abs_pos.x(), ai_cache.s_abs_pos.y() );
         }
     } else {
         // No present danger
@@ -1466,7 +1466,7 @@ void npc::move()
         if( !activity_route.empty() && !has_destination_activity() ) {
             tripoint_bub_ms final_destination;
             if( destination_point ) {
-                final_destination = here.bub_from_abs( tripoint_abs_ms( *destination_point ) );
+                final_destination = here.bub_from_abs( *destination_point );
             } else {
                 final_destination = activity_route.back();
             }
@@ -2047,7 +2047,7 @@ int npc::evaluate_sleep_spot( tripoint_bub_ms p )
     // This opt-out is necessary to allow mutant NPCs to find desired non-bed sleeping spaces
     if( sleep_eval < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
         const units::temperature_delta ideal_bed_value = 2_C_delta;
-        const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p.raw() );
+        const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p );
         if( sleep_spot_value < ideal_bed_value ) {
             double bed_similarity = sleep_spot_value / ideal_bed_value;
             // bed_similarity^2, exponentially diminishing the value of non-bed sleeping spots the more not-bed-like they are
@@ -2976,7 +2976,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
                 if( !activity_route.empty() && !np->has_destination_activity() ) {
                     tripoint_bub_ms final_destination;
                     if( destination_point ) {
-                        final_destination = here.bub_from_abs( tripoint_abs_ms( *destination_point ) );
+                        final_destination = here.bub_from_abs( *destination_point );
                     } else {
                         final_destination = activity_route.back();
                     }
@@ -3558,7 +3558,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint abs_p = get_location().raw() - pos() + p.raw();
+        const tripoint_abs_ms abs_p = get_location() + ( p - pos_bub() );
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         map_stack m_stack = here.i_at( p );
@@ -5136,7 +5136,7 @@ std::string npc::distance_string( int range ) const
 }
 
 void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name,
-                      int range, const tripoint &danger_pos )
+                      int range, const tripoint_bub_ms &danger_pos )
 {
     std::string snip;
     sounds::sound_t spriority = sounds::sound_t::alert;
@@ -5186,7 +5186,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     } else {
         const std::string range_str = range < 1 ? "<punc>" :
                                       string_format( _( " %s, %s" ),
-                                              direction_name( direction_from( pos(), danger_pos ) ),
+                                              direction_name( direction_from( pos_bub(), danger_pos ) ),
                                               distance_string( range ) );
         const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );

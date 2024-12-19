@@ -1234,7 +1234,7 @@ void Character::load( const JsonObject &data )
     data.read( "last_target_pos", last_target_pos );
     data.read( "ammo_location", ammo_location );
     // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint::min ) {
+    if( last_target_pos && *last_target_pos == tripoint_abs_ms::min ) {
         last_target_pos = std::nullopt;
     }
     if( tmptartyp == +1 ) {

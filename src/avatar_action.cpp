@@ -244,12 +244,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                 weapon->ammo_sufficient( &you ) ) {
                 you.invoke_item( &*weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
-                you.defer_move( dest_loc.raw() );
+                you.defer_move( dest_loc );
                 return true;
             } else if( weapon->type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &*weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
-                you.defer_move( dest_loc.raw() );
+                you.defer_move( dest_loc );
                 return true;
             }
         }
@@ -479,7 +479,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     bool fromBoat = veh0 != nullptr;
     bool toBoat = veh1 != nullptr;
     if( is_riding ) {
-        if( !you.check_mount_will_move( dest_loc.raw() ) ) {
+        if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
                 you.abort_automove();
             }
@@ -523,7 +523,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
-            you.defer_move( dest_loc.raw() );
+            you.defer_move( dest_loc );
         }
         return true;
     }
@@ -553,7 +553,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         you.mod_moves( -you.get_speed() );
         // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
-            you.defer_move( dest_loc.raw() );
+            you.defer_move( dest_loc );
         }
         return true;
     }
@@ -569,7 +569,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         }
         // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
-            you.defer_move( dest_loc.raw() );
+            you.defer_move( dest_loc );
         }
         return true;
     }

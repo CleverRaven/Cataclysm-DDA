@@ -309,7 +309,7 @@ bool give_items_to( monster &z )
         return true;
     }
     z.add_effect( effect_controlled, 5_turns );
-    player_character.drop( to_move, z.pos(), true );
+    player_character.drop( to_move, z.pos_bub(), true );
     // Print an appropriate message for the inserted item or items
     if( to_move.size() > 1 ) {
         add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),

@@ -2127,8 +2127,7 @@ void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( p.raw(), 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
-    // TODO: fix point types
-    if( !who.knows_trap( p.raw() ) ) {
+    if( !who.knows_trap( p ) ) {
         get_map().maybe_trigger_trap( p, who, true );
     }
 }

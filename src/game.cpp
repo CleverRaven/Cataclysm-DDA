@@ -2372,7 +2372,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     u.takeoff( locThisItem.obtain( u ) );
                     break;
                 case 'd':
-                    u.drop( locThisItem, u.pos() );
+                    u.drop( locThisItem, u.pos_bub() );
                     break;
                 case 'U':
                     u.unload( locThisItem );
@@ -9289,13 +9289,13 @@ void game::insert_item()
 void game::unload_container()
 {
     if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Unload where?" ) ) ) {
-        u.drop( game_menus::inv::unload_container(), pnt->raw() );
+        u.drop( game_menus::inv::unload_container(), *pnt );
     }
 }
 
 void game::drop_in_direction( const tripoint_bub_ms &pnt )
 {
-    u.drop( game_menus::inv::multidrop( u ), pnt.raw() );
+    u.drop( game_menus::inv::multidrop( u ), pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -12179,7 +12179,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( u.pos_bub().raw(), stairs.raw() );
+        const int cost = u.climbing_cost( u.pos_bub(), stairs );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
@@ -12876,11 +12876,11 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
     // Shift monsters
     shift_monsters( { shift, 0 } );
     const point_rel_ms shift_ms = coords::project_to<coords::ms>( shift );
-    u.shift_destination( -shift_ms.raw() );
+    u.shift_destination( -shift_ms );
 
     // Shift NPCs
     for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
-        ( *it )->shift( shift.raw() );
+        ( *it )->shift( shift );
         if( ( *it )->posx() < 0 || ( *it )->posx() >= MAPSIZE_X ||
             ( *it )->posy() < 0 || ( *it )->posy() >= MAPSIZE_Y ) {
             //Remove the npc from the active list. It remains in the overmap list.
@@ -13796,7 +13796,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     // Scan the height of the drop and what's in the way.
     const climbing_aid::fall_scan fall( examp.raw() );
 
-    int estimated_climb_cost = you.climbing_cost( fall.pos_bottom(), examp.raw() );
+    int estimated_climb_cost = you.climbing_cost( tripoint_bub_ms( fall.pos_bottom() ), examp );
     const float fall_mod = you.fall_damage_mod();
     add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", estimated_climb_cost );
     add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );

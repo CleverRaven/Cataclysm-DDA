@@ -1709,7 +1709,7 @@ void Character::mount_creature( monster &z )
     mod_moves( -100 );
 }
 
-bool Character::check_mount_will_move( const tripoint &dest_loc )
+bool Character::check_mount_will_move( const tripoint_bub_ms &dest_loc )
 {
     if( !is_mounted() || mounted_creature->has_flag( mon_flag_COMBAT_MOUNT ) ) {
         return true;
@@ -1721,7 +1721,7 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
             }
             Attitude att = critter.attitude_to( *this );
             if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= 15 &&
-                rl_dist( dest_loc, critter.pos_bub().raw() ) < rl_dist( pos_bub(), critter.pos_bub() ) ) {
+                rl_dist( dest_loc, critter.pos_bub() ) < rl_dist( pos_bub(), critter.pos_bub() ) ) {
                 add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
                 return false;
             }
@@ -2857,7 +2857,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 //  6.0 is LIGHT_AMBIENT_DIM
 //  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
 // 11.0 is zero light or blindness
-float Character::fine_detail_vision_mod( const tripoint &p ) const
+float Character::fine_detail_vision_mod( const tripoint_bub_ms &p ) const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generally see.  There still will be the haze, but
@@ -2874,7 +2874,7 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
-    tripoint_bub_ms const check_p = p.is_invalid() ? pos_bub() : tripoint_bub_ms( p );
+    tripoint_bub_ms const check_p = p.is_invalid() ? pos_bub() : p;
     tripoint_bub_ms const avatar_p = get_avatar().pos_bub();
     if( is_avatar() || check_p.z() == avatar_p.z() ) {
         ambient_light = std::max( 1.0f,
@@ -3199,10 +3199,10 @@ void Character::invalidate_weight_carried_cache()
 
 units::mass Character::best_nearby_lifting_assist() const
 {
-    return best_nearby_lifting_assist( this->pos() );
+    return best_nearby_lifting_assist( this->pos_bub() );
 }
 
-units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const
 {
     int mech_lift = 0;
     if( is_mounted() ) {
@@ -3213,7 +3213,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
                                    map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
-                                   vehicle_selector( tripoint_bub_ms( world_pos ), 4, true, true ).max_quality( qual_LIFT )
+                                   vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
 }
@@ -6091,7 +6091,7 @@ float Character::rest_quality() const
     if( has_effect( effect_sleep ) ) {
         // Beds should normally have a maximum of 2C warmth, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
         // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
-        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos.raw() ) ),
+        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos ) ),
                             0.f ) / 2.0f ) ;
         return std::max( rest, 0.0f );
     }
@@ -6102,9 +6102,9 @@ float Character::rest_quality() const
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
             rest += 0.2f;
-        } else if( floor_bedding_warmth( your_pos.raw() ) > 0_C_delta ) {
+        } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
-            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos.raw() ) ) / 2.0f );
+            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
         }
         if( ur_act_level <= NO_EXERCISE ) {
             rest += 0.2f;
@@ -7499,9 +7499,9 @@ void Character::vomit()
 }
 
 // adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-tripoint Character::adjacent_tile() const
+tripoint_bub_ms Character::adjacent_tile() const
 {
-    std::vector<tripoint> ret;
+    std::vector<tripoint_bub_ms> ret;
     ret.reserve( 4 );
     int dangerous_fields = 0;
     map &here = get_map();
@@ -7534,11 +7534,11 @@ tripoint Character::adjacent_tile() const
         }
 
         if( dangerous_fields == 0 ) {
-            ret.push_back( p.raw() );
+            ret.push_back( p );
         }
     }
 
-    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
+    return random_entry( ret, pos_bub() ); // player position if no valid adjacent tiles
 }
 
 void Character::set_fac_id( const std::string &my_fac_id )
@@ -9112,7 +9112,7 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_STUDY_SPELL );
 }
 
-units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
+units::temperature_delta Character::floor_bedding_warmth( const tripoint_bub_ms &pos )
 {
     map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
@@ -9133,7 +9133,7 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
     }
 }
 
-units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
+units::temperature_delta Character::floor_item_warmth( const tripoint_bub_ms &pos )
 {
     units::temperature_delta item_warmth = 0_C_delta;
 
@@ -9164,7 +9164,7 @@ units::temperature_delta Character::floor_item_warmth( const tripoint &pos )
     return item_warmth;
 }
 
-units::temperature_delta Character::floor_warmth( const tripoint &pos ) const
+units::temperature_delta Character::floor_warmth( const tripoint_bub_ms &pos ) const
 {
     const units::temperature_delta item_warmth = floor_item_warmth( pos );
     units::temperature_delta bedding_warmth = floor_bedding_warmth( pos );
@@ -9613,7 +9613,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
                                         const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> res;
-    inventory inv = crafting_inventory( pos(), radius, true );
+    inventory inv = crafting_inventory( pos_bub(), radius, true );
 
     if( qty <= 0 ) {
         return res;
@@ -10483,7 +10483,7 @@ void Character::echo_pulse()
             const std::string direction = direction_name( direction_from( pos_bub(), origin ) );
             add_msg_if_player( m_warning, _( "You detect a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( origin.raw(), tr );
+            add_known_trap( origin, tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
         if( critter && here.sees( pos_bub(), origin, pulse_range, false ) ) {
@@ -10592,18 +10592,13 @@ void Character::echo_pulse()
     }
 }
 
-bool Character::knows_trap( const tripoint &pos ) const
-{
-    return Character::knows_trap( tripoint_bub_ms( pos ) );
-}
-
 bool Character::knows_trap( const tripoint_bub_ms &pos ) const
 {
     const tripoint_abs_ms p = get_map().getglobal( pos );
     return known_traps.count( p.raw() ) > 0;
 }
 
-void Character::add_known_trap( const tripoint &pos, const trap &t )
+void Character::add_known_trap( const tripoint_bub_ms &pos, const trap &t )
 {
     const tripoint_abs_ms p = get_map().getglobal( pos );
     if( t.is_null() ) {
@@ -10614,17 +10609,17 @@ void Character::add_known_trap( const tripoint &pos, const trap &t )
     }
 }
 
-bool Character::can_hear( const tripoint &source, const int volume ) const
+bool Character::can_hear( const tripoint_bub_ms &source, const int volume ) const
 {
     if( is_deaf() ) {
         return false;
     }
 
     // source is in-ear and at our square, we can hear it
-    if( source == pos_bub().raw() && volume == 0 ) {
+    if( source == pos_bub() && volume == 0 ) {
         return true;
     }
-    const int dist = rl_dist( source, pos_bub().raw() );
+    const int dist = rl_dist( source, pos_bub() );
     const float volume_multiplier = hearing_ability();
     return ( volume - get_weather().weather_id->sound_attn ) * volume_multiplier >= dist;
 }
@@ -11159,12 +11154,12 @@ bool Character::can_sleep()
     return result;
 }
 
-const comfort_data &Character::get_comfort_data_for( const tripoint &p ) const
+const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) const
 {
     const comfort_data *worst = nullptr;
     for( const trait_id trait : get_mutations() ) {
         for( const comfort_data &data : trait->comfort ) {
-            if( data.are_conditions_true( *this, p ) ) {
+            if( data.are_conditions_true( *this, p.raw() ) ) {
                 if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
                     worst = &data;
                 }
@@ -11175,32 +11170,22 @@ const comfort_data &Character::get_comfort_data_for( const tripoint &p ) const
     return worst == nullptr ? comfort_data::human() : *worst;
 }
 
-const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) const
-{
-    return get_comfort_data_for( p.raw() );
-}
-
-const comfort_data::response &Character::get_comfort_at( const tripoint &p )
-{
-    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
-        return comfort_cache;
-    }
-    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
-}
-
 const comfort_data::response &Character::get_comfort_at( const tripoint_bub_ms &p )
 {
-    return get_comfort_at( p.raw() );
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p.raw() ) {
+        return comfort_cache;
+    }
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p.raw() );
 }
 
-void Character::shift_destination( const point &shift )
+void Character::shift_destination( const point_rel_ms &shift )
 {
     if( next_expected_position ) {
-        *next_expected_position += shift;
+        *next_expected_position += {shift, 0};
     }
 
     for( tripoint_bub_ms &elem : auto_move_route ) {
-        elem += shift;
+        elem += {shift, 0};
     }
 }
 
@@ -11311,7 +11296,7 @@ void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
 {
     auto_move_route = route;
     set_destination_activity( new_destination_activity );
-    destination_point.emplace( get_map().getglobal( route.back() ).raw() );
+    destination_point.emplace( get_map().getglobal( route.back() ) );
 }
 
 void Character::clear_destination()
@@ -11349,7 +11334,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().bub_from_abs( tripoint_abs_ms( *destination_point ) );
+           pos_bub() == get_map().bub_from_abs( *destination_point );
 }
 
 void Character::start_destination_activity()
@@ -11441,15 +11426,15 @@ int Character::intimidation() const
     return ret;
 }
 
-bool Character::defer_move( const tripoint &next )
+bool Character::defer_move( const tripoint_bub_ms &next )
 {
     // next must be adjacent to current pos
-    if( square_dist( next, pos_bub().raw() ) != 1 ) {
+    if( square_dist( next, pos_bub() ) != 1 ) {
         return false;
     }
     // next must be adjacent to subsequent move in any preexisting automove route
     // TODO: fix point types
-    if( has_destination() && square_dist( auto_move_route.front().raw(), next ) != 1 ) {
+    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
         return false;
     }
     // TODO: fix point types
@@ -12827,7 +12812,7 @@ void Character::search_surroundings()
             const std::string direction = direction_name( direction_from( pos_bub(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( tp.raw(), tr );
+            add_known_trap( tp, tr );
         }
         if( !sees( tp ) ) {
             continue;
@@ -12849,7 +12834,7 @@ void Character::search_surroundings()
                 add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                    tr.name(), direction );
             }
-            add_known_trap( tp.raw(), tr );
+            add_known_trap( tp, tr );
         }
     }
 }
@@ -13039,7 +13024,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
     }
 }
 
-int Character::climbing_cost( const tripoint &from, const tripoint &to ) const
+int Character::climbing_cost( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const
 {
     map &here = get_map();
     if( !here.valid_move( from, to, false, true ) ) {

@@ -1266,7 +1266,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
         return false;
     }
     z.mod_moves( -move_cost );
-    standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
+    standard_npc tmp( _( "The " ) + z.name(), z.pos_bub(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
     tmp.set_fake( true );

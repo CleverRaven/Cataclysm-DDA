@@ -2324,7 +2324,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
                        it.typeId().str() );
     }
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
+    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub(), volume ) ) {
         // Sound code doesn't describe noises at the player position
         if( desc != "music" ) {
             p->add_msg_if_player( m_info, desc );
@@ -3971,7 +3971,7 @@ static void place_and_add_as_known( Character &p, const tripoint_bub_ms &pos,
     here.trap_set( pos, id );
     const trap &tr = here.tr_at( pos );
     if( !tr.can_see( pos, p ) ) {
-        p.add_known_trap( pos.raw(), tr );
+        p.add_known_trap( pos, tr );
     }
 }
 
