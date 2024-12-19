@@ -55,6 +55,7 @@
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "popup.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"
@@ -543,8 +544,34 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
     return los;
 }
 
-static void draw_ascii(
-    const catacurses::window &w, overmap_draw_data_t &data )
+static std::unordered_map<point_abs_omt, bool> generated_omts;
+
+static void build_generated_omts()
+{
+    const int om_map_width = OVERMAP_WINDOW_WIDTH;
+    const int om_map_height = OVERMAP_WINDOW_HEIGHT;
+    const int om_half_width = om_map_width / 2;
+    const int om_half_height = om_map_height / 2;
+    const point_abs_omt corner = g->overmap_data.cursor_pos.xy() - point_rel_omt( om_half_width,
+                                 om_half_height );
+    for( int i = 0; i < om_map_width; ++i ) {
+        for( int j = 0; j < om_map_height; ++j ) {
+            const point_abs_omt omp = corner + point_rel_omt( i, j );
+            generated_omts.insert( { omp, MAPBUFFER.submap_exists( { project_to<coords::sm>( omp ), 0 } ) } );
+        }
+    }
+}
+
+static bool update_generated_omts( const point_abs_omt &omp )
+{
+    if( generated_omts.find( omp ) == generated_omts.end() ) {
+        generated_omts.insert( { omp, MAPBUFFER.submap_exists( { project_to<coords::sm>( omp ), 0 } ) } );
+        return true;
+    }
+    return false;
+}
+
+static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 {
     const tripoint_abs_omt &orig = data.origin_pos;
     const tripoint_abs_omt &cursor_pos = data.cursor_pos;
@@ -796,7 +823,9 @@ static void draw_ascii(
                     }
                 }
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
+                const auto it = generated_omts.find( omp.xy() );
+                const bool found = it != generated_omts.end();
+                if( ( found && it->second ) || ( !found && update_generated_omts( omp.xy() ) ) ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -1465,6 +1494,15 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
     std::vector<const overmap_special *> oslist;
     const bool terrain = om_action == "PLACE_TERRAIN";
 
+    //add_msg( m_info, _( "Hang on a bit…" ) );
+    //
+    //static_popup popup;
+    //popup.message( "%s", _( "Hang on a bit…" ) );
+    //ui_manager::redraw();
+    //refresh_display();
+
+    build_generated_omts();
+
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
         for( const oter_t &oter : overmap_terrains::get_all() ) {
@@ -1558,14 +1596,14 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                             _( "Highlighted regions already have map content generated.  Their overmap id will change, but not their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                 ( !terrain && uistate.place_special->is_rotatable() ) ) {
-                mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
+                mvwprintz( w_editor, point( 1, 10 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
-            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place" ),
+            mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Place" ),
                        ctxt.get_desc( "CONFIRM_MULTIPLE" ) );
-            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[%s] Place and close" ),
+            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place and close" ),
                        ctxt.get_desc( "CONFIRM" ) );
-            mvwprintz( w_editor, point( 1, 14 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
+            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wnoutrefresh( w_editor );
         } );
 
@@ -1576,8 +1614,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-                curs += vec->xy();
+            if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
+                curs += *vec;
             } else if( action == "zoom_out" ) {
                 g->zoom_out_overmap();
                 om_ui.mark_resize();
@@ -1597,9 +1635,6 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                         }
                     }
                 }
-                if( action == "CONFIRM" ) {
-                    break;
-                }
             } else if( action == "ROTATE" && can_rotate ) {
                 uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
                 if( terrain ) {
@@ -1609,7 +1644,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
             }
-        } while( action != "QUIT" );
+        } while( action != "CONFIRM" && action != "QUIT" );
 
         uistate.place_terrain = nullptr;
         uistate.place_special = nullptr;
@@ -2572,6 +2607,7 @@ std::optional<city> ui::omap::select_city( uilist &cities_menu,
 
 void ui::omap::force_quit()
 {
+    overmap_ui::generated_omts.clear();
     g->overmap_data.ui.reset();
     g->overmap_data.fast_traveling = false;
 }
