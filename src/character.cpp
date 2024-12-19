@@ -1101,14 +1101,14 @@ double Character::aim_factor_from_volume( const item &gun ) const
     return std::max( factor, 0.2 ) ;
 }
 
-static bool is_obstacle( tripoint pos )
+static bool is_obstacle( tripoint_bub_ms pos )
 {
     return get_map().coverage( pos ) >= 50;
 }
 
 double Character::aim_factor_from_length( const item &gun ) const
 {
-    tripoint cur_pos = pos();
+    tripoint_bub_ms cur_pos = pos_bub();
     bool nw_to_se = is_obstacle( cur_pos + tripoint::south_east ) &&
                     is_obstacle( cur_pos + tripoint::north_west );
     bool w_to_e = is_obstacle( cur_pos + tripoint::west ) &&
@@ -10474,7 +10474,7 @@ void Character::echo_pulse()
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin.raw() ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+        } else if( is_obstacle( origin ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
@@ -11433,12 +11433,10 @@ bool Character::defer_move( const tripoint_bub_ms &next )
         return false;
     }
     // next must be adjacent to subsequent move in any preexisting automove route
-    // TODO: fix point types
     if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
         return false;
     }
-    // TODO: fix point types
-    auto_move_route.insert( auto_move_route.begin(), tripoint_bub_ms( next ) );
+    auto_move_route.insert( auto_move_route.begin(), next );
     next_expected_position = pos_bub();
     return true;
 }

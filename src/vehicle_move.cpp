@@ -1266,7 +1266,7 @@ void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {
-            explosion_handler::explosion( driver, p.raw(), veh_data.damage, 0.5f, false, veh_data.shrapnel );
+            explosion_handler::explosion( driver, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
             // Don't damage wheels with very high durability, such as roller drums or rail wheels
         } else if( damage_done ) {
             // Hit the wheel directly since it ran right over the trap.
