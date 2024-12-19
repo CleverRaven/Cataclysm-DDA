@@ -115,11 +115,11 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 } // namespace io
 
-bool Character::has_trait( const trait_id &b, bool ignore_disabled ) const
+bool Character::has_trait( const trait_id &b ) const
 {
     auto mutit = cached_mutations.find( b );
     if( mutit != cached_mutations.end() ) {
-        return ignore_disabled ? mutit->second.corrupted == 0 : true;
+        return mutit->second.corrupted == 0;
     }
     return false;
 }

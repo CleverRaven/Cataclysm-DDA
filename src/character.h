@@ -1377,7 +1377,7 @@ class Character : public Creature, public visitable
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
         /** Returns true if the player has the entered trait in cached_mutations */
-        bool has_trait( const trait_id &b, bool ignore_disabled = true ) const;
+        bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered trait with the desired variant */
         bool has_trait_variant( const trait_and_var & ) const;
         /** Returns true if the player has the entered trait in my_mutations */
