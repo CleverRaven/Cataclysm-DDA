@@ -215,16 +215,19 @@ tripoint_bub_ms Creature::pos_bub() const
     return get_map().bub_from_abs( location );
 }
 
-void Creature::setpos( const tripoint &p )
+void Creature::setpos( const tripoint &p, bool check_gravity/* = true*/ )
 {
-    Creature::setpos( tripoint_bub_ms( p ) );
+    Creature::setpos( tripoint_bub_ms( p ), check_gravity );
 }
 
-void Creature::setpos( const tripoint_bub_ms &p )
+void Creature::setpos( const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = get_location();
     set_pos_only( p );
     on_move( old_loc );
+    if( check_gravity ) {
+        gravity_check();
+    }
 }
 
 bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
@@ -316,6 +319,10 @@ std::vector<std::string> Creature::get_grammatical_genders() const
 {
     // Returning empty list means we use the language-specified default
     return {};
+}
+
+void Creature::gravity_check()
+{
 }
 
 void Creature::normalize()

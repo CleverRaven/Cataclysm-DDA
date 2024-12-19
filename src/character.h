@@ -729,7 +729,7 @@ class Character : public Creature, public visitable
 
     public:
 
-        void gravity_check();
+        void gravity_check() override;
         void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;

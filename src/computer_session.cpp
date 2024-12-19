@@ -122,9 +122,9 @@ static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_grate( "t_grate" );
-static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_missile( "t_missile" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_rad_platform( "t_rad_platform" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
@@ -781,9 +781,9 @@ void computer_session::action_miss_launch()
                      false );
 
         if( level < 0 ) {
-            tmpmap.translate( ter_t_missile, ter_t_hole );
+            tmpmap.translate( ter_t_missile, ter_t_open_air );
         } else {
-            tmpmap.translate( ter_t_metal_floor, ter_t_hole );
+            tmpmap.translate( ter_t_metal_floor, ter_t_open_air );
         }
         tmpmap.save();
     }

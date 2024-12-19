@@ -4665,6 +4665,31 @@ void ter_furn_migrations::check()
     }
 }
 
+static std::unordered_map<trap_str_id, trap_str_id> tr_migrations;
+
+void trap_migrations::load( const JsonObject &jo )
+{
+    trap_str_id from_trap;
+    trap_str_id to_trap;
+    mandatory( jo, false, "from_trap", from_trap );
+    mandatory( jo, false, "to_trap", to_trap );
+    tr_migrations.insert( std::make_pair( from_trap, to_trap ) );
+}
+
+void trap_migrations::reset()
+{
+    tr_migrations.clear();
+}
+
+void trap_migrations::check()
+{
+    for( const auto &migration : tr_migrations ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "trap_migration specifies invalid to_trap id '%s'", migration.second.c_str() );
+        }
+    }
+}
+
 static std::unordered_map<field_type_str_id, field_type_str_id> field_migrations;
 
 void field_type_migrations::load( const JsonObject &jo )

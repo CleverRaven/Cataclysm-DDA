@@ -118,6 +118,8 @@ static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
 static const ammotype ammo_battery( "battery" );
 
+static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+
 static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_boomered( "boomered" );
@@ -127,10 +129,14 @@ static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_slow_descent( "slow_descent" );
+static const efftype_id effect_strengthened_gravity( "strengthened_gravity" );
+static const efftype_id effect_weakened_gravity( "weakened_gravity" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
+static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
@@ -146,6 +152,8 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
+
+static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const material_id material_glass( "glass" );
 
@@ -211,7 +219,6 @@ static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -2340,15 +2347,7 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         }
     }
 
-    // HACK: Hack around ledges in traplocs or else it gets NASTY in z-level mode
-    if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
-        auto &traps = traplocs[old_t.trap.to_i()];
-        const auto iter = std::find( traps.begin(), traps.end(), p );
-        if( iter != traps.end() ) {
-            traps.erase( iter );
-        }
-    }
-    if( new_t.trap != tr_null && new_t.trap != tr_ledge ) {
+    if( new_t.trap != tr_null ) {
         traplocs[new_t.trap.to_i()].push_back( p );
     }
     if( !new_t.emissions.empty() ) {
@@ -2689,7 +2688,7 @@ bool map::valid_move( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
     // actually make a valid ledge drop location with zlevels on, this forces
     // at least one zlevel drop and if down_ter is impassable it's probably
     // inside a wall, we could workaround that further but it's unnecessary.
-    const bool up_is_ledge = tr_at( up_p ) == tr_ledge;
+    const bool up_is_ledge = is_open_air( up_p );
 
     if( up_ter.movecost == 0 ) {
         // Unpassable tile
@@ -2886,14 +2885,16 @@ bool map::has_vehicle_floor( const tripoint_bub_ms &p ) const
 
 void map::drop_everything( const tripoint_bub_ms &p )
 {
-    if( has_floor_or_water( p ) ) {
-        return;
-    }
+    // Creature has their own gravity check
+    drop_creature( p );
 
-    drop_furniture( p );
-    drop_items( p );
-    drop_vehicle( p );
-    drop_fields( p );
+    // TODO: Should be more nuance here, only low density items/furniture should float on water etc
+    if( !has_floor_or_water( p ) ) {
+        drop_furniture( p );
+        drop_items( p );
+        drop_vehicle( p );
+        drop_fields( p );
+    }
 }
 
 void map::drop_furniture( const tripoint_bub_ms &p )
@@ -3182,6 +3183,21 @@ void map::drop_fields( const tripoint_bub_ms &p )
             add_field( below, entry.get_field_type(), entry.get_field_intensity(), entry.get_field_age() );
             remove_field( p, entry.get_field_type() );
         }
+    }
+}
+
+void map::drop_creature( const tripoint_bub_ms &p ) const
+{
+    monster *mon_at_p = get_creature_tracker().creature_at<monster>( p );
+    if( mon_at_p ) {
+        mon_at_p->gravity_check();
+        // Handle character potentially standing on monster ("zed walking")
+        drop_creature( p + tripoint_rel_ms::above );
+        return;
+    }
+    Character *char_at_p = get_creature_tracker().creature_at<Character>( p );
+    if( char_at_p ) {
+        char_at_p->gravity_check();
     }
 }
 
@@ -9133,7 +9149,7 @@ void map::actualize( const tripoint_rel_sm &grid )
                 traplocs[trap_here.to_i()].push_back( pnt );
             }
             const ter_t &ter = tmpsub->get_ter( p ).obj();
-            if( ter.trap != tr_null && ter.trap != tr_ledge ) {
+            if( ter.trap != tr_null ) {
                 traplocs[ter.trap.to_i()].push_back( pnt );
             }
 
@@ -10421,9 +10437,7 @@ void map::maybe_trigger_prox_trap( const tripoint_bub_ms &pos, Creature &c,
     if( tr.is_null() ) {
         return;
     }
-    if( tr == tr_ledge && c.has_effect_with_flag( json_flag_LEVITATION ) ) {
-        return;
-    }
+
     //Don't trigger benign traps like cots and funnels
     if( tr.is_benign() ) {
         return;
@@ -10449,15 +10463,144 @@ void map::maybe_trigger_prox_trap( const tripoint_bub_ms &pos, Creature &c,
     tr.trigger( pos.raw(), c );
 }
 
+// TODO: Should be moved to submap or Creature?
+bool map::try_fall( const tripoint_bub_ms &p, Creature *c ) const
+{
+    if( c == nullptr ) {
+        return false;
+    }
+
+    if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent ) ) {
+        return false;
+    }
+
+    int height = 0;
+    tripoint_bub_ms where( p );
+    tripoint_bub_ms below( where + tripoint_rel_ms::below );
+    creature_tracker &creatures = get_creature_tracker();
+    while( valid_move( where, below, false, true ) ) {
+        where.z()--;
+        if( get_creature_tracker().creature_at( where ) != nullptr ) {
+            where.z()++;
+            break;
+        }
+
+        below.z()--;
+        height++;
+    }
+
+    if( height == 0 && c->is_avatar() ) {
+        // For now just special case player, NPCs don't "zedwalk"
+        Creature *critter = creatures.creature_at( below, true );
+        if( critter == nullptr || !critter->is_monster() ) {
+            return false;
+        }
+
+        std::vector<tripoint_bub_ms> valid;
+        for( const tripoint_bub_ms &pt : points_in_radius( below, 1 ) ) {
+            if( g->is_empty( pt ) ) {
+                valid.push_back( pt );
+            }
+        }
+
+        if( valid.empty() ) {
+            critter->setpos( c->pos() );
+            add_msg( m_bad, _( "You fall down under %s!" ), critter->disp_name() );
+        } else {
+            critter->setpos( random_entry( valid ) );
+        }
+
+        height++;
+        where.z()--;
+    } else if( height == 0 ) {
+        return false;
+    }
+
+    c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+    Character *you = dynamic_cast<Character *>( c );
+    if( you == nullptr ) {
+        c->setpos( where );
+        if( c->get_size() == creature_size::tiny ) {
+            height = std::max( 0, height - 1 );
+        }
+        if( c->has_effect( effect_weakened_gravity ) ) {
+            height = std::max( 0, height - 1 );
+        }
+        if( c->has_effect( effect_strengthened_gravity ) ) {
+            height += 1;
+        }
+        c->impact( height * 10, where );
+        return true;
+    }
+
+    if( you->has_flag( json_flag_WALL_CLING ) &&  get_map().is_wall_adjacent( p ) ) {
+        you->add_msg_player_or_npc( _( "You attach yourself to the nearby wall." ),
+                                    _( "<npcname> clings to the wall." ) );
+        return false;
+    }
+
+    if( you->is_avatar() ) {
+        add_msg( m_bad, n_gettext( "You fall down %d story!", "You fall down %d stories!", height ),
+                 height );
+        g->vertical_move( -height, true );
+    } else {
+        you->setpos( where );
+    }
+
+    if( you->get_size() == creature_size::tiny ) {
+        height = std::max( 0, height - 1 );
+    }
+
+    if( you->has_effect( effect_weakened_gravity ) ) {
+        height = std::max( 0, height - 1 );
+    }
+
+    if( you->has_effect( effect_strengthened_gravity ) ) {
+        height += 1;
+    }
+
+    if( you->can_fly() ) {
+        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                    _( "<npcname> spreads their wings to slow their fall." ) );
+        height = std::max( 0, height - 2 );
+    }
+
+    item jetpack = you->item_worn_with_flag( json_flag_JETPACK );
+
+    if( you->has_active_bionic( bio_shock_absorber ) ) {
+        you->add_msg_if_player( m_info,
+                                _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
+    } else if( !jetpack.is_null() ) {
+        if( jetpack.ammo_sufficient( you ) ) {
+            you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
+                                        _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
+            jetpack.activation_consume( 1, you->pos_bub(), you );
+        } else {
+            you->add_msg_if_player( m_bad,
+                                    _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
+            you->impact( height * 30, where );
+
+        }
+    } else {
+        you->impact( height * 30, where );
+    }
+
+    if( has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
+        you->set_underwater( true );
+        g->water_affect_items( *you );
+        you->add_msg_player_or_npc( _( "You dive into water." ), _( "<npcname> dives into water." ) );
+    }
+
+    return true;
+}
+
 void map::maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, const bool may_avoid ) const
 {
     const trap &tr = tr_at( pos );
     if( tr.is_null() ) {
         return;
     }
-    if( tr == tr_ledge && c.has_effect_with_flag( json_flag_LEVITATION ) ) {
-        return;
-    }
+
     //Don't trigger benign traps like cots and funnels
     if( tr.is_benign() ) {
         return;
