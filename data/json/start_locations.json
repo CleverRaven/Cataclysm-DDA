@@ -669,6 +669,7 @@
     "type": "start_location",
     "id": "sloc_military_base_warehouse",
     "name": "Military Base Warehouse",
+    "//": "FIXME: Needs changing before merge",
     "terrain": [ "mil_base_2g" ]
   },
   {

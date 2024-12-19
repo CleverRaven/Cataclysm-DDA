@@ -1,0 +1,276 @@
+[
+  {
+    "type": "palette",
+    "id": "mil_base_palette2",
+    "parameters": {
+      "1x1_1": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_2": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_3": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_4": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_5": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_6": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_7": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "1x1_8": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "24x24_military_helipad_nest", 1 ],
+            [ "24x24_military_armory_1_nest", 1 ],
+            [ "24x24_military_armory_2_nest", 1 ],
+            [ "24x24_military_warehouse_nest", 1 ],
+            [ "24x24_military_parking_lot_nest", 1 ],
+            [ "24x24_military_radio_tower_nest", 1 ],
+            [ "24x24_military_power_station_nest", 1 ]
+          ]
+        }
+      },
+      "2x2_1": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "48x48_military_cafeteria_nest", 1 ],
+            [ "48x48_military_office_nest", 1 ],
+            [ "48x48_military_warehouse_nest", 1 ],
+            [ "48x48_military_range_nest", 1 ],
+            [ "48x48_military_gym_nest", 1 ]
+          ]
+        }
+      },
+      "2x2_2": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "48x48_military_cafeteria_nest", 1 ],
+            [ "48x48_military_office_nest", 1 ],
+            [ "48x48_military_warehouse_nest", 1 ],
+            [ "48x48_military_range_nest", 1 ],
+            [ "48x48_military_gym_nest", 1 ]
+          ]
+        }
+      },
+      "2x2_3": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "48x48_military_cafeteria_nest", 1 ],
+            [ "48x48_military_office_nest", 1 ],
+            [ "48x48_military_warehouse_nest", 1 ],
+            [ "48x48_military_range_nest", 1 ],
+            [ "48x48_military_gym_nest", 1 ]
+          ]
+        }
+      },
+      "2x2_4": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "48x48_military_cafeteria_nest", 1 ],
+            [ "48x48_military_office_nest", 1 ],
+            [ "48x48_military_warehouse_nest", 1 ],
+            [ "48x48_military_range_nest", 1 ],
+            [ "48x48_military_gym_nest", 1 ]
+          ]
+        }
+      },
+      "2x2_5": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "48x48_military_cafeteria_nest", 1 ],
+            [ "48x48_military_office_nest", 1 ],
+            [ "48x48_military_warehouse_nest", 1 ],
+            [ "48x48_military_range_nest", 1 ],
+            [ "48x48_military_gym_nest", 1 ]
+          ]
+        }
+      },
+      "3x3_1": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "72x72_military_motorpool_nest", 1 ],
+            [ "72x72_military_hospital_nest", 1 ],
+            [ "72x72_military_communications_nest", 1 ]
+          ]
+        }
+      },
+      "3x3_2": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "72x72_military_motorpool_nest", 1 ],
+            [ "72x72_military_hospital_nest", 1 ],
+            [ "72x72_military_communications_nest", 1 ]
+          ]
+        }
+      },
+      "3x3_3": {
+        "type": "nested_mapgen_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "72x72_military_motorpool_nest", 1 ],
+            [ "72x72_military_hospital_nest", 1 ],
+            [ "72x72_military_communications_nest", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": {
+      ".": "t_region_groundcover",
+      ",": "t_thconc_floor",
+      "'": [ [ "t_region_soil", 4 ], [ "t_region_groundcover", 3 ] ],
+      "#": "t_strconc_wall",
+      "|": "t_concrete_wall",
+      "!": "t_guardrail",
+      "_": "t_pavement",
+      "˽": "t_pavement_y",
+      "-": "t_chainfence",
+      "%": "t_chaingate_c",
+      "/": "t_fence_barbed",
+      "(": "t_wall_metal",
+      "=": "t_sidewalk",
+      "^": "t_bollard",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "≷": "t_ladder_up_down",
+      "$": "t_door_metal_locked",
+      "+": [ [ "t_door_c", 2 ], [ "t_door_o", 5 ] ],
+      "£": [ [ "t_door_metal_pickable", 1 ], [ "t_door_metal_c", 1 ], [ "t_door_metal_o", 3 ] ],
+      "§": "t_card_military",
+      "1": "t_bulk_tank",
+      "4": "t_gutter_downspout",
+      "O": [ [ "t_reinforced_glass_shutter", 3 ], [ "t_reinforced_glass_shutter_open", 1 ] ]
+    },
+    "furniture": {
+      "6": "f_console_broken",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_desk",
+      "g": [ [ "f_generator_broken", 3 ], [ "f_active_backup_generator", 1 ] ],
+      "h": "f_chair",
+      "s": "f_sink",
+      "v": "f_table",
+      "y": "f_trashcan",
+      "C": "f_filing_cabinet",
+      "D": "f_dumpster",
+      "L": "f_locker",
+      "S": "f_sandbag_half",
+      "U": "f_utility_shelf",
+      "V": "f_workbench",
+      "W": "f_warehouse_shelf"
+    },
+    "items": { "D": { "item": "trash", "chance": 60, "repeat": [ 0, 12 ] } },
+    "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
+    "vehicles": { "P": { "vehicle": "portable_generator", "rotation": 90, "chance": 100, "fuel": 25, "status": 1 } },
+    "gaspumps": { "°": { "fuel": "jp8", "amount": [ 2000, 10000 ] } },
+    "liquids": {  },
+    "toilets": { "t": {  } }
+  }
+]
