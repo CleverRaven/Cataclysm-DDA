@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_MANA_COST_ON_SPELL_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
+            { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+            { "compare_string": [ "DRUID", { "context_val": "school" } ] },
+            { "compare_string": [ "EARTHSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "KELVINIST", { "context_val": "school" } ] },
+            { "compare_string": [ "MAGUS", { "context_val": "school" } ] },
+            { "compare_string": [ "STORMSHAPER", { "context_val": "school" } ] },
+            { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] }
+          ]
+        },
+        { "math": [ "_success == false" ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('mana') -= ( _cost / 5 )" ] } ]
+  }
+]
