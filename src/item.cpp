@@ -13409,40 +13409,6 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-std::vector<trait_id> item::mutations_from_wearing( const Character &guy, bool removing ) const
-{
-    if( !is_relic() ) {
-        return std::vector<trait_id> {};
-    }
-    std::vector<trait_id> muts;
-
-    for( const enchant_cache &ench : relic_data->get_proc_enchantments() ) {
-        for( const trait_id &mut : ench.get_mutations() ) {
-            // this may not be perfectly accurate due to conditions
-            muts.push_back( mut );
-        }
-    }
-    if( type->relic_data ) {
-        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
-            for( const trait_id &mut : ench.get_mutations() ) {
-                // this may not be perfectly accurate due to conditions
-                muts.push_back( mut );
-            }
-        }
-    }
-    for( const trait_id &char_mut : guy.get_mutations( true, removing ) ) {
-        for( auto iter = muts.begin(); iter != muts.end(); ) {
-            if( char_mut == *iter ) {
-                iter = muts.erase( iter );
-            } else {
-                ++iter;
-            }
-        }
-    }
-
-    return muts;
-}
-
 void item::overwrite_relic( const relic &nrelic )
 {
     this->relic_data = cata::make_value<relic>( nrelic );

@@ -279,27 +279,27 @@ void debug_menu::wishmutate( Character *you )
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining
             if( threshold || profession ) {
-                if( you->has_trait( mstr ) ) {
+                if( you->has_permanent_trait( mstr ) ) {
                     do {
                         you->remove_mutation( mstr );
                         rc++;
-                    } while( you->has_trait( mstr ) && rc < 10 );
+                    } while( you->has_permanent_trait( mstr ) && rc < 10 );
                 } else {
                     do {
                         you->set_mutation( mstr );
                         rc++;
-                    } while( !you->has_trait( mstr ) && rc < 10 );
+                    } while( !you->has_permanent_trait( mstr ) && rc < 10 );
                 }
-            } else if( you->has_trait( mstr ) ) {
+            } else if( you->has_permanent_trait( mstr ) ) {
                 do {
                     you->remove_mutation( mstr );
                     rc++;
-                } while( you->has_trait( mstr ) && rc < 10 );
+                } while( you->has_permanent_trait( mstr ) && rc < 10 );
             } else {
                 do {
                     you->mutate_towards( mstr );
                     rc++;
-                } while( !you->has_trait( mstr ) && rc < 10 );
+                } while( !you->has_permanent_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
             uistate.wishmutate_selected = wmenu.selected;

@@ -328,10 +328,10 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Traits
     file << _( "Traits:" ) << eol;
-    for( const trait_id &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.get_functioning_mutations() ) {
         file << indent << u.mutation_name( mut ) << eol;
     }
-    if( u.get_mutations().empty() ) {
+    if( u.get_functioning_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
     }
     file << eol;
