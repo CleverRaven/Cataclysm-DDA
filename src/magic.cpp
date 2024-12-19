@@ -38,6 +38,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "math_parser_jmath.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -486,6 +487,13 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
+    optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
+    optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
+    if( ( get_level_formula_id.has_value() && !exp_for_level_formula_id.has_value() ) ||
+        ( !get_level_formula_id.has_value() && exp_for_level_formula_id.has_value() ) ) {
+        debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
+                  id.c_str() );
+    }
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
         difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
@@ -624,6 +632,8 @@ void spell_type::serialize( JsonOut &json ) const
                  static_cast<int>( base_casting_time.min.dbl_val.value() ) );
     json.member( "casting_time_increment",
                  static_cast<float>( casting_time_increment.min.dbl_val.value() ), casting_time_increment_default );
+    json.member( "get_level_formula_id", get_level_formula_id );
+    json.member( "exp_for_level_formula_id", exp_for_level_formula_id );
 
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
@@ -674,6 +684,13 @@ void spell_type::check_consistency()
         }
         if( sp_t.spell_tags[spell_flag::WONDER] && sp_t.additional_spells.empty() ) {
             debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", sp_t.id.c_str() );
+        }
+        if( sp_t.exp_for_level_formula_id.has_value() &&
+            sp_t.exp_for_level_formula_id.value()->num_params != 1 ) {
+            debugmsg( "ERROR: %s exp_for_level_formula_id has params that != 1!", sp_t.id.c_str() );
+        }
+        if( sp_t.get_level_formula_id.has_value() && sp_t.get_level_formula_id.value()->num_params != 1 ) {
+            debugmsg( "ERROR: %s get_level_formula_id has params that != 1!", sp_t.id.c_str() );
         }
     }
 }
@@ -1651,9 +1668,6 @@ bool spell::ignore_by_species_id( const tripoint_bub_ms &p ) const
     return valid;
 }
 
-
-
-
 std::string spell::description() const
 {
     return type->description.translated();
@@ -1683,7 +1697,17 @@ static constexpr double c = -62.5;
 
 int spell::get_level() const
 {
+    return type->get_level( experience );
+}
+
+int spell_type::get_level( int experience ) const
+{
     // you aren't at the next level unless you have the requisite xp, so floor
+    if( get_level_formula_id.has_value() ) {
+        return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
+                                               std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
+    }
+
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
@@ -1755,11 +1779,20 @@ void spell::clear_temp_adjustments()
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-int spell::exp_for_level( int level )
+int spell::exp_for_level( int level ) const
+{
+    return type->exp_for_level( level );
+}
+
+int spell_type::exp_for_level( int level ) const
 {
     // level 0 never needs xp
     if( level == 0 ) {
         return 0;
+    }
+    if( exp_for_level_formula_id.has_value() ) {
+        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
+                          nullptr ), { static_cast<double>( level ) } ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }

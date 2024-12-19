@@ -385,6 +385,15 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+
+        // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
+        std::optional<jmath_func_id> get_level_formula_id;
+        std::optional<jmath_func_id> exp_for_level_formula_id;
+
+        // returns the exp required for the given level of the spell.
+        int exp_for_level( int level ) const;
+        // returns the level of this spell type if the spell has the given experience.
+        int get_level( int experience ) const;
     private:
         // default values
 
@@ -486,7 +495,7 @@ class spell
 
         double bash_scaling( const Creature &caster ) const;
 
-        static int exp_for_level( int level );
+        int exp_for_level( int level ) const;
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent
