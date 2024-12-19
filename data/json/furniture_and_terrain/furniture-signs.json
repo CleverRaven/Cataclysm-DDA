@@ -36,7 +36,7 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN", "SIGN_ALWAYS" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN", "SIGN_ALWAYS", "FREE_TO_EXAMINE" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
     "bash": {
       "str_min": 6,
