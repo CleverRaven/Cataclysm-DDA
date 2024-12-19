@@ -708,7 +708,7 @@
     "description": "A simple spell that hurls a bolt of fire to the target location.  While not as damaging as some more complex spells, it is quick to cast and will ignite anything flammable at the target.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "KELVINIST",
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "IGNITE_FLAMMABLE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS", "IGNITE_FLAMMABLE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "difficulty": 2,
     "max_level": 15,
