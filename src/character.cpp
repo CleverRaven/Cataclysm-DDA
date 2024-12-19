@@ -7819,7 +7819,7 @@ void Character::update_cached_mutations()
         if( it == current_traits.end() ) {
             for( auto &iter : cached_mutations ) {
                 if( ( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
-                    || are_same_type_traits( iter.first, mut ) ) && iter.second.corrupted > 0 ) {
+                      || are_same_type_traits( iter.first, mut ) ) && iter.second.corrupted > 0 ) {
                     --iter.second.corrupted;
                     if( my_mutations.count( mut ) ) {
                         --my_mutations[mut].corrupted;
@@ -7841,7 +7841,7 @@ void Character::update_cached_mutations()
                 || are_same_type_traits( iter.first, mut ) ) {
                 ++iter.second.corrupted;
                 if( my_mutations.count( mut ) ) {
-                        ++my_mutations[mut].corrupted;
+                    ++my_mutations[mut].corrupted;
                 }
                 if( iter.second.corrupted == 1 ) {
                     mutation_loss_effect( mut );

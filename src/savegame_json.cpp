@@ -854,7 +854,6 @@ void Character::load( const JsonObject &data )
     // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
     // we have invalid mutations.
     recalculate_enchantment_cache();
-    
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );

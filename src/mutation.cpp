@@ -372,7 +372,8 @@ void Character::unset_mutation( const trait_id &trait_ )
     }
     const mutation_branch &mut = *trait;
     my_mutations.erase( iter );
-    auto exists = find( old_mutation_cache->mutations.begin(), old_mutation_cache->mutations.end(), trait_ );
+    auto exists = find( old_mutation_cache->mutations.begin(), old_mutation_cache->mutations.end(),
+                        trait_ );
     if( exists == old_mutation_cache->mutations.end() ) {
         cached_mutations.erase( trait_ );
         if( !mut.enchantments.empty() ) {
@@ -561,7 +562,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     if( mut.obj().vanity ) {
         return;
     }
-    
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
     }
