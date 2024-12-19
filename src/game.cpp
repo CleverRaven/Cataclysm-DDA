@@ -6288,7 +6288,7 @@ void game::peek( const tripoint_bub_ms &p )
 {
     u.mod_moves( -u.get_speed() * 2 );
     tripoint prev = u.pos();
-    u.setpos( p );
+    u.setpos( p, false );
     const bool is_same_pos = u.pos() == prev;
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint_bub_ms center = p;
@@ -6303,7 +6303,7 @@ void game::peek( const tripoint_bub_ms &p )
         u.activate_crouch_mode();
     } else {                // Else is normal peek
         result = look_around( looka_params );
-        u.setpos( prev );
+        u.setpos( prev, false );
     }
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
