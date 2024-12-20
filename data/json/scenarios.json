@@ -1368,5 +1368,19 @@
     "requirement": "achievement_survive_one_day",
     "flags": [ "CITY_START", "LONE_START", "SUR_START" ],
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
-  }
+  },
+  {
+    "type": "scenario",
+    "id": "cryo_start",
+    "name": "Frozen in Time",
+    "points": 0,
+    "description": "You awaken in a cold, sterile chamber, your breath condensing in the frigid air. Your muscles ache, heavy and unresponsive. You feel you are not alone.",
+    "start_name": "Cryo facility",
+    "professions": [
+      "naked"
+    ],
+    "eoc": [ "scenario_cryogenic"],
+    "allowed_locs": [ "sloc_cryo_facility" ],
+    "flags": [ "LONE_START"]
+    }
 ]

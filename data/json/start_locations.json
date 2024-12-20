@@ -836,5 +836,11 @@
       { "om_terrain": "park", "om_terrain_match_type": "TYPE" }
     ],
     "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cryo_facility",
+    "name": "Inside a cryogenic facility",
+    "terrain": [ "cryo_facility_1" ]
   }
 ]

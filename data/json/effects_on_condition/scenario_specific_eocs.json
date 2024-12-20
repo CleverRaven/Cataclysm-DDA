@@ -333,5 +333,16 @@
       "next_weather",
       { "run_eocs": "EOC_deactivate_moonlit", "time_in_future": "4 hours" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_cryogenic",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "cold", "intensity": 3, "duration": "60 minutes" },
+      { "u_add_effect": "wet", "intensity": 3, "duration": "60 minutes" },
+      { "u_add_effect": "lack_sleep", "duration": "300 minutes" },
+      { "u_spawn_monster": "mon_dogman", "group": false, "real_count": 1, "min_radius": 5, "max_radius": 8 }
+    ]
   }
 ]
