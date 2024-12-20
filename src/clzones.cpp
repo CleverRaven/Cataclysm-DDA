@@ -1464,7 +1464,6 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
                         const tripoint_rel_ms &end, const shared_ptr_fast<zone_options> &options,
                         bool silent, map *pmap )
 {
-    map &here = pmap == nullptr ? get_map() : *pmap;
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
 
     //Create a regular zone
