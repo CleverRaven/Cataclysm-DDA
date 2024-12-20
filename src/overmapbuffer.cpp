@@ -1600,7 +1600,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
             cata_assert( here.inbounds( local ) );
         }
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
-                                local.raw(), 0, true );
+                                local, 0, true );
         if( placed ) {
             placed->on_load();
         }

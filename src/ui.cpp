@@ -171,8 +171,8 @@ void uilist_impl::draw_controls()
                         std::string &str2 = entry.ctxt;
                         nc_color color = entry.enabled || entry.force_color ? entry.text_color : parent.disabled_color;
                         if( is_selected || is_hovered ) {
-                            str1 = entry._txt_nocolor;
-                            str2 = entry._ctxt_nocolor;
+                            str1 = entry._txt_nocolor();
+                            str2 = entry._ctxt_nocolor();
                             color = parent.hilight_color;
                         }
 
@@ -250,32 +250,28 @@ uilist_entry::uilist_entry( const std::string &txt )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const int key )
     : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_event> &key )
     : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -283,8 +279,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -293,8 +288,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -302,8 +296,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -311,8 +304,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -321,8 +313,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       desc( desc ), ctxt( column ), text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -332,8 +323,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), ctxt( column ), text_color( c_red_red )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -342,8 +332,23 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       hotkey_color( keycolor ), text_color( txtcolor )
 {
-    _txt_nocolor = remove_color_tags( txt );
-    _ctxt_nocolor = remove_color_tags( ctxt );
+
+}
+
+const std::string &uilist_entry::_txt_nocolor()
+{
+    if( _txt_nocolor_cached.empty() && !txt.empty() ) {
+        _txt_nocolor_cached = remove_color_tags( txt );
+    }
+    return _txt_nocolor_cached;
+}
+
+const std::string &uilist_entry::_ctxt_nocolor()
+{
+    if( _ctxt_nocolor_cached.empty() && !ctxt.empty() ) {
+        _ctxt_nocolor_cached = remove_color_tags( ctxt );
+    }
+    return _ctxt_nocolor_cached;
 }
 
 uilist::size_scalar &uilist::size_scalar::operator=( auto_assign )
@@ -670,8 +675,8 @@ void uilist::calc_data()
         float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
         desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
-    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y + 2.0 *
-                              ( s.FramePadding.y + s.WindowBorderSize );
+    float additional_height = title_size.y + text_size.y + desc_size.y + tabs_size.y +
+                              2.0 * ( s.FramePadding.y + s.WindowBorderSize );
 
     if( vmax * ImGui::GetTextLineHeightWithSpacing() + additional_height >
         0.9 * ImGui::GetMainViewport()->Size.y ) {
@@ -711,8 +716,8 @@ void uilist::calc_data()
         extra_space_right = callback->desired_extra_space_right( ) + s.FramePadding.x;
     }
 
-    float longest_line_width = std::max( std::max( title_size.x, text_size.x ),
-                                         std::max( calculated_menu_size.x, desc_size.x ) );
+    float longest_line_width = std::max( { title_size.x, text_size.x,
+                                           calculated_menu_size.x, desc_size.x } );
     calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
                           + 2 * ( s.WindowPadding.x + s.WindowBorderSize );
     calculated_bounds.h = calculated_menu_size.y + additional_height;
@@ -1161,18 +1166,18 @@ int uimenu::query()
 }
 
 struct pointmenu_cb::impl_t {
-    const std::vector< tripoint > &points;
+    const std::vector< tripoint_bub_ms > &points;
     int last; // to suppress redrawing
     tripoint_rel_ms last_view; // to reposition the view after selecting
     shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
-    explicit impl_t( const std::vector<tripoint> &pts );
+    explicit impl_t( const std::vector<tripoint_bub_ms> &pts );
     ~impl_t();
 
     void select( uilist *menu );
 };
 
-pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
+pointmenu_cb::impl_t::impl_t( const std::vector<tripoint_bub_ms> &pts ) : points( pts )
 {
     last = INT_MIN;
     avatar &player_character = get_avatar();
@@ -1200,15 +1205,16 @@ void pointmenu_cb::impl_t::select( uilist *const menu )
     if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
         player_character.view_offset = tripoint_rel_ms::zero;
     } else {
-        const tripoint &center = points[menu->selected];
-        player_character.view_offset = tripoint_rel_ms( center - player_character.pos() );
+        const tripoint_bub_ms &center = points[menu->selected];
+        player_character.view_offset = center - player_character.pos_bub();
         // TODO: Remove this line when it's safe
         player_character.view_offset.z() = 0;
     }
     g->invalidate_main_ui_adaptor();
 }
 
-pointmenu_cb::pointmenu_cb( const std::vector<tripoint> &pts ) : impl( pts )
+
+pointmenu_cb::pointmenu_cb( const std::vector<tripoint_bub_ms> &pts ) : impl( pts )
 {
 }
 

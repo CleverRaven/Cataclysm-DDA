@@ -433,7 +433,7 @@ std::string iuse_transform::get_name() const
     return iuse_actor::get_name();
 }
 
-void iuse_transform::finalize( const itype_id & )
+void iuse_transform::finalize( const itype_id &my_item_type )
 {
     if( !item::type_is_defined( target ) && target_group.is_empty() ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
@@ -446,6 +446,19 @@ void iuse_transform::finalize( const itype_id & )
 
         // todo: check contents fit container?
         // transform uses migration pocket if not
+    }
+
+    if( my_item_type.obj().can_use( "link_up" ) ) {
+        // The linkage logic currently assumes that the links persist
+        // through transformation, and fails pretty badly (segfaults)
+        // if that happens to not be the case.
+        // It is not unreasonable to want items that violate this assumption (one example is
+        // the infamous Apple mouse which cannot be operated while charging),
+        // but we don't have any of those implemented right now, so the check stays.
+        if( !target.obj().can_use( "link_up" ) ) {
+            debugmsg( "Item %s has link_up action, yet transforms into %s which doesn't.",
+                      my_item_type.c_str(), target.c_str() );
+        }
     }
 }
 
@@ -683,14 +696,14 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_b
                 source = g->find_npc( thrower );
             }
         }
-        explosion_handler::explosion( source, pos.raw(), explosion );
+        explosion_handler::explosion( source, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
         explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        explosion_handler::flashbang( pos.raw(), flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     map &here = get_map();
     if( fields_radius >= 0 && fields_type.id() ) {
@@ -702,12 +715,12 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_b
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos, scrambler_blast_radius ) ) {
-            explosion_handler::scrambler_blast( dest.raw() );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos, emp_blast_radius ) ) {
-            explosion_handler::emp_blast( dest.raw() );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
@@ -944,14 +957,14 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, const tripoi
     newmon.init_from_item( it );
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
-        if( !g->place_critter_around( newmon_ptr, p->pos(), 1 ) ) {
+        if( !g->place_critter_around( newmon_ptr, p->pos_bub(), 1 ) ) {
             p->add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                   newmon.name() );
             return std::nullopt;
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const std::optional<tripoint> pnt_ = choose_adjacent( query );
+        const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_bub( query );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -1202,7 +1215,6 @@ std::optional<int> deploy_furn_actor::use( Character *p, item &it,
     }
 
     get_map().furn_set( suitable.value(), furn_type );
-    get_map().drop_furniture( suitable.value() );
     it.spill_contents( suitable.value() );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
@@ -2025,7 +2037,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
     p->mod_moves( -moves );
     if( rng( 0, 10 ) - it.damage_level() > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
-            sounds::sound( p->pos(), noise, sounds::sound_t::combat, success_message );
+            sounds::sound( p->pos_bub(), noise, sounds::sound_t::combat, success_message );
         } else {
             p->add_msg_if_player( "%s", success_message );
         }
@@ -2121,7 +2133,7 @@ std::optional<int> manualnoise_actor::use( Character *p, item &, const tripoint_
     // Uses the moves specified by iuse_actor's definition
     p->mod_moves( -moves );
     if( noise > 0 ) {
-        sounds::sound( p->pos(), noise, sounds::sound_t::activity,
+        sounds::sound( p->pos_bub(), noise, sounds::sound_t::activity,
                        noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
     }
     p->add_msg_if_player( "%s", use_message );
@@ -2305,14 +2317,14 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
     }
 
     if( morale_effect >= 0 ) {
-        sounds::sound( p->pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument",
+        sounds::sound( p->pos_bub(), volume, sounds::sound_t::music, desc, true, "musical_instrument",
                        it.typeId().str() );
     } else {
-        sounds::sound( p->pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument_bad",
+        sounds::sound( p->pos_bub(), volume, sounds::sound_t::music, desc, true, "musical_instrument_bad",
                        it.typeId().str() );
     }
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
+    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub(), volume ) ) {
         // Sound code doesn't describe noises at the player position
         if( desc != "music" ) {
             p->add_msg_if_player( m_info, desc );
@@ -3959,7 +3971,7 @@ static void place_and_add_as_known( Character &p, const tripoint_bub_ms &pos,
     here.trap_set( pos, id );
     const trap &tr = here.tr_at( pos );
     if( !tr.can_see( pos, p ) ) {
-        p.add_known_trap( pos.raw(), tr );
+        p.add_known_trap( pos, tr );
     }
 }
 
@@ -4408,7 +4420,7 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
         if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
-            if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+            if( game_menus::inv::compare_item_menu( it, gun_copy, _( "Remove modification?" ) ).show() ) {
                 p->gunmod_remove( it, *mods[mod_index] );
                 return 0;
             }

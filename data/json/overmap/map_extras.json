@@ -715,5 +715,16 @@
     "sym": "o",
     "color": "red",
     "autonote": true
+  },
+  {
+    "id": "mx_sandy_beach",
+    "type": "map_extra",
+    "name": { "str": "Sandy beach" },
+    "description": "A sandy beach.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_sandy_beach" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "~",
+    "color": "yellow",
+    "flags": [ "CLASSIC" ]
   }
 ]

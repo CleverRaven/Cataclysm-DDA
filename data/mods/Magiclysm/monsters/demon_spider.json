@@ -2,7 +2,7 @@
   {
     "abstract": "demon_spider_base",
     "type": "MONSTER",
-    "name": "base demon spider",
+    "name": { "str": "base demon spider", "//~": "NO_I18N" },
     "description": { "str": "abstract demon spider you shouldn't see this", "//~": "NO_I18N" },
     "hp": 45,
     "volume": "30 L",

@@ -7848,7 +7848,7 @@
     "components": [
       [ [ "2x4", 12 ] ],
       [ [ "nail", 12 ] ],
-      [ [ "qt_wire", 26 ] ],
+      [ [ "piano_wire", 26 ] ],
       [ [ "wheel_caster", 1 ] ],
       [ [ "steel_chunk", 3 ] ],
       [ [ "plastic_chunk", 10 ] ]

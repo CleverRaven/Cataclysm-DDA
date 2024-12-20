@@ -1807,6 +1807,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
@@ -2165,6 +2166,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 filterstring.clear();
                 recalc_traits = true;
             }
+        } else if( action == "RANDOMIZE" ) {
+            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
         }
         if( iCurWorkingPage != iPrevWorkingPage || iCurrentLine[iCurWorkingPage] != iPrevLine ) {
             details_recalc = true;

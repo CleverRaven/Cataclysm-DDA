@@ -126,7 +126,18 @@
         "volume_encumber_modifier": 0.35
       }
     ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ],
+          "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
+        }
+      ],
+      "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true }
+    },
     "//": "Recharge time is 30 seconds due to bug #48019, making it actually 15 seconds. Reduce to 15 seconds if that ever gets fixed."
   },
   {
@@ -145,17 +156,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "flags": [ "NO_TAKEOFF" ] },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
-          "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
-        }
-      ]
-    }
+    "extend": { "flags": [ "NO_TAKEOFF" ] }
   },
   {
     "id": "psionic_fire_shield_belt_broken",

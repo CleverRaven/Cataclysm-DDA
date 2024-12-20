@@ -5,7 +5,9 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_civilian_police", "weight": 1, "cost_multiplier": 1, "ends": "5 days" },
-      { "monster": "mon_civilian_zombiefighter", "weight": 4, "cost_multiplier": 1, "ends": "5 days" }
+      { "monster": "mon_civilian_police_rifle", "weight": 1, "cost_multiplier": 1, "ends": "5 days" },
+      { "monster": "mon_civilian_zombiefighter", "weight": 4, "cost_multiplier": 1, "ends": "5 days" },
+      { "monster": "mon_civilian_zombiegunner", "weight": 4, "cost_multiplier": 1, "ends": "5 days" }
     ]
   },
   {

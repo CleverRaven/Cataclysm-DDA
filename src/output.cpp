@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cwctype>
 #include <map>
 #include <sstream>
 #include <stack>
@@ -1040,14 +1041,14 @@ std::string string_replace( std::string text, const std::string &before, const s
 std::string replace_colors( std::string text )
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
-        {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_light_blue )},
-        {"header", get_all_colors().get_name( c_magenta )},
-        {"bold", get_all_colors().get_name( c_white )},
-        {"dark", get_all_colors().get_name( c_dark_gray )},
-        {"good", get_all_colors().get_name( c_green )},
-        {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_yellow )}
+        {"info", get_all_colors().get_name( c_info ) },
+        {"stat", get_all_colors().get_name( c_stat ) },
+        {"header", get_all_colors().get_name( c_header ) },
+        {"bold", get_all_colors().get_name( c_bold ) },
+        {"dark", get_all_colors().get_name( c_dark ) },
+        {"good", get_all_colors().get_name( c_good ) },
+        {"bad", get_all_colors().get_name( c_bad ) },
+        {"neutral", get_all_colors().get_name( c_neutral ) },
     };
 
     for( const auto &elem : info_colors ) {
@@ -1516,14 +1517,15 @@ std::string trim_trailing_punctuations( const std::string_view s )
     } );
 }
 
-std::string remove_punctuations( const std::string_view s )
+std::string remove_punctuations( const std::string &s )
 {
-    std::string result;
-    std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
-    []( unsigned char ch ) {
-        return std::ispunct( ch ) && ch != '_';
+    std::wstring ws = utf8_to_wstr( s );
+    std::wstring result;
+    std::remove_copy_if( ws.begin(), ws.end(), std::back_inserter( result ),
+    []( wchar_t ch ) {
+        return std::iswpunct( ch ) && ch != '_';
     } );
-    return result;
+    return wstr_to_utf8( result );
 }
 
 using char_t = std::string::value_type;
