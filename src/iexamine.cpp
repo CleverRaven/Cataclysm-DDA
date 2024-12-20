@@ -2991,7 +2991,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     const float skill = you.get_skill_level( skill_fabrication );
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
-    if (cur_kiln_type == furn_f_kiln_metal_empty){
+    if( cur_kiln_type == furn_f_kiln_metal_empty ){
         loss = 20 - 2 * skill;
     }
     else if(cur_kiln_type == furn_f_kiln_portable_empty){

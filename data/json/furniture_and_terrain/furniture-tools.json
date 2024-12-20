@@ -393,7 +393,7 @@
     "name": "metal charcoal kiln",
     "looks_like": "f_kiln_empty",
     "description": "A metal kiln designed to burn wood and organic material into charcoal in the absence of oxygen.  Much more efficient than its archaic rock counterpart.",
-    "//": "based on p13 of http://ir.kefri.org/jspui/bitstream/123456789/117/1/Charcoal%20Production%20using%20Improved%20Earth%20Portable%20metal%20Drum%20and%20Casamance%20Kilns%20Forest%20Products%20Research%20Centre%20Karura%20Issue%20May%202006.pdf",
+    "//": "Based on page 6 of https://github.com/user-attachments/files/18196633/UsingimprovedkilnstoproducecharcoalinKenya-Apracticalguide.pdf",
     "symbol": "U",
     "color": "blue",
     "move_cost_mod": -1,
