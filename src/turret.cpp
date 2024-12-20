@@ -460,12 +460,12 @@ std::vector<vehicle_part *> vehicle::find_all_ready_turrets( bool manual, bool a
 void vehicle::turrets_set_targeting()
 {
     std::vector<vehicle_part *> turrets;
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
 
     for( vehicle_part &p : parts ) {
         if( p.is_turret() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( p ).raw() );
+            locations.push_back( bub_part_pos( p ) );
         }
     }
 
@@ -515,12 +515,12 @@ void vehicle::turrets_set_targeting()
 void vehicle::turrets_set_mode()
 {
     std::vector<vehicle_part *> turrets;
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
 
     for( vehicle_part &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( p ).raw() );
+            locations.push_back( bub_part_pos( p ) );
         }
     }
 

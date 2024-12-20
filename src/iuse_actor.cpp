@@ -696,14 +696,14 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_b
                 source = g->find_npc( thrower );
             }
         }
-        explosion_handler::explosion( source, pos.raw(), explosion );
+        explosion_handler::explosion( source, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
         explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        explosion_handler::flashbang( pos.raw(), flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     map &here = get_map();
     if( fields_radius >= 0 && fields_type.id() ) {
@@ -715,12 +715,12 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, const tripoint_b
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos, scrambler_blast_radius ) ) {
-            explosion_handler::scrambler_blast( dest.raw() );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint_bub_ms &dest : here.points_in_radius( pos, emp_blast_radius ) ) {
-            explosion_handler::emp_blast( dest.raw() );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
