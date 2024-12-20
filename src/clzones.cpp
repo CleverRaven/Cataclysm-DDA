@@ -1461,8 +1461,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint_rel_ms &start,
-                        const tripoint_rel_ms &end, const shared_ptr_fast<zone_options> &options,
-                        bool silent, map *pmap )
+                        const tripoint_rel_ms &end, const shared_ptr_fast<zone_options> &options )
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
 

@@ -598,8 +598,7 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint_rel_ms &start, const tripoint_rel_ms &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr,
-                  bool silent = false, map *pmap = nullptr );
+                  const shared_ptr_fast<zone_options> &options = nullptr );
 
         // get first matching zone
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
