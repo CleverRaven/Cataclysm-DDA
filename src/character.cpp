@@ -7723,7 +7723,7 @@ void Character::recalculate_enchantment_cache()
             for( const enchantment_id &ench_id : mut.enchantments ) {
                 const enchantment &ench = ench_id.obj();
                 if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
-                    enchantment_cache->force_add_mutation( ench, *this );
+                    enchantment_cache->force_add_mutation( ench );
                 }
             }
         }
