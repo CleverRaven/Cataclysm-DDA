@@ -887,5 +887,10 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dogman",
+    "base_faction": "animal"
   }
 ]

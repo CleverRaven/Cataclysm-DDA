@@ -327,5 +327,10 @@
       { "monster": "mon_hare", "weight": 106, "cost_multiplier": 0 },
       { "monster": "mon_rabbit", "weight": 1, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "name": "GROUP_DOGMEN",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dogman", "weight": 10, "cost_multiplier": 2 } ]
   }
 ]

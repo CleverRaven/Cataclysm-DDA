@@ -2458,6 +2458,7 @@
     "type": "speech",
     "speaker": [
       "mon_dog",
+      "mon_dogman",
       "mon_dog_bull",
       "mon_dog_pitbullmix",
       "mon_dog_bcollie",
@@ -2492,6 +2493,12 @@
     "type": "speech",
     "speaker": [ "mon_dog_gpyrenees", "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "WOOF!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dogman" ],
+    "sound": "a howl that sounds like a human scream",
     "volume": 40
   },
   {

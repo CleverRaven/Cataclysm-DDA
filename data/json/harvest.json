@@ -2441,5 +2441,11 @@
     "//": "Frog legs, but the rest of the frog is mostly inedible",
     "type": "harvest",
     "entries": [ { "drop": "froglegs", "type": "flesh", "scale_num": [ 1, 1 ], "max": 1 } ]
+  },
+  {
+    "id": "dogman_with_skull",
+    "type": "harvest",
+    "copy-from": "mammal_large_fur",
+    "extend": { "entries": [ { "drop": "dogman_skull", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
   }
 ]
