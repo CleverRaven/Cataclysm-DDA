@@ -626,13 +626,13 @@ void computer_session::action_cascade()
     get_event_bus().send<event_type::causes_resonance_cascade>();
     tripoint_bub_ms player_pos = get_player_character().pos_bub();
     map &here = get_map();
-    std::vector<tripoint> cascade_points;
+    std::vector<tripoint_bub_ms> cascade_points;
     for( const tripoint_bub_ms &dest : here.points_in_radius( player_pos, 10 ) ) {
         if( here.ter( dest ) == ter_t_radio_tower ) {
-            cascade_points.push_back( dest.raw() );
+            cascade_points.push_back( dest );
         }
     }
-    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos.raw() ) );
+    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos ) );
 }
 
 void computer_session::action_research()
@@ -771,7 +771,7 @@ void computer_session::action_miss_launch()
     }
 
     //Only explode once. But make it large.
-    explosion_handler::explosion( &get_player_character(), nuke_location.raw(), 2000, 0.7, true );
+    explosion_handler::explosion( &get_player_character(), nuke_location, 2000, 0.7, true );
 
     //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
     // For each level between here and the surface, remove the missile
@@ -1234,13 +1234,13 @@ void computer_session::action_srcf_seal()
         const ter_id &t = here.ter( p );
         if( t == ter_t_elevator || t == ter_t_vat ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
-            explosion_handler::explosion( &get_player_character(), p.raw(), 40, 0.7, true );
+            explosion_handler::explosion( &get_player_character(), p, 40, 0.7, true );
         } else if( t == ter_t_wall_glass || t == ter_t_sewage_pipe ||
                    t == ter_t_sewage || t == ter_t_grate ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
         } else if( t == ter_t_sewage_pump ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
-            explosion_handler::explosion( &get_player_character(), p.raw(), 50, 0.7, true );
+            explosion_handler::explosion( &get_player_character(), p, 50, 0.7, true );
         }
     }
     comp.options.clear(); // Disable the terminal.
@@ -1340,7 +1340,7 @@ void computer_session::action_irradiator()
                     // critical failure - radiation spike sets off electronic detonators
                     if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||
                         it->typeId() == itype_c4 ) {
-                        explosion_handler::explosion( &get_player_character(), dest.raw(), 40 );
+                        explosion_handler::explosion( &get_player_character(), dest, 40 );
                         reset_terminal();
                         print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                         print_error( _( "  >> Initialize secondary sensors: Geiger profiling…" ) );
@@ -1664,7 +1664,7 @@ void computer_session::failure_pump_explode()
     for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == ter_t_sewage_pump ) {
             here.make_rubble( p );
-            explosion_handler::explosion( &get_player_character(), p.raw(), 10 );
+            explosion_handler::explosion( &get_player_character(), p, 10 );
         }
     }
 }
@@ -1706,9 +1706,11 @@ void computer_session::failure_amigara()
     get_player_character().add_effect( effect_amigara, 2_minutes );
     map &here = get_map();
     explosion_handler::explosion( &get_player_character(),
-                                  tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false, 10 );
+                                  tripoint_bub_ms( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false,
+                                  10 );
     explosion_handler::explosion( &get_player_character(),
-                                  tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false, 10 );
+                                  tripoint_bub_ms( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), here.get_abs_sub().z() ), 10, 0.7, false,
+                                  10 );
     comp.remove_option( COMPACT_AMIGARA_START );
 }
 
