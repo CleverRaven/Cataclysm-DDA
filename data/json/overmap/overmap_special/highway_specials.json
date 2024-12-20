@@ -416,7 +416,7 @@
       { "point": [ 0, 4, 0 ], "overmap": "hw_three_lane_merge_e_south" },
       { "point": [ 1, 4, 0 ], "overmap": "hw_three_lane_merge_w_south" }
     ],
-    "//connections": [
+    "connections": [
       { "point": [ -3, 0, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ -2, 0, 0 ] },
       { "point": [ 4, 0, 0 ], "terrain": "road", "connection": "highway_road_connection", "from": [ 3, 0, 0 ] }
     ],

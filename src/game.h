@@ -932,6 +932,9 @@ class game
         static void display_om_pathfinding_progress( size_t open_set, size_t known_size );
 
         unsigned int get_seed() const;
+        bool highway_global_offset_calculated = false;
+        void set_highway_global_offset( const int &x, const int &y );
+        std::pair<int, int> get_highway_global_offset() const;
 
         /** If invoked, NPCs will be reloaded before next turn. */
         void set_npcs_dirty();
@@ -1221,6 +1224,9 @@ class game
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)
+
+        // Offset to the highway grid around which it's centred (there will always be a vertical and horizontal highway on this overmap)
+        std::pair<int, int> highway_global_offset = { 0, 0 };
 
         // Preview for auto move route
         std::vector<tripoint_bub_ms> destination_preview; // NOLINT(cata-serialize)

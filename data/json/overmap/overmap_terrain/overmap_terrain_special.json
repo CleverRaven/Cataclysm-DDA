@@ -51,7 +51,7 @@
     "type": "overmap_terrain",
     "id": "special_field_highway",
     "copy-from": "special_field",
-    "extend": { "flags": [ "HIGHWAY", "SHOULD_NOT_SPAWN" ] }
+    "extend": { "flags": [ "HIGHWAY" ] }
   },
   {
     "type": "overmap_terrain",
@@ -172,13 +172,13 @@
     "copy-from": "generic_air",
     "id": "hw_reserved",
     "//": "Has rotation so cities can judge whether it's running perpendicular/parallel",
-    "flags": [ "HIGHWAY_RESERVED", "REQUIRES_PREDECESSOR", "SHOULD_NOT_SPAWN" ]
+    "flags": [ "HIGHWAY_RESERVED", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "hw_reserved_water",
     "copy-from": "hw_reserved",
-    "extend": { "flags": [ "RIVER", "SHOULD_NOT_SPAWN" ] }
+    "extend": { "flags": [ "RIVER" ] }
   },
   {
     "type": "overmap_terrain",
