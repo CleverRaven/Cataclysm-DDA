@@ -65,6 +65,8 @@ class mapbuffer
         // Cheaper version of the above for when you only care about whether the
         // submap exists or not.
         bool submap_exists( const tripoint_abs_sm &p );
+        // Cheaper version of the above for when you don't mind some false results
+        bool submap_exists_approx( const tripoint_abs_sm &p );
 
     private:
         using submap_map_t = std::map<tripoint_abs_sm, std::unique_ptr<submap>>;
