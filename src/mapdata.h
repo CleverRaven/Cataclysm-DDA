@@ -628,6 +628,8 @@ struct map_data_common_t {
                    has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD );
         }
 
+        virtual bool is_terrain() const;
+
         virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const {};
 };
@@ -667,6 +669,7 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+    bool is_terrain() const override;
 
     std::vector<std::string> extended_description() const override;
     bool is_smashable() const override;
