@@ -643,15 +643,15 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return 0;
     } else {
         uilist nmenu;
-        std::vector<tripoint> locations;
+        std::vector<tripoint_bub_ms> locations;
         nmenu.text = prompt;
         for( const npc *elem : npc_list ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
-            locations.emplace_back( elem->pos_bub().raw() );
+            locations.emplace_back( elem->pos_bub() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
-            locations.emplace_back( get_avatar().pos_bub().raw() );
+            locations.emplace_back( get_avatar().pos_bub() );
         }
         pointmenu_cb callback( locations );
         nmenu.callback = &callback;
@@ -673,7 +673,7 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
         return 0;
     } else {
         uilist nmenu;
-        std::vector<tripoint> locations;
+        std::vector<tripoint_bub_ms> locations;
         nmenu.text = prompt;
         for( const Creature *elem : talker_list ) {
             if( elem->is_npc() ) {
@@ -681,11 +681,11 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
             } else {
                 nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->disp_name() );
             }
-            locations.emplace_back( elem->pos_bub().raw() );
+            locations.emplace_back( elem->pos_bub() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
-            locations.emplace_back( get_avatar().pos_bub().raw() );
+            locations.emplace_back( get_avatar().pos_bub() );
         }
         pointmenu_cb callback( locations );
         nmenu.callback = &callback;
@@ -1509,7 +1509,6 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(),
                                s_abs_pos.x(), s_abs_pos.y() );
                 dangerous_sound temp_sound;
-                // TODO: fix point types
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
                 temp_sound.type = spriority;

@@ -810,7 +810,7 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a land mine!" ),
                                   _( "<npcname> triggers a land mine!" ) );
     }
-    explosion_handler::explosion( c, p, 18, 0.5, false, 8 );
+    explosion_handler::explosion( c, tripoint_bub_ms( p ), 18, 0.5, false, 8 );
     get_map().remove_trap( p );
     return true;
 }
@@ -1417,7 +1417,7 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
                 get_player_character().irradiate( rng( 10, 30 ) );
             } else if( one_in( 4 ) ) {
                 add_msg( m_bad, _( "A blinding flash strikes you!" ) );
-                explosion_handler::flashbang( p );
+                explosion_handler::flashbang( tripoint_bub_ms( p ) );
             } else {
                 add_msg( _( "Small flashes surround you." ) );
             }
@@ -1429,7 +1429,7 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
             you->irradiate( rng( 10, 30 ) );
         } else if( one_in( 4 ) ) {
             you->add_msg_if_player( m_bad, _( "A blinding flash strikes you!" ) );
-            explosion_handler::flashbang( p );
+            explosion_handler::flashbang( tripoint_bub_ms( p ) );
         } else {
             c->add_msg_if_player( _( "Small flashes surround you." ) );
         }
