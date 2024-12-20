@@ -8,6 +8,7 @@
       "and": [
         {
           "or": [
+            { "compare_string": [ "NONE", { "context_val": "school" } ] },
             { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
             { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
             { "compare_string": [ "DRUID", { "context_val": "school" } ] },
