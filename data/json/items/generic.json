@@ -2201,6 +2201,19 @@
     "color": "light_gray"
   },
   {
+    "id": "pipe_dowel",
+    "type": "GENERIC",
+    "name": { "str": "pipe dowel" },
+    "description": "A tool designed to fit inside of pipes, bottles, and similar objects.  This one is thick enough to be used for cleaning flintlock barrels from dirt and fouling.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "type": "GENERIC",
     "id": "clock",
     "symbol": ";",
