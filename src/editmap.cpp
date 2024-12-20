@@ -741,6 +741,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     int off = 1;
     draw_border( w_info );
 
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
                target.z() );
 
