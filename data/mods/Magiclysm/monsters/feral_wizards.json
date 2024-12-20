@@ -224,9 +224,7 @@
           "cooldown": 50,
           "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
           "monster_message": "%1$s waves their hands in a gesture of negation!"
-        },
-        [ "BROWSE", 100 ],
-        [ "EAT_FOOD", 100 ]
+        }
       ],
       "flags": [ "NO_BREATHE" ]
     },
