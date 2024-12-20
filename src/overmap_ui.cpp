@@ -55,7 +55,6 @@
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
-#include "popup.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"
