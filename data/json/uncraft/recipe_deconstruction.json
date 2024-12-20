@@ -2438,7 +2438,7 @@
     "result": "sheet_denim_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "1 m",
+    "time": "10 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "denim_patch", 8 ] ] ]
   },
