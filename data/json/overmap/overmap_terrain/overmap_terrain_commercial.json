@@ -2063,5 +2063,29 @@
     "looks_like": "barber_shop_roof",
     "sym": "b",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cryo_facility" ],
+    "name": "cryo facility",
+    "sym": "C",
+    "color": "blue",
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cryo_facility_1" ],
+    "name": "cryo facility 1",
+    "sym": "C",
+    "color": "blue",
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cryo_facility_roof" ],
+    "name": "cryo facility roof",
+    "sym": "C",
+    "color": "blue",
+    "see_cost": "full_high"
   }
 ]

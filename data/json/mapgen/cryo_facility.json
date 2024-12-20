@@ -1,0 +1,148 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "cryo_facility",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "   ==================   ",
+        "   |:::::::DD:::::::|7-7",
+        "   |bbp.bb....bb..bb|O 7",
+        "   |................|O 7",
+        "   |b...dddddddd...b|O 7",
+        "   |....d.c..c.i....|777",
+        "   |&.../FffffF/...&|y  ",
+        "   ||++//////////++||y  ",
+        "   |.../Fp.sdd.u/...|   ",
+        "   |...+....s...+...|   ",
+        "   |&.J/+////////J..|   ",
+        "   |..J/.......x/J..|   ",
+        "   |.../l.fff.ce/...|   ",
+        "   |..J//////////J.&|   ",
+        "   |..J/kj.<<.kj/J.V|   ",
+        "   |V...............|   ",
+        "   |m||///+//+///||+|   ",
+        "   |..l/S..//..S/r..|   ",
+        "   |J.l/d.J//J.d/r.J|   ",
+        "   |J.l/%..//..%/r.J|   ",
+        "  Я||||||||||||||||||   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "cryo_facility_ground" ],
+      "items": {
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 90, "repeat": [ 1, 2 ] },
+        "%": { "item": "SUS_toilet", "chance": 100, "repeat": [ 0, 1 ] },
+        "e": { "item": "SUS_office_desk", "chance": 25 },
+        "u": { "item": "restaur_fridge", "chance": 80, "repeat": [ 0, 3 ] },
+        "&": [ { "item": "trash", "chance": 2 }, { "item": "office_mess", "chance": 3 } ],
+        "l": { "item": "SUS_janitors_closet", "chance": 40 },
+        "r": { "item": "nursing_home_clothes", "chance": 80, "repeat": [ 0, 2 ] },
+        "y": { "item": "trash", "chance": 100, "repeat": [ 3, 6 ] },
+        "F": [
+          { "item": "novels", "chance": 70, "repeat": [ 0, 1 ] },
+          { "item": "literature", "chance": 70, "repeat": [ 1, 2 ] },
+          { "item": "homebooks", "chance": 5 },
+          { "item": "games", "chance": 20, "repeat": [ 0, 2 ] }
+        ]
+      },
+      "vehicles": { "V": { "vehicle": "wheelchair", "chance": 50, "rotation": 90 } },
+      "vendingmachines": { "k": { "item_group": "vending_drink", "lootable": true }, "j": { "item_group": "vending_food", "lootable": true } },
+      "toilets": { "%": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "cryo_facility_1",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_linoleum_gray",
+      "rows": [
+        "                        ",
+        "                        ",
+        "   ||||||||||||||||||   ",
+        "   |............C|..|   ",
+        "   W.ggg.ggg.ggg.|..|   ",
+        "   W.gUgrgUgrgUg.+..|   ",
+        "   W.ggg.ggg.ggg.|..|   ",
+        "   |.............|.r|   ",
+        "   |||||||||||||||..|   ",
+        "   |............C|..|   ",
+        "   W.ggg.ggg.ggg.|..|   ",
+        "   W.gUgrgUgrgUg.+..|   ",
+        "   W.ggg.ggg.ggg.|..|   ",
+        "   |.............|.r|   ",
+        "   |||||||||||||||..|   ",
+        "   |..r...|<>....+..|   ",
+        "   |.ggg..||||||||++|   ",
+        "   W.gUg..|l.$üü....|   ",
+        "   |.ggg..|l.r...r.C|   ",
+        "   |..r...|l.......C|   ",
+        "   |C.....+...Sddd..|   ",
+        "  Я||||||||||||||||W|   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "cryo_facility_second_floor" ],
+      "place_item": [
+        { "item": "nitrogen_tank", "x": 19, "y": 19 },
+        { "item": "nitrogen_tank", "x": 19, "y": 18 },
+        { "item": "oxygen_cylinder", "x": 18, "y": 4 },
+        { "item": "oxygen_cylinder", "x": 19, "y": 4 },
+        { "item": "oxygen_cylinder", "x": 19, "y": 5 },
+        { "item": "oxygen_cylinder", "x": 18, "y": 5 }
+      ],
+      "items": {
+        "l": [
+          { "item": "drugs_heal_simple", "chance": 10, "repeat": [ 0, 1 ] },
+          { "item": "drugs_analgesic", "chance": 10, "repeat": [ 0, 1 ] },
+          { "item": "gear_medical", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "softdrugs", "chance": 100, "repeat": [ 0, 1 ] }
+        ],
+        "d": { "item": "gear_medical", "chance": 50, "repeat": [ 1, 4 ] }
+      },
+      "vehicles": { "V": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } },
+      "vendingmachines": { "k": { "item_group": "vending_drink", "lootable": true }, "j": { "item_group": "vending_food", "lootable": true } },
+      "monster": { "U": { "monster": "mon_civilian_icu", "chance": 100 }, "8": { "monster": "mon_civilian_icu", "chance": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cryo_facility_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "   ------------------   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -.....M..........-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -.......|||......-   ",
+        "   -.......|>|......-   ",
+        "   -.......|+|......-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -.......AAM......-   ",
+        "   -.......AA.......-   ",
+        "  4------------------   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "|": "t_concrete_wall" }
+    }
+  }
+]
