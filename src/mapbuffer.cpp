@@ -121,6 +121,7 @@ submap *mapbuffer::lookup_submap( const tripoint_abs_sm &p )
 
 bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 {
+    // Could so with a second check against a std::unordered_set<tripoint_abs_sm> of already checked existing but not loaded submaps before resorting to unserializing?
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
