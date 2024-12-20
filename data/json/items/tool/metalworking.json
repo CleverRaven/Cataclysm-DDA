@@ -125,7 +125,7 @@
     "category": "tools",
     "name": { "str": "portable charcoal kiln" },
     "description": "A somewhat portable drum kiln to produce charcoal via pyrolysis: the incomplete burning of organic materials in the absence of oxygen.  Needs to be deployed before use.",
-    "//": "Based on https://github.com/user-attachments/files/18196633/UsingimprovedkilnstoproducecharcoalinKenya-Apracticalguide.pdf Page 6",
+    "//": "Based on page 6 of https://github.com/user-attachments/files/18196633/UsingimprovedkilnstoproducecharcoalinKenya-Apracticalguide.pdf",
     "weight": "21 kg",
     "volume": "201 L",
     "price": "160 USD",

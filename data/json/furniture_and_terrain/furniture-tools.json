@@ -353,7 +353,7 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_empty",
-    "max_volume": "200 L",
+    "max_volume": "250 L",
     "crafting_pseudo_item": "fake_char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
