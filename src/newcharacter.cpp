@@ -4806,7 +4806,7 @@ std::vector<trait_id> Character::get_functioning_mutations( bool include_hidden,
         bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
-    auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
     result.reserve( test.size() );
     for( const std::pair<const trait_id, trait_data> &t : test ) {
         if( t.second.corrupted == 0 ) {
@@ -4825,7 +4825,7 @@ std::vector<trait_and_var> Character::get_mutations_variants( bool include_hidde
         bool ignore_enchantments ) const
 {
     std::vector<trait_and_var> result;
-    auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
     result.reserve( test.size() );
     for( const std::pair<const trait_id, trait_data> &t : test ) {
         if( t.second.corrupted == 0 ) {

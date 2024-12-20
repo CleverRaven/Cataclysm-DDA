@@ -304,7 +304,7 @@ class enchant_cache : public enchantment
         void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
                                       bool evaluate = true );
         // adds enchantment mutations to the cache
-        void force_add_mutation( const enchantment &rhs, const Character &guy );
+        void force_add_mutation( const enchantment &rhs );
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
