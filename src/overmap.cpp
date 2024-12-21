@@ -909,7 +909,10 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "vision_levels", vision_levels, oter_vision_default );
 
-    if( has_flag( oter_flags::line_drawing ) ) {
+    if( jo.has_string( "uniform_terrain" ) ) {
+        add_uniform_terrain( oter_type_str_id( id.str() ),
+                             ter_str_id( jo.get_string( "uniform_terrain" ) ) );
+    } else if( has_flag( oter_flags::line_drawing ) ) {
         if( has_flag( oter_flags::no_rotate ) ) {
             jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
         }
@@ -1209,7 +1212,10 @@ void overmap_terrains::check_consistency()
             }
             check_mapgen_consistent_with( mid, elem );
         } else if( !exists_hardcoded ) {
-            debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
+            const oter_id oter = oter_str_id( mid ).id();
+            if( uniform_terrain( oter ) == ter_str_id::NULL_ID() ) {
+                debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
+            }
         }
     }
 }
