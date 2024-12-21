@@ -2079,5 +2079,10 @@
     "type": "construction_group",
     "id": "build_vent_pipe",
     "name": "Build Vent Pipe"
+  },
+  {
+    "type": "construction_group",
+    "id": "cover_windowframe_with_sheet",
+    "name": "Cover Empty Window With Sheet"
   }
 ]

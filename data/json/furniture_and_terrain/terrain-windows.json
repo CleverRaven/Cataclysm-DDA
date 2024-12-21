@@ -775,7 +775,7 @@
     "type": "terrain",
     "id": "t_window_empty_curtains_open",
     "name": "empty window with curtains",
-    "looks_like": "t_window_open",
+    "looks_like": "t_window_empty",
     "roof": "t_flat_roof",
     "description": "An empty window frame consisting of planks and nails, with open curtains.  You could install a sheet of glass, or even board it up for protection.  You could also convert it into a wall if you took the time to construct it.",
     "symbol": "0",
