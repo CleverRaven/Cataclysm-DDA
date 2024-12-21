@@ -236,9 +236,9 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
                     // Generate uniform submaps immediately and cheaply.
                     // This causes them to be available for "proper" overlays even if on a lower Z level.
-                    const ter_str_id ter = uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) );
-                    if( ter != t_null.id() ) {
-                        getsubmap( grid_pos )->set_all_ter( ter, true );
+                    const std::optional<ter_str_id> ter = uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) );
+                    if( ter ) {
+                        getsubmap( grid_pos )->set_all_ter( *ter, true );
                         getsubmap( grid_pos )->last_touched = calendar::turn;
                     }
                 } else {
@@ -272,7 +272,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
                 if( ( !generated.at( grid_pos ) || !save_results ) &&
                     !getsubmap( grid_pos )->is_uniform() &&
-                    uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
+                    !uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) ) {
                     saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
                     setsubmap( grid_pos, new submap() );
                 }
@@ -300,7 +300,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
-            uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
+            !uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) ) {
             draw_map( dat );
         }
 
@@ -5349,9 +5349,9 @@ void mapgen_function_json::generate( mapgendata &md )
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
-        const ter_str_id uniform_ter = uniform_terrain( predecessor_md.terrain_type() );
-        if( uniform_ter != ter_str_id::NULL_ID() ) {
-            m->draw_fill_background( uniform_ter );
+        const std::optional<ter_str_id> uniform_ter = uniform_terrain( predecessor_md.terrain_type() );
+        if( uniform_ter ) {
+            m->draw_fill_background( *uniform_ter );
         } else {
             const std::string function_key = predecessor_md.terrain_type()->get_mapgen_id();
             bool success = run_mapgen_func( function_key, predecessor_md );

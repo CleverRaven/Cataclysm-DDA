@@ -8587,14 +8587,12 @@ void add_uniform_terrain( const oter_type_str_id &oter, const ter_str_id &ter )
     uniform_terrain_map.insert( { oter, ter } );
 }
 
-//TODO: Change to std::optional<ter_str_id>
-ter_str_id uniform_terrain( const oter_id &oter )
+std::optional<ter_str_id> uniform_terrain( const oter_id &oter )
 {
-    //const std::unordered_map<oter_id, ter_str_id> &map = get_uniform_terrain();
     if( auto it = uniform_terrain_map.find( oter->get_type_id() ); it != uniform_terrain_map.end() ) {
         return it->second;
     }
-    return ter_str_id::NULL_ID();
+    return std::nullopt;
 }
 
 // Optimized mapgen function that only works properly for very simple overmap types
@@ -8616,16 +8614,16 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     dbg( D_INFO ) << "generate_uniform p: " << p
                   << "  terrain_type: " << terrain_type.id().str();
 
-    const ter_str_id ter = uniform_terrain( terrain_type );
+    const std::optional<ter_str_id> ter = uniform_terrain( terrain_type );
 
-    if( ter == t_null.id() ) {
+    if( !ter ) {
         return false;
     }
 
     bool ret = true;
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
-            ret &= generate_uniform( p + point( xd, yd ), ter );
+            ret &= generate_uniform( p + point_rel_sm( xd, yd ), *ter );
         }
     }
     return ret;

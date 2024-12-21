@@ -1211,11 +1211,8 @@ void overmap_terrains::check_consistency()
                           mid.c_str() );
             }
             check_mapgen_consistent_with( mid, elem );
-        } else if( !exists_hardcoded ) {
-            const oter_id oter = oter_str_id( mid ).id();
-            if( uniform_terrain( oter ) == ter_str_id::NULL_ID() ) {
-                debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
-            }
+        } else if( !exists_hardcoded && !uniform_terrain( oter_str_id( mid ).id() ) ) {
+            debugmsg( "No mapgen terrain exists for \"%s\".", mid.c_str() );
         }
     }
 }
