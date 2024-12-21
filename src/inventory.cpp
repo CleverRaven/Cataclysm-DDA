@@ -487,19 +487,21 @@ void inventory::form_from_map( const tripoint_bub_ms &origin, int range, const C
                                bool clear_path )
 {
     map &m = get_map();
-    // populate a grid of spots that can be reached
-    std::vector<tripoint_bub_ms> reachable_pts = {};
+    // Populate a grid of spots that can be reached
     // If we need a clear path we care about the reachability of points
     if( clear_path ) {
-        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+        const std::vector<tripoint_bub_ms> &reachable_pts = m.reachable_flood_steps( origin, range, 1,
+                100 );
+        form_from_map( m, reachable_pts, pl, assign_invlet );
     } else {
+        std::vector<tripoint_bub_ms> reachable_pts;
         // Fill reachable points with points_in_radius
         tripoint_range<tripoint_bub_ms> in_radius = m.points_in_radius( origin, range );
         for( const tripoint_bub_ms &p : in_radius ) {
             reachable_pts.emplace_back( p );
         }
+        form_from_map( m, reachable_pts, pl, assign_invlet );
     }
-    form_from_map( m, reachable_pts, pl, assign_invlet );
 }
 
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,

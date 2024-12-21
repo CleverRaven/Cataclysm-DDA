@@ -736,13 +736,8 @@ class map
          * 1. Checks if a point is reachable using a flood fill and if it is, adds it to a vector.
          *
          */
-        // TODO: Get rid of untyped overload.
-        void reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
-                                    int range,
-                                    int cost_min, int cost_max ) const;
-        void reachable_flood_steps( std::vector<tripoint_bub_ms> &reachable_pts, const tripoint_bub_ms &f,
-                                    int range,
-                                    int cost_min, int cost_max ) const;
+        std::vector<tripoint_bub_ms> reachable_flood_steps( const tripoint_bub_ms &f, int range,
+                int cost_min, int cost_max ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases
