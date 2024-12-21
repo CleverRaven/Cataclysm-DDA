@@ -748,7 +748,8 @@
     "type": "start_location",
     "id": "sloc_cathedral_rooftop",
     "name": "Cathedral Rooftop",
-    "terrain": [ "cathedral_3_NW", "cathedral_3_NE", "cathedral_3_SW", "cathedral_3_SE" ]
+    "terrain": [ "cathedral_3_NE", "cathedral_3_NW", "cathedral_3_SW", "cathedral_3_SE" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
