@@ -11,6 +11,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
+#include "overmapbuffer.h"
 #include "player_helpers.h"
 #include "type_id.h"
 
@@ -112,7 +113,10 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
 TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][light][vision]" )
 {
     Character &u = get_player_character();
-    standard_npc n( "Mr. Testerman" );
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    overmap_buffer.insert_npc( guy );
+    g->load_npcs();
+    npc &n = *guy;
     n.set_body();
 
     clear_avatar();

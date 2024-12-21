@@ -55,7 +55,7 @@ static const vproto_id vehicle_prototype_locked_as_hell_car( "locked_as_hell_car
 static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
-    wipe_map_terrain();
+    clear_map();
     clear_vehicles();
     clear_avatar();
     Character &player = get_player_character();
