@@ -6769,7 +6769,7 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
 
     Character &player_character = get_player_character();
     // select from where to get the items from and place them
-    inv.form_from_map( player_character.pos(), PICKUP_RANGE, &player_character );
+    inv.form_from_map( player_character.pos_bub(), PICKUP_RANGE, &player_character );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );

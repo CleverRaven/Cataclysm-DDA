@@ -1221,7 +1221,7 @@ void spell::use_components( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
-    map_inv.form_from_map( guy.pos(), 0, &guy, true, false );
+    map_inv.form_from_map( guy.pos_bub(), 0, &guy, true, false );
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
         guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
     }
