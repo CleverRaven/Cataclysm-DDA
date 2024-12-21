@@ -3218,8 +3218,6 @@ void Creature::draw( const catacurses::window &w, const tripoint_bub_ms &origin,
     } else {
         mvwputch( w, draw, symbol_color(), symbol() );
     }
-
-    Creature::draw( w, origin, inverted );
 }
 
 bool Creature::is_symbol_highlighted() const
