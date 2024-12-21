@@ -72,6 +72,7 @@ class talker_character_const: virtual public const_talker
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        int get_speed() const override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &dam ) const override;
         int pain_cur() const override;
