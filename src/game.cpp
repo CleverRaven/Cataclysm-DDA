@@ -972,13 +972,9 @@ bool game::start_game()
     lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
     load_map( lev, /*pump_events=*/true );
 
-    int level = m.get_abs_sub().z();
-    u.setpos( m.bub_from_abs( project_to<coords::ms>( omtstart ) ) );
-    m.invalidate_map_cache( level );
-    m.build_map_cache( level );
-    // Do this after the map cache has been built!
     start_loc.place_player( u, omtstart );
-    // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    int level = m.get_abs_sub().z();
+    // Rebuild map cache because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
@@ -12526,6 +12522,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
+    here.build_map_cache( here.get_abs_sub().z() );
+    u.gravity_check();
 
     u.recoil = MAX_RECOIL;
 
