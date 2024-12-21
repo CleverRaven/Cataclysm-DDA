@@ -288,11 +288,6 @@ bool monster::can_reach_to( const tripoint_bub_ms &p ) const
     return true;
 }
 
-bool monster::can_move_to( const tripoint &p ) const
-{
-    return monster::can_move_to( tripoint_bub_ms( p ) );
-}
-
 bool monster::can_move_to( const tripoint_bub_ms &p ) const
 {
     return can_reach_to( p ) && will_move_to( p );
