@@ -10,12 +10,12 @@
     "variants": [
       {
         "id": "ak74_fixed",
-        "name": { "str": "Kalashnikov AK-74", "str_pl": "Kalashnikov AK-74 rifles" },
+        "name": { "str": "AK-74" },
         "description": "A rifle of the Cold War, or at least a dead ringer for it, this weapon is a semi-automatic clone of the Soviet Union's standard assault rifle following 1974.  Either a locally-built replica or produced from an imported, foreign parts kit, fitted with a fixed wooden buttstock, a side-mounted optics rail, and a barrel threaded for suppressors, the rifle's chambered for the Russian 5.45x39mm cartridge and feeds from AK-74 magazines.  A Communist gun built in Capitalist America; bar hoofing it to eastern Europe, the weapon's likely the closest you'll ever get to laying your palms on a Russian Kalashnikov."
       },
       {
         "id": "ak74_folding",
-        "name": { "str": "Kalashnikov AKS-74", "str_pl": "Kalashnikov AKS-74 rifles" },
+        "name": { "str": "AKS-74" },
         "description": "An American copy of a Soviet assault rifle, a strange piece of ordinance using some weird proprietary Russian ammunition—all these terms and more can describe this rifle: a semi-automatic clone of the Kalashnikov AKS-74, the descendant of the iconic AKM.  Either a locally-built replica or produced from an imported, foreign parts kit, the firearm possesses a triangular, folding buttstock, a side-mounted optics rail, and a threaded barrel for attaching muzzle devices.  The weapon fires the Soviet 5.45x39mm cartridge—a unicorn even in the American gun wilderness—and feeds said unicorn ammunition from AK-74 magazines."
       }
     ],
@@ -63,7 +63,7 @@
     "variants": [
       {
         "id": "kord",
-        "name": { "str": "Kord 6P67 rifle" },
+        "name": { "str": "Kord 6P67" },
         "description": "A special forces Russian rifle chambered in 5.45.  This version uses standard Picatinny rails, has modern lightweight furniture and a unique complex recoil balance system for high fire rate with minimal recoil.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge and accepts standard AK-74M magazines."
       }
     ],
