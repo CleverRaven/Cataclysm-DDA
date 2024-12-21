@@ -1,0 +1,85 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_military_radio_tower_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "========================",
+        "========================",
+        "========================",
+        "===-%----------------===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-=======RR=======-===",
+        "===-=======RR<======-===",
+        "===-======T=r=======-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===-================-===",
+        "===------------------===",
+        "========================",
+        "========================",
+        "========================"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "mil_base_palette2" ],
+      "terrain": { "<": "t_ladder_up", "R": "t_radio_tower", "r": "t_radio_controls" },
+      "monster": { "=": { "group": "GROUP_MIL_BASE", "chance": 1 } },
+      "place_nested": [
+        { "chunks": [ "mil_base_radio_tower_tower" ], "x": 0, "y": 0, "z": 1 },
+        { "chunks": [ "mil_base_radio_tower_tower" ], "x": 0, "y": 0, "z": 2 },
+        { "chunks": [ "mil_base_radio_tower_tower" ], "x": 0, "y": 0, "z": 3 },
+        { "chunks": [ "mil_base_radio_tower_tower" ], "x": 0, "y": 0, "z": 4 },
+        { "chunks": [ "mil_base_radio_tower_tower" ], "x": 0, "y": 0, "z": 5 },
+        { "chunks": [ "mil_base_radio_tower_tower" ], "x": 0, "y": 0, "z": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mil_base_radio_tower_tower",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           RR           ",
+        "           RR≷          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "mil_base_palette2", "roof_palette" ],
+      "terrain": { "R": "t_radio_tower" }
+    }
+  }
+]

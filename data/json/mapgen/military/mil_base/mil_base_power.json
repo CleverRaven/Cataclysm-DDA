@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_military_power_station_nest",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_thconc_floor", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "rows": [
+        "..=.....................",
+        ".#$§###########-------..",
+        ".#,,,TUUUUUP,,£,,,,,}-..",
+        ".#,,,,,,,,,,,,#,,,,,,-..",
+        ".#,,,,,,,,,,,,#4,,,,,-..",
+        ".#,,,,,,,,,,,T#,,,,,,-..",
+        ".#,,,,,,,,,|+|#,,,,,,-..",
+        ".#,,,,,,,,,O,C#111111-..",
+        ".#V,,,,,,,,O,C######p#..",
+        ".#V,,,,,,,,|,,CCC,C|p#..",
+        ".#Vh,,,,,,,|,,,,,,C|p#..",
+        ".#V,,,,,,,,O,h,,,h,|p#..",
+        ".#V,,,,,,,,Oddddddd|p#..",
+        ".#Vh,,,,,,,|||||||||p#..",
+        ".#V,,,,,,,,%,,,,,,H,p#..",
+        ".#|||-------,,,,,sB8p#..",
+        ".#,,,,,,,,,,,,,,,,,,p#..",
+        ".#,,,,,,,,,,,,,,,,,,p#..",
+        ".#g,,g,,g,,g,,g,,g,,p#..",
+        ".#g,,g,,g,,g,,g,,g,,p#..",
+        ".#ppppppppppppppppppp#..",
+        ".#####################..",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "mil_base_palette2" ],
+      "terrain": {
+        "8": "t_potential_trans",
+        "B": "t_oil_circ_brkr_l",
+        "S": "t_switchgear_l",
+        "H": "t_station_disc",
+        "s": "t_switchgear_s",
+        "}": "t_lgtn_arrest",
+        "p": "t_sewage_pipe"
+      },
+      "items": {
+        "d": { "item": "SUS_office_filing_cabinet", "chance": 75, "repeat": [ 1, 2 ] },
+        "U": [
+          { "item": "supplies_electronics", "chance": 80, "repeat": [ 2, 5 ] },
+          { "item": "tools_lighting_industrial", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "tools_common", "chance": 70, "repeat": [ 1, 2 ] }
+        ],
+        "C": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 0, 2 ] },
+        "V": [ { "item": "supplies_electronics", "chance": 80 }, { "item": "tools_common", "chance": 50 } ]
+      },
+      "item": { "d": { "item": "id_military", "chance": 20 } },
+      "monster": { ",": { "group": "GROUP_MIL_BASE", "chance": 1 } },
+      "place_nested": [ { "chunks": [ "mil_base_power_station_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mil_base_power_station_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        " --------------         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............5         ",
+        " -............-         ",
+        " -............-         ",
+        " -............--------  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " -...................-  ",
+        " ---------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "roof_palette" ]
+    }
+  }
+]
