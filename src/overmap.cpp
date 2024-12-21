@@ -7755,9 +7755,7 @@ bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
     tripoint_abs_sm global_sm_loc =
         project_to<coords::sm>( project_combine( pos(), loc ) );
 
-    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc ) != nullptr;
-
-    return is_generated;
+    return MAPBUFFER.submap_exists( global_sm_loc );
 }
 
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )

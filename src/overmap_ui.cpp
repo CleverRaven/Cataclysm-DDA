@@ -543,8 +543,19 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
     return los;
 }
 
-static void draw_ascii(
-    const catacurses::window &w, overmap_draw_data_t &data )
+static std::unordered_map<point_abs_omt, bool> generated_omts;
+
+bool is_generated_omt( const point_abs_omt &omp )
+{
+    if( const auto it = generated_omts.find( omp ); it != generated_omts.end() ) {
+        return it->second;
+    }
+    const bool generated = MAPBUFFER.submap_exists_approx( { project_to<coords::sm>( omp ), 0 } );
+    generated_omts.insert( { omp, generated } );
+    return generated;
+}
+
+static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 {
     const tripoint_abs_omt &orig = data.origin_pos;
     const tripoint_abs_omt &cursor_pos = data.cursor_pos;
@@ -796,7 +807,7 @@ static void draw_ascii(
                     }
                 }
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
+                if( is_generated_omt( omp.xy() ) ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -1508,6 +1519,9 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
+        ctxt.register_action( "SELECT" );
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
         ctxt.register_action( "zoom_in" );
         ctxt.register_action( "zoom_out" );
         ctxt.register_action( "CONFIRM" );
@@ -1558,14 +1572,14 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                             _( "Highlighted regions already have map content generated.  Their overmap id will change, but not their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                 ( !terrain && uistate.place_special->is_rotatable() ) ) {
-                mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
+                mvwprintz( w_editor, point( 1, 10 ), c_white, _( "[%s] Rotate" ),
                            ctxt.get_desc( "ROTATE" ) );
             }
-            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place" ),
+            mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Place" ),
                        ctxt.get_desc( "CONFIRM_MULTIPLE" ) );
-            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[%s] Place and close" ),
+            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Place and close" ),
                        ctxt.get_desc( "CONFIRM" ) );
-            mvwprintz( w_editor, point( 1, 14 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
+            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
             wnoutrefresh( w_editor );
         } );
 
@@ -1576,8 +1590,17 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-                curs += vec->xy();
+            if( const std::optional<tripoint_rel_omt> vec = ctxt.get_direction_rel_omt( action ) ) {
+                curs += *vec;
+            } else if( action == "LEVEL_DOWN" && curs.z() > -OVERMAP_DEPTH ) {
+                curs.z()--;
+            } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
+                curs.z()++;
+            } else if( action == "SELECT" ) {
+                if( std::optional<tripoint_rel_omt> mouse_pos = ctxt.get_coordinates_rel_omt( g->w_overmap,
+                        point::zero, true ); mouse_pos ) {
+                    curs = curs + mouse_pos->xy();
+                }
             } else if( action == "zoom_out" ) {
                 g->zoom_out_overmap();
                 om_ui.mark_resize();
@@ -1597,9 +1620,6 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
                         }
                     }
                 }
-                if( action == "CONFIRM" ) {
-                    break;
-                }
             } else if( action == "ROTATE" && can_rotate ) {
                 uistate.omedit_rotation = om_direction::turn_right( uistate.omedit_rotation );
                 if( terrain ) {
@@ -1609,7 +1629,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
             }
-        } while( action != "QUIT" );
+        } while( action != "CONFIRM" && action != "QUIT" );
 
         uistate.place_terrain = nullptr;
         uistate.place_special = nullptr;
@@ -1945,7 +1965,7 @@ static tripoint_abs_omt display()
     std::string action;
     data.show_explored = true;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    std::optional<tripoint_bub_ms> mouse_pos;
+    std::optional<tripoint_rel_omt> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     std::chrono::time_point<std::chrono::steady_clock> last_advance = std::chrono::steady_clock::now();
     auto display_path_iter = display_path.rbegin();
@@ -2000,7 +2020,7 @@ static tripoint_abs_omt display()
                 curs += edge_scroll;
             }
         } else if( action == "SELECT" &&
-                   ( mouse_pos = ictxt.get_coordinates( g->w_overmap, point::zero, true ) ) ) {
+                   ( mouse_pos = ictxt.get_coordinates_rel_omt( g->w_overmap, point::zero, true ) ) ) {
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
@@ -2572,6 +2592,7 @@ std::optional<city> ui::omap::select_city( uilist &cities_menu,
 
 void ui::omap::force_quit()
 {
+    overmap_ui::generated_omts.clear();
     g->overmap_data.ui.reset();
     g->overmap_data.fast_traveling = false;
 }

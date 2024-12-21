@@ -154,6 +154,7 @@ extern tiles_redraw_info redraw_info;
 
 weather_type_id get_weather_at_point( const tripoint_abs_omt &pos );
 std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note );
+bool is_generated_omt( const point_abs_omt &omp );
 
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H

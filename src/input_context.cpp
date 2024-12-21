@@ -1222,6 +1222,17 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
 }
 #endif
 
+std::optional<tripoint_rel_omt> input_context::get_coordinates_rel_omt( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
+{
+    // Sometimes off by one with tiles but I think that's due to the centre changing with zoom level + tileset size so I don't think it can be easily fixed here
+    const std::optional<tripoint_bub_ms> p = get_coordinates( capture_win, offset, center_cursor );
+    if( p ) {
+        return tripoint_rel_omt( p->raw() );
+    }
+    return std::nullopt;
+}
+
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
