@@ -173,7 +173,7 @@
     "effect": [
       {
         "math": [
-          "u_spell_exp('xedra_chronomancer_rewrite_wound_causality') += (spell_exp_for_level(u_spell_level('xedra_chronomancer_rewrite_wound_causality')+1) - spell_exp_for_level(u_spell_level('xedra_chronomancer_rewrite_wound_causality'))) / 20 "
+          "u_spell_exp('xedra_chronomancer_rewrite_wound_causality') += (spell_exp_for_level('xedra_chronomancer_rewrite_wound_causality', u_spell_level('xedra_chronomancer_rewrite_wound_causality')+1) - spell_exp_for_level('xedra_chronomancer_rewrite_wound_causality', u_spell_level('xedra_chronomancer_rewrite_wound_causality'))) / 20 "
         ]
       },
       {
@@ -283,7 +283,7 @@
     "effect": [
       {
         "math": [
-          "u_spell_exp('xedra_chronomancer_rewrite_equipment_causality') += (spell_exp_for_level(u_spell_level('xedra_chronomancer_rewrite_equipment_causality')+1) - spell_exp_for_level(u_spell_level('xedra_chronomancer_rewrite_equipment_causality'))) / 20 "
+          "u_spell_exp('xedra_chronomancer_rewrite_equipment_causality') += (spell_exp_for_level('xedra_chronomancer_rewrite_equipment_causality', u_spell_level('xedra_chronomancer_rewrite_equipment_causality')+1) - spell_exp_for_level('xedra_chronomancer_rewrite_equipment_causality', u_spell_level('xedra_chronomancer_rewrite_equipment_causality'))) / 20 "
         ]
       },
       {
@@ -489,6 +489,26 @@
     "effect": [
       { "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC", "variables": { "xedra_chronomancer_prefix": "time_loop" } },
       { "run_eocs": "EOC_XEDRA_TIME_LOOP_LOOP", "time_in_future": "5 seconds" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_LOOP_ENDED_LOOP",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_loop", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "u_message": "Your time loop ends!",
+        "type": "neutral",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      {
+        "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC",
+        "variables": { "xedra_chronomancer_prefix": "time_loop" }
+      }
     ]
   },
   {

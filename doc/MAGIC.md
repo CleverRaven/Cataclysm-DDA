@@ -67,6 +67,8 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
     "max_level": 10,                                          // maximum level you can achieve in the spell
+    "get_level_formula_id": "jmath_get_level_formula",        // The id of a jmath formula that calculates what level the spell is for a given exp value.  Must be the inverse of exp_for_level_formula_id.
+    "exp_for_level_formula_id": "jmath_exp_for_level_formula",// The id of a jmath formula that calculates how much exp is required for a given level.  Must be the inverse of get_level_formula_id.
     "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
     "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
     "accuracy_increment": 1.5
@@ -614,6 +616,42 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 ### Monster spells
 
 See [Monster special attacks - Spells](MONSTER_SPECIAL_ATTACKS.md#spell-monster-spells).
+
+### Custom Spell Experience Requirements
+
+Spells may have custom formulas for their xp requirements to level by combining the `get_level_formula_id` and `exp_for_level_formula_id` fields.
+These fields both take the id of a jmath_function that they can use to calculate the xp requirement instead of the default formula.
+The given jmath functions must only have 1 argument (for the spell level or experience) and they should not make any calls to the alpha or beta talkers.  Spell calculations are intended to be character agnostic, and while using functions such as u_skill('DEDUCTION') will not error, it will always be calculated from the player characters data, even if for an npc or other uses of spell xp calculations.
+Also, keep in mind that changing the spell experience requirements of an existing spell will likely do strange things to any characters that already knew the spell before the xp requirements were changed.
+
+Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
+
+Constant Spell Exp Requirement Example:
+  {
+    "id": "test_spell",
+    "type": "SPELL",
+    "name": "test",
+    "description": "constant spell experience formula.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "min_damage": 1,
+    "max_damage": 1,
+    "get_level_formula_id": "magic_test_func_get_level",
+    "exp_for_level_formula_id": "magic_test_func_exp_for_level"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magic_test_func_get_level",
+    "num_args": 1,
+    "return": "_0 / 1000"
+  },
+  {
+    "type": "jmath_function",
+    "id": "magic_test_func_exp_for_level",
+    "num_args": 1,
+    "return": "1000 * _0"
+  },
+```
 
 
 ## Enchantments

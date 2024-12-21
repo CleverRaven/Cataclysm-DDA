@@ -18,5 +18,22 @@
     "max_dot": 10,
     "dot_increment": 0.5,
     "max_level": 20
+  },
+  {
+    "id": "druid_renew_forest_spell_real",
+    "type": "SPELL",
+    "name": { "str": "Renewing the Forest Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "flags": [ "CHANNELING_SPELL", "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_renew_forest",
+    "min_aoe": {
+      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+    },
+    "max_aoe": {
+      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+    }
   }
 ]

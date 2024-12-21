@@ -1711,7 +1711,14 @@ units::temperature_delta get_heat_radiation( const tripoint_bub_ms &location )
             continue;
         }
         if( player_character.pos_bub() == location ) {
-            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
+            bool heat_can_spread = true;
+            for( const tripoint_bub_ms &p : line_to( player_character.pos_bub(), dest ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, p ) && here.impassable( p ) ) {
+                    heat_can_spread = false;
+                    break;
+                }
+            }
+            if( !heat_can_spread ) {
                 continue;
             }
         } else if( !here.sees( location, dest, -1 ) ) {
@@ -6308,7 +6315,7 @@ void game::peek( const tripoint_bub_ms &p )
 {
     u.mod_moves( -u.get_speed() * 2 );
     tripoint_bub_ms prev = u.pos_bub();
-    u.setpos( p );
+    u.setpos( p, false );
     const bool is_same_pos = u.pos_bub() == prev;
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint_bub_ms center = p;
@@ -6323,7 +6330,7 @@ void game::peek( const tripoint_bub_ms &p )
         u.activate_crouch_mode();
     } else {                // Else is normal peek
         result = look_around( looka_params );
-        u.setpos( prev );
+        u.setpos( prev, false );
     }
 
     if( result.peek_action ) {
