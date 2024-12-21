@@ -2404,7 +2404,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     std::vector<tripoint_bub_ms> pts;
 
                     // If levitating, just move straight down if possible.
-                    if( player_character.has_flag( json_flag_LEVITATION ) && m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                    if( player_character.has_flag( json_flag_LEVITATION ) &&
+                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
                         pts.push_back( player_character.pos_bub() );
                     }
 
