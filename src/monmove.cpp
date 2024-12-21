@@ -1108,7 +1108,7 @@ void monster::move()
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos_bub(), destination );
-        for( tripoint &candidate : squares_closer_to( pos_bub().raw(), destination.raw() ) ) {
+        for( tripoint_bub_ms &candidate : squares_closer_to( pos_bub(), destination ) ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1119,24 +1119,24 @@ void monster::move()
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
                 rampPos -= 1;
-                candidate.z += 1;
+                candidate += tripoint_rel_ms::above;
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
                 rampPos += 1;
-                candidate.z -= 1;
+                candidate += tripoint_rel_ms::below;
             }
             const tripoint_abs_ms candidate_abs = get_map().getglobal( candidate );
 
-            if( candidate.z != posz() ) {
+            if( candidate.z() != posz() ) {
                 bool can_z_move = true;
-                if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
+                if( !here.valid_move( pos_bub(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > posz() && !( via_ramp || flies() ) ) {
+                if( candidate.z() > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
                         if( ( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ||
                               !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, candidate ) ) ) {
@@ -1149,10 +1149,10 @@ void monster::move()
                 // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
                 // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
-                    posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
-                    posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
-                    const tripoint upper = candidate.z > posz() ? candidate : pos();
-                    const tripoint lower = candidate.z > posz() ? pos() : candidate;
+                    posx() / ( SEEX * 2 ) == candidate.x() / ( SEEX * 2 ) &&
+                    posy() / ( SEEY * 2 ) == candidate.y() / ( SEEY * 2 ) ) {
+                    const tripoint_bub_ms upper = candidate.z() > posz() ? candidate : pos_bub();
+                    const tripoint_bub_ms lower = candidate.z() > posz() ? pos_bub() : candidate;
                     if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper ) &&
                         here.has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) ) {
                         can_z_move = true;
@@ -1203,7 +1203,7 @@ void monster::move()
             }
 
             // Try to shove vehicle out of the way
-            shove_vehicle( destination, tripoint_bub_ms( candidate ) );
+            shove_vehicle( destination, candidate );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash || has_flag( json_flag_CANNOT_ATTACK ) ) {
@@ -1222,9 +1222,8 @@ void monster::move()
                     bad_choice = true;
                 }
             }
-
-            const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(),
-                                   candidate.z + rampPos ), destination.raw() );
+            const float progress = distance_to_target - trig_dist( tripoint_bub_ms( candidate.xy(),
+                                   candidate.z() + rampPos ), destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
@@ -1598,26 +1597,27 @@ int monster::calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t
  * Return points of an area extending 1 tile to either side and
  * (maxdepth) tiles behind basher.
  */
-static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tripoint &basher,
+static std::vector<tripoint_bub_ms> get_bashing_zone( const tripoint_bub_ms &bashee,
+        const tripoint_bub_ms &basher,
         int maxdepth )
 {
-    std::vector<tripoint> direction;
+    std::vector<tripoint_bub_ms> direction;
     direction.reserve( 2 );
     direction.push_back( bashee );
     direction.push_back( basher );
     // Draw a line from the target through the attacker.
-    std::vector<tripoint> path = continue_line( direction, maxdepth );
+    std::vector<tripoint_bub_ms> path = continue_line( direction, maxdepth );
     // Remove the target.
     path.insert( path.begin(), basher );
-    std::vector<tripoint> zone;
+    std::vector<tripoint_bub_ms> zone;
     // Go ahead and reserve enough room for all the points since
     // we know how many it will be.
     zone.reserve( 3 * maxdepth );
-    tripoint previous = bashee;
-    for( const tripoint &p : path ) {
-        std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
-        for( const point &q : swath ) {
-            zone.emplace_back( q, bashee.z );
+    tripoint_bub_ms previous = bashee;
+    for( const tripoint_bub_ms &p : path ) {
+        std::vector<point_bub_ms> swath = squares_in_direction( previous.xy(), p.xy() );
+        for( const point_bub_ms &q : swath ) {
+            zone.emplace_back( q, bashee.z() );
         }
 
         previous = p;
@@ -1694,15 +1694,15 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
 
     // pileup = more bash skill, but only help bashing mob directly in front of target
     const int max_helper_depth = 5;
-    const std::vector<tripoint> bzone = get_bashing_zone( target.raw(), pos(), max_helper_depth );
+    const std::vector<tripoint_bub_ms> bzone = get_bashing_zone( target, pos_bub(), max_helper_depth );
 
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &candidate : bzone ) {
+    for( const tripoint_bub_ms &candidate : bzone ) {
         // Drawing this line backwards excludes the target and includes the candidate.
-        std::vector<tripoint> path_to_target = line_to( target.raw(), candidate, 0, 0 );
+        std::vector<tripoint_bub_ms> path_to_target = line_to( target, candidate, 0, 0 );
         bool connected = true;
         monster *mon = nullptr;
-        for( const tripoint &in_path : path_to_target ) {
+        for( const tripoint_bub_ms &in_path : path_to_target ) {
             // If any point in the line from zombie to target is not a cooperating zombie,
             // it can't contribute.
             mon = creatures.creature_at<monster>( in_path );
@@ -1722,7 +1722,7 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
         // If we made it here, the last monster checked was the candidate.
         monster &helpermon = *mon;
         // Contribution falls off rapidly with distance from target.
-        bashskill += helpermon.bash_skill() / rl_dist( candidate, target.raw() );
+        bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
     }
 
     return bashskill;
