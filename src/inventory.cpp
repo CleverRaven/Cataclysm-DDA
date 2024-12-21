@@ -486,25 +486,7 @@ void inventory::form_from_map( const tripoint_bub_ms &origin, int range, const C
                                bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
-}
-
-void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
-                                const Character *pl, bool assign_invlet )
-{
-    std::vector<tripoint_bub_ms> pts;
-    pts.reserve( zone_pts.size() );
-    for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.bub_from_abs( elem ) );
-    }
-    form_from_map( m, pts, pl, assign_invlet );
-}
-
-void inventory::form_from_map( map &m, const tripoint_bub_ms &origin, int range,
-                               const Character *pl,
-                               bool assign_invlet,
-                               bool clear_path )
-{
+    map &m = get_map();
     // populate a grid of spots that can be reached
     std::vector<tripoint_bub_ms> reachable_pts = {};
     // If we need a clear path we care about the reachability of points
@@ -518,6 +500,17 @@ void inventory::form_from_map( map &m, const tripoint_bub_ms &origin, int range,
         }
     }
     form_from_map( m, reachable_pts, pl, assign_invlet );
+}
+
+void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
+                                const Character *pl, bool assign_invlet )
+{
+    std::vector<tripoint_bub_ms> pts;
+    pts.reserve( zone_pts.size() );
+    for( const tripoint_abs_ms &elem : zone_pts ) {
+        pts.push_back( m.bub_from_abs( elem ) );
+    }
+    form_from_map( m, pts, pl, assign_invlet );
 }
 
 void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
