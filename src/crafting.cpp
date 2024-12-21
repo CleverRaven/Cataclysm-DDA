@@ -653,7 +653,7 @@ const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, 
     }
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        crafting_cache.crafting_inventory->form_from_map( inv_pos.raw(), radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
     }
 
     std::map<itype_id, int> tmp_liq_list;
@@ -1641,7 +1641,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+        map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
         auto filter = [&]( const item & it ) {
             return std_filter( it ) &&
@@ -1709,7 +1709,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         }
 
         inventory map_inv;
-        map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+        map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
@@ -2171,7 +2171,7 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
         const std::function<bool( const itype_id & )> &select_ind )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, false, filter );
     return consume_items( sel, batch, filter, select_ind( sel.comp.type ) );
 }
@@ -2361,7 +2361,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 craft.get_cached_tool_selections();
 
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
         itype_id type = tool_sel.comp.type;
@@ -2482,7 +2482,7 @@ to consume_tools */
 void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
 {
     inventory map_inv;
-    map_inv.form_from_map( pos(), PICKUP_RANGE, this );
+    map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
