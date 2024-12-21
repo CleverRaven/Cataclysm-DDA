@@ -104,11 +104,11 @@ void add_fallback_zone( npc &guy )
 
     if( points.empty() ) {
         zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
-                  loc.raw() + tripoint::north_west, loc.raw() + tripoint::south_east );
+                  loc + tripoint::north_west, loc + tripoint::south_east );
     } else {
         for( tripoint_abs_ms const &t : points ) {
-            zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),
-                      t.raw() );
+            zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t,
+                      t );
         }
     }
     DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
@@ -157,13 +157,13 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
 void consume_items_in_zones( npc &guy, time_duration const &elapsed )
 {
-    std::unordered_set<tripoint> const src = zone_manager::get_manager().get_point_set_loot(
+    std::unordered_set<tripoint_bub_ms> const src = zone_manager::get_manager().get_point_set_loot(
                 guy.get_location(), PICKUP_RANGE, guy.get_fac_id() );
 
     consume_cache cache;
     map &here = get_map();
 
-    for( tripoint const &pt : src ) {
+    for( tripoint_bub_ms const &pt : src ) {
         consume_queue consumed;
         std::list<item_location> stack =
         here.items_with( pt, [&guy]( item const & it ) {

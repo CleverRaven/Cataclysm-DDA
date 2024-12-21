@@ -1898,7 +1898,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
         for( auto &new_zone : new_zones ) {
             zone_manager::get_manager().create_vehicle_loot_zone(
-                *this, new_zone.first.raw(), new_zone.second );
+                *this, new_zone.first, new_zone.second );
         }
 
         // Now that we've added zones to this vehicle, we need to make sure their positions
@@ -2635,7 +2635,7 @@ bool vehicle::split_vehicles( map &here,
         // because we need only to move the zone once per mount, not per part. If we move per
         // part, we will end up with duplicates of the zone per part on the same mount
         for( std::pair<point_rel_ms, zone_data> zone : new_zones ) {
-            zone_manager::get_manager().create_vehicle_loot_zone( *new_vehicle, zone.first.raw(), zone.second );
+            zone_manager::get_manager().create_vehicle_loot_zone( *new_vehicle, zone.first, zone.second );
         }
 
         // create_vehicle_loot_zone marks the vehicle as not dirty but since we got these zones
@@ -6306,7 +6306,7 @@ void vehicle::place_zones( map &pmap ) const
     for( vehicle_prototype::zone_def const &d : type->zone_defs ) {
         tripoint_abs_ms const pt = pmap.getglobal( tripoint_bub_ms( rebase_bub( pos.raw() + d.pt ),
                                    pmap.get_abs_sub().z() ) );
-        mapgen_place_zone( pt.raw(), pt.raw(), d.zone_type, get_owner(), d.name, d.filter, &pmap );
+        mapgen_place_zone( pt, pt, d.zone_type, get_owner(), d.name, d.filter, &pmap );
     }
 }
 
@@ -8580,7 +8580,7 @@ bool vehicle::refresh_zones()
             }
             tripoint_abs_ms zone_pos = here.getglobal( bub_part_pos( part_idx ) );
             //Set the position of the zone to that part
-            zone.set_position( std::pair<tripoint, tripoint>( zone_pos.raw(), zone_pos.raw() ), false, false,
+            zone.set_position( std::pair<tripoint_abs_ms, tripoint_abs_ms>( zone_pos, zone_pos ), false, false,
                                true );
             new_zones.emplace( z.first, zone );
         }

@@ -86,11 +86,11 @@ construction setup_testcase( Character &u, std::string const &constr,
     tripoint_abs_ms const build_abs = here.getglobal( build_loc );
     faction_id const fac = u.get_faction()->id;
 
-    zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs.raw(),
-              loot_abs.raw() );
+    zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs,
+              loot_abs );
 
     zmgr.add( constr + " construction zone", zone_type_CONSTRUCTION_BLUEPRINT, fac, false,
-              true, build_abs.raw(), build_abs.raw(), options );
+              true, build_abs, build_abs, options );
 
     for( auto const *cons : constructions_by_group( build.group ) ) {
         for( auto const &comp : cons->requirements->get_components() ) {
