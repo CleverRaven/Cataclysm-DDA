@@ -140,7 +140,7 @@
     "id": "LILIN_TURN_INTO_OWL",
     "name": { "str": "On Silent Wings" },
     "points": 8,
-    "description": "You can transform yourself into an owl and take wing on the night air.",
+    "description": "You can transform yourself into an owl and take wing on the night air.  You won't be able to drain ruach while you are in this form.",
     "starting_trait": false,
     "purifiable": false,
     "active": true,
@@ -151,6 +151,22 @@
     "activation_msg": "",
     "activated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_activated" ],
     "deactivated_eocs": [ "EOC_LILIN_TURN_INTO_OWL_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_SILENT_AT_NIGHT",
+    "name": { "//~": "This is a reference to Samuel 2:9", "str": "Silent in Darkness" },
+    "description": "When shrouded in shadows, you make as little noise as one.  Your movement is fully silent at night unless you're out of ruach.",
+    "points": 2,
+    "starting_trait": false,
+    "purifiable": false,
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+        "ench_effects": [ { "effect": "effect_lilin_silent_at_night", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -188,6 +204,21 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_BONUS_LYING",
+    "name": { "//~": "This is a reference to Exodus 20:16", "str": "The False Witness" },
+    "points": 2,
+    "description": "You have a much easier time spinning lies and making people believe them.  You gain a bonus to your lying chance as long as you aren't empty of ruach.",
+    "prereqs": [ "PRETTY", "BEAUTIFUL" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "values": [ { "value": "SOCIAL_LIE", "add": { "math": [ "12 + (12 * u_has_trait('THRESH_LILIN') )" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_MESMERIZE_TARGET",
     "name": { "//~": "This is a reference to Jeremiah 10:14", "str": "Senseless and Without Knowledge" },
     "points": 5,
@@ -196,6 +227,32 @@
     "prereqs2": [ "LILIN_TEMPORARY_GLORIOUS", "LILIN_TEMPORARY_GLORIOUS_2" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_mesmerize_target_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_ETERNAL_YOUTH",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
+    "name": { "//~": "This is a reference to Romans 6:23", "str": "The Gift of Eternal Life" },
+    "points": 2,
+    "description": "Your body has now stopped aging, massively extending your longevity.  You can still be killed but as long as your body can heal, all your wounds will eventually fully heal no matter how severe they are.",
+    "prereqs": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
+    "category": [ "LILIN" ],
+    "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_STEADY_SPEED",
+    "name": { "//~": "This is a reference to Psalms 72:5", "str": "Enduring Through All Generations" },
+    "points": 2,
+    "description": "With eternal youth comes the strength to endure past anything one could face.  Your speed won't be lower than its default as long as you have some ruach in you.",
+    "prereqs": [ "LILIN_ETERNAL_YOUTH" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] },
+        "ench_effects": [ { "effect": "effect_lilin_steady_speed", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -282,8 +339,8 @@
   {
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_STRENGTH",
-    "name": { "str": "The Cedars of Lebanon" },
-    "description": "Adds a Strength Bonus to Might of the Nephilim.  Should not be player-visible.",
+    "name": { "str": "The Cedars of Lebanon", "//~": "NO_I18N" },
+    "description": { "str": "Adds a Strength Bonus to Might of the Nephilim.  Should not be player-visible.", "//~": "NO_I18N" },
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -327,6 +384,32 @@
           "and": [
             { "not": "u_has_weapon" },
             { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "u_has_trait": "LILIN_STRONGER_MOON" },
+            {
+              "or": [
+                { "math": [ "moon_phase() == 2" ] },
+                { "math": [ "moon_phase() == 6" ] },
+                { "math": [ "moon_phase() == 7" ] },
+                { "math": [ "moon_phase() == 1" ] }
+              ]
+            }
+          ]
+        },
+        "melee_damage_bonus": [
+          {
+            "type": "biological",
+            "add": {
+              "math": [ "3 + (u_effect_intensity('effect_lilin_attribute_bonuses') * 3) + (u_vitamin('lilin_ruach_vitamin') / 1000)" ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": "u_has_weapon" },
+            { "not": { "and": [ "is_day", "u_is_outside" ] } },
+            { "not": { "u_has_trait": "LILIN_STRONGER_MOON" } },
             {
               "or": [
                 { "math": [ "moon_phase() == 2" ] },
@@ -361,8 +444,8 @@
   {
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY",
-    "name": { "str": "The Leaping Faun" },
-    "description": "Adds a Dexterity/Dodge Bonus to Might of the Nephilim.  Should not be player-visible.",
+    "name": { "str": "The Leaping Faun", "//~": "NO_I18N" },
+    "description": { "str": "Adds a Dexterity/Dodge Bonus to Might of the Nephilim.  Should not be player-visible.", "//~": "NO_I18N" },
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -397,8 +480,8 @@
   {
     "type": "mutation",
     "id": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION",
-    "name": { "str": "And All the People Saw the Sounds" },
-    "description": "Adds a Perception Bonus to Might of the Nephilim.  Should not be player-visible.",
+    "name": { "str": "And All the People Saw the Sounds", "//~": "NO_I18N" },
+    "description": { "str": "Adds a Perception Bonus to Might of the Nephilim.  Should not be player-visible.", "//~": "NO_I18N" },
     "points": 2,
     "purifiable": false,
     "player_display": false,
@@ -412,6 +495,7 @@
     "description": "Your eyes have adapted to the darkness of the night, allowing you to see further through the shadows.  This is most effective out under the moon but still has an effect indoors.",
     "points": 3,
     "purifiable": false,
+    "changes_to": [ "LILIN_NIGHT_VISION_UPGRADE" ],
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" ],
     "prereqs2": [ "LILIN_THE_EVIL_EYE" ],
     "category": [ "LILIN" ],
@@ -666,6 +750,37 @@
   },
   {
     "type": "mutation",
+    "id": "LILIN_NIGHT_VISION_UPGRADE",
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Darkness is not Dark to You" },
+    "description": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.",
+    "points": 7,
+    "purifiable": false,
+    "prereqs": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
+    "category": [ "LILIN" ],
+    "enchantments": [
+      { "values": [ { "value": "NIGHT_VIS", "add": 250 } ] },
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception')" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_STRONGER_MOON",
+    "name": { "//~": "This is a reference to Jeremiah 31:35", "str": "The Moon Shall Shine at Night" },
+    "description": "You are closely attuned to the moon, and some of your powers grow stronger with it.  Any ability you have that is amplified the fuller the moon is will not be weakened as much by an incomplete but non-new moon.",
+    "points": 3,
+    "purifiable": false,
+    "player_display": false,
+    "//": "prerequisites are having at least one power amplified by the moon.  As this is written, only one such power exists.",
+    "prereqs": [ "LILIN_UNARMED_EXTRA_DAMAGE" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
     "id": "LILIN_OWL_FORM_PASS_THROUGH_WALLS",
     "name": { "str": "Like an Unclean Spirit" },
     "description": "Your owl form is half spirit and half flesh.  You have a high chance to dodge any attacks against you, and may pass straight through walls as long as it is night.",
@@ -691,7 +806,7 @@
     "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
       {
-        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] } ] },
         "ench_effects": [ { "effect": "effect_lilin_limb_score_bonuses_at_night", "intensity": 1 } ]
       }
     ]
@@ -701,7 +816,7 @@
     "id": "LILIN_TRANSFORM_INTO_WAR_OWL_FORM",
     "name": { "str": "The Strix's Wrath" },
     "points": 10,
-    "description": "You can combine your forms, transforming into a large owl-human hybrid with wings, rending talons, and a deadly beak.",
+    "description": "You can combine your forms, transforming into a large owl-human hybrid with wings, rending talons, and a deadly beak.  You won't be able to drain ruach while you are in this form.",
     "starting_trait": false,
     "purifiable": false,
     "active": true,
@@ -760,6 +875,26 @@
     "prereqs": [ "LILIN_DISEASE_ENHANCEMENT_DAMAGE" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "LILIN_INCREMENTAL_SPEED_BOOST",
+    "name": { "//~": "This is a reference to Isaiah 45:3", "str": "The Treasures of Darkness" },
+    "description": "You are a being of darkness, closer to it than almost anything else is.  It quickens your essence, and with it your actions, the longer you stay in it.  Each night, you receive an increase to your speed that is higher for each consecutive day spent without being exposed to the sun, up to ten.  The light of the sun breaks this quickening, forcing you to wait once more for the shadows to empower you in this way.",
+    "points": 8,
+    "starting_trait": false,
+    "purifiable": false,
+    "prereqs": [ "LILIN_SPEED_DODGE_BOOST" ],
+    "prereqs2": [ "LILIN_LIMB_SCORE_BONUSES_AT_NIGHT" ],
+    "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
+    "//": "This enchantment removes the effect if the Lilit is outside at day.",
+    "enchantments": [
+      {
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
+        "ench_effects": [ { "effect": "effect_lilin_lose_incremental_speed_boost", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

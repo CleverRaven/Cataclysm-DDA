@@ -703,6 +703,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_pena
     }
 
     std::vector<morale_line> bottom_lines;
+    bottom_lines.reserve( 3 ); // We need at least 3 lines.
     bottom_lines.emplace_back( morale_line::separation_line {} );
     bottom_lines.emplace_back(
         _( "Total morale:" ), get_level(),

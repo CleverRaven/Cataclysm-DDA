@@ -13,6 +13,7 @@
   - [Variable widgets](#variable-widgets)
     - [Number style](#number-style)
     - [Graph style](#graph-style)
+      - [Vertical graphs](#vertical-graphs)
     - [Text style](#text-style)
 - [Fields](#fields)
   - [label](#label)
@@ -22,7 +23,9 @@
   - [direction](#direction)
   - [height](#height)
   - [text_align and label_align](#text_align-and-label_align)
+  - [pad_labels](#pad_labels)
   - [colors](#colors)
+  - [breaks](#breaks)
   - [flags](#flags)
 - [Clauses and conditions](#clauses-and-conditions)
   - [Conditions](#conditions)
@@ -31,6 +34,7 @@
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
   - [Text variables](#text-variables)
+  - [Custom variables](#custom-variables)
 - [Predefined widgets](#predefined-widgets)
   - [Number widgets](#number-widgets)
   - [Graph widgets](#graph-widgets)
@@ -477,7 +481,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "parched",
       "text": "Parched",
       "color": "light_red",
-      "condition": { "math": [ "u_val('thirst')", ">", "520" ] }
+      "condition": { "math": [ "u_val('thirst') > 520" ] }
     },
     {
       "id": "dehydrated",
@@ -485,8 +489,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "light_red",
       "condition": {
         "and": [
-          { "math": [ "u_val('thirst')", ">", "240" ] },
-          { "math": [ "u_val('thirst')", "<=", "520" ] }
+          { "math": [ "u_val('thirst') > 240" ] },
+          { "math": [ "u_val('thirst') <= 520" ] }
         ]
       }
     },
@@ -496,8 +500,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "math": [ "u_val('thirst')", ">", "80" ] },
-          { "math": [ "u_val('thirst')", "<=", "240" ] }
+          { "math": [ "u_val('thirst') > 80" ] },
+          { "math": [ "u_val('thirst') <= 240" ] }
         ]
       }
     },
@@ -507,8 +511,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "math": [ "u_val('thirst')", ">", "40" ] },
-          { "math": [ "u_val('thirst')", "<=", "80" ] }
+          { "math": [ "u_val('thirst') > 40" ] },
+          { "math": [ "u_val('thirst') <= 80" ] }
         ]
       }
     },
@@ -518,8 +522,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "white",
       "condition": {
         "and": [
-          { "math": [ "u_val('thirst')", ">=", "0" ] },
-          { "math": [ "u_val('thirst')", "<=", "40" ] }
+          { "math": [ "u_val('thirst') >= 0" ] },
+          { "math": [ "u_val('thirst') <= 40" ] }
         ]
       }
     },
@@ -529,8 +533,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "math": [ "u_val('thirst')", ">=", "-20" ] },
-          { "math": [ "u_val('thirst')", "<", "0" ] }
+          { "math": [ "u_val('thirst') >= -20" ] },
+          { "math": [ "u_val('thirst') < 0" ] }
         ]
       }
     },
@@ -540,8 +544,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "math": [ "u_val('thirst')", ">=", "-60" ] },
-          { "math": [ "u_val('thirst')", "<", "-20" ] }
+          { "math": [ "u_val('thirst') >= -60" ] },
+          { "math": [ "u_val('thirst') < -20" ] }
         ]
       }
     },
@@ -549,7 +553,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "turgid",
       "text": "Turgid",
       "color": "green",
-      "condition": { "math": [ "u_val('thirst')", "<", "-60" ] }
+      "condition": { "math": [ "u_val('thirst') < -60" ] }
     }
   ]
 },
@@ -1084,6 +1088,29 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `weather_text`           | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
 | `wielding_text`          | Name of current weapon or wielded item
 | `wind_text`              | Wind direction and intensity
+
+
+## Custom variables
+
+Variable widgets with var `custom` can show any variable object or math expression. These widgets
+require a separate `custom_var` field to specify the variable object or math expression in question,
+like so:
+
+```json
+{
+  "var": "custom",
+  "custom_var": {
+    "value": { "var_val": "name" } OR { "math": [ ... ] },
+    "range": [ ... ]
+  }
+}
+```
+
+The `range` field requires 2 to 4 elements, each of which can be an integer, variable object, or
+math expression. The first element specifies the minimum value, the middle element(s) specify the
+normal range, and the last element specifies the maximum value, as descibed in [Variable ranges](#variable-ranges).
+
+All custom variables are numeric and must use style "number" or style "graph".
 
 
 # Predefined widgets

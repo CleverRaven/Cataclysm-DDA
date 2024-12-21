@@ -11,7 +11,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -23,7 +23,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -37,7 +37,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -51,7 +51,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -65,7 +65,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -79,7 +79,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -99,7 +99,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -111,7 +111,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -125,7 +125,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -139,7 +139,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -153,7 +153,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -167,7 +167,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -187,7 +187,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -199,7 +199,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -213,7 +213,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -227,7 +227,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -241,7 +241,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -255,7 +255,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -275,7 +275,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -287,7 +287,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -301,7 +301,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -315,7 +315,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -329,7 +329,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -343,7 +343,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -363,7 +363,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -375,7 +375,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -389,7 +389,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -403,7 +403,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -417,7 +417,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -431,7 +431,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -451,7 +451,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -463,7 +463,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -477,7 +477,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -491,7 +491,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -505,7 +505,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -519,7 +519,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -539,7 +539,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -551,7 +551,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -565,7 +565,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -579,7 +579,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -593,7 +593,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -607,7 +607,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -627,7 +627,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -639,7 +639,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -653,7 +653,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -667,7 +667,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -681,7 +681,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -695,7 +695,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -716,7 +716,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "25" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 25" ] }
             ]
           },
           "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
@@ -729,14 +729,10 @@
         {
           "id": "feral_dabbler_ethereal_grasp",
           "type": "spell",
-          "spell_data": { "id": "ethereal_grasp", "min_level": 5 },
+          "spell_data": { "id": "ethereal_grasp_monster", "min_level": 5 },
           "cooldown": 30,
           "condition": {
-            "and": [
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "26" ] }
-            ]
+            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] } ]
           },
           "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
         }
@@ -754,7 +750,7 @@
           "type": "spell",
           "spell_data": { "id": "feral_dabble_spell_selector_spell" },
           "cooldown": 1,
-          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "0" ] },
+          "condition": { "math": [ "u_feral_dabbler_chosen_spell_number == 0" ] },
           "monster_message": ""
         },
         {
@@ -766,7 +762,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "1" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 1" ] }
             ]
           },
           "monster_message": "%1$s points at %3$s and a loud noise erupts around %3$s."
@@ -780,7 +776,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "2" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 2" ] }
             ]
           },
           "monster_message": "%1$s chants and makes a gesture trailed by glowing green lights."
@@ -794,7 +790,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "3" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 3" ] }
             ]
           },
           "monster_message": "%1$s screams words of magic and waves their hands toward %3$s."
@@ -808,7 +804,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "4" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 4" ] }
             ]
           },
           "monster_message": "%1$s make several expansive gestures and eerie lights appear."
@@ -822,7 +818,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "5" ] },
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 5" ] },
               { "not": { "u_has_effect": "enchant_windrun_monster" } }
             ]
           },
@@ -843,7 +839,7 @@
             "and": [
               { "not": { "u_has_flag": "MUTE" } },
               { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "25" ] }
+              { "math": [ "u_feral_dabbler_chosen_spell_number == 25" ] }
             ]
           },
           "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
@@ -856,14 +852,10 @@
         {
           "id": "feral_dabbler_ethereal_grasp",
           "type": "spell",
-          "spell_data": { "id": "ethereal_grasp", "min_level": 5 },
+          "spell_data": { "id": "ethereal_grasp_monster", "min_level": 5 },
           "cooldown": 30,
           "condition": {
-            "and": [
-              { "not": { "u_has_flag": "MUTE" } },
-              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-              { "math": [ "u_feral_dabbler_chosen_spell_number", "==", "26" ] }
-            ]
+            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "math": [ "u_feral_dabbler_chosen_spell_number == 26" ] } ]
           },
           "monster_message": "%1$s makes a grasping gesture and ethereal hands burst from the ground around %3$s."
         }

@@ -40,33 +40,55 @@
           "t_underbrush": 30,
           "t_shrub": 10,
           "t_fern": 5,
+          "t_shrub_hobblebush": 2,
           "t_shrub_blueberry": 2,
           "t_shrub_raspberry": 2,
           "t_shrub_huckleberry": 2,
           "t_shrub_strawberry": 1,
           "t_shrub_grape": 1
         },
-        "t_region_shrub_forest": { "t_region_shrub_forest_dense": 60, "t_shrub_rose": 5, "t_shrub_blackberry": 5 },
+        "t_region_shrub_forest": { "t_region_shrub_forest_dense": 65, "t_shrub_rose": 5, "t_shrub_blackberry": 5, "t_shrub_autumn_olive": 5 },
         "t_region_shrub_plains": {
           "t_shrub": 10,
           "t_shrub_blueberry": 2,
+          "t_shrub_autumn_olive": 2,
           "t_shrub_blackberry": 2,
           "t_shrub_rose": 2,
           "t_shrub_huckleberry": 1,
           "t_shrub_strawberry": 1,
           "t_shrub_grape": 1
         },
-        "t_region_shrub_swamp": { "t_fern": 2, "t_shrub_raspberry": 2, "t_shrub_blueberry": 2, "t_shrub_huckleberry": 1, "t_shrub_rose": 1 },
+        "t_region_shrub_swamp": {
+          "t_fern": 2,
+          "t_shrub_hobblebush": 2,
+          "t_shrub_raspberry": 2,
+          "t_shrub_chokeberry": 2,
+          "t_shrub_blueberry": 2,
+          "t_shrub_huckleberry": 1,
+          "t_shrub_spicebush": 1,
+          "t_shrub_rose": 1
+        },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
           "t_shrub_strawberry": 6,
           "t_shrub_raspberry": 4,
           "t_shrub_grape": 4,
+          "t_shrub_hobblebush": 2,
           "t_shrub_blackberry": 2,
           "t_shrub_huckleberry": 2,
           "t_shrub_peanut": 1
         },
-        "t_region_shrub_decorative": { "t_shrub": 30, "t_fern": 5, "t_shrub_rose": 20, "t_shrub_hydrangea": 20, "t_shrub_lilac": 20, "t_bamboo_long": 5 },
+        "t_region_shrub_decorative": {
+          "t_shrub": 30,
+          "t_fern": 5,
+          "t_shrub_rose": 20,
+          "t_shrub_hydrangea": 20,
+          "t_shrub_lilac": 20,
+          "t_shrub_chokeberry": 15,
+          "t_tree_nannyberry": 15,
+          "t_shrub_hobblebush": 5,
+          "t_bamboo_long": 5
+        },
         "t_region_shrub": { "t_region_shrub_decorative": 60, "t_underbrush": 10, "t_region_shrub_fruit": 30 },
         "t_region_tree_forest_dense": {
           "t_tree": 18,
@@ -97,6 +119,7 @@
           "t_tree_peach": 1,
           "t_tree_pear": 1,
           "t_tree_elderberry": 10,
+          "t_tree_nannyberry": 10,
           "t_tree_mulberry": 10,
           "t_tree_sassafras": 2,
           "t_tree_juniper": 5
@@ -130,6 +153,7 @@
           "t_tree_pear": 1,
           "t_tree_plum": 1,
           "t_tree_elderberry": 2,
+          "t_tree_nannyberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
           "t_region_tree_dead": 48
@@ -163,6 +187,7 @@
           "t_tree_pear": 2,
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
+          "t_tree_nannyberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_dead": 4
         },
@@ -388,7 +413,7 @@
           "river_nw",
           "river_se",
           "river_sw",
-          "slimepit_top",
+          "slimepit_z0",
           "special_forest_thick",
           "special_forest_thick_isherwood",
           "spider_pit",
@@ -475,6 +500,8 @@
               "t_tree_pear": 1,
               "t_tree_plum": 1,
               "t_tree_elderberry": 2,
+              "t_tree_nannyberry": 10,
+              "t_tree_tupelo": 10,
               "t_tree_mulberry": 2,
               "t_tree_sassafras": 3,
               "t_region_tree_dead": 90
@@ -648,6 +675,7 @@
         }
       },
       "ocean_bed": { "chance": 30, "extras": { "mx_kelp_patch": 1 } },
+      "ocean_shore": { "chance": 1, "extras": { "mx_sandy_beach": 100 } },
       "road": {
         "chance": 100,
         "extras": {
@@ -724,7 +752,6 @@
       },
       "river": { "chance": 1, "extras": { "mx_null": 66, "mx_riverside_boat": 1, "mx_reed": 33 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
-      "sewer": { "chance": 80, "extras": { "mx_null": 100 } },
       "agricultural": {
         "chance": 38,
         "extras": {

@@ -190,8 +190,8 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
             m.ter_set( p, ter_t_window_boarded );
         } else if( t == ter_t_door_c || t == ter_t_door_locked || t == ter_t_door_c_peep ) {
             // Only board up doors that lead to the outside
-            if( m.is_outside( p + tripoint_north ) || m.is_outside( p + tripoint_south ) ||
-                m.is_outside( p + tripoint_east ) || m.is_outside( p + tripoint_west ) ) {
+            if( m.is_outside( p + tripoint::north ) || m.is_outside( p + tripoint::south ) ||
+                m.is_outside( p + tripoint::east ) || m.is_outside( p + tripoint::west ) ) {
                 m.ter_set( p, ter_t_door_boarded );
                 must_board_around = true;
             } else {
@@ -267,14 +267,14 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
         overmap &omap = overmap_buffer.get( omp );
         const tripoint_om_omt omtstart = omap.find_random_omt( std::make_pair( chosen_target.omt,
                                          chosen_target.omt_type ) );
-        if( omtstart.raw() != tripoint_min ) {
+        if( omtstart.raw() != tripoint::min ) {
             return std::make_pair( project_combine( omp, omtstart ), chosen_target.parameters );
         }
     }
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
            name(), id.str(), radius );
-    return std::make_pair( overmap::invalid_tripoint, chosen_target.parameters );
+    return std::make_pair( tripoint_abs_omt::invalid, chosen_target.parameters );
 }
 
 std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
@@ -299,15 +299,15 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
         }
     }
     const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
-            std::make_pair( tripoint_om_omt( tripoint_min ), omt_types_parameters() ) );
+            std::make_pair( tripoint_om_omt::invalid, omt_types_parameters() ) );
     const tripoint_om_omt omtstart = random_valid.first;
-    if( omtstart.raw() != tripoint_min ) {
+    if( omtstart.raw() != tripoint::min ) {
         return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a city [%s], please report this failure." ),
            name(), id.str(), origin.name );
-    return std::make_pair( overmap::invalid_tripoint, random_valid.second.parameters );
+    return std::make_pair( tripoint_abs_omt::invalid, random_valid.second.parameters );
 }
 
 void start_location::set_parameters( const tripoint_abs_omt &omtstart,
@@ -390,7 +390,7 @@ static int rate_location( map &m, const tripoint &p,
     };
 
     if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
-        ( accommodate_npc && invalid_char_pos( p + point_north_west ) ) ) {
+        ( accommodate_npc && invalid_char_pos( p + point::north_west ) ) ) {
         return 0;
     }
 
@@ -427,14 +427,14 @@ static int rate_location( map &m, const tripoint &p,
             return INT_MAX;
         }
 
-        maybe_add( cur.xy() + point_west, cur );
-        maybe_add( cur.xy() + point_north, cur );
-        maybe_add( cur.xy() + point_east, cur );
-        maybe_add( cur.xy() + point_south, cur );
-        maybe_add( cur.xy() + point_north_west, cur );
-        maybe_add( cur.xy() + point_north_east, cur );
-        maybe_add( cur.xy() + point_south_west, cur );
-        maybe_add( cur.xy() + point_south_east, cur );
+        maybe_add( cur.xy() + point::west, cur );
+        maybe_add( cur.xy() + point::north, cur );
+        maybe_add( cur.xy() + point::east, cur );
+        maybe_add( cur.xy() + point::south, cur );
+        maybe_add( cur.xy() + point::north_west, cur );
+        maybe_add( cur.xy() + point::north_east, cur );
+        maybe_add( cur.xy() + point::south_west, cur );
+        maybe_add( cur.xy() + point::south_east, cur );
     }
 
     return area;
@@ -571,7 +571,7 @@ void start_location::handle_heli_crash( avatar &you ) const
             case 1:
             case 2:
                 you.add_effect( effect_bleed, 6_minutes, bp );
-            /* fallthrough */
+                [[fallthrough]];
             case 3:
             case 4:
             // Just damage
@@ -596,7 +596,7 @@ static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &t
     m.load( omtstart, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
-    m.place_spawns( type, 1, point_omt_ms( point_zero ), point_omt_ms( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    m.place_spawns( type, 1, point_omt_ms::zero, point_omt_ms( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     omtstart.z(),
                     density );
     m.save();

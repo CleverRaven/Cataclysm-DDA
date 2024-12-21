@@ -825,5 +825,16 @@
     "name": "Intersection",
     "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
     "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_town_in_the_open",
+    "name": "Town, in the open",
+    "terrain": [
+      { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "playground", "om_terrain_match_type": "TYPE" },
+      { "om_terrain": "park", "om_terrain_match_type": "TYPE" }
+    ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

@@ -371,8 +371,8 @@ class zone_data
             temporarily_disabled = false;
             is_vehicle = false;
             is_personal = false;
-            start = tripoint_zero;
-            end = tripoint_zero;
+            start = tripoint::zero;
+            end = tripoint::zero;
             cached_shift = {};
             options = nullptr;
             is_displayed = false;

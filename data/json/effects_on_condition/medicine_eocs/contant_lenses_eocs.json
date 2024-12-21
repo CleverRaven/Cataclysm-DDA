@@ -10,14 +10,14 @@
     "//plano": "used to handle the case, when lens don't have any correction power, and anyone can use it, specifically for transition_contacts_plano",
     "condition": {
       "and": [
-        { "math": [ "u_has_flag(_flag1) + u_has_flag(_flag2) + u_has_flag(_flag3) + _plano", ">", "0" ] },
+        { "math": [ "u_has_flag(_flag1) + u_has_flag(_flag2) + u_has_flag(_flag3) + _plano > 0" ] },
         { "expects_vars": [ "time", "effect" ] }
       ]
     },
     "effect": { "run_eocs": [ "EOC_CONTACTS1" ] },
     "false_effect": [
       {
-        "if": { "math": [ "u_has_flag('HYPEROPIC') + u_has_flag('MYOPIC') + u_has_flag('MYOPIC_IN_LIGHT')", ">", "0" ] },
+        "if": { "math": [ "u_has_flag('HYPEROPIC') + u_has_flag('MYOPIC') + u_has_flag('MYOPIC_IN_LIGHT') > 0" ] },
         "then": { "u_message": "These lenses won't help you with your sight problems." },
         "else": { "u_message": "You don't have any sight problems that require lenses." }
       }

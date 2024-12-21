@@ -136,8 +136,8 @@ player_activity veh_interact::serialize_activity()
     if( sel_cmd == 'p' ) {
         if( !parts_here.empty() ) {
             const vpart_reference part_here( *veh, parts_here[0] );
-            const vpart_reference displayed_part( *veh, veh->part_displayed_at( part_here.mount() ) );
-            return veh_shape( *veh ).start( tripoint_bub_ms( displayed_part.pos() ) );
+            const vpart_reference displayed_part( *veh, veh->part_displayed_at( part_here.mount_pos() ) );
+            return veh_shape( *veh ).start( displayed_part.pos_bub() );
         }
         return player_activity();
     }
@@ -182,10 +182,10 @@ player_activity veh_interact::serialize_activity()
     }
     res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );   // values[0]
     res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );   // values[1]
-    res.values.push_back( dd.x );   // values[2]
-    res.values.push_back( dd.y );   // values[3]
-    res.values.push_back( -dd.x );   // values[4]
-    res.values.push_back( -dd.y );   // values[5]
+    res.values.push_back( dd.x() );   // values[2]
+    res.values.push_back( dd.y() );   // values[3]
+    res.values.push_back( -dd.x() );   // values[4]
+    res.values.push_back( -dd.y() );   // values[5]
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.str_values.emplace_back( vp->id.str() );
     res.str_values.emplace_back( "" ); // previously stored the part variant, now obsolete
@@ -195,7 +195,7 @@ player_activity veh_interact::serialize_activity()
 }
 
 void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
-                  const std::optional<point> &part_placement )
+                  const std::optional<point_rel_ms> &part_placement )
 {
 
     avatar &player_character = get_avatar();
@@ -203,36 +203,36 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     // start there.
     const tripoint_rel_ms old_view_offset = player_character.view_offset;
     tripoint_bub_ms offset = veh->pos_bub();
-    // Appliances are one tile so the part placement there is always point_zero
+    // Appliances are one tile so the part placement there is always point::zero
     if( part_placement ) {
-        point copied_placement = *part_placement ;
-        offset += copied_placement ;
+        point_rel_ms copied_placement = *part_placement;
+        offset = offset + copied_placement;
     }
     player_character.view_offset = offset - player_character.pos_bub();
 
-    point delta;
+    point_rel_ms delta;
     do {
         popup( _( "Press space, choose a facing direction for the new %s and "
                   "confirm with enter." ),
                vpinfo.name() );
 
-        const std::optional<tripoint> chosen = g->look_around();
+        const std::optional<tripoint_bub_ms> chosen = g->look_around();
         if( !chosen ) {
             continue;
         }
-        delta = ( *chosen - offset.raw() ).xy();
+        delta = ( *chosen - offset ).xy();
         // atan2 only gives reasonable values when delta is not all zero
-    } while( delta == point_zero );
+    } while( delta == point_rel_ms::zero );
 
     // Restore previous view offsets.
     player_character.view_offset = old_view_offset;
 
-    units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
+    units::angle dir = normalize( atan2( delta.raw() ) - veh->face.dir() );
 
     veh->part( partnum ).direction = dir;
 }
 
-player_activity veh_interact::run( vehicle &veh, const point &p )
+player_activity veh_interact::run( vehicle &veh, const point_rel_ms &p )
 {
     veh_interact vehint( veh, p );
     vehint.do_main_loop();
@@ -268,7 +268,7 @@ std::optional<vpart_reference> veh_interact::select_part( const vehicle &veh,
 /**
  * Creates a blank veh_interact window.
  */
-veh_interact::veh_interact( vehicle &veh, const point &p )
+veh_interact::veh_interact( vehicle &veh, const point_rel_ms &p )
     : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
 {
     main_context.register_directions();
@@ -302,7 +302,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     count_durability();
     cache_tool_availability();
     // Initialize info of selected parts
-    move_cursor( point_zero );
+    move_cursor( point_rel_ms::zero );
 }
 
 veh_interact::~veh_interact() = default;
@@ -310,7 +310,7 @@ veh_interact::~veh_interact() = default;
 void veh_interact::allocate_windows()
 {
     // grid window
-    const point grid( point_south_east );
+    const point grid( point::south_east );
     const int grid_w = TERMX - 2; // exterior borders take 2
     const int grid_h = TERMY - 2; // exterior borders take 2
 
@@ -341,7 +341,7 @@ void veh_interact::allocate_windows()
     const int details_w = grid.x + grid_w - details_x;
 
     // make the windows
-    w_border = catacurses::newwin( TERMY, TERMX, point_zero );
+    w_border = catacurses::newwin( TERMY, TERMX, point::zero );
     w_mode  = catacurses::newwin( mode_h,    grid_w, grid );
     w_msg   = catacurses::newwin( page_size, pane_w, point( msg_x, pane_y ) );
     w_disp  = catacurses::newwin( disp_h,    disp_w, point( grid.x, pane_y ) );
@@ -413,7 +413,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & current_ui ) {
             if( ui_hidden ) {
-                current_ui.position( point_zero, point_zero );
+                current_ui.position( point::zero, point::zero );
                 return;
             }
             allocate_windows();
@@ -513,7 +513,7 @@ void veh_interact::do_main_loop()
         const std::string action = main_context.handle_input();
         msg.reset();
         if( const std::optional<tripoint> vec = main_context.get_direction( action ) ) {
-            move_cursor( vec->xy() );
+            move_cursor( point_rel_ms( vec->xy() ) );
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
@@ -587,13 +587,13 @@ void veh_interact::do_main_loop()
         } else if( action == "OVERVIEW_UP" ) {
             move_overview_line( -1 );
         } else if( action == "DESC_LIST_DOWN" ) {
-            move_cursor( point_zero, 1 );
+            move_cursor( point_rel_ms::zero, 1 );
         } else if( action == "DESC_LIST_UP" ) {
-            move_cursor( point_zero, -1 );
+            move_cursor( point_rel_ms::zero, -1 );
         } else if( action == "PAGE_DOWN" ) {
-            move_cursor( point_zero, description_scroll_lines );
+            move_cursor( point_rel_ms::zero, description_scroll_lines );
         } else if( action == "PAGE_UP" ) {
-            move_cursor( point_zero, -description_scroll_lines );
+            move_cursor( point_rel_ms::zero, -description_scroll_lines );
         }
         if( sel_cmd != ' ' ) {
             finish = true;
@@ -606,19 +606,19 @@ void veh_interact::cache_tool_availability()
     Character &player_character = get_player_character();
     crafting_inv = &player_character.crafting_inventory();
 
-    cache_tool_availability_update_lifting( player_character.pos() );
+    cache_tool_availability_update_lifting( player_character.pos_bub() );
     int mech_jack = 0;
     if( player_character.is_mounted() ) {
         mech_jack = player_character.mounted_creature->mech_str_addition() + 10;
     }
     int max_quality = std::max( { player_character.max_quality( qual_JACK ), mech_jack,
                                   map_selector( player_character.pos_bub(), PICKUP_RANGE ).max_quality( qual_JACK ),
-                                  vehicle_selector( player_character.pos(), 2, true, *veh ).max_quality( qual_JACK )
+                                  vehicle_selector( player_character.pos_bub(), 2, true, *veh ).max_quality( qual_JACK )
                                 } );
     max_jack = lifting_quality_to_mass( max_quality );
 }
 
-void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
+void veh_interact::cache_tool_availability_update_lifting( const tripoint_bub_ms &world_cursor_pos )
 {
     max_lift = get_player_character().best_nearby_lifting_assist( world_cursor_pos );
 }
@@ -854,7 +854,7 @@ bool veh_interact::update_part_requirements()
             }
         }
 
-        if( !axles.empty() && axles.count( -dd.x ) == 0 ) {
+        if( !axles.empty() && axles.count( -dd.x() ) == 0 ) {
             // Installing more than one steerable axle is hard
             // (but adding a wheel to an existing axle isn't)
             dif_steering = axles.size() + 5;
@@ -972,10 +972,10 @@ void veh_interact::do_install()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose new part to install here:" );
 
-    restore_on_out_of_scope<std::unique_ptr<install_info_t>> prev_install_info( std::move(
+    restore_on_out_of_scope prev_install_info( std::move(
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
@@ -1152,14 +1152,14 @@ void veh_interact::do_repair()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose a part here to repair:" );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     int pos = 0;
 
-    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
+    restore_on_out_of_scope prev_hilight_part( highlight_part );
 
     avatar &player_character = get_avatar();
     while( true ) {
@@ -1275,7 +1275,7 @@ void veh_interact::do_mend()
             break;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose a part here to mend:" );
 
     avatar &player_character = get_avatar();
@@ -1311,7 +1311,7 @@ void veh_interact::do_refill()
             break;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Select part to refill:" );
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -1628,12 +1628,12 @@ void veh_interact::display_overview()
 void veh_interact::overview( const overview_enable_t &enable,
                              const overview_action_t &action )
 {
-    restore_on_out_of_scope<overview_enable_t> prev_overview_enable( overview_enable );
-    restore_on_out_of_scope<overview_action_t> prev_overview_action( overview_action );
+    restore_on_out_of_scope prev_overview_enable( overview_enable );
+    restore_on_out_of_scope prev_overview_action( overview_action );
     overview_enable = enable;
     overview_action = action;
 
-    restore_on_out_of_scope<int> prev_overview_pos( overview_pos );
+    restore_on_out_of_scope prev_overview_pos( overview_pos );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
@@ -1811,10 +1811,10 @@ void veh_interact::do_remove()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Choose a part here to remove:" );
 
-    restore_on_out_of_scope<std::unique_ptr<remove_info_t>> prev_remove_info( std::move(
+    restore_on_out_of_scope prev_remove_info( std::move(
                 remove_info ) );
     remove_info = std::make_unique<remove_info_t>();
 
@@ -1830,9 +1830,9 @@ void veh_interact::do_remove()
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
-    restore_on_out_of_scope<overview_enable_t> prev_overview_enable( overview_enable );
+    restore_on_out_of_scope prev_overview_enable( overview_enable );
 
-    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
+    restore_on_out_of_scope prev_hilight_part( highlight_part );
 
     while( true ) {
         int part = parts_here[ pos ];
@@ -1911,7 +1911,7 @@ void veh_interact::do_siphon()
             break;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
@@ -2000,7 +2000,7 @@ void veh_interact::do_assign_crew()
         return;
     }
 
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope prev_title( title );
     title = _( "Assign crew positions:" );
 
     auto sel = []( const vehicle_part & pt ) {
@@ -2154,9 +2154,9 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
  * @param d The coordinates, relative to the viewport's 0-point (?)
  * @return The first vehicle part at the specified coordinates.
  */
-int veh_interact::part_at( const point &d )
+int veh_interact::part_at( const point_rel_ms &d )
 {
-    const point vd = -dd + d.rotate( 1 );
+    const point_rel_ms vd{ -dd + d.rotate( 1 ) };
     return veh->part_displayed_at( vd );
 }
 
@@ -2190,19 +2190,19 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
  * @param d How far to move the cursor.
  * @param dstart_at How far to change the start position for vehicle part descriptions
  */
-void veh_interact::move_cursor( const point &d, int dstart_at )
+void veh_interact::move_cursor( const point_rel_ms &d, int dstart_at )
 {
     dd += d.rotate( 3 );
-    if( d != point_zero ) {
+    if( d != point_rel_ms::zero ) {
         start_limit = 0;
     } else {
         start_at += dstart_at;
     }
 
     // Update the current active component index to the new position.
-    cpart = part_at( point_zero );
-    const point vd = -dd;
-    const point q = veh->coord_translate( vd );
+    cpart = part_at( point_rel_ms::zero );
+    const point_rel_ms vd = -dd;
+    const point_rel_ms q = veh->coord_translate( vd );
     const tripoint_bub_ms vehp = veh->pos_bub() + q;
     const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
@@ -2252,7 +2252,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     }
 
     /* Update the lifting quality to be the that is available for this newly selected tile */
-    cache_tool_availability_update_lifting( vehp.raw() );
+    cache_tool_availability_update_lifting( vehp );
 }
 
 void veh_interact::display_grid()
@@ -2314,22 +2314,22 @@ void veh_interact::display_veh()
         const point_rel_ms &pivot = veh->pivot_point();
         const point_rel_ms &com = veh->local_center_of_mass();
 
-        mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x(), com.y() );
+        mvwprintz( w_disp, point::zero, c_green, "CoM   %d,%d", com.x(), com.y() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x(), pivot.y() );
 
-        const point com_s = ( com.raw() + dd ).rotate( 3 ) + h_size;
-        const point pivot_s = ( pivot.raw() + dd ).rotate( 3 ) + h_size;
+        const point_rel_ms com_s = ( com + dd ).rotate( 3 ) + h_size;
+        const point_rel_ms pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
 
-        mvwhline( w_disp, point( 0, com_s.y ), c_green, LINE_OXOX, std::min( getmaxx( w_disp ),
-                  com_s.x + 1 ) );
-        mvwvline( w_disp, point( com_s.x, 0 ), c_green, LINE_XOXO, std::min( getmaxy( w_disp ),
-                  com_s.y + 1 ) );
+        mvwhline( w_disp, point( 0, com_s.y() ), c_green, LINE_OXOX, std::min( getmaxx( w_disp ),
+                  com_s.x() + 1 ) );
+        mvwvline( w_disp, point( com_s.x(), 0 ), c_green, LINE_XOXO, std::min( getmaxy( w_disp ),
+                  com_s.y() + 1 ) );
 
-        mvwhline( w_disp, point( std::max( 0, pivot_s.x ), pivot_s.y ), c_red, LINE_OXOX,
-                  getmaxx( w_disp ) - std::max( 0, pivot_s.x ) + 1 );
-        mvwvline( w_disp, point( pivot_s.x, std::max( 0, pivot_s.y ) ), c_red, LINE_XOXO,
-                  getmaxy( w_disp ) - std::max( 0, pivot_s.y ) + 1 );
+        mvwhline( w_disp, point( std::max( 0, pivot_s.x() ), pivot_s.y() ), c_red, LINE_OXOX,
+                  getmaxx( w_disp ) - std::max( 0, pivot_s.x() ) + 1 );
+        mvwvline( w_disp, point( pivot_s.x(), std::max( 0, pivot_s.y() ) ), c_red, LINE_XOXO,
+                  getmaxy( w_disp ) - std::max( 0, pivot_s.y() ) + 1 );
     }
 
     // Draw guidelines to make current selection point more visible.
@@ -2343,10 +2343,10 @@ void veh_interact::display_veh()
     for( const int structural_part_idx : veh->all_parts_at_location( "structure" ) ) {
         const vehicle_part &vp = veh->part( structural_part_idx );
         const vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
-        const point q = ( vp.mount.raw() + dd ).rotate( 3 );
+        const point_rel_ms q = ( vp.mount + dd ).rotate( 3 );
 
-        if( q != point_zero ) { // cursor is not on this part
-            mvwputch( w_disp, h_size + q, vd.color, vd.symbol_curses );
+        if( q != point_rel_ms::zero ) { // cursor is not on this part
+            mvwputch( w_disp, h_size + q.raw(), vd.color, vd.symbol_curses );
             continue;
         }
         cpart = structural_part_idx;
@@ -3130,7 +3130,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                orient_part( &veh, vpinfo, partnum, q.raw() );
+                orient_part( &veh, vpinfo, partnum, q );
             }
 
             const tripoint_bub_ms vehp = veh.pos_bub() + tripoint_rel_ms( q, 0 );
@@ -3320,7 +3320,7 @@ void veh_interact::complete_vehicle( Character &you )
                 veh.part_removal_cleanup();
                 // Ensure the position, pivot, and precalc points are up-to-date
                 veh.pos -= veh.pivot_anchor[0];
-                veh.precalc_mounts( 0, veh.turn_dir, point_rel_ms_zero );
+                veh.precalc_mounts( 0, veh.turn_dir, point_rel_ms::zero );
                 here.rebuild_vehicle_level_caches();
 
                 if( auto newpart = here.veh_at( act_pos ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {

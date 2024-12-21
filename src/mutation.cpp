@@ -392,7 +392,7 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
-    bool mana = mut->mana && magic->available_mana() >= mut->cost;
+    bool mana = mut->mana && magic->available_mana() <= mut->cost;
 
     return !hunger && !sleepiness && !thirst && !mana;
 }
@@ -442,32 +442,6 @@ bool reflex_activation_data::is_trigger_true( Character &guy ) const
 {
     dialogue d( get_talker_for( guy ), nullptr );
     return trigger( d );
-}
-
-int Character::get_mod( const trait_id &mut, const std::string &arg ) const
-{
-    const auto &mod_data = mut->mods;
-    int ret = 0;
-    auto found = mod_data.find( std::make_pair( false, arg ) );
-    if( found != mod_data.end() ) {
-        ret += found->second;
-    }
-    return ret;
-}
-
-void Character::apply_mods( const trait_id &mut, bool add_remove )
-{
-    int sign = add_remove ? 1 : -1;
-    int str_change = get_mod( mut, "STR" );
-    str_max += sign * str_change;
-    per_max += sign * get_mod( mut, "PER" );
-    dex_max += sign * get_mod( mut, "DEX" );
-    int_max += sign * get_mod( mut, "INT" );
-
-    reset_stats();
-    if( str_change != 0 ) {
-        recalc_hp();
-    }
 }
 
 bool mutation_branch::conflicts_with_item( const item &it ) const
@@ -575,9 +549,8 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-    } else {
-        apply_mods( mut, true );
     }
+    reset();
 
     recalculate_size();
 
@@ -589,6 +562,13 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
+        // Check for exceptions first
+        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+            return false;
+        }
+        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
+            return false;
+        }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
         if( branch.conflicts_with_item_rigid( armor ) ) {
             add_msg_player_or_npc( m_bad,
@@ -597,12 +577,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    armor.tname() );
             get_map().add_item_or_charges( pos_bub(), armor );
             return true;
-        }
-        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
-            return false;
-        }
-        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
-            return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
@@ -629,7 +603,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            armor.spill_contents( pos() );
+            armor.spill_contents( pos_bub() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
@@ -655,9 +629,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-    } else {
-        apply_mods( mut, false );
     }
+    reset();
 
     recalculate_size();
 
@@ -856,7 +829,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !mut->activated_eocs.empty() ) {
         for( const effect_on_condition_id &eoc : mut->activated_eocs ) {
             dialogue d( get_talker_for( *this ), nullptr );
-            d.set_value( "npctalk_var_this", mut.str() );
+            d.set_value( "this", mut.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {
@@ -896,7 +869,7 @@ void Character::activate_mutation( const trait_id &mut )
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 );
+        monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 );
         if( !slime ) {
             // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slime microbian!" ) );
@@ -997,8 +970,6 @@ void Character::deactivate_mutation( const trait_id &mut )
     my_mutations[mut].powered = false;
     trait_flag_cache.clear();
 
-    // Handle stat changes from deactivation
-    apply_mods( mut, false );
     recalc_sight_limits();
     const mutation_branch &mdata = mut.obj();
     if( mdata.transform ) {
@@ -1013,7 +984,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
     for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        d.set_value( "npctalk_var_this", mut.str() );
+        d.set_value( "this", mut.str() );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
         } else {
@@ -1493,6 +1464,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
 static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 {
     std::vector<trait_id> ret;
+    ret.reserve( id->prereqs.size() + id->prereqs2.size() ); // Lower bound on size.
     for( const trait_id &it : id->prereqs ) {
         ret.push_back( it );
         std::vector<trait_id> these_prereqs = get_all_mutation_prereqs( it );

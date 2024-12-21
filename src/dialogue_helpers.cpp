@@ -88,7 +88,7 @@ var_info process_variable( const std::string &type )
         ret_str = type.substr( 1, type.size() - 1 );
     }
 
-    return var_info( vt, "npctalk_var_" + ret_str );
+    return var_info( vt, ret_str );
 }
 
 template<>
@@ -109,9 +109,6 @@ std::string str_or_var::evaluate( const_dialogue const &d ) const
             return default_val.value();
         }
         std::string var_name = var_val.value().name;
-        if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-            var_name = var_name.substr( 12 );
-        }
         debugmsg( "No default value provided for str_or_var_part while encountering unused "
                   "variable %s.  Add a \"default_str\" member to prevent this.  %s",
                   var_name, d.get_callstack() );
@@ -139,9 +136,6 @@ std::string translation_or_var::evaluate( const_dialogue const &d ) const
             return default_val.value().translated();
         }
         std::string var_name = var_val.value().name;
-        if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-            var_name = var_name.substr( 12 );
-        }
         debugmsg( "No default value provided for str_or_var_part while encountering unused "
                   "variable %s.  Add a \"default_str\" member to prevent this.  %s",
                   var_name, d.get_callstack() );
@@ -172,17 +166,13 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
             return default_val.value();
         }
         std::string var_name = var_val.value().name;
-        if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-            var_name = var_name.substr( 12 );
-        }
         debugmsg( "No default value provided for dbl_or_var_part while encountering unused "
                   "variable %s.  Add a \"default\" member to prevent this.  %s",
                   var_name, d.get_callstack() );
         return 0;
     }
     if( math_val ) {
-        dialogue loosey_goosey( d );
-        return math_val->act( loosey_goosey );
+        return math_val->act( d );
     }
     debugmsg( "No valid value for dbl_or_var_part.  %s", d.get_callstack() );
     return 0;
@@ -212,17 +202,13 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
             return default_val.value();
         }
         std::string var_name = var_val.value().name;
-        if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-            var_name = var_name.substr( 12 );
-        }
         debugmsg( "No default value provided for duration_or_var_part while encountering unused "
                   "variable %s.  Add a \"default\" member to prevent this.  %s",
                   var_name, d.get_callstack() );
         return 0_seconds;
     }
     if( math_val ) {
-        dialogue loosey_goosey( d );
-        return time_duration::from_turns( math_val->act( loosey_goosey ) );
+        return time_duration::from_turns( math_val->act( d ) );
     }
     debugmsg( "No valid value for duration_or_var_part.  %s", d.get_callstack() );
     return 0_seconds;

@@ -187,6 +187,7 @@ void weed_msg( Character &p )
             case 5:
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
                                          translation() ) );
+                return;
             default:
                 return;
         }
@@ -271,6 +272,7 @@ void weed_msg( Character &p )
             case 4:
                 // re-roll
                 weed_msg( p );
+                return;
             case 5:
             default:
                 return;
@@ -891,6 +893,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
+    values.reserve( 9 ); // Pre-allocate space for each value.
     // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
     // place to add them.
     int val = 0;

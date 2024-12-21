@@ -41,6 +41,11 @@ tripoint talker_monster_const::pos() const
     return me_mon_const->pos();
 }
 
+tripoint_bub_ms talker_monster_const::pos_bub() const
+{
+    return me_mon_const->pos_bub();
+}
+
 tripoint_abs_ms talker_monster_const::global_pos() const
 {
     return me_mon_const->get_location();
@@ -193,6 +198,11 @@ int talker_monster_const::get_volume() const
 int talker_monster_const::get_weight() const
 {
     return units::to_milligram( me_mon_const->get_weight() );
+}
+
+bool talker_monster_const::is_warm() const
+{
+    return me_mon_const->is_warm();
 }
 
 void talker_monster::set_friendly( int new_val )

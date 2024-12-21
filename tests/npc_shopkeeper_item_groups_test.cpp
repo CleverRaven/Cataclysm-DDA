@@ -28,7 +28,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
 {
     clear_avatar();
     clear_npcs();
-    tripoint_bub_ms const npc_pos = get_avatar().pos_bub() + tripoint_east;
+    tripoint_bub_ms const npc_pos = get_avatar().pos_bub() + tripoint::east;
     const character_id id = get_map().place_npc( npc_pos.xy(), npc_template_test_npc_trader );
     npc &guy = *g->find_npc( id );
 
@@ -39,7 +39,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             std::pair<bool, bool> har_pants = has_and_can_restock( guy, pants );
             REQUIRE( har_pants.first == true );
             REQUIRE( har_pants.second == true );
-            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &pants } ) );
+            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &pants } ) );
         }
     }
 
@@ -49,14 +49,14 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         REQUIRE( creatures.creature_at<npc>( npc_pos ) != nullptr );
         item backpack( "test_backpack" );
         backpack.set_owner( guy );
-        REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &backpack } ) );
+        REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &backpack } ) );
         WHEN( "backpack is worn - not available for sale" ) {
             auto backpack_iter = *guy.wear_item( backpack );
             item &it = *backpack_iter;
-            REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &it } ) );
+            REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &it } ) );
             item scrap( "scrap" );
             scrap.set_owner( guy );
-            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &scrap } ) );
+            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &scrap } ) );
             item_location const scrap_inv = guy.i_add( scrap );
             REQUIRE( scrap_inv );
             THEN( "sell_belongings is true - item in inventory available for sale" ) {
@@ -79,16 +79,16 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             THEN( "item is available for restocking but not selling" ) {
                 REQUIRE( har_hammer.first == true );
                 REQUIRE( har_hammer.second == true );
-                REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &hammer } ) );
+                REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &hammer } ) );
             }
         }
         WHEN( "condition met" ) {
-            get_avatar().set_value( "npctalk_var_bool_test_tools_access", "yes" );
+            get_avatar().set_value( "bool_test_tools_access", "yes" );
             std::pair<bool, bool> har_hammer = has_and_can_restock( guy, hammer );
             THEN( "item is available for selling and restocking" ) {
                 REQUIRE( har_hammer.first == true );
                 REQUIRE( har_hammer.second == true );
-                REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &hammer } ) );
+                REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &hammer } ) );
             }
         }
     }
@@ -101,16 +101,16 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             THEN( "item is not available for selling or restocking" ) {
                 REQUIRE( har_multitool.first == true );
                 REQUIRE( har_multitool.second == false );
-                REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &multitool } ) );
+                REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &multitool } ) );
             }
         }
         WHEN( "condition met" ) {
-            get_avatar().set_value( "npctalk_var_bool_test_multitool_access", "yes" );
+            get_avatar().set_value( "bool_test_multitool_access", "yes" );
             std::pair<bool, bool> har_multitool = has_and_can_restock( guy, multitool );
             THEN( "item is available for selling and restocking" ) {
                 REQUIRE( har_multitool.first == true );
                 REQUIRE( har_multitool.second == true );
-                REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &multitool } ) );
+                REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms::zero }, &multitool } ) );
             }
         }
     }
@@ -126,14 +126,14 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         CAPTURE( num, bag.display_name() );
         REQUIRE( ret );
         bag.set_owner( guy );
-        item_location const loc( map_cursor{ tripoint_bub_ms( tripoint_zero )}, &bag );
+        item_location const loc( map_cursor{ tripoint_bub_ms::zero}, &bag );
         WHEN( "condition for contents not met" ) {
             THEN( "container can't be sold" ) {
                 REQUIRE( !guy.wants_to_sell( loc ) );
             }
         }
         WHEN( "condition for contents met" ) {
-            get_avatar().set_value( "npctalk_var_bool_test_multitool_access", "yes" );
+            get_avatar().set_value( "bool_test_multitool_access", "yes" );
             THEN( "container can be sold" ) {
                 REQUIRE( guy.wants_to_sell( loc ) );
             }

@@ -64,7 +64,7 @@ class player_activity
         std::vector<tripoint> coords;
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
-        static constexpr tripoint_abs_ms invalid_place{ tripoint_min };
+        static constexpr const tripoint_abs_ms &invalid_place = tripoint_abs_ms::invalid;
         tripoint_abs_ms placement;
         // ACT_START_ENGINES needs a relative position because the engine might
         // be in a moving vehicle at the time.

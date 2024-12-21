@@ -293,7 +293,7 @@ std::vector<std::string> clothing_properties(
     add_folded_name_and_value( props, _( "Encumbrance:" ), string_format( "%3d", encumbrance ),
                                width );
     add_folded_name_and_value( props, _( "Warmth:" ), string_format( "%3d",
-                               worn_item.get_warmth() ), width );
+                               worn_item.get_warmth( used_bp ) ), width );
     return props;
 }
 
@@ -333,6 +333,7 @@ std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const bool display_median, const damage_type_id &type )
 {
     std::vector<std::pair<std::string, std::string>> subvalues;
+    subvalues.reserve( 2 + ( display_median ? 1 : 0 ) );
     subvalues.emplace_back( _( "Worst:" ), string_format( "%.2f",
                             worst_res.type_resist( type ) ) );
     if( display_median ) {
@@ -769,7 +770,7 @@ void outfit::sort_armor( Character &guy )
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
-        trim_and_print( w_sort_left, point_zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
+        trim_and_print( w_sort_left, point::zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_left, 0, 0, c_light_gray, storage_header );
         // Left list
@@ -842,13 +843,13 @@ void outfit::sort_armor( Character &guy )
                             _( "Nothing to see here!" ) );
         }
 
-        mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
+        mvwprintz( w_encumb, point::east, c_white, _( "Encumbrance and Warmth" ) );
         guy.print_encumbrance( ui, w_encumb, -1,
                                ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         std::string encumbrance_header = _( "Encumbrance" );
-        trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1,
+        trim_and_print( w_sort_right, point::zero, right_w - utf8_width( encumbrance_header ) - 1,
                         c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_right, 0, 0, c_light_gray, encumbrance_header );
@@ -937,7 +938,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else {
             // Player is sorting NPC's armor here
-            if( rl_dist( player_character.pos(), guy.pos() ) > 1 ) {
+            if( rl_dist( player_character.pos_bub(), guy.pos_bub() ) > 1 ) {
                 guy.add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), guy.get_name() );
                 return;
             }

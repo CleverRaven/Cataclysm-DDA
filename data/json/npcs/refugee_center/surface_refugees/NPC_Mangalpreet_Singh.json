@@ -148,7 +148,7 @@
       "concatenate": [
         "I have my family.  I have the Guru Granth Sahib",
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 7" ],
           "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope",
           "no": ".  I have these things, but I do not have peace.  No one here does"
         },

@@ -34,7 +34,6 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "contents_change_handler.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
@@ -285,8 +284,6 @@ static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvest
 static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
-
-static const trap_str_id tr_ledge( "tr_ledge" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -722,7 +719,7 @@ void bash_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> bash_activity_actor::deserialize( JsonValue &jsin )
 {
-    bash_activity_actor actor( tripoint_bub_ms_zero );
+    bash_activity_actor actor( tripoint_bub_ms::zero );
 
     JsonObject data = jsin.get_object();
     data.read( "target", actor.target );
@@ -862,10 +859,10 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
 
         if( success <= -5 ) {
-            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.position(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.pos_bub(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -1330,7 +1327,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
-    hotwire_car_activity_actor actor( 0, tripoint_abs_ms_zero );
+    hotwire_car_activity_actor actor( 0, tripoint_abs_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -1418,7 +1415,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 ammo_consumed *= iter->second;
             }
 
-            tool->ammo_consume( ammo_consumed, tool.position(), &who );
+            tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -1543,7 +1540,7 @@ bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &oth
     const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
                                           ( other );
     return actor.target == target && ( ( veh_pos.has_value() &&
-                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_bub_ms( tripoint_max ) ) ) ||
+                                         veh_pos.value() == actor.veh_pos.value_or( tripoint_bub_ms::max ) ) ||
                                        actor.tool.operator == ( tool ) );
 }
 
@@ -1643,32 +1640,32 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms( tripoint_south );
+        heading = tripoint_rel_ms::south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms::south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms( tripoint_west );
+        heading = tripoint_rel_ms::west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms( tripoint_north_west );
+        heading = tripoint_rel_ms::north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms( tripoint_north );
+        heading = tripoint_rel_ms::north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms( tripoint_north_east );
+        heading = tripoint_rel_ms::north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms( tripoint_east );
+        heading = tripoint_rel_ms::east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms( tripoint_south_east );
+        heading = tripoint_rel_ms::south_east;
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms( tripoint_zero ) ) {
+    if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1722,9 +1719,9 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         moved_tiles = 0;
     }
     you.mod_moves( -you.get_speed() * 0.5 );
-    get_map().update_visibility_cache( you.pos_bub().z() );
-    get_map().update_visibility_cache( you.pos_bub().x() );
-    get_map().update_visibility_cache( you.pos_bub().y() );
+    get_map().update_visibility_cache( you.posz() );
+    get_map().update_visibility_cache( you.posx() );
+    get_map().update_visibility_cache( you.posy() );
     if( you.is_avatar() ) {
         g->update_map( you );
     }
@@ -1737,28 +1734,28 @@ glide_activity_actor::glide_activity_actor( Character *you, int jump_direction, 
     // What's the purpose of assigning a variable that isn't used? Is some code AWOL?
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
-        heading = tripoint_rel_ms( tripoint_south );
+        heading = tripoint_rel_ms::south;
     }
     if( jump_direction == 1 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms::south_west;
     }
     if( jump_direction == 2 ) {
-        heading = tripoint_rel_ms( tripoint_west );
+        heading = tripoint_rel_ms::west;
     }
     if( jump_direction == 3 ) {
-        heading = tripoint_rel_ms( tripoint_north_west );
+        heading = tripoint_rel_ms::north_west;
     }
     if( jump_direction == 4 ) {
-        heading = tripoint_rel_ms( tripoint_north );
+        heading = tripoint_rel_ms::north;
     }
     if( jump_direction == 5 ) {
-        heading = tripoint_rel_ms( tripoint_north_east );
+        heading = tripoint_rel_ms::north_east;
     }
     if( jump_direction == 6 ) {
-        heading = tripoint_rel_ms( tripoint_east );
+        heading = tripoint_rel_ms::east;
     }
     if( jump_direction == 7 ) {
-        heading = tripoint_rel_ms( tripoint_south_west );
+        heading = tripoint_rel_ms::south_west;
     }
 }
 
@@ -2510,7 +2507,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms_zero );
+    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -2643,7 +2640,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
     } else {
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
@@ -3005,7 +3002,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms_zero );
+    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3221,7 +3218,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms::zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3768,7 +3765,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const double cur_total_moves = cached_cur_total_moves;
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = craft.item_counter;
 
     // Delta progress in moves adjusted for current crafting speed /
@@ -3777,21 +3774,21 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                           exertion_level() );
     const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
+    const double current_progress = craft.item_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft.item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
+    craft.item_counter = std::round( current_progress / base_total_moves * 10000000.0 );
     crafter.set_moves( 0 );
 
     // This is to ensure we don't over count skill steps
-    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+    craft.item_counter = std::min( craft.item_counter, 10000000 );
 
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
     const double total_practice_ticks = rec.time_to_craft_moves( crafter,
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
-    const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
+    const int ticks_per_practice = 10000000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
                              old_counter / ticks_per_practice;
     bool level_up = false;
@@ -3799,7 +3796,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
+    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
     if( five_percent_steps > 0 ) {
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
@@ -3811,14 +3808,14 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         --five_percent_steps;
     }
 
     if( five_percent_steps > 0 ) {
         if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
             // So we don't skip over any tool comsuption
-            craft.item_counter -= craft.item_counter % 500'000 + 1;
+            craft.item_counter -= craft.item_counter % 500000 + 1;
             craft.erase_var( "crafter" );
             crafter.cancel_activity();
             return;
@@ -3826,7 +3823,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     }
 
     // if item_counter has reached 100% or more
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
             if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
@@ -4051,7 +4048,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
             //~ heavy breathing when exercising
             std::string huff = _( "yourself huffing and puffing!" );
-            sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
+            sounds::sound( location + tripoint::east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
                            true );
         }
         // morale bonus kicks in gradually after 5 minutes of exercise
@@ -4144,7 +4141,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
-    workout_activity_actor actor{ tripoint_bub_ms_min };
+    workout_activity_actor actor{ tripoint_bub_ms::invalid };
 
     JsonObject data = jsin.get_object();
 
@@ -4412,7 +4409,7 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
-    harvest_activity_actor actor{ tripoint_bub_ms_min };
+    harvest_activity_actor actor{ tripoint_bub_ms::invalid };
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "target", actor.target );
@@ -4630,7 +4627,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_rel_ms::zero, false );
 
     JsonObject data = jsin.get_object();
 
@@ -5328,15 +5325,15 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( moves_total == 0 ) {
-        craft.item_counter = 10'000'000;
+        craft.item_counter = 10000000;
     } else {
         const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
-        craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
-        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+        craft.item_counter += std::round( spent_moves * crafting_speed * 10000000.0 / moves_total );
+        craft.item_counter = std::min( craft.item_counter, 10000000 );
         who.set_moves( 0 );
     }
 
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         who.complete_disassemble( target );
     }
 }
@@ -5391,7 +5388,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
+void oxytorch_activity_actor::start( player_activity &act, Character &who )
 {
     const map &here = get_map();
 
@@ -5422,15 +5419,24 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         act.set_to_null();
         return;
     }
-
-    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
-    act.moves_left = act.moves_total;
+    if( tool->ammo_sufficient( &who, act.moves_total / 100 ) ||
+        query_yn(
+            _( "Your %1$s doesn't have enough charges to complete the job.  Continue anyway?" ), tool->tname()
+        ) ||
+        test_mode // In the tests, we want to check that the activity can be resumed.
+      ) {
+        add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+        act.moves_left = act.moves_total;
+    } else {
+        act.set_to_null();
+        return;
+    }
 }
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -5551,9 +5557,8 @@ void tent_placement_activity_actor::start( player_activity &act, Character & )
 void tent_placement_activity_actor::finish( player_activity &act, Character &p )
 {
     map &here = get_map();
-    const tripoint_bub_ms center = p.pos_bub() + tripoint( ( radius + 1 ) * target.x,
-                                   ( radius + 1 ) * target.y,
-                                   0 );
+    const tripoint_bub_ms center = p.pos_bub() + point( ( radius + 1 ) * target.x(),
+                                   ( radius + 1 ) * target.y() );
 
     // Make a square of floor surrounded by wall.
     for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
@@ -5902,7 +5907,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
-        tool->ammo_consume( ammo_consumed, tool.position(), &who );
+        tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -6568,10 +6573,10 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     } else {
         creature_tracker &creatures = get_creature_tracker();
         const point_rel_ms main_dir = pos.xy() - who.pos_bub().xy();
-        const int circle_size = 8;
-        static constexpr std::array<point, circle_size> circle = {
-            point_east, point_south_east, point_south, point_south_west, point_west,
-            point_north_west, point_north, point_north_east
+        static const int circle_size = 8;
+        static constexpr const std::array<point, circle_size> circle = {
+            point::east, point::south_east, point::south, point::south_west, point::west,
+            point::north_west, point::north, point::north_east
         };
         int circle_center = 0;  //  Initialized as the compiler complained
         for( int i = 0; i < circle_size; i++ ) {
@@ -6606,7 +6611,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
+    here.cut_down_tree( pos, direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -6765,12 +6770,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
-            it->activation_consume( charges_consumed, it.position(), &who );
+            it->activation_consume( charges_consumed, it.pos_bub(), &who );
         }
     }
 
@@ -7294,7 +7299,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, fac_id ) ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
-                !here.can_put_items_ter_furn( src_loc ) ) {
+                !here.can_put_items_ter_furn( src_loc ) || here.impassable_field_at( src_loc ) ) {
                 continue;
             }
 
@@ -7372,14 +7377,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
             src_veh = &ovp->vehicle();
             src_part = ovp->part_index();
-            for( item &it : ovp->items() ) {
+            vehicle_stack vp_items = ovp->items();
+            items.reserve( vp_items.size() );
+            for( item &it : vp_items ) {
                 items.emplace_back( &it, true );
             }
         } else {
             src_veh = nullptr;
             src_part = -1;
         }
-        for( item &it : here.i_at( src_loc ) ) {
+        map_stack map_items = here.i_at( src_loc );
+        items.reserve( items.size() + map_items.size() );
+        for( item &it : map_items ) {
             items.emplace_back( &it, false );
         }
 
@@ -7869,7 +7878,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
                     h.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
@@ -7954,11 +7963,13 @@ void wash_activity_actor::finish( player_activity &act, Character &p )
     }
 
     std::vector<item_comp> comps;
+    comps.reserve( 2 );
     comps.emplace_back( itype_water, requirements.water );
     comps.emplace_back( itype_water_clean, requirements.water );
     p.consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
+    comps1.reserve( 3 );
     comps1.emplace_back( itype_soap, requirements.cleanser );
     comps1.emplace_back( itype_detergent, requirements.cleanser );
     comps1.emplace_back( itype_liquid_soap, requirements.cleanser );

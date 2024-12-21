@@ -88,9 +88,9 @@
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [
-        "|@+",
-        "|< ",
-        "|||"
+        "#@+",
+        "#< ",
+        "###"
       ],
       "palettes": [ "restaurant_palette" ],
       "terrain": { "<": "t_stairs_up", "+": "t_door_metal_locked", "@": "t_card_fp", " ": "t_null" },
@@ -416,18 +416,18 @@
         "-......................-",
         "-......................-",
         "-......................-",
-        "-............###w####w##",
+        "-............###O####O##",
         "-............#h''i|h''i#",
         "-............#T'''|T'''#",
         "-............#||+||||+|#",
         "-............#L__b|L__b#",
         "-...........^#L__b|L__b#",
-        "###ww####ww###||+||||+|#",
+        "###OO####OO###||+||||+|#",
         "#yssssxFueSccq;___M@___#",
-        "w_____________________aw",
-        "w______________________w",
+        "O_____________________aO",
+        "O______________________O",
         "#_yEEy___YttY__DBBy_H__#",
-        "###ww###ww##ww#######__#",
+        "###OO###OO##OO#######__#",
         "       4            #>_#",
         "                    ####"
       ],
@@ -435,7 +435,7 @@
       "terrain": {
         "+": "t_door_c",
         "^": "t_ladder_up",
-        "w": "t_window_domestic",
+        "O": "t_window_domestic",
         "h": "t_linoleum_white",
         "T": "t_linoleum_white",
         "i": "t_linoleum_white",
@@ -539,7 +539,7 @@
     "method": "json",
     "om_terrain": [ "s_restaurant_1" ],
     "object": {
-      "fill_ter": "t_carpet_green",
+      "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",

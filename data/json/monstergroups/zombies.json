@@ -96,6 +96,7 @@
     "name": "GROUP_ZOMBIE",
     "monsters": [
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 500, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 250, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
@@ -226,13 +227,30 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_VANILLA_DORMANT",
+    "default": "mon_pseudo_dormant_zombie",
+    "//": "only dormant zombies",
+    "//2": "These are generated in MonsterGenerator::generate_fake_pseudo_dormant_monster",
+    "monsters": [
+      { "monster": "mon_pseudo_dormant_zombie", "weight": 264, "cost_multiplier": 0 },
+      { "monster": "pseudo_dormant_mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
+      { "monster": "pseudo_dormant_mon_zombie_child", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "pseudo_dormant_mon_zombie_tough", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "pseudo_dormant_mon_zombie_rot", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "pseudo_dormant_mon_zombie_crawler", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "pseudo_dormant_mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_VANILLA",
     "default": "mon_zombie",
-    "//": "Normalized to 1000",
+    "//": "Normalized to 1300",
     "monsters": [
-      { "group": "GROUP_VANILLA_NO_FERAL", "weight": 801, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_NO_FERAL", "weight": 701, "cost_multiplier": 0 },
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 500, "cost_multiplier": 0 },
-      { "group": "GROUP_FERAL", "weight": 99, "cost_multiplier": 0 }
+      { "group": "GROUP_FERAL", "weight": 99, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
@@ -282,6 +300,7 @@
     "//": "+15% child",
     "monsters": [
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 200, "cost_multiplier": 0 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 130, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 483 },
       { "monster": "mon_zombie_fat", "weight": 130, "cost_multiplier": 2 },
       { "monster": "mon_zombie_tough", "weight": 50, "cost_multiplier": 3 },
@@ -633,7 +652,7 @@
     "name": "GROUP_HOSPITAL",
     "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs + 20% medical",
     "monsters": [
-      { "monster": "mon_null", "weight": 150 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 100, "cost_multiplier": 3 },
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 10 ] },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 13, "pack_size": [ 15, 20 ] },

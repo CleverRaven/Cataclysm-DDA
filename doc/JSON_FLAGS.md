@@ -173,7 +173,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
 - ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail.
-- ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover arms.
+- ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
 - ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
@@ -207,7 +207,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered.
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, will not conflict with armor-blocking mutations, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
-- ```IR_EFFECT``` Being worn, this item will give an infrared vision.
 - ```MUTE``` Makes the player mute.
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
@@ -347,6 +346,10 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```BLIND``` Makes you blind.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```CANNIBAL``` Butcher humans, eat foods with the `CANNIBALISM` and `STRICT_HUMANITARIANISM` flags without a morale penalty.
+- ```CANNOT_ATTACK``` A creature with this flag cannot attack (includes spellcasting).
+- ```CANNOT_GAIN_EFFECTS``` A creature with this effect flag cannot gain effects.
+- ```CANNOT_MOVE``` A creature with this flag cannot move.
+- ```CANNOT_TAKE_DAMAGE``` A creature with this flag cannot take any damage.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
 - ```CHANGING```This flag is silently given to player to detect it can mutate.
 - ```CLAIRVOYANCE_PLUS``` Gives a clairvoyance effect, used for debug purposes.
@@ -365,10 +368,12 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```ETHEREAL```  You will not drop your items if you gain the `incorporeal` effect.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
+- ```EMP_ENERGYDRAIN_IMMUNE``` Your bionic power cannot be drained during an EMP blast.
 - ```EMP_IMMUNE``` You bionic power cannot be drained and your vulnerable electronics cannot be broken during an EMP blast.
 - ```ENHANCED_VISION``` Increases the scouting range, similarly to `ZOOM` item flag.
 - ```EYE_MEMBRANE``` Lets you see underwater.
 - ```FEATHER_FALL``` You are immune to fall damage.
+- ```FREEZE_EFFECTS``` Effects do not progress in duration.  An effect with this flag is ignored and will progress normally.
 - ```GILLS``` You can breathe underwater.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```GLIDE``` You can glide from ledges without the use of wings, as if by magic.
@@ -381,7 +386,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
-- ```INFRARED``` You can see infrared, aka heat vision.
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
 - ```INVISIBLE``` You can't be seen.
@@ -747,7 +751,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BAD_TASTE``` This comestible gives -5 to taste, that can't be covered through cooking.
 - ```BANK_NOTE_SHAPED``` This item fits into the folded sleeve of wallets, like a bank note.
 - ```BANK_NOTE_STRAP_SHAPED``` This item fits into pockets intended for money straps (like a cash register).
-- ```BATTERY_HEAVY``` This item is a heavy battery, and can be put in pockets that have heavy battery restriction.
+- ```BATTERY_HEAVY``` This item is a tool battery, and can be put in pockets that have tool battery restriction.
 - ```BATTERY_LIGHT``` This item is a light battery, and can be put in pockets that have light battery restriction.
 - ```BATTERY_MEDIUM``` This item is a medium battery, and can be put in pockets that have medium battery restriction.
 - ```BATTERY_ULTRA_LIGHT``` This item is an ultra light battery, and can be put in pockets that have ultra light battery restriction.
@@ -832,6 +836,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```PAPER_SHAPED``` This item is shaped in form of thin paper sheet, and can be stored in leather journal.
 - ```PERFECT_LOCKPICK``` Item is a perfect lockpick.  Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp.  The item should have `LOCKPICK` quality of at least 1.
 - ```PLANTABLE_SEED``` This item is a seed, and you can plant it.
+- ```POST_UP``` This item can be placed on terrain/furniture with the WALL flag.
 - ```PRESERVE_SPAWN_OMT``` This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
 - ```PROVIDES_TECHNIQUES``` This item will provide martial arts techniques when worn/in the character's inventory, in addition to those provided by the weapon and martial art.
 - ```PSEUDO``` Used internally to mark items that are referred to in the crafting inventory but are not actually items.  They can be used as tools, but not as components.  Implies `TRADER_AVOID`.
@@ -1138,7 +1143,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
-- ```MIND_SEEING``` Can see any target that `HAS_MIND` and is not immune to telepathy out to 2/3rds of its daytime vision range or nighttime vision range, whichever is greater.
+- ```MIND_SEEING``` Can see any target that `HAS_MIND` and is not immune to telepathy out to 5 squares.  This range may be increased by applying the hardcoded effects `eff_mind_seeing_bonus_5`, `eff_mind_seeing_bonus_10`, `eff_mind_seeing_bonus_20`, or `eff_mind_seeing_bonus_30`, each of which increases the vision range by the number.  These effects stack.
 - ```NEMESIS``` Tags Nemesis enemies for the `HAS_NEMESIS` mutation.
 - ```NEVER_WANDER``` This monster will never join wandering hordes.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less.  Visibility is not affected by night vision.

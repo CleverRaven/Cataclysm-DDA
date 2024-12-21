@@ -1467,6 +1467,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_motorbike_battery",
+    "name": "Place Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_motorbike_small_battery",
+    "name": "Place Small Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "place_washing_machine",
     "name": "Place Washing Machine"
   },

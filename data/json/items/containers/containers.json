@@ -700,7 +700,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small squeeze tube" },
-    "description": "A small squeeze tube, holds 3 mL of liquid.  It cannot be refilled after it's empty.",
+    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",
     "volume": "11 ml",

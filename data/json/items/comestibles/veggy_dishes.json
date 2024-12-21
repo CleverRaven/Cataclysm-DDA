@@ -1454,7 +1454,7 @@
     "description": "Pieces of alien mushroom that have been dried to prevent them from rotting away.  They will still poison you if you eat them.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "FUNGAL_VECTOR" ]
   },
   {
     "type": "COMESTIBLE",

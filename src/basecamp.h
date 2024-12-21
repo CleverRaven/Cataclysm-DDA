@@ -185,7 +185,7 @@ class basecamp
             return bb_pos;
         }
         void validate_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
-            if( bb_pos.raw() == tripoint_zero ) {
+            if( bb_pos.raw() == tripoint::zero ) {
                 bb_pos = new_abs_pos;
             }
         }
@@ -205,6 +205,9 @@ class basecamp
         //change name of camp
         void set_name( const std::string &new_name );
         void query_new_name( bool force = false );
+        // remove the camp without safety checks; use abandon_camp() for in-game
+        void remove_camp( const tripoint_abs_omt &omt_pos ) const;
+        // remove the camp from an in-game context
         void abandon_camp();
         void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
@@ -249,8 +252,9 @@ class basecamp
         nutrients camp_food_supply( nutrients &change );
         /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
         nutrients camp_food_supply( int change );
-        /// Calculates raw kcal cost from duration of work and exercise, then forwards it to above
-        nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
+        /// Calculates raw kcal cost from duration (including non-work hours) and work exercise, then forwards it to above
+        nutrients camp_food_supply( const time_duration &total_time, float exertion_level = NO_EXERCISE,
+                                    const time_duration &travel_time = 0_hours );
         /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
         void feed_workers( const std::vector<std::reference_wrapper <Character>> &workers, nutrients food,
                            bool is_player_meal = false );
@@ -268,7 +272,8 @@ class basecamp
         /// The number of days the current camp supplies lasts at the given exertion level.
         int camp_food_supply_days( float exertion_level ) const;
         /// Returns the total charges of food time_duration @ref work costs
-        int time_to_food( time_duration work, float exertion_level = NO_EXERCISE ) const;
+        int time_to_food( time_duration total_time, float work_exertion_level = NO_EXERCISE,
+                          time_duration travel_time = 0_hours ) const;
         /// Changes the faction respect for you by @ref change, returns respect
         int camp_discipline( int change = 0 ) const;
         /// Changes the faction opinion for you by @ref change, returns opinion
@@ -359,14 +364,16 @@ class basecamp
 
         // mission start functions
         /// generic mission start function that wraps individual mission
-        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration total_time,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
-                               const skill_id &skill_tested, int skill_level, float exertion_level );
-        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
+                               const skill_id &skill_tested, int skill_level,
+                               float exertion_level, const time_duration &travel_time = 0_hours );
+        npc_ptr start_mission( const mission_id &miss_id, time_duration total_time,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<item *> &equipment, float exertion_level,
+                               const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {},
+                               float exertion_level = 1.0f, const time_duration &travel_time = 0_hours,
                                const npc_ptr &preselected_choice = nullptr );
         comp_list start_multi_mission( const mission_id &miss_id,
                                        bool must_feed, const std::string &desc,

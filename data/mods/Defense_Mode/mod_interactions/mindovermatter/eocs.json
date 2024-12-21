@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_PSYCHICS",
-    "condition": { "math": [ "mindovermatter_allowed", "==", "1" ] },
+    "condition": { "math": [ "mindovermatter_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_FERAL_PSYCHIC_DM",

@@ -51,7 +51,7 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
     }
 
     trade_selector::entry_t bck_entry{
-        item_location{ map_cursor( tripoint_bub_ms( tripoint_zero ) ), &backpack }, 1 };
+        item_location{ map_cursor( tripoint_bub_ms::zero ), &backpack }, 1 };
 
     int const price_combined = trading_price( *buyer, *seller, bck_entry );
 
@@ -126,7 +126,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
                  Approx( units::to_cent( carafe.type->price_post ) * 1.25 ).margin( 1 ) );
     }
     WHEN( "condition for price rules satisfied" ) {
-        guy.set_value( "npctalk_var_bool_allnighter_thirsty", "yes" );
+        guy.set_value( "bool_allnighter_thirsty", "yes" );
         REQUIRE( fac.get_price_rules( carafe, guy )->markup == 2.0 );
         THEN( "NPC selling to avatar includes markup and positive fixed adjustment" ) {
             REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
@@ -141,7 +141,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         double const fmarkup = fac.get_price_rules( pants_fur, guy )->markup;
         REQUIRE( guy.get_price_rules( pants_fur )->markup == fmarkup );
         REQUIRE( fmarkup != - 100 );
-        guy.set_value( "npctalk_var_bool_preference_vegan", "yes" );
+        guy.set_value( "bool_preference_vegan", "yes" );
         REQUIRE( guy.get_price_rules( pants_fur )->markup == -100 );
     }
     WHEN( "price rule affects magazine contents" ) {
@@ -151,7 +151,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         int const battery_price = *guy.get_price_rules( battery )->price;
         REQUIRE( battery.price( true ) != battery_price );
         trade_selector::entry_t tbd_entry{
-            item_location{ map_cursor( tripoint_bub_ms( tripoint_zero ) ), &tbd }, 1 };
+            item_location{ map_cursor( tripoint_bub_ms::zero ), &tbd }, 1 };
 
         REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
                  Approx( units::to_cent( tbd.type->price_post ) * 1.25 +

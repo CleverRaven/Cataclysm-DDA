@@ -796,9 +796,9 @@
     "id": "last_flight",
     "name": "Last Flight",
     "points": 2,
-    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  You found no standing safe zones, and when your fuel ran out, were forced to land over an empty bridge.",
+    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  You found no standing safe zones, and when your fuel ran out, were forced to land in open field.",
     "start_name": "Emergency Landing Site",
-    "allowed_locs": [ "sloc_bridge" ],
+    "allowed_locs": [ "sloc_field" ],
     "vehicle": "2seater2_scenario",
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
     "professions": [ "heli_pilot" ],
@@ -1353,5 +1353,20 @@
     "requirement": "achievement_kill_10_monsters",
     "map_extra": "mx_laststand",
     "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "a_moonlit_night_start",
+    "name": "A Moonlight Night",
+    "points": 0,
+    "description": "You've been holed up in your basement ever since the Cataclysm happened a little over a week ago, but now you've run out of food and have been forced to go on a supply run on this fateful moonlit night.  You see zombies all around you, but thankfully, most of them can't seem to see as well in moonlight as you do.",
+    "start_name": "In the Middle of Town",
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 23, "day": 72, "season": "spring", "year": 1 },
+    "allowed_locs": [ "sloc_town_in_the_open" ],
+    "eoc": [ "EOC_scenario_clear_weather" ],
+    "requirement": "achievement_survive_one_day",
+    "flags": [ "CITY_START", "LONE_START", "SUR_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
   }
 ]

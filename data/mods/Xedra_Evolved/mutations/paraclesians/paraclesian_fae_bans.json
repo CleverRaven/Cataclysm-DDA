@@ -51,8 +51,8 @@
         { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
         {
           "or": [
-            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living')", ">=", "0" ] },
-            { "math": [ "u_spell_level('arvore_overgrowth_spell')", ">=", "0" ] }
+            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_overgrowth_spell') >= 0" ] }
           ]
         }
       ]
@@ -268,7 +268,7 @@
             { "u_has_trait": "THRESH_HOMULLUS" }
           ]
         },
-        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any')", "==", "0" ] }
+        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any') == 0" ] }
       ]
     },
     "effect": [
@@ -371,7 +371,7 @@
       "and": [
         { "u_has_trait": "THRESH_SYLPH" },
         { "u_has_trait": "SYLPH_FLY_AT_WILL" },
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         { "not": { "u_has_effect": "effect_sylph_underground_timer" } }
       ]
     },
@@ -391,7 +391,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "THRESH_SYLPH" },
-        { "math": [ "u_val('pos_z')", ">=", "0" ] },
+        { "math": [ "u_val('pos_z') >= 0" ] },
         { "u_has_effect": "effect_sylph_underground_timer" },
         "u_is_outside"
       ]

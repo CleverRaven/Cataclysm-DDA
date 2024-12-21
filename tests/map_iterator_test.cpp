@@ -8,15 +8,15 @@
 #include "point.h"
 
 static std::array<tripoint, 9> range_1_2d_centered = {
-    {   {tripoint_north_west}, { tripoint_north}, { tripoint_north_east},
-        {tripoint_west}, { tripoint_zero}, { tripoint_east},
-        {tripoint_south_west}, { tripoint_south}, { tripoint_south_east}
+    {   {tripoint::north_west}, {tripoint::north}, {tripoint::north_east},
+        {tripoint::west}, {tripoint::zero}, {tripoint::east},
+        {tripoint::south_west}, {tripoint::south}, {tripoint::south_east}
     }
 };
 
 TEST_CASE( "Radius_one_2D_square_centered_at_origin", "[tripoint_range]" )
 {
-    tripoint_range<tripoint> tested( tripoint_north_west, tripoint_south_east );
+    tripoint_range<tripoint> tested( tripoint::north_west, tripoint::south_east );
     REQUIRE( tested.size() == range_1_2d_centered.size() );
     for( const tripoint &candidate : tested ) {
         REQUIRE( std::find( range_1_2d_centered.begin(), range_1_2d_centered.end(), candidate ) !=
@@ -196,13 +196,13 @@ TEST_CASE( "tripoint_range_circle_sizes_correct", "[tripoint_range]" )
      * .x.
      * ...
      */
-    CHECK( points_in_radius_circ( tripoint_zero, 0 ).size() == 1 );
+    CHECK( points_in_radius_circ( tripoint::zero, 0 ).size() == 1 );
     /* 1:
      * xxx
      * xxx
      * xxx
      */
-    CHECK( points_in_radius_circ( tripoint_zero, 1 ).size() == 9 );
+    CHECK( points_in_radius_circ( tripoint::zero, 1 ).size() == 9 );
     /* 2:
      * .xxx.
      * xxxxx
@@ -210,7 +210,7 @@ TEST_CASE( "tripoint_range_circle_sizes_correct", "[tripoint_range]" )
      * xxxxx
      * .xxx.
      */
-    CHECK( points_in_radius_circ( tripoint_zero, 2 ).size() == 21 );
+    CHECK( points_in_radius_circ( tripoint::zero, 2 ).size() == 21 );
     /* 3:
      * ..xxx..
      * .xxxxx.
@@ -220,7 +220,7 @@ TEST_CASE( "tripoint_range_circle_sizes_correct", "[tripoint_range]" )
      * .xxxxx.
      * ..xxx..
      */
-    CHECK( points_in_radius_circ( tripoint_zero, 3 ).size() == 37 );
+    CHECK( points_in_radius_circ( tripoint::zero, 3 ).size() == 37 );
     /* 4:
      * ..xxxxx..
      * .xxxxxxx.
@@ -232,7 +232,7 @@ TEST_CASE( "tripoint_range_circle_sizes_correct", "[tripoint_range]" )
      * .xxxxxxx.
      * ..xxxxx..
      */
-    CHECK( points_in_radius_circ( tripoint_zero, 4 ).size() == 69 );
+    CHECK( points_in_radius_circ( tripoint::zero, 4 ).size() == 69 );
 }
 
 // Using static functions instead of lambdas to suppress -Wmaybe-uninitialized
@@ -245,7 +245,7 @@ static bool tripoint_range_predicates_radius_test_func( const tripoint &pt )
 
 TEST_CASE( "tripoint_range_predicates_radius", "[tripoint_range]" )
 {
-    tripoint_range<tripoint> tested = points_in_radius_where( tripoint_zero, 2,
+    tripoint_range<tripoint> tested = points_in_radius_where( tripoint::zero, 2,
                                       tripoint_range_predicates_radius_test_func, 2 );
     std::vector<tripoint> expected = {
         { -2, -2, -2 }, { -1, -2, -2 }, { 0, -2, -2 }, { 1, -2, -2 }, { 2, -2, -2 },
@@ -256,7 +256,7 @@ TEST_CASE( "tripoint_range_predicates_radius", "[tripoint_range]" )
 
         { -2, -2, -1 }, { -1, -2, -1 }, { 0, -2, -1 }, { 1, -2, -1 }, { 2, -2, -1 },
         { -2, -1, -1 }, { -1, -1, -1 }, { 0, -1, -1 }, { 1, -1, -1 }, { 2, -1, -1 },
-        { -2,  0, -1 }, { -1,  0, -1 }, tripoint_below, { 1,  0, -1 }, { 2,  0, -1 },
+        { -2,  0, -1 }, { -1,  0, -1 }, tripoint::below, { 1,  0, -1 }, { 2,  0, -1 },
         { -2,  1, -1 }, { -1,  1, -1 }, { 0,  1, -1 }, { 1,  1, -1 }, { 2,  1, -1 },
         { -2,  2, -1 }, { -1,  2, -1 }, { 0,  2, -1 }, { 1,  2, -1 }, { 2,  2, -1 },
     };
@@ -279,10 +279,10 @@ static bool tripoint_range_predicates_test_func( const tripoint &pt )
 
 TEST_CASE( "tripoint_range_predicates", "[tripoint_range]" )
 {
-    tripoint_range<tripoint> tested( tripoint_north_west, tripoint_south_east,
+    tripoint_range<tripoint> tested( tripoint::north_west, tripoint::south_east,
                                      tripoint_range_predicates_test_func );
     std::vector<tripoint> expected = {
-        tripoint_north, tripoint_zero, tripoint_south
+        tripoint::north, tripoint::zero, tripoint::south
     };
     REQUIRE( tested.size() == expected.size() );
     size_t i = 0;

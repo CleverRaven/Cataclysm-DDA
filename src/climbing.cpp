@@ -379,7 +379,7 @@ climbing_aid::fall_scan::fall_scan( const tripoint &examp )
     // Get coordinates just below and at ground level.
     // Also detect if furniture would block our tools/abilities.
     tripoint_bub_ms bottom( examp );
-    tripoint_bub_ms just_below( bottom + tripoint_below );
+    tripoint_bub_ms just_below( bottom + tripoint::below );
 
     int hit_furn = false;
     int hit_crea = false;

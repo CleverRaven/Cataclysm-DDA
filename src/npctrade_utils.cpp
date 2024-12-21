@@ -55,7 +55,7 @@ dest_t _get_shuffled_point_set( std::unordered_set<tripoint_abs_ms> const &set )
 }
 
 // returns true if item wasn't placed
-bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
+bool _to_map( item const &it, map &here, tripoint_bub_ms const &dpoint_here )
 {
     if( here.can_put_items_ter_furn( dpoint_here ) &&
         here.free_volume( dpoint_here ) >= it.volume() ) {
@@ -104,7 +104,7 @@ void add_fallback_zone( npc &guy )
 
     if( points.empty() ) {
         zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
-                  loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
+                  loc.raw() + tripoint::north_west, loc.raw() + tripoint::south_east );
     } else {
         for( tripoint_abs_ms const &t : points ) {
             zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),
@@ -141,7 +141,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
-                leftover = _to_map( it, here, dpoint_here.raw() );
+                leftover = _to_map( it, here, dpoint_here );
             }
             if( !leftover ) {
                 break;

@@ -15,12 +15,12 @@
     "responses": [
       {
         "text": "Default (100 exp)",
-        "effect": [ { "math": [ "u_exp_to_perk", "=", "100" ] } ],
+        "effect": [ { "math": [ "u_exp_to_perk = 100" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
       },
       {
         "text": "Custom Value",
-        "effect": [ { "math": [ "u_exp_to_perk", "=", "num_input('Exp until first level?', 100)" ] } ],
+        "effect": [ { "math": [ "u_exp_to_perk = num_input('Exp until first level?', 100)" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
       },
       { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME" }
@@ -33,12 +33,12 @@
     "responses": [
       {
         "text": "Default (300 XP)",
-        "effect": [ { "math": [ "u_exp_per_level", "=", "300" ] } ],
+        "effect": [ { "math": [ "u_exp_per_level = 300" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
       },
       {
         "text": "Custom Value",
-        "effect": [ { "math": [ "u_exp_per_level", "=", "num_input('Exp increase?', 300)" ] } ],
+        "effect": [ { "math": [ "u_exp_per_level = num_input('Exp increase?', 300)" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
       },
       { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL" }
@@ -52,7 +52,7 @@
       {
         "text": "Prerequisites (default)",
         "effect": [
-          { "math": [ "u_no_prerecs", "=", "0" ] },
+          { "math": [ "u_no_prerecs = 0" ] },
           { "u_add_var": "dialogue_perks_prereq_note", "value": "Perks will have requirements." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE"
@@ -60,7 +60,7 @@
       {
         "text": "No Prerequisites",
         "effect": [
-          { "math": [ "u_no_prerecs", "=", "1" ] },
+          { "math": [ "u_no_prerecs = 1" ] },
           { "u_add_var": "dialogue_perks_prereq_note", "value": "Perks will not have requirements." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE"
@@ -76,8 +76,8 @@
       {
         "text": "Default (4 perk points)",
         "effect": [
-          { "math": [ "u_playstyle_cost", "=", "3" ] },
-          { "math": [ "u_no_playstyle", "=", "0" ] },
+          { "math": [ "u_playstyle_cost = 3" ] },
+          { "math": [ "u_no_playstyle = 0" ] },
           { "u_add_var": "dialogue_perks_playstyle_note", "value": "I can select playstyle perks for 4 perk points." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
@@ -85,8 +85,8 @@
       {
         "text": "Enabled, Custom Cost",
         "effect": [
-          { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', 4) - 1" ] },
-          { "math": [ "u_no_playstyle", "=", "0" ] },
+          { "math": [ "u_playstyle_cost = num_input('Playstyle Perks Cost?', 4) - 1" ] },
+          { "math": [ "u_no_playstyle = 0" ] },
           { "u_add_var": "dialogue_perks_playstyle_note", "value": "I can select playstyle perks for a custom cost." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
@@ -94,7 +94,7 @@
       {
         "text": "Disabled",
         "effect": [
-          { "math": [ "u_no_playstyle", "=", "1" ] },
+          { "math": [ "u_no_playstyle = 1" ] },
           { "u_add_var": "dialogue_perks_playstyle_note", "value": "I cannot select playstyle perks." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
@@ -110,9 +110,9 @@
       {
         "text": "Confirm",
         "effect": [
-          { "math": [ "u_num_perks", "=", "0" ] },
-          { "math": [ "u_available_exp", "=", "0" ] },
-          { "math": [ "u_current_level", "=", "0" ] },
+          { "math": [ "u_num_perks = 0" ] },
+          { "math": [ "u_available_exp = 0" ] },
+          { "math": [ "u_current_level = 0" ] },
           { "u_add_trait": "perk_perk_menu" }
         ],
         "topic": "TALK_DONE"

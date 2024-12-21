@@ -49,8 +49,8 @@ bool map_item_stack::map_item_stack_sort( const map_item_stack &lhs, const map_i
     const item_category &rhs_cat = rhs.example->get_category_of_contents();
 
     if( lhs_cat == rhs_cat ) {
-        return square_dist( tripoint_zero, lhs.vIG[0].pos ) <
-               square_dist( tripoint_zero, rhs.vIG[0].pos );
+        return square_dist( tripoint::zero, lhs.vIG[0].pos ) <
+               square_dist( tripoint::zero, rhs.vIG[0].pos );
     }
 
     return lhs_cat < rhs_cat;

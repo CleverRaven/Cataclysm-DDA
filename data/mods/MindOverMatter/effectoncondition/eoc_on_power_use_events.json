@@ -136,11 +136,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_biokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -180,11 +180,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_clairsentience" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -228,11 +228,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_electrokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -273,11 +273,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_photokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -321,11 +321,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_pyrokinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -365,11 +365,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_telekinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -409,11 +409,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_telepathy" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -457,11 +457,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_teleportation" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -501,11 +501,11 @@
           "or": [
             {
               "and": [
-                { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+                { "math": [ "u_vitamin('vitamin_psionic_drain') >= 200" ] },
                 { "not": { "u_has_proficiency": "prof_contemplation_vitakinesis" } }
               ]
             },
-            { "math": [ "_success", "==", "false" ] },
+            { "math": [ "_success == false" ] },
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" }
           ]
         },
@@ -550,12 +550,12 @@
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-    "effect": [ { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] }, { "run_eocs": "EOC_PSIONICS_KCAL_COST" } ]
+    "effect": [ { "math": [ "u_latest_channeled_power_difficulty = _difficulty" ] }, { "run_eocs": "EOC_PSIONICS_KCAL_COST" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
     "effect": [
       {
         "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
@@ -569,7 +569,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", "==", "concentration_calculations() + 1" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') == concentration_calculations() + 1" ] },
     "effect": [
       { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
       { "u_lose_effect": "effect_psi_intense_concentration" },
@@ -582,7 +582,7 @@
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] },
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
         {
           "x_in_y_chance": {
             "x": {
@@ -629,7 +629,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
       ]
     },
     "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
@@ -641,7 +641,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
-              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+              { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
             ]
           },
           "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
@@ -652,7 +652,7 @@
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+                    { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }
                   ]
                 },
                 "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
@@ -666,17 +666,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
-    "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "15" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 15" ] } ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
-    "condition": {
-      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "20" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers') > 0" ] }, { "math": [ "u_val('focus') >= 20" ] } ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
   },
   {
@@ -687,7 +683,7 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "concentration_calculations()" ] }
+        { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] }
       ]
     },
     "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]
@@ -698,10 +694,7 @@
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": {
-      "and": [
-        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_val('focus')", ">=", "15" ] }
-      ]
+      "and": [ { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "u_val('focus') >= 15" ] } ]
     },
     "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
   },
@@ -721,7 +714,7 @@
             { "compare_string": [ "teleport_farstep", { "context_val": "spell" } ] }
           ]
         },
-        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50) > 0" ] },
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
     },
@@ -742,7 +735,7 @@
       "and": [
         { "u_has_trait": "TELEPORTER" },
         { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
-        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50) > 0" ] },
         { "not": { "u_has_flag": "TEEPSHIELD" } }
       ]
     },

@@ -77,7 +77,7 @@ bool talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     }
 
     for( int i = 0; i < count; i++ ) {
-        monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
+        monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos_bub(), 3 );
         if( !mon_ptr ) {
             add_msg_debug( debugmode::DF_TALKER, "Cannot place u_buy_monster, no valid placement locations." );
             break;

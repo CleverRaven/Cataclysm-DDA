@@ -12,6 +12,13 @@
   },
   {
     "type": "terrain",
+    "id": "t_bullettrailer_roof",
+    "name": "bullet trailer roof",
+    "description": "A smooth roof of gleaming chrome, slightly dusty from the road.",
+    "copy-from": "t_metal_flat_roof"
+  },
+  {
+    "type": "terrain",
     "id": "t_bullettrailer_nwall_westcorner",
     "name": "bullet trailer exterior wall",
     "copy-from": "t_scrap_wall",

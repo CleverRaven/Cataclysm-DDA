@@ -6,7 +6,7 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_lino_kitchen",
         "standard_domestic_landscaping_palette"

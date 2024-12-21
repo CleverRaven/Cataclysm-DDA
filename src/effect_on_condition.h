@@ -32,7 +32,6 @@ enum eoc_type {
     SCENARIO_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
-    OM_MOVE,
     PREVENT_DEATH,
     EVENT,
     NUM_EOC_TYPES
@@ -114,8 +113,6 @@ void write_global_eocs_to_file();
 void prevent_death();
 /** Run all avatar death eocs */
 void avatar_death();
-/** Run all OM_MOVE eocs */
-void om_move();
 } // namespace effect_on_conditions
 
 template<>

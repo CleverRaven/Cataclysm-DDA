@@ -25,7 +25,7 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Darryl_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Darryl_Mood" },
       { "text": "Nice farm you have here.", "topic": "TALK_GODCO_Darryl_Farm" },
@@ -39,7 +39,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Shove off, we've got no good words for each other.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ],
@@ -60,7 +60,7 @@
         "text": "About that well…",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "in-progress", { "npc_val": "mission_completed_godco_darryl_mission1" } ] }
           ]
         },
@@ -81,7 +81,7 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -92,7 +92,7 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -103,7 +103,7 @@
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -114,7 +114,7 @@
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -125,8 +125,8 @@
         "text": "How are the chickens?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "math": [ "darryl_building_coop", "==", "2" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
+            { "math": [ "darryl_building_coop == 2" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] }
           ]
         },
@@ -136,7 +136,7 @@
         "text": "<end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -151,7 +151,7 @@
         "text": "Fuck you <name_b>, I'm outta here.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },

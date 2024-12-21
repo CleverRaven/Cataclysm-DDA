@@ -59,6 +59,7 @@ class talker_character_const: virtual public const_talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
@@ -185,6 +186,7 @@ class talker_character_const: virtual public const_talker
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         bool get_is_alive() const override;
+        bool is_warm() const override;
 
         bool can_see() const override;
         bool can_see_location( const tripoint &pos ) const override;
@@ -243,7 +245,7 @@ class talker_character: virtual public talker
             return me_chr;
         }
 
-        void set_pos( tripoint new_pos ) override;
+        void set_pos( tripoint_bub_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
         void set_str_max( int value ) override;

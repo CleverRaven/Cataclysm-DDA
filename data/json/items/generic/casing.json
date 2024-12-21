@@ -81,6 +81,16 @@
     "volume": "10ml"
   },
   {
+    "id": "33_naval_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": "3.3 naval casing" },
+    "description": "An empty casing from a 3.3 naval round.  If it wasn't for burns and soot, it could be used as a cup.",
+    "weight": "80 g",
+    "volume": "100 ml"
+  },
+  {
     "id": "270win_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",

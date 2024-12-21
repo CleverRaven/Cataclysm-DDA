@@ -2,8 +2,8 @@
   {
     "id": "vampire_suck",
     "type": "SPELL",
-    "name": { "str": "Sucking bite" },
-    "description": "Sucks blood from one foe.",
+    "name": { "str": "Sucking bite", "//~": "NO_I18N" },
+    "description": { "str": "Sucks blood from one foe.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
@@ -39,8 +39,8 @@
   {
     "id": "xe_light_healing",
     "type": "SPELL",
-    "name": "Cure Light Wounds",
-    "description": "Heals a little bit of damage on the target.",
+    "name": { "str": "Cure Light Wounds", "//~": "NO_I18N" },
+    "description": { "str": "Heals a little bit of damage on the target.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": -5,
     "max_damage": -20,
@@ -94,8 +94,8 @@
   {
     "id": "death_ratking",
     "type": "SPELL",
-    "name": { "str": "Rat King Death" },
-    "description": "Rat king dies.",
+    "name": { "str": "Rat King Death", "//~": "NO_I18N" },
+    "description": { "str": "Rat king dies.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally" ],
     "shape": "blast",
     "flags": [ "NO_EXPLOSION_SFX" ],

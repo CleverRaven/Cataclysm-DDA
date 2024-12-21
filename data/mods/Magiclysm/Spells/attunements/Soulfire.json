@@ -5,14 +5,21 @@
     "name": "Burn at Both Ends",
     "description": "A candle burns the most brightly at both ends, and yet it burns twice as fast.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "SPLIT_DAMAGE" ],
+    "flags": [
+      "EVOCATION_SPELL",
+      "RANDOM_DAMAGE",
+      "CONCENTRATE",
+      "SOMATIC",
+      "NO_PROJECTILE",
+      "MUST_HAVE_CLASS_TO_LEARN",
+      "SPLIT_DAMAGE"
+    ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
-    "min_damage": 30,
-    "damage_increment": 10.0,
-    "max_damage": 380,
+    "min_damage": { "math": [ "(u_spell_level('burn_at_both_ends') * 4.2) + 11" ] },
+    "max_damage": { "math": [ "(u_spell_level('burn_at_both_ends') * 8.1) + 19" ] },
     "min_range": 3,
     "range_increment": 0.1,
     "max_range": 6,
@@ -32,10 +39,68 @@
     "energy_source": "MANA"
   },
   {
+    "id": "soul_afterburner",
+    "type": "SPELL",
+    "name": "Soul Afterburner",
+    "description": "You burn a small portion of your soul to gain a large burst of speed.  You will have to wait until your soul has healed before burning a part of it again.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SOUL_AFTERBURNER",
+    "shape": "blast",
+    "max_level": 35,
+    "difficulty": 6,
+    "spell_class": "SOULFIRE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SOUL_AFTERBURNER",
+    "//": "The injury on false effect prevents grinding the spell to max level as soon as it is obtained.",
+    "condition": { "not": { "u_has_effect": "soul_burn" } },
+    "effect": [
+      { "u_message": "You gain a sudden burst of speed!", "type": "good" },
+      { "u_cast_spell": { "id": "soul_afterburner_real" } }
+    ],
+    "false_effect": [
+      { "u_message": "Burning your soul before it healed only resulted in some damage to your body.", "type": "bad" },
+      { "u_cast_spell": { "id": "soul_afterburner_cooldown_backlash" } }
+    ]
+  },
+  {
+    "id": "soul_afterburner_cooldown_backlash",
+    "type": "SPELL",
+    "name": "Soul backlash",
+    "description": { "str": "This is a description for a spell the player will never see.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_increment": 1.5,
+    "damage_type": "pure",
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "id": "soul_afterburner_real",
+    "type": "SPELL",
+    "name": "Soul Afterburner",
+    "description": { "str": "This is a description for a spell the player will never see.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "effect": "mod_moves",
+    "shape": "blast",
+    "min_damage": { "math": [ "max((1500 + (u_spell_level('soul_afterburner') * 200)), 7500)" ] },
+    "max_damage": { "math": [ "max((1500 + (u_spell_level('soul_afterburner') * 200)), 7500)" ] },
+    "max_level": 35,
+    "difficulty": 6,
+    "spell_class": "SOULFIRE",
+    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true }, { "id": "eoc_enhancement_setup", "hit_self": true } ]
+  },
+  {
     "id": "soul_afterburner_effect_1",
     "type": "SPELL",
-    "name": "Soul Burn",
-    "description": "This is a description for a spell the player will never see.",
+    "name": { "str": "Soul Burn", "//~": "NO_I18N" },
+    "description": { "str": "This is a description for a spell the player will never see.", "//~": "NO_I18N" },
     "flags": [ "ENHANCEMENT_SPELL" ],
     "effect": "attack",
     "effect_str": "soul_burn",
@@ -44,9 +109,8 @@
     "max_damage": 0,
     "valid_targets": [ "self" ],
     "max_level": 35,
-    "min_duration": 1080000,
-    "max_duration": 540000,
-    "duration_increment": -30000
+    "min_duration": { "math": [ "max((1080000 - (u_spell_level('soul_afterburner') * 30000)), 540000)" ] },
+    "max_duration": { "math": [ "max((1080000 - (u_spell_level('soul_afterburner') * 30000)), 540000)" ] }
   },
   {
     "id": "soul_burn",
@@ -58,22 +122,5 @@
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.7 } ] } ]
-  },
-  {
-    "id": "soul_afterburner",
-    "type": "SPELL",
-    "name": "Soul Afterburner",
-    "description": "You burn a small portion of your soul to gain a large burst of speed.",
-    "valid_targets": [ "self" ],
-    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "effect": "mod_moves",
-    "shape": "blast",
-    "min_damage": 1500,
-    "damage_increment": 200,
-    "max_damage": 7500,
-    "max_level": 35,
-    "difficulty": 6,
-    "spell_class": "SOULFIRE",
-    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true }, { "id": "eoc_enhancement_setup", "hit_self": true } ]
   }
 ]

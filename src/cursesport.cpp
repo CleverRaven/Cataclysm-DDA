@@ -84,7 +84,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
     newwindow->draw = false;
     newwindow->BG = black;
     newwindow->FG = static_cast<base_color>( 8 );
-    newwindow->cursor = point_zero;
+    newwindow->cursor = point::zero;
     newwindow->line.resize( nlines );
 
     for( int j = 0; j < nlines; j++ ) {
@@ -381,7 +381,7 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, point_zero );
+    wmove( win_, point::zero );
 }
 
 //erases the main window of all text and attributes

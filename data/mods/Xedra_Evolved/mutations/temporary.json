@@ -139,9 +139,12 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_BEAR_TRAITS",
-    "name": { "str": "Bear Form" },
+    "name": { "str": "Bear Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+    "description": {
+      "str": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -192,9 +195,12 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_DEER_TRAITS",
-    "name": { "str": "Deer Form" },
+    "name": { "str": "Deer Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
+    "description": {
+      "str": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -236,9 +242,12 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_COUGAR_TRAITS",
-    "name": { "str": "Cougar Form" },
+    "name": { "str": "Cougar Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
+    "description": {
+      "str": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -286,9 +295,12 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_OWL_TRAITS",
-    "name": { "str": "Owl Form" },
+    "name": { "str": "Owl Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are an owl.  This provides the actual effects of owl form.  Should not be player-visible.",
+    "description": {
+      "str": "You are an owl.  This provides the actual effects of owl form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -336,11 +348,14 @@
   {
     "type": "mutation",
     "id": "LILIN_WAR_OWL_FORM_TRAITS",
-    "name": { "str": "Strix Form" },
+    "name": { "str": "Strix Form", "//~": "NO_I18N" },
     "points": 98,
     "ugliness": 30,
     "visibility": 30,
-    "description": "You are in strix form.  This provides the actual effects of strix form.  Should not be player-visible.",
+    "description": {
+      "str": "You are in strix form.  This provides the actual effects of strix form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -364,12 +379,12 @@
       },
       {
         "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
         "values": [
           { "value": "PERCEPTION", "add": 4 },
           { "value": "BODYTEMP_SLEEP", "add": 0.5 },
           { "value": "OVERMAP_SIGHT", "add": 4 },
           { "value": "METABOLISM", "multiply": -0.2 },
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
           { "value": "CARRY_WEIGHT", "multiply": -0.1 },
@@ -392,9 +407,12 @@
   {
     "type": "mutation",
     "id": "TURN_INTO_RAVEN_TRAITS",
-    "name": { "str": "Raven Form" },
+    "name": { "str": "Raven Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
+    "description": {
+      "str": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -441,9 +459,9 @@
   {
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-    "name": { "str": "Changeling Bush disguise" },
+    "name": { "str": "Changeling Bush disguise", "//~": "NO_I18N" },
     "points": 99,
-    "description": "You are a bush and no one can see you.",
+    "description": { "str": "You are a bush and no one can see you.", "//~": "NO_I18N" },
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -455,28 +473,28 @@
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE_TREE",
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-    "name": { "str": "Changeling Tree disguise" },
+    "name": { "str": "Changeling Tree disguise", "//~": "NO_I18N" },
     "override_look": { "id": "t_tree", "tile_category": "terrain" }
   },
   {
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE_POND",
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-    "name": { "str": "Changeling Pond disguise" },
+    "name": { "str": "Changeling Pond disguise", "//~": "NO_I18N" },
     "override_look": { "id": "t_water_sh", "tile_category": "terrain" }
   },
   {
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE_GRASS",
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-    "name": { "str": "Changeling Grass disguise" },
+    "name": { "str": "Changeling Grass disguise", "//~": "NO_I18N" },
     "override_look": { "id": "t_grass_long", "tile_category": "terrain" }
   },
   {
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE_ROCK",
     "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
-    "name": { "str": "Changeling Rock disguise" },
+    "name": { "str": "Changeling Rock disguise", "//~": "NO_I18N" },
     "override_look": { "id": "f_boulder_medium", "tile_category": "furniture" }
   }
 ]

@@ -21,17 +21,37 @@
     "dodge": 6,
     "armor": { "stab": 10, "bullet": 100 },
     "bleed_rate": 0,
-    "vision_day": 30,
-    "vision_night": 40,
+    "vision_day": 3,
+    "vision_night": 3,
+    "//vision_mindsight": "33",
     "luminance": 1,
     "tracking_distance": 15,
     "harvest": "exempt",
     "special_attacks": [
       {
+        "id": "psi_eater_drain_distance",
         "type": "spell",
         "spell_data": { "id": "eater_drain_monster", "min_level": 5 },
         "cooldown": { "math": [ "2 + rand(2)" ] },
+        "condition": { "math": [ "distance('u', 'npc') > 5" ] },
         "monster_message": "The eater's fronds lazily drift to and fro."
+      },
+      {
+        "id": "psi_eater_drain_close_range",
+        "type": "spell",
+        "spell_data": { "id": "eater_drain_monster_close_range", "min_level": 5 },
+        "cooldown": { "math": [ "2 + rand(2)" ] },
+        "condition": { "math": [ "distance('u', 'npc') <= 5" ] },
+        "monster_message": "The eater's fronds lazily drift to and fro."
+      },
+      {
+        "id": "psi_eater_apply_mindsight",
+        "type": "spell",
+        "spell_data": { "id": "eater_apply_mindsight", "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_30" } } ] },
+        "monster_message": ""
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -47,7 +67,8 @@
       "ACIDPROOF",
       "HARDTOSHOOT",
       "NOGIB",
-      "TEEP_IMMUNE"
+      "TEEP_IMMUNE",
+      "MIND_SEEING"
     ],
     "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   }

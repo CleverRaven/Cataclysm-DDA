@@ -80,10 +80,13 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
 
 void field_entry::initialize_decay()
 {
-    std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
-                                       ( type.obj().half_life ) ) );
-    const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
-    decay_time = calendar::turn - age + decay_delay;
+    if( type.obj().linear_half_life ) {
+        decay_time = calendar::turn - age + type.obj().half_life;
+    } else {
+        std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
+                                           ( type.obj().half_life ) ) );
+        decay_time = calendar::turn - age + time_duration::from_turns( d( rng_get_engine() ) );
+    }
 }
 
 void field_entry::do_decay()
@@ -261,6 +264,16 @@ int field::total_move_cost() const
         current_cost += fld.second.get_intensity_level().move_cost;
     }
     return current_cost;
+}
+
+bool field::any_negative_move_cost() const
+{
+    for( const auto &fld : *_field_type_list ) {
+        if( fld.second.get_intensity_level().move_cost < 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::vector<field_effect> field_entry::field_effects() const

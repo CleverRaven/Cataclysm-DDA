@@ -32,12 +32,12 @@
         "  #S|S|i.'_T|<.|XXXXX#  ",
         "  ####################  "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
-        "T": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "_": "t_linoleum_white",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "$": "t_fence_rope",
         "'": "t_door_c",
         "+": "t_door_glass_c",

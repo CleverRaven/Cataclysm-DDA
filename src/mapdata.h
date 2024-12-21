@@ -39,18 +39,23 @@ connect_group get_connect_group( const std::string &name );
 template <typename E> struct enum_traits;
 
 struct map_common_bash_info { //TODO: Half of this shouldn't be common
-        int str_min;            // min str(*) required to bash
-        int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
-        int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
-        int str_max_blocked;
-        int str_min_supported;  // Alternative values for floor supported by something from below
-        int str_max_supported;
-        int explosive;          // Explosion on destruction
-        int sound_vol;          // sound volume of breaking terrain/furniture
-        int sound_fail_vol;     // sound volume on fail
-        int collapse_radius;    // Radius of the tent supported by this tile
-        bool destroy_only;      // Only used for destroying, not normally bashable
-        bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
+        // min str(*) required to bash
+        int str_min = -1;
+        // max str required: bash succeeds if str >= random # between str_min & str_max
+        int str_max = -1;
+        // same as above; alternate values for has_adjacent_furniture(...) == true
+        int str_min_blocked = -1;
+        int str_max_blocked = -1;
+        // Alternative values for floor supported by something from below
+        int str_min_supported = -1;
+        int str_max_supported = -1;
+        int explosive = -1;          // Explosion on destruction
+        int sound_vol = -1;          // sound volume of breaking terrain/furniture
+        int sound_fail_vol = -1;     // sound volume on fail
+        int collapse_radius = 1;     // Radius of the tent supported by this tile
+        bool destroy_only = false;   // Only used for destroying, not normally bashable
+        // This terrain is the roof of the tile below it, try to destroy that too
+        bool bash_below = false;
         item_group_id drop_group; // item group of items that are dropped when the object is bashed
         translation sound;      // sound made on success ('You hear a "smash!"')
         translation sound_fail; // sound made on fail
@@ -61,20 +66,22 @@ struct map_common_bash_info { //TODO: Half of this shouldn't be common
         virtual ~map_common_bash_info() = default;
 };
 struct map_ter_bash_info : map_common_bash_info {
-    ter_str_id ter_set;    // terrain to set
-    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
+    ter_str_id ter_set = ter_str_id::NULL_ID();    // terrain to set
+    // terrain to set if bashed from above (defaults to ter_set)
+    ter_str_id ter_set_bashed_from_above = ter_str_id::NULL_ID();
     map_ter_bash_info() = default;
     void load( const JsonObject &jo, bool was_loaded, const std::string &context );
     void check( const std::string &id ) const;
 };
 struct map_furn_bash_info : map_common_bash_info {
-    furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
+    // furniture to set (only used by furniture, not terrain)
+    furn_str_id furn_set = furn_str_id::NULL_ID();
     map_furn_bash_info() = default;
     void load( const JsonObject &jo, bool was_loaded, const std::string &context );
     void check( const std::string &id ) const;
 };
 struct map_fd_bash_info : map_common_bash_info {
-    int fd_bash_move_cost; // cost to bash a field
+    int fd_bash_move_cost = 100; // cost to bash a field
     translation field_bash_msg_success; // message upon successfully bashing a field
     map_fd_bash_info() = default;
     void load( const JsonObject &jo, bool was_loaded, const std::string &context );
@@ -730,6 +737,19 @@ class ter_furn_migrations
 {
     public:
         /** Handler for loading "ter_furn_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
+class trap_migrations
+{
+    public:
+        /** Handler for loading "trap_migration" type of json object */
         static void load( const JsonObject &jo );
 
         /** Clears migration list */

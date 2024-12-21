@@ -42,7 +42,6 @@ namespace io
         case eoc_type::SCENARIO_SPECIFIC: return "SCENARIO_SPECIFIC";
         case eoc_type::AVATAR_DEATH: return "AVATAR_DEATH";
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
-        case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::PREVENT_DEATH: return "PREVENT_DEATH";
         case eoc_type::EVENT: return "EVENT";
         case eoc_type::NUM_EOC_TYPES: break;
@@ -467,17 +466,6 @@ void effect_on_conditions::avatar_death()
     }
 }
 
-void effect_on_conditions::om_move()
-{
-    avatar &player_character = get_avatar();
-    dialogue d( get_talker_for( player_character ), nullptr );
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( eoc.type == eoc_type::OM_MOVE ) {
-            eoc.activate( d );
-        }
-    }
-}
-
 void effect_on_condition::finalize()
 {
 }
@@ -568,7 +556,7 @@ void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
         dialogue d;
         std::unordered_map<std::string, std::string> context;
         for( const auto &val : e.data() ) {
-            context["npctalk_var_" + val.first] = val.second.get_string();
+            context[val.first] = val.second.get_string();
         }
 
         // if we have an NPC to trigger this event for, do so,

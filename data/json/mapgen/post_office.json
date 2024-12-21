@@ -5,7 +5,7 @@
     "om_terrain": [ "post_office" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "/__________ssssssssssss ",
         " __________s##---+---## ",
@@ -32,12 +32,12 @@
         " #&.bbb.{{{{|^bb...|.S# ",
         " ################D##### "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "=": "t_railing",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "D": "t_door_c",
         "_": "t_pavement",
         "Á": "t_pavement",
@@ -76,7 +76,7 @@
       "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 } },
       "toilets": { "T": {  } },
       "vendingmachines": { "v": { "item_group": "vending_drink_items", "lootable": true } },
-      "item": { "#": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag", "chance": 100 } },
+      "item": { "W": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag", "chance": 100 } },
       "items": {
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],
         "{": [ { "item": "clothing_outdoor_torso", "chance": 50 }, { "item": "bags", "chance": 50 } ],
@@ -179,7 +179,7 @@
         "   #######W#####ppp     ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_glass_c",
         " ": "t_region_groundcover_urban",
@@ -189,9 +189,9 @@
         "u": "t_region_groundcover_urban",
         "/": "t_region_groundcover_urban",
         ".": "t_floor",
-        "T": "t_linoleum_white",
-        "'": "t_linoleum_white",
-        "E": "t_linoleum_white",
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "E": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "7": "t_region_tree_shade",
         "D": "t_door_c",
         "W": "t_window",
@@ -225,7 +225,7 @@
         "5": "f_bench",
         "/": "f_flagpole"
       },
-      "item": { "#": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag" } },
+      "item": { "e": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag" } },
       "items": {
         "l": [ { "item": "clothing_outdoor_torso", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],

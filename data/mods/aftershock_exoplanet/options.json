@@ -2,7 +2,6 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "ZOMBIFY_INTO_ENABLED",
-    "info": "Enables the functionality of the \"zombify_into\" JSON field in monster definitions.",
     "stype": "bool",
     "value": false
   }

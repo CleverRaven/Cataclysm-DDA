@@ -14,11 +14,10 @@
     "base_energy_cost": 800,
     "energy_source": "MANA",
     "difficulty": 8,
-    "min_damage": -20,
-    "max_damage": -200,
-    "damage_increment": -4.5,
+    "min_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -1.6) - 5" ] },
+    "max_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -4) - 12" ] },
     "max_level": 40,
-    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "dust_reborn",
@@ -65,20 +64,6 @@
     "name": [ "Terra Armor" ],
     "desc": [ "Your body is covered in dense, ethereal shell, that protect you." ],
     "remove_message": "Your lost your terra shell.",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_ACID", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "u_spell_level('terra_armor') * -3" ] } } ] } ]
   }
 ]

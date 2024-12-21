@@ -117,6 +117,9 @@ static const itype_id itype_fur( "fur" );
 static const itype_id itype_leather( "leather" );
 static const itype_id itype_sheet_cotton( "sheet_cotton" );
 
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_GRAB_FILTER( "GRAB_FILTER" );
@@ -124,6 +127,7 @@ static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NULL( "NULL" );
 static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
+
 static const limb_score_id limb_score_block( "block" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -368,7 +372,8 @@ float Character::get_melee_hit_base() const
     hit_weapon = get_hit_weapon( cur_weap );
 
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus();
+    return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus() +
+           enchantment_cache->modify_value( enchant_vals::mod::MELEE_TO_HIT, 0.0f );
 }
 
 float Character::hit_roll() const
@@ -504,11 +509,6 @@ bool Character::melee_attack( Creature &t, bool allow_special )
 
 damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
 {
-    return dam;
-}
-
-damage_instance Character::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
-{
     damage_instance modified;
 
     std::vector<damage_type_id> types_used;
@@ -524,9 +524,12 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
             continue;
         }
 
-        modified.add_damage( dt.id, enchantment_cache->modify_melee_damage( dt.id, 0.0f ) );
-        modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
-                             0.0f ) );
+        double dmg_mod = enchantment_cache->modify_melee_damage( dt.id, 0.0f );
+        if( dmg_mod != 0 ) {
+            modified.add_damage( dt.id, dmg_mod );
+            modified.add_damage( dt.id, enchantment_cache->modify_value( enchant_vals::mod::MELEE_DAMAGE,
+                                 0.0f ) );
+        }
     }
 
     return modified;
@@ -537,6 +540,10 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                               bool allow_unarmed, int forced_movecost )
 {
+    if( has_flag( json_flag_CANNOT_ATTACK ) ) {
+        add_msg_if_player( m_info, _( "You are incapable of attacking!" ) );
+        return false;
+    }
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
         return false;
@@ -688,8 +695,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
         }
 
-        // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
+        // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
+        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
+            !( t.has_flag( json_flag_CANNOT_MOVE ) &&
+               t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
             melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
         }
 
@@ -855,7 +864,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             if( !is_quiet() ) { // check martial arts silence
                 //sound generated later
                 int volume = enchantment_cache->modify_value( enchant_vals::mod::ATTACK_NOISE, 8 );
-                sounds::sound( pos(), volume, sounds::sound_t::combat, _( "whack!" ) );
+                sounds::sound( pos_bub(), volume, sounds::sound_t::combat, _( "whack!" ) );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -868,8 +877,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
-            // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
+            // Practice melee and relevant weapon skill (if any) except when using CQB bionic, if the creature is a hallucination, or if the creature cannot move and take damage.
+            if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() &&
+                !( t.has_flag( json_flag_CANNOT_MOVE ) &&
+                   t.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) ) {
                 melee_train( *this, 5, std::min( 10, skill_training_cap ), cur_weap, vector_id );
             }
 
@@ -1573,8 +1584,8 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
         //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
-        tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
-        tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
+        tripoint_bub_ms left = pos_bub() + tripoint_rel_ms( offset_a[lookup], offset_b[lookup], 0 );
+        tripoint_bub_ms right = pos_bub() + tripoint_rel_ms( offset_b[lookup], -offset_a[lookup], 0 );
 
         monster *const mon_l = creatures.creature_at<monster>( left );
         if( mon_l && mon_l->friendly == 0 ) {
@@ -1602,9 +1613,9 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
         // Impale hits the target and a single target behind them
         // Check if the square cardinally behind our target, or to the left / right,
         // contains a possible target.
-        tripoint left = t.pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
-        tripoint target_pos = t.pos() + ( t.pos() - pos() );
-        tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
+        tripoint_bub_ms left = t.pos_bub() + tripoint_rel_ms( offset_a[lookup], offset_b[lookup], 0 );
+        tripoint_bub_ms target_pos = t.pos_bub() + ( t.pos_bub() - pos_bub() );
+        tripoint_bub_ms right = t.pos_bub() + tripoint_rel_ms( offset_b[lookup], -offset_b[lookup], 0 );
 
         monster *const mon_l = creatures.creature_at<monster>( left );
         monster *const mon_t = creatures.creature_at<monster>( target_pos );
@@ -1763,9 +1774,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.needs_ammo ) {
         const itype_id current_ammo = cur_weapon.get_item()->ammo_current();
         // if the weapon needs ammo we now expend it
-        cur_weapon.get_item()->ammo_consume( 1, pos(), this );
+        cur_weapon.get_item()->ammo_consume( 1, pos_bub(), this );
         // thing going off should be as loud as the ammo
-        sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
+        sounds::sound( pos_bub(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ),
+                       true );
         const itype_id casing = *current_ammo->ammo->casing;
         if( cur_weapon.get_item()->has_flag( flag_RELOAD_EJECT ) ) {
             cur_weapon.get_item()->force_insert_item( item( casing ).set_flag( flag_CASING ),
@@ -1774,37 +1786,39 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
         }
     }
 
-    if( technique.side_switch && !t.has_flag( mon_flag_IMMOBILE ) ) {
-        const tripoint b = t.pos();
+    if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
+                                    t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
+        const tripoint_bub_ms b = t.pos_bub();
         point new_;
 
-        if( b.x > posx() ) {
+        if( b.x() > posx() ) {
             new_.x = posx() - 1;
-        } else if( b.x < posx() ) {
+        } else if( b.x() < posx() ) {
             new_.x = posx() + 1;
         } else {
-            new_.x = b.x;
+            new_.x = b.x();
         }
 
-        if( b.y > posy() ) {
+        if( b.y() > posy() ) {
             new_.y = posy() - 1;
-        } else if( b.y < posy() ) {
+        } else if( b.y() < posy() ) {
             new_.y = posy() + 1;
         } else {
-            new_.y = b.y;
+            new_.y = b.y();
         }
 
-        const tripoint &dest = tripoint( new_, b.z );
+        const tripoint_bub_ms &dest{ new_.x, new_.y, b.z()};
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
     }
     map &here = get_map();
-    if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
+    if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
+                                       t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
-        tripoint kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
+        tripoint_bub_ms kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
@@ -1823,7 +1837,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
             // Check if it's possible to move to the new tile
             bool move_issue =
-                g->is_dangerous_tile( prev_pos.raw() ) || // Tile contains fire, etc
+                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
@@ -1832,7 +1846,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
                 if( t.pos_bub() != prev_pos ) {
-                    g->place_player( prev_pos.raw() );
+                    g->place_player( prev_pos );
                     g->on_move_effects();
                 }
             }
@@ -1844,9 +1858,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                     monster *m = t.as_monster();
                     if( m->is_grabbing( eff.get_bp().id() ) ) {
                         m->remove_grab( eff.get_bp().id() );
+                        const std::string released_body_part_name = eff.get_bp()->name.translated();
                         remove_effect( eff.get_id(), eff.get_bp() );
                         add_msg_debug( debugmode::DF_MELEE, "Grabber %s knocked back, grab on %s removed", t.get_name(),
-                                       eff.get_bp()->name );
+                                       released_body_part_name );
                     }
                 }
             }
@@ -2267,10 +2282,10 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
                                    weap.tname() );
         }
 
-        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
+        sounds::sound( pos_bub(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
                        "smash_glass_contents" );
         // Dump its contents on the ground
-        weap.spill_contents( pos() );
+        weap.spill_contents( pos_bub() );
         // Take damage
         damage_instance di = damage_instance();
         di.add_damage( damage_cut, std::clamp( rng( 0, vol * 2 ), 0, 7 ) );
@@ -2606,13 +2621,13 @@ void player_hit_message( Character *attacker, const std::string &message,
     if( dam > 0 && attacker->is_avatar() ) {
         //player hits monster melee
         SCT.add( point( t.posx(), t.posy() ),
-                 direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
+                 direction_from( point::zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                  get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
                  sSCTmod, gmtSCTcolor );
 
         if( t.get_hp() > 0 ) {
             SCT.add( point( t.posx(), t.posy() ),
-                     direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
+                     direction_from( point::zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text
                      _( "HP" ), m_neutral,

@@ -1234,7 +1234,7 @@ void Character::load( const JsonObject &data )
     data.read( "last_target_pos", last_target_pos );
     data.read( "ammo_location", ammo_location );
     // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint_min ) {
+    if( last_target_pos && *last_target_pos == tripoint_abs_ms::min ) {
         last_target_pos = std::nullopt;
     }
     if( tmptartyp == +1 ) {
@@ -1265,9 +1265,12 @@ void Character::load( const JsonObject &data )
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
         std::unordered_map<std::string, std::string> context;
+        // context variables
         for( const JsonMember &jm : elem.get_object( "context" ) ) {
             context[jm.name()] = jm.get_string();
         }
+        game::legacy_migrate_npctalk_var_prefix( context );
+
         temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
@@ -2032,13 +2035,13 @@ void npc::load( const JsonObject &data )
         }
         tripoint tmp;
         if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
-            tmp != tripoint_min ) {
+            tmp != tripoint::min ) {
             guard_pos = tripoint_abs_ms( tmp );
         }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint_min ) {
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint::min ) {
             chair_pos = tripoint_abs_ms( tmp );
         }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint_min ) {
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint::min ) {
             wander_pos = tripoint_abs_ms( tmp );
         }
     } else {
@@ -2057,6 +2060,8 @@ void npc::load( const JsonObject &data )
     std::string companion_mission_role;
     time_point companion_mission_t = calendar::turn_zero;
     time_point companion_mission_t_r = calendar::turn_zero;
+    float companion_mission_e = 1.0f;
+    time_duration companion_mission_t_t;
     std::string act_id;
 
     data.read( "marked_for_death", marked_for_death );
@@ -2173,6 +2178,14 @@ void npc::load( const JsonObject &data )
         companion_mission_time_ret = companion_mission_t_r;
     }
 
+    if( data.read( "companion_mission_exertion", companion_mission_e ) ) {
+        companion_mission_exertion = companion_mission_e;
+    }
+
+    if( data.read( "comp_mission_travel_time", companion_mission_t_t ) ) {
+        companion_mission_travel_time = companion_mission_t_t;
+    }
+
     companion_mission_inv.clear();
     if( data.has_member( "companion_mission_inv" ) ) {
         companion_mission_inv.json_load_items( data.get_member( "companion_mission_inv" ) );
@@ -2264,6 +2277,8 @@ void npc::store( JsonOut &json ) const
     json.member( "companion_mission_points", companion_mission_points );
     json.member( "companion_mission_time", companion_mission_time );
     json.member( "companion_mission_time_ret", companion_mission_time_ret );
+    json.member( "companion_mission_exertion", companion_mission_exertion );
+    json.member( "companion_mission_travel_time", companion_mission_travel_time );
     json.member( "companion_mission_inv" );
     companion_mission_inv.json_save_items( json );
     json.member( "restock", restock );
@@ -2390,7 +2405,7 @@ void monster::load( const JsonObject &data )
         wander_pos = get_map().getglobal( wand );
         tripoint destination;
         data.read( "destination", destination );
-        if( destination != tripoint_zero ) {
+        if( destination != tripoint::zero ) {
             goal = get_location() + destination;
         }
     }
@@ -2808,7 +2823,25 @@ void item::io( Archive &archive )
     archive.io( "bday", bday, calendar::start_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
+    // item variables
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
+
+    // game::legacy_migrate_npctalk_var_prefix( item_vars );
+    // doesn't work here, because item_vars is cata::heap<std::map<>>, not std::unordered_map<>
+    // remove after 0.J
+    if( savegame_loading_version < 36 ) {
+        const std::string prefix = "npctalk_var_";
+        for( auto i = item_vars.begin(); i != item_vars.end(); ) {
+            if( i->first.rfind( prefix, 0 ) == 0 ) {
+                std::map<std::string, std::string>::node_type extracted = ( *item_vars ).extract( i++ );
+                std::string new_key = extracted.key().substr( prefix.size() );
+                extracted.key() = new_key;
+                item_vars.insert( std::move( extracted ) );
+            } else {
+                ++i;
+            }
+        }
+    }
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
     archive.io( "owner", owner, faction_id::NULL_ID() );
@@ -3201,6 +3234,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "locked", locked );
     data.read( "last_disconnected", last_disconnected );
     data.read( "last_charged", last_charged );
+    data.read( "hidden", hidden );
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
@@ -3242,12 +3276,12 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "items", items );
     json.member( "tools", tools );
     json.member( "salvageable", salvageable );
-    if( target.first != tripoint_abs_ms_min ) {
+    if( target.first != tripoint_abs_ms::invalid ) {
         json.member( "target_first_x", target.first.x() );
         json.member( "target_first_y", target.first.y() );
         json.member( "target_first_z", target.first.z() );
     }
-    if( target.second != tripoint_abs_ms_min ) {
+    if( target.second != tripoint_abs_ms::invalid ) {
         json.member( "target_second_x", target.second.x() );
         json.member( "target_second_y", target.second.y() );
         json.member( "target_second_z", target.second.z() );
@@ -3256,6 +3290,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "locked", locked );
     json.member( "last_disconnected", last_disconnected );
     json.member( "last_charged", last_charged );
+    json.member( "hidden", hidden );
     json.end_object();
 }
 
@@ -3322,8 +3357,8 @@ void vehicle::deserialize( const JsonObject &data )
     int mdir = 0;
 
     data.read( "type", type );
-    data.read( "posx", pos.x );
-    data.read( "posy", pos.y );
+    data.read( "posx", pos.x() );
+    data.read( "posy", pos.y() );
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
@@ -3440,8 +3475,8 @@ void vehicle::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    json.member( "posx", pos.x );
-    json.member( "posy", pos.y );
+    json.member( "posx", pos.x() );
+    json.member( "posy", pos.y() );
     json.member( "om_id", om_id );
     json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
     json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
@@ -3762,6 +3797,7 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "effects", *effects );
     }
 
+    // u/npc variables
     jsin.read( "values", values );
     // potentially migrate some values
     for( std::pair<std::string, std::string> migration : get_globals().migrations ) {
@@ -3771,6 +3807,8 @@ void Creature::load( const JsonObject &jsin )
             values.insert( std::move( extracted ) );
         }
     }
+
+    game::legacy_migrate_npctalk_var_prefix( values );
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
 
@@ -4627,6 +4665,31 @@ void ter_furn_migrations::check()
     }
 }
 
+static std::unordered_map<trap_str_id, trap_str_id> tr_migrations;
+
+void trap_migrations::load( const JsonObject &jo )
+{
+    trap_str_id from_trap;
+    trap_str_id to_trap;
+    mandatory( jo, false, "from_trap", from_trap );
+    mandatory( jo, false, "to_trap", to_trap );
+    tr_migrations.insert( std::make_pair( from_trap, to_trap ) );
+}
+
+void trap_migrations::reset()
+{
+    tr_migrations.clear();
+}
+
+void trap_migrations::check()
+{
+    for( const auto &migration : tr_migrations ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "trap_migration specifies invalid to_trap id '%s'", migration.second.c_str() );
+        }
+    }
+}
+
 static std::unordered_map<field_type_str_id, field_type_str_id> field_migrations;
 
 void field_type_migrations::load( const JsonObject &jo )
@@ -5168,7 +5231,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_zero ) ).first;
+                                                      tripoint::zero ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

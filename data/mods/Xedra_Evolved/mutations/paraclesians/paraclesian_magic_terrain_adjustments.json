@@ -16,7 +16,7 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -68,7 +68,7 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -113,7 +113,7 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' )", "=", "3" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' ) = 3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -121,7 +121,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -135,7 +135,7 @@
         "10"
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -153,15 +153,15 @@
         { "u_has_trait": "HOMULLUS" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "3" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' ) = 3" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERGROUND",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "u_has_trait": "IERDE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "-2" ] } ]
+    "condition": { "and": [ { "math": [ "u_val('pos_z') <= -1" ] }, { "u_has_trait": "IERDE" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -188,15 +188,15 @@
         { "u_has_trait": "IERDE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_ELEMENTAL_MAGIC_PENALTY_TOO_HIGH",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_trait": "IERDE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "3" ] } ]
+    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, { "u_has_trait": "IERDE" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' ) = 3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -204,7 +204,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ { "u_is_in_field": "fd_fire" }, { "u_has_trait": "SALAMANDER" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -219,13 +219,13 @@
             { "u_is_in_field": "fd_hot_air2" },
             { "u_is_in_field": "fd_hot_air3" },
             { "u_is_in_field": "fd_hot_air4" },
-            { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
+            { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
           ]
         },
         { "u_has_trait": "SALAMANDER" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -234,7 +234,7 @@
     "required_event": "opens_spellbook",
     "condition": {
       "and": [
-        { "math": [ "weather('temperature')", "<=", "from_fahrenheit( 32 )" ] },
+        { "math": [ "weather('temperature') <= from_fahrenheit( 32 )" ] },
         {
           "and": [
             { "not": { "u_is_in_field": "fd_hot_air1" } },
@@ -253,15 +253,15 @@
         { "u_has_trait": "SALAMANDER" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "3" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' ) = 3" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_ELEMENTAL_MAGIC_ADJUSTMENT_UP_HIGH",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "3" ] }, { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "-2" ] } ]
+    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 3" ] }, { "u_has_trait": "SYLPH" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -269,15 +269,15 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_ELEMENTAL_MAGIC_PENALTY_UNDERGROUND",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "3" ] } ]
+    "condition": { "and": [ { "math": [ "u_val('pos_z') <= -1" ] }, { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' ) = 3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -322,7 +322,7 @@
         { "u_has_trait": "UNDINE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -330,7 +330,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "and": [ "u_is_underwater", { "u_has_trait": "UNDINE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "-2" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = -2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -375,16 +375,14 @@
         { "u_has_trait": "UNDINE" }
       ]
     },
-    "effect": [ { "math": [ "u_timer_undine_last_in_water", "=", "time('now')" ] } ]
+    "effect": [ { "math": [ "u_timer_undine_last_in_water = time('now')" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_UNDINE_ELEMENTAL_MAGIC_PENALTY_TOO_DRY",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": {
-      "and": [ { "math": [ "time_since(u_timer_undine_last_in_water)", ">=", "time('6 h')" ] }, { "u_has_trait": "UNDINE" } ]
-    },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "3" ] } ]
+    "condition": { "and": [ { "math": [ "time_since(u_timer_undine_last_in_water) >= time('6 h')" ] }, { "u_has_trait": "UNDINE" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' ) = 3" ] } ]
   }
 ]

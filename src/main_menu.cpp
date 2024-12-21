@@ -420,7 +420,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
     }
     if( static_cast<size_t>( height ) != sub_opts.size() ) {
-        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point_south, c_white,
+        draw_scrollbar( w_sub, sel2, height, sub_opts.size(), point::south, c_white,
                         false );
     }
     wnoutrefresh( w_sub );
@@ -460,7 +460,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
             case holiday::easter:
                 break;
             case holiday::halloween:
-                fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+                fold_and_print_from( w_open, point::zero, 30, 0, c_white, halloween_spider() );
                 fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
                                      25, 0, c_white, halloween_graves() );
                 break;
@@ -690,9 +690,9 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
-    fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
+    fold_and_print_from( w_text, point::zero, width, selected, c_light_gray, text );
 
-    draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
+    draw_scrollbar( w_border, selected, height, iLines, point::south, BORDER_COLOR, true );
     wnoutrefresh( w_border );
     wnoutrefresh( w_text );
 }
@@ -884,12 +884,8 @@ bool main_menu::opening_screen()
         // also check special keys
         if( action == "QUIT" ) {
 #if !defined(EMSCRIPTEN)
-            g->uquit = QUIT_EXIT_PENDING;
-            if( query_yn( _( "Really quit?" ) ) ) {
-                g->uquit = QUIT_EXIT;
-                return false;
-            }
-            g->uquit = QUIT_NO;
+            g->uquit = QUIT_EXIT;
+            return false;
 #endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
@@ -1223,7 +1219,7 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
 static std::optional<std::chrono::seconds> get_playtime_from_save( const WORLD *world,
         const save_t &save )
 {
-    cata_path playtime_file = world->folder_path_path() / ( save.base_path() + ".pt" );
+    cata_path playtime_file = world->folder_path() / ( save.base_path() + ".pt" );
     std::optional<std::chrono::seconds> pt_seconds;
     if( file_exist( playtime_file ) ) {
         read_from_file( playtime_file, [&pt_seconds]( std::istream & fin ) {

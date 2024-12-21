@@ -34,6 +34,7 @@ class JsonObject;
 class pixel_minimap;
 
 extern void set_displaybuffer_rendertarget();
+using ter_str_id = string_id<ter_t>;
 
 /** Structures */
 struct tile_type {
@@ -43,8 +44,8 @@ struct tile_type {
     bool rotates = false;
     bool animated = false;
     int height_3d = 0;
-    point offset = point_zero;
-    point offset_retracted = point_zero;
+    point offset = point::zero;
+    point offset_retracted = point::zero;
     float pixelscale = 1.0;
 
     std::vector<std::string> available_subtiles;
@@ -142,14 +143,21 @@ class texture
         }
 };
 
-class layer_variant
+/**
+* Holds weighted map of sprites for contextual tile layering
+* e.g. different sprites for item "pen" on "f_desk"
+*/
+class layer_context_sprites
 {
     public:
         std::string id;
         std::map<std::string, int> sprite;
+        //draw order is sorted by layer
         int layer;
         point offset;
         int total_weight;
+        //if set, appends to the sprite name for handling contexts
+        std::string append_suffix;
 };
 
 class tileset
@@ -200,8 +208,8 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<layer_variant>> item_layer_data;
-        std::unordered_map<std::string, std::vector<layer_variant>> field_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> item_layer_data;
+        std::unordered_map<std::string, std::vector<layer_context_sprites>> field_layer_data;
 
         void clear();
 
@@ -630,7 +638,7 @@ class cata_tiles
         void void_sct();
 
         void init_draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                              const tripoint &offset );
+                              const tripoint_rel_ms &offset );
         void draw_zones_frame();
         void void_zones();
 

@@ -330,8 +330,8 @@
     "id": "undine_waters_map",
     "type": "GENERIC",
     "category": "maps",
-    "name": { "str": "undine waters map" },
-    "description": "The item for .",
+    "name": { "str": "undine waters map", "//~": "NO_I18N" },
+    "description": { "str": "The item for .", "//~": "NO_I18N" },
     "weight": "30 g",
     "volume": "250 ml",
     "flags": [ "PAPER_SHAPED" ],
@@ -410,12 +410,16 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ],
           "values": [
             { "value": "ATTACK_SPEED", "multiply": -0.2 },
             { "value": "FORCEFIELD", "add": 0.1 },
             { "value": "PAIN_REMOVE", "add": 45 }
           ]
+        },
+        {
+          "has": "WORN",
+          "condition": { "not": "u_has_weapon" },
+          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
         }
       ]
     }
@@ -425,8 +429,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -447,8 +451,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -469,8 +473,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -491,8 +495,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -513,8 +517,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -535,8 +539,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",

@@ -59,7 +59,7 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
         const mabuff_id &buff2 = test_style_ma1->onmiss_buffs[1];
 
         REQUIRE( buff1->reqs.weapon_categories_allowed[0] == *test_style_ma1->weapon_category.begin() );
-        standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         item weap2( itype_test_weapon2 );
         clear_character( dude, true );
         CHECK( !buff1->is_valid_character( dude ) );
@@ -76,7 +76,7 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
         const matec_id &tec = *test_style_ma1->techniques.find( test_technique );
 
         REQUIRE( tec->reqs.weapon_categories_allowed[0] == *test_style_ma1->weapon_category.begin() );
-        standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         item weap2( itype_test_weapon2 );
         clear_character( dude, true );
         CHECK( !tec->is_valid_character( dude ) );
@@ -90,11 +90,11 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
 TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
 {
     clear_map();
-    standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     clear_character( dude );
     dude.martial_arts_data->add_martialart( test_style_ma1 );
     dude.martial_arts_data->set_style( test_style_ma1, false );
-    monster &target_1 = spawn_test_monster( "mon_zombie_fat", dude_pos + tripoint_east );
+    monster &target_1 = spawn_test_monster( "mon_zombie_fat", dude_pos + tripoint::east );
     const matec_id &tec = *test_style_ma1->techniques.find( test_vector_tech_1 );
     const matec_id &tec2 = *test_style_ma1->techniques.find( test_vector_tech_2 );
     REQUIRE( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
@@ -152,10 +152,10 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
 TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
 {
     clear_map();
-    standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
-    const tripoint_bub_ms target_1_pos = dude_pos + tripoint_east;
-    const tripoint_bub_ms target_2_pos = dude_pos + tripoint_north;
-    const tripoint_bub_ms target_3_pos = dude_pos + tripoint_west;
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    const tripoint_bub_ms target_1_pos = dude_pos + tripoint::east;
+    const tripoint_bub_ms target_2_pos = dude_pos + tripoint::north;
+    const tripoint_bub_ms target_3_pos = dude_pos + tripoint::west;
     clear_character( dude, true );
     dude.martial_arts_data->add_martialart( test_style_ma1 );
     dude.martial_arts_data->set_style( test_style_ma1, false );

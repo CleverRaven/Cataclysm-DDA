@@ -67,7 +67,13 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_barricade_road( "f_barricade_road" );
+static const furn_str_id furn_f_beach_log( "f_beach_log" );
+static const furn_str_id furn_f_beach_seaweed( "f_beach_seaweed" );
 static const furn_str_id furn_f_bench( "f_bench" );
+static const furn_str_id furn_f_boulder_large( "f_boulder_large" );
+static const furn_str_id furn_f_boulder_medium( "f_boulder_medium" );
+static const furn_str_id furn_f_boulder_small( "f_boulder_small" );
+static const furn_str_id furn_f_broken_boat( "f_broken_boat" );
 static const furn_str_id furn_f_camp_chair( "f_camp_chair" );
 static const furn_str_id furn_f_canvas_door( "f_canvas_door" );
 static const furn_str_id furn_f_canvas_wall( "f_canvas_wall" );
@@ -132,6 +138,7 @@ static const map_extra_id map_extra_mx_pond( "mx_pond" );
 static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
+static const map_extra_id map_extra_mx_sandy_beach( "mx_sandy_beach" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -153,6 +160,7 @@ static const oter_type_str_id oter_type_road( "road" );
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
 static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_fence_barbed( "t_fence_barbed" );
@@ -169,7 +177,10 @@ static const ter_str_id ter_t_pavement( "t_pavement" );
 static const ter_str_id ter_t_pavement_y( "t_pavement_y" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
+static const ter_str_id ter_t_tidepool( "t_tidepool" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -413,7 +424,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     } else {
                         m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     }
-                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                    delete_items_at_mount( *wreckage, vp.mount_pos().raw() ); // delete corpse items
                 }
                 break;
             case 4:
@@ -427,7 +438,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     } else {
                         m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), pos.z(), 1, true );
                     }
-                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                    delete_items_at_mount( *wreckage, vp.mount_pos().raw() ); // delete corpse items
                 }
                 break;
             case 6:
@@ -435,7 +446,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint_bub_ms pos = vp.pos_bub();
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
-                    delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
+                    delete_items_at_mount( *wreckage, vp.mount_pos().raw() ); // delete corpse items
                 }
                 break;
             case 7:
@@ -468,10 +479,10 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 {
     const tripoint_abs_omt abs_omt( coords::project_to<coords::omt>( tripoint_abs_sm( abs_sub ) ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point::north );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point::south );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point::west );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point::east );
 
     const bool bridgehead_at_center = center->get_type_id() ==
                                       oter_type_bridgehead_ground;
@@ -496,7 +507,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
     tinymap m;
     if( bridge_at_north && road_at_south ) {
-        m.load( abs_omt + point_south, false );
+        m.load( abs_omt + point::south, false );
 
         //Sandbag block at the left edge
         line_furn( &m, furn_f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
@@ -601,7 +612,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_south && road_at_north ) {
-        m.load( abs_omt + point_north, false );
+        m.load( abs_omt + point::north, false );
         //Two horizontal lines of sandbags
         line_furn( &m, furn_f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, furn_f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -710,7 +721,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_west && road_at_east ) {
-        m.load( abs_omt + point_east, false );
+        m.load( abs_omt + point::east, false );
         //Draw walls of first tent
         square_furn( &m, furn_f_canvas_wall, point_omt_ms( 0, 3 ), point_omt_ms( 4, 13 ) );
 
@@ -862,7 +873,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_east && road_at_west ) {
-        m.load( abs_omt + point_west, false );
+        m.load( abs_omt + point::west, false );
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint_omt_ms( 15, 11, abs_sub.z ),
                        270_degrees, 70, 1 );
@@ -1018,17 +1029,17 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
-        ignited.insert( ( i + point_north_west ).raw() );
-        ignited.insert( ( i + point_north ).raw() );
-        ignited.insert( ( i + point_north_east ).raw() );
-        ignited.insert( ( i + point_west ).raw() );
-        ignited.insert( ( i + point_east ).raw() );
-        ignited.insert( ( i + point_south_west ).raw() );
-        ignited.insert( ( i + point_south ).raw() );
-        ignited.insert( ( i + point_south_east ).raw() );
+        ignited.insert( ( i + point::north_west ).raw() );
+        ignited.insert( ( i + point::north ).raw() );
+        ignited.insert( ( i + point::north_east ).raw() );
+        ignited.insert( ( i + point::west ).raw() );
+        ignited.insert( ( i + point::east ).raw() );
+        ignited.insert( ( i + point::south_west ).raw() );
+        ignited.insert( ( i + point::south ).raw() );
+        ignited.insert( ( i + point::south_east ).raw() );
 
         if( one_in( 6 ) ) {
-            m.spawn_item( i + point_north_west, itype_chunk_sulfur );
+            m.spawn_item( i + point::north_west, itype_chunk_sulfur );
         }
     }
 
@@ -1058,7 +1069,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 }
             }
             //50% chance to spawn pouf-maker
-            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, p + point_north_west, p + point_south_east,
+            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, p + point::north_west, p + point::south_east,
                             portal_location.z(), 1, true );
             break;
         }
@@ -1166,7 +1177,7 @@ static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
     // not easily replicated there.
     if( one_in( 50 ) ) {
-        m.place_spawns( GROUP_JABBERWOCK, 1, point_bub_ms( point_zero ), { SEEX * 2, SEEY * 2 },
+        m.place_spawns( GROUP_JABBERWOCK, 1, point_bub_ms::zero, { SEEX * 2, SEEY * 2 },
                         m.get_abs_sub().z(), 1, true );
         return true;
     }
@@ -1290,7 +1301,8 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.place_spawns( GROUP_FISH, 1, point_bub_ms( point_zero ), point_bub_ms( width, height ), abs_sub.z,
+    m.place_spawns( GROUP_FISH, 1, point_bub_ms::zero, point_bub_ms( width, height ),
+                    abs_sub.z,
                     0.15f );
     return true;
 }
@@ -1349,6 +1361,8 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
     std::vector<tripoint_bub_ms> points;
+    vehicles.reserve( vehs.size() );
+    points.reserve( vehs.size() ); // Each vehicle is at least one point.
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         // Important that this loop excludes fake parts, because those can be
@@ -1506,6 +1520,8 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
     std::vector<tripoint_bub_ms> points;
+    vehicles.reserve( vehs.size() );
+    points.reserve( vehs.size() ); // Each vehicle is at least one point.
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint_bub_ms> occupied = vehicle.v->get_points();
@@ -1580,10 +1596,10 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // (curved roads & intersections excluded, perhaps TODO)
 
     const tripoint_abs_omt abs_omt( coords::project_to<coords::omt>( tripoint_abs_sm( abs_sub ) ) );
-    const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
-    const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
-    const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
-    const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
+    const oter_id &north = overmap_buffer.ter( abs_omt + point::north );
+    const oter_id &south = overmap_buffer.ter( abs_omt + point::south );
+    const oter_id &west = overmap_buffer.ter( abs_omt + point::west );
+    const oter_id &east = overmap_buffer.ter( abs_omt + point::east );
 
     const bool road_at_north = north->get_type_id() == oter_type_road;
     const bool road_at_south = south->get_type_id() == oter_type_road;
@@ -2165,10 +2181,36 @@ static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
     const tripoint_bub_ms suitable_location = random_entry( suitable_locations, omt_center );
     m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
     m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
-                    suitable_location.xy() + point_north_west,
-                    suitable_location.xy() + point_south_east,
+                    suitable_location.xy() + point::north_west,
+                    suitable_location.xy() + point::south_east,
                     suitable_location.z(),
                     3, true );
+    return true;
+}
+
+static bool mx_sandy_beach( map &m, const tripoint &abs_sub )
+{
+    weighted_int_list<furn_id> detritus;
+    detritus.add( furn_f_beach_log, 10 );
+    detritus.add( furn_f_beach_seaweed, 25 );
+    detritus.add( furn_f_boulder_small, 20 );
+    detritus.add( furn_f_boulder_medium, 10 );
+    detritus.add( furn_f_boulder_large, 3 );
+    detritus.add( furn_f_broken_boat, 1 );
+
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            const tripoint_bub_ms loc( i, j, abs_sub.z );
+            const ter_id &ter_loc = m.ter( loc );
+            if( ter_loc == ter_t_sand && one_in( 20 ) ) {
+                !one_in( 10 ) ? m.furn_set( loc, detritus.pick()->id() ) : m.ter_set( loc, ter_t_tidepool );
+            }
+            if( ter_loc == ter_t_swater_surf && one_in( 10 ) ) {
+                m.ter_set( loc, ter_t_coast_rock_surf );
+            }
+        }
+    }
+
     return true;
 }
 
@@ -2191,6 +2233,7 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_city_trap, mx_city_trap },
     { map_extra_mx_reed, mx_reed },
     { map_extra_mx_fungal_zone, mx_fungal_zone },
+    { map_extra_mx_sandy_beach, mx_sandy_beach },
 };
 
 map_extra_pointer get_function( const map_extra_id &name )

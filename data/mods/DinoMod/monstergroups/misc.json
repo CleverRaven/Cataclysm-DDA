@@ -24,6 +24,7 @@
     "name": "GROUP_SAFE",
     "is_safe": true,
     "monsters": [
+      { "monster": "mon_nedcolbertia", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_struthiomimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_ornithomimus", "weight": 50, "pack_size": [ 4, 8 ] },

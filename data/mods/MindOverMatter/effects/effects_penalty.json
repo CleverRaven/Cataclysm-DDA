@@ -239,7 +239,11 @@
       "effect_monster_neuro_acceleration",
       "effect_monster_neuro_acceleration_enhanced",
       "effect_monster_heightened_reflex_enhanced",
-      "effect_monster_heightened_reflex"
+      "effect_monster_heightened_reflex",
+      "eff_mind_seeing_bonus_5",
+      "eff_mind_seeing_bonus_10",
+      "eff_mind_seeing_bonus_20",
+      "eff_mind_seeing_bonus_30"
     ],
     "max_duration": "24 hours",
     "flags": [ "NO_PSIONICS" ]

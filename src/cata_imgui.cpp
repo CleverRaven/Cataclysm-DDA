@@ -3,12 +3,14 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+#include <imgui/imgui_stdlib.h>
 #undef IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui_freetype.h>
 
 #include "color.h"
 #include "input.h"
 #include "output.h"
+#include "path_info.h"
 #include "system_locale.h"
 #include "ui_manager.h"
 #include "input_context.h"
@@ -563,7 +565,7 @@ void cataimgui::client::new_frame()
 void cataimgui::client::end_frame()
 {
     ImGui::Render();
-    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
     ImGuiIO &io = ImGui::GetIO();
     for( const int &code : cata_input_trail ) {
         io.AddKeyEvent( cata_key_to_imgui( code ), false );
@@ -708,30 +710,31 @@ void cataimgui::set_scroll( scroll &s )
     s = scroll::none;
 }
 
-void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
+void cataimgui::draw_colored_text( const std::string &original_text, const nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
-    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
+void cataimgui::draw_colored_text( const std::string &original_text, nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushStyleColor( ImGuiCol_Text, color );
-    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( original_text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::draw_colored_text( std::string const &text,
+void cataimgui::draw_colored_text( const std::string &original_text,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
-    if( text.empty() ) {
+    if( original_text.empty() ) {
         ImGui::NewLine();
         return;
     }
+    const std::string &text = replace_colors( original_text );
 
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
@@ -815,7 +818,7 @@ class cataimgui::window_impl
 class cataimgui::filter_box_impl
 {
     public:
-        std::array<char, 255> text;
+        std::string text;
         ImGuiID id;
 };
 
@@ -984,7 +987,6 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
     if( !filter_impl ) {
         filter_impl = std::make_unique<cataimgui::filter_box_impl>();
         filter_impl->id = 0;
-        filter_impl->text[0] = '\0';
     }
 
     if( !filtering_active ) {
@@ -999,8 +1001,7 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
         ImGui::SameLine();
     }
     ImGui::BeginDisabled( !filtering_active );
-    ImGui::InputText( "##FILTERBOX", filter_impl->text.data(),
-                      filter_impl->text.size() );
+    ImGui::InputText( "##FILTERBOX", &filter_impl->text );
     ImGui::EndDisabled();
     if( !filter_impl->id ) {
         filter_impl->id = GImGui->LastItemData.ID;
@@ -1010,7 +1011,7 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
 std::string cataimgui::window::get_filter()
 {
     if( filter_impl ) {
-        return std::string( filter_impl->text.data() );
+        return filter_impl->text;
     } else {
         return std::string();
     }
@@ -1022,9 +1023,17 @@ void cataimgui::window::clear_filter()
         ImGuiInputTextState *input_state = ImGui::GetInputTextState( filter_impl->id );
         if( input_state ) {
             input_state->ClearText();
-            filter_impl->text[0] = '\0';
+            filter_impl->text.clear();
         }
     }
+}
+
+bool cataimgui::InputFloat( const char *label, float *v, float step, float step_fast,
+                            const char *format, ImGuiInputTextFlags flags )
+{
+    return ImGui::InputScalar( label, ImGuiDataType_Float, static_cast<void *>( v ),
+                               static_cast<void *>( step > 0.0f ? &step : nullptr ),
+                               static_cast<void *>( step_fast > 0.0f ? &step_fast : nullptr ), format, flags );
 }
 
 void cataimgui::PushGuiFont()
@@ -1057,3 +1066,159 @@ void cataimgui::EndRightAlign()
 {
     ImGui::EndTable();
 }
+
+// Use the base terminal palette to reasonably color ImGui elements.
+// This might be useful to easily apply the color theme (chosen via
+// Color Manager, likely) to ImGui with minimal effort.
+static void inherit_base_colors()
+{
+    ImGuiStyle &style = ImGui::GetStyle();
+
+    style.Colors[ImGuiCol_Text] = c_white;
+    style.Colors[ImGuiCol_TextDisabled] = c_dark_gray;
+    style.Colors[ImGuiCol_WindowBg] = c_black;
+    style.Colors[ImGuiCol_ChildBg] = c_black;
+    style.Colors[ImGuiCol_PopupBg] = c_black;
+    style.Colors[ImGuiCol_Border] = c_white;
+    style.Colors[ImGuiCol_BorderShadow] = c_blue;
+    style.Colors[ImGuiCol_FrameBg] = c_dark_gray;
+    style.Colors[ImGuiCol_FrameBgHovered] = c_black;
+    style.Colors[ImGuiCol_FrameBgActive] = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBg] = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBgActive] = c_light_blue;
+    style.Colors[ImGuiCol_TitleBgCollapsed] = c_dark_gray;
+    style.Colors[ImGuiCol_MenuBarBg] = c_black;
+    style.Colors[ImGuiCol_ScrollbarBg] = c_black;
+    style.Colors[ImGuiCol_ScrollbarGrab] = c_dark_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabHovered] = c_light_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabActive] = c_white;
+    style.Colors[ImGuiCol_CheckMark] = c_white;
+    style.Colors[ImGuiCol_SliderGrab] = c_white;
+    style.Colors[ImGuiCol_SliderGrabActive] = c_white;
+    style.Colors[ImGuiCol_Button] = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonHovered] = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonActive] = c_blue;
+    style.Colors[ImGuiCol_Header] = c_blue;
+    style.Colors[ImGuiCol_HeaderHovered] = c_black;
+    style.Colors[ImGuiCol_HeaderActive] = c_dark_gray;
+    style.Colors[ImGuiCol_Separator] = c_dark_gray;
+    style.Colors[ImGuiCol_SeparatorHovered] = c_white;
+    style.Colors[ImGuiCol_SeparatorActive] = c_white;
+    style.Colors[ImGuiCol_ResizeGrip] = c_light_gray;
+    style.Colors[ImGuiCol_ResizeGripHovered] = c_white;
+    style.Colors[ImGuiCol_ResizeGripActive] = c_white;
+    style.Colors[ImGuiCol_Tab] = c_black;
+    style.Colors[ImGuiCol_TabHovered] = c_blue;
+    style.Colors[ImGuiCol_TabActive] = c_blue;
+    style.Colors[ImGuiCol_TabUnfocused] = c_black;
+    style.Colors[ImGuiCol_TabUnfocusedActive] = c_black;
+    style.Colors[ImGuiCol_TextSelectedBg] = c_blue;
+    style.Colors[ImGuiCol_NavHighlight] = c_blue;
+}
+
+static void load_imgui_style_file( const cata_path &style_path )
+{
+    ImGuiStyle &style = ImGui::GetStyle();
+
+    JsonValue jsin = json_loader::from_path( style_path );
+
+
+    JsonObject jo = jsin.get_object();
+
+
+    if( jo.has_bool( "inherit_base_colors" ) && jo.get_bool( "inherit_base_colors" ) ) {
+        inherit_base_colors();
+    }
+    JsonObject joc = jo.get_object( "colors" );
+
+    std::unordered_map<std::string, int> key_options = {
+        {"ImGuiCol_Text", ImGuiCol_Text},
+        {"ImGuiCol_TextDisabled", ImGuiCol_TextDisabled},
+        {"ImGuiCol_WindowBg", ImGuiCol_WindowBg},
+        {"ImGuiCol_ChildBg", ImGuiCol_ChildBg},
+        {"ImGuiCol_PopupBg", ImGuiCol_PopupBg},
+        {"ImGuiCol_Border", ImGuiCol_Border},
+        {"ImGuiCol_BorderShadow", ImGuiCol_BorderShadow},
+        {"ImGuiCol_FrameBg", ImGuiCol_FrameBg},
+        {"ImGuiCol_FrameBgHovered", ImGuiCol_FrameBgHovered},
+        {"ImGuiCol_FrameBgActive", ImGuiCol_FrameBgActive},
+        {"ImGuiCol_TitleBg", ImGuiCol_TitleBg},
+        {"ImGuiCol_TitleBgActive", ImGuiCol_TitleBgActive},
+        {"ImGuiCol_TitleBgCollapsed", ImGuiCol_TitleBgCollapsed},
+        {"ImGuiCol_MenuBarBg", ImGuiCol_MenuBarBg},
+        {"ImGuiCol_ScrollbarBg", ImGuiCol_ScrollbarBg},
+        {"ImGuiCol_ScrollbarGrab", ImGuiCol_ScrollbarGrab},
+        {"ImGuiCol_ScrollbarGrabHovered", ImGuiCol_ScrollbarGrabHovered},
+        {"ImGuiCol_ScrollbarGrabActive", ImGuiCol_ScrollbarGrabActive},
+        {"ImGuiCol_CheckMark", ImGuiCol_CheckMark},
+        {"ImGuiCol_SliderGrab", ImGuiCol_SliderGrab},
+        {"ImGuiCol_SliderGrabActive", ImGuiCol_SliderGrabActive},
+        {"ImGuiCol_Button", ImGuiCol_Button},
+        {"ImGuiCol_ButtonHovered", ImGuiCol_ButtonHovered},
+        {"ImGuiCol_ButtonActive", ImGuiCol_ButtonActive},
+        {"ImGuiCol_Header", ImGuiCol_Header},
+        {"ImGuiCol_HeaderHovered", ImGuiCol_HeaderHovered},
+        {"ImGuiCol_HeaderActive", ImGuiCol_HeaderActive},
+        {"ImGuiCol_Separator", ImGuiCol_Separator},
+        {"ImGuiCol_SeparatorHovered", ImGuiCol_SeparatorHovered},
+        {"ImGuiCol_SeparatorActive", ImGuiCol_SeparatorActive},
+        {"ImGuiCol_ResizeGrip", ImGuiCol_ResizeGrip},
+        {"ImGuiCol_ResizeGripHovered", ImGuiCol_ResizeGripHovered},
+        {"ImGuiCol_ResizeGripActive", ImGuiCol_ResizeGripActive},
+        {"ImGuiCol_Tab", ImGuiCol_Tab},
+        {"ImGuiCol_TabHovered", ImGuiCol_TabHovered},
+        {"ImGuiCol_TabActive", ImGuiCol_TabActive},
+        {"ImGuiCol_TabUnfocused", ImGuiCol_TabUnfocused},
+        {"ImGuiCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive},
+        {"ImGuiCol_PlotLines", ImGuiCol_PlotLines},
+        {"ImGuiCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered},
+        {"ImGuiCol_PlotHistogram", ImGuiCol_PlotHistogram},
+        {"ImGuiCol_PlotHistogramHovered", ImGuiCol_PlotHistogramHovered},
+        {"ImGuiCol_TableHeaderBg", ImGuiCol_TableHeaderBg},
+        {"ImGuiCol_TableBorderStrong", ImGuiCol_TableBorderStrong},
+        {"ImGuiCol_TableBorderLight", ImGuiCol_TableBorderLight},
+        {"ImGuiCol_TableRowBg", ImGuiCol_TableRowBg},
+        {"ImGuiCol_TableRowBgAlt", ImGuiCol_TableRowBgAlt},
+        {"ImGuiCol_TextSelectedBg", ImGuiCol_TextSelectedBg},
+        {"ImGuiCol_DragDropTarget", ImGuiCol_DragDropTarget},
+        {"ImGuiCol_NavHighlight", ImGuiCol_NavHighlight},
+        {"ImGuiCol_NavWindowingHighlight", ImGuiCol_NavWindowingHighlight},
+        {"ImGuiCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg},
+        {"ImGuiCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg},
+    };
+    for( const auto& [text_key, imgui_key] : key_options ) {
+        if( joc.has_array( text_key ) ) {
+            JsonArray jsarr = joc.get_array( text_key );
+            float alpha = 1.0; // default to full opacity if not specified explicitly
+            if( jsarr.has_float( 3 ) ) {
+                alpha = jsarr.get_float( 3 );
+            }
+            ImVec4 color = ImVec4(
+                               jsarr.get_float( 0 ),
+                               jsarr.get_float( 1 ),
+                               jsarr.get_float( 2 ),
+                               alpha
+                           );
+            style.Colors[imgui_key] = color;
+        }
+    }
+
+}
+
+void cataimgui::init_colors()
+{
+    const cata_path default_style_path = PATH_INFO::datadir_path() / "raw" / "imgui_style.json";
+    const cata_path style_path = PATH_INFO::config_dir_path() / "imgui_style.json";
+    if( !file_exist( style_path ) ) {
+        assure_dir_exist( PATH_INFO::config_dir() );
+        copy_file( default_style_path, style_path );
+    }
+
+    try {
+        load_imgui_style_file( style_path );
+    } catch( const JsonError &err ) {
+        debugmsg( "Failed to load imgui color data from \"%s\": %s",
+                  style_path.generic_u8string(), err.what() );
+    }
+}
+

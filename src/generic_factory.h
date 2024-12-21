@@ -143,8 +143,6 @@ class generic_factory
 
         std::string type_name;
         std::string id_member_name;
-        // TEMPORARY until 0.G: Remove "ident" support
-        const std::string legacy_id_member_name = "ident";
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             if( id._version == version ) {
@@ -243,11 +241,11 @@ class generic_factory
             }
 
             if( jo.has_string( abstract_member_name ) ) {
-                if( jo.has_string( id_member_name ) || jo.has_string( legacy_id_member_name ) ) {
-                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'/'%s'",
-                                                   abstract_member_name, id_member_name, legacy_id_member_name ) );
+                if( jo.has_string( id_member_name ) ) {
+                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'",
+                                                   abstract_member_name, id_member_name ) );
                 }
-                restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+                restore_on_out_of_scope restore_check_plural( check_plural );
                 check_plural = check_plural_t::none;
                 const std::string abstract_id =  jo.get_string( abstract_member_name );
                 def.id = string_id<T>( abstract_id );
@@ -292,27 +290,9 @@ class generic_factory
                     insert( def );
                 }
 
-            } else if( jo.has_string( legacy_id_member_name ) ) {
-                def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
-                mod_tracker::assign_src( def, src );
-                def.load( jo, src );
-                insert( def );
-
-            } else if( jo.has_array( legacy_id_member_name ) ) {
-                for( const JsonValue e : jo.get_array( legacy_id_member_name ) ) {
-                    T def;
-                    if( !handle_inheritance( def, jo, src ) ) {
-                        break;
-                    }
-                    def.id = string_id<T>( e );
-                    mod_tracker::assign_src( def, src );
-                    def.load( jo, src );
-                    insert( def );
-                }
-
             } else if( !jo.has_string( abstract_member_name ) ) {
-                jo.throw_error( string_format( "must specify either '%s' or '%s'/'%s'",
-                                               abstract_member_name, id_member_name, legacy_id_member_name ) );
+                jo.throw_error( string_format( "must specify either '%s' or '%s'",
+                                               abstract_member_name, id_member_name ) );
             }
         }
         /**

@@ -818,11 +818,55 @@
     "description": "A car battery wired into a static power grid.",
     "item": "battery_car",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 9 ] },
-      { "item": "steel_chunk", "count": [ 6, 9 ] },
-      { "item": "scrap", "count": [ 6, 9 ] }
+      { "item": "lead", "charges": [ 1680, 2380 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 5, 8 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] },
+      { "item": "shredded_rubber", "charges": [ 10, 14 ] }
     ],
     "durability": 120,
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_motorbike",
+    "name": { "str": "motorbike grid battery" },
+    "categories": [ "energy" ],
+    "looks_like": "battery_motorbike",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "description": "A motorbike battery wired into a static power grid.",
+    "item": "battery_motorbike",
+    "breaks_into": [
+      { "item": "lead", "charges": [ 252, 357 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 1, 2 ] }
+    ],
+    "durability": 100,
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_motorbike_small",
+    "name": { "str": "small motorbike grid battery" },
+    "categories": [ "energy" ],
+    "looks_like": "battery_motorbike_small",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "description": "A small motorbike battery wired into a static power grid.",
+    "item": "battery_motorbike_small",
+    "breaks_into": [
+      { "item": "lead", "charges": [ 126, 178 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk" },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 0, 1 ] }
+    ],
+    "durability": 30,
     "requirements": { "removal": { "time": "6 m" } },
     "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },

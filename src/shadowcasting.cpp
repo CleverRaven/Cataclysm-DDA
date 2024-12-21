@@ -172,7 +172,7 @@ void cast_horizontal_zlight_segment(
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
-    static half_open_rectangle<point> bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
+    static half_open_rectangle<point> bounds( point::zero, point( MAPSIZE_X, MAPSIZE_Y ) );
 
     slope new_start_minor( 1, 1 );
 
@@ -297,7 +297,7 @@ void cast_horizontal_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
@@ -469,7 +469,7 @@ void cast_vertical_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {

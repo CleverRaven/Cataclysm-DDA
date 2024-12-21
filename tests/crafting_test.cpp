@@ -338,12 +338,12 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         standard_npc who( "helper" );
 
         who.set_attitude( NPCATT_FOLLOW );
-        who.spawn_at_omt( tripoint_abs_omt( tripoint_zero ) );
+        who.spawn_at_omt( tripoint_abs_omt::zero );
 
         g->load_npcs();
 
         CHECK( !dummy.in_vehicle );
-        dummy.setpos( who.pos() );
+        dummy.setpos( who.pos_bub() );
         const auto helpers( dummy.get_crafting_helpers() );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
@@ -393,7 +393,7 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
             item_location added_tool = player_character.i_add( gear );
             REQUIRE( added_tool );
             if( plug_in && added_tool->can_link_up() ) {
-                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint_north ),
+                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint::north ),
                                               link_state::automatic ).success() );
             }
         } else {
@@ -449,7 +449,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
         grant_profs_to_character( player_character, r );
     }
 
-    const tripoint_bub_ms battery_pos = test_origin + tripoint_north;
+    const tripoint_bub_ms battery_pos = test_origin + tripoint::north;
     std::optional<item> battery_item( "test_storage_battery" );
     place_appliance( battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
@@ -555,7 +555,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     int turns_taken = 0;
-    const int max_turns = 100'000;
+    const int max_turns = 100000;
 
     float time_malus = rec->proficiency_time_maluses( ch );
 
@@ -594,8 +594,8 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     // Check exactly one 5% tick has passed
     // 500k counter = 5% progress
     // If counter is 0, this means the craft finished before we gained the proficiency
-    CHECK( craft->item_counter >= 500'000 );
-    CHECK( craft->item_counter < 501'000 );
+    CHECK( craft->item_counter >= 500000 );
+    CHECK( craft->item_counter < 501000 );
 }
 
 static float craft_aggregate_fail_chance( const recipe_id &rid )
@@ -2327,7 +2327,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 CHECK( player.crafting_inventory().charges_of( itype_water ) == 0 );
             }
             WHEN( "the vehicle has a water faucet part" ) {
-                REQUIRE( veh->install_part( point_rel_ms_zero, vpart_water_faucet ) >= 0 );
+                REQUIRE( veh->install_part( point_rel_ms::zero, vpart_water_faucet ) >= 0 );
                 THEN( "crafting inventory contains the liquid" ) {
                     player.invalidate_crafting_inventory();
                     CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );
@@ -2335,7 +2335,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 }
             }
             WHEN( "the vehicle has two water faucets" ) {
-                REQUIRE( veh->install_part( point_rel_ms_south, vpart_water_faucet ) >= 0 );
+                REQUIRE( veh->install_part( point_rel_ms::south, vpart_water_faucet ) >= 0 );
                 THEN( "crafting inventory contains the liquid" ) {
                     player.invalidate_crafting_inventory();
                     CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );

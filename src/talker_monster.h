@@ -49,6 +49,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
@@ -82,6 +83,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         bool can_see_location( const tripoint &pos ) const override;
         int get_volume() const override;
         int get_weight() const override;
+        bool is_warm() const override;
 
     private:
         const monster *me_mon_const{};

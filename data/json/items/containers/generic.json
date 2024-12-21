@@ -172,7 +172,6 @@
     "longest_side": "150 cm",
     "price": 0,
     "price_postapoc": 0,
-    "to_hit": -3,
     "use_action": [ "CHANGE_OUTFIT" ],
     "material": [ "plastic" ],
     "pocket_data": [

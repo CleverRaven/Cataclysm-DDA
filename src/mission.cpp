@@ -259,6 +259,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         return false;
     }
     bool mission_transfered = false;
+    std::vector<int> mission_ids_to_remove;
     for( const int mission_id : mon_fused->mission_ids ) {
         const mission *const found_mission = mission::find( mission_id );
         if( !found_mission ) {
@@ -269,9 +270,12 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
-            mon_fused->mission_ids.erase( mission_id );
+            mission_ids_to_remove.push_back( mission_id );
             mission_transfered = true;
         }
+    }
+    for( const int mission_id : mission_ids_to_remove ) {
+        mon_fused->mission_ids.erase( mission_id );
     }
     return mission_transfered;
 }
@@ -352,7 +356,7 @@ void mission::set_target_to_mission_giver()
     if( giver != nullptr ) {
         target = giver->global_omt_location();
     } else {
-        target = overmap::invalid_tripoint;
+        target = tripoint_abs_omt::invalid;
     }
 }
 
@@ -406,6 +410,7 @@ void mission::wrap_up()
                 items, grp_type, matches,
                 container, itype_null, specific_container_required );
 
+            comps.reserve( matches.size() );
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.emplace_back( cnt.first, cnt.second );
 
@@ -463,6 +468,7 @@ void mission::wrap_up()
                 }
             }
         }
+        break;
         default:
             //Suppress warnings
             break;
@@ -713,7 +719,7 @@ std::string mission::get_description() const
 
 bool mission::has_target() const
 {
-    return target != overmap::invalid_tripoint;
+    return !target.is_invalid();
 }
 
 const tripoint_abs_omt &mission::get_target() const
@@ -889,7 +895,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint_abs_omt( tripoint_min );
+    target = tripoint_abs_omt::invalid;
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

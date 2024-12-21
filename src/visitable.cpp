@@ -288,7 +288,7 @@ int Character::max_quality( const quality_id &qual, int radius ) const
 
     if( radius > 0 ) {
         res = std::max( res,
-                        crafting_inventory( tripoint_zero, radius, true )
+                        crafting_inventory( tripoint_bub_ms::zero, radius, true )
                         .max_quality( qual ) );
     }
 
@@ -353,7 +353,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
-        /* intentional fallthrough */
+            [[fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;
