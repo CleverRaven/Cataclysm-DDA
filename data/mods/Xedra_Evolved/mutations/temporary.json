@@ -149,7 +149,6 @@
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -166,7 +165,6 @@
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
-      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
       {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
@@ -178,19 +176,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [
-      "MUTE",
-      "MYOPIC_IN_LIGHT",
-      "NO_SPELLCASTING",
-      "PRED3",
-      "QUADRUPED_CROUCH",
-      "QUADRUPED_RUN",
-      "TOUGH_FEET",
-      "TEMPORARY_SHAPESHIFT",
-      "SHAPESHIFT_SIZE_HUGE"
-    ],
-    "override_look": { "id": "mon_bear", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "override_look": { "id": "mon_bear", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -229,15 +216,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_deer", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_deer", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -252,7 +232,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -270,14 +249,6 @@
         "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "HEARING_MULT", "multiply": 0.25 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 5 }
-        ]
-      },
-      {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -288,9 +259,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_cougar", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_feline_fur", "integrated_claws" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_cougar", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -305,7 +275,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 500, 1200 ],
     "enchantments": [
       {
@@ -322,15 +291,6 @@
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 4 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
-      },
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.333 }
-        ]
       },
       {
         "condition": "u_has_weapon",
@@ -360,7 +320,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 500, 1200 ],
     "enchantments": [
       {
@@ -376,33 +335,9 @@
         ],
         "skills": [ { "value": "dodge", "add": 4 }, { "value": "unarmed", "add": 1 } ],
         "mutations": [ "BEAK", "BIRD_EYE", "BIRD_LEGS", "DOWN", "EAGLEEYED", "HOLLOW_BONES", "LIGHTEATER", "SCREECH", "WINGS_BIRD" ]
-      },
-      {
-        "condition": "ALWAYS",
-        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.2 },
-          { "value": "MOVE_COST", "multiply": -0.2 },
-          { "value": "ATTACK_SPEED", "multiply": -0.2 },
-          { "value": "CARRY_WEIGHT", "multiply": -0.1 },
-          { "value": "SOCIAL_INTIMIDATE", "add": 10 },
-          { "value": "SOCIAL_LIE", "add": -20 },
-          { "value": "SOCIAL_PERSUADE", "add": -10 }
-        ]
       }
     ],
-    "attacks": {
-      "attack_text_u": "You rip into %s with your beak!",
-      "attack_text_npc": "%1$s rips into %2$s with their beak!",
-      "body_part": "mouth",
-      "chance": 15,
-      "strength_damage": { "damage_type": "cut", "amount": 3 }
-    },
-    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_LARGE", "WINGS_2", "WING_GLIDE" ],
-    "integrated_armor": [ "integrated_feathers", "integrated_talons" ]
+    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_LARGE" ]
   },
   {
     "type": "mutation",
@@ -417,7 +352,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 300, 800 ],
     "enchantments": [
       {
@@ -434,15 +368,6 @@
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
-      },
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.333 }
-        ]
       },
       {
         "condition": "u_has_weapon",

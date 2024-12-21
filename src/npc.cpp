@@ -737,7 +737,7 @@ void npc::catchup_skills()
 
 void npc::clear_personality_traits()
 {
-    for( const trait_id &trait : get_mutations() ) {
+    for( const trait_id &trait : get_functioning_mutations() ) {
         if( trait.obj().personality_score ) {
             unset_mutation( trait );
         }
@@ -773,7 +773,7 @@ void npc::randomize_personality()
 
 void npc::learn_ma_styles_from_traits()
 {
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         if( !iter->initial_ma_styles.empty() ) {
             std::vector<matype_id> shuffled_trait_styles = iter->initial_ma_styles;
             std::shuffle( shuffled_trait_styles.begin(), shuffled_trait_styles.end(), rng_get_engine() );
@@ -1654,7 +1654,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
     }
 
     int u_ugly = 0;
-    for( trait_id &mut : you.get_mutations() ) {
+    for( trait_id &mut : you.get_functioning_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     for( const bodypart_id &bp : you.get_all_body_parts() ) {

@@ -2370,7 +2370,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
     const body_part_set usable_body_parts = exclusive_flag_coverage( flag_ALLOWS_NATURAL_ATTACKS );
     const int unarmed = get_skill_level( skill_unarmed );
 
-    for( const trait_id &pr : get_mutations() ) {
+    for( const trait_id &pr : get_functioning_mutations() ) {
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part
