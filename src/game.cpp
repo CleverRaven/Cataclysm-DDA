@@ -1711,7 +1711,14 @@ units::temperature_delta get_heat_radiation( const tripoint_bub_ms &location )
             continue;
         }
         if( player_character.pos_bub() == location ) {
-            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
+            bool gas_can_spread = true;
+            for( const tripoint_bub_ms &p : line_to( player_character.pos_bub(), dest ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, p ) && here.impassable( p ) ) {
+                    gas_can_spread = false;
+                    break;
+                }
+            }
+            if( !gas_can_spread ) {
                 continue;
             }
         } else if( !here.sees( location, dest, -1 ) ) {
