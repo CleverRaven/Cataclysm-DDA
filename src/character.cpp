@@ -1967,7 +1967,7 @@ bool Character::is_dead_state() const
         }
     }
     if( !has_vitals ) {
-        debugmsg( _( "WARNING!  Player has no vital part and is invincible." ) );
+        debugmsg( _( "WARNING!  %s has no vital part and is invincible." ), disp_name() );
     }
     return false;
 }
