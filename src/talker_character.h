@@ -301,6 +301,7 @@ class talker_character: virtual public talker
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void mod_livestyle( int ) override;
         void set_fac_relation( const Character *guy, npc_factions::relationship rule,
                                bool should_set_value ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,

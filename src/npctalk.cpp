@@ -5058,18 +5058,6 @@ talk_effect_fun_t::func f_give_achievment( const JsonObject &jo, std::string_vie
     };
 }
 
-talk_effect_fun_t::func f_mod_healthy( const JsonObject &jo, std::string_view member,
-                                       const std::string_view, bool is_npc )
-{
-    dbl_or_var dov_amount = get_dbl_or_var( jo, member );
-    dbl_or_var dov_cap = get_dbl_or_var( jo, "cap" );
-
-    return [is_npc, dov_amount, dov_cap]( dialogue & d ) {
-        d.actor( is_npc )->mod_daily_health( dov_amount.evaluate( d ),
-                                             dov_cap.evaluate( d ) );
-    };
-}
-
 talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view member,
                                       const std::string_view src, bool is_npc )
 {
@@ -7225,7 +7213,6 @@ parsers = {
     { "u_run_monster_eocs", "npc_run_monster_eocs", jarg::array, &talk_effect_fun::f_run_monster_eocs },
     { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun::f_run_inv_eocs },
     { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun::f_roll_remainder },
-    { "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun::f_mod_healthy },
     { "u_set_fac_relation", "npc_set_fac_relation", jarg::member, &talk_effect_fun::f_set_fac_relation },
     { "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun::f_add_morale },
     { "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun::f_lose_morale },

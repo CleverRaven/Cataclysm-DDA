@@ -137,6 +137,23 @@ diag_assign_dbl_f addiction_turns_ass( char scope, std::vector<diag_value> const
     };
 }
 
+diag_eval_dbl_f health_eval( char scope, std::vector<diag_value> const & /* params */,
+                             diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_health();
+    };
+}
+
+diag_assign_dbl_f health_ass( char scope, std::vector<diag_value> const & /* params */,
+                              diag_kwargs const & /* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
+        const int current_health = d.actor( beta )->get_health();
+        return d.actor( beta )->mod_livestyle( val - current_health );
+    };
+}
+
 diag_eval_dbl_f armor_eval( char scope, std::vector<diag_value> const &params,
                             diag_kwargs const & /* kwargs */ )
 {
@@ -1787,6 +1804,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "effect_duration", { "un", 1, effect_duration_eval } },
+    { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },
