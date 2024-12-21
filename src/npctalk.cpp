@@ -5854,7 +5854,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
     translation title = to_translation( "Select an option." );
     jo.read( "title", title );
 
-    return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
+    std::vector<effect_on_condition_id> no_options_eoc = load_eoc_vector( jo, "no_options_eoc", src );
+
+    return [eocs, context, title, no_options_eoc, eoc_names, eoc_keys, eoc_descriptions,
           hide_failing, allow_cancel]( dialogue & d ) {
         uilist eoc_list;
 
@@ -5911,8 +5913,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         }
 
         if( eoc_list.entries.empty() ) {
-            // if we have no entries should exit with error
-            debugmsg( "No options for EOC_LIST" );
+            run_eoc_vector( no_options_eoc, d );
             return;
         }
 

@@ -1,0 +1,203 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_ATTUNEMENTS",
+    "effect": [
+      { "math": [ "_spell_level_sum_threshold = 150" ] },
+      { "math": [ "_spell_qty_threshold = 10" ] },
+      { "math": [ "_spell_level_sum_threshold = 0" ] },
+      { "math": [ "_spell_qty_threshold = 0" ] },
+      {
+        "run_eoc_selector": [
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT",
+          "EOC_GIVE_ATTUNEMENT"
+        ],
+        "title": "Pick an Attunement to show the world your Worth.",
+        "no_options_eoc": [ "EOC_NO_ATTUNEMENT_EOC" ],
+        "variables": [
+          { "attunement_id": "ARTIFICER" },
+          { "attunement_id": "ALCHEMIST" },
+          { "attunement_id": "BIOTEK" },
+          { "attunement_id": "BLOOD_MAGE" },
+          { "attunement_id": "BOREAL_MAGE" },
+          { "attunement_id": "CLEANSING_FLAME" },
+          { "attunement_id": "CRUSADER" },
+          { "attunement_id": "EARTH_ELEMENTAL" },
+          { "attunement_id": "FIRE_ELEMENTAL" },
+          { "attunement_id": "FORCE_MAGE" },
+          { "attunement_id": "GAIAS_CHOSEN" },
+          { "attunement_id": "GLACIER_MAGE" },
+          { "attunement_id": "GOLEMANCER" },
+          { "attunement_id": "GRAVITY_MAGE" },
+          { "attunement_id": "OVERCLOCKER" },
+          { "attunement_id": "ICE_ELEMENTAL" },
+          { "attunement_id": "ILLUSIONIST" },
+          { "attunement_id": "MAGNETISM_MAGE" },
+          { "attunement_id": "PERMAFROST_MAGE" },
+          { "attunement_id": "RADIATION_MAGE" },
+          { "attunement_id": "SHAMAN" },
+          { "attunement_id": "SHAPESHIFTER" },
+          { "attunement_id": "SOULFIRE" },
+          { "attunement_id": "STORM_ELEMENTAL" },
+          { "attunement_id": "STORMCALLER" },
+          { "attunement_id": "SUN_MAGE" },
+          { "attunement_id": "TUNDRA_MAGE" },
+          { "attunement_id": "VOID_MAGE" },
+          { "attunement_id": "VULCANIST" },
+          { "attunement_id": "WITHER_MAGE" }
+        ],
+        "names": [
+          "<trait_name:ARTIFICER>",
+          "<trait_name:ALCHEMIST>",
+          "<trait_name:BIOTEK>",
+          "<trait_name:BLOOD_MAGE>",
+          "<trait_name:BOREAL_MAGE>",
+          "<trait_name:CLEANSING_FLAME>",
+          "<trait_name:CRUSADER>",
+          "<trait_name:EARTH_ELEMENTAL>",
+          "<trait_name:FIRE_ELEMENTAL>",
+          "<trait_name:FORCE_MAGE>",
+          "<trait_name:GAIAS_CHOSEN>",
+          "<trait_name:GLACIER_MAGE>",
+          "<trait_name:GOLEMANCER>",
+          "<trait_name:GRAVITY_MAGE>",
+          "<trait_name:OVERCLOCKER>",
+          "<trait_name:ICE_ELEMENTAL>",
+          "<trait_name:ILLUSIONIST>",
+          "<trait_name:MAGNETISM_MAGE>",
+          "<trait_name:PERMAFROST_MAGE>",
+          "<trait_name:RADIATION_MAGE>",
+          "<trait_name:SHAMAN>",
+          "<trait_name:SHAPESHIFTER>",
+          "<trait_name:SOULFIRE>",
+          "<trait_name:STORM_ELEMENTAL>",
+          "<trait_name:STORMCALLER>",
+          "<trait_name:SUN_MAGE>",
+          "<trait_name:TUNDRA_MAGE>",
+          "<trait_name:VOID_MAGE>",
+          "<trait_name:VULCANIST>",
+          "<trait_name:WITHER_MAGE>"
+        ],
+        "descriptions": [
+          "<trait_description:ARTIFICER>",
+          "<trait_description:ALCHEMIST>",
+          "<trait_description:BIOTEK>",
+          "<trait_description:BLOOD_MAGE>",
+          "<trait_description:BOREAL_MAGE>",
+          "<trait_description:CLEANSING_FLAME>",
+          "<trait_description:CRUSADER>",
+          "<trait_description:EARTH_ELEMENTAL>",
+          "<trait_description:FIRE_ELEMENTAL>",
+          "<trait_description:FORCE_MAGE>",
+          "<trait_description:GAIAS_CHOSEN>",
+          "<trait_description:GLACIER_MAGE>",
+          "<trait_description:GOLEMANCER>",
+          "<trait_description:GRAVITY_MAGE>",
+          "<trait_description:OVERCLOCKER>",
+          "<trait_description:ICE_ELEMENTAL>",
+          "<trait_description:ILLUSIONIST>",
+          "<trait_description:MAGNETISM_MAGE>",
+          "<trait_description:PERMAFROST_MAGE>",
+          "<trait_description:RADIATION_MAGE>",
+          "<trait_description:SHAMAN>",
+          "<trait_description:SHAPESHIFTER>",
+          "<trait_description:SOULFIRE>",
+          "<trait_description:STORM_ELEMENTAL>",
+          "<trait_description:STORMCALLER>",
+          "<trait_description:SUN_MAGE>",
+          "<trait_description:TUNDRA_MAGE>",
+          "<trait_description:VOID_MAGE>",
+          "<trait_description:VULCANIST>",
+          "<trait_description:WITHER_MAGE>"
+        ],
+        "allow_cancel": true,
+        "hide_failing": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_ATTUNEMENT",
+    "condition": { "test_eoc": "EOC_TEST_ATTUNEMENT_REQS" },
+    "effect": [
+      { "u_add_trait": { "context_val": "attunement_id" } },
+      {
+        "if": { "compare_string": [ "GLACIER_MAGE", { "context_val": "attunement_id" } ] },
+        "then": { "u_add_trait": "FROZEN_PRESSURE_OFF" }
+      },
+      {
+        "if": { "compare_string": [ "RADIATION_MAGE", { "context_val": "attunement_id" } ] },
+        "then": { "u_add_trait": "CLAIRVOYANCE_OFF" }
+      },
+      {
+        "if": { "compare_string": [ "SHAMAN", { "context_val": "attunement_id" } ] },
+        "then": { "u_add_trait": "MIND_READ_OFF" }
+      },
+      {
+        "if": { "compare_string": [ "SOULFIRE", { "context_val": "attunement_id" } ] },
+        "then": { "u_add_trait": "SOUL_PRESSURE_OFF" }
+      },
+      {
+        "if": { "compare_string": [ "TUNDRA_MAGE", { "context_val": "attunement_id" } ] },
+        "then": { "u_add_trait": "FREEZING_AURA_OFF" }
+      },
+      {
+        "if": { "compare_string": [ "WITHER_MAGE", { "context_val": "attunement_id" } ] },
+        "then": { "u_add_trait": "TOXIC_AURA_OFF" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_ATTUNEMENT_REQS",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            { "compare_string": [ "ARTIFICER", { "context_val": "attunement_id" } ] },
+            { "u_has_trait": "STORMSHAPER" },
+            { "u_has_trait": "TECHNOMANCER" },
+            { "math": [ "u_spell_count('school': 'STORMSHAPER') >= _spell_qty_threshold" ] },
+            { "math": [ "u_spell_count('school': 'TECHNOMANCER') >= _spell_qty_threshold" ] },
+            { "math": [ "u_spell_level_sum('school': 'STORMSHAPER') >= _spell_level_sum_threshold" ] },
+            { "math": [ "u_spell_level_sum('school': 'TECHNOMANCER') >= _spell_level_sum_threshold" ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NO_ATTUNEMENT_EOC",
+    "//": "there should be logic for messages `This altar gives you the creeps` (the player doesn't have at least two base classes), `You've attained what you can for now` and `You feel that the altar does not deem you worthy, yet.`, but it's tiring and i can't find a good way to handle it",
+    "effect": [  ]
+  }
+]
