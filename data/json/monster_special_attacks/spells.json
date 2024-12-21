@@ -1197,7 +1197,7 @@
     "effect": [
       { "u_message": "The terrifying visage of the <npc_name> paralyzes you.", "type": "bad" },
       { "u_add_effect": "fearparalyze", "duration": 5 },
-      { "turn_cost": "4 s" }
+      { "turn_cost": { "math": [ "4 * u_speed() / 100" ] } }
     ],
     "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
   },

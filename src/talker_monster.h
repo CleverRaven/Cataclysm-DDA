@@ -73,6 +73,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int morale_cur() const override;
         int get_friendly() const override;
         int get_size() const override;
+        int get_speed() const override;
         int get_grab_strength() const override;
         std::vector<std::string> get_topics( bool radio_contact ) const override;
         bool will_talk_to_u( const Character &u, bool force ) const override;

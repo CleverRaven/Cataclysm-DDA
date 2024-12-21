@@ -496,6 +496,9 @@ class const_talker
         virtual int attack_speed() const {
             return 0;
         }
+        virtual int get_speed() const {
+            return 0;
+        }
         virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
                 const damage_instance & ) const {
             return dealt_damage_instance();

@@ -178,6 +178,11 @@ int talker_monster_const::get_size() const
     return me_mon_const->get_size() - 0;
 }
 
+int talker_monster_const::get_speed() const
+{
+    return me_mon_const->get_speed();
+}
+
 int talker_monster_const::get_grab_strength() const
 {
     add_msg_debug( debugmode::DF_TALKER, "Grab strength of monster %s = %d", me_mon_const->name(),
