@@ -766,18 +766,13 @@ void monster::plan()
  * differing distance metrics.
  * It works by scaling the cost to take a step by
  * how much that step reduces the distance to your goal.
- * Since it incorporates the current distance metric,
- * it also scales for diagonal vs orthogonal movement.
  **/
-static float get_stagger_adjust( const tripoint &source, const tripoint &destination,
-                                 const tripoint &next_step )
+static float get_stagger_adjust( const tripoint_bub_ms &source, const tripoint_bub_ms &destination,
+                                 const tripoint_bub_ms &next_step )
 {
-    // TODO: push this down into rl_dist
-    const float initial_dist =
-        trigdist ? trig_dist( source, destination ) : rl_dist( source, destination );
-    const float new_dist =
-        trigdist ? trig_dist( next_step, destination ) : rl_dist( next_step, destination );
-    // If we return 0, it wil cancel the action.
+    const float initial_dist = rl_dist( source, destination );
+    const float new_dist = rl_dist( next_step, destination );
+    // If we return 0, it will cancel the action.
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
@@ -1251,8 +1246,8 @@ void monster::move()
               here.open_door( *this, local_next_step, !here.is_outside( pos_bub() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination.raw(),
-                     local_next_step.raw() ) );
+            move_to( local_next_step, false, false, get_stagger_adjust( pos_bub(), destination,
+                     local_next_step ) );
 
         if( !did_something ) {
             mod_moves( -get_speed() ); // If we don't do this, we'll get infinite loops.
