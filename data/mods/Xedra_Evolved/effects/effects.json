@@ -3015,7 +3015,6 @@
     "id": "effect_xedra_time_loop",
     "name": [ "Time Looped" ],
     "desc": [ "Every few seconds every change to your person reverts." ],
-    "remove_message": "Your time loop ends!",
     "rating": "good",
     "flags": [ "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
     "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],

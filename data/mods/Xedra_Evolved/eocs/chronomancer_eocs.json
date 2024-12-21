@@ -493,6 +493,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_XEDRA_TIME_LOOP_ENDED_LOOP",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_xedra_time_loop", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "u_message": "Your time loop ends!",
+        "type": "neutral",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      {
+        "run_eocs": "EOC_XEDRA_TIME_LOAD_VARIABLES_DYNAMIC",
+        "variables": { "xedra_chronomancer_prefix": "time_loop" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU",
     "effect": [
       { "math": [ "u_xedra_chronomancer_insight_count=u_vitamin('xedra_chronomancer_insight')" ] },
