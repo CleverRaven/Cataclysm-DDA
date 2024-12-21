@@ -256,5 +256,28 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MONSTER_MAINTAINING_PSI_POWER",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_monster_hardened_skin" },
+        { "u_has_effect": "effect_monster_heightened_reflex" },
+        { "u_has_effect": "effect_monster_heightened_reflex_enhanced" },
+        { "u_has_effect": "effect_psi_biokin3_hurricane_blows" },
+        { "u_has_effect": "effect_feral_regeneration" },
+        { "u_has_effect": "effect_pattern_screamer_rock_thrower" },
+        { "u_has_effect": "effect_monster_neuro_acceleration" },
+        { "u_has_effect": "effect_monster_neuro_acceleration_enhanced" },
+        { "u_has_effect": "effect_monster_pyrokinetic_fire_immunity" },
+        { "u_has_effect": "effect_monster_momentum_alteration" },
+        { "u_has_effect": "effect_monster_inertial_barrier" },
+        { "u_has_effect": "effect_monster_inertial_barrier_improved" },
+        { "u_has_effect": "effect_feral_regeneration" },
+        { "u_has_effect": "effect_telepath_network_monster_effect" }
+      ]
+    },
+    "effect": [  ]
   }
 ]

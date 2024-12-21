@@ -71,5 +71,88 @@
       "MIND_SEEING"
     ],
     "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
+  },
+  {
+    "id": "mon_nether_silent_one",
+    "type": "MONSTER",
+    "name": { "str": "silent one" },
+    "description": "A patch of gray cloud that sometimes collapses into the distinct form of a robed and cowled figure.  The depths of the cowl are empty, and no hands or legs extend out of the robe.  It floats above the ground, the cowl never looking to the left or the right, but you have the uncanny sense that it's watching you.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "hp": 180,
+    "speed": 105,
+    "volume": "92500 ml",
+    "weight": "20500 g",
+    "material": [ "wind" ],
+    "symbol": "S",
+    "color": "dark_gray",
+    "morale": 100,
+    "aggression": -5,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "dodge": 4,
+    "armor": { "stab": 85, "cut": 50, "bullet": 1000, "psi_telekinetic_damage": 300 },
+    "bleed_rate": 0,
+    "vision_day": 0,
+    "vision_night": 0,
+    "harvest": "exempt",
+    "special_attacks": [
+      {
+        "id": "silent_one_spirit_drain_attack",
+        "type": "spell",
+        "spell_data": { "id": "silent_one_drain_monster" },
+        "cooldown": { "math": [ "2 + rand(2)" ] },
+        "monster_message": "%1$s's empty cowl turns toward %3$s."
+      },
+      {
+        "id": "silent_one_buff_self",
+        "type": "spell",
+        "spell_data": { "id": "silent_one_apply_buffs", "hit_self": true },
+        "condition": {
+          "or": [
+            { "not": { "u_has_effect": "eff_mind_seeing_bonus_10" } },
+            { "not": { "u_has_effect": "eff_mind_seeing_bonus_5" } },
+            { "not": { "u_has_effect": "eff_mind_seeing_bonus_30" } },
+            { "not": { "u_has_effect": "effect_nether_silent_one_resistances" } }
+          ]
+        },
+        "allow_no_target": true,
+        "cooldown": 1,
+        "monster_message": ""
+      },
+      {
+        "id": "silent_one_detect_psionic_activity",
+        "type": "spell",
+        "spell_data": { "id": "silent_one_detect_psionic_activity" },
+        "cooldown": { "math": [ "3 + rand(5)" ] },
+        "allow_no_target": true,
+        "monster_message": ""
+      }
+    ],
+    "anger_triggers": [ "HURT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "NO_BREATHE",
+      "NOHEAD",
+      "FLIES",
+      "BIOLOGICALPROOF",
+      "COLDPROOF",
+      "HAS_MIND",
+      "NO_FUNG_DMG",
+      "STUN_IMMUNE",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "ACIDPROOF",
+      "NOGIB",
+      "PLASTIC",
+      "SILENTMOVES",
+      "TELEKIN_IMMUNE",
+      "MIND_SEEING",
+      "WEBWALK"
+    ]
   }
 ]
