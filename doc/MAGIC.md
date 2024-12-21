@@ -20,6 +20,7 @@
     - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
     - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
     - [Monster spells](#monster-spells)
+    - [Custom Spell Experience Requirements](#custom-spell-experience-requirements)
   - [Enchantments](#enchantments)
     - [The `relic_data` field](#the-relic_data-field)
     - [Variables](#variables)
@@ -627,6 +628,7 @@ Also, keep in mind that changing the spell experience requirements of an existin
 Note: the exp_for_level_formula_id requires the total experience required for a spell level, not the difference in experience between the current and next level.  IE, if a spell requires 1000 xp to level a level 10 spell should require 10,000 experience in its exp_for_level_formula_id, not 1,000.
 
 Constant Spell Exp Requirement Example:
+```json
   {
     "id": "test_spell",
     "type": "SPELL",
