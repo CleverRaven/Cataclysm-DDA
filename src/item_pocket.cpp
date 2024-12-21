@@ -901,27 +901,6 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
     return false;
 }
 
-bool item_pocket::process( const itype &type, map &here, Character *carrier, const tripoint &pos,
-                           float insulation, temperature_flag flag, bool watertight_container )
-{
-    const tripoint_bub_ms p{pos}; // TODO get rid of this when operation typified.
-    bool processed = false;
-    float spoil_multiplier = 1.0f;
-    for( auto it = contents.begin(); it != contents.end(); ) {
-        if( _sealed ) {
-            spoil_multiplier = 0.0f;
-        }
-        if( it->process( here, carrier, p, type.insulation_factor * insulation, flag,
-                         spoil_multiplier, watertight_container ) ) {
-            it->spill_contents( p );
-            it = contents.erase( it );
-            processed = true;
-        } else {
-            ++it;
-        }
-    }
-    return processed;
-}
 
 void item_pocket::remove_all_ammo( Character &guy )
 {
