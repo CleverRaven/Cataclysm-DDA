@@ -8579,22 +8579,6 @@ void map::saven( const tripoint_bub_sm &grid )
     MAPBUFFER.add_submap( abs, submap_to_save );
 }
 
-// TODO: Probably needs clearing on exit to menu if nothing else
-static std::unordered_map<oter_type_str_id, ter_str_id> uniform_terrain_map;
-
-void add_uniform_terrain( const oter_type_str_id &oter, const ter_str_id &ter )
-{
-    uniform_terrain_map.insert( { oter, ter } );
-}
-
-std::optional<ter_str_id> uniform_terrain( const oter_id &oter )
-{
-    if( auto it = uniform_terrain_map.find( oter->get_type_id() ); it != uniform_terrain_map.end() ) {
-        return it->second;
-    }
-    return std::nullopt;
-}
-
 // Optimized mapgen function that only works properly for very simple overmap types
 // Does not create or require a temporary map and does its own saving
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter )
@@ -8614,7 +8598,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     dbg( D_INFO ) << "generate_uniform p: " << p
                   << "  terrain_type: " << terrain_type.id().str();
 
-    const std::optional<ter_str_id> ter = uniform_terrain( terrain_type );
+    const std::optional<ter_str_id> ter = terrain_type->get_uniform_terrain();
 
     if( !ter ) {
         return false;

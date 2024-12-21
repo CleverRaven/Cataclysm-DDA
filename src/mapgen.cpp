@@ -236,7 +236,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
                     // Generate uniform submaps immediately and cheaply.
                     // This causes them to be available for "proper" overlays even if on a lower Z level.
-                    const std::optional<ter_str_id> ter = uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) );
+                    const std::optional<ter_str_id> ter = overmap_buffer.ter( { p.xy(), gridz } )->get_uniform_terrain();
                     if( ter ) {
                         getsubmap( grid_pos )->set_all_ter( *ter, true );
                         getsubmap( grid_pos )->last_touched = calendar::turn;
@@ -265,6 +265,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         const tripoint_abs_sm p_sm = { p_sm_base.xy(), gridz };
         set_abs_sub( p_sm );
 
+        const oter_id &terrain_type = overmap_buffer.ter( tripoint_abs_omt( p.xy(), gridz ) );
+
         for( int gridx = 0; gridx <= 1; gridx++ ) {
             for( int gridy = 0; gridy <= 1; gridy++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
@@ -272,14 +274,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
                 if( ( !generated.at( grid_pos ) || !save_results ) &&
                     !getsubmap( grid_pos )->is_uniform() &&
-                    !uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) ) {
+                    !terrain_type->has_uniform_terrain() ) {
                     saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
                     setsubmap( grid_pos, new submap() );
                 }
             }
         }
-
-        oter_id terrain_type = overmap_buffer.ter( tripoint_abs_omt( p.xy(), gridz ) );
 
         // This attempts to scale density of zombies inversely with distance from the nearest city.
         // In other words, make city centers dense and perimeters sparse.
@@ -300,7 +300,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
-            !uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) ) {
+            !terrain_type->has_uniform_terrain() ) {
             draw_map( dat );
         }
 
@@ -5349,7 +5349,7 @@ void mapgen_function_json::generate( mapgendata &md )
     const oter_t &ter = *md.terrain_type();
 
     auto do_predecessor_mapgen = [&]( mapgendata & predecessor_md ) {
-        const std::optional<ter_str_id> uniform_ter = uniform_terrain( predecessor_md.terrain_type() );
+        const std::optional<ter_str_id> uniform_ter = predecessor_md.terrain_type()->get_uniform_terrain();
         if( uniform_ter ) {
             m->draw_fill_background( *uniform_ter );
         } else {
