@@ -176,11 +176,7 @@
     "name": { "str_sp": "chamomile tea" },
     "copy-from": "tea",
     "color": "green",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Can be used to treat insomnia.",
-      "effect_on_conditions": [ "EOC_MINOR_SLEEP" ]
-    },
+    "sleepiness_mod": -20,
     "stim": 0,
     "spoils_in": "10 days",
     "comestible_type": "MED",
