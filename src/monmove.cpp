@@ -2194,15 +2194,15 @@ void monster::stumble()
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
         if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint::below );
+                valid_stumbles.emplace_back( dest + tripoint_rel_ms::below );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest + tripoint::above );
+                valid_stumbles.emplace_back( dest + tripoint_rel_ms::above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint_bub_ms below( pos_bub() + tripoint::below );
+    const tripoint_bub_ms below( pos_bub() + tripoint_rel_ms::below );
     if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
