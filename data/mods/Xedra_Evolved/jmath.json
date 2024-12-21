@@ -32,6 +32,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "xedra_chronomancer_formula_get_level",
+    "num_args": 1,
+    "return": "( sqrt( ( 2 / 375 ) * _0 + 0.25 )  ) - 0.5"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chronomancer_formula_exp_for_level",
+    "num_args": 1,
+    "return": "375 * 0.5 * _0 * (_0 + 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "spell_train_factor",
     "num_args": 1,
     "//": "accept the spell _cost, return how much spellcasts required to level the spell",

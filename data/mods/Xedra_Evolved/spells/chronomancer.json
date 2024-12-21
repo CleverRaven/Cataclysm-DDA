@@ -20,6 +20,8 @@
     "min_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_freeze_target'), 60000, 0 )" ] },
     "max_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_freeze_target'), 60000, 0 )" ] },
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 200,
     "final_energy_cost": 50,
     "energy_increment": -5,
@@ -46,6 +48,8 @@
     "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_normalize_time'), 2, 1 ), 80 )" ] },
     "max_range": 80,
     "energy_source": "NONE",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 0,
     "base_casting_time": 200,
     "final_casting_time": 50,
@@ -117,6 +121,8 @@
     "min_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_entropic_burst'), 50, 200 )" ] },
     "max_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_entropic_burst'), 50, 200 )" ] },
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 600,
     "final_energy_cost": 150,
     "energy_increment": -15,
@@ -203,6 +209,8 @@
     "min_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_bubble'), 60000, 0 )" ] },
     "max_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_bubble'), 60000, 0 )" ] },
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 600,
     "final_energy_cost": 150,
     "energy_increment": -15,
@@ -226,6 +234,8 @@
     "effect_str": "EOC_XEDRA_DAMAGE_REVERSAL",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 200,
     "final_energy_cost": 50,
     "energy_increment": -5,
@@ -251,6 +261,8 @@
     "min_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_loop'), 3000, 0 )" ] },
     "max_duration": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_loop'), 3000, 0 )" ] },
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 300,
     "final_energy_cost": 100,
     "energy_increment": -10,
@@ -275,6 +287,8 @@
     "min_damage": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_stop'), 200, 0 )" ] },
     "max_damage": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_stop'), 200, 0 )" ] },
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 1000,
     "final_energy_cost": 800,
     "energy_increment": -10,
@@ -295,6 +309,8 @@
     "effect": "translocate",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 1000,
     "final_energy_cost": 500,
     "energy_increment": -25,
@@ -314,6 +330,10 @@
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_FAIL" ],
     "difficulty": 0,
     "max_level": 0,
+    "energy_source": "MANA",
+    "base_energy_cost": 0,
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "effect": "ter_transform",
     "effect_str": "xedra_chronomancer_memorize_terrain_switch",
     "shape": "blast",
@@ -350,6 +370,8 @@
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 1000,
     "final_energy_cost": 800,
     "energy_increment": -10,
@@ -405,6 +427,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_STABLE_TIMELOOP_INITIATE",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_xedra_chronomancer_stable_timeloop') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_stable_loop') ) ), 250 ) "
@@ -432,6 +456,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_CHRONAL_ACCEL_INITIATE",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_xedra_chronomancer_chronal_accel') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ) ), 250 ) "
@@ -459,6 +485,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_DESTABILIZING_STRIKES_INITIATE",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_xedra_chronomancer_destabilizing_strikes') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_destabilizing_strikes') ) ), 250 ) "
@@ -503,6 +531,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_STABILIZE_TIMELINE_INITIATE",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_xedra_chronomancer_stabilize_timeline') > -1 ? 0 : max( ( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_stabilize_timeline') ) ), 125 ) "
@@ -530,6 +560,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_REVERSE_ENTROPY_INITIATE",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_xedra_chronomancer_reverse_entropy') > -1 ? 0 : max( ( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ) ), 250 ) "
@@ -557,6 +589,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_REWRITE_WOUND_CAUSALITY",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 20,
     "base_casting_time": { "math": [ " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_wound_causality') ) ), 50 )" ] }
   },
@@ -576,6 +610,8 @@
     "effect_str": "EOC_XEDRA_CHRONOMANCER_REWRITE_EQUIPMENT_CAUSALITY",
     "shape": "blast",
     "energy_source": "MANA",
+    "get_level_formula_id": "xedra_chronomancer_formula_get_level",
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
     "base_energy_cost": 20,
     "base_casting_time": { "math": [ " max( ( 200 - ( 5 * u_spell_level('xedra_chronomancer_rewrite_equipment_causality') ) ), 50 )" ] }
   }
