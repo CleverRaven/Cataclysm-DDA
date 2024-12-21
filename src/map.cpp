@@ -6252,20 +6252,6 @@ std::list<item_location> map::items_with( const tripoint_bub_ms &p,
     return ret;
 }
 
-std::list<item> map::use_amount( const std::vector<tripoint> &reachable_pts, const itype_id &type,
-                                 int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
-{
-    std::vector<tripoint_bub_ms> temp;
-    temp.reserve( reachable_pts.size() );
-
-    for( const tripoint p : reachable_pts ) {
-        const tripoint_bub_ms pt( p );
-        temp.emplace_back( pt );
-    }
-
-    return map::use_amount( temp, type, quantity, filter, select_ind );
-}
-
 std::list<item> map::use_amount( const std::vector<tripoint_bub_ms> &reachable_pts,
                                  const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter, bool select_ind )
@@ -6374,22 +6360,6 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 }
 
-std::list<item> map::use_charges( const std::vector<tripoint> &reachable_pts,
-                                  const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter,
-                                  basecamp *bcp, bool in_tools )
-{
-    std::vector<tripoint_bub_ms> temp;
-    temp.reserve( reachable_pts.size() );
-
-    for( tripoint p : reachable_pts ) {
-        const tripoint_bub_ms pt( p );
-        temp.emplace_back( pt );
-    }
-
-    return map::use_charges( temp, type, quantity, filter, bcp, in_tools );
-}
-
 std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_pts,
                                   const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter,
@@ -6446,14 +6416,6 @@ std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_
     return ret;
 }
 
-std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id &type, int &quantity,
-                                  const std::function<bool( const item & )> &filter,
-                                  basecamp *bcp, bool in_tools )
-{
-    return map::use_charges( tripoint_bub_ms( origin ), range, type, quantity, filter, bcp, in_tools );
-}
-
 std::list<item> map::use_charges( const tripoint_bub_ms &origin, const int range,
                                   const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter,
@@ -6462,19 +6424,6 @@ std::list<item> map::use_charges( const tripoint_bub_ms &origin, const int range
     // populate a grid of spots that can be reached
     const std::vector<tripoint_bub_ms> &reachable_pts = reachable_flood_steps( origin, range, 1, 100 );
     return use_charges( reachable_pts, type, quantity, filter, bcp, in_tools );
-}
-
-units::energy map::consume_ups( const std::vector<tripoint> &reachable_pts, units::energy qty )
-{
-    std::vector<tripoint_bub_ms> temp;
-    temp.reserve( reachable_pts.size() );
-
-    for( const tripoint p : reachable_pts ) {
-        const tripoint_bub_ms pt( p );
-        temp.emplace_back( pt );
-    }
-
-    return map::consume_ups( temp, qty );
 }
 
 units::energy map::consume_ups( const std::vector<tripoint_bub_ms> &reachable_pts,
