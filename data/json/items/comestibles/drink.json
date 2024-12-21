@@ -67,7 +67,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ ["iron", 10], [ "calcium", 23 ], [ "nut_allergen", 1 ] ],
+    "vitamins": [ [ "iron", 10 ], [ "calcium", 23 ], [ "nut_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
