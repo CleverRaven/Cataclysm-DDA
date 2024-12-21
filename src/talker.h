@@ -782,6 +782,7 @@ class talker: virtual public const_talker
         virtual void die() {}
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
+        virtual void mod_livestyle( int ) {}
         virtual void mod_focus( int ) {}
         virtual void set_pkill( int ) {}
         virtual void set_stamina( int ) {}

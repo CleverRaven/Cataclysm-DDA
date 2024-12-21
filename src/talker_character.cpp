@@ -882,6 +882,11 @@ void talker_character::mod_daily_health( int amount, int cap )
     me_chr->mod_daily_health( amount, cap );
 }
 
+void talker_character::mod_livestyle( int amount )
+{
+    me_chr->mod_livestyle( amount );
+}
+
 int talker_character_const::morale_cur() const
 {
     return me_chr_const->get_morale_level();

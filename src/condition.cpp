@@ -2301,7 +2301,6 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "focus", &const_talker::focus_cur },
     { "friendly", &const_talker::get_friendly },
     { "grab_strength", &const_talker::get_grab_strength },
-    { "health", &const_talker::get_health },
     { "height", &const_talker::get_height },
     { "hunger", &const_talker::get_hunger },
     { "instant_thirst", &const_talker::get_instant_thirst },
