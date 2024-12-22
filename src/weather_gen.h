@@ -73,7 +73,7 @@ class weather_generator
         void sort_weather();
         units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 
-        static weather_generator load( const JsonObject &jo );
+        void load( const JsonObject &jo, const bool was_loaded );
 };
 
 #endif // CATA_SRC_WEATHER_GEN_H
