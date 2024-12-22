@@ -159,11 +159,6 @@ static const material_id material_glass( "glass" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
-static const oter_str_id oter_deep_rock( "deep_rock" );
-static const oter_str_id oter_empty_rock( "empty_rock" );
-static const oter_str_id oter_open_air( "open_air" );
-static const oter_str_id oter_solid_earth( "solid_earth" );
-
 static const species_id species_FERAL( "FERAL" );
 
 static const ter_str_id ter_t_bars( "t_bars" );
@@ -189,10 +184,8 @@ static const ter_str_id ter_t_gas_pump_smashed( "t_gas_pump_smashed" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
-static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
-static const ter_str_id ter_t_soil( "t_soil" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
