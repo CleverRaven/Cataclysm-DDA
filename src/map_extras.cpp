@@ -124,7 +124,6 @@ static const itype_id itype_withered( "withered" );
 static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
-static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_fungal_zone( "mx_fungal_zone" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
@@ -159,7 +158,6 @@ static const oter_type_str_id oter_type_road( "road" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
-static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
@@ -1307,51 +1305,6 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
-{
-    // This map extra creates small clay deposits using a simple cellular automaton.
-
-    constexpr int width = SEEX * 2;
-    constexpr int height = SEEY * 2;
-
-    for( int tries = 0; tries < 5; tries++ ) {
-        // Generate the cells for our clay deposit.
-        std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                                height, 35, 5, 4, 3 );
-
-        // With our settings for the CA, it's sometimes possible to get a bad generation with not enough
-        // alive cells (or even 0).
-        int alive_count = 0;
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
-                alive_count += current[i][j];
-            }
-        }
-
-        // If we have fewer than 4 alive cells, lets try again.
-        if( alive_count < 4 ) {
-            continue;
-        }
-
-        // Loop through and turn every live cell into clay.
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
-                if( current[i][j] == 1 ) {
-                    const tripoint location( i, j, abs_sub.z );
-                    m.furn_set( location, furn_str_id::NULL_ID() );
-                    m.ter_set( location, ter_t_clay );
-                }
-            }
-        }
-
-        // If we got here, it meant we had a successful try and can just break out of
-        // our retry loop.
-        return true;
-    }
-
-    return false;
-}
-
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
     const furn_t &fid = m.furn( loc ).obj();
@@ -2224,7 +2177,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },
     { map_extra_mx_pond, mx_pond },
-    { map_extra_mx_clay_deposit, mx_clay_deposit },
     { map_extra_mx_burned_ground, mx_burned_ground },
     { map_extra_mx_point_burned_ground, mx_point_burned_ground },
     { map_extra_mx_casings, mx_casings },
