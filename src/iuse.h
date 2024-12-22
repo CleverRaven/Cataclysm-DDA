@@ -12,7 +12,7 @@
 #include "coords_fwd.h"
 #include "item_location.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 
 class Character;
 class JsonObject;
