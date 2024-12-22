@@ -126,6 +126,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 101,
+    "healthy": -1,
     "container": "wrapper",
     "description": "A yellow stick of milkfat and milk solids, usually made from cow's milk.",
     "price": "9 cent",
