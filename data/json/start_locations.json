@@ -487,7 +487,8 @@
     "type": "start_location",
     "id": "sloc_school_rooftop",
     "name": "School Rooftop",
-    "terrain": [ "school_4_6", "school_4_5", "school_4_4", "school_4_9", "school_4_8", "school_4_7" ]
+    "terrain": [ "school_4_6", "school_4_5", "school_4_4", "school_4_9", "school_4_8", "school_4_7" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -581,13 +582,15 @@
     "type": "start_location",
     "id": "sloc_apartments_rooftop",
     "name": "Apartment Building (rooftop)",
-    "terrain": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
+    "terrain": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
     "id": "sloc_apartments_rooftop2",
     "name": "Apartment Building Alternate (rooftop)",
-    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+    "terrain": [ "apartments_mod_tower_113", "apartments_mod_tower_013", "apartments_mod_tower_103", "apartments_mod_tower_003" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -599,7 +602,8 @@
       "apartment_complex_straight_roof",
       "apartment_complex_straight_stairs_even_roof",
       "apartment_complex_straight_stairs_odd_roof"
-    ]
+    ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -621,7 +625,8 @@
       "convention_2_2_2",
       "convention_3_2_2",
       "convention_4_2_2"
-    ]
+    ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -724,13 +729,15 @@
     "type": "start_location",
     "id": "sloc_hotel_rooftop",
     "name": "Hotel Rooftop",
-    "terrain": [ "hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7" ]
+    "terrain": [ "hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
     "id": "sloc_office_tower_rooftop",
     "name": "Office Tower Rooftop",
-    "terrain": [ "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16" ]
+    "terrain": [ "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -742,13 +749,15 @@
       "office_tower_2_b1_roof",
       "office_tower_2_b2_roof",
       "office_tower_2_b3_roof"
-    ]
+    ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
     "id": "sloc_cathedral_rooftop",
     "name": "Cathedral Rooftop",
-    "terrain": [ "cathedral_3_NW", "cathedral_3_NE", "cathedral_3_SW", "cathedral_3_SE" ]
+    "terrain": [ "cathedral_3_NW", "cathedral_3_NE", "cathedral_3_SW", "cathedral_3_SE" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
