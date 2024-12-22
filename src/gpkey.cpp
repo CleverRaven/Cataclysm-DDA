@@ -64,6 +64,8 @@ std::string convert_to_gamepad( const std::string keybind_in_pre )
         keybind_out = gp_triangle;
     } else if( keybind_in == "e" ) {
         keybind_out = gp_square;
+    } else if( keybind_in == "c" ) { //replace references of examine terrain/furnish to examine all
+        keybind_out = gp_square;
     } else if( keybind_in == "f" ) {
         keybind_out = gp_r1;
     } else if( keybind_in == "g" ) {
@@ -90,7 +92,11 @@ std::string convert_to_gamepad( const std::string keybind_in_pre )
         keybind_out = string_format( "%s", gp_rstick_right );
     } else if( keybind_in == "D" ) {
         keybind_out = string_format( "%s%s", l_mod, gp_triangle );
+    } else if( keybind_in == "B" ) { //replace references of drop to multidrop
+        keybind_out = string_format( "%s%s", l_mod, gp_triangle );
     } else if( keybind_in == "E" ) {
+        keybind_out = string_format( "%s%s", l_mod, gp_square );
+    } else if( keybind_in == "N" ) { //replace references of pickup adjacent to pickup nearby
         keybind_out = string_format( "%s%s", l_mod, gp_square );
     } else if( keybind_in == "F" ) {
         keybind_out = string_format( "%s%s", l_mod, gp_r1 );
@@ -150,7 +156,18 @@ std::string convert_to_gamepad( const std::string keybind_in_pre )
         keybind_out = gp_left;
     } else if( keybind_in == "RIGHT" ) {
         keybind_out = gp_right;
+	//handle diagonals
+    } else if( keybind_in == "HOME" ) { //NW
+        keybind_out = string_format( "%s%s", l_mod, gp_up_left );
+	} else if( keybind_in == "PPAGE" ) { //NE
+        keybind_out = string_format( "%s%s", l_mod, gp_up_right );
+	} else if( keybind_in == "END" ) { //SW
+        keybind_out = string_format( "%s%s", l_mod, gp_down_left );
+	} else if( keybind_in == "NPAGE" ) { //SE
+        keybind_out = string_format( "%s%s", l_mod, gp_down_right );
     } else if( keybind_in == "ESC" ) {
+        keybind_out = gp_circle;
+    } else if( keybind_in == "S" ) { //replace references of save to main menu (where save exists)
         keybind_out = gp_circle;
     } else if( keybind_in == "RETURN" ) {
         keybind_out = gp_cross;

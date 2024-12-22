@@ -25,6 +25,7 @@
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
 #include "game_constants.h"
+#include "gpkey.h"
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
@@ -2666,7 +2667,7 @@ void replace_keybind_tag( std::string &input )
             }
         } else {
             keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                return colorize( '\'' + k.long_description() + '\'', c_yellow );
+                return colorize( '\'' + convert_to_gamepad ( k.long_description() ) + '\'', c_yellow );
             }, enumeration_conjunction::or_ );
         }
         std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
