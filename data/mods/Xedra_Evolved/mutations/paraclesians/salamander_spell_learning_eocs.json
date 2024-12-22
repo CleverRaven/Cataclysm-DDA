@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER",
-    "//": "Must be near a source of fire or heat.  The game currently can't detect a nearby fire using EoC--once it can that should be added.",
+    "//": "Must be near a source of fire or heat.",
     "recurrence": [ "6 h", "36 h" ],
     "condition": {
       "and": [
@@ -15,6 +15,7 @@
             "SALAMANDER_SMOKE_TELEPORT",
             "SALAMANDER_FLAME_PUNCH",
             "SALAMANDER_SUMMON_FIRE_SPIRIT",
+            "SALAMANDER_ASH_BREATH",
             "SALAMANDER_FLAME_BREATH",
             "SALAMANDER_SUMMON_FIREBIRD",
             "SALAMANDER_INCREASE_SPEED",
@@ -37,11 +38,7 @@
             { "u_has_item": "oil_lamp_clay_on" },
             { "u_has_item": "cigar_lit" },
             { "u_has_item": "cig_lit" },
-            { "u_is_in_field": "fd_hot_air1" },
-            { "u_is_in_field": "fd_hot_air2" },
-            { "u_is_in_field": "fd_hot_air3" },
-            { "u_is_in_field": "fd_hot_air4" },
-            { "u_is_in_field": "fd_fire" },
+            { "math": [ "u_salamander_near_fire == 1" ] },
             { "math": [ "weather('temperature') >= from_fahrenheit( 80 )" ] }
           ]
         }
@@ -62,6 +59,7 @@
         { "math": [ "u_spell_level('salamander_smoke_teleport_spell') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_flame_punch_spell') < str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_summon_fire_spirit') < 35" ] },
+        { "math": [ "u_spell_level('salamander_ash_breath_spell') < str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_fire_breath') < str_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_summon_firebird_spell') < per_to_level(1)" ] },
         { "math": [ "u_spell_level('salamander_increase_speed_spell') < str_to_level(1)" ] },
@@ -85,6 +83,7 @@
         [ "EOC_LEVELER_SALAMANDER_SMOKE_TELEPORT", 8 ],
         [ "EOC_LEVELER_SALAMANDER_FLAME_PUNCH", 8 ],
         [ "EOC_LEVELER_SALAMANDER_SUMMON_FIRE_SPIRIT", 8 ],
+        [ "EOC_LEVELER_SALAMANDER_ASH_BREATH", 9 ],
         [ "EOC_LEVELER_SALAMANDER_FLAME_BREATH", 6 ],
         [ "EOC_LEVELER_SALAMANDER_SUMMON_FIREBIRD", 7 ],
         [ "EOC_LEVELER_SALAMANDER_INCREASE_SPEED", 5 ],
@@ -206,6 +205,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('salamander_summon_fire_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SALAMANDER_ASH_BREATH",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('salamander_ash_breath_spell') >= 0" ] },
+        { "math": [ "u_spell_level('salamander_ash_breath_spell') < str_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('salamander_ash_breath_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

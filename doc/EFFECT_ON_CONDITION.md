@@ -3898,6 +3898,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
 | "snippet" | optional | boolean | default false; if true, the effect instead display a random snippet from `u_message` | 
+| "store_in_lore" | optional | boolean | default false; if true, and message is snippet, the snippet would be stored in lore tab | 
 | "same_snippet" | optional | boolean | default false; if true, and `snippet` is true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 | "popup" | optional | boolean | default false; if true, the message would generate a popup with `u_message` | 
 | "popup_flag" | optional | string | default PF_NONE; if specified, the popup is modified by the specified flag, for allowed values see below | 
@@ -3923,7 +3924,7 @@ Send a red-colored `Bad json! Bad!` message in the log
 
 Print a snippet from `local_files_simple`, and popup it. The snippet is always the same
 ```json
- { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
+ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true }
 ```
 
 Print `uninvasive text` as a centre aligned popup at the top of the screen.

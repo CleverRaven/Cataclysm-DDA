@@ -140,6 +140,11 @@ class veh_app_interact
         */
         void plug();
         /**
+        * Function associated with the "HIDE" action.
+        * Hides the selected tiles sprite.
+        */
+        void hide();
+        /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned
          * (either directly to the player or to 'act'), or when QUIT input is received.

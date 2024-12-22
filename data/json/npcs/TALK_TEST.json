@@ -875,7 +875,7 @@
       {
         "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_compare_test_test", "++" ] }
+        "effect": { "math": [ "u_test_var_compare_test_test++" ] }
       },
       {
         "text": "This is an math test response that increments by 2.",

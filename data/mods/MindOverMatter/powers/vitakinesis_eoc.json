@@ -1154,6 +1154,108 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DEGENERATING_TOUCH",
+    "condition": "u_is_character",
+    "effect": [
+      { "math": [ "u_vitakinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_vitakinesis_degen_power_level = n_spell_level('vita_degenerating_touch')" ] },
+      { "math": [ "u_nether_attunement_vitakinesis_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_vitakinesis_degen_min_possible_damage = ( ( n_spell_level('vita_degenerating_touch') * 17 ) + 25) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling"
+        ]
+      },
+      {
+        "math": [
+          "u_vitakinesis_degen_max_possible_damage = ( ( n_spell_level('vita_degenerating_touch') * 32 ) + 55) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling"
+        ]
+      },
+      {
+        "math": [
+          "u_vitakinesis_degen_max_possible_limb_damage = rng( u_vitakinesis_degen_min_possible_damage, u_vitakinesis_degen_max_possible_damage )"
+        ]
+      },
+      {
+        "math": [ "u_vitakinesis_degen_max_possible_limb_damage = ( ( n_spell_level('vita_degenerating_touch') * 25 ) + 30)" ]
+      },
+      {
+        "math": [
+          "u_vitakinesis_degen_min_possible_duration = max((30 - ( (u_vitakinesis_degen_power_level ) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling)), 15)"
+        ]
+      },
+      {
+        "math": [
+          "u_vitakinesis_degen_max_possible_duration = max((75 - ( (u_vitakinesis_degen_power_level * 2 ) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling)), 15)"
+        ]
+      },
+      {
+        "math": [
+          "u_vitakinesis_degen_duration = rng(u_vitakinesis_degen_min_possible_duration,u_vitakinesis_degen_max_possible_duration)"
+        ]
+      },
+      { "u_cast_spell": { "id": "vita_degenerating_touch_self_character", "hit_self": true } },
+      { "npc_message": "Your target's flesh begins decaying before your eyes!", "type": "bad" }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VITAKIN_DEGENERATING_TOUCH_2",
+            "condition": {
+              "and": [
+                { "not": { "u_has_species": "ROBOT" } },
+                { "not": { "u_has_species": "ROBOT_FLYING" } },
+                { "not": { "u_has_species": "NETHER_EMANATION" } }
+              ]
+            },
+            "effect": [
+              { "math": [ "u_vitakinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+              { "math": [ "u_vitakinesis_degen_power_level = n_spell_level('vita_degenerating_touch')" ] },
+              { "math": [ "u_nether_attunement_vitakinesis_scaling = n_nether_attunement_power_scaling" ] },
+              {
+                "math": [
+                  "u_vitakinesis_degen_min_possible_damage = ( ( n_spell_level('vita_degenerating_touch') * 17 ) + 25) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling"
+                ]
+              },
+              {
+                "math": [
+                  "u_vitakinesis_degen_max_possible_damage = ( ( n_spell_level('vita_degenerating_touch') * 32 ) + 55) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling"
+                ]
+              },
+              {
+                "math": [
+                  "u_vitakinesis_degen_max_possible_monster_damage = rng( u_vitakinesis_degen_min_possible_damage, u_vitakinesis_degen_max_possible_damage )"
+                ]
+              },
+              {
+                "math": [ "u_vitakinesis_degen_max_possible_damage = ( ( n_spell_level('vita_degenerating_touch') * 25 ) + 30)" ]
+              },
+              {
+                "math": [
+                  "u_vitakinesis_degen_min_possible_duration = max((30 - ( (u_vitakinesis_degen_power_level ) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling)), 15)"
+                ]
+              },
+              {
+                "math": [
+                  "u_vitakinesis_degen_max_possible_duration = max((75 - ( (u_vitakinesis_degen_power_level * 2 ) * u_vitakinesis_intelligence * u_nether_attunement_vitakinesis_scaling)), 15)"
+                ]
+              },
+              {
+                "math": [
+                  "u_vitakinesis_degen_duration = rng(u_vitakinesis_degen_min_possible_duration,u_vitakinesis_degen_max_possible_duration)"
+                ]
+              },
+              { "u_cast_spell": { "id": "vita_degenerating_touch_self_monster", "hit_self": true } },
+              { "npc_message": "Your target's flesh begins decaying before your eyes!", "type": "bad" }
+            ],
+            "false_effect": [ { "npc_message": "Your target has no biology to affect!", "type": "bad" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH",
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },

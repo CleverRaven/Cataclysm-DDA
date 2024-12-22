@@ -172,19 +172,17 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     const weather_manager &weather = get_weather();
     w_point &weather_point = *weather.weather_precise;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
-    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                weather_point.temperature );
+    restore_on_out_of_scope restore_temp( weather_point.temperature );
     weather_point.temperature = units::from_fahrenheit( 65 );
-    restore_on_out_of_scope<std::optional<double>> restore_humidity(
-                weather_point.humidity );
+    restore_on_out_of_scope restore_humidity( weather_point.humidity );
     weather_point.humidity = 66.0f;
 
     CAPTURE( weather.weather_id.c_str() );
     CAPTURE( units::to_fahrenheit( weather_point.temperature ) );
     CAPTURE( weather_point.humidity );
 
-    REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
-    REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
+    REQUIRE( here.ter( dude.pos_bub() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos_bub() ).id() == furn_str_id::NULL_ID() );
 
     REQUIRE( body_part_arm_l->drying_rate == 1.0f );
     dude.drench( 100, dude.get_drenching_body_parts(), false );
@@ -202,8 +200,8 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     // Birdify, clear water
     clear_character( dude, true );
     create_bird_char( dude );
-    REQUIRE( here.ter( dude.pos() ).id() == ter_t_grass );
-    REQUIRE( here.furn( dude.pos() ).id() == furn_str_id::NULL_ID() );
+    REQUIRE( here.ter( dude.pos_bub() ).id() == ter_t_grass );
+    REQUIRE( here.furn( dude.pos_bub() ).id() == furn_str_id::NULL_ID() );
     REQUIRE( body_part_test_bird_wing_l->drying_rate == 2.0f );
     REQUIRE( body_part_test_bird_wing_r->drying_rate == 0.5f );
     REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 0 );

@@ -1117,6 +1117,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -2163,6 +2166,7 @@ Fuji
 fulleroclathrate
 fullscreen
 fumarolic
+fungalizing
 fungaloid
 fungaloids
 fungideer
@@ -6258,7 +6262,9 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timeloops
 timestamp
+timestream
 timey
 Timmy
 Timorese

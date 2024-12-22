@@ -21,7 +21,7 @@ These properties are required for all monsters:
 
 Property          | Description
 ---               | ---
-`name`            | (string or object) Monster name, and optional plural name and translation context
+`name`            | (string or object) Monster name, and optional plural name and translation context. Three words maximum.
 `description`     | (string) In-game description of the monster, in one or two sentences
 `hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-hp-scaling)
 `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.

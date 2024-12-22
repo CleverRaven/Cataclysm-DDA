@@ -574,7 +574,7 @@
         "text": "Sure, let's talk trade.",
         "topic": "TALK_TRAIN",
         "condition": { "math": [ "npc_John_Bailey_taught <= 3" ] },
-        "effect": { "math": [ "npc_John_Bailey_taught", "++" ] }
+        "effect": { "math": [ "npc_John_Bailey_taught++" ] }
       },
       { "text": "I'll bear that in mind.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "Thanks, I'll think about it.  <done_conversation_section>", "topic": "TALK_NONE" },

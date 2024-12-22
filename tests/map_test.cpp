@@ -217,8 +217,8 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
-    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                get_weather().forced_temperature );
+    restore_on_out_of_scope restore_temp(
+        get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
     REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc.raw() ) ) == 21 );
 
@@ -268,8 +268,8 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     get_avatar().setpos( tripoint::zero );
     tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint::east;
     map &here = get_map();
-    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                get_weather().forced_temperature );
+    restore_on_out_of_scope restore_temp(
+        get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
 
     bool const cookie_rotten_before_death = GENERATE( true, false );

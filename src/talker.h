@@ -129,6 +129,9 @@ class const_talker
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_degradation() const {
+            return 0;
+        }
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
@@ -670,7 +673,6 @@ class talker: virtual public const_talker
         virtual computer *get_computer() {
             return nullptr;
         }
-        virtual void set_pos( tripoint ) {}
         virtual void set_pos( tripoint_bub_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
         virtual void set_str_max( int ) {}
@@ -776,6 +778,7 @@ class talker: virtual public const_talker
         virtual void set_npc_value( int ) {}
         virtual void set_npc_anger( int ) {}
         virtual void set_all_parts_hp_cur( int ) {}
+        virtual void set_degradation( int ) {}
         virtual void die() {}
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}

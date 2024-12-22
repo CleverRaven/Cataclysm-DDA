@@ -64,7 +64,7 @@
     "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] } ] },
     "effect": [
       { "u_lose_effect": "effect_lilin_no_ruach" },
-      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "--" ] },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')--" ] },
       {
         "if": { "math": [ "u_vitamin('lilin_ruach_vitamin') == 0" ] },
         "then": { "u_add_effect": "effect_lilin_no_ruach", "duration": "PERMANENT", "intensity": 1 }

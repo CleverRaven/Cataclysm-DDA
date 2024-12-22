@@ -134,7 +134,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  First floor is clear.",
@@ -146,7 +146,7 @@
             { "npc_at_om_location": "lighthouse_z1" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Second floor is clear.",
@@ -158,7 +158,7 @@
             { "npc_at_om_location": "lighthouse_z2" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Third floor is clear.",
@@ -170,7 +170,7 @@
             { "npc_at_om_location": "lighthouse_z3" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Fourth floor is clear.",
@@ -182,7 +182,7 @@
             { "npc_at_om_location": "lighthouse_z4" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] }
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] }
       },
       {
         "text": "Yes.  Top floor is clear.",
@@ -193,7 +193,7 @@
             { "npc_at_om_location": "lighthouse_z5" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] },
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] },
         "topic": "TALK_lighthouse_man_cleaned_done"
       },
       {
@@ -205,7 +205,7 @@
             { "npc_at_om_location": "lighthouse_ground" }
           ]
         },
-        "effect": { "math": [ "n_count_cleaning_lighthouse_man", "++" ] },
+        "effect": { "math": [ "n_count_cleaning_lighthouse_man++" ] },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }

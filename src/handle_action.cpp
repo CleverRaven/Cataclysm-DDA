@@ -141,6 +141,7 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -998,7 +999,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
         if( !bash_info ) {
             continue;
         }
-        if( smashskill < bash_info->str_min && one_in( 10 ) ) {
+        if( ( smashskill < bash_info->str_min && one_in( 10 ) ) || fd_to_smsh.first->indestructible ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             ret.did_smash = true;
             return ret;
@@ -1095,7 +1096,7 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
                 if( glass_portion && rng( 0, vol + 3 ) < vol ) {
                     add_msg( m_bad, _( "Your %s shatters!" ), weapon->tname() );
                     weapon->spill_contents( pos_bub() );
-                    sounds::sound( pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
+                    sounds::sound( pos_bub(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
                     deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
                                  rng( 0,
@@ -1497,30 +1498,30 @@ static void loot()
     mgr.cache_vzones();
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
-                                 player_character.pos() ) ? SortLoot : 0;
-    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos() ) ||
-             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos() ) ? UnloadLoot : 0;
-    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
+                                 player_character.pos_bub() ) ? SortLoot : 0;
+    flags |= g->check_near_zone( zone_type_UNLOAD_ALL, player_character.pos_bub() ) ||
+             g->check_near_zone( zone_type_STRIP_CORPSES, player_character.pos_bub() ) ? UnloadLoot : 0;
+    if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos_bub() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_CONSTRUCTION_BLUEPRINT,
-                                 player_character.pos() ) ? ConstructPlots : 0;
+                                 player_character.pos_bub() ) ? ConstructPlots : 0;
 
     flags |= g->check_near_zone( zone_type_CHOP_TREES,
-                                 player_character.pos() ) ? Multichoptrees : 0;
+                                 player_character.pos_bub() ) ? Multichoptrees : 0;
     flags |= g->check_near_zone( zone_type_LOOT_WOOD,
-                                 player_character.pos() ) ? Multichopplanks : 0;
+                                 player_character.pos_bub() ) ? Multichopplanks : 0;
     flags |= g->check_near_zone( zone_type_VEHICLE_DECONSTRUCT,
-                                 player_character.pos() ) ? Multideconvehicle : 0;
+                                 player_character.pos_bub() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_VEHICLE_REPAIR,
-                                 player_character.pos() ) ? Multirepairvehicle : 0;
+                                 player_character.pos_bub() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
-                                 player_character.pos() ) ? MultiButchery : 0;
-    flags |= g->check_near_zone( zone_type_MINING, player_character.pos() ) ? MultiMining : 0;
+                                 player_character.pos_bub() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_MINING, player_character.pos_bub() ) ? MultiMining : 0;
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
-                                 player_character.pos() ) ? MultiDis : 0;
-    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos() ) ? MultiMopping : 0;
+                                 player_character.pos_bub() ) ? MultiDis : 0;
+    flags |= g->check_near_zone( zone_type_MOPPING, player_character.pos_bub() ) ? MultiMopping : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1882,7 +1883,7 @@ static void cast_spell()
 
 // returns true if the spell was assigned
 bool Character::cast_spell( spell &sp, bool fake_spell,
-                            const std::optional<tripoint> &target = std::nullopt )
+                            const std::optional<tripoint_bub_ms> &target = std::nullopt )
 {
     if( is_armed() && !sp.no_hands() && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
@@ -2239,7 +2240,7 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
 }
 
 bool game::do_regular_action( action_id &act, avatar &player_character,
-                              const std::optional<tripoint> &mouse_target )
+                              const std::optional<tripoint_bub_ms> &mouse_target )
 {
     item_location weapon = player_character.get_wielded_item();
     const bool in_shell = player_character.has_active_mutation( trait_SHELL2 )
@@ -2402,10 +2403,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
-                    // Check tiles around player character for open air
-                    for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
-                        if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p );
+                    // If levitating, just move straight down if possible.
+                    if( player_character.has_flag( json_flag_LEVITATION ) &&
+                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                        pts.push_back( player_character.pos_bub() );
+                    }
+
+                    if( pts.empty() ) {
+                        // Check tiles around player character for open air
+                        for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
+                            if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                                pts.push_back( p );
+                            }
                         }
                     }
 
@@ -2489,7 +2498,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
             if( mouse_target ) {
-                pickup( *mouse_target );
+                pickup( tripoint_bub_ms( *mouse_target ) );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
                     pickup_all();
@@ -2613,6 +2622,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_THROW: {
             item_location loc;
             avatar_action::plthrow( player_character, loc );
+            break;
+        }
+
+        case ACTION_THROW_WIELDED: {
+            avatar_action::plthrow_wielded( player_character );
             break;
         }
 
@@ -2779,7 +2793,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 add_msg( m_info, _( "Ignoring enemy!" ) );
                 for( auto &elem : player_character.get_mon_visible().new_seen_mon ) {
                     monster &critter = *elem;
-                    critter.ignoring = rl_dist( player_character.pos(), critter.pos() );
+                    critter.ignoring = rl_dist( player_character.pos_bub(), critter.pos_bub() );
                 }
                 set_safe_mode( SAFE_MODE_ON );
             } else if( player_character.has_effect( effect_laserlocked ) ) {
@@ -2820,11 +2834,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SAVE:
-            if( query_yn( _( "Save and quit?" ) ) ) {
-                if( save() ) {
-                    player_character.set_moves( 0 );
-                    uquit = QUIT_SAVED;
-                }
+            if( save() ) {
+                player_character.set_moves( 0 );
+                uquit = QUIT_SAVED;
             }
             break;
 
@@ -3276,8 +3288,7 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !player_character.is_dead_state() ) {
-        if( !do_regular_action( act, player_character,
-                                mouse_target ? std::make_optional( mouse_target->raw() ) : std::nullopt ) ) {
+        if( !do_regular_action( act, player_character, mouse_target ) ) {
             return false;
         }
     }

@@ -839,7 +839,7 @@
     "volume": "1500 ml",
     "price": "400 USD",
     "price_postapoc": "30 USD",
-    "material": [ "iron", "leather" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
@@ -855,7 +855,7 @@
         "specifically_covers": [ "hand_back_l", "hand_back_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
         ]
       },
       {
@@ -864,7 +864,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
         ]
       },
       {
@@ -879,7 +879,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 80, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 2.0 }
         ]
       }
     ],

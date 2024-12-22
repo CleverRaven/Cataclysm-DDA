@@ -2111,11 +2111,11 @@ class item : public visitable
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( const bodypart_id &bp ) const;
+        bool covers( const bodypart_id &bp, bool check_ablative_armor = true ) const;
         /**
          * Whether this item (when worn) covers the given sub body part.
          */
-        bool covers( const sub_bodypart_id &bp ) const;
+        bool covers( const sub_bodypart_id &bp, bool check_ablative_armor = true ) const;
         // do both items overlap a bodypart at all? returns the side that conflicts via rhs
         std::optional<side> covers_overlaps( const item &rhs ) const;
         /**
@@ -2937,8 +2937,6 @@ class item : public visitable
 
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
-                                         bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
         double calculate_by_enchantment_wield( const Character &owner, double modify,
                                                enchant_vals::mod value,
@@ -3058,9 +3056,11 @@ class item : public visitable
         bool process_internal( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
                                temperature_flag flag, float spoil_modifier, bool watertight_container );
         void iterate_covered_body_parts_internal( side s,
-                const std::function<void( const bodypart_str_id & )> &cb ) const;
+                const std::function<void( const bodypart_str_id & )> &cb,
+                bool check_ablative_armor = true ) const;
         void iterate_covered_sub_body_parts_internal( side s,
-                const std::function<void( const sub_bodypart_str_id & )> &cb ) const;
+                const std::function<void( const sub_bodypart_str_id & )> &cb,
+                bool check_ablative_armor = true ) const;
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -3347,3 +3347,12 @@ struct disp_mod_by_barrel {
         dispersion_modifier( disp ) {}
     void deserialize( const JsonObject &jo );
 };
+
+/**
+ * Given an iterable of `const item* ` (such as obtained from `all_items_top()`),
+ * returns the vector of each unique item in the iterable, and the amount of times it
+ * was encountered.
+ * For display purposes only.
+ */
+std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
+        const std::list<const item *> &items );

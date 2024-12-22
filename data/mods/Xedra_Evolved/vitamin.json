@@ -93,6 +93,16 @@
     "disease_excess": [ [ 1, 200 ], [ 201, 400 ], [ 401, 600 ], [ 601, 800 ], [ 801, 1000 ] ]
   },
   {
+    "id": "xedra_chronomancer_insight",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Insight into Time" },
+    "//": "Counts how much insight a chronomancer has obtained.  They automatically obtain 1 per day and may obtain much more by killing particular monsters or other activities.",
+    "min": 0,
+    "max": 10000,
+    "rate": "0 m"
+  },
+  {
     "id": "mutagen_earthkin",
     "type": "vitamin",
     "vit_type": "counter",

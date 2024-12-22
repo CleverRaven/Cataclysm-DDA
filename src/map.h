@@ -633,6 +633,8 @@ class map
         bool is_open_air( const tripoint & ) const;
         bool is_open_air( const tripoint_bub_ms &p ) const;
 
+        bool try_fall( const tripoint_bub_ms &p, Creature *c ) const;
+
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
         */
@@ -773,15 +775,9 @@ class map
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
-        // TODO: fix point types (remove the first overload)
-        std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                                     const pathfinding_settings &settings,
-        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
-            return false;
-        } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
+        const std::function<bool( const tripoint_bub_ms & )> &avoid = []( const tripoint_bub_ms & ) {
             return false;
         } ) const;
 
@@ -1963,9 +1959,9 @@ class map
         // TODO: Get rid of untyped overload
         bool has_vehicle_floor( const tripoint &p ) const;
         bool has_vehicle_floor( const tripoint_bub_ms &p ) const;
-
+    private:
         /**
-         * Handles map objects of given type (not creatures) falling down.
+         * Handles map objects of given type falling down.
          */
         /*@{*/
         void drop_everything( const tripoint_bub_ms &p );
@@ -1973,8 +1969,9 @@ class map
         void drop_items( const tripoint_bub_ms &p );
         void drop_vehicle( const tripoint_bub_ms &p );
         void drop_fields( const tripoint_bub_ms &p );
+        void drop_creature( const tripoint_bub_ms &p ) const;
         /*@}*/
-
+    public:
         /**
          * Invoked @ref drop_everything on cached dirty tiles.
          */
@@ -2047,7 +2044,9 @@ class map
         // Light/transparency
         float light_transparency( const tripoint_bub_ms &p ) const;
         // Assumes 0,0 is light map center
+        // TODO: Get rid of untyped overload.
         lit_level light_at( const tripoint &p ) const;
+        lit_level light_at( const tripoint_bub_ms &p ) const;
         // Raw values for tilesets
         float ambient_light_at( const tripoint_bub_ms &p ) const;
         /**

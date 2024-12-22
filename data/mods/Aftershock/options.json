@@ -3,7 +3,7 @@
     "id": "anesthetic",
     "type": "requirement",
     "//": "Anesthetic cost removed in this mod, as autodocs do all the heavy lifting.",
-    "tools": [  ]
+    "tools": [ [  ] ]
   },
   {
     "type": "EXTERNAL_OPTION",

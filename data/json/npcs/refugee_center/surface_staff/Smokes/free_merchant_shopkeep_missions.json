@@ -342,7 +342,7 @@
         "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1++" ] },
           { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],

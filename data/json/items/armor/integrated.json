@@ -526,7 +526,7 @@
     "name": { "str": "patchwork skin" },
     "description": "Beauty is only skin deep, but with this skin, a knife might find itself broken in the beauty layer.",
     "weight": "2 kg",
-    "volume": "500 ml",
+    "volume": "2 L",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "leather", "bone", "mut_fur", "acidchitin", "leather_arthropod", "wool", "flesh" ],

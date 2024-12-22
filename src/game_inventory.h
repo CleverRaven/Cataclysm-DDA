@@ -6,6 +6,7 @@
 #include <list>
 #include <utility>
 
+#include "cata_imgui.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
@@ -71,6 +72,25 @@ void swap_letters();
 * pressed, false for "quit" input.
 * @return False if confirm_message is empty or QUIT input was pressed.
 */
+class compare_item_menu : public cataimgui::window
+{
+    public:
+        compare_item_menu( const item &first, const item &second, const std::string &confirm_message = "" );
+        bool show();
+
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override;
+
+    private:
+        item first;
+        item second;
+        const std::string confirm_message;
+        input_context ctxt;
+        std::vector<iteminfo> first_info;
+        std::vector<iteminfo> second_info;
+        cataimgui::scroll s = cataimgui::scroll::none;
+};
 bool compare_items( const item &first, const item &second,
                     const std::string &confirm_message = "" );
 

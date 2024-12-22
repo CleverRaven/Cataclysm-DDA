@@ -643,15 +643,15 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return 0;
     } else {
         uilist nmenu;
-        std::vector<tripoint> locations;
+        std::vector<tripoint_bub_ms> locations;
         nmenu.text = prompt;
         for( const npc *elem : npc_list ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
-            locations.emplace_back( elem->pos_bub().raw() );
+            locations.emplace_back( elem->pos_bub() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
-            locations.emplace_back( get_avatar().pos_bub().raw() );
+            locations.emplace_back( get_avatar().pos_bub() );
         }
         pointmenu_cb callback( locations );
         nmenu.callback = &callback;
@@ -673,7 +673,7 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
         return 0;
     } else {
         uilist nmenu;
-        std::vector<tripoint> locations;
+        std::vector<tripoint_bub_ms> locations;
         nmenu.text = prompt;
         for( const Creature *elem : talker_list ) {
             if( elem->is_npc() ) {
@@ -681,11 +681,11 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
             } else {
                 nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->disp_name() );
             }
-            locations.emplace_back( elem->pos_bub().raw() );
+            locations.emplace_back( elem->pos_bub() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
-            locations.emplace_back( get_avatar().pos_bub().raw() );
+            locations.emplace_back( get_avatar().pos_bub() );
         }
         pointmenu_cb callback( locations );
         nmenu.callback = &callback;
@@ -976,18 +976,18 @@ void game::chat()
     } );
     const int available_count = available.size();
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_player_ally() && guy.is_following() && guy.can_hear( u.pos(), volume );
+        return guy.is_player_ally() && guy.is_following() && guy.can_hear( u.pos_bub(), volume );
     } );
     const int follower_count = followers.size();
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
                guy.companion_mission_role_id != "FACTION_CAMP" &&
-               guy.can_hear( u.pos(), volume );
+               guy.can_hear( u.pos_bub(), volume );
     } );
     const int guard_count = guards.size();
 
     const std::vector<npc *> available_for_activities = get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_player_ally() && guy.can_hear( u.pos(), volume ) &&
+        return guy.is_player_ally() && guy.can_hear( u.pos_bub(), volume ) &&
                guy.companion_mission_role_id != "FACTION CAMP";
     } );
     const int available_for_activities_count = available_for_activities.size();
@@ -1425,7 +1425,7 @@ void game::chat()
 }
 
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
-                        int heard_volume, const tripoint &spos )
+                        int heard_volume, const tripoint_bub_ms &spos )
 {
     const map &here = get_map();
     const tripoint_abs_ms s_abs_pos = here.getglobal( spos );
@@ -1437,7 +1437,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                    s_abs_pos.x(), s_abs_pos.y(), my_abs_pos.x(), my_abs_pos.y() );
 
     Character &player_character = get_player_character();
-    bool player_ally = player_character.pos() == spos && is_player_ally();
+    bool player_ally = player_character.pos_bub() == spos && is_player_ally();
     Character *const sound_source = get_creature_tracker().creature_at<Character>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
@@ -1494,7 +1494,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
-            bool should_check = rl_dist( pos(), spos ) < investigate_dist;
+            bool should_check = rl_dist( pos_bub(), spos ) < investigate_dist;
             if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
                 // NOLINTNEXTLINE(bugprone-branch-clone)
@@ -1509,13 +1509,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(),
                                s_abs_pos.x(), s_abs_pos.y() );
                 dangerous_sound temp_sound;
-                // TODO: fix point types
-                temp_sound.abs_pos = s_abs_pos.raw();
+                temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
                 temp_sound.type = spriority;
                 if( !ai_cache.sound_alerts.empty() ) {
-                    // TODO: fix point types
-                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos.raw() ) {
+                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
                     }
                 } else {
@@ -3867,7 +3865,7 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         double amount_desired = 0.0f;
         int count_present = 0;
         Character *you = d.actor( is_npc )->get_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos(), PICKUP_RANGE );
+        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
         std::vector<item_comp> items_to_remove_vector;
 
         for( const auto &pair : item_and_amount ) {
@@ -4799,6 +4797,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     }
     const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool store_in_lore = jo.get_bool( "store_in_lore", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
@@ -4818,13 +4817,13 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
         type_string.str_val = "neutral";
     }
     return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
-                     popup_w_interrupt_query_msg, popup_flag, interrupt_type, global, is_npc]
+                     popup_w_interrupt_query_msg, popup_flag, interrupt_type, global, store_in_lore, is_npc]
     ( dialogue const & d ) {
-        Character const *target;
+        Character *target;
         if( global ) {
             target = &get_player_character();
         } else {
-            target = d.actor( is_npc )->get_const_character();
+            target = d.actor( is_npc )->get_character();
         }
         if( !target || target->is_npc() ) {
             return;
@@ -4854,19 +4853,30 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             debugmsg( "Invalid message type." );
         }
         std::string translated_message;
+        std::string sid;
         if( snippet ) {
             if( same_snippet ) {
-                talker *target = d.actor( !is_npc );
-                std::string sid = target->get_value( snip_id.evaluate( d ) + "_snippet_id" );
+                talker *target_talker = d.actor( !is_npc );
+                sid = target_talker->get_value( snip_id.evaluate( d ) + "_snippet_id" );
                 if( sid.empty() ) {
                     sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
-                    target->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
+                    target_talker->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
+                    if( store_in_lore ) {
+                        target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    }
                 }
                 translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                         translation() ).translated() );
             } else {
-                translated_message = SNIPPET.expand( SNIPPET.random_from_category( snip_id.evaluate( d ) ).value_or(
-                        translation() ).translated() );
+                if( store_in_lore ) {
+                    sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
+                    target->as_avatar()->add_snippet( snippet_id( sid ) );
+                    translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
+                            translation() ).translated() );
+                } else {
+                    translated_message = SNIPPET.expand( SNIPPET.random_from_category( snip_id.evaluate( d ) ).value_or(
+                            translation() ).translated() );
+                }
             }
         } else {
             translated_message = message.evaluate( d );
@@ -6647,8 +6657,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
             if( single_target ) {
                 // Find a hostile creature in range to be used to create a hallucination or a copy of
                 Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
-                    bool not_self = get_player_character().pos() != critter.pos();
-                    bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
+                    bool not_self = get_player_character().pos_bub() != critter.pos_bub();
+                    bool in_range = std::round( rl_dist_exact( get_player_character().pos_bub(), critter.pos_bub() ) ) <= target_range;
                     bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
                     return not_self && in_range && valid_target;
                 } );
@@ -6661,8 +6671,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                 // Find all hostile creatures in range to be used to create hallucinations or copies of
                 std::vector<Creature *> monsters_in_range = g->get_creatures_if( [target_range](
                 const Creature & critter ) -> bool {
-                    bool not_self = get_player_character().pos() != critter.pos();
-                    bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
+                    bool not_self = get_player_character().pos_bub() != critter.pos_bub();
+                    bool in_range = std::round( rl_dist_exact( get_player_character().pos_bub(), critter.pos_bub() ) ) <= target_range;
                     bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
                     return not_self && in_range && valid_target;
                 } );
@@ -6698,7 +6708,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < hallucination_count; i++ ) {
-            tripoint spawn_point;
+            tripoint_bub_ms spawn_point;
             if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
@@ -6707,7 +6717,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     target_monster = *copy->as_monster();
                 }
             }
-            if( g->find_nearby_spawn_point( target_pos.raw(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
@@ -6728,7 +6738,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
             }
         }
         for( int i = 0; i < real_count; i++ ) {
-            tripoint spawn_point;
+            tripoint_bub_ms spawn_point;
             if( !use_target_monster ) {
                 if( group ) {
                     target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( target_mongroup ) );
@@ -6737,7 +6747,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     target_monster = *copy->as_monster();
                 }
             }
-            if( g->find_nearby_spawn_point( target_pos.raw(), target_monster.type->id, min_radius,
+            if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 if( spawned ) {
@@ -6833,8 +6843,8 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         int visible_spawns = 0;
         int spawns = 0;
         for( int i = 0; i < real_count; i++ ) {
-            tripoint spawn_point;
-            if( g->find_nearby_spawn_point( target_pos.raw(), min_radius,
+            tripoint_bub_ms spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
@@ -6853,8 +6863,8 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         }
         cur_traits.emplace_back( trait_HALLUCINATION );
         for( int i = 0; i < hallucination_count; i++ ) {
-            tripoint spawn_point;
-            if( g->find_nearby_spawn_point( target_pos.raw(), min_radius,
+            tripoint_bub_ms spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
                                             max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {

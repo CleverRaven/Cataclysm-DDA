@@ -162,7 +162,7 @@
     "name": [ "Shadow Damage Reduction" ],
     "desc": [ "You are flatter and less real in ways that makes you less susceptible to damage." ],
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "multiply": -0.75 }, { "value": "ARMOR_BASH", "multiply": -0.75 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "bash", "multiply": -0.75 }, { "type": "bullet", "multiply": -0.75 } ] } ]
   },
   {
     "type": "effect_type",
@@ -551,9 +551,9 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06)), -0.66)"
@@ -561,15 +561,7 @@
             }
           },
           {
-            "value": "ARMOR_CUT",
-            "multiply": {
-              "math": [
-                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025)), -0.25)"
@@ -577,7 +569,15 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075)), -0.85)"
@@ -741,21 +741,7 @@
     "rating": "good",
     "show_intensity": false,
     "//": "+1 armor for each lvl",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } } ] } ]
   },
   {
     "id": "spell_melee_damage",
@@ -800,21 +786,8 @@
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } }
-        ]
-      }
-    ]
+    "//": "todo: doesn't do anything, because monster do not have u_spell_level('spell_weak'); solution: store u_spell_level('spell_weak') as monster variable, and use variable in calculations instead",
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -1238,12 +1211,12 @@
     "removes_effects": [ "stunned", "dazed", "downed" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.25 },
-          { "value": "ARMOR_BULLET", "multiply": -0.25 },
-          { "value": "ARMOR_CUT", "multiply": -0.25 },
-          { "value": "ARMOR_STAB", "multiply": -0.25 },
-          { "value": "ARMOR_HEAT", "multiply": -0.25 }
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.25 },
+          { "type": "stab", "multiply": -0.25 },
+          { "type": "cut", "multiply": -0.25 },
+          { "type": "bullet", "multiply": -0.25 },
+          { "type": "heat", "multiply": -0.25 }
         ]
       }
     ],
@@ -1259,13 +1232,13 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.3 },
-          { "value": "ARMOR_BULLET", "multiply": -0.3 },
-          { "value": "ARMOR_CUT", "multiply": -0.3 },
-          { "value": "ARMOR_STAB", "multiply": -0.3 },
-          { "value": "MOVE_COST", "multiply": 0.1 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.3 },
+          { "type": "stab", "multiply": -0.3 },
+          { "type": "cut", "multiply": -0.3 },
+          { "type": "bullet", "multiply": -0.3 }
+        ],
+        "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
       }
     ],
     "flags": [ "BLEEDSLOW1" ]
@@ -1420,7 +1393,12 @@
     "rating": "good",
     "show_in_info": true,
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "heat", "add": -1000 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1430,7 +1408,12 @@
     "desc": [ "" ],
     "rating": "good",
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "heat", "add": -1000 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1675,7 +1658,7 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "undine_acid_resist_ally_thorns", "hit_self": false, "once_in": 3 } ],
-        "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "acid", "multiply": -0.75 } ]
       }
     ]
   },
@@ -2428,21 +2411,7 @@
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_BASH", "add": -15 },
-          { "value": "ARMOR_STAB", "add": -15 },
-          { "value": "ARMOR_CUT", "add": -15 },
-          { "value": "ARMOR_HEAT", "add": -15 },
-          { "value": "ARMOR_COLD", "add": -15 },
-          { "value": "ARMOR_ELEC", "add": -15 },
-          { "value": "ARMOR_ACID", "add": -15 },
-          { "value": "ARMOR_BULLET", "add": -15 }
-        ]
-      }
-    ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "add": -15 } ] } ]
   },
   {
     "id": "effect_moon_withdrawal",
@@ -2869,7 +2838,15 @@
     "remove_message": "Everything is suddenly different.",
     "rating": "neutral",
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
-    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE", "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS" ],
+    "flags": [
+      "CANNOT_ATTACK",
+      "CANNOT_MOVE",
+      "CANNOT_TAKE_DAMAGE",
+      "CANNOT_CHANGE_TEMPERATURE",
+      "FREEZE_EFFECTS",
+      "CANNOT_GAIN_EFFECTS"
+    ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
     "show_in_info": true
   },
   {
@@ -2913,5 +2890,152 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_chronal_accel",
+    "name": [ "Chronal Acceleration" ],
+    "desc": [ "You are accelerating your relative progression of time compared to the universal baseline." ],
+    "apply_message": "The world slows down around you.",
+    "remove_message": "The world speeds up again.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 5, 0 )" ] }
+          },
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_destabilizing_strikes",
+    "name": [ "Destabilizing Strikes" ],
+    "desc": [ "You maintain a field of destabilized time around you.  Your attacks cause your targets to erode over time." ],
+    "apply_message": "Your hands turn gray as the air around them starts to flicker.",
+    "remove_message": "Your field of destabilized time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      { "hit_you_effect": [ { "id": "xedra_chronomancer_destabilizing_strikes_attack" } ] },
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stabilize_timeline",
+    "name": [ "Stabilized Timeline" ],
+    "desc": [ "You are protected from adverse changes in your personal timestream." ],
+    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic",
+    "remove_message": "You feel more vulnerable to manipulated time.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "flags": [ "STABILIZED_TIMELINE" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_reverse_entropy",
+    "name": [ "Reversed Entropy" ],
+    "desc": [ "Your equipment is slowly losing its damage, repairing itself to its original, ideal form." ],
+    "apply_message": "Your equipment obtains a gray tint and appears ever so slightly more whole.",
+    "remove_message": "Your equipment loses its gray tint.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_wound_causality",
+    "name": [ "Rewriting Wound Causality" ],
+    "desc": [ "Your injuries are disappearing in a harmless paradox." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_equipment_causality",
+    "name": [ "Rewriting Equipment Causality" ],
+    "desc": [ "The equipments' faults are disappearing in a harmless paradox." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_loop",
+    "name": [ "Time Looped" ],
+    "desc": [ "Every few seconds every change to your person reverts." ],
+    "rating": "good",
+    "flags": [ "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stable_timeloop",
+    "name": [ "Stable Time Loop" ],
+    "desc": [ "You are prepared to revert yourself to a prior point in time." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_monster_erosion",
+    "name": [ "Eroding Time" ],
+    "desc": [ "This creature destabilizes time around it, eroding everything it touches." ],
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
   }
 ]

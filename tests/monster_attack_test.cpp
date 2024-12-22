@@ -93,7 +93,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     CAPTURE( target_location );
     CHECK( test_monster.sees( target_location ) == expect_vision );
     if( special_attack == nullptr ) {
-        CHECK( test_monster.attack_at( target_location.raw() ) == expect_attack );
+        CHECK( test_monster.attack_at( target_location ) == expect_attack );
     } else {
         CHECK( special_attack( &test_monster ) == expect_attack );
     }
@@ -144,7 +144,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
 TEST_CASE( "monster_attack", "[vision][reachability]" )
 {
     clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     SECTION( "attacking on open ground" ) {
@@ -192,7 +192,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map();
     map &here = get_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = sunrise( calendar::turn );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     const tripoint_bub_ms target_location = { 65, 65, 0 };
@@ -219,7 +219,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         Creature *target = test_monster.attack_target();
         REQUIRE( target );
         REQUIRE( test_monster.sees( *target ) );
-        REQUIRE( rl_dist( test_monster.pos(), target->pos() ) <= 5 );
+        REQUIRE( rl_dist( test_monster.pos_bub(), target->pos_bub() ) <= 5 );
         statistics<int> damage_dealt;
         statistics<bool> hits;
         epsilon_threshold threshold{ expected_damage, 2.5 };
@@ -337,7 +337,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
     // Set up further from the target
     const tripoint_bub_ms target_location = attacker_location + tripoint{ 4, 0, 0 };
     clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_creatures();

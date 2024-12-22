@@ -697,12 +697,12 @@ static int creature_uilist()
 
 static void monster_edit_menu()
 {
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
     uilist monster_menu;
     int charnum = 0;
     for( const monster &mon : g->all_monsters() ) {
         monster_menu.addentry( charnum++, true, MENU_AUTOASSIGN, mon.disp_name() );
-        locations.emplace_back( mon.pos() );
+        locations.emplace_back( mon.pos_bub() );
     }
 
     if( locations.empty() ) {
@@ -1387,7 +1387,9 @@ static void change_spells( Character &character )
             character.magic->get_spellbook().emplace( splt.id, spl );
         }
 
-        character.magic->get_spell( splt.id ).set_exp( spell::exp_for_level( spell_level ) );
+        // storing the spell to be used instead of getting it twice somehow breaks the debug functionality.
+        int set_to_exp = character.magic->get_spell( splt.id ).exp_for_level( spell_level );
+        character.magic->get_spell( splt.id ).set_exp( set_to_exp );
     };
 
     ui_adaptor spellsui;
@@ -1745,7 +1747,7 @@ static void teleport_short()
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_character.pos() );
+    const tripoint_bub_ms new_pos( player_character.pos_bub() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
@@ -2284,16 +2286,16 @@ static faction *select_faction()
 
 static void character_edit_menu()
 {
-    std::vector< tripoint > locations;
+    std::vector< tripoint_bub_ms > locations;
     uilist charmenu;
     charmenu.title = _( "Edit which character?" );
     int charnum = 0;
     avatar &player_character = get_avatar();
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-    locations.emplace_back( player_character.pos() );
+    locations.emplace_back( player_character.pos_bub() );
     for( const npc &guy : g->all_npcs() ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
-        locations.emplace_back( guy.pos() );
+        locations.emplace_back( guy.pos_bub() );
     }
 
     pointmenu_cb callback( locations );
@@ -2429,7 +2431,7 @@ static void character_edit_menu()
             you.remove_weapon();
             break;
         case D_DROP_ITEMS:
-            you.drop( game_menus::inv::multidrop( you ), you.pos() );
+            you.drop( game_menus::inv::multidrop( you ), you.pos_bub() );
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );
@@ -3597,10 +3599,10 @@ static void set_automove()
         return;
     }
 
-    // TODO: fix point types
-    auto rt = get_map().route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
-                               player_character.get_pathfinding_settings(),
-                               player_character.get_path_avoid() );
+    std::vector<tripoint_bub_ms> rt = get_map().route( player_character.pos_bub(),
+                                      tripoint_bub_ms( *dest ),
+                                      player_character.get_pathfinding_settings(),
+                                      player_character.get_path_avoid() );
     if( !rt.empty() ) {
         player_character.set_destination( rt );
     } else {

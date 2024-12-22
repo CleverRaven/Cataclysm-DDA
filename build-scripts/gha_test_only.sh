@@ -7,7 +7,7 @@ set -exo pipefail
 
 num_jobs=3
 parallel_opts="--verbose --linebuffer"
-cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time ${EXTRA_TEST_OPTS}"
+cata_test_opts="--min-duration 20 --use-colour yes --rng-seed time --order lex ${EXTRA_TEST_OPTS}"
 [ -z $NUM_TEST_JOBS ] && num_test_jobs=3 || num_test_jobs=$NUM_TEST_JOBS
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH

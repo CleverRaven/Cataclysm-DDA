@@ -74,6 +74,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_give_perk_point",
-    "effect": [ { "math": [ "u_num_perks", "++" ] } ]
+    "effect": [ { "math": [ "u_num_perks++" ] } ]
   }
 ]

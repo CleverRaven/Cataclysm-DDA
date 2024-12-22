@@ -2154,5 +2154,10 @@
     "id": "ammo_box_army_20_338",
     "type": "MIGRATION",
     "replace": "ammo_box_4"
+  },
+  {
+    "id": "peanutbutter_imitation",
+    "type": "MIGRATION",
+    "replace": "peanutbutter"
   }
 ]

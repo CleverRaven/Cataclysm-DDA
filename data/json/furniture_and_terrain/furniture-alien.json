@@ -805,7 +805,7 @@
       "str_max": 100,
       "sound": "smash!",
       "sound_fail": "an absence of sound.",
-      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 2 ] } ]
     },
     "examine_action": {
       "type": "effect_on_condition",

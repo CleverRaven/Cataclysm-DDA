@@ -456,7 +456,7 @@ target_handler::trajectory target_handler::mode_select_only( avatar &you, int ra
     ui.mode = target_ui::TargetMode::SelectOnly;
     ui.range = range;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -483,7 +483,7 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     ui.relevant = &relevant;
     ui.range = you.throw_range( relevant );
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -495,7 +495,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     ui.relevant = weapon.get_item();
     ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -509,7 +509,7 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
     ui.range = turret.range();
     ui.ammo = turret.ammo_data();
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -539,7 +539,7 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     ui.vturrets = &turrets;
     ui.range = range_total;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -554,7 +554,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -903,7 +903,7 @@ bool Character::handle_gun_overheat( item &it )
             add_msg_if_player( m_bad, _( "Your %s detonates!" ),
                                it.tname() );
             it.faults.insert( fault_overheat_melting );
-            explosion_handler::explosion( this, this->pos(), 1200, 0.4 );
+            explosion_handler::explosion( this, this->pos_bub(), 1200, 0.4 );
             return false;
         } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
             add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
@@ -1336,8 +1336,8 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     if( critter != nullptr ) {
         // It's easier to dodge at close range (thrower needs to adjust more)
         // Dodge x10 at point blank, x5 at 1 dist, then flat
-        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos(),
-                                critter->pos() ) );
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos_bub(),
+                                critter->pos_bub() ) );
         dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
     }
     // 1 perception per 1 eye encumbrance
@@ -1566,13 +1566,13 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
         !critter->has_flag( mon_flag_IMMOBILE ) &&
-        !critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+        !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
                !critter->has_flag( mon_flag_IMMOBILE ) &&
-               !critter->has_effect_with_flag( json_flag_CANNOT_MOVE ) ) {
+               !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
@@ -2319,7 +2319,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
 {
     const item::sound_data data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
+        sounds::sound( p.pos_bub(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
     tname::segment_bitset segs( tname::unprefixed_tname );
@@ -2629,7 +2629,7 @@ target_handler::trajectory target_ui::run()
 
     avatar &player_character = get_avatar();
     on_out_of_scope cleanup( [&here, &player_character]() {
-        here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z() );
+        here.invalidate_map_cache( player_character.posz() + player_character.view_offset.z() );
     } );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
@@ -2993,7 +2993,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     } else if( action == "SELECT" &&
                ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.raw().xy() ) ) ) {
         // Set pos by clicking with mouse
-        mouse_pos->z() = you->pos().z + you->view_offset.z();
+        mouse_pos->z() = you->posz() + you->view_offset.z();
         set_cursor_pos( tripoint_bub_ms( *mouse_pos ) );
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
         // Shift view/cursor up/down one z level
@@ -3170,7 +3170,8 @@ void target_ui::update_target_list()
     // Get targets in range and sort them by distance (targets[0] is the closest)
     targets = you->get_targetable_creatures( range, mode == TargetMode::Reach );
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist_exact( lhs->pos(), you->pos() ) < rl_dist_exact( rhs->pos(), you->pos() );
+        return rl_dist_exact( lhs->pos_bub(), you->pos_bub() ) < rl_dist_exact( rhs->pos_bub(),
+                you->pos_bub() );
     } );
 }
 
@@ -3219,7 +3220,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint_bub_ms &new_dst )
     }
 
     // Try to re-acquire target tile or tile where the target creature used to be
-    tripoint_bub_ms local_lt = get_map().bub_from_abs( tripoint_abs_ms( *you->last_target_pos ) );
+    tripoint_bub_ms local_lt = get_map().bub_from_abs( *you->last_target_pos );
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
@@ -3268,10 +3269,10 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 void target_ui::set_last_target()
 {
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().getglobal( dst ).raw() ) {
+        you->last_target_pos.value() != get_map().getglobal( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().getglobal( dst ).raw();
+    you->last_target_pos = get_map().getglobal( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3436,7 +3437,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos_bub();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = get_map().bub_from_abs( tripoint_abs_ms( *you->last_target_pos ) );
+        curr_recoil_pos = get_map().bub_from_abs( *you->last_target_pos );
     } else {
         curr_recoil_pos = src;
     }

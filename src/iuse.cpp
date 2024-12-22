@@ -1742,7 +1742,7 @@ std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_b
 
 static bool good_fishing_spot( const tripoint_bub_ms &pos, Character *p )
 {
-    std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos.raw() );
+    std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     map &here = get_map();
     // isolated little body of water with no definite fish population
@@ -1785,7 +1785,7 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint_bub
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations( 60, found->raw() );
+    p->activity.coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
 
@@ -1884,7 +1884,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
         }
 
         //get the fishables around the trap's spot
-        std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos.raw() );
+        std::unordered_set<tripoint_bub_ms> fishable_locations = g->get_fishable_locations_bub( 60, pos );
         std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
         for( int i = 0; i < fishes; i++ ) {
             player.practice( skill_survival, rng( 3, 10 ) );
@@ -1893,7 +1893,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
                 // reduce the abstract fish_population marker of that fish
                 chosen_fish->fish_population -= 1;
                 if( chosen_fish->fish_population <= 0 ) {
-                    g->catch_a_monster( chosen_fish, pos.raw(), p, 300_hours ); //catch the fish!
+                    g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
                 } else {
                     here.add_item_or_charges( pos, item::make_corpse( chosen_fish->type->id,
                                               calendar::turn + rng( 0_turns,
@@ -3263,7 +3263,7 @@ std::optional<int> iuse::geiger_active( Character *, item *, const tripoint_bub_
                             rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
     sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
-    if( !get_avatar().can_hear( pos.raw(), 6 ) ) {
+    if( !get_avatar().can_hear( pos, 6 ) ) {
         // can not hear it, but may have alarmed other creatures
         return 1;
     }
@@ -3536,7 +3536,7 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
             here.add_field( flame, fd_fire, rng( 0, 2 ) );
         }
     }
-    explosion_handler::explosion( p, pos.raw(), 8, 0.8, true );
+    explosion_handler::explosion( p, pos, 8, 0.8, true );
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos, 2 ) ) {
         here.add_field( dest, fd_incendiary, 3 );
     }
@@ -3865,7 +3865,7 @@ void iuse::play_music( Character *p, const tripoint_bub_ms &source, const int vo
     std::string sound = "music";
 
     auto lambda_should_do_effects = [&source, &volume]( Character * p ) {
-        return p && p->can_hear( source.raw(), volume ) && !p->in_sleep_state();
+        return p && p->can_hear( source, volume ) && !p->in_sleep_state();
     };
 
     auto lambda_add_music_effects = [&max_morale, &volume]( Character & guy ) {
@@ -4146,7 +4146,7 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
         // number of nearby friends with gaming devices
         std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
             return n.is_player_ally() && p->sees( n ) &&
-                   n.can_hear( p->pos(), p->get_shout_volume() ) &&
+                   n.can_hear( p->pos_bub(), p->get_shout_volume() ) &&
             n.has_item_with( [&it]( const item & i ) {
                 return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
             } );
@@ -4391,7 +4391,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
 
 std::optional<int> iuse::vortex( Character *p, item *it, const tripoint_bub_ms & )
 {
-    std::vector<point_bub_ms> spawn;
+    std::vector<point_rel_ms> spawn;
     spawn.reserve( 28 );
     for( int i = -3; i <= 3; i++ ) {
         spawn.emplace_back( -3, i );
@@ -4401,8 +4401,8 @@ std::optional<int> iuse::vortex( Character *p, item *it, const tripoint_bub_ms &
     }
 
     while( !spawn.empty() ) {
-        const tripoint_bub_ms offset( random_entry_removed( spawn ), 0 );
-        monster *const mon = g->place_critter_at( mon_vortex, offset + p->pos() );
+        const tripoint_rel_ms offset( random_entry_removed( spawn ), 0 );
+        monster *const mon = g->place_critter_at( mon_vortex, p->pos_bub() + offset );
         if( !mon ) {
             continue;
         }
@@ -5238,7 +5238,7 @@ std::optional<int> iuse::talking_doll( Character *p, item *it, const tripoint_bu
     p->add_msg_if_player( m_neutral, _( "You press a button on the doll to make it talk." ) );
     const SpeechBubble speech = get_speech( it->typeId().str() );
 
-    sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
+    sounds::sound( p->pos_bub(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );
 
     return 1;
@@ -5285,7 +5285,7 @@ std::optional<int> gun_repair( Character *p, item *, item_location &loc )
         return std::nullopt;
     }
     const std::string startdurability = fix.durability_indicator( true );
-    sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
+    sounds::sound( p->pos_bub(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
     p->practice( skill_mechanics, 10 );
     p->mod_moves( -to_moves<int>( 20_seconds ) );
 
@@ -5327,7 +5327,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
 
         modded_gun.put_in( mod_copy, pocket_type::MOD );
 
-        if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
+        if( !game_menus::inv::compare_item_menu( *loc, modded_gun, _( "Attach modification?" ) ).show() ) {
             continue;
         }
 
@@ -5394,7 +5394,7 @@ std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint_
 std::optional<int> iuse::bell( Character *p, item *it, const tripoint_bub_ms & )
 {
     if( it->typeId() == itype_cow_bell ) {
-        sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank!  Clank!" ), true, "misc",
+        sounds::sound( p->pos_bub(), 12, sounds::sound_t::music, _( "Clank!  Clank!" ), true, "misc",
                        "cow_bell" );
         if( !p->is_deaf() ) {
             auto cattle_level =
@@ -5406,7 +5406,7 @@ std::optional<int> iuse::bell( Character *p, item *it, const tripoint_bub_ms & )
             }
         }
     } else {
-        sounds::sound( p->pos(), 4, sounds::sound_t::music, _( "Ring!  Ring!" ), true, "misc", "bell" );
+        sounds::sound( p->pos_bub(), 4, sounds::sound_t::music, _( "Ring!  Ring!" ), true, "misc", "bell" );
     }
     return 1;
 }
@@ -5426,7 +5426,7 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
     return !m.is_dead()
            && m.type->in_species( species_ROBOT )
            && m.friendly == 0
-           && rl_dist( p->pos(), m.pos() ) <= 10;
+           && rl_dist( p->pos_bub(), m.pos_bub() ) <= 10;
 }
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bub_ms & )
@@ -5477,18 +5477,18 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             // Build a list of all unfriendly robots in range.
             // TODO: change into vector<Creature*>
             std::vector< shared_ptr_fast< monster> > mons;
-            std::vector< tripoint > locations;
+            std::vector< tripoint_bub_ms > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
                 if( robotcontrol_can_target( p, candidate ) ) {
                     mons.push_back( g->shared_from( candidate ) );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-                    tripoint seen_loc;
+                    tripoint_bub_ms seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
                     if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos_bub().raw();
+                        seen_loc = candidate.pos_bub();
                     } else {
-                        seen_loc = p->pos_bub().raw();
+                        seen_loc = p->pos_bub();
                     }
                     locations.push_back( seen_loc );
                 }
@@ -6045,7 +6045,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
-            monster *const mon = get_creature_tracker().creature_at<monster>( creature->pos(), false );
+            monster *const mon = get_creature_tracker().creature_at<monster>( creature->pos_bub(), false );
             figure_effects += pronoun_gender + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
@@ -6682,7 +6682,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
         trajectory.push_back( aim_point );
 
         p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
+        sounds::sound( p->pos_bub(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
                        "camera_shutter" );
 
         for( std::vector<tripoint_bub_ms>::iterator point_it = trajectory.begin();
@@ -7168,7 +7168,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
     for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), 60 ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
-                sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
+                sounds::sound( p.pos_bub(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
                     // The item activation may have all kinds of requirements. Like requiring item to be wielded.
@@ -7189,7 +7189,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                 } );
 
                 if( itm != nullptr ) {
-                    sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
+                    sounds::sound( p.pos_bub(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( &p, *itm, loc.raw() );
@@ -7379,10 +7379,10 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
             vehs.push_back( v );
         }
     }
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub().raw() );
+        locations.push_back( veh->pos_bub() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 
@@ -7518,7 +7518,7 @@ static bool multicooker_hallu( Character &p )
         case 6:
             if( !one_in( 5 ) ) {
                 add_msg( m_warning, _( "The multi-cooker runs away!" ) );
-                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
+                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos_bub(), 1 ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1_turns, true );
                 }
@@ -8077,7 +8077,7 @@ bool item::release_monster( const tripoint_bub_ms &target, const int radius )
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
         return false;
     }
-    if( !g->place_critter_around( new_monster, target.raw(), radius ) ) {
+    if( !g->place_critter_around( new_monster, target, radius ) ) {
         return false;
     }
     erase_var( "contained_name" );
@@ -8862,7 +8862,7 @@ std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_m
 {
     if( p->is_avatar() ) {
         std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
-            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos(), p->get_shout_volume() );
+            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
         } );
         int fcount = followers.size();
         if( fcount > 0 ) {
