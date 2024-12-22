@@ -126,7 +126,6 @@
     "symbol": "%",
     "quench": -1,
     "calories": 101,
-    "healthy": -1,
     "container": "wrapper",
     "description": "A yellow stick of milkfat and milk solids, usually made from cow's milk.",
     "price": "9 cent",
@@ -134,7 +133,8 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1,
+    "fun": -25,
+    "use_action": [ "BLECH" ],
     "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
