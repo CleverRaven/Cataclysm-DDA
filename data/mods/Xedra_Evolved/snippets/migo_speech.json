@@ -27,6 +27,11 @@
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "sound": "\"Welcome to the Mi-go family, children of Earth!  Soon our biologies will mingle unto the death of the stars!\"",
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"…the effects are almost immediately visible on living flesh.\"",
     "volume": 20
   },
   {
@@ -34,12 +39,22 @@
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "//": "Mi-go xys/zys words should be pronounced as one single combined word.",
     "sound": "\"We were so pleased/honored to be chosen as the inheritors of your species, so close to it's death that you must have felt it coming and sought us out.\"",
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"I've never seen anything like this before in nature.\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "sound": "\"Let us commingle humans!  We can make use of your genetics and your species will live on as part of us!\"",
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"It's clearly some form of thaumcraft, but I have no idea the mechanism it follows.\"",
     "volume": 20
   },
   {
@@ -66,6 +81,11 @@
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_mi_go_humanoid" ],
     "sound": "\"Have you considered ceasing to break the laws granting us rights and responsibility over the remains of human civilization and it's peoples?\"",
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"Aaaauuuugggghhhh, what's happening to my hand!  My fingers are gone!\"",
     "volume": 20
   }
 ]
