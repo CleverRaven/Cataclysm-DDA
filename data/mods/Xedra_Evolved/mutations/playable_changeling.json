@@ -1413,7 +1413,7 @@
     "description": "These are the selkie enhancements.",
     "starting_trait": false,
     "purifiable": false,
-    "player_display": true,
+    "player_display": false,
     "//": "player display's true during testing, will be replaced once I get a better handle on effects.",
     "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 2 }, { "value": "CARDIO_MULTIPLIER", "multiply": 1 } ] } ]
   },
