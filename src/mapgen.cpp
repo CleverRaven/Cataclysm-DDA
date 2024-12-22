@@ -5304,6 +5304,12 @@ static ret_val<void> apply_mapgen_in_phases(
     const jmapgen_objects &objects, const tripoint_rel_ms &offset, const std::string &context,
     bool verify = false )
 {
+    const ret_val<void> has_vehicle_collision = objects.has_vehicle_collision( md, offset );
+    if( verify &&  !has_vehicle_collision.success() ) {
+
+        return has_vehicle_collision;
+    }
+
     // We must apply all the mapgen in phases, but the mapgen is split between
     // setmap_points and objects.  So we have to make an outer loop over
     // phases, and apply each type restricted to each phase.
