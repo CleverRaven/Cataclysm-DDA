@@ -628,7 +628,7 @@
     "type": "map_extra",
     "name": { "str": "Zombie Trap" },
     "description": "Someone put up a trap against zombies here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_city_trap" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_city_trap" },
     "sym": "I",
     "color": "green",
     "autonote": true,
