@@ -111,7 +111,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MIGO_GENETWIST_EXTRA_LIMBS_APPLIER",
     "effect": [ { "npc_add_effect": "effect_migo_extra_limbs", "duration": { "math": [ "rng(180,990)" ] } } ]
-  }
+  },
   {
     "id": "mon_shamir_dig_spell",
     "type": "SPELL",

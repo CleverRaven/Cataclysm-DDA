@@ -296,7 +296,7 @@
     "miss_msg_npc": "%1$s tries to snatch <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s and your flesh remains firm.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s and their flesh remains firm."
-  }
+  },
   {
     "id": "ophanim_death",
     "type": "SPELL",
