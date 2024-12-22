@@ -65,7 +65,6 @@
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
-static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_barricade_road( "f_barricade_road" );
 static const furn_str_id furn_f_beach_log( "f_beach_log" );
 static const furn_str_id furn_f_beach_seaweed( "f_beach_seaweed" );
@@ -105,7 +104,6 @@ static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
-static const itype_id itype_ash( "ash" );
 static const itype_id itype_bag_canvas( "bag_canvas" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
@@ -121,7 +119,6 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_withered( "withered" );
 
-static const map_extra_id map_extra_mx_burned_ground( "mx_burned_ground" );
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
@@ -133,7 +130,6 @@ static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
 static const map_extra_id map_extra_mx_null( "mx_null" );
-static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
 static const map_extra_id map_extra_mx_pond( "mx_pond" );
 static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
@@ -164,7 +160,6 @@ static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_fence_barbed( "t_fence_barbed" );
-static const ter_str_id ter_t_fungus( "t_fungus" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
 static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
@@ -1352,193 +1347,6 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
     return false;
 }
 
-static void burned_ground_parser( map &m, const tripoint &loc )
-{
-    const furn_t &fid = m.furn( loc ).obj();
-    const ter_id &tid = m.ter( loc );
-    const ter_t &tr = tid.obj();
-
-    VehicleList vehs = m.get_vehicles();
-    std::vector<vehicle *> vehicles;
-    std::vector<tripoint_bub_ms> points;
-    vehicles.reserve( vehs.size() );
-    points.reserve( vehs.size() ); // Each vehicle is at least one point.
-    for( wrapped_vehicle vehicle : vehs ) {
-        vehicles.push_back( vehicle.v );
-        // Important that this loop excludes fake parts, because those can be
-        // outside map bounds
-        for( const vpart_reference &vp : vehicle.v->get_all_parts() ) {
-            tripoint_bub_ms t = vp.pos_bub();
-            if( m.inbounds( t ) ) {
-                points.push_back( t );
-            } else {
-                tripoint_abs_omt pos = project_to<coords::omt>( m.getglobal( loc ) );
-                oter_id terrain_type = overmap_buffer.ter( pos );
-                tripoint_bub_ms veh_origin = vehicle.v->pos_bub();
-                debugmsg( "burned_ground_parser: Vehicle %s (origin %s; rotation (%f,%f)) has "
-                          "out of bounds part at %s in terrain_type %s\n",
-                          vehicle.v->name, veh_origin.to_string(),
-                          vehicle.v->face_vec().x, vehicle.v->face_vec().y,
-                          t.to_string(), terrain_type->get_type_id().str() );
-            }
-        }
-    }
-    std::sort( points.begin(), points.end() );
-    points.erase( std::unique( points.begin(), points.end() ), points.end() );
-    for( vehicle *vrem : vehicles ) {
-        m.destroy_vehicle( vrem );
-    }
-    for( const tripoint_bub_ms &tri : points ) {
-        m.furn_set( tri, furn_f_wreckage );
-    }
-
-    // grass is converted separately
-    // this method is deliberate to allow adding new post-terrains
-    // (TODO: expand this list when new destroyed terrain is added)
-    static const std::map<ter_id, ter_str_id> dies_into {{
-            {ter_t_grass, ter_t_grass_dead},
-            {ter_t_grass_long, ter_t_grass_dead},
-            {ter_t_grass_tall, ter_t_grass_dead},
-            {ter_t_moss, ter_t_grass_dead},
-            {ter_t_fungus, ter_t_dirt},
-            {ter_t_grass_golf, ter_t_grass_dead},
-            {ter_t_grass_white, ter_t_grass_dead},
-        }};
-
-    const auto iter = dies_into.find( tid );
-    if( iter != dies_into.end() ) {
-        if( one_in( 6 ) ) {
-            m.ter_set( loc, ter_t_dirt );
-            m.spawn_item( loc, itype_ash, 1, rng( 10, 50 ) );
-        } else if( one_in( 10 ) ) {
-            // do nothing, save some spots from fire
-        } else {
-            m.ter_set( loc, iter->second );
-        }
-    }
-
-    // fungus cannot be destroyed by map::destroy so ths method is employed
-    if( fid.has_flag( ter_furn_flag::TFLAG_FUNGUS ) ) {
-        if( one_in( 5 ) ) {
-            m.furn_set( loc, furn_f_ash );
-        }
-    }
-    if( tr.has_flag( ter_furn_flag::TFLAG_FUNGUS ) ) {
-        m.ter_set( loc, ter_t_dirt );
-        if( one_in( 5 ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 10, 50 ) );
-        }
-    }
-    // destruction of trees is not absolute
-    if( tr.has_flag( ter_furn_flag::TFLAG_TREE ) ) {
-        if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_t_trunk );
-        } else if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_t_stump );
-        } else if( one_in( 4 ) ) {
-            m.ter_set( loc, ter_t_tree_dead );
-        } else {
-            m.ter_set( loc, ter_t_dirt );
-            if( one_in( 4 ) ) {
-                m.furn_set( loc, furn_f_ash );
-            } else {
-                m.furn_set( loc, furn_id( "f_fireweed" ) );
-            }
-            m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
-        }
-        // everything else is destroyed, ash is added
-    } else if( ter_furn_has_flag( tr, fid, ter_furn_flag::TFLAG_FLAMMABLE ) ||
-               ter_furn_has_flag( tr, fid, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) ) {
-        while( m.is_bashable( loc ) ) { // one is not enough
-            m.destroy( loc, true );
-        }
-        if( one_in( 5 ) && !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-            // This gives very little *wood* ash because the terrain is not flagged as flammable
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 10 ) );
-        }
-    } else if( ter_furn_has_flag( tr, fid, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
-        while( m.is_bashable( loc ) ) {
-            m.destroy( loc, true );
-        }
-        if( !m.is_open_air( loc ) ) {
-            m.furn_set( loc, furn_f_ash );
-            if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
-                m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
-            }
-        }
-    }
-
-    // burn-away flammable items
-    while( m.flammable_items_at( loc ) ) {
-        map_stack stack = m.i_at( loc );
-        for( auto it = stack.begin(); it != stack.end(); ) {
-            if( it->flammable() ) {
-                m.create_burnproducts( loc, *it, it->weight() );
-                it = stack.erase( it );
-            } else {
-                it++;
-            }
-        }
-    }
-}
-
-static bool mx_point_burned_ground( map &m, const tripoint &abs_sub )
-{
-    // This map extra creates patch of burned ground using a simple cellular automaton.
-    // Lesser version of mx_burned_ground
-
-    constexpr int width = SEEX * 2;
-    constexpr int height = SEEY * 2;
-
-    // Generate the cells for dead vegetation.
-    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                            height, 55, 5, 4, 3 );
-
-    for( int i = 0; i < width; i++ ) {
-        for( int j = 0; j < height; j++ ) {
-            if( current[i][j] == 1 ) {
-                const tripoint loc( i, j, abs_sub.z );
-                burned_ground_parser( m, loc );
-            }
-        }
-    }
-
-    return true;
-}
-
-static bool mx_burned_ground( map &m, const tripoint &abs_sub )
-{
-    // This map extra simulates effects of extensive past fire event; it destroys most vegetation,
-    // and flammable objects, swaps vehicles with wreckage, levels houses, scatters ash etc.
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint loc( i, j, abs_sub.z );
-            burned_ground_parser( m, loc );
-        }
-    }
-    VehicleList vehs = m.get_vehicles();
-    std::vector<vehicle *> vehicles;
-    std::vector<tripoint_bub_ms> points;
-    vehicles.reserve( vehs.size() );
-    points.reserve( vehs.size() ); // Each vehicle is at least one point.
-    for( wrapped_vehicle vehicle : vehs ) {
-        vehicles.push_back( vehicle.v );
-        std::set<tripoint_bub_ms> occupied = vehicle.v->get_points();
-        for( const tripoint_bub_ms &t : occupied ) {
-            points.push_back( t );
-        }
-    }
-    for( vehicle *vrem : vehicles ) {
-        m.destroy_vehicle( vrem );
-    }
-    for( const tripoint_bub_ms &tri : points ) {
-        m.furn_set( tri, furn_f_wreckage );
-    }
-
-    return true;
-}
-
 static bool mx_reed( map &m, const tripoint &abs_sub )
 {
     // This map extra is for populating river banks, lake shores, etc. with
@@ -2225,8 +2033,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_shrubbery, mx_shrubbery },
     { map_extra_mx_pond, mx_pond },
     { map_extra_mx_clay_deposit, mx_clay_deposit },
-    { map_extra_mx_burned_ground, mx_burned_ground },
-    { map_extra_mx_point_burned_ground, mx_point_burned_ground },
     { map_extra_mx_casings, mx_casings },
     { map_extra_mx_looters, mx_looters },
     { map_extra_mx_corpses, mx_corpses },
