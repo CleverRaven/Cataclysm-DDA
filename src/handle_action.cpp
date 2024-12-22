@@ -141,6 +141,7 @@ static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
@@ -2402,10 +2403,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint_bub_ms> pts;
 
-                    // Check tiles around player character for open air
-                    for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
-                        if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p );
+                    // If levitating, just move straight down if possible.
+                    if( player_character.has_flag( json_flag_LEVITATION ) &&
+                        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, player_character.pos_bub() ) ) {
+                        pts.push_back( player_character.pos_bub() );
+                    }
+
+                    if( pts.empty() ) {
+                        // Check tiles around player character for open air
+                        for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
+                            if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                                pts.push_back( p );
+                            }
                         }
                     }
 
