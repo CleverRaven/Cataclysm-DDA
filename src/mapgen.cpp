@@ -5069,7 +5069,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                     }
                 } else if( ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
                     while( m.is_bashable( target_pos ) ) {
-                        m.destroy( target_pos, true );
+                        m.bash( target_pos, 9999, true );
                     }
                     if( !m.is_open_air( target_pos ) ) {
                         m.furn_set( target_pos, furn_f_ash );
