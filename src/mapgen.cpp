@@ -5052,7 +5052,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_BASH: {
-                m.bash( target_pos, 9999 );
+                m.bash( target_pos, 9999, true );
                 break;
             }
             case JMAPGEN_SETMAP_BURN: {
@@ -5061,7 +5061,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 if( ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE ) ||
                     ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) ) {
                     while( m.is_bashable( target_pos ) ) { // one is not enough
-                        m.destroy( target_pos, true );
+                        m.bash( target_pos, 9999, true );
                     }
                     if( one_in( 5 ) && !ter->has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
                         // This gives very little *wood* ash because the terrain is not flagged as flammable
