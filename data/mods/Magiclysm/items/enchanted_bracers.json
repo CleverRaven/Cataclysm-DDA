@@ -119,7 +119,6 @@
           "has": "WORN",
           "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
           "values": [
-            { "value": "RANGED_DAMAGE", "multiply": 0.25 },
             { "value": "RANGE", "multiply": 0.2 },
             { "value": "WEAPON_DISPERSION", "multiply": -0.33 },
             { "value": "WEAKPOINT_ACCURACY", "multiply": 2.5}
