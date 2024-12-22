@@ -194,7 +194,7 @@ class enchantment
 
         bool was_loaded = false;
 
-        const std::set<trait_id> &get_mutations() const {
+        const std::vector<trait_id> &get_mutations() const {
             return mutations;
         }
         double get_value_add( enchant_vals::mod value, const Character &guy ) const;
@@ -213,7 +213,7 @@ class enchantment
         };
         std::vector<bodypart_changes> modified_bodyparts;
 
-        std::set<trait_id> mutations;
+        std::vector<trait_id> mutations;
         std::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
 
@@ -303,6 +303,8 @@ class enchant_cache : public enchantment
         void force_add( const enchant_cache &rhs );
         void force_add_with_dialogue( const enchantment &rhs, const const_dialogue &d,
                                       bool evaluate = true );
+        // adds enchantment mutations to the cache
+        void force_add_mutation( const enchantment &rhs );
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
