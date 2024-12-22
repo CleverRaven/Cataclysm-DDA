@@ -92,23 +92,23 @@
         "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
       },
       {
-          "id": "migo_genetwist_armor",
-          "type": "spell",
-          "spell_data": { "id": "migo_genetwist_armor_spell" },
-          "cooldown": 1,
-          "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "effect_monster_genetwist_armor" } } ] },
-          "monster_message": "%1$s's skin pinches into connecting scutes."
+        "id": "migo_genetwist_armor",
+        "type": "spell",
+        "spell_data": { "id": "migo_genetwist_armor_spell" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "effect_monster_genetwist_armor" } } ]
         },
-        {
-          "id": "migo_genetwist_extra_limbs",
-          "type": "spell",
-          "spell_data": { "id": "migo_genetwist_extra_limbs_spell" },
-          "cooldown": 1,
-          "condition": {
-            "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "effect_migo_extra_limbs" } } ]
-          },
-          "monster_message": "%1$s additional leglike appendages spread out from its body and began increasing its speed and agility."
-        }
+        "monster_message": "%1$s's skin pinches into connecting scutes."
+      },
+      {
+        "id": "migo_genetwist_extra_limbs",
+        "type": "spell",
+        "spell_data": { "id": "migo_genetwist_extra_limbs_spell" },
+        "cooldown": 1,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "effect_migo_extra_limbs" } } ] },
+        "monster_message": "%1$s additional leglike appendages spread out from its body and began increasing its speed and agility."
+      }
     ],
     "flags": [
       "SEES",
