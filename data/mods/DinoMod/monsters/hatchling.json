@@ -729,6 +729,15 @@
     "upgrades": { "age_grow": 10, "into": "mon_nanosaurus" }
   },
   {
+    "id": "mon_fona_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and purple hatchling",
+    "default_faction": "herbivore_young",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 30, "into": "mon_fona" }
+  },
+  {
     "id": "mon_oryctodromeus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
