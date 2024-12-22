@@ -972,13 +972,9 @@ bool game::start_game()
     lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
     load_map( lev, /*pump_events=*/true );
 
-    int level = m.get_abs_sub().z();
-    u.setpos( m.bub_from_abs( project_to<coords::ms>( omtstart ) ) );
-    m.invalidate_map_cache( level );
-    m.build_map_cache( level );
-    // Do this after the map cache has been built!
     start_loc.place_player( u, omtstart );
-    // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    int level = m.get_abs_sub().z();
+    // Rebuild map cache because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
@@ -12181,7 +12177,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) ) {
+        if( !climb_flying && ( u.get_working_arm_count() < 1 &&
+                               !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) ) ) {
             add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
             return;
         }
@@ -12196,7 +12193,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const item_location weapon = u.get_wielded_item();
-        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) && weapon &&
+        if( !climb_flying && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) && weapon &&
             weapon->is_two_handed( u ) ) {
             if( query_yn(
                     _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
@@ -12210,19 +12207,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         std::vector<tripoint_bub_ms> pts;
-        for( const tripoint_bub_ms &pt : here.points_in_radius( stairs, 1 ) ) {
-            if( here.passable( pt ) &&
-                here.has_floor_or_support( pt ) ) {
-                pts.push_back( pt );
-            }
-        }
-
-        if( wall_cling && here.is_wall_adjacent( stairs ) ) {
-            pts.push_back( stairs );
-        }
-
         if( climb_flying ) {
             pts.push_back( stairs );
+        } else {
+            for( const tripoint_bub_ms &pt : here.points_in_radius( stairs, 1 ) ) {
+                if( here.passable( pt ) &&
+                    here.has_floor_or_support( pt ) ) {
+                    pts.push_back( pt );
+                }
+            }
+            if( wall_cling && here.is_wall_adjacent( stairs ) ) {
+                pts.push_back( stairs );
+            }
         }
 
         if( pts.empty() ) {
@@ -12533,6 +12529,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
+    here.build_map_cache( here.get_abs_sub().z() );
+    u.gravity_check();
 
     u.recoil = MAX_RECOIL;
 
@@ -13912,7 +13910,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     add_msg_debug( debugmode::DF_GAME, "We can descend %d / total height %d", aid.down.max_height,
                    fall.height );
 
-    if( !seems_perfectly_safe || !easy_climb_back_up ) {
+    if( !levitating && ( !seems_perfectly_safe || !easy_climb_back_up ) ) {
 
         // This is used to mention object names.  TODO make this more flexible.
         std::string target_disp_name = m.disp_name( fall.pos_furniture_or_floor() );
