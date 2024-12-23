@@ -1374,7 +1374,7 @@
     "id": "cryo_start",
     "name": "Frozen in Time",
     "points": 0,
-    "description": "You awaken in a cold, sterile chamber, your breath condensing in the frigid air. Your muscles ache, heavy and unresponsive. Suddenly, a primal fear stirs within you, a chilling realization that you are not alone.",
+    "description": "You awaken in a cold, sterile chamber, your breath condensing in the frigid air.  Your muscles ache, heavy and unresponsive.  Suddenly, a primal fear stirs within you, a chilling realization that you are not alone.",
     "start_name": "Cryo facility",
     "professions": [ "naked" ],
     "eoc": [ "scenario_cryogenic" ],
