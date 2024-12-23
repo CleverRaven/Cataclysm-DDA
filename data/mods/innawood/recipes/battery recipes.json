@@ -25,8 +25,7 @@
       { "proficiency": "prof_elec_semiconductors" }
     ],
     "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
-},
-
+  },
   {
     "result": "battery_bionic",
     "type": "recipe",
