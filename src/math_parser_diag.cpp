@@ -676,6 +676,14 @@ diag_eval_dbl_f attack_speed_eval( char scope, std::vector<diag_value> const & /
     };
 }
 
+diag_eval_dbl_f move_speed_eval( char scope, std::vector<diag_value> const & /* params */,
+                                 diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_speed();
+    };
+}
+
 diag_eval_dbl_f melee_damage_eval( char scope, std::vector<diag_value> const &params,
                                    diag_kwargs const & /* kwargs */ )
 {
@@ -1796,6 +1804,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },

@@ -124,6 +124,11 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+int talker_character_const::get_speed() const
+{
+    return me_chr_const->get_speed();
+}
+
 dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam ) const
 {
