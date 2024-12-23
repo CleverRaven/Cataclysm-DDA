@@ -121,7 +121,7 @@
           "values": [
             { "value": "RANGE", "multiply": 0.2 },
             { "value": "WEAPON_DISPERSION", "multiply": -0.33 },
-            { "value": "WEAKPOINT_ACCURACY", "multiply": 2.5}
+            { "value": "WEAKPOINT_ACCURACY", "multiply": 2.5 }
           ],
           "ench_effects": [ { "effect": "effect_plus_two_to_hit", "intensity": 1 } ]
         }
