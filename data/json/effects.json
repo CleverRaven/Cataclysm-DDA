@@ -4852,11 +4852,7 @@
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [
-      {
-        "values": [
-          { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength", "default": -1 } }
-        ]
-      }
+      { "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "portal_dungeon_carry_strength", "default": -1 } } ] }
     ]
   },
   {
@@ -4868,11 +4864,7 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [
-      {
-        "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength", "default": -1 } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "portal_dungeon_slow_strength", "default": -1 } } ] } ]
   },
   {
     "type": "effect_type",

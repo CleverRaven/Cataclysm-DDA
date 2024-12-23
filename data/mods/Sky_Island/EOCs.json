@@ -24,11 +24,7 @@
         "min_radius": 2,
         "max_radius": 10
       },
-      {
-        "u_add_effect": "warpcloak",
-        "intensity": 1,
-        "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
-      },
+      { "u_add_effect": "warpcloak", "intensity": 1, "duration": { "global_val": "invistime", "default": "3 s" } },
       {
         "u_run_npc_eocs": [
           {
@@ -116,10 +112,7 @@
         "u_message": "You've returned home safely using a designated exit point.  You have earned <global_val:owed_material_tokens> material tokens for your success.",
         "popup": true
       },
-      {
-        "u_spawn_item": "warptoken_material",
-        "count": { "global_val": "var", "var_name": "owed_material_tokens", "default": 50 }
-      }
+      { "u_spawn_item": "warptoken_material", "count": { "global_val": "owed_material_tokens", "default": 50 } }
     ]
   },
   {
@@ -794,7 +787,7 @@
               { "math": [ "owed_material_tokens = 50 * raidswon" ] },
               {
                 "u_spawn_item": "warptoken_material",
-                "count": { "global_val": "var", "var_name": "owed_material_tokens", "default": 50 }
+                "count": { "global_val": "owed_material_tokens", "default": 50 }
               },
               {
                 "u_message": "You have been retroactively awarded <global_val:owed_material_tokens> material tokens for your past successful expeditions.",
