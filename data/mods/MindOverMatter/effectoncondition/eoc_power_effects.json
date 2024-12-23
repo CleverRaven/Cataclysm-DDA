@@ -43,7 +43,9 @@
     "effect": [ 
       { "math": [ "u_maintenance_high_attunement_weariness_penalty", "=", "psionics_kcal_cost(u_latest_channeled_power_difficulty) * (u_nether_attunement_power_scaling - 1)" ] },
       { "math": [ "u_calories()", "-=", "u_maintenance_high_attunement_weariness_penalty" ] },
-      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_maintenance_high_attunement_weariness_penalty" ] }
+      {
+        "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_maintenance_high_attunement_weariness_penalty" ]
+      }
     ]
   },
   {
