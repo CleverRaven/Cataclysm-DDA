@@ -1472,6 +1472,7 @@ void enchant_cache::clear()
     ench_effects.clear();
     mutations.clear();
     modified_bodyparts.clear();
+    details.clear();
 }
 
 bool enchant_cache::operator==( const enchant_cache &rhs ) const
