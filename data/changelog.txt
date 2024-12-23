@@ -416,11 +416,7 @@ Remade the 3x3 hospital
 Some houses are under construction
 Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
 fungalize stages for rest of zombies
-Add/adjust some current civilian mobs; added two more types with a gun
-Add Dwarven Supercompact Car to vehicle groups and define its properties
 Basic beach decorations
-Structure damage from car crashes now retain the terrains of the original structure such as floorboards, carpets, ect.
-Pianos give tempered wire instead of regular wire & string upon disassembly
 
 
 ## Interface:
@@ -556,8 +552,6 @@ Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
 Migrate compare item menu to imgui
 Various misc improvements to camp crafting flow and feedback
-Added random trait key bind
-Deduplicate item contents description in the examine display
 
 
 ## Mods:
@@ -914,18 +908,12 @@ Aftershock: Shield bionics deploy Riemman shields
 [Magiclysm] Rock trolls actually turn to stone
 [Xedra Evolved] Add Time Related Monsters
 [Magiclysm] Progressive Difficulty reduction the more spells of that school you know
-[Magiclysm] Some spell tweaks
 [Magiclysm/Innawood] Blacklist iron and plastic golems Innawood
 [Magiclysm] Add feral technomancers
 [Sky Island] Progressive autodoc improvement
-[Xedra Evolved] Add Arvore imbuement recipe
 [Xedra Evolved] Add time magic class / scenario
-[Magiclysm] Add some new high Difficulty spells
 [Magiclysm] Spells cost 1/5 of their normal cost on spell failure
-[Sky Island] Death EoC cures modded conditions too
 [Magiclysm] The Great Damage Randomization and Normalization
-[Magiclysm] Give feral radiation mages Magic Fissile (and make them copy-from)
-[XE] Chronomagic Adjustments
 
 
 ## Balance:
@@ -1055,7 +1043,6 @@ Rework faction camp mission travel calculations
 Long sticks can now be found in the forest trash group, too
 Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
 Washing kits are now craftable in the dark
-Increase bagpipe volume from 24 to 75
 
 
 ## Bugfixes:
@@ -1429,13 +1416,8 @@ Allow attacking with CANNOT_MOVE flag
 Killing hostile NPCs won't give "Killed innocent" morale debuff anymore
 Fixes displaying of stats for ablative armor
 Fixes SegFault w/ flashlights & attached power
-Fix animist Convert spell missing damage type
-[Magiclysm/Innawood] Fix mod loading error in builds by deleting region overlay
-Fixes an instance of grocery store overlapping mapgen furniture/terrain.
-Lighthouse tower properly marked as inside space
 Peeking out of elevated windows no longer causes you to fall
 Heat radiance now can spread through gas-permeable tiles like chain link fence
-Remove embedded water heater from lighthouse window
 
 
 ## Performance:
