@@ -2902,7 +2902,7 @@
     "id": "mon_dogman",
     "type": "MONSTER",
     "name": { "str": "dogman", "str_pl": "dogmen" },
-    "description": "A large bipedal creature, covered in dark fur. Once thought to be a legend. It has a dog's head and the torso of a man.",
+    "description": "A large bipedal creature, covered in dark fur.  Once thought to be a legend.  It has a dog's head and the torso of a man.",
     "default_faction": "dogman",
     "bodytype": "human",
     "categories": [ "WILDLIFE" ],
