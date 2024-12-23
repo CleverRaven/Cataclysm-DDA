@@ -263,32 +263,5 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "examine_action": "flower_cactus"
-  },
-  {
-    "type": "region_settings",
-    "id": "river",
-    "default_oter": [
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "field",
-      "solid_earth",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock"
-    ]
   }
 ]
