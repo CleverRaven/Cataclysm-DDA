@@ -177,4 +177,5 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
     "components": [ [ [ "medium_battery_cell", 10 ] ], [ [ "scrap", 20 ] ], [ [ "cable", 25 ] ] ]
-  }]
+  }
+]
