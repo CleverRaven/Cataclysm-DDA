@@ -196,6 +196,7 @@ Relaxing with Alonso is now fun
 Prompt before oxytorch activity if you don't have enough gas
 Ability to hide/unhide revealed wall wiring by examining it
 Special vision enchantment for Antennae mutation
+Add keybind to throw your wielded item
 
 
 ## Content:
@@ -415,6 +416,11 @@ Remade the 3x3 hospital
 Some houses are under construction
 Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
 fungalize stages for rest of zombies
+Add/adjust some current civilian mobs; added two more types with a gun
+Add Dwarven Supercompact Car to vehicle groups and define its properties
+Basic beach decorations
+Structure damage from car crashes now retain the terrains of the original structure such as floorboards, carpets, ect.
+Pianos give tempered wire instead of regular wire & string upon disassembly
 
 
 ## Interface:
@@ -548,6 +554,10 @@ Migrate popups in pocket settings menu to ImGui
 Migrate martial arts details window to imgui
 Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
+Migrate compare item menu to imgui
+Various misc improvements to camp crafting flow and feedback
+Added random trait key bind
+Deduplicate item contents description in the examine display
 
 
 ## Mods:
@@ -903,6 +913,19 @@ Aftershock: Shield bionics deploy Riemman shields
 [Magiclysm/Innawood] Allow troll caves to spawn innawood
 [Magiclysm] Rock trolls actually turn to stone
 [Xedra Evolved] Add Time Related Monsters
+[Magiclysm] Progressive Difficulty reduction the more spells of that school you know
+[Magiclysm] Some spell tweaks
+[Magiclysm/Innawood] Blacklist iron and plastic golems Innawood
+[Magiclysm] Add feral technomancers
+[Sky Island] Progressive autodoc improvement
+[Xedra Evolved] Add Arvore imbuement recipe
+[Xedra Evolved] Add time magic class / scenario
+[Magiclysm] Add some new high Difficulty spells
+[Magiclysm] Spells cost 1/5 of their normal cost on spell failure
+[Sky Island] Death EoC cures modded conditions too
+[Magiclysm] The Great Damage Randomization and Normalization
+[Magiclysm] Give feral radiation mages Magic Fissile (and make them copy-from)
+[XE] Chronomagic Adjustments
 
 
 ## Balance:
@@ -1032,6 +1055,7 @@ Rework faction camp mission travel calculations
 Long sticks can now be found in the forest trash group, too
 Stone walls (the non-dry variants using mortar) now require more than 3l of rocks to build
 Washing kits are now craftable in the dark
+Increase bagpipe volume from 24 to 75
 
 
 ## Bugfixes:
@@ -1403,6 +1427,15 @@ Fix broken macOS build due removed folder
 Fix an EOC that was looping infinitely and starting more loops as you travel
 Allow attacking with CANNOT_MOVE flag
 Killing hostile NPCs won't give "Killed innocent" morale debuff anymore
+Fixes displaying of stats for ablative armor
+Fixes SegFault w/ flashlights & attached power
+Fix animist Convert spell missing damage type
+[Magiclysm/Innawood] Fix mod loading error in builds by deleting region overlay
+Fixes an instance of grocery store overlapping mapgen furniture/terrain.
+Lighthouse tower properly marked as inside space
+Peeking out of elevated windows no longer causes you to fall
+Heat radiance now can spread through gas-permeable tiles like chain link fence
+Remove embedded water heater from lighthouse window
 
 
 ## Performance:
@@ -1556,6 +1589,12 @@ less verbose reading of layering.json
 Imgui input popups
 Retired mingw cross compile build
 Script for updating Translate Complex Dialogue mod
+Falling is no longer handled by traps
+Allow more customizable XP costs for spell leveling
+Improve test coverage of mod combinations with mod_interactions
+Tests now run in a guaranteed order (lexicographic) by default (can be overriden with cli argument)
+Streamline Vertical Movement While Levitating and Flying
+Make enchantment mutations work again
 
 ## Build:
 Support Mac arm64 build
@@ -1610,6 +1649,7 @@ Make Portugal Portugues appear in Options
 [Xedra Evolved] NO_I18N, dont extract monster/fake spells
 Restructure the template file
 [MoM] Dont extract monster/fake spells/effects for translation
+Miscellaneous NO_I18N additions
 
 
 # 0.G (Gaiman)
