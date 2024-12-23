@@ -6,7 +6,7 @@
     "category": "CC_VEHICLE",
     "subcategory": "CSC_VEHICLE_PARTS",
     "skill_used": "mechanics",
-    "skills_required": ["electronics", 3],
+    "skills_required": [ "electronics", 3 ],
     "difficulty": 5,
     "time": "1 h",
     "reversible": false,
