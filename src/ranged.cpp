@@ -1954,13 +1954,13 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     nc_color col = c_light_gray;
 
 
-	const auto &current_steadiness_it = std::find_if( sorted.begin(),
-	sorted.end(), []( const aim_type_prediction & atp ) {
-		return atp.is_default;
-	} );
-	if( current_steadiness_it != sorted.end() ) {
-		line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
-	}
+    const auto &current_steadiness_it = std::find_if( sorted.begin(),
+    sorted.end(), []( const aim_type_prediction & atp ) {
+        return atp.is_default;
+    } );
+    if( current_steadiness_it != sorted.end() ) {
+        line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
+    }
 
     // Start printing by available width of aim window
     if( narrow ) {
