@@ -7052,7 +7052,7 @@ void game::zones_manager()
     // In C++20 we could have the return type depend on the parameter using
     // if constexpr( personal ) but for now it will just return tripoints.
     auto query_position =
-    [&]( bool personal = false ) -> std::optional<std::pair<tripoint, tripoint>> {
+    [&]( ) -> std::optional<std::pair<tripoint_abs_ms, tripoint_abs_ms>> {
         on_out_of_scope invalidate_current_ui( [&]()
         {
             ui.mark_resize();
@@ -7080,31 +7080,64 @@ void game::zones_manager()
             const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
                     true, true, false );
             if( second.position ) {
-                if( personal ) {
-                    tripoint first_rel(
-                        std::min( first.position->x() - u.posx(), second.position->x() - u.posx() ),
-                        std::min( first.position->y() - u.posy(), second.position->y() - u.posy() ),
-                        std::min( first.position->z() - u.posz(), second.position->z() - u.posz() ) );
-                    tripoint second_rel(
-                        std::max( first.position->x() - u.posx(), second.position->x() - u.posx() ),
-                        std::max( first.position->y() - u.posy(), second.position->y() - u.posy() ),
-                        std::max( first.position->z() - u.posz(), second.position->z() - u.posz() ) );
-                    return { { first_rel, second_rel } };
-                }
                 tripoint_abs_ms first_abs =
-                    m.getglobal(
-                        tripoint_bub_ms(
-                            std::min( first.position->x(), second.position->x() ),
-                            std::min( first.position->y(), second.position->y() ),
-                            std::min( first.position->z(), second.position->z() ) ) );
+                m.getglobal(
+                    tripoint_bub_ms(
+                        std::min( first.position->x(), second.position->x() ),
+                        std::min( first.position->y(), second.position->y() ),
+                        std::min( first.position->z(), second.position->z() ) ) );
                 tripoint_abs_ms second_abs =
-                    m.getglobal(
-                        tripoint_bub_ms(
-                            std::max( first.position->x(), second.position->x() ),
-                            std::max( first.position->y(), second.position->y() ),
-                            std::max( first.position->z(), second.position->z() ) ) );
+                m.getglobal(
+                    tripoint_bub_ms(
+                        std::max( first.position->x(), second.position->x() ),
+                        std::max( first.position->y(), second.position->y() ),
+                        std::max( first.position->z(), second.position->z() ) ) );
 
-                return { { first_abs.raw(), second_abs.raw() } };
+                return { { first_abs, second_abs } };
+            }
+        }
+
+        return std::nullopt;
+    };
+
+    auto query_personal_position =
+    [&]() -> std::optional<std::pair<tripoint_rel_ms, tripoint_rel_ms>> {
+        on_out_of_scope invalidate_current_ui( [&]()
+        {
+            ui.mark_resize();
+        } );
+        restore_on_out_of_scope show_prev( show );
+        restore_on_out_of_scope zone_start_prev( zone_start );
+        restore_on_out_of_scope zone_end_prev( zone_end );
+        show = false;
+        zone_start = std::nullopt;
+        zone_end = std::nullopt;
+        ui.mark_resize();
+
+        static_popup popup;
+        popup.on_top( true );
+        popup.message( "%s", _( "Select first point." ) );
+
+        tripoint_bub_ms center = u.pos_bub() + u.view_offset;
+
+        const look_around_result first =
+        look_around( /*show_window=*/false, center, center, false, true, false );
+        if( first.position )
+        {
+            popup.message( "%s", _( "Select second point." ) );
+
+            const look_around_result second = look_around( /*show_window=*/false, center, *first.position,
+                    true, true, false );
+            if( second.position ) {
+                tripoint_rel_ms first_rel(
+                    std::min( first.position->x() - u.posx(), second.position->x() - u.posx() ),
+                    std::min( first.position->y() - u.posy(), second.position->y() - u.posy() ),
+                    std::min( first.position->z() - u.posz(), second.position->z() - u.posz() ) );
+                tripoint_rel_ms second_rel(
+                    std::max( first.position->x() - u.posx(), second.position->x() - u.posx() ),
+                    std::max( first.position->y() - u.posy(), second.position->y() - u.posy() ),
+                    std::max( first.position->z() - u.posz(), second.position->z() - u.posz() ) );
+                return { { first_rel, second_rel } };
             }
         }
 
@@ -7239,9 +7272,8 @@ void game::zones_manager()
                     }
                 }
 
-                // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
-                         position->first, position->second, options, false );
+                         position->first, position->second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -7285,15 +7317,15 @@ void game::zones_manager()
                 }
                 const std::string &name = maybe_name.value();
 
-                const auto position = query_position( true );
+                const std::optional<std::pair<tripoint_rel_ms, tripoint_rel_ms>> position =
+                            query_personal_position( );
                 if( !position ) {
                     break;
                 }
 
                 //add a zone that is relative to the avatar position
-                // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
-                         position->first, position->second, options, true );
+                         position->first, position->second, options );
                 zones = get_zones();
                 active_index = zone_cnt - 1;
 
@@ -7389,14 +7421,21 @@ void game::zones_manager()
                         }
                         break;
                     case 4: {
-                        const auto pos = query_position( zone.get_is_personal() );
-                        // FIXME: this comparison is nonsensival in the
-                        // personal zone case because it's between different
-                        // coordinate systems.
-                        if( pos && ( pos->first != zone.get_start_point().raw() ||
-                                     pos->second != zone.get_end_point().raw() ) ) {
-                            zone.set_position( *pos );
-                            stuff_changed = true;
+                        if( zone.get_is_personal() ) {
+                            const std::optional<std::pair<tripoint_rel_ms, tripoint_rel_ms>> pos = query_personal_position();
+                            if( pos && ( u.get_location() + pos->first != zone.get_start_point() ||
+                                         u.get_location() + pos->second != zone.get_end_point() ) ) {
+                                zone.set_position( { pos->first, pos->second } );
+                                stuff_changed = true;
+
+                            }
+                        } else {
+                            const std::optional<std::pair<tripoint_abs_ms, tripoint_abs_ms>> pos = query_position();
+                            if( pos && ( pos->first != zone.get_start_point() ||
+                                         pos->second != zone.get_end_point() ) ) {
+                                zone.set_position( { pos->first, pos->second } );
+                                stuff_changed = true;
+                            }
                         }
                         break;
                     }
@@ -7432,9 +7471,9 @@ void game::zones_manager()
                             if( zone.get_is_personal() ) {
                                 const tripoint_rel_ms new_start_point_rl = new_start_point - u.get_location();
                                 const tripoint_rel_ms new_end_point_rl = new_end_point - u.get_location();
-                                zone.set_position( std::make_pair( new_start_point_rl.raw(), new_end_point_rl.raw() ) );
+                                zone.set_position( std::make_pair( new_start_point_rl, new_end_point_rl ) );
                             } else {
-                                zone.set_position( std::make_pair( new_start_point.raw(), new_end_point.raw() ) );
+                                zone.set_position( std::make_pair( new_start_point, new_end_point ) );
                             }
                             stuff_changed = true;
                         }
