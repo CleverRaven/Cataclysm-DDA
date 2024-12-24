@@ -996,7 +996,7 @@ void Character::initialize( bool learn_recipes )
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &branch = mut.obj();
         if( branch.starts_active ) {
-            my_mutations[mut].powered = true;
+            cached_mutations[mut].powered = true;
         }
     }
     trait_flag_cache.clear();
@@ -1807,6 +1807,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
@@ -2165,6 +2166,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 filterstring.clear();
                 recalc_traits = true;
             }
+        } else if( action == "RANDOMIZE" ) {
+            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
         }
         if( iCurWorkingPage != iPrevWorkingPage || iCurrentLine[iCurWorkingPage] != iPrevLine ) {
             details_recalc = true;
@@ -4772,7 +4775,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
         bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
-    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
+    result.reserve( my_mutations.size() + old_mutation_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         const mutation_branch &mut = t.first.obj();
         if( include_hidden || mut.player_display ) {
@@ -4782,7 +4785,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
         }
     }
     if( !ignore_enchantments ) {
-        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+        for( const trait_id &ench_trait : old_mutation_cache->get_mutations() ) {
             if( include_hidden || ench_trait->player_display ) {
                 bool found = false;
                 for( const trait_id &exist : result ) {
@@ -4802,30 +4805,36 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
     return result;
 }
 
+std::vector<trait_id> Character::get_functioning_mutations( bool include_hidden,
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
+{
+    std::vector<trait_id> result;
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    result.reserve( test.size() );
+    for( const std::pair<const trait_id, trait_data> &t : test ) {
+        if( t.second.corrupted == 0 ) {
+            const mutation_branch &mut = t.first.obj();
+            if( include_hidden || mut.player_display ) {
+                if( filter == nullptr || filter( mut ) ) {
+                    result.push_back( t.first );
+                }
+            }
+        }
+    }
+    return result;
+}
+
 std::vector<trait_and_var> Character::get_mutations_variants( bool include_hidden,
         bool ignore_enchantments ) const
 {
     std::vector<trait_and_var> result;
-    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
-    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
-        if( include_hidden || t.first.obj().player_display ) {
-            const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
-            result.emplace_back( t.first, variant );
-        }
-    }
-    if( !ignore_enchantments ) {
-        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
-            if( include_hidden || ench_trait->player_display ) {
-                bool found = false;
-                for( const trait_and_var &exist : result ) {
-                    if( exist.trait == ench_trait ) {
-                        found = true;
-                        break;
-                    }
-                }
-                if( !found ) {
-                    result.emplace_back( ench_trait, "" );
-                }
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    result.reserve( test.size() );
+    for( const std::pair<const trait_id, trait_data> &t : test ) {
+        if( t.second.corrupted == 0 ) {
+            if( include_hidden || t.first.obj().player_display ) {
+                const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
+                result.emplace_back( t.first, variant );
             }
         }
     }
@@ -4838,11 +4847,17 @@ void Character::clear_mutations()
         my_traits.erase( *my_traits.begin() );
     }
     while( !my_mutations.empty() ) {
-        const trait_id trait = my_mutations.begin()->first;
         my_mutations.erase( my_mutations.begin() );
+    }
+    while( !my_mutations_dirty.empty() ) {
+        my_mutations_dirty.erase( my_mutations_dirty.begin() );
+    }
+    while( !cached_mutations.empty() ) {
+        const trait_id trait = cached_mutations.begin()->first;
+        cached_mutations.erase( cached_mutations.begin() );
         mutation_loss_effect( trait );
     }
-    cached_mutations.clear();
+    old_mutation_cache->clear();
     recalc_sight_limits();
     calc_encumbrance();
 }

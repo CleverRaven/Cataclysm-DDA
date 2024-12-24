@@ -331,12 +331,15 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 {
     clear_avatar();
     clear_map();
-    standard_npc npc( "Mr. Testerman" );
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    overmap_buffer.insert_npc( guy );
+    npc &npc = *guy;
+    clear_character( npc );
     std::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
         return p.xy() != get_avatar().pos().xy();
     } );
     REQUIRE( dest.has_value() );
-    npc.setpos( { dest.value().xy(), get_avatar().pos().z } );
+    npc.setpos( { dest.value().xy(), get_avatar().posz() } );
 
     tripoint_abs_ms const start = get_avatar().get_location();
     tripoint_abs_ms const end = npc.get_location();
@@ -667,14 +670,14 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    g->place_critter_at( mon_zombie, a.pos() + tripoint::east );
-    monster *friendo = g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
-    g->place_critter_at( mon_triffid, a.pos() + tripoint{ 3, 0, 0 } );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint::north );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 3, 0 } );
-    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 10, 0, 0 } );
-    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 11, 0, 0 } );
+    g->place_critter_at( mon_zombie, a.pos_bub() + tripoint::east );
+    monster *friendo = g->place_critter_at( mon_zombie, a.pos_bub() + tripoint{ 2, 0, 0 } );
+    g->place_critter_at( mon_triffid, a.pos_bub() + tripoint{ 3, 0, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint::north );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint{ 0, 2, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint{ 0, 3, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos_bub() + tripoint{ 10, 0, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos_bub() + tripoint{ 11, 0, 0 } );
 
     REQUIRE( globvars.get_global_value( "mons" ).empty() );
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
@@ -1229,7 +1232,6 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_map();
     npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
     for( loop = 0; loop < 1000; loop++ ) {
-        get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
         get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
@@ -1249,7 +1251,6 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_map();
     monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
     for( loop = 0; loop < 1000; loop++ ) {
-        get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
         get_avatar().fire_gun( mon_dst_ranged.pos_bub(), 1, *get_avatar().get_wielded_item() );
@@ -1346,7 +1347,7 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     clear_map();
 
     map &m = get_map();
-    g->place_player( tripoint::zero );
+    g->place_player( tripoint_bub_ms::zero );
 
     const tripoint_abs_ms start = get_avatar().get_location();
     const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint::north );

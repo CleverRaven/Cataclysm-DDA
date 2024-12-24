@@ -652,7 +652,7 @@
     "name": "GROUP_HOSPITAL",
     "//": "Hospital monster spawns. Same as GROUP_ZOMBIE, but without Z-dogs + 20% medical",
     "monsters": [
-      { "monster": "mon_null", "weight": 150 },
+      { "group": "GROUP_VANILLA_DORMANT", "weight": 100, "cost_multiplier": 3 },
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 10 ] },
       { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 13, "pack_size": [ 15, 20 ] },

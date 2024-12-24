@@ -468,7 +468,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### layering.json
 
-An optional file called layering.json can be provided. this file defines layering data for specific furniture and terrain. A default layering.json is provided with the repository. an example would be:
+An optional file called `layering.json` can be provided. This file defines "layer contexts" (referred to in JSON as "layer variants"), or entries for drawing items/fields differently based on furniture/terrain they're placed on. A default `layering.json` is provided with the repository.
 
 ```c++
 {
@@ -502,21 +502,37 @@ An optional file called layering.json can be provided. this file defines layerin
 }
 ```
 
-This entry sets it so that the f_desk furniture if it contains either a pen or a laptop will draw a custom sprite for them in addition to a normal top item sprite.
+In this example, we provide the context tile `f_desk` and multiple items that will display differently while placed on it -- a pen using `desk_pen_1` or `desk_pen_2`, and a laptop using `desk_laptop`. `fd_fire`, a field, will use the sprite `desk_fd_fire` on `f_desk`.
 
-`"context": "f_desk"` the furniture or terrain that this should apply to.
+`"context": "f_desk"` the furniture or terrain that this should apply to. `"context"` can also be exactly one JSON flag placed in an array, which will display the given sprite for any furniture/terrain that has that flag. 
 
+`"append_variants"`: an additional suffix automatically appended to sprite names from the item name, e.g. "_postup" for sprites of items posted on walls. The suffix must begin with an underscore '\_'. The expected sprite name format (see Hardcoded IDs above for sprite name formats) for using `"append_variants"` is:
+
+"item name" + "append_variants"
+
+Example: `american_flag_hoisted` or `national_flag_var_indian_flag_postup`
+
+Example usage of flag `context` and `append_variants`:
+```JSON
+{
+  "variants": [
+    {
+      "context": [ "WALL" ],
+	  "append_variants": "_postup",
+      "item_variants": [
+        { "item": "american_flag", "layer": 90,
+```
 ##### Items
 
-`"item_variants":` the definitions for what items will have a variant sprite.
+`"item_variants":` the definitions for what items will have contextual sprites. Note: has nothing to do with item variants, this is really item_(layer)_variants.
 
 `"item": "laptop"` the item id. (only supported in item_variants)
 
 `"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top). This only works for items, Fields are instead drawn in the order they are stacked on the tile.
 
-`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random for each item.
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random for each item. If not provided, defaults to item name.
 
-`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset. Defaults to 0 if not provided.
 
 ##### Fields
 
@@ -526,7 +542,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_fd_fire", "weight": 1}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random based on map position.
 
-`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset. Defaults to 0 if not provided.
 
 ## `compose.py`
 

@@ -29,6 +29,7 @@
     "//": "Gives you the very first research recipe for your class.",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "u_has_trait": "INVENTOR" },
+    "deactivate_condition": { "not": { "u_has_trait": "INVENTOR" } },
     "effect": [ { "u_roll_remainder": [ "inventor_research_base_1" ], "type": "recipe" } ]
   },
   {

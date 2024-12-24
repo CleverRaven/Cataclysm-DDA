@@ -249,7 +249,7 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int azm_pos = static_cast<int>( std::round( azm / scale ) ) - 1;
     const int night_h = h >= h_dawn + 12 ? h - ( h_dawn + 12 ) : h + ( 12 - h_dawn );
     std::string ret = "[";
-    if( g->is_sheltered( u.pos() ) ) {
+    if( g->is_sheltered( u.pos_bub() ) ) {
         ret += ( width > 0 ? std::string( width, '?' ) : "" );
     } else {
         for( int i = 0; i < width; i++ ) {
@@ -1492,7 +1492,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
 
 std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
 {
-    if( u.pos().z < 0 ) {
+    if( u.posz() < 0 ) {
         return std::make_pair( _( "Underground" ), c_light_gray );
     } else {
         weather_manager &weather = get_weather();
@@ -1507,7 +1507,7 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

@@ -918,11 +918,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 }
             }
 
-            if( uistate.place_terrain || uistate.place_special ) {
+            if( ( uistate.place_terrain || uistate.place_special ) &&
+                overmap_ui::is_generated_omt( omp.xy() ) ) {
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
-                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
-                }
+                draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
             }
 
             if( draw_overlays && overmap_buffer.has_vehicle( omp ) ) {
@@ -1349,7 +1348,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // skip the normal drawing code for it.
         tilecontext->draw(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            g->ter_view_p,
+            g->ter_view_p.raw(),
             TERRAIN_WINDOW_TERM_WIDTH * font->width,
             TERRAIN_WINDOW_TERM_HEIGHT * font->height,
             overlay_strings,
@@ -1460,7 +1459,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
+            tripoint( get_player_character().pos_bub().raw().xy(), g->ter_view_p.z() ),
             win->width * font->width, win->height * font->height );
         update = true;
 
@@ -1899,7 +1898,7 @@ input_context touch_input_context;
 std::string get_quick_shortcut_name( const std::string &category )
 {
     if( category == "DEFAULTMODE" &&
-        g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos() ) &&
+        g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos_bub() ) &&
         get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
@@ -3517,14 +3516,14 @@ static void CheckMessages()
     }
     bool resized = false;
     if( resize_dims.has_value() ) {
-        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        restore_on_out_of_scope prev_last_input( last_input );
         needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
     }
     // resizing already reinitializes the render target
     if( !resized && render_target_reset ) {
         throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         needupdate = true;
-        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        restore_on_out_of_scope prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and

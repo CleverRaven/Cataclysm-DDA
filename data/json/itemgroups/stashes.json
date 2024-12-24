@@ -76,6 +76,7 @@
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       { "prob": 4, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 7 ],
+      [ "pipe_water", 5 ],
       { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_1_5" },
       { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
       { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },

@@ -1237,11 +1237,18 @@
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
           { "item": "spell_scroll_magus_haste", "prob": 50 },
           { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 },
-          { "item": "spell_scroll_magus_slow", "prob": 50 }
+          { "item": "spell_scroll_magus_slow", "prob": 50 },
+          { "item": "spell_scroll_magus_permanent_light", "prob": 30 }
         ],
         "prob": 10
       },
-      { "distribution": [ { "item": "recovery_spellbook", "prob": 10 } ], "prob": 5 }
+      {
+        "distribution": [
+          { "item": "spell_scroll_magus_cannot_move_attack_or_damage_target", "prob": 10 },
+          { "item": "recovery_spellbook", "prob": 10 }
+        ],
+        "prob": 5
+      }
     ]
   },
   {
@@ -1267,7 +1274,8 @@
           { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
-          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
+          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 },
+          { "item": "spell_scroll_animist_do_psionic_damage_to_head", "prob": 30 }
         ],
         "prob": 35
       },
@@ -1343,7 +1351,8 @@
           { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
           { "item": "spell_scroll_hoary_blast", "prob": 50 },
-          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 }
+          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 },
+          { "item": "spell_scroll_kelvinist_set_everyone_on_fire", "prob": 2 }
         ],
         "prob": 10
       }
@@ -1440,7 +1449,8 @@
           { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
           { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 },
           { "item": "spell_scroll_earthshaper_granite_aegis", "prob": 20 },
-          { "item": "spell_scroll_earthshaper_sleep_in_earth", "prob": 20 }
+          { "item": "spell_scroll_earthshaper_sleep_in_earth", "prob": 20 },
+          { "item": "spell_scroll_earthshaper_diggable_teleport", "prob": 30 }
         ],
         "prob": 10
       }
@@ -1476,7 +1486,8 @@
           { "item": "spell_scroll_bio_fleshpouch", "prob": 50 },
           { "item": "spell_scroll_biomancer_lashing_tentacles", "prob": 30 },
           { "item": "spell_scroll_biomancer_carrion_feast", "prob": 25 },
-          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 }
+          { "item": "spell_scroll_biomancer_caustic_blood", "prob": 20 },
+          { "item": "spell_scroll_biomancer_get_more_blood", "prob": 25 }
         ],
         "prob": 35
       },
@@ -1543,9 +1554,16 @@
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
           { "item": "spell_scroll_druid_beguile_savage_beast", "prob": 75 },
-          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 }
+          { "item": "spell_scroll_druid_create_temporary_spring", "prob": 75 }
         ],
         "prob": 10
+      },
+      {
+        "distribution": [
+          { "item": "spell_scroll_druid_renew_forest_spell", "prob": 50 },
+          { "item": "spell_scroll_druid_turn_tree_into_treant", "prob": 25 }
+        ],
+        "prob": 5
       }
     ]
   },

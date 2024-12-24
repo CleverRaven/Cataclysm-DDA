@@ -248,6 +248,8 @@ std::string action_ident( action_id act )
             return "mend";
         case ACTION_THROW:
             return "throw";
+        case ACTION_THROW_WIELDED:
+            return "throw_wielded";
         case ACTION_FIRE:
             return "fire";
         case ACTION_FIRE_BURST:
@@ -730,6 +732,9 @@ static bool can_pickup_at( const tripoint_bub_ms &p )
 bool can_interact_at( action_id action, const tripoint_bub_ms &p )
 {
     map &here = get_map();
+    if( here.impassable_field_at( p ) ) {
+        return false;
+    }
     tripoint_bub_ms player_pos = get_player_character().pos_bub();
     switch( action ) {
         case ACTION_OPEN:
@@ -977,6 +982,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_SELECT_DEFAULT_AMMO );
             REGISTER_ACTION( ACTION_THROW );
+            REGISTER_ACTION( ACTION_THROW_WIELDED );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
@@ -1217,7 +1223,7 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
     [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "SELECT" ) {
             const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates(
-                        g->w_terrain, g->ter_view_p.xy(), true );
+                        g->w_terrain, g->ter_view_p.raw().xy(), true );
             if( mouse_pos ) {
                 const tripoint_rel_ms vec = *mouse_pos - pos;
                 if( vec.x() >= -1 && vec.x() <= 1

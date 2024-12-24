@@ -198,12 +198,13 @@
     "id": "become_plant_fae",
     "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
     "effect": [
-      {
-        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the natural world."
-      },
-      { "u_add_trait": "ARVORE" },
-      { "u_learn_recipe": "mutagen_plantkin" },
-      { "u_learn_recipe": "verdant_poultice" }
+      { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
+      { "u_add_trait": "FALSE_ARVORE_HATRED" },
+      { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_plantkin')", "-=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
     ],
     "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
   }

@@ -285,8 +285,6 @@ static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvest
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
-
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
@@ -861,10 +859,10 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
 
         if( success <= -5 ) {
-            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.position(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.pos_bub(), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -1417,7 +1415,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 ammo_consumed *= iter->second;
             }
 
-            tool->ammo_consume( ammo_consumed, tool.position(), &who );
+            tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -1667,7 +1665,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
     }
     const tripoint_abs_ms newpos = you.get_location() + heading;
     const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( get_map().tr_at( you.pos_bub() ) != tr_ledge || heading == tripoint_rel_ms::zero ) {
+    if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1721,9 +1719,9 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         moved_tiles = 0;
     }
     you.mod_moves( -you.get_speed() * 0.5 );
-    get_map().update_visibility_cache( you.pos_bub().z() );
-    get_map().update_visibility_cache( you.pos_bub().x() );
-    get_map().update_visibility_cache( you.pos_bub().y() );
+    get_map().update_visibility_cache( you.posz() );
+    get_map().update_visibility_cache( you.posx() );
+    get_map().update_visibility_cache( you.posy() );
     if( you.is_avatar() ) {
         g->update_map( you );
     }
@@ -2642,7 +2640,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
     } else {
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
@@ -5390,7 +5388,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
+void oxytorch_activity_actor::start( player_activity &act, Character &who )
 {
     const map &here = get_map();
 
@@ -5421,15 +5419,24 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         act.set_to_null();
         return;
     }
-
-    add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
-    act.moves_left = act.moves_total;
+    if( tool->ammo_sufficient( &who, act.moves_total / 100 ) ||
+        query_yn(
+            _( "Your %1$s doesn't have enough charges to complete the job.  Continue anyway?" ), tool->tname()
+        ) ||
+        test_mode // In the tests, we want to check that the activity can be resumed.
+      ) {
+        add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
+        act.moves_left = act.moves_total;
+    } else {
+        act.set_to_null();
+        return;
+    }
 }
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
+        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -5900,7 +5907,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
-        tool->ammo_consume( ammo_consumed, tool.position(), &who );
+        tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -6763,12 +6770,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub() ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
-            it->activation_consume( charges_consumed, it.position(), &who );
+            it->activation_consume( charges_consumed, it.pos_bub(), &who );
         }
     }
 
@@ -7292,7 +7299,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, fac_id ) ||
                 here.get_field( src_loc, fd_fire ) != nullptr ||
-                !here.can_put_items_ter_furn( src_loc ) ) {
+                !here.can_put_items_ter_furn( src_loc ) || here.impassable_field_at( src_loc ) ) {
                 continue;
             }
 
@@ -7871,7 +7878,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
                     h.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );

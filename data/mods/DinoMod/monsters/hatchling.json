@@ -183,13 +183,13 @@
     "harvest": "bird_tiny"
   },
   {
-    "id": "mon_gallimimus_hatchling",
+    "id": "mon_nedcolbertia_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dilophosaurus_hatchling",
     "name": "light green and yellow hatchling",
     "default_faction": "herbivore_young",
     "color": "light_green_yellow",
-    "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
+    "upgrades": { "age_grow": 20, "into": "mon_nedcolbertia_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "flags": [
@@ -204,6 +204,12 @@
       "CAN_BE_CULLED",
       "GUILT_ANIMAL"
     ]
+  },
+  {
+    "id": "mon_gallimimus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_nedcolbertia_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" }
   },
   {
     "id": "mon_struthiomimus_hatchling",

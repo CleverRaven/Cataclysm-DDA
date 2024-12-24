@@ -21,7 +21,7 @@
             { "math": [ "rand(10) < u_addiction_intensity('caffeine')" ] }
           ]
         },
-        "then": { "math": [ "u_val('stim')", "--" ] }
+        "then": { "math": [ "u_val('stim')--" ] }
       },
       {
         "if": {
@@ -42,7 +42,7 @@
     "id": "EOC_SLEEP_ADDICTION",
     "//": "Actual effects processed in player::can_sleep().  Here, only prolong this addiction longer than usual.",
     "condition": { "and": [ { "one_in_chance": 2 }, { "math": [ "u_addiction_turns('sleeping pill') < 0" ] } ] },
-    "effect": { "math": [ "u_addiction_turns('sleeping pill')", "++" ] }
+    "effect": { "math": [ "u_addiction_turns('sleeping pill')++" ] }
   },
   {
     "type": "effect_on_condition",
@@ -51,7 +51,7 @@
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
-      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')--" ] } }
     ]
   },
   {
@@ -61,7 +61,7 @@
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about nutty cyan seeds as big as your hand.", "type": "info" },
-      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')--" ] } }
     ]
   },
   {
@@ -71,7 +71,7 @@
     "effect": [
       { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
       { "u_message": "You daydream about succulent, pale golden gel, sweet but light.", "type": "info" },
-      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')", "--" ] } }
+      { "if": { "math": [ "u_val('focus') > 40" ] }, "then": { "math": [ "u_val('focus')--" ] } }
     ]
   },
   {

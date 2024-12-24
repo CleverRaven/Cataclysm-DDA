@@ -34,7 +34,7 @@
     "id": "stoner",
     "type": "item_group",
     "//": "Processed weed and weed accessories",
-    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ], [ "pipe_water", 10 ] ]
   },
   {
     "id": "butane_lighter_and_fuel",

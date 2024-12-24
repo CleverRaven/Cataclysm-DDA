@@ -86,6 +86,8 @@
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 7, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 18, "y": 10 },
+        { "item": "pipe_water", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
+        { "item": "pipe_water", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 21, "y": 10 }
       ],
       "place_items": [

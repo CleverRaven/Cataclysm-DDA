@@ -184,7 +184,7 @@ void Character::check_and_recover_morale()
 
     worn.check_and_recover_morale( test_morale );
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         test_morale.on_mutation_gain( mut );
     }
 

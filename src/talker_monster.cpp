@@ -41,6 +41,11 @@ tripoint talker_monster_const::pos() const
     return me_mon_const->pos();
 }
 
+tripoint_bub_ms talker_monster_const::pos_bub() const
+{
+    return me_mon_const->pos_bub();
+}
+
 tripoint_abs_ms talker_monster_const::global_pos() const
 {
     return me_mon_const->get_location();
@@ -171,6 +176,11 @@ int talker_monster_const::get_size() const
     add_msg_debug( debugmode::DF_TALKER, "Size category of monster %s = %d", me_mon_const->name(),
                    me_mon_const->get_size() - 0 );
     return me_mon_const->get_size() - 0;
+}
+
+int talker_monster_const::get_speed() const
+{
+    return me_mon_const->get_speed();
 }
 
 int talker_monster_const::get_grab_strength() const

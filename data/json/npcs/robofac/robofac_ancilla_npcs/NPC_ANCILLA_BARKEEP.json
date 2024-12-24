@@ -168,7 +168,7 @@
     "dynamic_line": "Oh yes of course, think this should be all, well that's all there is anyhow.",
     "speaker_effect": {
       "effect": [
-        { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", "--" ] },
+        { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed--" ] },
         { "u_add_faction_trust": 1 },
         { "u_spawn_item": "RobofacCoin", "count": 2 }
       ]

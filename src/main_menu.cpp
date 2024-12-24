@@ -884,12 +884,8 @@ bool main_menu::opening_screen()
         // also check special keys
         if( action == "QUIT" ) {
 #if !defined(EMSCRIPTEN)
-            g->uquit = QUIT_EXIT_PENDING;
-            if( query_yn( _( "Really quit?" ) ) ) {
-                g->uquit = QUIT_EXIT;
-                return false;
-            }
-            g->uquit = QUIT_NO;
+            g->uquit = QUIT_EXIT;
+            return false;
 #endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
@@ -1223,7 +1219,7 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
 static std::optional<std::chrono::seconds> get_playtime_from_save( const WORLD *world,
         const save_t &save )
 {
-    cata_path playtime_file = world->folder_path_path() / ( save.base_path() + ".pt" );
+    cata_path playtime_file = world->folder_path() / ( save.base_path() + ".pt" );
     std::optional<std::chrono::seconds> pt_seconds;
     if( file_exist( playtime_file ) ) {
         read_from_file( playtime_file, [&pt_seconds]( std::istream & fin ) {

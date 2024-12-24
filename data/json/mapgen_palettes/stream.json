@@ -9,6 +9,7 @@
         [ "t_null", 100 ],
         [ "t_sand", 1 ],
         [ "t_shrub_spicebush", 10 ],
+        [ "t_shrub_hobblebush", 10 ],
         [ "t_clay", 4 ],
         [ "t_grass_long", 900 ],
         [ "t_region_shrub_forest", 20 ],

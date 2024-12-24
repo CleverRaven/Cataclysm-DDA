@@ -366,7 +366,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 18 } ],
     "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
     "extend": { "flags": [ "SUNDEATH" ] },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
+    "death_function": { "eoc": "EOC_ROCK_TROLL_TURN_TO_STONE", "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
   },
   {
     "id": "mon_troll_water",

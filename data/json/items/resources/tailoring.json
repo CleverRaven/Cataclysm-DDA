@@ -259,8 +259,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "40 g",
     "volume": "125 ml",
-    "category": "spare_parts",
-    "to_hit": -1
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -310,8 +309,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "372 g",
     "volume": "465 ml",
-    "category": "spare_parts",
-    "to_hit": -1
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",

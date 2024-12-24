@@ -286,7 +286,31 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SEED_BEARER",
+    "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_ACTION",
+            "effect": [ { "u_cast_spell": { "id": "arvore_summon_floral_boat_real" }, "targeted": true } ],
+            "false_effect": { "u_message": "You need a nearby tree to transform it into the viridescent vessel.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "arvore_floral_boat_tree" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_floral_boat_tree" } }
+      },
+      {
+        "u_transform_radius": 0,
+        "target_var": { "context_val": "arvore_floral_boat_tree" },
+        "ter_furn_transform": "ter_arvore_tree_to_grass"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_activated",
     "condition": {
       "and": [
         "u_is_outside",
@@ -294,8 +318,53 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_spawn_item": "farming_seeds", "count": 1, "use_item_group": true } ],
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_effect": "effect_arvore_seedbearer_cooldown" } }, { "not": { "is_season": "winter" } } ] },
+        "then": [
+          { "u_lose_effect": "effect_arvore_seedbearer_available" },
+          { "u_message": "You bring forth seeds.", "type": "good" },
+          {
+            "math": [ "u_arvore_seedbearer_iterations", "=", "1 + ( u_sum_traits_of_category_char_has('ARVORE') / 5)" ]
+          },
+          {
+            "run_eocs": "EOC_ARVORE_SEED_BEARER_GIVE_SEEDS",
+            "iterations": { "math": [ "u_arvore_seedbearer_iterations" ] }
+          },
+          { "u_add_effect": "effect_arvore_seedbearer_cooldown", "duration": { "math": [ "432000 + rand(432000)" ] } }
+        ],
+        "else": {
+          "if": { "is_season": "winter" },
+          "then": { "u_message": "Your seeds slumber and dream of spring.", "type": "mixed" },
+          "else": [ { "u_message": "You need more time before you can summon seeds again.", "type": "bad" } ]
+        }
+      }
+    ],
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth regional seeds.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_GIVE_SEEDS",
+    "effect": { "u_spawn_item": "farming_seeds", "use_item_group": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_arvore_seedbearer_cooldown", { "context_val": "effect" } ] },
+    "effect": {
+      "if": { "is_season": "winter" },
+      "then": { "run_eocs": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER", "time_in_future": "24 hours" },
+      "else": { "u_add_effect": "effect_arvore_seedbearer_available", "duration": "PERMANENT" }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER",
+    "condition": { "is_season": "winter" },
+    "effect": { "run_eocs": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER", "time_in_future": "24 hours" },
+    "false_effect": { "u_add_effect": "effect_arvore_seedbearer_available", "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
@@ -716,8 +785,18 @@
             { "not": { "u_know_recipe": "create_verdant_helm" } },
             { "not": { "u_know_recipe": "create_verdant_cuirass" } },
             { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_leg_guards" } },
             { "not": { "u_know_recipe": "create_verdant_boots" } },
-            { "not": { "u_know_recipe": "create_verdant_cloak" } }
+            { "not": { "u_know_recipe": "create_verdant_cloak" } },
+            { "not": { "u_know_recipe": "create_shortbow_treesung" } },
+            { "not": { "u_know_recipe": "create_greatbow_treesung" } },
+            { "not": { "u_know_recipe": "create_arrow_treesung" } },
+            { "not": { "u_know_recipe": "create_spear_treesung" } },
+            { "not": { "u_know_recipe": "create_pike_treesung" } },
+            { "not": { "u_know_recipe": "create_mace_treesung" } },
+            { "not": { "u_know_recipe": "create_q_staff_treesung" } },
+            { "not": { "u_know_recipe": "create_naginata_treesung" } },
+            { "not": { "u_know_recipe": "create_baselard_treesung" } }
           ]
         },
         {
@@ -744,6 +823,7 @@
         }
       ]
     },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE" } },
     "effect": [
       {
         "u_roll_remainder": [
@@ -754,8 +834,18 @@
           "create_verdant_helm",
           "create_verdant_cuirass",
           "create_verdant_gauntlets",
+          "create_verdant_leg_guards",
           "create_verdant_boots",
-          "create_verdant_cloak"
+          "create_verdant_cloak",
+          "create_shortbow_treesung",
+          "create_greatbow_treesung",
+          "create_arrow_treesung",
+          "create_spear_treesung",
+          "create_pike_treesung",
+          "create_mace_treesung",
+          "create_q_staff_treesung",
+          "create_naginata_treesung",
+          "create_baselard_treesung"
         ],
         "type": "recipe"
       },
@@ -766,12 +856,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": { "and": [ "u_is_outside", { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } ] },
-    "effect": [
-      { "u_add_trait": "CHLOROMORPH" },
-      { "u_add_trait": "LEAVES3" },
-      { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" },
-      { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 100 }
-    ],
+    "effect": [ { "u_add_trait": "CHLOROMORPH" }, { "u_add_trait": "LEAVES3" }, { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" } ],
     "false_effect": [ { "u_message": "You must be outside on diggable ground to become one with the forest.", "type": "bad" } ]
   },
   {

@@ -33,6 +33,11 @@ tripoint talker_furniture_const::pos() const
     return me_comp->loc;
 }
 
+tripoint_bub_ms talker_furniture_const::pos_bub() const
+{
+    return tripoint_bub_ms( me_comp->loc );
+}
+
 tripoint_abs_ms talker_furniture_const::global_pos() const
 {
     return get_map().getglobal( me_comp->loc );

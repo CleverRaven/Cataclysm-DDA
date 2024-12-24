@@ -233,7 +233,7 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint::south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
     creature_tracker &creatures = get_creature_tracker();
     Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
     int moves_spent_on_attacks = 0;
@@ -292,7 +292,7 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint::south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
     creature_tracker &creatures = get_creature_tracker();
     Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
     int stamina_init = 0;
@@ -361,7 +361,7 @@ TEST_CASE( "Enchantment_MELEE_TO_HIT_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint::south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
     creature_tracker &creatures = get_creature_tracker();
     Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
     double hit_rate = 0;

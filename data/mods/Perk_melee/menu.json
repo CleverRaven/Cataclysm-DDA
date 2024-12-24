@@ -696,7 +696,7 @@
         "failure_topic": "TALK_NONE",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_ma_perks", "--" ] }
+          { "math": [ "u_num_ma_perks--" ] }
         ]
       },
       {

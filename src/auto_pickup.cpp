@@ -21,6 +21,7 @@
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -35,7 +36,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -517,45 +517,24 @@ void user_interface::show()
             ui_manager::redraw();
 
             if( bLeftColumn || action == "ADD_RULE" ) {
-                ui_adaptor help_ui;
-                catacurses::window w_help;
-                const auto init_help_window = [&]( ui_adaptor & help_ui ) {
-                    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-                    w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
-                                                 FULL_SCREEN_WIDTH * 3 / 4,
-                                                 iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
-                    help_ui.position_from_window( w_help );
-                };
-                init_help_window( help_ui );
-                help_ui.on_screen_resize( init_help_window );
-
-                help_ui.on_redraw( [&]( const ui_adaptor & ) {
-                    // NOLINTNEXTLINE(cata-use-named-point-constants)
-                    fold_and_print( w_help, point( 1, 1 ), 999, c_white,
-                                    _(
-                                        "* is used as a Wildcard.  A few Examples:\n"
-                                        "\n"
-                                        "wooden arrow    matches the itemname exactly\n"
-                                        "wooden ar*      matches items beginning with wood ar\n"
-                                        "*rrow           matches items ending with rrow\n"
-                                        "*avy fle*fi*arrow     multiple * are allowed\n"
-                                        "heAVY*woOD*arrOW      case insensitive search\n"
-                                        "\n"
-                                        "Pickup based on item materials:\n"
-                                        "m:kevlar        matches items made of Kevlar\n"
-                                        "M:copper        matches items made purely of copper\n"
-                                        "M:steel,iron    multiple materials allowed (OR search)" )
-                                  );
-
-                    draw_border( w_help );
-                    wnoutrefresh( w_help );
-                } );
-                const std::string r = string_input_popup()
-                                      .title( _( "Pickup Rule:" ) )
-                                      .width( 30 )
-                                      .text( cur_rules[iLine].sRule )
-                                      .query_string();
+                string_input_popup_imgui popup( 60, cur_rules[iLine].sRule );
+                popup.set_label( _( "Pickup Rule:" ) );
+                std::string description = _(
+                                              "* is used as a Wildcard.  A few Examples:\n"
+                                              "\n"
+                                              "wooden arrow    matches the itemname exactly\n"
+                                              "wooden ar*      matches items beginning with wood ar\n"
+                                              "*rrow           matches items ending with rrow\n"
+                                              "*avy fle*fi*arrow     multiple * are allowed\n"
+                                              "heAVY*woOD*arrOW      case insensitive search\n"
+                                              "\n"
+                                              "Pickup based on item materials:\n"
+                                              "m:kevlar        matches items made of Kevlar\n"
+                                              "M:copper        matches items made purely of copper\n"
+                                              "M:steel,iron    multiple materials allowed (OR search)"
+                                          );
+                popup.set_description( description, c_white, true );
+                const std::string r = popup.query();
                 // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
                 // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
                 // to include/exclude everything
@@ -933,9 +912,9 @@ bool player_settings::save( const bool bCharacter )
     cata_path savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = PATH_INFO::player_base_save_path_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
-        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
+        const cata_path player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
@@ -962,7 +941,7 @@ void player_settings::load( const bool bCharacter )
 {
     cata_path sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = PATH_INFO::player_base_save_path_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
     read_from_file_optional_json( sFile, [&]( const JsonValue & jv ) {

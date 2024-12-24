@@ -274,7 +274,7 @@ int Character::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             res = std::max( res, mut->butchering_quality );
         }
     }
@@ -288,7 +288,7 @@ int Character::max_quality( const quality_id &qual, int radius ) const
 
     if( radius > 0 ) {
         res = std::max( res,
-                        crafting_inventory( tripoint::zero, radius, true )
+                        crafting_inventory( tripoint_bub_ms::zero, radius, true )
                         .max_quality( qual ) );
     }
 

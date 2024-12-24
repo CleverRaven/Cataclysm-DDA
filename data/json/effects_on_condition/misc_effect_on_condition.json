@@ -48,7 +48,7 @@
     "id": "EOC_mininuke_record",
     "eoc_type": "EVENT",
     "required_event": "activates_mininuke",
-    "effect": [ { "math": [ "u_mininuke_activated", "++" ] } ]
+    "effect": [ { "math": [ "u_mininuke_activated++" ] } ]
   },
   {
     "id": "EOC_DEATH_SWITCH",

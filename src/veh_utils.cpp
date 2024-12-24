@@ -99,7 +99,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
                                   ? vp.install_requirements()
                                   : vp.repair_requirements() * pt.get_base().repairable_levels();
 
-    const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
+    const inventory &inv = who.crafting_inventory( who.pos_bub(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
     // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu
@@ -373,7 +373,7 @@ class veh_menu_cb : public uilist_callback
             last_view = player_character.view_offset;
             terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
                 if( draw_trail && last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-                    g->draw_trail_to_square( player_character.view_offset.raw(), true );
+                    g->draw_trail_to_square( player_character.view_offset, true );
                 }
             } );
             g->add_draw_callback( terrain_draw_cb );

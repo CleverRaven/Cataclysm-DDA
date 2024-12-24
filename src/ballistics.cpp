@@ -155,7 +155,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( effects.count( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.activate_thrown( attack.end_point.raw() );
+            do_drop = !dropped_item.activate_thrown( attack.end_point );
         }
 
         map &here = get_map();
@@ -527,7 +527,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( null_source ? nullptr : origin, tp.raw(),
+        explosion_handler::explosion( null_source ? nullptr : origin, tp,
                                       proj.get_custom_explosion() );
     }
 
@@ -554,7 +554,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
-                                     sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos() ) );
         }
     }
 

@@ -32,7 +32,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette", "standard_domestic_landscaping_palette" ],
       "terrain": { "%": "t_region_shrub_fruit" },
       "furniture": { "!": "f_bluebell", "$": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "place_loot": [ { "group": "livingroom", "x": [ 7, 16 ], "y": [ 7, 9 ], "chance": 90, "repeat": [ 1, 6 ] } ],

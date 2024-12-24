@@ -1039,10 +1039,10 @@ void basecamp_action_components::consume_components()
 {
     map &target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
-    std::vector<tripoint> src;
+    std::vector<tripoint_bub_ms> src;
     src.reserve( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
-        src.emplace_back( target_map.bub_from_abs( p ).raw() );
+        src.emplace_back( target_map.bub_from_abs( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,

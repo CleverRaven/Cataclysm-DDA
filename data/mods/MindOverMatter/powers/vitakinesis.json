@@ -678,6 +678,82 @@
     "base_casting_time": 1200
   },
   {
+    "id": "vita_degenerating_touch",
+    "type": "SPELL",
+    "name": "[Ψ]Degenerating Touch",
+    "description": "The ultimate expression of a vitakinetic's ability to reverse vital processes, this power induces massive cellular breakdown in the target, causing severe injury, weakness, and possible death.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_DEGENERATING_TOUCH",
+    "shape": "blast",
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "30 - ( (u_spell_level('vita_degenerating_touch') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "75 - ( (u_spell_level('vita_degenerating_touch') * 2 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8500,
+    "final_energy_cost": 4500,
+    "energy_increment": -250,
+    "base_casting_time": 85,
+    "final_casting_time": 55,
+    "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vita_degenerating_touch_self_character",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Degenerating Touch Self Character", "//~": "NO_I18N" },
+    "description": { "str": "You are degenerating.  RIP.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_degenerating_touch",
+    "damage_type": "biological",
+    "shape": "blast",
+    "min_dot": { "math": [ "u_vitakinesis_degen_max_possible_limb_damage / u_vitakinesis_degen_duration" ] },
+    "max_dot": { "math": [ "u_vitakinesis_degen_max_possible_limb_damage / u_vitakinesis_degen_duration" ] },
+    "min_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] },
+    "max_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] }
+  },
+  {
+    "id": "vita_degenerating_touch_self_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Degenerating Touch Self Monster", "//~": "NO_I18N" },
+    "description": { "str": "You are degenerating.  RIP.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_degenerating_touch",
+    "damage_type": "biological",
+    "shape": "blast",
+    "min_dot": { "math": [ "u_vitakinesis_degen_max_possible_monster_damage / u_vitakinesis_degen_duration" ] },
+    "max_dot": { "math": [ "u_vitakinesis_degen_max_possible_monster_damage / u_vitakinesis_degen_duration" ] },
+    "min_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] },
+    "max_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] }
+  },
+  {
     "id": "vita_return_from_death",
     "type": "SPELL",
     "name": "[Ψ]Accelerated Resuscitation (C)",

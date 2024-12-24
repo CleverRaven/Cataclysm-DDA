@@ -496,7 +496,7 @@
     "responses": [ { "text": "Good to hear.  I'm sure everyone will appreciate that place being cleaned up.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
-        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1++" ] },
         { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" }
       ]
     }

@@ -43,6 +43,7 @@
     "name": "GROUP_DINOSAUR_HARMLESS",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nedcolbertia", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus", "weight": 50, "pack_size": [ 1, 2 ] },
@@ -91,6 +92,7 @@
     "name": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nedcolbertia_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -193,6 +195,7 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
     "monsters": [
+      { "monster": "mon_nedcolbertia_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },

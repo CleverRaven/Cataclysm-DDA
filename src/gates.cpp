@@ -402,7 +402,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
         }
         // TODO: make the npc angry?
         npc_or_player->hitall( bash_dmg, 0, nullptr );
-        g->knockback( kbp.raw(), p.raw(), std::max( 1, bash_dmg / 10 ), -1, 1 );
+        g->knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
         if( creatures.creature_at<Character>( p, false ) != nullptr ) {
@@ -431,7 +431,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
         }
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
-            g->knockback( kbp.raw(), p.raw(), std::max( 1, bash_dmg / 10 ), -1, 1 );
+            g->knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
             if( creatures.creature_at( p ) ) {
                 return false;
             }

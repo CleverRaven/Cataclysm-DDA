@@ -879,6 +879,7 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
 
             std::string context;
             std::set<std::string> flags;
+            std::string append_suffix;
             furn_str_id furn_exists;
             ter_str_id ter_exists;
             if( item.has_string( "context" ) ) {
@@ -893,11 +894,18 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
             else if( item.has_array( "context" ) ) {
                 context = item.get_array( "context" ).next_value().get_string();
             }
+
+            if( item.has_string( "append_variants" ) ) {
+                append_suffix = item.get_string( "append_variants" );
+                if( append_suffix.empty() ) {
+                    config.throw_error( "append_variants cannot be empty string" );
+                }
+            }
             std::vector<layer_context_sprites> item_layers;
             std::vector<layer_context_sprites> field_layers;
             if( item.has_array( "item_variants" ) ) {
                 for( const JsonObject vars : item.get_array( "item_variants" ) ) {
-                    if( vars.has_member( "item" ) && vars.has_array( "sprite" ) && vars.has_member( "layer" ) ) {
+                    if( vars.has_member( "item" ) && vars.has_member( "layer" ) ) {
                         layer_context_sprites lcs;
                         lcs.id = vars.get_string( "item" );
 
@@ -910,20 +918,20 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
                             offset.y = vars.get_int( "offset_y" );
                         }
                         lcs.offset = offset;
+                        lcs.append_suffix = append_suffix;
 
                         int total_weight = 0;
-                        for( const JsonObject sprites : vars.get_array( "sprite" ) ) {
-                            std::string id = sprites.get_string( "id" );
-                            int weight = sprites.get_int( "weight", 1 );
-                            lcs.sprite.emplace( id, weight );
-                            if( sprites.has_string( "append_variants" ) ) {
-                                lcs.append_variant = sprites.get_string( "append_variants" );
-                                if( lcs.append_variant.empty() ) {
-                                    config.throw_error( "append_variants cannot be empty string" );
-                                }
+                        if( vars.has_array( "sprite" ) ) {
+                            for( const JsonObject sprites : vars.get_array( "sprite" ) ) {
+                                std::string id = sprites.get_string( "id" );
+                                int weight = sprites.get_int( "weight", 1 );
+                                lcs.sprite.emplace( id, weight );
+                                total_weight += weight;
                             }
-
-                            total_weight += weight;
+                        } else {
+                            //default if unprovided = item name
+                            lcs.sprite.emplace( lcs.id, 1 );
+                            total_weight = 1;
                         }
                         lcs.total_weight = total_weight;
                         item_layers.push_back( lcs );
@@ -1933,14 +1941,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     } else if( you.view_offset != tripoint_rel_ms::zero && !you.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                             tripoint( g->ter_view_p.xy(), center.z ), 0, 0, lit_level::LIT,
+                             tripoint( g->ter_view_p.raw().xy(), center.z ), 0, 0, lit_level::LIT,
                              false );
     }
     if( you.controlling_vehicle ) {
-        std::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true );
+        std::optional<tripoint_rel_ms> indicator_offset = g->get_veh_dir_indicator_location( true );
         if( indicator_offset ) {
             draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                                 indicator_offset->xy() +
+                                 indicator_offset->raw().xy() +
                                  tripoint( you.posx(), you.posy(), center.z ),
                                  0, 0, lit_level::LIT, false );
         }
@@ -2335,7 +2343,12 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
     // Try the variant first
     if( !variant.empty() ) {
         if( category != TILE_CATEGORY::VEHICLE_PART ) {
-            if( auto ret = find_tile_with_season( id + "_var_" + variant ) ) {
+            //indicates a sprite suffix
+            if( variant[0] == '_' ) {
+                if( auto ret = find_tile_with_season( id + variant ) ) {
+                    return ret; // with variant
+                }
+            } else if( auto ret = find_tile_with_season( id + "_var_" + variant ) ) {
                 return ret; // with variant
             }
         } else {
@@ -3701,9 +3714,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                         if( i.has_itype_variant() ) {
                             variant = i.itype_variant().id;
-                            if( !layer_var.append_variant.empty() ) {
-                                variant += layer_var.append_variant;
-                            }
+                        }
+                        if( !layer_var.append_suffix.empty() ) {
+                            variant += layer_var.append_suffix;
                         }
                         // if we have found info on the item go through and draw its stuff
                         draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
@@ -4182,7 +4195,7 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
     // Search for a creature above
     while( pcritter == nullptr && scan_p.z() <= OVERMAP_HEIGHT &&
            !here.dont_draw_lower_floor( scan_p ) &&
-           scan_p.z() - you.pos_bub().z() <= fov_3d_z_range ) {
+           scan_p.z() - you.posz() <= fov_3d_z_range ) {
         pcritter = get_creature_tracker().creature_at( scan_p, true );
         scan_p.z()++;
     }
@@ -4195,7 +4208,7 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                             0, 0, ll, false, height_3d ) && scan_p.z() - 1 > you.pos_bub().z() && you.sees( critter ) ) {
+                             0, 0, ll, false, height_3d ) && scan_p.z() - 1 > you.posz() && you.sees( critter ) ) {
 
         bool is_player = false;
         bool sees_player = false;
@@ -4339,7 +4352,7 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
         int &height_3d )
 {
-    std::vector<trait_id> override_look_muts = ch.get_mutations( true,
+    std::vector<trait_id> override_look_muts = ch.get_functioning_mutations( true,
     false, []( const mutation_branch & mut ) {
         return mut.override_look.has_value();
     } );

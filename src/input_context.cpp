@@ -621,6 +621,41 @@ const
     }
 }
 
+std::optional<tripoint_rel_omt> input_context::get_direction_rel_omt( const std::string &action )
+const
+{
+    static const auto noop = static_cast<tripoint_rel_omt( * )( tripoint_rel_omt )>( [](
+    tripoint_rel_omt p ) {
+        return p;
+    } );
+    static const auto rotate = static_cast<tripoint_rel_omt( * )( tripoint_rel_omt )>( [](
+    tripoint_rel_omt p ) {
+        rotate_direction_cw( p.x(), p.y() );
+        return p;
+    } );
+    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
+
+    if( action == "UP" ) {
+        return transform( tripoint_rel_omt::north );
+    } else if( action == "DOWN" ) {
+        return transform( tripoint_rel_omt::south );
+    } else if( action == "LEFT" ) {
+        return transform( tripoint_rel_omt::west );
+    } else if( action == "RIGHT" ) {
+        return transform( tripoint_rel_omt::east );
+    } else if( action == "LEFTUP" ) {
+        return transform( tripoint_rel_omt::north_west );
+    } else if( action == "RIGHTUP" ) {
+        return transform( tripoint_rel_omt::north_east );
+    } else if( action == "LEFTDOWN" ) {
+        return transform( tripoint_rel_omt::south_west );
+    } else if( action == "RIGHTDOWN" ) {
+        return transform( tripoint_rel_omt::south_east );
+    } else {
+        return std::nullopt;
+    }
+}
+
 // Custom set of hotkeys that explicitly don't include the hardcoded
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
@@ -849,13 +884,16 @@ bool input_context::action_reset( const std::string &action_id )
     std::vector<input_event> conflicting_events;
     std::array<std::reference_wrapper<const std::string>, 2> contexts = { default_context_id, category };
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                conflicting_events.emplace_back( event );
-            }
+        auto iter_basic = inp_mngr.basic_action_contexts.find( context );
+        if( iter_basic == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_basic->second.find( action_id );
+        if( iter_action == iter_basic->second.end() ) {
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            conflicting_events.emplace_back( event );
         }
     }
     if( !resolve_conflicts( conflicting_events, action_id ) ) {
@@ -864,20 +902,30 @@ bool input_context::action_reset( const std::string &action_id )
 
     // RESET KEY BINDINGS
     for( const std::string &context : contexts ) {
-        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
-        const input_manager::t_actions &cus = inp_mngr.action_contexts.at( context );
-
-        bool is_in_def = def.find( action_id ) != def.end();
-        bool is_in_cus = cus.find( action_id ) != cus.end();
-
-        if( is_in_cus ) {
-            inp_mngr.remove_input_for_action( action_id, context );
+        // reset -> remove from user created keybindings
+        auto iter_cus = inp_mngr.action_contexts.find( context );
+        if( iter_cus != inp_mngr.action_contexts.end() ) {
+            if( iter_cus->second.find( action_id ) != iter_cus->second.end() ) {
+                inp_mngr.remove_input_for_action( action_id, context );
+            }
         }
 
-        if( is_in_def ) {
-            for( const input_event &event : def.at( action_id ).input_events ) {
-                inp_mngr.add_input_for_action( action_id, context, event );
-            }
+        // reset the original keybindings
+        auto iter_def = inp_mngr.basic_action_contexts.find( context );
+        if( iter_def == inp_mngr.basic_action_contexts.end() ) {
+            continue;
+        }
+        auto iter_action = iter_def->second.find( action_id );
+        if( iter_action == iter_def->second.end() ) {
+            continue;
+        }
+        if( iter_action->second.input_events.empty() ) {
+            // special case: reset to an empty local keybinding "Unbound locally!"
+            inp_mngr.get_or_create_event_list( action_id, context );
+            continue;
+        }
+        for( const input_event &event : iter_action->second.input_events ) {
+            inp_mngr.add_input_for_action( action_id, context, event );
         }
     }
     return true;
@@ -1173,6 +1221,17 @@ std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses:
     return tripoint_bub_ms( p.x, p.y, get_map().get_abs_sub().z() );
 }
 #endif
+
+std::optional<tripoint_rel_omt> input_context::get_coordinates_rel_omt( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
+{
+    // Sometimes off by one with tiles but I think that's due to the centre changing with zoom level + tileset size so I don't think it can be easily fixed here
+    const std::optional<tripoint_bub_ms> p = get_coordinates( capture_win, offset, center_cursor );
+    if( p ) {
+        return tripoint_rel_omt( p->raw() );
+    }
+    return std::nullopt;
+}
 
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const

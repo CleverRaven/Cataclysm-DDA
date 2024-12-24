@@ -12,7 +12,7 @@
     },
     "effect": [
       {
-        "u_message": "There is a soft, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.",
+        "u_message": "<color_red>There is a soft, sonorous tone filling the air, like wind over brittle ice.  It sets your teeth on edge.</color>",
         "type": "neutral",
         "popup": true
       },
@@ -25,6 +25,7 @@
     "id": "EOC_vitrified_farm_entry_event",
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
+    "condition": { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] },
     "effect": [ { "run_eocs": "EOC_vitrified_farm_init" } ]
   },
   {
@@ -48,7 +49,12 @@
     },
     "false_effect": [
       {
-        "if": { "not": { "u_has_trait": "NOT_GLASS" } },
+        "if": {
+          "and": [
+            { "not": { "u_has_trait": "NOT_GLASS" } },
+            { "or": [ { "u_at_om_location": "unvitrified_farm_0" }, { "u_at_om_location": "unvitrified_orchard" } ] }
+          ]
+        },
         "then": { "run_eocs": [ "EOC_vitrified_farm_init" ], "time_in_future": "1 seconds" }
       }
     ],
@@ -201,7 +207,7 @@
             "case": 1,
             "effect": [
               { "u_message": "Vitrifaction_Ambient_1", "snippet": true, "type": "good" },
-              { "math": [ "u_vitri_glassed", "++" ] },
+              { "math": [ "u_vitri_glassed++" ] },
               { "u_add_morale": "morale_vitri_placid", "bonus": 3, "max_bonus": 50 },
               { "run_eocs": "EOC_queue_vitrified_int_drain" }
             ]
@@ -210,7 +216,7 @@
             "case": 2,
             "effect": [
               { "u_message": "Vitrifaction_Ambient_2", "snippet": true, "type": "good" },
-              { "math": [ "u_vitri_glassed", "++" ] },
+              { "math": [ "u_vitri_glassed++" ] },
               { "u_add_morale": "morale_vitri_placid", "bonus": 5, "max_bonus": 99 },
               { "run_eocs": "EOC_queue_vitrified_int_drain" }
             ]
@@ -219,7 +225,7 @@
             "case": 3,
             "effect": [
               { "u_message": "Vitrifaction_Ambient_3", "snippet": true, "type": "good" },
-              { "math": [ "u_vitri_glassed", "++" ] },
+              { "math": [ "u_vitri_glassed++" ] },
               { "u_add_morale": "morale_vitri_placid", "bonus": 7, "max_bonus": 99 },
               { "run_eocs": "EOC_queue_vitrified_int_drain" }
             ]
@@ -228,7 +234,7 @@
             "case": 4,
             "effect": [
               { "u_message": "Vitrifaction_Ambient_4", "snippet": true, "type": "good" },
-              { "math": [ "u_vitri_glassed", "++" ] },
+              { "math": [ "u_vitri_glassed++" ] },
               { "u_add_morale": "morale_vitri_placid", "bonus": 10, "max_bonus": 99 },
               { "run_eocs": "EOC_queue_vitrified_int_drain" }
             ]
@@ -237,7 +243,7 @@
             "case": 5,
             "effect": [
               { "u_message": "Vitrifaction_Ambient_5", "snippet": true, "type": "good" },
-              { "math": [ "u_vitri_glassed", "++" ] },
+              { "math": [ "u_vitri_glassed++" ] },
               { "u_add_morale": "morale_vitri_placid", "bonus": 15, "max_bonus": 99 },
               { "run_eocs": "EOC_queue_vitrified_int_drain" }
             ]
@@ -246,7 +252,7 @@
             "case": 6,
             "effect": [
               { "u_message": "Vitrifaction_Ambient_6", "snippet": true, "type": "good" },
-              { "math": [ "u_vitri_glassed", "++" ] },
+              { "math": [ "u_vitri_glassed++" ] },
               { "u_add_morale": "morale_vitri_placid", "bonus": 20, "max_bonus": 99 },
               { "run_eocs": "EOC_queue_vitrified_int_drain" }
             ]
@@ -295,7 +301,7 @@
     "id": "EOC_vitrified_int_drain",
     "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 2 } }, { "math": [ "u_vitri_glassed >= 5" ] } ] },
     "effect": [
-      { "math": [ "u_vitri_vitrified", "++" ] },
+      { "math": [ "u_vitri_vitrified++" ] },
       { "u_add_effect": "VITRIFYING", "duration": "PERMANENT", "intensity": { "math": [ "u_vitri_vitrified" ] } },
       { "math": [ "u_vitri_glassed = 0" ] }
     ]
