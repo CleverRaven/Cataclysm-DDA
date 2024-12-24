@@ -6272,8 +6272,8 @@
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "name": "steel shoulder guards",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "steel brigandine gloves",
     "description": "Recipes related to constructing various sizes of brigandine gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [
