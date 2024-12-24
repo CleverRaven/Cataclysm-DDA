@@ -53,11 +53,11 @@ int count_items_or_charges( const tripoint src, const itype_id &id,
     return _count_items_or_charges( get_map().i_at( src ), id );
 }
 
-void create_tile_zone( const std::string &name, const zone_type_id &zone_type, tripoint pos,
+void create_tile_zone( const std::string &name, const zone_type_id &zone_type, tripoint_abs_ms pos,
                        bool veh = false )
 {
     zone_manager &zm = zone_manager::get_manager();
-    zm.add( name, zone_type, faction_your_followers, false, true, pos, pos, nullptr, false, veh );
+    zm.add( name, zone_type, faction_your_followers, false, true, pos, pos, nullptr, veh );
 }
 
 } // namespace
@@ -85,8 +85,8 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         vp->vehicle().set_owner( dummy );
     }
 
-    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start.raw(), in_vehicle );
-    create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start.raw(), in_vehicle );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, start, in_vehicle );
+    create_tile_zone( "Unload All", zone_type_UNLOAD_ALL, start, in_vehicle );
 
     item ammo_belt = item( itype_belt223, calendar::turn );
     ammo_belt.ammo_set( ammo_belt.ammo_default() );
@@ -126,8 +126,8 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
     zone_manager &zm = zone_manager::get_manager();
 
     const tripoint_abs_ms origin_pos;
-    create_tile_zone( "Food", zone_type_LOOT_FOOD, tripoint::east );
-    create_tile_zone( "Drink", zone_type_LOOT_DRINK, tripoint::west );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, tripoint_abs_ms::zero + tripoint::east );
+    create_tile_zone( "Drink", zone_type_LOOT_DRINK, tripoint_abs_ms::zero + tripoint::west );
 
     SECTION( "without perishable zones" ) {
         GIVEN( "a non-perishable food" ) {
@@ -176,8 +176,8 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
     }
 
     SECTION( "with perishable zones" ) {
-        create_tile_zone( "PFood", zone_type_LOOT_PFOOD, tripoint::north );
-        create_tile_zone( "PDrink", zone_type_LOOT_PDRINK, tripoint::south );
+        create_tile_zone( "PFood", zone_type_LOOT_PFOOD, tripoint_abs_ms::zero + tripoint::north );
+        create_tile_zone( "PDrink", zone_type_LOOT_PDRINK, tripoint_abs_ms::zero + tripoint::south );
 
         GIVEN( "a non-perishable food" ) {
             item nonperishable_food( "test_bitter_almond" );
