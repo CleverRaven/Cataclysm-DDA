@@ -3227,8 +3227,9 @@ void spellbook_callback::refresh( uilist *menu )
 {
     ImGui::TableSetColumnIndex( 2 );
     ImVec2 info_size = ImGui::GetContentRegionAvail();
-    if( ImGui::BeginChild( "spellbook info", info_size, ImGuiChildFlags_None,
-                           ImGuiWindowFlags_AlwaysAutoResize ) ) {
+    if( ImGui::BeginChild( "spellbook info", info_size,
+                           ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY,
+                           ImGuiWindowFlags_None ) ) {
         if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
             draw_spellbook_info( spells[menu->selected] );
         }
