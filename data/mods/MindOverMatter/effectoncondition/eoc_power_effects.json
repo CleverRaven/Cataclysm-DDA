@@ -40,7 +40,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSIONICS_MAINTAINED_HIGH_ATTUNEMENT_PENALTIES",
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 115" ] },
     "effect": [
+      { "u_message": "draining calories!" },
       {
         "math": [
           "u_maintenance_high_attunement_weariness_penalty",
@@ -48,9 +50,14 @@
           "psionics_kcal_cost(u_latest_channeled_power_difficulty) * (u_nether_attunement_power_scaling - 1)"
         ]
       },
-      { "math": [ "u_calories()", "-=", "u_maintenance_high_attunement_weariness_penalty" ] },
       {
-        "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_maintenance_high_attunement_weariness_penalty" ]
+        "if": { "math": [ "u_maintenance_high_attunement_weariness_penalty >= 0" ] },
+        "then": [
+          { "math": [ "u_calories()", "-=", "u_maintenance_high_attunement_weariness_penalty" ] },
+          {
+            "math": [ "u_calories('dont_affect_weariness': true)", "+=", "u_maintenance_high_attunement_weariness_penalty" ]
+          }
+        ]
       }
     ]
   },
