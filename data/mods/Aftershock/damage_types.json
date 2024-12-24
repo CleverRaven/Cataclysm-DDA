@@ -71,7 +71,7 @@
     "condition": {
       "and": [
         { "or": [ { "not": { "npc_has_flag": "BIO_IMMUNE" } }, { "not": { "npc_has_flag": "BIOLOGICALPROOF" } } ] },
-        { "math": [ "_damage_taken", ">", "0" ] }
+        { "math": [ "_damage_taken > 0" ] }
       ]
     },
     "effect": [ { "npc_add_effect": "afs_badpoison", "duration": "5 m", "target_part": "torso" } ]
@@ -114,7 +114,7 @@
     "condition": {
       "and": [
         { "npc_has_worn_with_flag": "PSYSHIELD_PARTIAL" },
-        { "math": [ "_damage_taken", ">", "-2" ] },
+        { "math": [ "_damage_taken > -2" ] },
         { "npc_has_effect": "effect_psyshield_protection" },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
@@ -155,7 +155,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 20 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
@@ -169,7 +169,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 3 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
@@ -183,7 +183,7 @@
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 2, "y": 3 } },
-        { "math": [ "_damage_taken", ">", "0" ] },
+        { "math": [ "_damage_taken > 0" ] },
         { "not": { "npc_has_flag": "HIVE_MIND" } },
         { "not": { "npc_has_flag": "TEEP_IMMUNE" } },
         { "not": { "npc_has_flag": "TEEPSHIELD" } }
@@ -195,7 +195,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE",
     "condition": {
-      "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken", ">", "0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
+      "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken > 0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
     },
     "effect": [ { "npc_add_effect": "psi_stunned", "duration": "5 s" } ]
   },

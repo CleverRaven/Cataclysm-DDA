@@ -33,7 +33,7 @@
         ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_construction_and_variant_palette", "standard_domestic_landscaping_palette" ],
       "set": [
         { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "repeat": [ 1, 2 ] },
         { "point": "terrain", "id": "t_tree", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 2, 6 ] },

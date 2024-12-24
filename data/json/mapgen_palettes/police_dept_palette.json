@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "police_dept",
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "+": "t_door_c",
       "L": [ [ "t_door_locked_alarm", 5 ], [ "t_door_locked_interior", 20 ], [ "t_door_locked", 2 ], [ "t_door_c", 1 ] ],
@@ -11,9 +12,7 @@
       "ß": "t_sidewalk",
       ",": "t_pavement",
       ";": "t_pavement_y",
-      "|": "t_brick_wall",
-      "│": "t_concrete_wall",
-      "#": "t_ponywall",
+      "│": "t_ponywall",
       "W": "t_wall_glass",
       "w": "t_window",
       "V": "t_reinforced_glass",

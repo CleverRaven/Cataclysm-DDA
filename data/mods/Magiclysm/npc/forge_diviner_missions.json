@@ -219,9 +219,9 @@
     "difficulty": 0,
     "value": 0,
     "description": "The diviner told you there would be a slime pit here.",
-    "destination": "slimepit_top",
+    "destination": "slimepit_z0",
     "start": {
-      "assign_mission_target": { "om_terrain": "slimepit_top", "om_special": "Slime Pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": { "om_terrain": "slimepit_z0", "om_special": "Slime Pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
     }
   },
   {

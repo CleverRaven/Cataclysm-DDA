@@ -27,7 +27,7 @@ void tileray::init( const point &ad )
 {
     delta = ad;
     abs_d = delta.abs();
-    if( delta == point_zero ) {
+    if( delta == point::zero ) {
         direction = 0_degrees;
     } else {
         direction = atan2( delta );
@@ -35,7 +35,7 @@ void tileray::init( const point &ad )
             direction += 360_degrees;
         }
     }
-    last_d = point_zero;
+    last_d = point::zero;
     steps = 0;
     infinite = false;
 }
@@ -45,7 +45,7 @@ void tileray::init( const units::angle &adir )
     leftover = 0;
     // Clamp adir to the range [0, 360)
     direction = normalize( adir );
-    last_d = point_zero;
+    last_d = point::zero;
     rl_vec2d delta_f( units::cos( direction ), units::sin( direction ) );
     delta = ( delta_f * 100 ).as_point();
     abs_d = delta.abs();
@@ -56,7 +56,7 @@ void tileray::init( const units::angle &adir )
 void tileray::clear_advance()
 {
     leftover = 0;
-    last_d = point_zero;
+    last_d = point::zero;
     steps = 0;
 }
 
@@ -104,7 +104,7 @@ bool tileray::mostly_vertical() const
 
 void tileray::advance( int num )
 {
-    last_d = point_zero;
+    last_d = point::zero;
     if( num == 0 ) {
         return;
     }

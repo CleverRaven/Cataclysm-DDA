@@ -54,7 +54,7 @@ class past_games_info
     public:
         past_games_info();
 
-        void ensure_loaded();
+        void ensure_loaded( bool show_popup = true );
         void clear();
         // Only used for checking legacy memorial achievements. Achievements from
         // past games are now handled by class past_achievements_info
@@ -67,7 +67,7 @@ class past_games_info
         std::vector<past_game_info> info_;
 };
 
-const past_games_info &get_past_games();
+const past_games_info &get_past_games( bool show_popup = true );
 void clear_past_games();
 
 #endif // CATA_SRC_PAST_GAMES_INFO_H

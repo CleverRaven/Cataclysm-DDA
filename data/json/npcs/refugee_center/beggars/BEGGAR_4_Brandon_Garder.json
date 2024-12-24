@@ -5,7 +5,8 @@
     "//": "Sickly beggar in the refugee center.",
     "name_unique": "Brandon Garder",
     "gender": "male",
-    "name_suffix": "beggar",
+    "name_suffix": "Carpenter",
+    "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_4",
     "attitude": 0,
     "mission": 7,
@@ -109,7 +110,7 @@
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -124,17 +125,13 @@
       }
     },
     "responses": [
-      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
     ],
     "repeat_responses": [
       {
         "for_category": [ "food" ],
-        "response": {
-          "text": "Here, you can have this <topic_item>.",
-          "topic": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD",
-          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 2 }
-        }
+        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD" }
       }
     ]
   },
@@ -142,10 +139,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD",
     "dynamic_line": "It's good to know there are still people like you in the world, it really is.",
-    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [ { "effect": { "u_bulk_donate": 1 } }, { "effect": { "run_eocs": [ "EOC_BEGGAR_TEST_IF_FOOD_CANNIBAL" ] } } ],
     "responses": [
-      { "text": "What are you up to?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK1", "effect": { "u_bulk_donate": 1 } },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
+      { "text": "What are you up to?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK1" },
+      { "text": "No problem.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -158,7 +155,7 @@
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -170,8 +167,8 @@
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -183,8 +180,8 @@
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,8 +192,8 @@
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -210,8 +207,8 @@
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -234,8 +231,8 @@
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -258,8 +255,8 @@
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -271,8 +268,8 @@
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
       { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
       { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -285,8 +282,8 @@
         "text": "I think I've sorted Dave out pretty well, don't you?  Would you consider coming with me now?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT2"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -298,14 +295,14 @@
     },
     "speaker_effect": [ { "effect": { "u_add_var": "general_recruit_brendan_recruited", "value": "yes" } } ],
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_RECRUITED",
-    "dynamic_line": "Golly.  I didn't expect that, but I'm as good as my word.  Let's get going.",
-    "responses": [ { "text": "Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
+    "dynamic_line": "Golly.  I didn't expect that, but I'm as good as my word.  <lets_go>",
+    "responses": [ { "text": "<lets_go>", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

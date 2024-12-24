@@ -1,0 +1,9 @@
+[
+  {
+    "id": "territory_desc_label",
+    "type": "widget",
+    "label": "Owner",
+    "style": "text",
+    "var": "faction_territory"
+  }
+]

@@ -12,6 +12,17 @@
     "flags": [ "MAN_MADE" ]
   },
   {
+    "id": "mx_nest_pred_abandoned",
+    "type": "map_extra",
+    "name": { "str": "abandoned predator nest" },
+    "description": "An abandoned predator nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_pred_abandoned" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_achelousaurus",
     "type": "map_extra",
     "name": { "str": "achelousaurus nest" },
@@ -276,6 +287,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_eolambia",
+    "type": "map_extra",
+    "name": { "str": "eolambia nest" },
+    "description": "An eolambia nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_eolambia" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_euoplocephalus",
     "type": "map_extra",
     "name": { "str": "euoplocephalus nest" },
@@ -419,6 +441,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_lokiceratops",
+    "type": "map_extra",
+    "name": { "str": "lokiceratops nest" },
+    "description": "A lokiceratops nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_lokiceratops" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_maiasaura",
     "type": "map_extra",
     "name": { "str": "maiasaura nest" },
@@ -448,6 +481,17 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nanuqsaurus" },
     "sym": "D",
     "color": "yellow",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_nest_nedcolbertia",
+    "type": "map_extra",
+    "name": { "str": "nedcolbertia nest" },
+    "description": "A nedcolbertia nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nedcolbertia" },
+    "sym": "D",
+    "color": "light_green",
     "autonote": true,
     "flags": [ "CLASSIC" ]
   },

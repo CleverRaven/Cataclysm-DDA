@@ -238,7 +238,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "changeling_death_drops",
@@ -291,7 +291,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "grab_strength": 20,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab" } ],
     "death_drops": "changeling_death_drops",
@@ -496,7 +496,8 @@
       "PET_MOUNTABLE",
       "PATH_AVOID_DANGER",
       "WARM",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "STABILIZED_TIMELINE"
     ],
     "armor": {
       "bash": 8,

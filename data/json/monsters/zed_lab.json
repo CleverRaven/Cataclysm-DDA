@@ -71,6 +71,7 @@
     "vision_night": 3,
     "luminance": 8,
     "harvest": "zombie_humanoid",
+    "decay": "zombie_decay_bone_human_skull",
     "upgrades": { "half_life": 42, "into": "mon_zombie_phase_shrike" },
     "grab_strength": 20,
     "special_attacks": [

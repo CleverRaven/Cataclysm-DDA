@@ -219,7 +219,6 @@
     "material": [ "plastic", "steel", "glass" ],
     "symbol": "[",
     "color": "dark_gray",
-    "to_hit": -3,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -278,7 +277,6 @@
     "material": [ "plastic", "steel", "glass" ],
     "symbol": "[",
     "color": "dark_gray",
-    "to_hit": -3,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -345,7 +343,6 @@
     "material": [ "plastic", "steel", "glass" ],
     "symbol": "[",
     "color": "dark_gray",
-    "to_hit": -3,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -365,7 +362,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
+    "relic_data": { "passive_effects": [ { "id": "nvg_good" }, { "id": "THERMAL_VISION_GOOD" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "armor": [
       { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
@@ -384,7 +381,7 @@
     "name": { "str_sp": "enhanced night vision goggles (on)" },
     "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "//": "AN/PSQ-42",
-    "extend": { "flags": [ "NVG_GREEN", "IR_EFFECT" ] },
+    "extend": { "flags": [ "NVG_GREEN" ] },
     "power_draw": "320 mW",
     "revert_to": "enhanced_nvg",
     "use_action": {
@@ -482,11 +479,10 @@
     "category": "armor",
     "name": { "str": "mild steel chainmail partial aventail" },
     "description": "A wide chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "300 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "warmth": 3,
@@ -627,7 +623,6 @@
     "volume": "450 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "13 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "warmth": 3,
@@ -763,11 +758,10 @@
     "category": "armor",
     "name": { "str": "mild steel armored face mask" },
     "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of mild steel.",
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "300 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "13 USD",
-    "to_hit": -1,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "warmth": 3,

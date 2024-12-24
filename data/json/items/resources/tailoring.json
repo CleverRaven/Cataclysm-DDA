@@ -259,8 +259,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "40 g",
     "volume": "125 ml",
-    "category": "spare_parts",
-    "to_hit": -1
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -310,8 +309,7 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "372 g",
     "volume": "465 ml",
-    "category": "spare_parts",
-    "to_hit": -1
+    "category": "spare_parts"
   },
   {
     "type": "GENERIC",
@@ -795,7 +793,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "fabric strap" },
-    "description": "A strip of broad, flat cotton, 42 inches in length, with a metal adjustment buckle threaded in the centre.  Normally used as a shoulder strap for bags, its ends are usually sown about a corresponding container's D-rings.",
+    "description": "A strip of broad, flat cotton, 42 inches in length, with a metal adjustment buckle threaded in the center.  Normally used as a shoulder strap for bags, its ends are usually sown about a corresponding container's D-rings.",
     "weight": "59 g",
     "volume": "52 ml",
     "//": "Medium weight cotton fabric with a GSM of 203",

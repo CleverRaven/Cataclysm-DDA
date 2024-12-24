@@ -76,6 +76,7 @@ class profession
         std::vector<matype_id> _starting_martialarts_choices;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
+        trait_group::Trait_group_tag _starting_npc_background;
         std::set<string_id<profession>> _hobby_exclusion;
         bool hobbies_whitelist = true;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
@@ -164,6 +165,7 @@ class profession
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_and_var> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
+        trait_id pick_background() const;
 
         bool is_hobby() const;
         bool is_blacklisted() const;

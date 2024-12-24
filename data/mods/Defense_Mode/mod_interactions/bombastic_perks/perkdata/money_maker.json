@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "money_maker_setup",
+    "effect": { "math": [ "wave_money_modifier = -1500" ] }
+  }
+]

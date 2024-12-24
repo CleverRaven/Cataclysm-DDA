@@ -142,19 +142,19 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "u_met_John_Bailey" } ],
       "yes": "*looks up at you, taking a moment to place your face, then grins broadly.  He looks about the same as when you last saw him, perhaps a little more fit.  \"So, you're still playing on the 'living' team, huh?  Glad to see you're still kicking around.  Always good to run into a familiar face nowadays.\"",
-      "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair greying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
+      "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair graying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
     },
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_John_Bailey", "value": "yes" },
         { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
-        { "math": [ "n_zkc_john", "=", "2 * time_since('cataclysm', 'unit': 'days')" ] },
+        { "math": [ "n_zkc_john = 2 * time_since('cataclysm', 'unit': 'days')" ] },
         { "math": [ "n_zkc_john", "+=", "rand(10)" ] }
       ]
     },
     "responses": [
       { "text": "Hi John.  What are you doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "Hi John, I'm afraid I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi John.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -215,7 +215,7 @@
       { "text": "Where are you headed next?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
       { "text": "Who is \"you and yours\"?", "topic": "TALK_RC_John_Bailey_Faction" },
       { "text": "Are you looking for work?", "topic": "TALK_RC_John_Bailey_Work" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Sounds about the same as me, yep.  I'd better get back to it.", "topic": "TALK_DONE" }
     ]
   },
@@ -241,7 +241,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
@@ -254,8 +254,8 @@
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
       { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -266,8 +266,8 @@
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
       { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -278,8 +278,8 @@
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "Who is \"everyone\"?", "topic": "TALK_RC_John_Bailey_Faction" },
       { "text": "Are you looking for work?", "topic": "TALK_RC_John_Bailey_Work" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -294,8 +294,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -309,8 +309,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -324,8 +324,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -339,8 +339,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -354,8 +354,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -380,8 +380,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -394,8 +394,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -419,8 +419,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -440,8 +440,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -457,8 +457,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -476,8 +476,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -502,8 +502,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -520,8 +520,8 @@
       { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -532,8 +532,8 @@
       { "text": "What about things other than zombies?", "topic": "TALK_RC_John_Bailey_Advice2" },
       { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -542,8 +542,8 @@
     "dynamic_line": "Oh, jeez, yeah.  The world really went to shit, didn't it?  Well, I've seen some weird alien things.  Our rule is 'scared is better than dead'.  If we don't know what something is and how to kill it, we steer wide and clear.  One time I saw this flaming eyeball a long way off, I was scouting from a cell phone tower.  It made eye contact with me and I just started hallucinating shit.  Darius stopped me from falling right off the tower.  Stuff like that is why I think you have to be a bit off your rocker to travel these days unless you have no choice.  Anything we don't know, we turn around and pedal hard.  So far, we haven't met anything our bikes can't outrun.",
     "responses": [
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -556,15 +556,15 @@
         "topic": "TALK_RC_John_Bailey_Teach"
       },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Teach",
     "dynamic_line": {
-      "math": [ "npc_John_Bailey_taught", "<=", "3" ],
+      "math": [ "npc_John_Bailey_taught <= 3" ],
       "no": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
       "yes": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
     },
@@ -573,11 +573,11 @@
       {
         "text": "Sure, let's talk trade.",
         "topic": "TALK_TRAIN",
-        "condition": { "math": [ "npc_John_Bailey_taught", "<=", "3" ] },
-        "effect": { "math": [ "npc_John_Bailey_taught", "++" ] }
+        "condition": { "math": [ "npc_John_Bailey_taught <= 3" ] },
+        "effect": { "math": [ "npc_John_Bailey_taught++" ] }
       },
       { "text": "I'll bear that in mind.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "Thanks, I'll think about it.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thanks, I'll think about it.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I might take you up on that, but for now I've gotta go.", "topic": "TALK_DONE" }
     ]
   }

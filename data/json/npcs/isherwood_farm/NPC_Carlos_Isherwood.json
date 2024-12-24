@@ -78,7 +78,7 @@
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -95,7 +95,7 @@
           "yes": ", and then puts his hand on the butt of the rifle slung across  his back.  \"I see that badge, I think you need to keep on walking, straight off this property.\"",
           "no": {
             "u_male": true,
-            "yes": ", then smiles distantly.  \"Hello Sir, what brings you here?",
+            "yes": ", then smiles distantly.  \"Hello Sir, what brings you here?\"",
             "no": ", then smiles distantly.  \"Hello Ma'am, what brings you here?\""
           }
         }
@@ -137,7 +137,7 @@
           ]
         }
       },
-      { "text": "…(Leave)", "topic": "TALK_DONE" }
+      { "text": "…[Leave.]", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -158,7 +158,7 @@
     },
     "responses": [
       {
-        "text": "Oh, right… (Leave)",
+        "text": "Oh, right… [Leave.]",
         "topic": "TALK_DONE",
         "opinion": { "trust": -10, "value": -10 },
         "condition": { "u_is_wearing": "badge_marshal" }
@@ -181,8 +181,8 @@
           ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -201,8 +201,8 @@
           ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -211,8 +211,8 @@
     "dynamic_line": "It was pink and really fast, it had lots of limbs, definitely not human.\"  Carlos rubs the back of his hand idly, staring into space.  \"It easily kept up with us when we tried to escape, horrifying stuff.  Barry just dropped to the ground, and the thing swept him away.",
     "responses": [
       { "text": "You all just gonna leave him out there to his fate?", "topic": "TALK_CARLOS_BARRY2" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -221,8 +221,8 @@
     "dynamic_line": "*frowns at you.  \"Of course not.  We tracked it for a while, but lost the trail.  Right now we don't have the resources to try to rescue him.  My son, Chris, has been trying to pick up the trail again and figure out a rescue plan.\"",
     "responses": [
       { "text": "I could help.  Where did Chris go?", "topic": "TALK_CARLOS_BARRY3" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -230,8 +230,8 @@
     "id": "TALK_CARLOS_BARRY3",
     "dynamic_line": "*shakes his head.  \"Leave Chris be, he knows what he's doing.  Give him some time.  Calling more attention to him could get both of you killed.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -239,8 +239,8 @@
     "id": "TALK_CARLOS_FORGE1",
     "dynamic_line": "The big item I need is an anvil, once I have that I can get a lot of repairs done.\"  He smiles briefly.  \"Can't exactly head to town to get it done anymore, but I learned a bit of old world metalwork from my granddad.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -248,8 +248,8 @@
     "id": "TALK_CARLOS_FORGE2",
     "dynamic_line": "*gestures around the workspace, which looks more set up.  \"I'm figuring things out, getting it worked out.  It's been a while since I did this kind of metalwork.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -257,8 +257,8 @@
     "id": "TALK_CARLOS_FORGE3",
     "dynamic_line": "Yeah, it's coming along nice.\"  He slaps the surface of the anvil.  \"Thanks for this, I'm still getting my skills back up, but it's going to be real helpful.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -266,8 +266,8 @@
     "id": "TALK_CARLOS_CHRIS1",
     "dynamic_line": "Chris is hiking the perimeter of our land, planning some defense options.\"  He looks you up and down.  \"Best just let him be.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -275,8 +275,8 @@
     "id": "TALK_CARLOS_CHRIS2",
     "dynamic_line": "*looks at you curiously.  \"Should be where you saw him last.  He's not missing again, is he?\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -302,12 +302,12 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE2",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", "<=", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) <= time('5 d')" ] }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE3",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", ">", "time('5 d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
       },
       {
         "text": "Where can I find Chris?",
@@ -320,17 +320,24 @@
         "condition": { "compare_string": [ "yes", { "u_val": "u_found_chris_for_carlos" } ] }
       },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "MISSION_ISHERWOOD_CARLOS_1",
     "type": "mission_definition",
     "name": { "str": "Find an anvil" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "value": 50000,
-    "item": "anvil",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "anvil" },
+        { "u_has_item": "anvil_crude" },
+        { "u_has_item": "anvil_heavy" },
+        { "u_has_item": "anvil_bronze" }
+      ]
+    },
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -349,9 +356,22 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
+        {
+          "if": { "u_has_item": "anvil" },
+          "then": { "u_consume_item": "anvil", "popup": true },
+          "else": {
+            "if": { "u_has_item": "anvil_crude" },
+            "then": { "u_consume_item": "anvil_crude", "popup": true },
+            "else": {
+              "if": { "u_has_item": "anvil_heavy" },
+              "then": { "u_consume_item": "anvil_heavy", "popup": true },
+              "else": { "u_consume_item": "anvil_bronze", "popup": true }
+            }
+          }
+        },
         { "u_spawn_item": "leather_armor_horse", "count": 1 },
         { "npc_add_var": "carlos_has_anvil", "value": "yes" },
-        { "math": [ "timer_carlos_has_anvil", "=", "time('now')" ] }
+        { "math": [ "timer_carlos_has_anvil = time('now')" ] }
       ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }

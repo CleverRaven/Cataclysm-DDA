@@ -1,0 +1,597 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hw_reserved", "hw_reserved_water", "hw_symbolic_road", "hw_symbolic_ramp_up", "hw_symbolic_ramp_down" ],
+    "object": { "fallback_predecessor_mapgen": "open_air" }
+  },
+  {
+    "om_terrain": "hw_road",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "open_air",
+      "place_nested": [
+        { "chunks": [ "24x24_highway_road_flat" ], "x": 0, "y": 0, "check_z": [ 0 ] },
+        { "chunks": [ "24x24_highway_bridge_road" ], "x": 0, "y": 0, "check_z": [ 1 ] }
+      ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_road_flat",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|",
+        "       |...............|",
+        "       |...............|",
+        "       |.......*.......|",
+        "       |.......*.......|"
+      ],
+      "palettes": [ "highway_palette" ],
+      "place_nested": [ { "chunks": [ "24x24_highway_road_bridge_ramp" ], "x": 0, "y": 0, "neighbors": { "above": "hw_road_bridge" } } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_road_bridge_ramp",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ||###                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        ".**_<##                #",
+        ".**_<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "..._<##                #",
+        "  ||###                #",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_bridge_road",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      |...............| ",
+        "      |...............| ",
+        "      |.......*.......| ",
+        "      |.......*.......| ",
+        "      |...............| ",
+        "      |...............| ",
+        "      |.......*.......| ",
+        "      |.......*.......| ",
+        "      |...............| ",
+        "      |...............| ",
+        "      |.......*.......| ",
+        "      |.......*.......| ",
+        "      |...............| ",
+        "      |...............| ",
+        "      |.......*.......| ",
+        "      |.......*.......| ",
+        "      |...............| ",
+        "      |...............| ",
+        "      |.......*.......| ",
+        "      |.......*.......| ",
+        "      |...............| ",
+        "      |...............| ",
+        "      |.......*.......| ",
+        "      |.......*.......| "
+      ],
+      "palettes": [ "highway_palette" ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_highway_ramp_down_north" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "hw_reserved", "hw_road_bridge" ] }
+        },
+        {
+          "chunks": [ "24x24_highway_ramp_down_south" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "hw_reserved", "hw_road_bridge" ] }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": "hw_road_bridge",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ||||||||||||||||||||",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾*.***.***.***.***.",
+        "    >‾*.***.***.***.***.",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    >‾..................",
+        "    ||||||||||||||||||||",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": "hw_bridge_supports",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "river_center",
+      "place_nested": [
+        {
+          "else_chunks": [ "24x24_highway_bridge_supports_north" ],
+          "chunks": [ "24x24_highway_ramp_up_north" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
+        },
+        {
+          "else_chunks": [ "24x24_highway_bridge_supports_south" ],
+          "chunks": [ "24x24_highway_ramp_up_south" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": "hw_underpass",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "place_nested": [
+        {
+          "else_chunks": [ "24x24_highway_underpass" ],
+          "chunks": [ "24x24_highway_underpass_road" ],
+          "x": 0,
+          "y": 0,
+          "predecessors": [ "road" ]
+        },
+        {
+          "else_chunks": [ "24x24_highway_bridge_supports_north" ],
+          "chunks": [ "24x24_highway_ramp_up_north" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "north": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
+        },
+        {
+          "else_chunks": [ "24x24_highway_bridge_supports_south" ],
+          "chunks": [ "24x24_highway_ramp_up_south" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": {
+            "south": [
+              "hw_road",
+              "hw_fb_crossroad",
+              "hw_fb_tee",
+              "hw_fb_bend",
+              "hw_three_lane_merge",
+              "hw_bend",
+              "hw_trumpet",
+              "hw_diamond_interchange",
+              "hw_rest_area_parking",
+              "hw_clover_leaf"
+            ]
+          }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_bridge_supports_north",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      ################# ",
+        "       ###############  ",
+        "        #############   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_bridge_supports_south",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        #############   ",
+        "       ###############  ",
+        "      ################# "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_underpass_road",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 0, "x2": 23, "y2": 2 },
+        { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 21, "x2": 23, "y2": 23 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_underpass",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_ramp_up_north",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       |_______________|",
+        "       #<<<<<<<<<<<<<<<#",
+        "       #################",
+        "       #################",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_ramp_down_north",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      ''''''''''''''''''",
+        "      '|>>>>>>>>>>>>>>>|",
+        "      '|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|",
+        "      '|.......*.......|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|.......*.......|",
+        "      '|.......*.......|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|.......*.......|",
+        "      '|.......*.......|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|.......*.......|",
+        "      '|.......*.......|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|.......*.......|",
+        "      ||              ||",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_ramp_up_south",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       #################",
+        "       #################",
+        "       #<<<<<<<<<<<<<<<#",
+        "       |_______________|"
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "nested_mapgen_id": "24x24_highway_ramp_down_south",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ||              ||",
+        "      '|...............|",
+        "      '|......*........|",
+        "      '|......*........|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|......*........|",
+        "      '|......*........|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|......*........|",
+        "      '|......*........|",
+        "      '|...............|",
+        "      '|...............|",
+        "      '|......*........|",
+        "      '|......*........|",
+        "      '|...............|",
+        "      '|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|",
+        "      '|>>>>>>>>>>>>>>>|",
+        "      ''''''''''''''''''"
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "om_terrain": "hw_three_lane",
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "rows": [
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|",
+        ".......................|",
+        ".......................|",
+        ".......*.......*.......|",
+        ".......*.......*.......|"
+      ],
+      "palettes": [ "highway_palette" ]
+    }
+  },
+  {
+    "om_terrain": [ [ "hw_three_lane_merge_w", "hw_three_lane_merge_e" ] ],
+    "type": "mapgen",
+    "method": "json",
+    "object": {
+      "fallback_predecessor_mapgen": "field",
+      "rows": [
+        "ggggggg................||.......*.......*ggggggg",
+        "gggggg.................||.......*.......*.gggggg",
+        "ggggg..*.......*.......||..................ggggg",
+        "ggggg..*.......*.......||..................ggggg",
+        "gggg...................||.......*.......*...gggg",
+        "gggg...................||.......*.......*...gggg",
+        "ggg....*.......*.......||....................ggg",
+        "ggg....*.......*.......||....................ggg",
+        "ggg....................||.......*.......*....ggg",
+        "gg.....................||.......*.......*.....gg",
+        "gg.....*.......*.......||.....................gg",
+        "gg.....*.......*.......||.....................gg",
+        "g......................||.......*.......*......g",
+        "g......................||.......*.......*......g",
+        "g......*.......*.......||......................g",
+        "g......*.......*.......||......................g",
+        ".......................||.......*.......*.......",
+        ".......................||.......*.......*.......",
+        ".......*.......*.......||.......................",
+        ".......*.......*.......||.......................",
+        ".......................||.......*.......*.......",
+        ".......................||.......*.......*.......",
+        ".......*.......*.......||.......................",
+        ".......*.......*.......||......................."
+      ],
+      "palettes": [ "highway_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

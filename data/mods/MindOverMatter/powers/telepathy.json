@@ -110,6 +110,42 @@
     "base_casting_time": { "math": [ "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 10 : 500" ] }
   },
   {
+    "id": "telepathic_mesmerize",
+    "type": "SPELL",
+    "name": "[Ψ]Mesmerize",
+    "description": "Hypnotize a target, causing them to stand in a trance or wander around in a small area.  Any damage taken will snap the target out of their trance.  Some targets are more resistant to mesmerism than others.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPATH_MESMERIZE",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telepathic_mesmerize') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('telepathic_mesmerize') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 750,
+    "energy_increment": -75,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -5,
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
+  },
+  {
     "id": "telepathic_morale",
     "type": "SPELL",
     "name": "[Ψ]Mood Stabilization (C)",
@@ -324,8 +360,11 @@
   {
     "id": "telepathic_confusion_blind",
     "type": "SPELL",
-    "name": "[Ψ]Sensory Deprivation blind Effect",
-    "description": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Sensory Deprivation blind Effect", "//~": "NO_I18N" },
+    "description": {
+      "str": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "teachable": false,
     "skill": "metaphysics",
@@ -449,8 +488,11 @@
   {
     "id": "telepathic_invisibility_self",
     "type": "SPELL",
-    "name": "[Ψ]Obscurity Self",
-    "description": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+    "name": { "str": "[Ψ]Obscurity Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -522,8 +564,11 @@
   {
     "id": "telepathic_blast_radius_guaranteed",
     "type": "SPELL",
-    "name": "[Ψ]Psychic Scream Additional Damage",
-    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Psychic Scream Additional Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
@@ -605,8 +650,8 @@
   {
     "id": "telepathic_beast_taming_pet",
     "type": "SPELL",
-    "name": "[Ψ]Beast Tamer Pet Effect",
-    "description": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Beast Tamer Pet Effect", "//~": "NO_I18N" },
+    "description": { "str": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -744,8 +789,8 @@
   {
     "id": "telepathic_network_real",
     "type": "SPELL",
-    "name": "[Ψ]Network Effect Real",
-    "description": "The actual power that implements the Network Effect.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Network Effect Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that implements the Network Effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally" ],

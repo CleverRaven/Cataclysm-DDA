@@ -38,7 +38,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         // case 2: no whitelist specified (it is approved for everything) but a blacklist specified
         if( absorb_material.empty() && !no_absorb_material.empty() ) {
             bool found = false;
-            for( item &it : get_map().i_at( subject->pos() ) ) {
+            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
                                       mat_type->id ) != no_absorb_material.end() ) ) {
@@ -55,7 +55,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         }
         // Case 3: there is a whitelist but no blacklist, so only allow the whitelisted ones
         if( !absorb_material.empty() && no_absorb_material.empty() ) {
-            for( item &it : get_map().i_at( subject->pos() ) ) {
+            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( std::find( absorb_material.begin(), absorb_material.end(),
                                    mat_type->id ) != absorb_material.end() ) {
@@ -66,7 +66,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         }
         // case 4: no whitelist specified (it is approved for everything) but a blacklist specified
         if( !absorb_material.empty() && !no_absorb_material.empty() ) {
-            for( item &it : get_map().i_at( subject->pos() ) ) {
+            for( item &it : get_map().i_at( subject->pos_bub() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
                     if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
                                       mat_type->id ) != no_absorb_material.end() ) ) {
@@ -86,7 +86,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
 // TODO: Have it select a target and stash it somewhere.
 status_t monster_oracle_t::adjacent_plants( const std::string_view ) const
 {
-    for( const tripoint &p : get_map().points_in_radius( subject->pos(), 1 ) ) {
+    for( const tripoint_bub_ms &p : get_map().points_in_radius( subject->pos_bub(), 1 ) ) {
         if( get_map().has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             return status_t::running;
         }

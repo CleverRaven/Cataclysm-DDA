@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mutation",
+    "id": "XEDRA_CHRONOMANCER",
+    "name": "Living Paradox",
+    "points": 0,
+    "description": "You have an intimate sense for the flow of time, and you can use your power to manipulate it.  Activate this trait to spend learned insight.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "xedra_chronomancer_time_freeze_target", 6 ], [ "xedra_chronomancer_normalize_time", 1 ] ],
+    "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
+    "active": true,
+    "activated_eocs": [ "EOC_XEDRA_CHRONOMANCER_OPEN_INSIGHT_MENU" ]
+  },
+  {
+    "type": "mutation",
+    "id": "XEDRA_CHRONOMANCER_LOOPING_WOUND",
+    "name": "Time Looped Knife Wound",
+    "points": -4,
+    "description": "You have suffered a time looped wound, forcing you to repeatedly endure the harm of an earlier wound.  Every 24 hours you are impaled by a non-existent knife.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "XEDRA_CHRONOMANCER_TIME_SLOWDOWN",
+    "name": "Slowed Timestream",
+    "points": -4,
+    "description": "Your timestream remains slightly slower than baseline reality.  You act 10% slower.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "XEDRA_CHRONOMANCER_UNSTABLE_POWERS",
+    "name": "Unstable Chronomancy",
+    "points": -4,
+    "description": "Your chronomantic powers have inherent instability.  While attempting to maintain them over long periods of time, your powers may randomly fail.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "vitamin_rates": [ [ "xedra_chronomancer_insight", -86400 ] ]
+  }
+]

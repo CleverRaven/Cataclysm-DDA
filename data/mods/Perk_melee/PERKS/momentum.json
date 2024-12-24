@@ -1,0 +1,28 @@
+[
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_MOMENTUM",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Momentum I" },
+    "description": "Rapid movement generates momentum stacks.  Momentum greatly favors dextrous warriors.",
+    "changes_to": [ "MELEE_PERK_MOMENTUM_2" ],
+    "flags": "MELEE_PERK_MOMENTUM"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_MOMENTUM_2",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Momentum II" },
+    "description": "Rapid movement generates momentum stacks.  As long as momentum is active your attacks gain extra physical damage equal to 10% of your dexterity.  You gain a point of dexterity for every 2 momentum stacks.",
+    "flags": "MELEE_PERK_MOMENTUM"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_MOMENTUM_BULLET_DODGE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Ballistic Evasion" },
+    "description": "If you have at least 4 momentum stacks, gain a 5% chance to dodge any ranged attack for every point of dexterity you have.  If you have less than 4 momentum stacks, gain a 1% chance to dodge any ranged attack for every point of dexterity you have.",
+    "flags": "MELEE_PERK_MOMENTUM_BULLET_DODGE",
+    "enchantments": [ "melee_perk_ench_momentum_bullet_dodge" ]
+  }
+]

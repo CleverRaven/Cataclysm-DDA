@@ -468,6 +468,17 @@
   },
   {
     "type": "item_group",
+    "id": "infantry_common_gear_feral",
+    "subtype": "collection",
+    "entries": [
+      { "item": "e_tool", "prob": 60 },
+      { "group": "gasmask_bag_full", "prob": 20 },
+      { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
+      { "group": "infantry_knives", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "infantry_knives",
     "container-item": "sheath",
     "subtype": "distribution",
@@ -761,6 +772,7 @@
       { "item": "winter_jacket_army", "prob": 20 },
       { "item": "winter_gloves_army", "prob": 20 },
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 70 },
+      { "group": "eod_armor", "prob": 15 },
       { "group": "ammo_pocket_batteries_full", "prob": 40 },
       { "item": "radio", "prob": 10, "charges": [ 10, 95 ] },
       { "item": "boots_combat", "prob": 50 },

@@ -58,7 +58,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -105,7 +105,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -151,7 +151,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -196,7 +196,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -240,7 +240,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -283,7 +283,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_modern" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_modern" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -325,7 +325,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_detective" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_detective" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -366,7 +366,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -406,7 +406,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_puff" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_puff" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -445,7 +445,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -483,7 +483,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_beaded" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_beaded" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -520,7 +520,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_curls" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_curls" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -556,7 +556,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_super_princess" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_super_princess" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -591,7 +591,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -625,7 +625,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -658,7 +658,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -690,7 +690,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -721,7 +721,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_bun" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_bun" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -751,7 +751,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -780,7 +780,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_punk_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_punk_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -808,7 +808,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -831,7 +831,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_twintails" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_twintails" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -852,7 +852,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_braid" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_braid" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -868,7 +868,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -884,7 +884,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -900,7 +900,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -916,7 +916,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -932,7 +932,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -948,7 +948,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -964,7 +964,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_modern" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_modern" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -980,7 +980,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_detective" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_detective" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -996,7 +996,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1012,7 +1012,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_puff" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_puff" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1028,7 +1028,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1044,7 +1044,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_beaded" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_beaded" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1060,7 +1060,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_curls" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_curls" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1076,7 +1076,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_super_princess" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_super_princess" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1092,7 +1092,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1108,7 +1108,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1124,7 +1124,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1140,7 +1140,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1156,7 +1156,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_bun" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_bun" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1172,7 +1172,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1188,7 +1188,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_punk_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_punk_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1204,7 +1204,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1220,7 +1220,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1236,7 +1236,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_twintails" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_twintails" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1252,7 +1252,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_braid" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_braid" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1268,7 +1268,7 @@
             "duration": "30 minutes",
             "decay_start": "30 minutes"
           },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_body_length" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_body_length" } }
         ],
         "topic": "TALK_DONE"
       },
@@ -1558,7 +1558,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a toothbrush moustache.",
+        "text": "Get a toothbrush mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -1638,7 +1638,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a moustache.",
+        "text": "Get a mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -1677,7 +1677,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a walrus moustache.",
+        "text": "Get a walrus mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -1965,7 +1965,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a handlebar moustache.",
+        "text": "Get a handlebar mustache.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -2241,7 +2241,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a toothbrush moustache.",
+        "text": "Get a toothbrush mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
@@ -2273,7 +2273,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a moustache.",
+        "text": "Get a mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
@@ -2289,7 +2289,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a walrus moustache.",
+        "text": "Get a walrus mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
@@ -2433,7 +2433,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a handlebar moustache.",
+        "text": "Get a handlebar mustache.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },

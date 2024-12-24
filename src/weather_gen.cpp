@@ -193,7 +193,7 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
     w_point original_weather_precise = *game_weather.weather_precise;
     *game_weather.weather_precise = w;
     std::unordered_map<std::string, std::string> context;
-    context["npctalk_var_weather_location"] = w.location.to_string();
+    context["weather_location"] = w.location.to_string();
     weather_type_id current_conditions = WEATHER_CLEAR;
     dialogue d( get_talker_for( get_avatar() ), nullptr, {}, context );
     for( const weather_type_id &type : sorted_weather ) {
@@ -223,6 +223,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
     cata_default_random_engine &wind_dir_gen = rng_get_engine();
     // Assign chance to angle direction
     if( season == SPRING ) {
+        //TODO: Unhardcode?
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
         return distribution( wind_dir_gen );
     } else if( season == SUMMER ) {
@@ -290,7 +291,7 @@ void weather_generator::test_weather( unsigned seed ) const
         const time_point begin = calendar::turn;
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
-            w_point w = get_weather( tripoint_abs_ms( tripoint_zero ), i, seed );
+            w_point w = get_weather( tripoint_abs_ms::zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>

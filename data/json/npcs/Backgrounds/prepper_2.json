@@ -88,7 +88,7 @@
     "dynamic_line": "All right.  Here they are.",
     "responses": [
       {
-        "text": "Thanks!  What was it you were saying before?",
+        "text": "Thanks!  <done_conversation_section>",
         "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" }, { "u_spawn_item": "survivormap" } ],
         "topic": "TALK_NONE"
       },
@@ -110,7 +110,7 @@
     "dynamic_line": "Nice try.  You want the maps, you pay up.",
     "responses": [
       {
-        "text": "Fine.  What was it you were saying before?",
+        "text": "Fine.  <done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "PERMANENT" },
         "topic": "TALK_NONE"
       },

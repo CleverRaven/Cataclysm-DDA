@@ -84,7 +84,12 @@
         " Ʌ……………………………………………………?  [   [   [    [   [   [  ?……………………………………………………………………………………………………………………Ʌ ",
         " ɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅɅ "
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "parametrized_carpets_palette"
+      ],
       "terrain": {
         " ": "t_region_groundcover",
         "…": [ [ "t_region_soil", 25 ], [ "t_region_groundcover", 3 ] ],
@@ -97,9 +102,9 @@
         ",": "t_region_soil",
         "Ʌ": "t_splitrail_fence",
         ".": "t_floor",
-        ";": "t_carpet_red",
-        "h": "t_carpet_red",
-        "f": "t_carpet_red",
+        ";": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "[": "t_region_tree_fruit",
         "|": "t_wall_w",
         "{": "t_door_metal_locked",

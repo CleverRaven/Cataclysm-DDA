@@ -518,7 +518,7 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
                 CHECK( ereader->ammo_remaining() == 98 );
 
                 AND_THEN( "ereader runs out of battery" ) {
-                    ereader->ammo_consume( ereader->ammo_remaining(), dummy.pos(), &dummy );
+                    ereader->ammo_consume( ereader->ammo_remaining(), dummy.pos_bub(), &dummy );
                     dummy.activity.do_turn( dummy );
 
                     THEN( "reading stops" ) {

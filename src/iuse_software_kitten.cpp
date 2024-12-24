@@ -125,9 +125,7 @@ void robot_finds_kitten::show() const
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
-        for( int c = 0; c < rfkCOLS; c++ ) {
-            mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
-        }
+        mvwhline( w, point( 0, 2 ), BORDER_COLOR, '_', rfkCOLS );
         wmove( w, kitten.pos );
         draw_kitten();
 
@@ -163,18 +161,20 @@ void robot_finds_kitten::show() const
             break;
         }
         case ui_state::main:
-            mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
+            mvwprintz( w, point::zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
                        ctxt.get_desc( "QUIT" ) );
             break;
         case ui_state::invalid_input:
-            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
+            mvwprintz( w, point::zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
                        ctxt.get_desc( "QUIT" ) );
             break;
         case ui_state::bogus_message: {
             std::vector<std::string> bogusvstr = foldstring( this_bogus_message, rfkCOLS );
+            wattron( w, c_white );
             for( size_t c = 0; c < bogusvstr.size(); c++ ) {
-                mvwprintz( w, point( 0, c ), c_white, bogusvstr[c] );
+                mvwprintw( w, point( 0, c ), bogusvstr[c] );
             }
+            wattroff( w, c_white );
             break;
         }
         case ui_state::end_animation: {
@@ -197,7 +197,7 @@ void robot_finds_kitten::show() const
                 mvwprintz( w, point( ( rfkCOLS - 6 ) / 2 - 1, 0 ), c_light_red, "<3<3<3" );
             }
             if( end_animation_frame >= 5 ) {
-                mvwprintz( w, point_zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
+                mvwprintz( w, point::zero, c_white, _( "You found kitten!  Way to go, robot!" ) );
             }
             break;
         }
@@ -288,11 +288,11 @@ void robot_finds_kitten::process_input()
                 refresh_display();
                 // Sleep for 1 s
                 const auto sleep_till = std::chrono::steady_clock::now()
-                                        + std::chrono::nanoseconds( 1'000'000'000 );
+                                        + std::chrono::nanoseconds( 1000000000 );
                 do {
                     const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
                                                      // Pump events every 100 ms
-                                                     std::chrono::nanoseconds( 100'000'000 ) );
+                                                     std::chrono::nanoseconds( 100000000 ) );
                     if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
                         std::this_thread::sleep_for( sleep_for );
                         inp_mngr.pump_events();

@@ -218,6 +218,6 @@
   {
     "type": "SPECIES",
     "id": "UNKNOWN",
-    "description": "a bug"
+    "description": { "str": "a bug", "//~": "NO_I18N" }
   }
 ]

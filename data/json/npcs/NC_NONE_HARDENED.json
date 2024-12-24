@@ -1,0 +1,136 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_foot",
+    "subtype": "distribution",
+    "groups": [ "survivorzed_boots" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_arm",
+    "subtype": "distribution",
+    "items": [ { "item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_hand",
+    "subtype": "distribution",
+    "groups": [ "survivorzed_gloves" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_head",
+    "subtype": "distribution",
+    "groups": [ "survivorzed_head" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_leg",
+    "subtype": "distribution",
+    "groups": [ "survivorzed_bottoms" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_mouth",
+    "subtype": "distribution",
+    "groups": [ [ "hatstore_accessories", 50 ], [ "clothing_work_mask", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_sensor",
+    "subtype": "distribution",
+    "groups": [ "clothing_work_glasses" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_torso",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "military_ballistic_vest", "prob": 25 },
+      { "item": "kevlar", "prob": 25 },
+      { "item": "chestguard_hard", "prob": 10 },
+      { "group": "survivorzed_tops", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_stabbing",
+    "subtype": "distribution",
+    "groups": [ "melee_stabbing_rare" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_bashing",
+    "subtype": "distribution",
+    "groups": [ "melee_bashing_rare" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_cutting",
+    "subtype": "distribution",
+    "groups": [ "melee_cutting_rare" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_throw",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_NONE_throw", "prob": 50 }, { "item": "javelin_fletched", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_archery",
+    "subtype": "distribution",
+    "groups": [ "archery_rare" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_quiver",
+    "subtype": "distribution",
+    "groups": [ "NC_NONE_quiver" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_pistol",
+    "subtype": "distribution",
+    "groups": [ "guns_pistol_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_shotgun",
+    "subtype": "distribution",
+    "groups": [ "guns_shotgun_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_smg",
+    "subtype": "distribution",
+    "groups": [ "guns_smg_milspec" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_rifle",
+    "subtype": "distribution",
+    "groups": [ "guns_rifle_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_storage",
+    "subtype": "distribution",
+    "groups": [ "bags" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_HARDENED_extra",
+    "subtype": "distribution",
+    "groups": [
+      [ "NC_NONE_extra", 50 ],
+      [ "electronics", 10 ],
+      [ "swat_gear", 5 ],
+      [ "gear_eod", 5 ],
+      [ "fireman_gear", 5 ],
+      [ "rad_gear", 5 ],
+      [ "military", 5 ],
+      [ "grenades", 5 ]
+    ]
+  }
+]

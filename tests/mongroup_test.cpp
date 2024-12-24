@@ -279,17 +279,20 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
 {
     const int upgrade_attempts = 100;
     clear_avatar();
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
 
     for( int i = 0; i < upgrade_attempts; i++ ) {
         clear_map();
         map &m = get_map();
         calendar::turn = start;
-        const tripoint ground_zero = get_player_character().pos() - tripoint( 5, 5, 0 );
+        const tripoint_bub_ms ground_zero = get_player_character().pos_bub() - tripoint( 5, 5, 0 );
 
         monster *orig = g->place_critter_at( old_mon, ground_zero );
         REQUIRE( orig );
         REQUIRE( orig->type->id == old_mon );
-        REQUIRE( orig->pos() == ground_zero );
+        REQUIRE( orig->pos_bub() == ground_zero );
         REQUIRE( orig->can_upgrade() );
 
         // monster::next_upgrade_time has a ~3% chance to outright fail
@@ -306,8 +309,8 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
                 continue;
             }
             total_spawns++;
-            CHECK( std::abs( c->pos().x - ground_zero.x ) <= range );
-            CHECK( std::abs( c->pos().y - ground_zero.y ) <= range );
+            CHECK( std::abs( c->pos_bub().x() - ground_zero.x() ) <= range );
+            CHECK( std::abs( c->pos_bub().y() - ground_zero.y() ) <= range );
             if( new_count.count( c->as_monster()->type->id ) == 0 ) {
                 new_count[c->as_monster()->type->id] = 0;
             }

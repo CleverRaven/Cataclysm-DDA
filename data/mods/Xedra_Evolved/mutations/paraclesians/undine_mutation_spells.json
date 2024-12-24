@@ -3,24 +3,20 @@
     "type": "enchantment",
     "id": "undine_resist_acid",
     "condition": "ALWAYS",
-    "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ]
+    "incoming_damage_mod": [ { "type": "acid", "multiply": -0.25 } ]
   },
   {
     "type": "enchantment",
     "id": "undine_resist_fire",
     "condition": "ALWAYS",
-    "values": [ { "value": "ARMOR_HEAT", "multiply": -0.5 } ]
+    "incoming_damage_mod": [ { "type": "heat", "multiply": -0.5 } ]
   },
   {
     "type": "enchantment",
     "id": "ench_undine_water_body",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [
-      { "value": "ARMOR_BASH", "multiply": -0.1 },
-      { "value": "ARMOR_CUT", "multiply": -0.2 },
-      { "value": "ARMOR_BULLET", "multiply": -0.5 }
-    ]
+    "incoming_damage_mod": [ { "type": "bash", "multiply": -0.1 }, { "type": "cut", "multiply": -0.2 }, { "type": "bullet", "multiply": -0.5 } ]
   },
   {
     "type": "enchantment",
@@ -38,14 +34,14 @@
     "id": "ench_undine_water_form_armor",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [
-      { "value": "ARMOR_BASH", "multiply": -0.4 },
-      { "value": "ARMOR_CUT", "multiply": -0.6 },
-      { "value": "ARMOR_STAB", "multiply": -0.8 },
-      { "value": "ARMOR_BULLET", "multiply": -1.0 },
-      { "value": "ARMOR_COLD", "multiply": 2.0 },
-      { "value": "CLIMATE_CONTROL_HEAT", "add": -20 }
-    ]
+    "incoming_damage_mod": [
+      { "type": "bash", "multiply": -0.4 },
+      { "type": "stab", "multiply": -0.8 },
+      { "type": "cut", "multiply": -0.6 },
+      { "type": "bullet", "multiply": -1.0 },
+      { "type": "cold", "multiply": 2 }
+    ],
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -20 } ]
   },
   {
     "type": "enchantment",
@@ -273,8 +269,8 @@
   {
     "id": "undine_acid_resist_ally_thorns",
     "type": "SPELL",
-    "name": "Caustic Cloak Thorns Spell",
-    "description": "The thorns effect from Caustic Cloak.  It's a bug if you have it directly.",
+    "name": { "str": "Caustic Cloak Thorns Spell", "//~": "NO_I18N" },
+    "description": { "str": "The thorns effect from Caustic Cloak.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
@@ -362,8 +358,8 @@
   {
     "id": "undine_drag_inward_spell_01",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 01",
-    "description": "Version 1 of the Whirlpool Catches the Shoal drag, with 2 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 01", "//~": "NO_I18N" },
+    "description": { "str": "Version 1 of the Whirlpool Catches the Shoal drag, with 2 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -390,8 +386,8 @@
   {
     "id": "undine_drag_inward_spell_02",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 02",
-    "description": "Version 2 of the Whirlpool Catches the Shoal drag, with 3 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 02", "//~": "NO_I18N" },
+    "description": { "str": "Version 2 of the Whirlpool Catches the Shoal drag, with 3 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -419,8 +415,8 @@
   {
     "id": "undine_drag_inward_spell_03",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 03",
-    "description": "Version 3 of the Whirlpool Catches the Shoal drag, with 4 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 03", "//~": "NO_I18N" },
+    "description": { "str": "Version 3 of the Whirlpool Catches the Shoal drag, with 4 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -449,8 +445,8 @@
   {
     "id": "undine_drag_inward_spell_04",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 04",
-    "description": "Version 4 of the Whirlpool Catches the Shoal drag, with 5 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 04", "//~": "NO_I18N" },
+    "description": { "str": "Version 4 of the Whirlpool Catches the Shoal drag, with 5 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -480,8 +476,8 @@
   {
     "id": "undine_drag_inward_spell_05",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 05",
-    "description": "Version 5 of the Whirlpool Catches the Shoal drag, with 6 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 05", "//~": "NO_I18N" },
+    "description": { "str": "Version 5 of the Whirlpool Catches the Shoal drag, with 6 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -512,8 +508,8 @@
   {
     "id": "undine_drag_inward_spell_06",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 06",
-    "description": "Version 6 of the Whirlpool Catches the Shoal drag, with 7 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 06", "//~": "NO_I18N" },
+    "description": { "str": "Version 6 of the Whirlpool Catches the Shoal drag, with 7 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -545,8 +541,8 @@
   {
     "id": "undine_drag_inward_spell_07",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal 07",
-    "description": "Version 7 of the Whirlpool Catches the Shoal drag, with 8 pulls in.",
+    "name": { "str": "Whirlpool Catches the Shoal 07", "//~": "NO_I18N" },
+    "description": { "str": "Version 7 of the Whirlpool Catches the Shoal drag, with 8 pulls in.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -579,8 +575,11 @@
   {
     "id": "undine_drag_inward_spell_pull",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal Real",
-    "description": "The actual Whirlpool Catches the Shoal drag that pulls in monsters.  It's a bug if you have it.",
+    "name": { "str": "Whirlpool Catches the Shoal Real", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual Whirlpool Catches the Shoal drag that pulls in monsters.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -602,8 +601,11 @@
   {
     "id": "undine_drag_inward_spell_slow",
     "type": "SPELL",
-    "name": "Whirlpool Catches the Shoal Real Slow",
-    "description": "The actual Whirlpool Catches the Shoal drag that slows monsters after they're pulled.  It's a bug if you have it.",
+    "name": { "str": "Whirlpool Catches the Shoal Real Slow", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual Whirlpool Catches the Shoal drag that slows monsters after they're pulled.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -768,8 +770,8 @@
   {
     "id": "undine_water_push_away",
     "type": "SPELL",
-    "name": "Crashing Waves spell",
-    "description": "The actual spell that pushes enemies away.  It's a bug if you have it.",
+    "name": { "str": "Crashing Waves spell", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that pushes enemies away.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -783,8 +785,8 @@
   {
     "id": "undine_acid_body_spell",
     "type": "SPELL",
-    "name": "Beouled Water Rebuke spell",
-    "description": "The actual spell that sprays enemies with acid.  It's a bug if you have it.",
+    "name": { "str": "Beouled Water Rebuke spell", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that sprays enemies with acid.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
@@ -813,13 +815,12 @@
     "max_level": { "math": [ "str_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "downed",
-    "extra_effects": [
-      { "id": "undine_tidal_wave_spell_bash", "hit_self": false },
-      { "id": "undine_tidal_wave_spell_push", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "undine_tidal_wave_spell_push", "hit_self": false } ],
     "shape": "line",
     "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 40) * (scaling_factor(u_val('strength') ) )" ] },
     "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 9) + 100) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_bash_scaling": 1.14,
+    "max_bash_scaling": 1.25,
     "damage_type": "bash",
     "min_duration": 200,
     "max_duration": 900,
@@ -840,33 +841,10 @@
     "casting_time_increment": -12
   },
   {
-    "id": "undine_tidal_wave_spell_bash",
-    "type": "SPELL",
-    "name": "Tidal Wave Bash",
-    "description": "The Bash effect of the Tidal Wave spell.  It's a bug if you have it directly.",
-    "teachable": false,
-    "valid_targets": [ "ground", "hostile" ],
-    "spell_class": "UNDINE",
-    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
-    "max_level": { "math": [ "str_to_level(1)" ] },
-    "effect": "bash",
-    "shape": "line",
-    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 35) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 7) + 80) * (scaling_factor(u_val('strength') ) )" ] },
-    "min_range": {
-      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
-    },
-    "max_range": 50,
-    "min_aoe": {
-      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
-    },
-    "max_aoe": 6
-  },
-  {
     "id": "undine_tidal_wave_spell_push",
     "type": "SPELL",
-    "name": "Tidal Wave Directed Push",
-    "description": "The Directed Push effect of the Tidal Wave spell.  It's a bug if you have it directly.",
+    "name": { "str": "Tidal Wave Directed Push", "//~": "NO_I18N" },
+    "description": { "str": "The Directed Push effect of the Tidal Wave spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "ground", "hostile" ],
     "spell_class": "UNDINE",

@@ -135,7 +135,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "talk_flag_TALK_ARSONIST_SUPPLIED" } ] },
         "topic": "TALK_ARSONIST_TRADING"
       },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

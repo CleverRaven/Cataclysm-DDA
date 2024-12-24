@@ -45,7 +45,7 @@
         "v        2    _________________________________;",
         "v vvvvv    *___________________________1 1  ___;",
         "v vooov______________________   ____ 121   1  _#",
-        "v voGoV_____________ #.......#. ____ 1 1*1 1 1 v",
+        "v voGoX_____________ #.......#. ____ 1 1*1 1 1 v",
         "v vooov_________     #L.....L#* ____*  1 1 1 2 v",
         "v vvvvv   ______  * *wL.....Lw   ____1 1 1 1  *v",
         "v         1____ 2    #L.....L# * ____1 1*  1   v",
@@ -101,6 +101,15 @@
         },
         { "vehicle": "car", "x": [ 29, 31 ], "y": [ 27, 30 ], "chance": 30, "fuel": 15, "status": 0, "rotation": 90 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "ocu_lumbermill_opens_a_gate",
+    "method": "json",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "set": [ { "square": "terrain", "id": "t_thconc_floor", "x": 10, "y": 23, "x2": 13, "y2": 23 } ]
     }
   },
   {

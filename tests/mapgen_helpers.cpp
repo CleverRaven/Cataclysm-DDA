@@ -29,5 +29,5 @@ void manual_nested_mapgen( tripoint_abs_omt const &pos, nested_mapgen_id const &
     tm.load( pos, true );
     mapgendata md( pos, *tm.cast_to_map(), 0.0f, calendar::turn, nullptr );
     const auto &ptr = nested_mapgens[id].funcs().pick();
-    ( *ptr )->nest( md, tripoint_rel_ms( tripoint_zero ), "test" );
+    ( *ptr )->nest( md, tripoint_rel_ms::zero, "test" );
 }

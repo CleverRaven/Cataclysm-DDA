@@ -191,7 +191,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string_v
 
 bool shopkeeper_item_group::can_sell( npc const &guy ) const
 {
-    dialogue temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    const_dialogue temp( get_const_talker_for( get_avatar() ), get_const_talker_for( guy ) );
     faction *const fac = guy.get_faction();
 
     return ( fac == nullptr || trust <= guy.get_faction()->trusts_u ) &&
@@ -266,6 +266,7 @@ void npc_class::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
+    optional( jo, was_loaded, "bye_message_override", bye_message_override );
 
     if( jo.has_member( "traits" ) ) {
         traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );

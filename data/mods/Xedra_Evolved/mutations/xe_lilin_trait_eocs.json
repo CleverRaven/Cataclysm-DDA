@@ -1,0 +1,541 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated",
+    "condition": { "not": { "u_has_effect": "effect_lilin_temporary_glorious" } },
+    "effect": [
+      {
+        "if": { "not": { "u_has_trait": "BEAUTIFUL3" } },
+        "then": {
+          "run_eocs": [
+            {
+              "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated_2",
+              "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
+              "effect": [
+                { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+                { "u_add_trait": "BEAUTIFUL3" },
+                { "u_add_effect": "effect_lilin_temporary_glorious", "duration": "PERMANENT" },
+                { "u_message": "You spin a beguiling web of illusion around yourself.", "type": "good" },
+                {
+                  "run_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
+                  "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200 ) )" ] }
+                }
+              ],
+              "false_effect": [
+                { "u_message": "You don't have enough ruach to enhance your appearance.", "type": "bad" },
+                { "run_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
+              ]
+            }
+          ]
+        },
+        "else": [
+          { "u_message": "You are already so beautiful no illusion could enhance your appearance", "type": "mixed" },
+          { "run_eocs": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future", "time_in_future": 0 }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivated",
+            "condition": { "and": [ { "u_has_trait": "BEAUTIFUL3" }, { "u_has_effect": "effect_lilin_temporary_glorious" } ] },
+            "effect": [
+              { "u_message": "You rend the illusions around yourself to tatters.", "type": "neutral" },
+              { "u_lose_trait": "BEAUTIFUL3" },
+              { "u_lose_effect": "effect_lilin_temporary_glorious" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": [ { "u_deactivate_trait": "LILIN_TEMPORARY_GLORIOUS" }, { "u_deactivate_trait": "LILIN_TEMPORARY_GLORIOUS_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance",
+    "condition": { "and": [ { "u_has_trait": "BEAUTIFUL3" }, { "u_has_effect": "effect_lilin_temporary_glorious" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+              {
+                "u_message": "You feel a chill on your skin as you maintain your web of pleasing illusions.",
+                "type": "mixed"
+              },
+              {
+                "run_eocs": [ "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance" ],
+                "time_in_future": { "math": [ "rng(0.75,1.25) * (3600 + (u_has_trait('LILIN_TEMPORARY_GLORIOUS_2') * 601200 ) )" ] }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to enhance your appearance.", "type": "neutral" },
+              { "u_lose_trait": "BEAUTIFUL3" },
+              { "u_lose_effect": "effect_lilin_temporary_glorious" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TEMPORARY_GLORIOUS_processed",
+    "condition": { "and": [ { "u_has_trait": "BEAUTIFUL3" }, { "u_has_effect": "effect_lilin_temporary_glorious" } ] },
+    "effect": [
+      {
+        "if": { "and": [ "u_is_outside", "is_day" ] },
+        "then": { "u_lose_trait": "BEAUTIFUL3" },
+        "else": { "if": { "or": [ { "not": "u_is_outside" }, { "not": "is_day" } ] }, "then": { "u_add_trait": "BEAUTIFUL3" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated",
+    "condition": { "not": { "u_has_effect": "effect_lilin_attribute_bonuses" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 80 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "80 * lilin_has_ruach_efficiency()" ] },
+              { "u_add_effect": "effect_lilin_attribute_bonuses", "duration": "PERMANENT" },
+              { "u_message": "You draw on your ruach to enhance your physical abilities.", "type": "good" },
+              {
+                "run_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * 1 + ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to enhance your physical abilities.", "type": "bad" },
+              { "run_eocs": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivated",
+            "condition": { "u_has_effect": "effect_lilin_attribute_bonuses" },
+            "effect": [
+              { "u_message": "Your physical abilities return to normal.", "type": "neutral" },
+              { "u_lose_effect": "effect_lilin_attribute_bonuses" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_ATTRIBUTE_BONUSES_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": [ { "u_deactivate_trait": "LILIN_ATTRIBUTE_BONUSES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance",
+    "condition": { "u_has_effect": "effect_lilin_attribute_bonuses" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
+              {
+                "u_message": "You feel a chill on your skin as you maintain your enhanced physical abilities.",
+                "type": "mixed"
+              },
+              {
+                "run_eocs": [ "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * 1 + ( (u_has_trait('LILIN_ATTRIBUTE_BONUSES_STRENGTH') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_DEXTERITY') * 280) + (u_has_trait('LILIN_ATTRIBUTE_BONUSES_PERCEPTION') * 280) )"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to enhance your physical abilities.", "type": "neutral" },
+              { "u_lose_effect": "effect_lilin_attribute_bonuses" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TURN_INTO_OWL_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TURN_INTO_OWL_activated_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 360 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
+              { "u_add_trait": "TURN_INTO_OWL_TRAITS" },
+              {
+                "if": { "u_has_trait": "LILIN_OWL_FORM_PASS_THROUGH_WALLS" },
+                "then": { "u_add_effect": "effect_lilin_owl_form_pass_through_walls", "duration": "PERMANENT" }
+              },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
+              {
+                "u_message": "Your eyes grow wide as feathers sprout from your arms and you take to the air on silent wings.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to transform into an owl.", "type": "bad" },
+              { "run_eocs": "EOC_LILIN_TURN_INTO_OWL_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TURN_INTO_OWL_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_OWL_TRAITS" },
+            "effect": [
+              { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
+              { "u_lose_trait": "TURN_INTO_OWL_TRAITS" },
+              { "u_lose_effect": "effect_lilin_owl_form_pass_through_walls" },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TURN_INTO_OWL_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "LILIN_TURN_INTO_OWL" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_activated",
+    "condition": { "not": { "u_has_effect": "effect_lilin_bonus_healing_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_activated_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "100 * lilin_has_ruach_efficiency()" ] },
+              { "u_add_effect": "effect_lilin_bonus_healing_active", "duration": "PERMANENT" },
+              { "u_message": "You pour ruach into your wounds and your body begins healing.", "type": "good" },
+              { "run_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to heal your wounds.", "type": "bad" },
+              { "run_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_deactivated",
+            "condition": { "u_has_effect": "effect_lilin_bonus_healing_active" },
+            "effect": [
+              { "u_message": "Your accelerated healing slows to a stop.", "type": "neutral" },
+              { "u_lose_effect": "effect_lilin_bonus_healing_active" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_BONUS_HEALING_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": [ { "u_deactivate_trait": "LILIN_BONUS_HEALING_ACTIVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance",
+    "condition": { "u_has_effect": "effect_lilin_bonus_healing_active" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "100 * lilin_has_ruach_efficiency()" ] },
+              { "u_message": "You feel icy pinpricks on your skin as your wounds heal.", "type": "mixed" },
+              { "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, "then": { "math": [ "u_hp('torso')++" ] } },
+              { "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] }, "then": { "math": [ "u_hp('head')++" ] } },
+              { "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
+              { "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] }, "then": { "math": [ "u_hp('arm_r')++" ] } },
+              { "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } },
+              { "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
+              {
+                "if": {
+                  "and": [
+                    { "math": [ "u_hp('torso')", "==", "u_hp_max('torso')" ] },
+                    { "math": [ "u_hp('head')", "==", "u_hp_max('head')" ] },
+                    { "math": [ "u_hp('arm_l')", "==", "u_hp_max('arm_l')" ] },
+                    { "math": [ "u_hp('arm_r')", "==", "u_hp_max('arm_r')" ] },
+                    { "math": [ "u_hp('leg_l')", "==", "u_hp_max('leg_l')" ] },
+                    { "math": [ "u_hp('leg_r')", "==", "u_hp_max('leg_r')" ] }
+                  ]
+                },
+                "then": [
+                  { "u_message": "With your body restored, you no longer need to dedicate ruach to healing it.", "type": "neutral" },
+                  { "run_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
+                ],
+                "else": { "run_eocs": [ "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance" ], "time_in_future": [ 8, 15 ] }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach accelerate your healing.", "type": "neutral" },
+              { "run_eocs": "EOC_LILIN_BONUS_HEALING_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_DISEASE_MELEE_STRIKES_CHARACTER_ATTACK",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": {
+      "and": [
+        { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
+        { "x_in_y_chance": { "x": { "math": [ "max( (u_vitamin('lilin_ruach_vitamin') / 1000) , 1)" ] }, "y": 10 } },
+        { "not": "u_has_weapon" },
+        { "math": [ "_hits != false" ] }
+      ]
+    },
+    "effect": [
+      {
+        "npc_add_effect": "effect_lilin_supernatural_disease",
+        "duration": [
+          { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') * 0.09)" ] },
+          { "math": [ "15 + (u_vitamin('lilin_ruach_vitamin') * 0.24)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_DISEASE_MELEE_STRIKES_MONSTER_ATTACK",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
+        { "x_in_y_chance": { "x": { "math": [ "max( (u_vitamin('lilin_ruach_vitamin') / 1000) , 1)" ] }, "y": 10 } },
+        { "not": "u_has_weapon" },
+        { "math": [ "_hits != false" ] }
+      ]
+    },
+    "effect": [
+      {
+        "npc_add_effect": "effect_lilin_supernatural_disease",
+        "duration": [
+          { "math": [ "1 + (u_vitamin('lilin_ruach_vitamin') * 0.09)" ] },
+          { "math": [ "15 + (u_vitamin('lilin_ruach_vitamin') * 0.24)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated",
+    "condition": { "not": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated_2",
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 480 * lilin_has_ruach_efficiency()" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "480 * lilin_has_ruach_efficiency()" ] },
+              { "u_add_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
+              { "u_add_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] },
+              {
+                "u_message": "Wings erupt from your shoulders and talons grow from your fingers as you assume the strix form.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough ruach to transform into a strix.", "type": "bad" },
+              { "run_eocs": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivated",
+            "condition": { "u_has_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
+            "effect": [
+              { "u_message": "Your wings, feathers, and talons all vanish as you return to your human form.", "type": "neutral" },
+              { "u_lose_trait": "LILIN_WAR_OWL_FORM_TRAITS" },
+              { "u_lose_trait": "LILIN_WAR_OWL_FORM_LEAPER" },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "1.5" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "LILIN_TRANSFORM_INTO_WAR_OWL_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_STRIX_LEAP",
+    "effect": [
+      {
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "2000",
+          "prep_time": "1",
+          "spell_to_cast": "lilin_strix_leap_spell",
+          "message_success": {
+            "i18n": true,
+            "str": "You squat down, build up tension in your legs, then with a mighty beat of your wings, you leap."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PREVENT_DEATH_INITIATE",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": {
+      "and": [
+        { "u_has_trait": "LILIN_PREVENT_DEATH_TRIGGER" },
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "onfire" } },
+        { "not": { "u_is_in_field": "fd_fire" } },
+        { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "0" ] },
+        { "not": { "u_has_effect": "lilit_prevent_death_cooldown" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "As yours wounds overtake you, you cast forth your spirit in the form of an owl.", "popup": true },
+      { "run_eocs": [ "EOC_LILIN_PREVENT_DEATH_PROCESSING" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PREVENT_DEATH_DAMAGE_TRACKER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "LILIN_PREVENT_DEATH_TRIGGER" },
+    "effect": [
+      {
+        "if": { "math": [ "u_hp('torso')", ">", "0" ] },
+        "then": { "math": [ "u_lilin_return_from_death_hp_torso = u_hp('torso')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('head')", ">", "0" ] },
+        "then": { "math": [ "u_lilin_return_from_death_hp_head = u_hp('head')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('arm_l')", ">", "0" ] },
+        "then": { "math": [ "u_lilin_return_from_death_hp_arm_l = u_hp('arm_l')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('arm_r')", ">", "0" ] },
+        "then": { "math": [ "u_lilin_return_from_death_hp_arm_r = u_hp('arm_r')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('leg_l')", ">", "0" ] },
+        "then": { "math": [ "u_lilin_return_from_death_hp_leg_l = u_hp('leg_l')" ] }
+      },
+      {
+        "if": { "math": [ "u_hp('leg_r')", ">", "0" ] },
+        "then": { "math": [ "u_lilin_return_from_death_hp_leg_r = u_hp('leg_r')" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PREVENT_DEATH_PROCESSING",
+    "condition": { "u_has_trait": "LILIN_PREVENT_DEATH_TRIGGER" },
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "3000 * lilin_has_ruach_efficiency()" ] },
+        "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "3000 * lilin_has_ruach_efficiency()" ] },
+        "else": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 0" ] }
+      },
+      { "math": [ "u_hp('ALL_MINOR') = 999" ] },
+      { "math": [ "u_hp('torso') = max( u_lilin_return_from_death_hp_torso, 10)" ] },
+      { "math": [ "u_hp('head') = max( u_lilin_return_from_death_hp_head, 10)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_lilin_return_from_death_hp_arm_l, 10)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_lilin_return_from_death_hp_arm_r, 10)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_lilin_return_from_death_hp_leg_l, 10)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_lilin_return_from_death_hp_leg_r, 10)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "u_lose_effect": "corroding" },
+      { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "downed" },
+      { "u_lose_effect": "stunned" },
+      { "u_lose_effect": "venom_blind" },
+      { "u_lose_effect": "sap" },
+      { "u_lose_effect": "staggered_character" },
+      { "u_lose_effect": "nausea" },
+      { "u_lose_effect": "bleed" },
+      { "u_lose_effect": "blind" },
+      { "u_lose_effect": "deaf" },
+      { "u_lose_effect": "grabbed" },
+      { "u_add_effect": "lilit_prevent_death_escape", "duration": 15 },
+      { "u_add_effect": "lilit_prevent_death_cooldown", "duration": 300 },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "360 * lilin_has_ruach_efficiency()" ] },
+      { "u_activate_trait": "LILIN_TURN_INTO_OWL" }
+    ]
+  }
+]

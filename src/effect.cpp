@@ -187,6 +187,7 @@ void weed_msg( Character &p )
             case 5:
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
                                          translation() ) );
+                return;
             default:
                 return;
         }
@@ -271,6 +272,7 @@ void weed_msg( Character &p )
             case 4:
                 // re-roll
                 weed_msg( p );
+                return;
             case 5:
             default:
                 return;
@@ -891,6 +893,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::vector<std::string> uncommon;
     std::vector<std::string> rare;
     std::vector<desc_freq> values;
+    values.reserve( 9 ); // Pre-allocate space for each value.
     // Add various desc_freq structs to values. If more effects wish to be placed in the descriptions this is the
     // place to add them.
     int val = 0;
@@ -1083,8 +1086,8 @@ void effect::set_duration( const time_duration &dur, bool alert )
 
     // Force intensity if it is duration based
     if( eff_type->int_dur_factor != 0_turns ) {
-        // + 1 here so that the lowest is intensity 1, not 0
-        set_intensity( duration / eff_type->int_dur_factor + 1, alert );
+        const int intensity = std::ceil( duration / eff_type->int_dur_factor );
+        set_intensity( std::max( 1, intensity ), alert );
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),

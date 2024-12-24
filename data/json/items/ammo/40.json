@@ -3,7 +3,7 @@
     "id": "40fmj",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W FMJ" },
-    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular amongst law enforcement before the FBI switched to 9mm.",
+    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular among law enforcement before the FBI switched to 9mm.",
     "ascii_picture": "40sw",
     "weight": "15 g",
     "volume": "106 ml",
@@ -55,7 +55,7 @@
     "copy-from": "40fmj",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W JHP" },
-    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular amongst law enforcement before the FBI switched to 9mm.",
+    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular among law enforcement before the FBI switched to 9mm.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
   },
   {

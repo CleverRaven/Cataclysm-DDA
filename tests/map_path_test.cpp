@@ -1,7 +1,6 @@
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "coordinate_constants.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -33,7 +32,7 @@ static map &setup_map_without_obstacles()
     const ter_id t_floor( "t_floor" );
     map &here = get_map();
     clear_map();
-    const tripoint_bub_ms topleft = tripoint_bub_ms_zero;
+    const tripoint_bub_ms topleft = tripoint_bub_ms::zero;
     const tripoint_bub_ms bottomright { 20, 20, 0 };
     for( const tripoint_bub_ms &p : here.points_in_rectangle( topleft, bottomright ) ) {
         here.ter_set( p, t_floor );
@@ -45,27 +44,27 @@ TEST_CASE( "find_clear_path_with_adjacent_obstacles", "[map]" )
 {
     const tripoint_bub_ms p_center{ 10, 10, 0 };
     // Adjacent mapsquares
-    const tripoint_bub_ms nw = p_center + tripoint_rel_ms_north_west;
-    const tripoint_bub_ms n = p_center + tripoint_rel_ms_north;
-    const tripoint_bub_ms ne = p_center + tripoint_rel_ms_north_east;
-    const tripoint_bub_ms e = p_center + tripoint_rel_ms_east;
-    const tripoint_bub_ms se = p_center + tripoint_rel_ms_south_east;
-    const tripoint_bub_ms s = p_center + tripoint_rel_ms_south;
-    const tripoint_bub_ms sw = p_center + tripoint_rel_ms_south_west;
-    const tripoint_bub_ms w = p_center + tripoint_rel_ms_west;
+    const tripoint_bub_ms nw = p_center + tripoint_rel_ms::north_west;
+    const tripoint_bub_ms n = p_center + tripoint_rel_ms::north;
+    const tripoint_bub_ms ne = p_center + tripoint_rel_ms::north_east;
+    const tripoint_bub_ms e = p_center + tripoint_rel_ms::east;
+    const tripoint_bub_ms se = p_center + tripoint_rel_ms::south_east;
+    const tripoint_bub_ms s = p_center + tripoint_rel_ms::south;
+    const tripoint_bub_ms sw = p_center + tripoint_rel_ms::south_west;
+    const tripoint_bub_ms w = p_center + tripoint_rel_ms::west;
     // Mapsquares further out
-    const tripoint_bub_ms n_nw = n + tripoint_rel_ms_north_west;
-    const tripoint_bub_ms n_n = n + tripoint_rel_ms_north;
-    const tripoint_bub_ms n_ne = n + tripoint_rel_ms_north_east;
-    const tripoint_bub_ms e_ne = e + tripoint_rel_ms_north_east;
-    const tripoint_bub_ms e_e = e + tripoint_rel_ms_east;
-    const tripoint_bub_ms e_se = e + tripoint_rel_ms_south_east;
-    const tripoint_bub_ms s_se = s + tripoint_rel_ms_south_east;
-    const tripoint_bub_ms s_s = s + tripoint_rel_ms_south;
-    const tripoint_bub_ms s_sw = s + tripoint_rel_ms_south_west;
-    const tripoint_bub_ms w_sw = w + tripoint_rel_ms_south_west;
-    const tripoint_bub_ms w_w = w + tripoint_rel_ms_west;
-    const tripoint_bub_ms w_nw = w + tripoint_rel_ms_north_west;
+    const tripoint_bub_ms n_nw = n + tripoint_rel_ms::north_west;
+    const tripoint_bub_ms n_n = n + tripoint_rel_ms::north;
+    const tripoint_bub_ms n_ne = n + tripoint_rel_ms::north_east;
+    const tripoint_bub_ms e_ne = e + tripoint_rel_ms::north_east;
+    const tripoint_bub_ms e_e = e + tripoint_rel_ms::east;
+    const tripoint_bub_ms e_se = e + tripoint_rel_ms::south_east;
+    const tripoint_bub_ms s_se = s + tripoint_rel_ms::south_east;
+    const tripoint_bub_ms s_s = s + tripoint_rel_ms::south;
+    const tripoint_bub_ms s_sw = s + tripoint_rel_ms::south_west;
+    const tripoint_bub_ms w_sw = w + tripoint_rel_ms::south_west;
+    const tripoint_bub_ms w_w = w + tripoint_rel_ms::west;
+    const tripoint_bub_ms w_nw = w + tripoint_rel_ms::north_west;
 
     map &here = setup_map_without_obstacles();
     GIVEN( "Map has adjacent obstacle directly nw, ne, se, sw" ) {

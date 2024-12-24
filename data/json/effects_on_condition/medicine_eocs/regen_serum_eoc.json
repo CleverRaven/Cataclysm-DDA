@@ -11,12 +11,12 @@
     "id": "EOC_SERUM_REGEN",
     "effect": [
       { "u_consume_item": { "context_val": "id" } },
-      { "math": [ "_serum_duration", "=", "rng(time('1 d'), time('2 d'))" ] },
+      { "math": [ "_serum_duration = rng(time('1 d'), time('2 d'))" ] },
       { "u_add_effect": "regen_serum_main", "duration": { "context_val": "serum_duration" } },
       { "u_add_effect": "regen_serum_crash_cardio", "duration": { "math": [ "_serum_duration * rng(1.5, 2.5)" ] } },
-      { "queue_eocs": "EOC_APPLY_REGEN_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
-      { "queue_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] },
-      { "queue_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] }
+      { "run_eocs": "EOC_APPLY_REGEN_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
+      { "run_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] },
+      { "run_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] }
     ]
   },
   {
@@ -31,8 +31,8 @@
     "//": "todo: move message to snippet?",
     "effect": [
       { "u_message": "You feel an immense pain, when something within your bloodstream moves eerily.", "type": "bad" },
-      { "math": [ "u_pain()", "+=", "rng(15, 55)" ] },
-      { "queue_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] }
+      { "math": [ "u_pain('type': 'perceived')", "+=", "rng(15, 55)" ] },
+      { "run_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] }
     ]
   },
   {

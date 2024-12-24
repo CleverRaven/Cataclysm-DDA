@@ -613,8 +613,8 @@
   {
     "id": "nano_pseudo_forge",
     "type": "TOOL",
-    "name": { "str": "pseudo nano forge" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "name": { "str": "pseudo nano forge", "//~": "NO_I18N" },
+    "description": { "str": "This is a crafting_pseudo_item if you have it something is wrong.", "//~": "NO_I18N" },
     "weight": "6464 g",
     "volume": "11356 ml",
     "price": "200 USD",
@@ -682,8 +682,8 @@
   {
     "id": "pseudo_diamond_press",
     "type": "TOOL",
-    "name": { "str": "pseudo diamond press", "str_pl": "pseudo diamond presses" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "name": { "str": "pseudo diamond press", "str_pl": "pseudo diamond presses", "//~": "NO_I18N" },
+    "description": { "str": "This is a crafting_pseudo_item if you have it something is wrong.", "//~": "NO_I18N" },
     "weight": "6464 g",
     "volume": "11356 ml",
     "price": "200 USD",

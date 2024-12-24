@@ -13,10 +13,5 @@
         },
         "sdl2-ttf",
         "pdcurses"
-    ],
-    "vcpkg-configuration": {
-        "overlay-ports": [
-            "../.github/vcpkg_ports"
-        ]
-    }
+    ]
 }

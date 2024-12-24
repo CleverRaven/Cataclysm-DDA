@@ -31,7 +31,7 @@
     "condition": { "or": [ { "u_has_trait": "THRESH_ARVORE" }, { "u_has_trait": "ARVORE_NURTURING_THE_GREEN" } ] },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "You feel a stabbing pain as the tree falls.  One of your own, murdered by your hand.",
         "type": "bad"
@@ -51,15 +51,15 @@
         { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
         {
           "or": [
-            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living')", ">=", "0" ] },
-            { "math": [ "u_spell_level('arvore_overgrowth_spell')", ">=", "0" ] }
+            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_overgrowth_spell') >= 0" ] }
           ]
         }
       ]
     },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "Your heart races as you spark the fire.  A fire, outdoors, in the view of the trees and the grasses.  Visions of charred wood, of blackened trunks and broken branches, fill your mind.",
         "type": "bad"
@@ -84,7 +84,7 @@
     },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
         "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
@@ -142,7 +142,7 @@
     },
     "effect": [
       { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
         "u_message": "You awaken in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
@@ -170,7 +170,7 @@
     },
     "effect": [
       { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "You feel a stabbing pain as your tools dig into the living earth.  Tools made of material torn from the earth by humans.  You should not be using them.",
         "type": "bad"
@@ -223,7 +223,7 @@
     "condition": { "u_has_trait": "THRESH_HOMULLUS" },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
         "type": "bad"
@@ -248,7 +248,7 @@
     },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "You feel a stab of pain as the human collapses in a puddle of their own blood.  A human, slain by your hand, in defiance of your nature.",
         "type": "bad"
@@ -268,7 +268,7 @@
             { "u_has_trait": "THRESH_HOMULLUS" }
           ]
         },
-        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any')", "==", "0" ] }
+        { "math": [ "u_characters_nearby('radius': 45, 'attitude': 'any') == 0" ] }
       ]
     },
     "effect": [
@@ -317,7 +317,7 @@
     },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
       {
         "u_message": "Accursed water!  The touch of it burns you like acid, reminding you of your nature.  Your flames must not be dowsed.",
         "type": "bad"
@@ -371,14 +371,14 @@
       "and": [
         { "u_has_trait": "THRESH_SYLPH" },
         { "u_has_trait": "SYLPH_FLY_AT_WILL" },
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         { "not": { "u_has_effect": "effect_sylph_underground_timer" } }
       ]
     },
     "effect": [
       { "u_add_effect": "effect_sylph_underground_timer", "duration": "61 minutes" },
       {
-        "queue_eocs": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
+        "run_eocs": "EOC_SYLPH_FAE_BAN_TOO_LONG_UNDERGROUND_APPLY_PENALTY",
         "time_in_future": [ "60 minutes", "60 minutes" ]
       }
     ]
@@ -391,7 +391,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "THRESH_SYLPH" },
-        { "math": [ "u_val('pos_z')", ">=", "0" ] },
+        { "math": [ "u_val('pos_z') >= 0" ] },
         { "u_has_effect": "effect_sylph_underground_timer" },
         "u_is_outside"
       ]
@@ -535,7 +535,7 @@
           "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_arvore_sylph_undine_wearing_iron", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
           ]
         }
       ],
@@ -577,7 +577,7 @@
           "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_arvore_sylph_undine_wearing_steel", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
           ],
           "false_effect": [ { "u_lose_effect": "effect_arvore_sylph_undine_wearing_steel" } ]
         }
@@ -625,7 +625,7 @@
           "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_ierde_salamander_wearing_iron", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
           ]
         }
       ],
@@ -667,7 +667,7 @@
           "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_ierde_salamander_wearing_steel", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
           ],
           "false_effect": [ { "u_lose_effect": "effect_ierde_salamander_wearing_steel" } ]
         }

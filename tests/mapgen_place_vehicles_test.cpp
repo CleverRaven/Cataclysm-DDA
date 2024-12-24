@@ -17,13 +17,13 @@ namespace
 void update_test( map &m, tripoint_abs_omt const &loc )
 {
     manual_mapgen( loc, manual_update_mapgen, update_mapgen_test_update_place_shopping_cart );
-    REQUIRE( m.veh_at( m.getlocal( project_to<coords::ms>( loc ) ) ) );
+    REQUIRE( m.veh_at( m.bub_from_abs( project_to<coords::ms>( loc ) ) ) );
 }
 
 void nested_test( map &m, tripoint_abs_omt const &loc )
 {
     manual_mapgen( loc, manual_nested_mapgen, nested_mapgen_test_nested_place_shopping_cart );
-    REQUIRE( m.veh_at( m.getlocal( project_to<coords::ms>( loc ) ) ) );
+    REQUIRE( m.veh_at( m.bub_from_abs( project_to<coords::ms>( loc ) ) ) );
 }
 } // namespace
 
@@ -36,10 +36,10 @@ TEST_CASE( "mapgen_place_vehicles" )
     tripoint_abs_omt const this_test_omt = project_to<coords::omt>( get_avatar().get_location() );
     SECTION( "update mapgen" ) {
         update_test( here, this_test_omt );
-        update_test( here, this_test_omt + tripoint_east );
+        update_test( here, this_test_omt + tripoint::east );
     }
     SECTION( "nested mapgen" ) {
         nested_test( here, this_test_omt );
-        nested_test( here, this_test_omt + tripoint_east );
+        nested_test( here, this_test_omt + tripoint::east );
     }
 }

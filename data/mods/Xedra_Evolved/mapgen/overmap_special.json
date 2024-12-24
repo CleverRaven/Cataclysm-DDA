@@ -286,6 +286,39 @@
   },
   {
     "type": "overmap_special",
+    "id": "xedra_monochrome_meadow",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "xedra_monochrome_meadow_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 100, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "old cabin",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_sevenoclock_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_sevenoclock_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "acid-scarred field",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "field_deathworm_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 5, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Vampire Hunting Lodge",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lodgev_ground1_north" },

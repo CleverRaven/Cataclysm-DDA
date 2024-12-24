@@ -376,7 +376,7 @@
         "chance": 100,
         "duration": 400,
         "on_damage": true,
-        "message": "The weapon of %s has been forced out ot their hands!"
+        "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
     "stun_dur": 1,
@@ -686,7 +686,7 @@
         "chance": 100,
         "duration": 400,
         "on_damage": true,
-        "message": "The weapon of %s has been forced out ot their hands!"
+        "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
     "attack_vectors": [ "vector_grasp" ]

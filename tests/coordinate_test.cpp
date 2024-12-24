@@ -5,7 +5,6 @@
 
 #include "cata_generators.h"
 #include "cata_catch.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "point.h"
 
@@ -24,6 +23,118 @@ static_assert( tripoint_abs_omt::dimension == 3 );
         static_assert(!std::decay_t<_t>::is_inbounds); \
         return std::forward<_t>(_p); } \
      )(p))
+
+// Code moved from the obsolete coodinates_conversions.cpp file, as its only remaining
+// usage is in these tests.
+
+static int divide( int v, int m )
+{
+    if( v >= 0 ) {
+        return v / m;
+    }
+    return ( v - m + 1 ) / m;
+}
+
+static int divide( int v, int m, int &r )
+{
+    const int result = divide( v, m );
+    r = v - result * m;
+    return result;
+}
+
+static point omt_to_om_copy( const point &p )
+{
+    return point( divide( p.x, OMAPX ), divide( p.y, OMAPY ) );
+}
+
+static tripoint omt_to_om_copy( const tripoint &p )
+{
+    return tripoint( divide( p.x, OMAPX ), divide( p.y, OMAPY ), p.z );
+}
+
+static point omt_to_om_remain( int &x, int &y )
+{
+    return point( divide( x, OMAPX, x ), divide( y, OMAPY, y ) );
+}
+
+static point omt_to_om_remain( point &p )
+{
+    return omt_to_om_remain( p.x, p.y );
+}
+
+static point sm_to_omt_copy( const point &p )
+{
+    return point( divide( p.x, 2 ), divide( p.y, 2 ) );
+}
+
+static point sm_to_omt_remain( int &x, int &y )
+{
+    return point( divide( x, 2, x ), divide( y, 2, y ) );
+}
+
+static point sm_to_omt_remain( point &p )
+{
+    return sm_to_omt_remain( p.x, p.y );
+}
+
+static point sm_to_om_copy( const point &p )
+{
+    return point( divide( p.x, 2 * OMAPX ), divide( p.y, 2 * OMAPY ) );
+}
+
+static point sm_to_om_remain( int &x, int &y )
+{
+    return point( divide( x, 2 * OMAPX, x ), divide( y, 2 * OMAPY, y ) );
+}
+
+static point sm_to_om_remain( point &p )
+{
+    return sm_to_om_remain( p.x, p.y );
+}
+
+static point omt_to_sm_copy( const point &p )
+{
+    return point( p.x * 2, p.y * 2 );
+}
+
+static point om_to_sm_copy( const point &p )
+{
+    return point( p.x * 2 * OMAPX, p.y * 2 * OMAPX );
+}
+
+static point ms_to_sm_copy( const point &p )
+{
+    return point( divide( p.x, SEEX ), divide( p.y, SEEY ) );
+}
+
+// Note: this gives you the map square coordinates of the top-left corner
+// of the given submap.
+static point sm_to_ms_copy( const point &p )
+{
+    return point( p.x * SEEX, p.y * SEEY );
+}
+
+static point ms_to_omt_copy( const point &p )
+{
+    return point( divide( p.x, SEEX * 2 ), divide( p.y, SEEY * 2 ) );
+}
+
+static point ms_to_omt_remain( int &x, int &y )
+{
+    return point( divide( x, SEEX * 2, x ), divide( y, SEEY * 2, y ) );
+}
+
+static point ms_to_omt_remain( point &p )
+{
+    return ms_to_omt_remain( p.x, p.y );
+}
+
+static tripoint omt_to_seg_copy( const tripoint &p )
+{
+    return tripoint( divide( p.x, SEG_SIZE ), divide( p.y, SEG_SIZE ), p.z );
+}
+
+// End of moved code.
 
 TEST_CASE( "coordinate_strings", "[point][coords][nogame]" )
 {

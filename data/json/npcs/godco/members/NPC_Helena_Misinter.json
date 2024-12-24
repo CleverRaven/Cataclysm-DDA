@@ -9,11 +9,7 @@
       "TALK_GODCO_Helena_Community"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Helena_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Helena_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Helena_Mood" },
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Helena_Community" },
       {
@@ -26,7 +22,7 @@
         "topic": "TALK_GODCO_Helena_Join",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } }
           ]
@@ -41,7 +37,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "Get away from here, sinner, we don't want your kind here.", "relevant_genders": [ "u" ] },
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "What brings you here <name_b>?  You know we don't want anything to do with you.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ],
@@ -66,7 +62,7 @@
         "text": "Good to see you again.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_helena" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -78,7 +74,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
-            { "math": [ "n_npc_anger()", ">=", "5" ] }
+            { "math": [ "n_npc_anger() >= 5" ] }
           ]
         },
         "topic": "TALK_GODCO_Helena_Angry"
@@ -88,7 +84,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
-            { "math": [ "n_npc_anger()", "<", "5" ] }
+            { "math": [ "n_npc_anger() < 5" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -98,7 +94,7 @@
         "condition": {
           "or": [
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
-            { "math": [ "n_npc_anger()", ">=", "5" ] }
+            { "math": [ "n_npc_anger() >= 5" ] }
           ]
         },
         "topic": "TALK_DONE"
@@ -116,7 +112,7 @@
         "topic": "TALK_GODCO_Gemma_Firstmeet",
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
       },
-      { "text": "I'm just passing through.  I'll see you around.", "topic": "TALK_DONE" }
+      { "text": "I'm just passing through.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +130,7 @@
     "dynamic_line": { "gendered_line": "I'm glad you could make it here.  May the Lord have mercy on you.", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Thank you, I hope he shares that sentiment.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Thank you.  I'll see you around.", "topic": "TALK_DONE" }
+      { "text": "Thank you.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -159,17 +155,17 @@
         },
         "topic": "TALK_GODCO_Helena_Contact_FreeMerch"
       },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Story",
-    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgement of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
+    "dynamic_line": "I am a prophet, like my uncle before me.  He saw <the_cataclysm>, the righteous judgment of God and set about preparing an ark to save us.  He passed before his visions could be fulfilled, and now I carry his righteous banner.",
     "responses": [
       { "text": "Tell me about his visions.", "topic": "TALK_GODCO_Helena_Uncle" },
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -177,8 +173,8 @@
     "id": "TALK_GODCO_Helena_Uncle",
     "dynamic_line": "He had many visions, and he had many secrets.  I don't know all of them, but there was one he was highly vocal about, regarding <the_cataclysm>, that according to him \"The spawn of Satan shall descend upon the Earth, and all will be consumed in death and destruction\".  He never said much else about it, and always had a mortified face whenever someone brought it up.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -186,8 +182,8 @@
     "id": "TALK_GODCO_Helena_Mood",
     "dynamic_line": "Thanks to my uncle's forethought, we've been blessed by God.  We have plenty of food for ourselves, safety from the hordes of Hell, and the continued protection of the Lord our God.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,8 +191,8 @@
     "id": "TALK_GODCO_Helena_Community",
     "dynamic_line": "They denied us, they labeled us as a doomsday cult, threw sticks and stones at us, and yet, we were standing resiliently.  Why?  Because we knew God was on our side.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_GODCO_Helena_2" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -206,7 +202,7 @@
     "responses": [
       { "text": "Okay, I'll see about that later.", "topic": "TALK_GODCO_Helena_2" },
       { "text": "What is the Decalogue?", "topic": "TALK_GODCO_Helena_Decalouge" },
-      { "text": "Okay, I'll see about that.  Goodbye.", "topic": "TALK_DONE" }
+      { "text": "Okay, I'll see about that.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

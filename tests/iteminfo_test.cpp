@@ -46,6 +46,8 @@ static const recipe_id recipe_pur_tablets( "pur_tablets" );
 
 static const skill_id skill_survival( "survival" );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
@@ -1235,6 +1237,83 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
     expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
+
+}
+
+
+TEST_CASE( "helmet_with_pockets_stats", "[iteminfo][armor][protection]" )
+{
+    bodypart_id bp_head = body_part_head.id();
+    bodypart_id bp_eyes = body_part_eyes.id();
+    sub_bodypart_id eye_r = sub_body_part_eyes_right.id();
+
+    item hh( "hat_hard" );
+    THEN( "base stats" ) {
+        //resistance stats
+        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
+        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 0.f ) );
+        CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 0.f ) );
+        //warmth stats: 5 (hat's warmth) * 0.4 (hat's body part coverage)
+        CHECK( hh.get_warmth( bp_head ) == 2 );
+        CHECK( hh.get_warmth( bp_eyes ) == 0 );
+    }
+
+
+    WHEN( "inserting face shield" ) {
+        item face_shield( "face_shield" );
+        REQUIRE( hh.put_in( face_shield, pocket_type::CONTAINER ).success() );
+        THEN( "eyes should be protected" ) {
+            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_head ) == Approx( 8.f ) );
+            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, bp_eyes ) == Approx( 6.f ) );
+            CHECK( hh.resist( STATIC( damage_type_id( "bash" ) ), false, eye_r ) == Approx( 6.f ) );
+        }
+        THEN( "warmth should not change" ) {
+            CHECK( hh.get_warmth( bp_head ) == 2 );
+            CHECK( hh.get_warmth( bp_eyes ) == 0 );
+        }
+        THEN( "breathbility should be 0" ) {
+            CHECK( hh.breathability( bp_eyes ) == 0 );
+        }
+    }
+    WHEN( "adding nape protector to the helmet" ) {
+        item nape_protector( "nape_protector" );
+        REQUIRE( hh.put_in( nape_protector, pocket_type::CONTAINER ).success() );
+        THEN( "head's warmth is increased" ) {
+            CHECK( nape_protector.get_warmth( bp_head ) == 2 );
+            //2 (base warmth) + 4 (nape's warmth) * 0.4 (nape's body part coverage)
+            CHECK( hh.get_warmth( bp_head ) == 4 );
+        }
+        WHEN( "adding ear muffs to the helmet" ) {
+            item ear_muffs( "attachable_ear_muffs" );
+            REQUIRE( hh.put_in( ear_muffs, pocket_type::CONTAINER ).success() );
+            THEN( "head's warmth should be increased even more" ) {
+                CHECK( ear_muffs.get_warmth( bp_head ) == 2 );
+                CHECK( hh.get_warmth( bp_head ) == 6 );
+            }
+        }
+    }
+
+}
+
+
+TEST_CASE( "vest_with_plate_stats", "[iteminfo][armor][protection]" )
+{
+    bodypart_id bp_torso = body_part_torso.id();
+
+    item vest = item( "ballistic_vest_esapi" );
+    //nylon: 1 (mat resist) * 1 (thickness)
+    //kevlar: 1.5 * 4.4
+    CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 7.6f ) );
+
+    WHEN( "inserting plate" ) {
+        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+
+        THEN( "resist should be increased" ) {
+            //previous + 1 * 25
+            CHECK( vest.resist( STATIC( damage_type_id( "bash" ) ), false, bp_torso ) == Approx( 32.6f ) );
+        }
+    }
+
 }
 
 // Check that a string is provided in some iteminfo
@@ -1994,13 +2073,13 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>52</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>53</color>-<color_c_yellow>470</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
+               "Vitamins (RDA): 63-323 mg Calcium (6-32%), 0-20 mg Iron (0-109%),"
                " and 0-45 mg Vitamin C (0-50%)\n" );
     }
 }
@@ -2482,7 +2561,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
         CHECK( item_info_str( oxy_torch, magazine_compat ) ==
                "--\n"
                "<color_c_white>Compatible magazines</color>:\n"
-               "<color_c_white>Types</color>: small welding tank and welding tank\n" );
+               "<color_c_white>Types</color>: small welding tank, tiny welding tank, and welding tank\n" );
     }
 }
 
@@ -2810,26 +2889,41 @@ TEST_CASE( "pocket_info_for_a_multi-pocket_item", "[iteminfo][pocket][multiple]"
 {
     clear_avatar();
 
-    item test_belt( "test_tool_belt" );
+    item test_belt( "test_tool_belt_pocket_mix" );
     std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
 
     override_option opt_vol( "VOLUME_UNITS", "l" );
     override_option opt_weight( "USE_METRIC_WEIGHTS", "kg" );
     override_option opt_dist( "DISTANCE_UNITS", "metric" );
 
-    // When two pockets have the same attributes, they are combined with a heading like:
+    // When multiple pockets have the same attributes, they are combined headings like:
     //
-    //  2 Pockets with capacity:
+    //  Pockets 1, 2, and 3
     //  Volume: ...  Weight: ...
     //
     // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
     CHECK( item_info_str( test_belt, pockets ) ==
            "--\n"
            "<color_c_white>Total capacity</color>:\n"
-           "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"
+           "Volume: <color_c_yellow>7.00</color> L  Weight: <color_c_yellow>9.00</color> kg\n"
            "--\n"
-           "<color_c_white>4 pockets</color> with capacity:\n"
-           "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.20</color> kg\n"
+           "<color_c_white>Pocket 1</color>\n"
+           "Volume: <color_c_yellow>1.00</color> L  Weight: <color_c_yellow>1.50</color> kg\n"
+           "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>40</color> cm\n"
+           "Base moves to remove item: <color_c_yellow>100</color>\n"
+           "--\n"
+           "<color_c_white>Pockets 2 and 3</color>\n"
+           "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.50</color> kg\n"
+           "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>70</color> cm\n"
+           "Minimum item volume: <color_c_yellow>0.050</color> L\n"
+           "Base moves to remove item: <color_c_yellow>50</color>\n"
+           "This is a <color_c_cyan>holster</color>, it only holds <color_c_cyan>one item at a time</color>.\n"
+           "<color_c_white>Restrictions</color>:\n"
+           "* Item must clip onto a belt loop\n"
+           "* <color_c_white>or</color> Item must fit in a sheath\n"
+           "--\n"
+           "<color_c_white>Pockets 4, 5, and 6</color>\n"
+           "Volume: <color_c_yellow>1.00</color> L  Weight: <color_c_yellow>1.50</color> kg\n"
            "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>70</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050</color> L\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n"

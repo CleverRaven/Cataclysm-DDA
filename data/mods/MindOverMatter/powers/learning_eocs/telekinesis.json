@@ -10,17 +10,15 @@
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_NO_PREREQ_POWER_INSIGHT" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_noise')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_noise') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_noise" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_noise" },
       {
         "u_message": "Use of your powers has led to an insight.  You could use a quick burst of telekinetic force to create noise, luring enemies away from you or toward a trapped location, if you can figure out the proper technique.",
@@ -35,28 +33,23 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "or": [
-                { "math": [ "u_spell_level('telekinetic_push')", ">=", "4" ] },
-                { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] }
-              ]
+              "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 4" ] }, { "math": [ "u_spell_level('telekinetic_noise') >= 1" ] } ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_slam_down')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_slam_down') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_slam_down" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slam_down') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_slam_down" },
       {
         "u_message": "Use of your powers has led to an insight.  Instead of just shoving someone away from your location, you could direct the force orthogonally to knock someone to the ground, if you can figure out the proper technique.",
@@ -74,28 +67,23 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('telekinetic_push')", ">=", "5" ] },
-                { "math": [ "u_spell_level('telekinetic_pull')", ">=", "5" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('telekinetic_push') >= 5" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 5" ] } ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_momentum')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_momentum') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_momentum" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_momentum') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_momentum" },
       {
         "u_message": "Use of your powers has led to an insight.  Instead of just applying all of your force at once, you could apply it gradually to all movement around you, making yourself slightly faster and anything dangerous slightly slower, if you can figure out the proper technique.",
@@ -113,23 +101,21 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "and": [ { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "6" ] } ] }
+            { "and": [ { "math": [ "u_spell_level('telekinetic_momentum') >= 6" ] } ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_slowfall')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_slowfall') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_slowfall" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_slowfall') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_slowfall" },
       {
         "u_message": "Use of your powers has led to an insight.  You could lift yourself just a little, slowing you any time you take a fall and making swimming much easier, if you can figure out the proper technique.",
@@ -147,28 +133,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telekinetic_push')", ">=", "7" ] },
-                { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "4" ] }
+                { "math": [ "u_spell_level('telekinetic_push') >= 7" ] },
+                { "math": [ "u_spell_level('telekinetic_slam_down') >= 4" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_wave')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_wave') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_wave" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_wave') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_wave" },
       {
         "u_message": "Use of your powers has led to an insight.  You could release force in all directions, knocking back everyone surrounding you all at once, if you can figure out the proper technique.",
@@ -186,17 +170,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "or": [
-                { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "3" ] },
+                { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 3" ] },
                 {
                   "and": [
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('telekinetic_pull') >= 7" ] },
+                    { "math": [ "u_spell_level('telekinetic_momentum') >= 5" ] }
                   ]
                 }
               ]
@@ -204,15 +188,15 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_lifting_field')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_lifting_field') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_lifting_field" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_lifting_field')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_lifting_field') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_lifting_field" },
       {
         "u_message": "Use of your powers has led to an insight.  You could hold a single object in place, carrying it next to you without using your hands, if you can figure out the proper technique.",
@@ -230,33 +214,28 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_pull') >= 6" ] }, { "math": [ "u_spell_level('telekinetic_push') >= 6" ] } ]
                 },
-                { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "5" ] }
+                { "math": [ "u_spell_level('telekinetic_momentum') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_strength')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_strength') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_strength" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_strength') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_strength" },
       {
         "u_message": "Use of your powers has led to an insight.  You could enhance your own strength, allowing you to pull much heavier objects or smash through study doors and walls, if you can figure out the proper technique.",
@@ -274,33 +253,28 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_wave')", ">=", "4" ] },
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "8" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_wave') >= 4" ] }, { "math": [ "u_spell_level('telekinetic_push') >= 8" ] } ]
                 },
-                { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "6" ] }
+                { "math": [ "u_spell_level('telekinetic_slam_down') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_hammer')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_hammer') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_hammer" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_hammer') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_hammer" },
       {
         "u_message": "Use of your powers has led to an insight.  You could concentrate your application of force into a blunt instrument, shattering bones and splintering furniture, if you can figure out the proper technique.",
@@ -318,7 +292,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -326,26 +300,26 @@
               "or": [
                 {
                   "and": [
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('telekinetic_pull') >= 8" ] },
+                    { "math": [ "u_spell_level('telekinetic_slowfall') >= 8" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_strength')", ">=", "10" ] },
-                { "math": [ "u_spell_level(' telekinetic_lifting_field')", ">=", "12" ] }
+                { "math": [ "u_spell_level('telekinetic_strength') >= 10" ] },
+                { "math": [ "u_spell_level(' telekinetic_lifting_field') >= 12" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_vehicle_lift')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_vehicle_lift') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_vehicle_lift" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than smashing objects with your telekinetic strength, you could apply it to lifting a car, allowing you to work on the undercarriage without a jack, if you can figure out the proper technique.",
@@ -363,28 +337,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('telekinetic_wave')", ">=", "8" ] },
-                { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "10" ] }
+                { "math": [ "u_spell_level('telekinetic_wave') >= 8" ] },
+                { "math": [ "u_spell_level('telekinetic_momentum') >= 10" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_shield')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_shield') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_shield" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_shield') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_shield" },
       {
         "u_message": "Use of your powers has led to an insight.  You could create a barrier of force around yourself, shielding you from harm, if you can figure out the proper technique.",
@@ -402,7 +374,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -410,30 +382,25 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "7" ] }
+                    { "math": [ "u_spell_level('telekinetic_slam_down') >= 12" ] },
+                    { "math": [ "u_spell_level('telekinetic_hammer') >= 7" ] }
                   ]
                 },
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "10" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 10" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 10" ] } ]
                 }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_explosion')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_explosion') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_explosion" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_explosion') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_explosion" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than striking a single point, you could create an explosion of telekinetic force, damaging an entire area, if you can figure out the proper technique.",
@@ -451,7 +418,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -459,25 +426,25 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('telekinetic_push') >= 12" ] },
+                    { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 5" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "9" ] }
+                { "math": [ "u_spell_level('telekinetic_slowfall') >= 9" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_levitation')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_levitation') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_levitation" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_levitation') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_levitation" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than simply slowing your fall, you could stop it, completely defying gravity and walking on air, if you can figure out the proper technique.",
@@ -495,22 +462,19 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "15" ] },
-                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "15" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('telekinetic_push') >= 15" ] }, { "math": [ "u_spell_level('telekinetic_pull') >= 15" ] } ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('telekinetic_momentum') >= 10" ] },
+                    { "math": [ "u_spell_level('telekinetic_vehicle_lift') >= 6" ] }
                   ]
                 }
               ]
@@ -518,18 +482,15 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_move_large_weight')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_move_large_weight') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_move_large_weight" } }
       ]
     },
     "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "TELEKINETIC" } },
-        { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "1" ] }
-      ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_move_large_weight') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_move_large_weight" },
       {
         "u_message": "Use of your powers has led to an insight.  You could lift truly enormous amounts of weight, hurling huge creatures with a moment of effort, if you can figure out the proper technique.",
@@ -547,7 +508,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -555,31 +516,29 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_wave')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('telekinetic_wave') >= 8" ] },
+                    { "math": [ "u_spell_level('telekinetic_slowfall') >= 9" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "12" ] },
-                    { "math": [ "u_spell_level('telekinetic_strength')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('telekinetic_momentum') >= 12" ] },
+                    { "math": [ "u_spell_level('telekinetic_strength') >= 8" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('telekinetic_shield')", ">=", "7" ] }
+                { "math": [ "u_spell_level('telekinetic_shield') >= 7" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_aegis')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_aegis') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_aegis" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_aegis') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_aegis" },
       {
         "u_message": "Use of your powers has led to an insight.  You could take all the energy of a telekinetic shield and pour it into a single instant, forming a barrier strong enough to repel a ballistic missile, if you can figure out the proper technique.",
@@ -597,7 +556,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -605,14 +564,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('telekinetic_wave')", ">=", "13" ] }
+                    { "math": [ "u_spell_level('telekinetic_explosion') >= 8" ] },
+                    { "math": [ "u_spell_level('telekinetic_wave') >= 13" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('telekinetic_move_large_weight') >= 5" ] },
+                    { "math": [ "u_spell_level('telekinetic_hammer') >= 9" ] }
                   ]
                 }
               ]
@@ -620,15 +579,15 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('telekinetic_earthshaker')", "<=", "0" ] },
+        { "math": [ "u_spell_level('telekinetic_earthshaker') <= 0" ] },
         { "not": { "u_know_recipe": "practice_telekinetic_earthshaker" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_earthshaker') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telekinetic_earthshaker" },
       {
         "u_message": "Use of your powers has led to an insight.  You could grab the very earth with your powers, shaking it and causing a minor local earthquake, if you can figure out the proper technique.",

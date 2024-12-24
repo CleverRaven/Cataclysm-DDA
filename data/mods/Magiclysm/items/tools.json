@@ -166,7 +166,10 @@
     "id": "magic_circle_rank_1",
     "type": "TOOL",
     "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 1" },
-    "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+    "description": {
+      "str": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+      "//~": "NO_I18N"
+    },
     "symbol": "O",
     "color": "red",
     "weight": "0 g",
@@ -178,7 +181,10 @@
     "id": "magic_circle_rank_2",
     "type": "TOOL",
     "name": { "str": "Magic Circle Rank 2", "str_pl": "Magic Circles Rank 2" },
-    "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+    "description": {
+      "str": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+      "//~": "NO_I18N"
+    },
     "symbol": "O",
     "color": "red",
     "weight": "0 g",

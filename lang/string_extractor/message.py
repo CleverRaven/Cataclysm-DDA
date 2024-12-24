@@ -9,6 +9,7 @@ class Message:
     context: str
     text: str
     text_plural: str
+    explicit_plural: bool
 
 
 messages = dict()

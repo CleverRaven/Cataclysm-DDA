@@ -23,11 +23,11 @@ TEST_CASE( "pavement_destroy", "[.]" )
     clear_map_and_put_player_underground();
     map &here = get_map();
     // Populate the map with pavement.
-    here.ter_set( tripoint_zero, ter_id( "t_pavement" ) );
+    here.ter_set( tripoint_bub_ms::zero, ter_id( "t_pavement" ) );
 
     // Destroy it
-    here.destroy( tripoint_zero, true );
-    ter_id after_destroy = here.ter( tripoint_zero );
+    here.destroy( tripoint_bub_ms::zero, true );
+    ter_id after_destroy = here.ter( tripoint_bub_ms::zero );
     if( after_destroy == flat_roof_id ) {
         FAIL( flat_roof_id.obj().name() << " found after destroying pavement" );
     } else {
@@ -53,7 +53,7 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     // Populate map with various test terrain.
     for( int x = 0; x < area_dim; x++ ) {
         for( int y = 0; y < area_dim; y++ ) {
-            here.ter_set( tripoint( x, y, 0 ), test_terrain_id[idx] );
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), test_terrain_id[idx] );
             idx = ( idx + 1 ) % test_terrain_id.size();
         }
     }
@@ -61,15 +61,15 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     itype_id rdx_keg_typeid( "tool_rdx_charge_act" );
     REQUIRE( item::type_is_defined( rdx_keg_typeid ) );
 
-    const tripoint area_center( area_dim / 2, area_dim / 2, 0 );
+    const tripoint_bub_ms area_center( area_dim / 2, area_dim / 2, 0 );
     item rdx_keg( rdx_keg_typeid );
     rdx_keg.charges = 0;
-    rdx_keg.type->invoke( &get_avatar(), rdx_keg, area_center );
+    rdx_keg.type->invoke( &get_avatar(), rdx_keg, area_center.raw() );
 
     // Check area to see if any t_flat_roof is present.
     for( int x = 0; x < area_dim; x++ ) {
         for( int y = 0; y < area_dim; y++ ) {
-            tripoint pt( x, y, 0 );
+            tripoint_bub_ms pt( x, y, 0 );
             ter_id t_id = here.ter( pt );
             if( t_id == flat_roof_id ) {
                 FAIL( "After explosion, " << t_id.obj().name() << " found at " << x << "," << y );
@@ -99,24 +99,24 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     const int area_dim = 24;
     for( int x = 0; x < area_dim; x++ ) {
         for( int y = 0; y < area_dim; y++ ) {
-            here.ter_set( tripoint( x, y, 0 ), floor_id );
-            here.ter_set( tripoint( x, y, -1 ), rock_floor_id );
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), floor_id );
+            here.ter_set( tripoint_bub_ms( x, y, -1 ), rock_floor_id );
         }
     }
     // Detonate an RDX keg item in the middle of the populated map space
     itype_id rdx_keg_typeid( "tool_rdx_charge_act" );
     REQUIRE( item::type_is_defined( rdx_keg_typeid ) );
 
-    const tripoint area_center( area_dim / 2, area_dim / 2, 0 );
+    const tripoint_bub_ms area_center( area_dim / 2, area_dim / 2, 0 );
     item rdx_keg( rdx_keg_typeid );
     rdx_keg.charges = 0;
-    rdx_keg.type->invoke( &get_avatar(), rdx_keg, area_center );
+    rdx_keg.type->invoke( &get_avatar(), rdx_keg, area_center.raw() );
 
     // Check z0 for open air
     bool found_open_air = false;
     for( int x = 0; x < area_dim; x++ ) {
         for( int y = 0; y < area_dim; y++ ) {
-            tripoint pt( x, y, 0 );
+            tripoint_bub_ms pt( x, y, 0 );
             ter_id t_id = here.ter( pt );
             INFO( "t " << t_id.obj().name() << " at " << x << "," << y );
             if( t_id == open_air_id ) {
@@ -154,15 +154,15 @@ TEST_CASE( "collapse_checks", "[.]" )
 
     map &here = get_map();
     // build a structure
-    const tripoint &midair = tripoint( tripoint_zero.xy(), tripoint_zero.z + 1 );
-    for( const tripoint &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
+    const tripoint_bub_ms &midair{ tripoint_bub_ms::zero + tripoint::above };
+    for( const tripoint_bub_ms &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
         here.ter_set( pt, floor_id );
     }
-    std::set<tripoint> corners;
+    std::set<tripoint_bub_ms> corners;
     for( int delta_z = 0; delta_z < 3; delta_z++ ) {
         for( int delta_x = 0; delta_x <= 1; delta_x++ ) {
             for( int delta_y = 0; delta_y <= 1; delta_y++ ) {
-                const tripoint pt( delta_x * wall_size, delta_y * wall_size, delta_z );
+                const tripoint_bub_ms pt( delta_x * wall_size, delta_y * wall_size, delta_z );
                 corners.insert( pt );
                 here.ter_set( pt, wall_id );
             }
@@ -170,7 +170,7 @@ TEST_CASE( "collapse_checks", "[.]" )
     }
 
     // make sure it's a valid structure
-    for( const tripoint &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
+    for( const tripoint_bub_ms &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
         if( corners.find( pt ) != corners.end() ) {
             REQUIRE( here.ter( pt ) == wall_id );
         } else {
@@ -179,12 +179,12 @@ TEST_CASE( "collapse_checks", "[.]" )
     }
 
     // destroy the floor on the first floor; floor above should not collapse
-    for( const tripoint &pt : here.points_in_radius( tripoint_zero, wall_size ) ) {
+    for( const tripoint_bub_ms &pt : here.points_in_radius( tripoint_bub_ms::zero, wall_size ) ) {
         if( corners.find( pt ) == corners.end() ) {
             here.destroy( pt, true );
         }
     }
-    for( const tripoint &pt : here.points_in_radius( midair, wall_size ) ) {
+    for( const tripoint_bub_ms &pt : here.points_in_radius( midair, wall_size ) ) {
         if( corners.find( pt ) != corners.end() ) {
             CHECK( here.ter( pt ) == wall_id );
         } else {
@@ -195,15 +195,15 @@ TEST_CASE( "collapse_checks", "[.]" )
     // destroy the walls on the first floor; upper floors should mostly collapse
     for( int delta_x = 0; delta_x <= 1; delta_x++ ) {
         for( int delta_y = 0; delta_y <= 1; delta_y++ ) {
-            const tripoint pt( delta_x * wall_size, delta_y * wall_size, 0 );
+            const tripoint_bub_ms pt( delta_x * wall_size, delta_y * wall_size, 0 );
             here.destroy( pt, true );
         }
     }
     int open_air_count = 0;
     int tile_count = 0;
     int no_wall_count = 0;
-    for( const tripoint &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
-        if( pt.z == 0 ) {
+    for( const tripoint_bub_ms &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
+        if( pt.z() == 0 ) {
             continue;
         }
         const ter_id t_id = here.ter( pt );

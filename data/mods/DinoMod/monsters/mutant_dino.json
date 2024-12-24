@@ -21,7 +21,6 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "ANIMAL",
       "PATH_AVOID_DANGER",

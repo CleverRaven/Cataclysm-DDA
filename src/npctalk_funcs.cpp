@@ -24,7 +24,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -232,7 +231,7 @@ void talk_function::buy_cow( npc &p )
 
 void spawn_animal( npc &p, const mtype_id &mon )
 {
-    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
+    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos_bub(), 1 ) ) {
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
@@ -381,10 +380,10 @@ void talk_function::goto_location( npc &p )
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    if( !player_character.omt_path.empty() ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My destination" ) );
-    }
+    selection_menu.addentry( i++, p.global_omt_location() != player_character.global_omt_location(),
+                             MENU_AUTOASSIGN, _( "My current location" ) );
+    selection_menu.addentry( i++, !player_character.omt_path.empty(), MENU_AUTOASSIGN,
+                             _( "My destination" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
@@ -403,8 +402,8 @@ void talk_function::goto_location( npc &p )
     }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
-                 overmap_path_params::for_npc() );
-    if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
+                 overmap_path_params::for_npc() ).points;
+    if( destination == tripoint_abs_omt() || destination.is_invalid() ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -693,7 +692,7 @@ void talk_function::lesser_give_all_aid( npc &p )
 
     Character &player_character = get_player_character();
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_walking_with() && rl_dist( guy.pos(), player_character.pos() ) < PICKUP_RANGE ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos_bub(), player_character.pos_bub() ) < PICKUP_RANGE ) {
             for( const bodypart_id &bp :
                  guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 guy.heal( bp, rng( 5, 15 ) );
@@ -739,7 +738,7 @@ void talk_function::give_all_aid( npc &p )
 
     Character &player_character = get_player_character();
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_walking_with() && rl_dist( guy.pos(), player_character.pos() ) < PICKUP_RANGE ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos_bub(), player_character.pos_bub() ) < PICKUP_RANGE ) {
             for( const bodypart_id &bp :
                  guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
@@ -872,7 +871,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
-        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms_zero, false ) );
+        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms::zero, false ) );
         p.say( "<acknowledged>" );
     } else {
         p.say( _( "I don't have anything to drop off." ) );
@@ -886,6 +885,9 @@ void talk_function::follow( npc &p )
     p.set_fac( faction_your_followers );
     get_player_character().cash += p.cash;
     p.cash = 0;
+    if( !p.custom_profession.empty() ) {
+        p.custom_profession.clear();
+    }
 }
 
 void talk_function::follow_only( npc &p )
@@ -944,6 +946,7 @@ void talk_function::leave( npc &p )
     g->remove_npc_follower( p.getID() );
     std::string new_fac_id = "solo_";
     new_fac_id += p.name;
+    new_fac_id += std::to_string( p.getID().get_value() );
     p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
@@ -1124,7 +1127,7 @@ void talk_function::start_training_seminar( npc &p )
     d.spell = p.chatbin.dialogue_spell;
     d.prof = p.chatbin.proficiency;
     std::vector<npc *> followers = g->get_npcs_if( [&p]( const npc & n ) {
-        return n.is_player_ally() && n.is_following() && n.can_hear( p.pos(), p.get_shout_volume() );
+        return n.is_player_ally() && n.is_following() && n.can_hear( p.pos_bub(), p.get_shout_volume() );
     } );
     std::vector<Character *> students;
     for( npc *n : followers ) {
@@ -1242,12 +1245,12 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
 npc *pick_follower()
 {
     std::vector<npc *> followers;
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
 
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
             followers.push_back( &guy );
-            locations.push_back( guy.pos() );
+            locations.push_back( guy.pos_bub() );
         }
     }
 
@@ -1285,13 +1288,13 @@ void talk_function::distribute_food_auto( npc &p )
     zone_manager &mgr = zone_manager::get_manager();
     const tripoint_abs_ms &npc_abs_loc = p.get_location();
     // 3x3 square with NPC in the center, includes NPC's tile and all adjacent ones, for overflow
-    // TODO: fix point types; Awful hack, zones want the raw value
-    const tripoint top_left = npc_abs_loc.raw() + point_north_west;
-    const tripoint bottom_right = npc_abs_loc.raw() + point_south_east;
+    const tripoint_abs_ms top_left = npc_abs_loc + point::north_west;
+    const tripoint_abs_ms bottom_right = npc_abs_loc + point::south_east;
     std::string zone_name = "ERROR IF YOU SEE THIS (dummy zone talk_function::distribute_food_auto)";
     const faction_id &fac_id = p.get_fac_id();
     mgr.add( zone_name, zone_type_CAMP_FOOD, fac_id, false, true, top_left, bottom_right );
-    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left, bottom_right );
+    mgr.add( zone_name, zone_type_CAMP_STORAGE, fac_id, false, true, top_left,
+             bottom_right );
     npc_camp->distribute_food( false );
     // Now we clean up all camp zones, though there SHOULD only be the two we just made
     auto lambda_remove_zones = [&mgr, &fac_id]( zone_type_id type_to_remove ) {

@@ -70,9 +70,9 @@
         },
         "effect": [
           {
-            "run_eoc_until": "EOC_PERK_TRY_RETREAT",
-            "condition": { "math": [ "u_monsters_nearby('radius': 1)", ">", "0" ] },
-            "iteration": 10
+            "run_eocs": "EOC_PERK_TRY_RETREAT",
+            "condition": { "math": [ "u_monsters_nearby('radius': 1) > 0" ] },
+            "iterations": 10
           }
         ]
       }

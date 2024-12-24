@@ -7,8 +7,8 @@
   {
     "id": "XAEA_quake",
     "type": "SPELL",
-    "name": "Artifact Earthquake",
-    "description": "Cause a localized earthquake, knocking down enemies and overturning the earth.",
+    "name": { "str": "Artifact Earthquake", "//~": "NO_I18N" },
+    "description": { "str": "Cause a localized earthquake, knocking down enemies and overturning the earth.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -30,8 +30,8 @@
   {
     "id": "XE_quake_shake",
     "type": "SPELL",
-    "name": "Artifact Quake Earthquake",
-    "description": "Destroy furniture and terrain nearby.",
+    "name": { "str": "Artifact Quake Earthquake", "//~": "NO_I18N" },
+    "description": { "str": "Destroy furniture and terrain nearby.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
     "effect": "bash",
@@ -44,8 +44,8 @@
   {
     "id": "XE_quake_transform",
     "type": "SPELL",
-    "name": "Artifact Quake Transform",
-    "description": "Causes rubble to be spawned occasionally.",
+    "name": { "str": "Artifact Quake Transform", "//~": "NO_I18N" },
+    "description": { "str": "Causes rubble to be spawned occasionally.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
     "effect": "ter_transform",
@@ -59,8 +59,8 @@
   {
     "id": "XAEA_teleport_rand",
     "type": "SPELL",
-    "name": "Artifact Teleport",
-    "description": "Teleport the caster to a random point nearby.",
+    "name": { "str": "Artifact Teleport", "//~": "NO_I18N" },
+    "description": { "str": "Teleport the caster to a random point nearby.", "//~": "NO_I18N" },
     "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "ground" ],
@@ -75,8 +75,8 @@
   {
     "id": "XAEA_kill_spell",
     "type": "SPELL",
-    "name": "Artifact Kill",
-    "description": "Deal damage equal to 1000% of monster's HP.",
+    "name": { "str": "Artifact Kill", "//~": "NO_I18N" },
+    "description": { "str": "Deal damage equal to 1000% of monster's HP.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "message": "Something living nearby just exploded with fountain of gore.",
     "sound_description": "",
@@ -92,8 +92,8 @@
   {
     "type": "SPELL",
     "id": "XAEA_heal",
-    "name": { "str": "Artifact Heal" },
-    "description": "Will heal injuries all over your body.",
+    "name": { "str": "Artifact Heal", "//~": "NO_I18N" },
+    "description": { "str": "Will heal injuries all over your body.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SILENT" ],
@@ -107,8 +107,8 @@
   {
     "type": "SPELL",
     "id": "XAEA_pain",
-    "name": { "str": "Artifact Pain" },
-    "description": "Decrease some pain.",
+    "name": { "str": "Artifact Pain", "//~": "NO_I18N" },
+    "description": { "str": "Decrease some pain.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "recover_energy",
     "effect_str": "PAIN",
@@ -122,8 +122,8 @@
   {
     "type": "SPELL",
     "id": "XAEA_stamina",
-    "name": { "str": "Artifact Stamina" },
-    "description": "Restore some stamina.",
+    "name": { "str": "Artifact Stamina", "//~": "NO_I18N" },
+    "description": { "str": "Restore some stamina.", "//~": "NO_I18N" },
     "min_damage": 4000,
     "max_damage": 6000,
     "valid_targets": [ "self" ],
@@ -137,8 +137,8 @@
   {
     "type": "SPELL",
     "id": "XAEA_mana",
-    "name": { "str": "Artifact Mana" },
-    "description": "Restore some mana.",
+    "name": { "str": "Artifact Mana", "//~": "NO_I18N" },
+    "description": { "str": "Restore some mana.", "//~": "NO_I18N" },
     "min_damage": 1000,
     "max_damage": 2000,
     "valid_targets": [ "self" ],
@@ -154,8 +154,8 @@
     "id": "XAEA_map",
     "effect": "map",
     "shape": "blast",
-    "name": { "str": "Artifact Map" },
-    "description": "Reveals an area around you on the overmap.",
+    "name": { "str": "Artifact Map", "//~": "NO_I18N" },
+    "description": { "str": "Reveals an area around you on the overmap.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "RANDOM_DAMAGE", "SILENT" ],
     "min_aoe": 40,
@@ -166,8 +166,8 @@
   {
     "id": "XAEA_str",
     "type": "SPELL",
-    "name": "Artifact Strength Boost",
-    "description": "Grant you powerful damage boost for 2 minutes.",
+    "name": { "str": "Artifact Strength Boost", "//~": "NO_I18N" },
+    "description": { "str": "Grant you powerful damage boost for 2 minutes.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
     "effect": "attack",
@@ -192,8 +192,8 @@
   {
     "id": "XAEA_int",
     "type": "SPELL",
-    "name": "Artifact Intelligence Boost",
-    "description": "Grant you huge int bonus for 1-2 hours.",
+    "name": { "str": "Artifact Intelligence Boost", "//~": "NO_I18N" },
+    "description": { "str": "Grant you huge int bonus for 1-2 hours.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
     "effect": "attack",
@@ -218,8 +218,8 @@
   {
     "id": "XAEA_electric_sight",
     "type": "SPELL",
-    "name": "Artifact Electric Sight",
-    "description": "Gives you an ability to see electric creatures for a whole week.",
+    "name": { "str": "Artifact Electric Sight", "//~": "NO_I18N" },
+    "description": { "str": "Gives you an ability to see electric creatures for a whole week.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
     "effect": "attack",
@@ -239,13 +239,13 @@
     "remove_message": "The sparks in your eyes are finally gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 100 } ] } ]
+    "enchantments": [ "ELECTRIC_VISION" ]
   },
   {
     "id": "XAEA_incorporeal",
     "type": "SPELL",
-    "name": "Artifact Incorporeal",
-    "description": "Gives incorporeal effect for 0,5-1 hour.",
+    "name": { "str": "Artifact Incorporeal", "//~": "NO_I18N" },
+    "description": { "str": "Gives incorporeal effect for 0,5-1 hour.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
     "effect": "attack",
@@ -259,8 +259,8 @@
   {
     "id": "XAEA_line",
     "type": "SPELL",
-    "name": "Artifact Line",
-    "description": "Create a line of pure destruction.",
+    "name": { "str": "Artifact Line", "//~": "NO_I18N" },
+    "description": { "str": "Create a line of pure destruction.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "IGNORE_WALLS", "RANDOM_DURATION", "RANDOM_TARGET", "RANDOM_CRITTER" ],
     "effect": "attack",
@@ -286,8 +286,8 @@
   {
     "id": "XE_line_bash",
     "type": "SPELL",
-    "name": "Artifact Line Bash",
-    "description": "Destroy furniture and terrain nearby.",
+    "name": { "str": "Artifact Line Bash", "//~": "NO_I18N" },
+    "description": { "str": "Destroy furniture and terrain nearby.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
     "effect": "bash",
@@ -302,8 +302,8 @@
   {
     "id": "XAEA_hologram_summon",
     "type": "SPELL",
-    "name": "Artifact Hologram Summon",
-    "description": "Summon a lot of holograms around you, for 0,5 - 1 h.",
+    "name": { "str": "Artifact Hologram Summon", "//~": "NO_I18N" },
+    "description": { "str": "Summon a lot of holograms around you, for 0,5 - 1 h.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
@@ -322,8 +322,8 @@
   {
     "id": "XAEA_electric_emit",
     "type": "SPELL",
-    "name": "Artifact Electric Emitter",
-    "description": "Emit giant electric clout for 5 - 15 m.",
+    "name": { "str": "Artifact Electric Emitter", "//~": "NO_I18N" },
+    "description": { "str": "Emit giant electric clout for 5 - 15 m.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
     "effect": "attack",
@@ -343,13 +343,13 @@
     "remove_message": "Electric clouds are gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "emitter": "emit_shock_cloud_big", "values": [ { "value": "ARMOR_ELEC", "add": -100 } ] } ]
+    "enchantments": [ { "emitter": "emit_shock_cloud_big", "incoming_damage_mod": [ { "type": "electric", "add": -100 } ] } ]
   },
   {
     "id": "XAEA_mod_moves",
     "type": "SPELL",
-    "name": "Artifact Add Moves",
-    "description": "Gives 15 - 45 seconds of free actions.",
+    "name": { "str": "Artifact Add Moves", "//~": "NO_I18N" },
+    "description": { "str": "Gives 15 - 45 seconds of free actions.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "mod_moves",
@@ -363,8 +363,8 @@
   {
     "id": "XAEA_motion_vision",
     "type": "SPELL",
-    "name": "Artifact Super Senses",
-    "description": "You can feel any monster in range for a 0,5 - 2 h.",
+    "name": { "str": "Artifact Super Senses", "//~": "NO_I18N" },
+    "description": { "str": "You can feel any monster in range for a 0,5 - 2 h.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT", "RANDOM_DURATION" ],
     "effect": "attack",
@@ -384,6 +384,16 @@
     "remove_message": "The sensation in your spine gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "MOTION_VISION_RANGE", "add": 30 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "distance": 30,
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
+      }
+    ]
   }
 ]

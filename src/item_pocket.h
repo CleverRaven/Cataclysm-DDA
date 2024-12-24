@@ -278,8 +278,7 @@ class item_pocket
 
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, map &here, Character *carrier, const tripoint &pos,
-                      float insulation, temperature_flag flag, bool watertight_container );
+
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
 

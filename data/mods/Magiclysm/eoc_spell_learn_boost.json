@@ -1,13 +1,6 @@
 [
   {
     "type": "jmath_function",
-    "id": "mc_spell_exp_diff",
-    "num_args": 1,
-    "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
-    "return": "spell_exp_for_level(_0 + 1) - spell_exp_for_level(_0)"
-  },
-  {
-    "type": "jmath_function",
     "id": "mc_spell_train_focus_factor",
     "num_args": 2,
     "//args": "_0=focus, _1=spell_level",
@@ -48,7 +41,7 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       }
     ]
@@ -107,7 +100,7 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 20, 75) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))) / mc_spell_cost_train_factor(_cost, 20, 75) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       }
     ]
@@ -124,7 +117,7 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) * (_cost / 5000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))) * (_cost / 5000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       }
     ]
@@ -165,14 +158,14 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       },
       {
         "math": [
           "debug_mc_additional_spell_xp",
           "=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       },
       { "u_message": "debug_mc_additional_spell_xp: <global_val:debug_mc_additional_spell_xp>", "type": "debug" }

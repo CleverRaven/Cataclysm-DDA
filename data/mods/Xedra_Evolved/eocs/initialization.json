@@ -4,23 +4,23 @@
     "id": "EOC_XE_VARIABLE_INIT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "condition": { "math": [ "XE_INITIALIZATION", "!=", "1" ] },
-    "effect": [ { "queue_eocs": "EOC_XE_VARIABLE_INITIALIZATION" } ]
+    "condition": { "math": [ "XE_INITIALIZATION != 1" ] },
+    "effect": [ { "run_eocs": "EOC_XE_VARIABLE_INITIALIZATION" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VARIABLE_INITIALIZATION",
-    "condition": { "math": [ "XE_INITIALIZATION", "!=", "1" ] },
+    "condition": { "math": [ "XE_INITIALIZATION != 1" ] },
     "effect": [
-      { "math": [ "base_difficulty_1", "=", "2" ] },
-      { "math": [ "base_difficulty_2", "=", "3" ] },
-      { "math": [ "base_difficulty_3", "=", "4" ] },
-      { "math": [ "energy_difficulty_1", "=", "2" ] },
-      { "math": [ "energy_difficulty_2", "=", "3" ] },
-      { "math": [ "energy_difficulty_3", "=", "4" ] },
-      { "math": [ "AI_difficulty_1", "=", "5" ] },
-      { "math": [ "dimension_difficulty_1", "=", "5" ] },
-      { "math": [ "XE_INITIALIZATION", "=", "1" ] }
+      { "math": [ "base_difficulty_1 = 2" ] },
+      { "math": [ "base_difficulty_2 = 3" ] },
+      { "math": [ "base_difficulty_3 = 4" ] },
+      { "math": [ "energy_difficulty_1 = 2" ] },
+      { "math": [ "energy_difficulty_2 = 3" ] },
+      { "math": [ "energy_difficulty_3 = 4" ] },
+      { "math": [ "AI_difficulty_1 = 5" ] },
+      { "math": [ "dimension_difficulty_1 = 5" ] },
+      { "math": [ "XE_INITIALIZATION = 1" ] }
     ]
   },
   {
@@ -29,6 +29,7 @@
     "//": "Gives you the very first research recipe for your class.",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "u_has_trait": "INVENTOR" },
+    "deactivate_condition": { "not": { "u_has_trait": "INVENTOR" } },
     "effect": [ { "u_roll_remainder": [ "inventor_research_base_1" ], "type": "recipe" } ]
   },
   {

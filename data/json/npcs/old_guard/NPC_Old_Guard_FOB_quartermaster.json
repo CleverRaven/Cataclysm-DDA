@@ -127,7 +127,7 @@
     ],
     "responses": [
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_SOLDIER_QMASTER" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   }
 ]

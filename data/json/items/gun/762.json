@@ -46,55 +46,6 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "arx160",
-    "copy-from": "rifle_auto",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "Beretta AK rifle" },
-    "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
-    "description": "This rifle was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "arx160",
-        "name": { "str": "Beretta ARX-160 rifle" },
-        "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm."
-      }
-    ],
-    "weight": "3080 g",
-    "volume": "6323 ml",
-    "longest_side": "91 cm",
-    "barrel_length": "406 mm",
-    "price": "4 kUSD 500 USD",
-    "price_postapoc": "45 USD",
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "color": "blue",
-    "ammo": [ "762" ],
-    "dispersion": 160,
-    "durability": 9,
-    "min_cycle_recoil": 1832,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_volume": "250 ml",
-    "default_mods": [ "folding_stock" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bayonet lug", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ] } ],
-    "melee_damage": { "bash": 11 }
-  },
-  {
     "id": "sks",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",

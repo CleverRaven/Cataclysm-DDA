@@ -192,8 +192,8 @@
   {
     "id": "vampire_command_beast_spell_real",
     "type": "SPELL",
-    "name": "Cowing the Beast Real",
-    "description": "The actual power that lets you command a beast.  If you see this, it's a bug.",
+    "name": { "str": "Cowing the Beast Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that lets you command a beast.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
@@ -291,8 +291,8 @@
   {
     "id": "vampire_dominate_real",
     "type": "SPELL",
-    "name": "Dominating Gaze real",
-    "description": "The actual power that lets you take over a mind.  If you see this, it's a bug.",
+    "name": { "str": "Dominating Gaze real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that lets you take over a mind.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
@@ -346,8 +346,8 @@
   {
     "id": "vampire_mist_form_pass_through_doors_and_windows_teleport",
     "type": "SPELL",
-    "name": "(Mist Form) Pass Through Barrier Real",
-    "description": "The actual spell that lets you seep through a barrier.  It's a bug if you have it.",
+    "name": { "str": "(Mist Form) Pass Through Barrier Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that lets you seep through a barrier.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground" ],

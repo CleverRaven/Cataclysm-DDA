@@ -185,6 +185,10 @@ enum class oter_flags : int {
     water,
     river_tile,
     has_sidewalk,
+    road,
+    highway,
+    highway_reserved,
+    highway_special,
     bridge,
     ignore_rotation_for_adjacency,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
@@ -655,7 +659,7 @@ class overmap_special
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit, const overmap &omap ) const;
         const cata::flat_set<std::string> &get_flags() const {
             return flags_;
         }

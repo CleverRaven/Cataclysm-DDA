@@ -19,6 +19,7 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
@@ -304,15 +305,12 @@ static options_manager::cOpt::COPT_VALUE_TYPE get_value_type( const std::string 
 
 //add hidden external option with value
 void options_manager::add_external( const std::string &sNameIn, const std::string &sPageIn,
-                                    const std::string &sType,
-                                    const translation &sMenuTextIn, const translation &sTooltipIn )
+                                    const std::string &sType )
 {
     cOpt thisOpt;
 
     thisOpt.sName = sNameIn;
     thisOpt.sPage = sPageIn;
-    thisOpt.sMenuText = sMenuTextIn;
-    thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
     thisOpt.verbose = false;
 
@@ -1338,7 +1336,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "", to_translation( "System language" ) },
     };
 
-    constexpr std::array<std::pair<const char *, const char *>, 25> language_names = {{
+    constexpr std::array<std::pair<const char *, const char *>, 26> language_names = {{
             // Note: language names are in their own language and are *not* translated at all.
             // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
             // http://en.wikipedia.org/wiki/List_of_language_names
@@ -1360,6 +1358,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "nb", R"(Norsk)" },
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
+            { "pt", R"(Português (Portugal))" },
             { "pt_BR", R"(Português (Brasil))" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
@@ -1464,7 +1463,7 @@ void options_manager::add_options_general()
        );
 
     add_empty_line();
-    add_option_group( "general", Group( "auto_pick_opts", to_translation( "Auto Pickup Options" ),
+    add_option_group( "general", Group( "auto_pick_opts", to_translation( "Auto pickup options" ),
                                         to_translation( "Options regarding auto pickup." ) ),
     [&]( const std::string & page_id ) {
         add( "AUTO_PICKUP", page_id, to_translation( "Auto pickup enabled" ),
@@ -1518,7 +1517,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "auto_feat_opts", to_translation( "Auto Features Options" ),
+    add_option_group( "general", Group( "auto_feat_opts", to_translation( "Auto features options" ),
                                         to_translation( "Options regarding auto features." ) ),
     [&]( const std::string & page_id ) {
         add( "AUTO_FEATURES", page_id, to_translation( "Additional auto features" ),
@@ -1558,7 +1557,7 @@ void options_manager::add_options_general()
     } );
 
     add_empty_line();
-    add_option_group( "general", Group( "player_safe_opts", to_translation( "Player Safety Options" ),
+    add_option_group( "general", Group( "player_safe_opts", to_translation( "Player safety options" ),
                                         to_translation( "Options regarding player safety." ) ),
     [&]( const std::string & page_id ) {
         add( "DANGEROUS_PICKUPS", page_id, to_translation( "Dangerous pickups" ),
@@ -1586,7 +1585,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "safe_mode_opts", to_translation( "Safe Mode Options" ),
+    add_option_group( "general", Group( "safe_mode_opts", to_translation( "Safe mode options" ),
                                         to_translation( "Options regarding safe mode." ) ),
     [&]( const std::string & page_id ) {
         add( "SAFEMODE", page_id, to_translation( "Safe mode" ),
@@ -1629,7 +1628,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "auto_save_opts", to_translation( "Autosave Options" ),
+    add_option_group( "general", Group( "auto_save_opts", to_translation( "Autosave options" ),
                                         to_translation( "Options regarding autosave." ) ),
     [&]( const std::string & page_id ) {
         add( "AUTOSAVE", page_id, to_translation( "Autosave" ),
@@ -1654,7 +1653,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "auto_note_opts", to_translation( "Auto notes Options" ),
+    add_option_group( "general", Group( "auto_note_opts", to_translation( "Auto notes options" ),
                                         to_translation( "Options regarding auto notes." ) ),
     [&]( const std::string & page_id ) {
         add( "AUTO_NOTES", page_id, to_translation( "Auto notes" ),
@@ -1687,7 +1686,7 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add_option_group( "general", Group( "misc_general_opts", to_translation( "Misc Options" ),
-                                        to_translation( "Miscellaneous Options." ) ),
+                                        to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
         add( "CIRCLEDIST", page_id, to_translation( "Circular distances" ),
              to_translation( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If false, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
@@ -1714,8 +1713,8 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "soundpacks_opts", to_translation( "Soundpack Options" ),
-                                        to_translation( "Options regarding Soundpack." ) ),
+    add_option_group( "general", Group( "soundpacks_opts", to_translation( "Soundpack options" ),
+                                        to_translation( "Options regarding soundpack." ) ),
     [&]( const std::string & page_id ) {
         add( "SOUND_ENABLED", page_id, to_translation( "Sound enabled" ),
              to_translation( "If true, music and sound are enabled." ),
@@ -1773,7 +1772,7 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add_option_group( "interface", Group( "measurement_unit", to_translation( "Measurement Units" ),
+    add_option_group( "interface", Group( "measurement_unit", to_translation( "Measurement units" ),
                                           to_translation( "Options regarding measurement units." ) ),
     [&]( const std::string & page_id ) {
         add( "USE_CELSIUS", page_id, to_translation( "Temperature units" ),
@@ -1849,7 +1848,7 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add_option_group( "interface", Group( "naming_opts", to_translation( "Naming Options" ),
+    add_option_group( "interface", Group( "naming_opts", to_translation( "Naming options" ),
                                           to_translation( "Options regarding the naming of items." ) ),
     [&]( const std::string & page_id ) {
         add( "SHOW_DRUG_VARIANTS", page_id, to_translation( "Show drug brand names" ),
@@ -1874,7 +1873,7 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add_option_group( "interface", Group( "accessibility", to_translation( "Accessibility Options" ),
+    add_option_group( "interface", Group( "accessibility", to_translation( "Accessibility options" ),
                                           to_translation( "Options regarding the accessibility." ) ),
     [&]( const std::string & page_id ) {
         add( "SDL_KEYBOARD_MODE", page_id, to_translation( "Use key code input mode" ),
@@ -2036,7 +2035,7 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add_option_group( "interface", Group( "veh_intf_opts",
-                                          to_translation( "Vehicle Interface Options" ),
+                                          to_translation( "Vehicle interface options" ),
                                           to_translation( "Options regarding vehicle interface." ) ),
     [&]( const std::string & page_id ) {
         add( "VEHICLE_ARMOR_COLOR", page_id, to_translation( "Vehicle plating changes part color" ),
@@ -2062,7 +2061,7 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add_option_group( "interface", Group( "sidb_opts", to_translation( "Sidebar Interface Options" ),
+    add_option_group( "interface", Group( "sidb_opts", to_translation( "Sidebar interface options" ),
                                           to_translation( "Options regarding sidebar interface." ) ),
     [&]( const std::string & page_id ) {
         add( "SIDEBAR_POSITION", page_id, to_translation( "Sidebar position" ),
@@ -2140,7 +2139,7 @@ void options_manager::add_options_interface()
     } );
 
     add_empty_line();
-    add_option_group( "interface", Group( "qol_opts", to_translation( "QOL Options" ),
+    add_option_group( "interface", Group( "qol_opts", to_translation( "QOL options" ),
                                           to_translation( "Options regarding QOL." ) ),
     [&]( const std::string & page_id ) {
         add( "MOVE_VIEW_OFFSET", page_id, to_translation( "Move view offset" ),
@@ -2200,7 +2199,7 @@ void options_manager::add_options_interface()
     } );
 
     add_empty_line();
-    add_option_group( "interface", Group( "mouse_cont_opts", to_translation( "Mouse Control Options" ),
+    add_option_group( "interface", Group( "mouse_cont_opts", to_translation( "Mouse control options" ),
                                           to_translation( "Options regarding mouse control." ) ),
     [&]( const std::string & page_id ) {
         add( "ENABLE_JOYSTICK", page_id, to_translation( "Enable joystick" ),
@@ -2237,7 +2236,7 @@ void options_manager::add_options_graphics()
         this->add_empty_line( "graphics" );
     };
 
-    add_option_group( "graphics", Group( "anim_opts", to_translation( "Animation Options" ),
+    add_option_group( "graphics", Group( "anim_opts", to_translation( "Animation options" ),
                                          to_translation( "Options regarding animations." ) ),
     [&]( const std::string & page_id ) {
         add( "ANIMATIONS", page_id, to_translation( "Animations" ),
@@ -2293,7 +2292,7 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add_option_group( "graphics", Group( "ascii_opts", to_translation( "ASCII Graphic Options" ),
+    add_option_group( "graphics", Group( "ascii_opts", to_translation( "ASCII graphic options" ),
                                          to_translation( "Options regarding ASCII graphic." ) ),
     [&]( const std::string & page_id ) {
         add( "ENABLE_ASCII_TITLE", page_id,
@@ -2318,7 +2317,7 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add_option_group( "graphics", Group( "term_opts", to_translation( "Terminal Display Options" ),
+    add_option_group( "graphics", Group( "term_opts", to_translation( "Terminal display options" ),
                                          to_translation( "Options regarding terminal display." ) ),
     [&]( const std::string & page_id ) {
         add( "TERMINAL_X", page_id, to_translation( "Terminal width" ),
@@ -2405,7 +2404,7 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add_option_group( "graphics", Group( "tileset_opts", to_translation( "Tileset Options" ),
+    add_option_group( "graphics", Group( "tileset_opts", to_translation( "Tileset options" ),
                                          to_translation( "Options regarding tileset." ) ),
     [&]( const std::string & page_id ) {
         add( "USE_TILES", page_id, to_translation( "Use tiles" ),
@@ -2428,6 +2427,11 @@ void options_manager::add_options_graphics()
              build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
            ); // populate the options dynamically
 
+        add( "CREATURE_OVERLAY_ICONS", page_id, to_translation( "Show overlay icons over creatures" ),
+             to_translation( "If true, show overlay icons over creatures such as effects, move mode and whether creatures can see the player." ),
+             true, COPT_CURSES_HIDE
+           );
+
         add( "SWAP_ZOOM", page_id, to_translation( "Zoom Threshold" ),
              to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
              1, 4, 2, COPT_CURSES_HIDE
@@ -2437,6 +2441,7 @@ void options_manager::add_options_graphics()
         get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
         get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
+        get_option( "CREATURE_OVERLAY_ICONS" ).setPrerequisite( "USE_TILES" );
 
         add( "USE_OVERMAP_TILES", page_id, to_translation( "Use tiles to display overmap" ),
              to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
@@ -2464,7 +2469,7 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add_option_group( "graphics", Group( "color_ovl_opts", to_translation( "Color Overlay Options" ),
+    add_option_group( "graphics", Group( "color_ovl_opts", to_translation( "Color overlay options" ),
                                          to_translation( "Options regarding color overlay." ) ),
     [&]( const std::string & page_id ) {
         add( "NV_GREEN_TOGGLE", page_id, to_translation( "Night vision color overlay" ),
@@ -2530,7 +2535,7 @@ void options_manager::add_options_graphics()
     } );
     add_empty_line();
 
-    add_option_group( "graphics", Group( "pix_minimap_opts", to_translation( "Pixel Minimap Options" ),
+    add_option_group( "graphics", Group( "pix_minimap_opts", to_translation( "Pixel minimap options" ),
                                          to_translation( "Options regarding pixel minimap." ) ),
     [&]( const std::string & page_id ) {
         add( "PIXEL_MINIMAP", page_id, to_translation( "Pixel minimap" ),
@@ -2605,7 +2610,7 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add_option_group( "graphics", Group( "graph_display_opts",
-                                         to_translation( "Graphical Display Options" ),
+                                         to_translation( "Graphical display options" ),
                                          to_translation( "Options regarding graphical display." ) ),
     [&]( const std::string & page_id ) {
 #if defined(TILES)
@@ -2616,7 +2621,7 @@ void options_manager::add_options_graphics()
              display_list.front().first, COPT_CURSES_HIDE );
 #endif
 
-#if !defined(__ANDROID__) // Android is always fullscreen
+#if !defined(__ANDROID__) || !defined(__EMSCRIPTEN__) // Android and Emscripten are always fullscreen
         add( "FULLSCREEN", page_id, to_translation( "Fullscreen" ),
              to_translation( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
         { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
@@ -2721,7 +2726,7 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "game_world_opts", to_translation( "Game World Options" ),
+    add_option_group( "world_default", Group( "game_world_opts", to_translation( "Game world options" ),
                       to_translation( "Options regarding game world." ) ),
     [&]( const std::string & page_id ) {
         add( "CITY_SIZE", page_id, to_translation( "Size of cities" ),
@@ -2758,7 +2763,7 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add_option_group( "world_default", Group( "monster_props_opts",
-                      to_translation( "Monster Properties Options" ),
+                      to_translation( "Monster properties options" ),
                       to_translation( "Options regarding monster properties." ) ),
     [&]( const std::string & page_id ) {
         add( "MONSTER_SPEED", page_id, to_translation( "Monster speed" ),
@@ -2781,7 +2786,7 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World Time Options" ),
+    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World time options" ),
                       to_translation( "Options regarding the passage of time in the world." ) ),
     [&]( const std::string & page_id ) {
         add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
@@ -2810,7 +2815,7 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "misc_worlddef_opts", to_translation( "Misc Options" ),
+    add_option_group( "world_default", Group( "misc_worlddef_opts", to_translation( "Misc options" ),
                       to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
         add( "WANDER_SPAWNS", page_id, to_translation( "Wandering hordes" ),
@@ -2867,7 +2872,7 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add_option_group( "debug", Group( "chargen_point_opts",
-                                      to_translation( "Character Generation Points Options" ),
+                                      to_translation( "Character generation points options" ),
                                       to_translation( "Options regarding character generation points." ) ),
     [&]( const std::string & page_id ) {
         add( "INITIAL_STAT_POINTS", page_id, to_translation( "Initial stat points" ),
@@ -2925,7 +2930,7 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add_option_group( "debug", Group( "occlusion_opts", to_translation( "Occlusion Options" ),
+    add_option_group( "debug", Group( "occlusion_opts", to_translation( "Occlusion options" ),
                                       to_translation( "Options regarding occlusion." ) ),
     [&]( const std::string & page_id ) {
         add( "PREVENT_OCCLUSION", page_id, to_translation( "Handle occlusion by high sprites" ),
@@ -2985,7 +2990,7 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "android_keyboard_opts",
-                                        to_translation( "Android Keyboard Options" ),
+                                        to_translation( "Android keyboard options" ),
                                         to_translation( "Options regarding Android keyboard." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_TRAP_BACK_BUTTON", page_id, to_translation( "Trap Back button" ),
@@ -3022,8 +3027,8 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "joystick_android_opts",
-                                        to_translation( "Android Joystick Options" ),
-                                        to_translation( "Options regarding Android Joystick." ) ),
+                                        to_translation( "Android joystick options" ),
+                                        to_translation( "Options regarding Android joystick." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_SHOW_VIRTUAL_JOYSTICK", page_id, to_translation( "Show virtual joystick" ),
              to_translation( "If true, show the virtual joystick when touching and holding the screen.  Gives a visual indicator of deadzone and stick deflection." ),
@@ -3083,7 +3088,7 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "shortcut_android_opts",
-                                        to_translation( "Android Shortcut Options" ),
+                                        to_translation( "Android shortcut options" ),
                                         to_translation( "Options regarding Android shortcut." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_SHORTCUT_DEFAULTS", page_id, to_translation( "Default gameplay shortcuts" ),
@@ -3107,7 +3112,7 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "gestures_android_opts",
-                                        to_translation( "Android Gestures Options" ),
+                                        to_translation( "Android gestures options" ),
                                         to_translation( "Options regarding Android gestures." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_TAP_KEY", page_id, to_translation( "Tap key (in-game)" ),
@@ -3157,8 +3162,8 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "shortcut_android_in_game_opts",
-                                        to_translation( "Android Shortcut Options" ),
-                                        to_translation( "Options regarding In-game shortcut." ) ),
+                                        to_translation( "Android shortcut options" ),
+                                        to_translation( "Options regarding in-game shortcut." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_SHORTCUT_AUTOADD", page_id,
              to_translation( "Auto-manage contextual gameplay shortcuts" ),
@@ -3198,7 +3203,7 @@ void options_manager::add_options_android()
     add_empty_line();
 
     add_option_group( "android", Group( "shortc_screen_opts",
-                                        to_translation( "Shortcut Screen Options" ),
+                                        to_translation( "Shortcut screen options" ),
                                         to_translation( "Options regarding shortcut screen." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_SHORTCUT_POSITION", page_id, to_translation( "Shortcuts position" ),
@@ -3273,7 +3278,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             closetilecontext->reinit();
             closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                             /*precheck=*/false, /*force=*/false,
-                                            /*pump_events=*/true );
+                                            /*pump_events=*/true, /*terrain=*/false );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
@@ -3290,7 +3295,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 }
                 fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
                                               /*precheck=*/false, /*force=*/false,
-                                              /*pump_events=*/true );
+                                              /*pump_events=*/true, /*terrain=*/false );
                 //game_ui::init_ui is called when zoom is changed
                 g->reset_zoom();
                 g->mark_main_ui_adaptor_resize();
@@ -3305,7 +3310,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             overmap_tilecontext->reinit();
             overmap_tilecontext->load_tileset( get_option<std::string>( "OVERMAP_TILES" ),
                                                /*precheck=*/false, /*force=*/false,
-                                               /*pump_events=*/true );
+                                               /*pump_events=*/true, /*terrain=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
@@ -3333,25 +3338,24 @@ static void draw_borders_external(
         draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
-    mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
+    wattron( w, BORDER_COLOR );
+    mvwaddch( w, point( 0, horizontal_level ), LINE_XXXO ); // |-
+    mvwaddch( w, point( getmaxx( w ) - 1, horizontal_level ), LINE_XOXX ); // -|
     for( const int &x : vert_lines ) {
-        mvwputch( w, point( x + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwaddch( w, point( x + 1, getmaxy( w ) - 1 ), LINE_XXOX ); // _|_
     }
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
-    for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( vert_lines.count( i ) != 0 ) {
-            // intersection
-            mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-        } else {
-            // regular line
-            mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
-        }
+    wattron( w, BORDER_COLOR );
+    mvwhline( w, point::zero, LINE_OXOX, getmaxx( w ) ); // -
+    for( const int &x : vert_lines ) {
+        mvwaddch( w, point( x, 0 ), LINE_OXXX ); // -.-
     }
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 
@@ -3609,11 +3613,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         };
 
         // Draw separation lines
-        for( int x : vert_lines ) {
-            for( int y = 0; y < iContentHeight; y++ ) {
-                mvwputch( w_options, point( x, y ), BORDER_COLOR, LINE_XOXO );
-            }
+        wattron( w_options, BORDER_COLOR );
+        for( const int &x : vert_lines ) {
+            mvwvline( w_options, point( x, 0 ), LINE_XOXO, iContentHeight );
         }
+        wattroff( w_options, BORDER_COLOR );
 
         if( recalc_startpos ) {
             // Update scroll position
@@ -3692,7 +3696,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const PageItem &curr_item = page_items[iCurrentLine];
         std::string tooltip = curr_item.fmt_tooltip( curr_item.group, cOPTIONS );
-        fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
+        fold_and_print( w_options_tooltip, point::zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
             mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
@@ -3752,33 +3756,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     current_opt.setNext();
                 } else {
                     const bool is_int = current_opt.getType() == "int";
-                    const bool is_float = current_opt.getType() == "float";
-                    const std::string old_opt_val = current_opt.getValueName();
-                    const std::string opt_val = string_input_popup()
-                                                .title( current_opt.getMenuText() )
-                                                .width( 10 )
-                                                .text( old_opt_val )
-                                                .only_digits( is_int )
-                                                .query_string();
-                    if( !opt_val.empty() && opt_val != old_opt_val ) {
-                        if( is_float ) {
-                            std::istringstream ssTemp( opt_val );
-                            // This uses the current locale, to allow the users
-                            // to use their own decimal format.
-                            float tmpFloat;
-                            ssTemp >> tmpFloat;
-                            if( ssTemp ) {
-                                current_opt.setValue( tmpFloat );
-
-                            } else {
-                                popup( _( "Invalid input: not a number" ) );
-                            }
-                        } else {
-                            // option is of type "int": string_input_popup
-                            // has taken care that the string contains
-                            // only digits, parsing is done in setValue
-                            current_opt.setValue( opt_val );
-                        }
+                    if( is_int ) {
+                        number_input_popup<int> popup( 0, current_opt.value_as<int>() );
+                        popup.set_label( current_opt.getMenuText() );
+                        int num = popup.query();
+                        current_opt.setValue( num );
+                    } else {
+                        number_input_popup<float> popup( 0, current_opt.value_as<float>() );
+                        popup.set_label( current_opt.getMenuText() );
+                        float num = popup.query();
+                        current_opt.setValue( num );
                     }
                 }
             }
@@ -4101,6 +4088,7 @@ void options_manager::update_options_cache()
     prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
     prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
     prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
+    show_creature_overlay_icons = ::get_option<bool>( "CREATURE_OVERLAY_ICONS" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
@@ -4243,6 +4231,8 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "pt" ) {
+            std::locale::global( std::locale( "pt_PT.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {

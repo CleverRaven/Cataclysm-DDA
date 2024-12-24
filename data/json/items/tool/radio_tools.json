@@ -102,7 +102,6 @@
     "volume": "1 L",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
@@ -117,8 +116,7 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ],
-    "melee_damage": { "bash": 4 }
+    ]
   },
   {
     "id": "radio_on",
@@ -171,7 +169,6 @@
     "volume": "1 L",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "yellow",

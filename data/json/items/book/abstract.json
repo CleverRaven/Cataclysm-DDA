@@ -428,7 +428,6 @@
     "volume": "250 ml",
     "price": "1 kUSD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "paper" ],
     "skill": "electronics",
     "required_level": 7,
@@ -451,7 +450,6 @@
     "flags": [ "PAPER_SHAPED" ],
     "price": "10 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "paper" ],
     "symbol": ";",
     "color": "light_gray"

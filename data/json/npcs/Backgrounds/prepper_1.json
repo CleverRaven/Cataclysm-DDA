@@ -87,7 +87,7 @@
               "not": {
                 "and": [
                   { "compare_string": [ "yes", { "u_val": "general_BGSS_prepper_1_asked_about_quest" } ] },
-                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest)", "<", "time('8 h')" ] }
+                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest) < time('8 h')" ] }
                 ]
               }
             }
@@ -109,7 +109,7 @@
           "topic": "BGSS_PREPPER_1_SHELTERFAILURE",
           "opinion": { "trust": -2 },
           "effect": [
-            { "math": [ "u_timer_timers_prepper_1_asked_about_quest", "=", "time('now')" ] },
+            { "math": [ "u_timer_timers_prepper_1_asked_about_quest = time('now')" ] },
             { "u_add_var": "general_BGSS_prepper_1_asked_about_quest", "value": "yes" }
           ]
         }
@@ -597,12 +597,7 @@
       "gendered_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet I could completely fuck up reality, too.",
       "relevant_genders": [ "npc" ]
     },
-    "responses": [
-      {
-        "text": "Well, let's get going.  I'm trying to stick it to 'The Man' while we've still got a chance.",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "<lets_go>  I'm trying to stick it to 'The Man' while we've still got a chance.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOD",
@@ -678,7 +673,7 @@
     },
     "responses": [
       { "text": "So… are you down to kick some alien ass with me?", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS" },
-      { "text": "Let's not dwell on it.  I'm ready to get a move on…", "topic": "TALK_DONE" }
+      { "text": "Let's not dwell on it.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -703,7 +698,7 @@
       "gendered_line": "You're right, but I still think there's something bigger out there.  Something evil.  It doesn't matter whether science can explain it because we damn sure don't seem capable of defeating it.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "Yeah, it does seem a little grim…  Let's keep moving for now.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Yeah, it does seem a little grim…  <lets_go>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_TAKE_BAIT",
@@ -712,7 +707,7 @@
       "gendered_line": "I'm sorry, 'officer'.  I didn't write the book of cop jokes, you know.",
       "relevant_genders": [ "npc" ]
     },
-    "responses": [ { "text": "Let's just keep moving.  We don't have time for this nonsense…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<lets_go>  We don't have time for this nonsense…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_IGNORE_BAIT",
@@ -731,7 +726,7 @@
     },
     "responses": [
       {
-        "text": "Let's get moving.  I feel like it's useless worrying who they are when they're some of the only friends we've got…",
+        "text": "<lets_go>  I feel like it's useless worrying who they are when they're some of the only friends we've got…",
         "topic": "TALK_DONE"
       }
     ]
@@ -746,7 +741,7 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS",
     "type": "talk_topic",
     "dynamic_line": "Honestly, it doesn't matter who opened up what portal to wherever.  Extraterrestrial monster?  Engineered bio-weapon?  Three children standing on each others' shoulders in an alien Halloween costume?  I'll blast 'em either way.",
-    "responses": [ { "text": "'War of the Worlds', baby!  That's what I like to hear!  Let's get moving…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "'War of the Worlds', baby!  That's what I like to hear!  <lets_go>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS",

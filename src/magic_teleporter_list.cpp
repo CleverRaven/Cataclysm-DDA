@@ -70,8 +70,8 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
     // an OMT is (2 * SEEX) * (2 * SEEY) in size
     tinymap checker;
     checker.load( omt_pt, true );
-    for( const tripoint_omt_ms &p : checker.omt_points_on_zlevel() ) {
-        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p.raw() ) ) {
+    for( const tripoint_omt_ms &p : checker.points_on_zlevel() ) {
+        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getglobal( p ).raw();
         }
     }
@@ -86,10 +86,11 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
     if( !global_dest ) {
         return false;
     }
-    tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    tripoint_omt_ms local_dest = omt_dest.omt_from_abs( tripoint_abs_ms( *global_dest ) ) + point( 60,
+                                 60 );
     you.add_effect( effect_ignore_fall_damage, 1_seconds, false, 0, true );
     g->place_player_overmap( omt_pt );
-    g->place_player( local_dest );
+    g->place_player( rebase_bub( local_dest ) );
     return true;
 }
 
@@ -170,7 +171,7 @@ class teleporter_callback : public uilist_callback
         }
         void refresh( uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
-            const int entnum = menu->hovered;
+            const int entnum = menu->previewing;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
                 avatar &player_character = get_avatar();
                 int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );

@@ -307,5 +307,35 @@
     "symbol": "0",
     "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "point_blank" ] }
+  },
+  {
+    "id": "artifact_anchor",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "anchor" },
+    "description": "A miniature anchor with an earthly sheen.  You feel more stable looking at it.",
+    "weight": "560 g",
+    "volume": "280 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "xedra_eater_stabilize_reality" ] }
+  },
+  {
+    "id": "artifact_sand",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "clumped sand" },
+    "description": "A pile of gray sand that is clumped together.  When you separate the pieces they seem to flow back together.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "xedra_eater_erosion" ] }
   }
 ]

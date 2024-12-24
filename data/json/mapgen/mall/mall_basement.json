@@ -41,12 +41,12 @@
         "                                                                   #**,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*#                                                                   ",
         "                                                                   #*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,**#                                                                   "
       ],
-      "palettes": [ "mall_palette_basement" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "parametrized_linoleum_palette", "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
         ",": "t_linoleum_white",
-        "6": "t_carpet_concrete_red",
+        "6": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_red" },
         "{": "t_linoleum_gray",
         "Y": "t_linoleum_gray",
         "}": "t_linoleum_white",
@@ -101,7 +101,7 @@
         "                                                                                                                                                                        ",
         "                                                                                                                                                                        "
       ],
-      "palettes": [ "mall_palette_basement" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_basement" ],
       "terrain": {
         "#": "t_brick_wall",
         "*": "t_linoleum_gray",
@@ -150,7 +150,7 @@
         "                    #__FF__-&---&-;;;;-&---&-__FF__#                    ",
         "                    #______4%444%4;;;;4%444%4______#                    "
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "&": "t_railroad_track",
         " ": "t_rock",
@@ -159,11 +159,11 @@
         ";": "t_rock_floor",
         "4": "t_railroad_rubble",
         "-": "t_railroad_tie_h",
-        "{": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "}": "t_linoleum_white",
-        "(": "t_linoleum_gray",
-        ")": "t_linoleum_gray"
+        "{": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "}": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "(": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ")": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
       "vendingmachines": { "(": { "item_group": "vending_drink", "lootable": true }, ")": { "item_group": "vending_food", "lootable": true } },

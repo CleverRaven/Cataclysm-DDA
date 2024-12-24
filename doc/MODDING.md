@@ -35,7 +35,7 @@ Here is a full list of supported values for MOD_INFO:
 [
   {
     "type": "MOD_INFO",                             // Mandatory, you're making one of these!
-    "id": "Mod_ID",                                 // Mandatory, unique id for your mod. You should not use the same id as any other mod.
+    "id": "Mod_ID",                                 // Mandatory, unique id for your mod. You should not use the same id as any other mod.  Cannot contain the '#' character.  Mod ids must also be valid folder pathing in order to support compatibility with other mods.
     "name": "Mod's Display Name",                   // Mandatory.
     "authors": [ "Me", "A really cool friend" ],    // Optional, but you probably want to put your name here. More than one entry can be added, as shown.
     "description": "The best mod ever!",            // Optional
@@ -329,6 +329,16 @@ Using this syntax allows modification of the following things:
 
 Currently, adjusting multiple stats or flags requires separate `monster_adjustment` entries.
 
+## External options
+
+External options control a variety of global settings not appropriate for region settings, from `SHOW_MUTATION_SELECTOR` that lets the
+player choose mutations you get on mutation, to `ETERNAL_WEATHER` which let's you pick a type of weather to always be active.
+All the external options available are located in `/core/external_options.json` along with comments explaining their purpose and their DDA values.
+To change the values in a mod you just define an identical object to the dda one with the value changed.
+
+You can also override any source defined option with an external option of the same name in the same way (Eg if the player has `AUTO_FEATURES` set to false
+but you make an external option `AUTO_FEATURES` set to true when the player loads the mod their value will be changed to true).
+**However currently on save this overrides the user's config so shouldn't be used unless necessary to make the mod work.**
 
 ## Important note on json files
 

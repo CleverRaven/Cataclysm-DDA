@@ -4,7 +4,7 @@
     "id": "refugee_GuneetSingh",
     "name_unique": "Guneet Singh",
     "gender": "male",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Guneet",
     "attitude": 0,
     "mission": 7,
@@ -101,7 +101,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Gunny.", "topic": "TALK_REFUGEE_Guneet_1_firstmeet" },
-      { "text": "Hi Gunny, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Gunny, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -116,7 +116,7 @@
     },
     "responses": [
       { "text": "Hi, Gunny.  What's up?", "topic": "TALK_REFUGEE_Guneet_2" },
-      { "text": "Hi Gunny.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Gunny.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -125,14 +125,14 @@
     "dynamic_line": "I guess we're still doing that stuff?  Cool.  Nice to meet you too.  What's up?",
     "responses": [
       { "text": "I just had some questions.", "topic": "TALK_REFUGEE_Guneet_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_2",
     "dynamic_line": "What's up?\"  He stares at you for a moment.  \"What a weird question.  The world ended.  That's what's up.  What am I supposed to answer to that one?",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -140,8 +140,8 @@
     "dynamic_line": "I was in high school, you know.\"  Gunny jabs his thumb at his shirt, which reads 'Alexander Bullock High'.  \"Most of the way through my junior year.  'My story'?  I got on a bus with my parents, the bus crashed, and everyone died except a few people, most of whom are crammed into this little shelter now.  Who knows when we're getting out.",
     "responses": [
       { "text": "Your family all made it here?", "topic": "TALK_REFUGEE_Guneet_Family" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -150,19 +150,19 @@
     "dynamic_line": "Yeah, we did.\"  He gestures to a turbaned older man, speaking quietly with a small woman a little way away.  \"Seems like it should be a great thing, right?  It is.  We're super lucky.  But I can't help feel like people blame us for it.  I keep wondering, y'know, 'why us'.  What makes me so special?  And how can I even enjoy this, when everyone around me is hurting so bad?",
     "responses": [
       { "text": "Is there something you could do to help the others?", "topic": "TALK_REFUGEE_Guneet_Help" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Help",
     "dynamic_line": "*shrugs.  \"I don't have any skills.  I'm just a kid.  What am I going to do?\"  Before you can answer, he shakes his head.  \"I'm being pathetic, sorry.  You're right, I should see if there's something I can give back to the community, maybe make my place in it.  That's a good call.\"  He scratches his chin and looks out a gap in the shutters on the window.  \"Thanks.\"",
-    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Guneet_ideas", "=", "time('now')" ] } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Guneet_ideas = time('now')" ] } },
     "//": "In the near future, Gunny will have ideas to add comfy furniture and a video game system to the cafeteria area.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,7 +172,7 @@
       "concatenate": [
         "It sucks in here, there's no two ways about it",
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 7" ],
           "yes": ".  Still, we're starting to find a bit of a place for ourselves.  I've been hanging out with Aleesha a bit, I didn't used to think we'd have a lot in common but there's more than you'd think.  My mom and dad are starting to relax a little too.",
           "no": ".  People don't talk to us because we wear turbans and we still have each other.  They think because we're still together, we didn't lose anything.  My dad believes it, too, and I think my mom's on the fence."
         }
@@ -180,8 +180,8 @@
     },
     "responses": [
       { "text": "Your family all made it here?", "topic": "TALK_REFUGEE_Guneet_Family" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

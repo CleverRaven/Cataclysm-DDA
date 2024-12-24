@@ -226,7 +226,7 @@ class ma_technique
         bool needs_ammo = false;    // technique only works if the item is loaded with ammo
 
         // Dialogue conditions of the attack
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         std::string condition_desc;
         bool has_condition = false;
 

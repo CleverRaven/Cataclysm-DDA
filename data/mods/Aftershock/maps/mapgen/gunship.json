@@ -50,7 +50,7 @@
         "L": "t_gunship_refrigeration_unit",
         "6": "t_cell_entrance_console"
       },
-      "//": "There is no furniture because things that aren't connected to the floor or walls might go flying across a room during evasive manuevers.",
+      "//": "There is no furniture because things that aren't connected to the floor or walls might go flying across a room during evasive maneuvers.",
       "items": { "!": { "item": "afs_escape_pod_suppliesII", "chance": 100 } }
     }
   }

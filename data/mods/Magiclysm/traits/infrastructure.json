@@ -129,14 +129,20 @@
     "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.",
     "enchantments": [
       {
+        "condition": "ALWAYS",
+        "//": "can see every creature, not only one that has mind, for some reason",
+        "special_vision": [
+          {
+            "distance": { "math": [ "10 + (( u_spell_count('school': 'ANIMIST') + u_spell_count('school': 'DRUID')) / 2)" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something here." } ]
+          }
+        ]
+      },
+      {
         "values": [
           { "value": "SOCIAL_INTIMIDATE", "add": 20 },
           { "value": "SOCIAL_LIE", "add": 20 },
-          { "value": "SOCIAL_PERSUADE", "add": 20 },
-          {
-            "value": "MOTION_VISION_RANGE",
-            "add": { "math": [ "10 + (( u_spell_count('school': 'ANIMIST') + u_spell_count('school': 'DRUID')) / 2)" ] }
-          }
+          { "value": "SOCIAL_PERSUADE", "add": 20 }
         ]
       },
       {

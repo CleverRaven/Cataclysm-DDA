@@ -37,7 +37,7 @@
     "material": [ "fruit" ],
     "volume": "64 ml",
     "fun": -1,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ]
   },
@@ -126,6 +126,25 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "hobbleberries",
+    "name": { "str": "handful of hobbleberries", "str_pl": "handfuls of hobbleberries" },
+    "copy-from": "blueberries",
+    "color": "black",
+    "description": "Some black hobbleberries.  They are quite sweet.  Before they ripened, they were deceptively red and utterly bitter.",
+    "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "autumn_olive",
+    "name": { "str": "handful of autumn olives", "str_pl": "handfuls of autumn olives" },
+    "//": "Below is times 1.48 as reference is 100g and blueberries (closest comparable plant) is 148g, so density matches <https://www.researchgate.net/figure/Proximate-composition-and-nutritive-value-of-Elaeagnus-umbellata-fruit_tbl1_284071971>, <https://www.sciencedirect.com/science/article/abs/pii/S1756464615002017>",
+    "calories": 134,
+    "copy-from": "blueberries",
+    "description": "Not tasting anything like olives, this sweet, red and very nutritious fruit can also be used as a tomato-substitute in some cases.",
+    "vitamins": [ [ "vitC", "22200 μg" ], [ "fruit_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "strawberries",
     "name": { "str": "handful of strawberries", "str_pl": "handfuls of strawberries" },
     "weight": "144 g",
@@ -156,13 +175,13 @@
     "symbol": "%",
     "quench": 2,
     "calories": 46,
-    "description": "A handful of sour red berries, probably grown locally in Massachusetts.  Good for urinary tract health.",
+    "description": "A handful of very bitter red berries, probably grown locally in Massachusetts.  Good for urinary tract health.",
     "price": "17 cent",
     "price_postapoc": "33 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
-    "fun": -5,
-    "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
+    "fun": -10,
+    "flags": [ "SMOKABLE", "EDIBLE_FROZEN", "BIRD", "RABBIT", "CATTLE", "RAT", "MOUSE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "13300 μg" ], [ "iron", "300 μg" ], [ "calcium", "8 mg" ], [ "fruit_allergen", 1 ] ]
   },
@@ -314,6 +333,38 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "nannyberries",
+    "name": { "str": "handful of nannyberries", "str_pl": "handfuls of nannyberries" },
+    "description": "Some dark blue nannyberries, tasting like prunes mixed with banana.",
+    "copy-from": "elderberries",
+    "//": "Nannyberries are described as rather dry, perfectly fine to eat as is but it will not hydrate you.",
+    "use_action": [  ],
+    "quench": 0,
+    "fun": 2,
+    "color": "black"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tupelo_fruit",
+    "name": { "str": "handful of tupelo fruits", "str_pl": "handfuls of tupelo fruits" },
+    "description": "Some dark blue tupelo fruits.  They are tart and feature a hard seed but are still enjoyable.",
+    "fun": 1,
+    "copy-from": "nannyberries"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chokeberries",
+    "name": { "str": "handful of chokeberries", "str_pl": "handfuls of chokeberries" },
+    "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
+    "copy-from": "cranberries",
+    "calories": 46,
+    "color": "black",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "vitC", "21000 μg" ], [ "iron", "600 μg" ], [ "calcium", "30 μg" ], [ "fruit_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "rose_hips",
     "name": { "str": "handful of rose hips", "str_pl": "handfuls of rose hips" },
     "weight": "128 g",
@@ -329,7 +380,7 @@
     "price_postapoc": "50 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
-    "fun": 2,
+    "fun": -5,
     "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT", "BIRD" ],
     "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ]
   },
@@ -370,7 +421,7 @@
     "price_postapoc": "20 cent",
     "material": [ "fruit" ],
     "volume": "100 ml",
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_fruit",
     "//": "juice pulp is an arbitrary item, but needed some baseline nutrients for byproducts",
     "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ]

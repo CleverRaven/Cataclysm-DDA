@@ -673,7 +673,7 @@
         "moves": 75
       }
     ],
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 0.8,
     "snippet_category": [
       { "id": "denim_shirt1", "text": "A long sleeved button-down blue shirt made from denim." },
@@ -921,6 +921,7 @@
   {
     "id": "hoodie_cropped",
     "copy-from": "hoodie",
+    "delete": { "flags": [ "POCKETS" ] },
     "type": "ARMOR",
     "name": { "str": "cropped hoodie" },
     "description": "A sweatshirt with a hood, cropped to expose the stomach.",
@@ -928,6 +929,89 @@
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "hoodie_red",
+        "name": { "str": "red cropped hoodie" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_blue",
+        "name": { "str": "blue cropped hoodie" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_yellow",
+        "name": { "str": "yellow cropped hoodie" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_green",
+        "name": { "str": "green cropped hoodie" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_purple",
+        "name": { "str": "purple cropped hoodie" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_pink",
+        "name": { "str": "pink cropped hoodie" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_cyan",
+        "name": { "str": "cyan cropped hoodie" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_black",
+        "name": { "str": "black cropped hoodie" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_white",
+        "name": { "str": "white cropped hoodie" },
+        "color": "light_gray",
+        "description": "This one is colored white.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_brown",
+        "name": { "str": "brown cropped hoodie" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 1
+      }
     ]
   },
   {
@@ -1996,6 +2080,87 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
       { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_tshirt",
+        "name": { "str": "crop top" },
+        "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
+        "weight": 1
+      },
+      {
+        "id": "red_tshirt",
+        "name": { "str": "red crop top" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "blue_tshirt",
+        "name": { "str": "blue crop top" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "yellow_tshirt",
+        "name": { "str": "yellow crop top" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "green_tshirt",
+        "name": { "str": "green crop top" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "purple_tshirt",
+        "name": { "str": "purple crop top" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "pink_tshirt",
+        "name": { "str": "pink crop top" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "cyan_tshirt",
+        "name": { "str": "cyan crop top" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "black_tshirt",
+        "name": { "str": "black crop top" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "brown_tshirt",
+        "name": { "str": "brown crop top" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 1
+      }
     ]
   },
   {
@@ -2346,5 +2511,25 @@
     "warmth": 25,
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
+    "id": "bunny_suit_playboy",
+    "type": "ARMOR",
+    "name": { "str": "bunny suit" },
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "weight": "136 g",
+    "volume": "750 ml",
+    "price": "50 USD",
+    "price_postapoc": "60 cent",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "wetsuit_spring",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 60 },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
 ]

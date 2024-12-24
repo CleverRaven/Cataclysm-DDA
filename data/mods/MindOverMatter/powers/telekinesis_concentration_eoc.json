@@ -8,7 +8,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telekinetic_momentum", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
+        "run_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -36,13 +36,12 @@
     "id": "EOC_TELEKIN_MOMENTUM_DRAIN",
     "condition": { "u_has_effect": "effect_telekinetic_momentum" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
+        "run_eocs": "EOC_TELEKIN_MOMENTUM_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -68,7 +67,7 @@
       { "u_add_effect": "effect_telekinetic_lifting_field", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_TELEKIN_LIFTING_FIELD_SWITCHER" ] },
       {
-        "queue_eocs": "EOC_TELEKIN_LIFTING_FIELD_DRAIN",
+        "run_eocs": "EOC_TELEKIN_LIFTING_FIELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -177,13 +176,12 @@
     "id": "EOC_TELEKIN_LIFTING_FIELD_DRAIN",
     "condition": { "u_has_effect": "effect_telekinetic_lifting_field" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_lifting_field')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEKIN_LIFTING_FIELD_DRAIN",
+        "run_eocs": "EOC_TELEKIN_LIFTING_FIELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -209,7 +207,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telekinetic_strength", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
+        "run_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -237,13 +235,12 @@
     "id": "EOC_TELEKIN_STRENGTH_DRAIN",
     "condition": { "u_has_effect": "effect_telekinetic_strength" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
+        "run_eocs": "EOC_TELEKIN_STRENGTH_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -269,7 +266,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telekinetic_armor", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
+        "run_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -297,13 +294,12 @@
     "id": "EOC_TELEKIN_SHIELD_DRAIN",
     "condition": { "u_has_effect": "effect_telekinetic_armor" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
+        "run_eocs": "EOC_TELEKIN_SHIELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -329,7 +325,7 @@
       { "u_add_effect": "effect_telekinetic_vehicle_lift", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_TELEKIN_SUMMON_JACKING_TOOL_SWITCHER" ] },
       {
-        "queue_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
+        "run_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -467,13 +463,12 @@
     "id": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
     "condition": { "u_has_effect": "effect_telekinetic_vehicle_lift" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
+        "run_eocs": "EOC_TELEKIN_SUMMON_JACKING_TOOL_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -499,7 +494,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_telekinetic_levitation", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
+        "run_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -530,13 +525,12 @@
     "id": "EOC_TELEKIN_LEVITATION_DRAIN",
     "condition": { "u_has_effect": "effect_telekinetic_levitation" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(7)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
+        "run_eocs": "EOC_TELEKIN_LEVITATION_DRAIN",
         "time_in_future": [
           {
             "math": [

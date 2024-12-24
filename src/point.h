@@ -20,6 +20,29 @@ class JsonOut;
 struct point {
     static constexpr int dimension = 2;
 
+    // Point representing the origin
+    static const point zero;
+    // Point with minimum representable coordinates
+    static const point min;
+    // Point with maximum representable coordinates
+    static const point max;
+    // Sentinel value for an invalid point
+    // Equal to @ref min for backward compatibility.
+    static const point invalid;
+    inline bool is_invalid() const {
+        return *this == invalid;
+    }
+
+    // Points representing unit steps in cardinal directions
+    static const point north;
+    static const point north_east;
+    static const point east;
+    static const point south_east;
+    static const point south;
+    static const point south_west;
+    static const point west;
+    static const point north_west;
+
     int x = 0;
     int y = 0;
     constexpr point() = default;
@@ -63,6 +86,12 @@ struct point {
 
     point abs() const {
         return point( std::abs( x ), std::abs( y ) );
+    }
+
+    // Dummy implementation of raw() to allow reasoning about
+    // generic points.
+    constexpr point raw() const {
+        return *this;
     }
 
     /**
@@ -128,6 +157,32 @@ inline point divide_xy_round_to_minus_infinity_non_negative( const point &p, int
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
     static constexpr int dimension = 3;
+
+    // Tripoint representing the origin
+    static const tripoint zero;
+    // Tripoint with minimum representable coordinates
+    static const tripoint min;
+    // Tripoint with maximum representable coordinates
+    static const tripoint max;
+    // Sentinel value for an invalid tripoint
+    // Equal to @ref min for backward compatibility.
+    static const tripoint invalid;
+    inline bool is_invalid() const {
+        return *this == invalid;
+    }
+
+
+    // Tripoints representing unit steps in cardinal directions
+    static const tripoint north;
+    static const tripoint north_east;
+    static const tripoint east;
+    static const tripoint south_east;
+    static const tripoint south;
+    static const tripoint south_west;
+    static const tripoint west;
+    static const tripoint north_west;
+    static const tripoint above;
+    static const tripoint below;
 
     int x = 0;
     int y = 0;
@@ -203,6 +258,12 @@ struct tripoint {
         return point( x, y );
     }
 
+    // Dummy implementation of raw() to allow reasoning about
+    // abstract generic points.
+    constexpr tripoint raw() const {
+        return *this;
+    }
+
     /**
      * Rotates just the x,y component of the tripoint. See point::rotate()
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
@@ -247,33 +308,40 @@ inline tripoint divide_xy_round_to_minus_infinity_non_negative( const tripoint &
     return tripoint( divide_xy_round_to_minus_infinity_non_negative( p.xy(), d ), p.z );
 }
 
-inline constexpr tripoint tripoint_zero{};
-inline constexpr point point_zero{};
+inline constexpr const point point::min = { INT_MIN, INT_MIN };
+inline constexpr const point point::max = { INT_MAX, INT_MAX };
+inline constexpr const point point::invalid = point::min;
+inline constexpr const point point::zero{};
+inline constexpr const point point::north{ 0, -1 };
+inline constexpr const point point::north_east{ 1, -1 };
+inline constexpr const point point::east{ 1, 0 };
+inline constexpr const point point::south_east{ 1, 1 };
+inline constexpr const point point::south{ 0, 1 };
+inline constexpr const point point::south_west{ -1, 1 };
+inline constexpr const point point::west{ -1, 0 };
+inline constexpr const point point::north_west{ -1, -1 };
 
-inline constexpr point point_north{ 0, -1 };
-inline constexpr point point_north_east{ 1, -1 };
-inline constexpr point point_east{ 1, 0 };
-inline constexpr point point_south_east{ 1, 1 };
-inline constexpr point point_south{ 0, 1 };
-inline constexpr point point_south_west{ -1, 1 };
-inline constexpr point point_west{ -1, 0 };
-inline constexpr point point_north_west{ -1, -1 };
 
-inline constexpr tripoint tripoint_north{ point_north, 0 };
-inline constexpr tripoint tripoint_north_east{ point_north_east, 0 };
-inline constexpr tripoint tripoint_east{ point_east, 0 };
-inline constexpr tripoint tripoint_south_east{ point_south_east, 0 };
-inline constexpr tripoint tripoint_south{ point_south, 0 };
-inline constexpr tripoint tripoint_south_west{ point_south_west, 0 };
-inline constexpr tripoint tripoint_west{ point_west, 0 };
-inline constexpr tripoint tripoint_north_west{ point_north_west, 0 };
+inline constexpr const tripoint tripoint::min = { INT_MIN, INT_MIN, INT_MIN };
+inline constexpr const tripoint tripoint::max = { INT_MAX, INT_MAX, INT_MAX };
+inline constexpr const tripoint tripoint::invalid = tripoint::min;
 
-inline constexpr tripoint tripoint_above{ 0, 0, 1 };
-inline constexpr tripoint tripoint_below{ 0, 0, -1 };
+inline constexpr const tripoint tripoint::zero{};
+inline constexpr const tripoint tripoint::north{ point::north, 0 };
+inline constexpr const tripoint tripoint::north_east{ point::north_east, 0 };
+inline constexpr const tripoint tripoint::east{ point::east, 0 };
+inline constexpr const tripoint tripoint::south_east{ point::south_east, 0 };
+inline constexpr const tripoint tripoint::south{ point::south, 0 };
+inline constexpr const tripoint tripoint::south_west{ point::south_west, 0 };
+inline constexpr const tripoint tripoint::west{ point::west, 0 };
+inline constexpr const tripoint tripoint::north_west{ point::north_west, 0 };
+inline constexpr const tripoint tripoint::above{ 0, 0, 1 };
+inline constexpr const tripoint tripoint::below{ 0, 0, -1 };
+
 
 struct sphere {
     int radius = 0;
-    tripoint center = tripoint_zero;
+    tripoint center = tripoint::zero;
 
     sphere() = default;
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
@@ -289,12 +357,6 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
-
-inline constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-inline constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
-
-inline constexpr point point_min{ tripoint_min.xy() };
-inline constexpr point point_max{ tripoint_max.xy() };
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
@@ -347,36 +409,36 @@ struct hash<tripoint> {
 };
 } // namespace std
 
-inline constexpr std::array<point, 4> four_adjacent_offsets{{
-        point_north, point_east, point_south, point_west
+inline constexpr const std::array<point, 4> four_adjacent_offsets{{
+        point::north, point::east, point::south, point::west
     }};
 
-inline constexpr std::array<point, 4> neighborhood{ {
-        point_south, point_east, point_west, point_north
+inline constexpr const std::array<point, 4> neighborhood{ {
+        point::south, point::east, point::west, point::north
     }};
 
-inline constexpr std::array<point, 4> offsets = {{
-        point_south, point_east, point_west, point_north
+inline constexpr const std::array<point, 4> offsets = {{
+        point::south, point::east, point::west, point::north
     }
 };
 
-inline constexpr std::array<point, 4> four_cardinal_directions{{
-        point_west, point_east, point_north, point_south
+inline constexpr const std::array<point, 4> four_cardinal_directions{{
+        point::west, point::east, point::north, point::south
     }};
 
-inline constexpr std::array<point, 5> five_cardinal_directions{{
-        point_west, point_east, point_north, point_south, point_zero
+inline constexpr const std::array<point, 5> five_cardinal_directions{{
+        point::west, point::east, point::north, point::south, point::zero
     }};
 
-inline const std::array<tripoint, 8> eight_horizontal_neighbors = { {
-        { tripoint_north_west },
-        { tripoint_north },
-        { tripoint_north_east },
-        { tripoint_west },
-        { tripoint_east },
-        { tripoint_south_west },
-        { tripoint_south },
-        { tripoint_south_east },
+inline constexpr const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { tripoint::north_west },
+        { tripoint::north },
+        { tripoint::north_east },
+        { tripoint::west },
+        { tripoint::east },
+        { tripoint::south_west },
+        { tripoint::south },
+        { tripoint::south_east },
     }
 };
 

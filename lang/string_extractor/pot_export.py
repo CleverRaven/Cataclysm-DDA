@@ -7,15 +7,93 @@ import polib
 from .message import messages, occurrences
 
 
-def deduplciate(comments):
-    """Remove duplicate comment lines while preserving order."""
-    seen = set()
+def process_comments(comments, origins, obsolete_paths):
     result = []
+
+    # remove duplicate comment lines while preserving order
+    seen = set()
     for comment in comments:
         if comment not in seen:
             result.append(comment)
             seen.add(comment)
+
+    # add 'obsolete' comment if this string
+    # has only obsolete files in the origins
+    obsolete_count = 0
+    for origin in origins:
+        is_obsolete = False
+
+        if "obsolet" in origin:
+            # if the file path contains "obsolete"/"obsoletion"
+            is_obsolete = True
+        else:
+            # if the file path matches the obsolete paths
+            # explicitly specified in the '-D' arguments
+            for o_path in obsolete_paths:
+                p = os.path.commonpath([o_path, origin])
+                if p in obsolete_paths:
+                    is_obsolete = True
+                    break
+        if is_obsolete:
+            obsolete_count += 1
+
+    if obsolete_count == len(origins):
+        return [
+            "[DEPRECATED] Don't translate this line.",
+            "This string is from an obsolete source "
+            "and will no longer be used in the game."
+        ]
     return result
+
+
+def sanitize(reference, pkg_name="Cataclysm-DDA"):
+    if not os.path.isfile(reference):
+        raise Exception(f"Cannot read {reference}")
+    pofile = polib.pofile(reference)
+
+    # sanitize plural entries
+    # Multiple objects may define slightly different plurals for strings,
+    # but without the specified context only one such string can be stored.
+    # Adds a plural form to those matching strings that do not have it.
+    for entry in pofile.untranslated_entries():
+        pair = (entry.msgctxt if entry.msgctxt else "", entry.msgid)
+        if pair in messages:
+            # first, check the messages against the reference
+            for m in messages[pair]:
+                if not m.text_plural and entry.msgid_plural:
+                    m.text_plural = entry.msgid_plural
+                    break
+            # then check the reference against the messages
+            # prioritize plurals that are explicitly specified in JSON
+            temp_plural = ""
+            for m in messages[pair]:
+                if m.text_plural and not entry.msgid_plural:
+                    entry.msgstr_plural = {0: "", 1: ""}
+                    if m.explicit_plural:
+                        entry.msgid_plural = m.text_plural
+                        break
+                    temp_plural = m.text_plural
+            if temp_plural:
+                entry.msgid_plural = temp_plural
+
+    # write the correct header.
+    tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
+    tztime = datetime.now(tzinfo).strftime('%Y-%m-%d %H:%M%z')
+    pofile.metadata = {
+        "Project-Id-Version": pkg_name,
+        "POT-Creation-Date": f"{tztime}",
+        "PO-Revision-Date": f"{tztime}",
+        "Last-Translator": "None",
+        "Language-Team": "None",
+        "Language": "en",
+        "MIME-Version": "1.0",
+        "Content-Type": "text/plain; charset=UTF-8",
+        "Content-Transfer-Encoding": "8bit",
+        "Plural-Forms": "nplurals=2; plural=(n > 1);"
+    }
+    pofile.metadata_is_fuzzy = 0
+
+    pofile.save()
 
 
 def is_unicode(sequence):
@@ -36,46 +114,12 @@ def restore_unicode(string):
     return string
 
 
-def format_msg(prefix, text):
-    return "{0} {1}".format(prefix, restore_unicode(json.dumps(text)))
+def format_msg(text):
+    return restore_unicode(json.dumps(text))
 
 
-def write_pot_header(fp, pkg_name="Cataclysm-DDA"):
-    tzinfo = datetime.now(timezone.utc).astimezone().tzinfo
-    time = datetime.now(tzinfo).strftime('%Y-%m-%d %H:%M%z')
-    print("msgid \"\"", file=fp)
-    print("msgstr \"\"", file=fp)
-    print("\"Project-Id-Version: {}\\n\"".format(pkg_name), file=fp)
-    print("\"POT-Creation-Date: {}\\n\"".format(time), file=fp)
-    print("\"PO-Revision-Date: {}\\n\"".format(time), file=fp)
-    print("\"Last-Translator: None\\n\"", file=fp)
-    print("\"Language-Team: None\\n\"", file=fp)
-    print("\"Language: en\\n\"", file=fp)
-    print("\"MIME-Version: 1.0\\n\"", file=fp)
-    print("\"Content-Type: text/plain; charset=UTF-8\\n\"", file=fp)
-    print("\"Content-Transfer-Encoding: 8bit\\n\"", file=fp)
-    print("\"Plural-Forms: nplurals=2; plural=(n > 1);\\n\"", file=fp)
-    print("", file=fp)
-
-
-def sanitize_plural_colissions(reference):
-    if not os.path.isfile(reference):
-        raise Exception("cannot read {}".format(reference))
-    pofile = polib.pofile(reference)
-    for entry in pofile.untranslated_entries():
-        if entry.msgid_plural:
-            pair = (entry.msgctxt if entry.msgctxt else "", entry.msgid)
-            if pair in messages:
-                if len(messages[pair]) == 1:
-                    if messages[pair][0].text_plural == "":
-                        messages[pair][0].text_plural = entry.msgid_plural
-
-
-def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
-    if sanitize:
-        sanitize_plural_colissions(sanitize)
-    if with_header:
-        write_pot_header(fp, pkg_name)
+def write_to_pot(fp, obsolete_paths=[]):
+    entries = []
     for (context, text) in occurrences:
         if (context, text) not in messages:
             continue
@@ -91,32 +135,34 @@ def write_to_pot(fp, with_header=True, pkg_name=None, sanitize=None):
             if message.text_plural:
                 text_plural = message.text_plural
         origin = " ".join(sorted(origins))
+        entry = []
 
         # translator comments
-        for line in deduplciate(comments):
-            print("#. ~ {}".format(line), file=fp)
+        for line in process_comments(comments, origins, obsolete_paths):
+            entry.append(f"#. ~ {line}")
 
         # reference
-        print("#: {}".format(origin), file=fp)
+        entry.append(f"#: {origin}")
 
         # c-format
         if format_tag:
-            print("#, {}".format(format_tag), file=fp)
+            entry.append(f"#, {format_tag}")
 
         # context
         if context:
-            print("msgctxt \"{}\"".format(context), file=fp)
+            entry.append(f"msgctxt \"{context}\"")
 
         # text
         if text_plural:
-            print(format_msg("msgid", text), file=fp)
-            print(format_msg("msgid_plural", text_plural), file=fp)
-            print("msgstr[0] \"\"", file=fp)
-            print("msgstr[1] \"\"", file=fp)
+            entry.append(f"msgid {format_msg(text)}\n"
+                         f"msgid_plural {format_msg(text_plural)}\n"
+                         "msgstr[0] \"\"\n"
+                         "msgstr[1] \"\"")
         else:
-            print(format_msg("msgid", text), file=fp)
-            print("msgstr \"\"", file=fp)
+            entry.append(f"msgid {format_msg(text)}\n"
+                         "msgstr \"\"")
 
-        print("", file=fp)
-
+        entries.append("\n".join(entry))
         del messages[(context, text)]
+
+    fp.write("\n\n".join(entries))

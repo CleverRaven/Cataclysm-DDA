@@ -26,6 +26,30 @@
   },
   {
     "type": "construction",
+    "id": "upgrade_autodoc_1",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ], [ "warped_autodoc_upgrader_1", 1 ] ] ],
+    "pre_terrain": "f_autodoc",
+    "post_terrain": "f_si_autodoc_2",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "upgrade_autodoc_2",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ], [ "warped_autodoc_upgrader_2", 1 ] ] ],
+    "pre_terrain": "f_si_autodoc_2",
+    "post_terrain": "f_si_autodoc_3",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_sofa",
     "group": "build_sofa",
     "category": "FURN",
@@ -60,6 +84,45 @@
     "pre_terrain": "t_dirt",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grass",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_wood_floor",
+    "group": "floor_to_wood_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_wood_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_floor",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_flagstone_floor",
+    "group": "floor_to_flagstone_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_flagstone_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_stone_masonry_floor",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "floor_to_sand_floor",
+    "group": "floor_to_sand_floor",
+    "category": "OTHER",
+    "components": [ [ [ "warp_sand_floor_tokens", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_flags": [ "FLAT" ],
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_sand",
     "activity_level": "NO_EXERCISE"
   },
   {
@@ -261,6 +324,21 @@
     "type": "construction_group",
     "id": "sow_grass",
     "name": "Cover soil with grass"
+  },
+  {
+    "type": "construction_group",
+    "id": "floor_to_wood_floor",
+    "name": "Warp floor into a wood floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "floor_to_flagstone_floor",
+    "name": "Warp floor into a worked stone floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "floor_to_sand_floor",
+    "name": "Warp floor into fine sand"
   },
   {
     "type": "construction_group",

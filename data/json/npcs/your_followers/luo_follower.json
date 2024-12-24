@@ -13,6 +13,7 @@
         "topic": "TALK_FRIEND_Luo_Abilities",
         "effect": "reveal_stats"
       },
+      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "There's something I want you to do.", "topic": "TALK_LUO_ORDERS" },
       {
         "text": "I just wanted to talk for a bit.",
@@ -21,7 +22,12 @@
       },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      {
+        "text": "[DEBUG MIND CONTROL] Now listen closely… (DEBUG FUNCTIONS)",
+        "condition": { "u_has_trait": "DEBUG_MIND_CONTROL" },
+        "topic": "TALK_ALLY_DEBUG"
+      },
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -30,6 +36,7 @@
     "dynamic_line": "I love just standing around, it's what I was made for.",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Luo", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND_Luo" },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },
@@ -51,7 +58,7 @@
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,7 +179,7 @@
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -185,8 +192,8 @@
         "topic": "TALK_TRAIN",
         "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 }
       },
-      { "text": "Never mind then.", "topic": "TALK_NONE" },
-      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -200,8 +207,8 @@
         "success": { "topic": "TALK_TRAIN_SEMINAR" },
         "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
       },
-      { "text": "Never mind then.", "topic": "TALK_NONE" },
-      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_later_follower>", "topic": "TALK_DONE" }
     ]
   },
   {

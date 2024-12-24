@@ -4,7 +4,7 @@
     "id": "refugee_GarryVilleneuve",
     "name_unique": "Garry Villeneuve",
     "gender": "male",
-    "name_suffix": "refugee",
+    "name_suffix": "Refugee",
     "class": "NC_REFUGEE_Garry",
     "attitude": 0,
     "mission": 7,
@@ -103,7 +103,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Garry.", "topic": "TALK_REFUGEE_Garry_1_firstmeet" },
-      { "text": "Hi Garry, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Garry, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -118,7 +118,7 @@
     },
     "responses": [
       { "text": "Hi, Garry.  What's up?", "topic": "TALK_REFUGEE_Garry_2" },
-      { "text": "Hi Garry.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Garry.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +134,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_2",
     "dynamic_line": "Doing my best to keep going in the face of… everything.  Not getting far.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -142,8 +142,8 @@
     "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our…\" he swallows and coughs before continuing, \"with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then… everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back… not enough.",
     "responses": [
       { "text": "You lost someone…", "topic": "TALK_REFUGEE_Garry_Background_loss" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -153,8 +153,8 @@
     "responses": [
       { "text": "Do you want to tell me about Linda?", "topic": "TALK_REFUGEE_Garry_Background_Linda" },
       { "text": "Tell me about Ash.", "topic": "TALK_REFUGEE_Garry_Background_Ash" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -163,8 +163,8 @@
     "dynamic_line": "*looks unsure, then sighs softly.  \"I don't know what to say.  She was my second wife; my first wife passed away about fifteen years ago.  I've gone through this before, and it was bad enough then.\"  He stares at the floor for a moment.  \"We don't have any touchstones anymore, you know?  I've got Boris and Stan, but they can't support me, and what else is there?\"  He looks back up at you, appearing to remember the conversation.  \"Sorry, you were asking about Linda.  She was wonderful, always surprising me.  One of those people you just couldn't predict, so much fun and full of life.  Really into rock climbing.  I always used to be afraid she'd hurt herself in a climbing accident.\"  He laughs, a single harsh sound more like a cough.  \"Funny how life throws you curveballs.\"",
     "responses": [
       { "text": "Tell me about Ash.", "topic": "TALK_REFUGEE_Garry_Background_Ash" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -173,8 +173,8 @@
     "dynamic_line": "*smiles for a moment, his face returning to what it must have looked like before everything.  \"God, that kid was funny.  Such a little nerd.  He'd come bombing into any conversation to interrupt and tell you about whatever his latest obsession was, didn't matter what else was going on.  We'd have to remind him to go to the bathroom sometimes.\"  Garry looks around, swallowing hard for a second, and wipes his hands across his face.  \"It's so damn quiet here without him.\"",
     "responses": [
       { "text": "Do you want to tell me about Linda?", "topic": "TALK_REFUGEE_Garry_Background_Linda" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -182,8 +182,8 @@
     "id": "TALK_REFUGEE_Garry_Situation",
     "dynamic_line": "It's tense here, but I don't know.  Stan, Boris and I have been pretty insular.  I guess we'd better get to know some of the others here eventually.\"  He looks around the room, his eyes dull.  \"It feels it should be a temporary stop, but it's starting to look like we'll be here for the long term.  If we live that long.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

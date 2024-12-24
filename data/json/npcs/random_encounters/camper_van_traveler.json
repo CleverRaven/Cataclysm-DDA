@@ -47,7 +47,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
@@ -89,7 +89,7 @@
           ]
         },
         "effect": [
-          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] },
+          { "math": [ "npc_randomize_dialogue_direction = rand(3)" ] },
           { "npc_add_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" }
         ],
         "switch": true
@@ -166,7 +166,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
@@ -191,7 +191,7 @@
           },
           "no": {
             "compare_string": [ "west", { "npc_val": "dialogue_travel_direction_travel_direction" } ],
-            "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't <swear> collapsed, that someone's still holding on.",
+            "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't <swear> collapsed, that someone's still holding on.",
             "no": "ERROR: DIRECTION PARAMETERS EITHER NOT PICKED OR OUT OF BOUNDS"
           }
         }
@@ -221,25 +221,25 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
     "dynamic_line": {
-      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
+      "math": [ "npc_randomize_dialogue_direction == 0" ],
       "yes": {
         "gendered_line": "I haven't found anything out of the ordinary, just a bunch of <zombies> and the ruins of our old lives.",
         "relevant_genders": [ "npc" ]
       },
       "no": {
-        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
+        "math": [ "npc_randomize_dialogue_direction == 1" ],
         "yes": {
           "gendered_line": "Actually, I came across a group of farmers on my way here.  They were a little suspicious, but turned out to be pretty nice.  Good place to buy some food, if they're still around.",
           "relevant_genders": [ "npc" ]
         },
         "no": {
-          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
+          "math": [ "npc_randomize_dialogue_direction == 2" ],
           "yes": {
             "gendered_line": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like <swear> napalm and black powder.",
             "relevant_genders": [ "npc" ]
           },
           "no": {
-            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
+            "math": [ "npc_randomize_dialogue_direction == 3" ],
             "yes": {
               "gendered_line": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
               "relevant_genders": [ "npc" ]
@@ -254,7 +254,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 1" ] },
             { "not": { "compare_string": [ "isherwood", { "npc_val": "camper_van_traveler_mission_directions" } ] } }
           ]
         },
@@ -269,7 +269,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 2" ] },
             {
               "not": { "compare_string": [ "chem_chabin", { "npc_val": "camper_van_traveler_mission_directions" } ] }
             }
@@ -286,7 +286,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 3" ] },
             { "not": { "compare_string": [ "cowboy", { "npc_val": "camper_van_traveler_mission_directions" } ] } }
           ]
         },

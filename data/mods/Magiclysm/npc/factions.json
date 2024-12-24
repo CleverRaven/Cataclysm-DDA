@@ -6,6 +6,7 @@
     "likes_u": 0,
     "respects_u": 0,
     "known_by_u": false,
+    "limited_area_claim": true,
     "size": 5,
     "power": 100,
     "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
@@ -68,6 +69,7 @@
     "likes_u": 10,
     "respects_u": 10,
     "known_by_u": false,
+    "limited_area_claim": true,
     "size": 50,
     "power": 50,
     "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
@@ -136,6 +138,13 @@
     "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
     "wealth": 75000000,
     "currency": "denarius",
+    "price_rules": [
+      { "category": "drink", "price": 0 },
+      { "category": "food", "price": 0 },
+      { "category": "guns", "premium": 0.1 },
+      { "category": "ammo", "premium": 0.1 },
+      { "category": "artifacts", "premium": 1000 }
+    ],
     "relations": {
       "lobby_beggars": {
         "kill on sight": false,

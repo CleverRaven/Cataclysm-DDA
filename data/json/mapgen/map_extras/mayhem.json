@@ -11,6 +11,15 @@
   {
     "type": "mapgen",
     "method": "json",
+    "update_mapgen_id": "mx_mayhem_crash_start",
+    "object": {
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "24x24_mayhem_crash" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_mayhem_crash",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -50,6 +59,7 @@
         "2": [ { "item": "corpses", "chance": 100 }, { "item": "guns_pistol_common_display", "chance": 80 } ]
       },
       "place_item": [ { "item": "9mm_casing", "x": [ 15, 17 ], "y": [ 2, 4 ], "chance": 50, "repeat": 9 } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 18, 18 ], "y": [ 9, 9 ] } ],
       "fields": { "1": { "field": "fd_blood", "intensity": [ 1, 3 ] }, "~": { "field": "fd_blood" }, "2": { "field": "fd_blood" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }

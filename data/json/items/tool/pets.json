@@ -39,7 +39,7 @@
     "volume": "750 ml",
     "price": "5 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -57,7 +57,7 @@
     "volume": "750 ml",
     "price": "5 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -75,7 +75,7 @@
     "volume": "750 ml",
     "price": "5 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "bronze" ],
     "symbol": ";",
     "color": "yellow",
@@ -94,7 +94,7 @@
     "volume": "1200 ml",
     "price": "24 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -110,8 +110,7 @@
         "default_magazine": "light_minus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 },
-    "weapon_category": [ "SHIVS" ]
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "horse_tack",
@@ -122,12 +121,10 @@
     "volume": "7 L",
     "price": "0 cent",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "leather", "steel" ],
     "symbol": "M",
     "color": "yellow",
-    "flags": [ "TACK" ],
-    "melee_damage": { "bash": 5 }
+    "flags": [ "TACK" ]
   },
   {
     "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/",
@@ -139,11 +136,11 @@
     "color": "light_gray",
     "description": "A giant electronic scale with a rubber mat meant for weighing a single horse, cow, or other large animal.  You could also weigh yourself with it.",
     "weight": "52800 g",
-    "volume": "40000 ml",
+    "volume": "40 L",
     "longest_side": "196 cm",
     "price": "12 kUSD",
     "price_postapoc": "50 cent",
-    "to_hit": -8,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "ammo": [ "battery" ],
     "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },

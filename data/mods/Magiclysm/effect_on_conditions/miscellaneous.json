@@ -1,0 +1,87 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE",
+    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE1",
+    "condition": { "u_has_worn_with_flag": "MAGICAL_MIND_PROTECTION" },
+    "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but your magic protects you!", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_LEECH_START",
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "//": "The spell is required as the EOC will only spawn it in the user's inventory while a spell will autowear it",
+    "condition": { "u_has_trait": "WEARING_MANA_LEECH" },
+    "effect": [ { "u_cast_spell": { "id": "gain_mana_leech_shackle" } }, { "u_lose_trait": "WEARING_MANA_LEECH" } ]
+  },
+  {
+    "id": "gain_mana_leech_shackle",
+    "type": "SPELL",
+    "name": "MANA_LEECH_START",
+    "description": {
+      "str": "Workaround that gives the mana-leech shackle on game start.  You're not supposed to see this.  Delete it when EOCs can spawn items as equipped.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "self" ],
+    "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "mana_leech_shackle",
+    "min_damage": 1,
+    "max_damage": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MANA_LEECH_UNLOCK",
+    "condition": { "u_is_wearing": "mana_leech_shackle" },
+    "effect": [
+      { "u_consume_item": "mana_leech_unlock_scroll" },
+      { "u_remove_item_with": "mana_leech_shackle" },
+      { "u_cast_spell": { "id": "gain_mana_leech_shackle_unlocked" } },
+      {
+        "u_message": "As you complete the incantation, your mana-leech shackle becomes loose and inert.  It won't stop you from casting spells anymore.",
+        "type": "good"
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You are not wearing a mana-leech shackle, so this spell wouldn't do anything for you.", "type": "info" }
+    ]
+  },
+  {
+    "id": "gain_mana_leech_shackle_unlocked",
+    "type": "SPELL",
+    "name": "MANA_LEECH_START",
+    "description": {
+      "str": "Workaround that ensures that the inert mana-leech shackle is worn when it is made inert.  You're not supposed to see this.  Delete it when EOCs can spawn items as equipped.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "self" ],
+    "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "shape": "blast",
+    "effect_str": "mana_leech_shackle_unlocked",
+    "min_damage": 1,
+    "max_damage": 1
+  },
+  {
+    "id": "EOC_MANA_LEECH_PLAYER_NOT_WORN",
+    "//": "Mana-leech shackles quickly become inert if not worn by a living being.",
+    "type": "effect_on_condition",
+    "recurrence": [ "1 hour", "1 hour" ],
+    "condition": { "and": [ { "not": { "u_is_wearing": "mana_leech_shackle" } }, { "u_has_item": "mana_leech_shackle" } ] },
+    "global": true,
+    "run_for_npcs": true,
+    "effect": [
+      { "u_remove_item_with": "mana_leech_shackle" },
+      { "u_spawn_item": "mana_leech_shackle_unlocked", "suppress_message": true }
+    ]
+  }
+]

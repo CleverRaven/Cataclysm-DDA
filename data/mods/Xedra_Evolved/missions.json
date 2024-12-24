@@ -59,5 +59,53 @@
       "success_lie": "",
       "failure": ""
     }
+  },
+  {
+    "id": "MISSION_SEVENOCLOCK",
+    "type": "mission_definition",
+    "name": { "str": "Find the source of the bloody footsteps." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "cabin_sevenoclock",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "cabin_sevenoclock", "om_special": "old cabin", "search_range": 1800 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
+    "id": "MISSION_DEATHWORM",
+    "type": "mission_definition",
+    "name": { "str": "Find the source of the acid-burned hole." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "field_deathworm",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field_deathworm", "om_special": "acid-scarred field", "search_range": 1800 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   }
 ]

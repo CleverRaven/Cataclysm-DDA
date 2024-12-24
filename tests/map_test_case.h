@@ -49,7 +49,7 @@ class map_test_case
             // current char from `expected_results`
             char expect_c;
             // current point in map coords
-            tripoint p;
+            tripoint_bub_ms p;
             // current point in local coords [0..width) [0..height)
             point p_local;
         };
@@ -78,7 +78,7 @@ class map_test_case
          *  For example, it can be the center of the map or player's coordinates.
          *  This test will align `anchor_char` (in `setup`) with given map coordinates.
          */
-        tripoint anchor_map_pos = tripoint_zero;
+        tripoint_bub_ms anchor_map_pos = tripoint_bub_ms::zero;
 
         /**
          * Invokes callback for each tile of the input map.
@@ -107,7 +107,7 @@ class map_test_case
         int get_width() const;
 
         // returns calculated "origin" point, i.e. shift relative to the map
-        tripoint get_origin();
+        tripoint_bub_ms get_origin();
 
         // automatically set `anchor_char` from the list of given chars to the one that is present in the `setup`
         void set_anchor_char_from( const std::set<char> &chars );
@@ -138,19 +138,19 @@ class map_test_case
          * (and performing other sanity checks)
          * @param p tripoint in map coordinates that is expected to align with the `anchor_map_pos`
          */
-        void validate_anchor_point( const tripoint &p );
+        void validate_anchor_point( const tripoint_bub_ms &p );
 
     private:
         // origin (0,0) of this `map_test_case` in `map` coordinates
         // based on `anchor_map_pos` and `anchor_char`, lazily calculated when needed, reset on transformations
-        std::optional<tripoint> origin = std::nullopt;
+        std::optional<tripoint_bub_ms> origin = std::nullopt;
 
         // flag that internal sanity checks are completed, resets on transformations
         bool checks_complete = false;
 
         void do_internal_checks();
 
-        void for_each_tile( const tripoint &tmp_origin,
+        void for_each_tile( const tripoint_bub_ms &tmp_origin,
                             const std::function<void( tile & )> &callback ) const;
 
 };
@@ -205,7 +205,7 @@ tile_predicate ifchar( char c, const tile_predicate &f );
  */
 tile_predicate ter_set(
     ter_str_id ter,
-    tripoint shift = tripoint_zero
+    tripoint shift = tripoint::zero
 );
 
 /**

@@ -18,7 +18,6 @@
 #include "city.h"
 #include "color.h"
 #include "common_types.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -48,6 +47,12 @@ class map_extra;
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
 
+// Moved from obsolete coordinate_conversions.h to its only remaining user.
+static int omt_to_sm_copy( int a )
+{
+    return 2 * a;
+}
+
 overmapbuffer overmap_buffer;
 
 overmapbuffer::overmapbuffer()
@@ -71,12 +76,12 @@ int camp_reference::get_distance_from_bounds() const
 
 cata_path overmapbuffer::terrain_filename( const point_abs_om &p )
 {
-    return PATH_INFO::world_base_save_path_path() / string_format( "o.%d.%d", p.x(), p.y() );
+    return PATH_INFO::world_base_save_path() / string_format( "o.%d.%d", p.x(), p.y() );
 }
 
 cata_path overmapbuffer::player_filename( const point_abs_om &p )
 {
-    return PATH_INFO::player_base_save_path_path() + string_format( ".seen.%d.%d", p.x(), p.y() );
+    return PATH_INFO::player_base_save_path() + string_format( ".seen.%d.%d", p.x(), p.y() );
 }
 
 overmap &overmapbuffer::get( const point_abs_om &p )
@@ -637,7 +642,7 @@ std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
     // but monster groups are defined with submap coordinates.
     tripoint_abs_sm p_sm = project_to<coords::sm>( p );
     std::vector<mongroup *> result;
-    for( const point &offset : std::array<point, 4> { { { point_zero }, { point_south }, { point_east }, { point_south_east } } } ) {
+    for( const point &offset : std::array<point, 4> { { { point::zero }, { point::south }, { point::east }, { point::south_east } } } ) {
         std::vector<mongroup *> tmp = groups_at( p_sm + offset );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
@@ -864,14 +869,16 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
 overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::road, 10 );
-    ret.set_cost( oter_travel_cost_type::dirt_road, 10 );
-    ret.set_cost( oter_travel_cost_type::field, 15 );
-    ret.set_cost( oter_travel_cost_type::trail, 18 );
-    ret.set_cost( oter_travel_cost_type::shore, 20 );
-    ret.set_cost( oter_travel_cost_type::forest, 30 );
-    ret.set_cost( oter_travel_cost_type::swamp, 100 );
-    ret.set_cost( oter_travel_cost_type::other, 30 );
+    // 24 tiles = 24 seconds walking
+    ret.set_cost( oter_travel_cost_type::road, 24 );
+    ret.set_cost( oter_travel_cost_type::dirt_road, 24 );
+    ret.set_cost( oter_travel_cost_type::field, 36 );
+    ret.set_cost( oter_travel_cost_type::trail, 43 );
+    ret.set_cost( oter_travel_cost_type::shore, 48 );
+    ret.set_cost( oter_travel_cost_type::forest, 72 );
+    ret.set_cost( oter_travel_cost_type::swamp, 240 );
+    ret.set_cost( oter_travel_cost_type::other, 72 );
+    ret.allow_diagonal = true;
     return ret;
 }
 
@@ -888,12 +895,12 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::road, 10 );
-    const int field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
+    ret.set_cost( oter_travel_cost_type::road, 8 ); // limited by vehicle autodrive speed
+    const int field_cost = can_offroad ? std::lround( 12 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.set_cost( oter_travel_cost_type::field, field_cost );
     ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
     ret.set_cost( oter_travel_cost_type::trail,
-                  ( can_offroad && tiny ) ? field_cost + 10 : -1 );
+                  ( can_offroad && tiny ) ? field_cost + 8 : -1 );
     if( amphibious ) {
         const overmap_path_params boat_params = overmap_path_params::for_watercraft();
         ret.set_cost( oter_travel_cost_type::water, boat_params.get_cost( oter_travel_cost_type::water ) );
@@ -905,15 +912,15 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 overmap_path_params overmap_path_params::for_watercraft()
 {
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::water, 10 );
-    ret.set_cost( oter_travel_cost_type::shore, 20 );
+    ret.set_cost( oter_travel_cost_type::water, 8 ); // limited by vehicle autodrive speed
+    ret.set_cost( oter_travel_cost_type::shore, 16 );
     return ret;
 }
 
 overmap_path_params overmap_path_params::for_aircraft()
 {
     overmap_path_params ret;
-    ret.set_cost( oter_travel_cost_type::air, 10 );
+    ret.set_cost( oter_travel_cost_type::air, 8 ); // limited by vehicle autodrive speed
     return ret;
 }
 
@@ -937,25 +944,29 @@ static bool is_ramp( const tripoint_abs_omt &omt_pos )
            ( oter->get_type_id() == oter_type_bridgehead_ramp );
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
+pf::simple_path<tripoint_abs_omt> overmapbuffer::get_travel_path(
     const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params )
 {
-    if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+    if( src.is_invalid() || dest.is_invalid() ) {
         return {};
     }
 
     const pf::omt_scoring_fn estimate = [&]( tripoint_abs_omt pos ) {
-        const int cur_cost = pos == src ? 0 : get_terrain_cost( pos, params );
+        int cur_cost = get_terrain_cost( pos, params );
         if( cur_cost < 0 ) {
-            return pf::omt_score::rejected;
+            if( pos == src ) {
+                cur_cost = 0;
+            } else {
+                return pf::omt_score::rejected;
+            }
         }
         return pf::omt_score( cur_cost, is_ramp( pos ) );
     };
 
     constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
-    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate,
-            g->display_om_pathfinding_progress );
-    return path.points;
+    const pf::simple_path<tripoint_abs_omt> &path = pf::find_overmap_path( src, dest, radius, estimate,
+            g->display_om_pathfinding_progress, std::nullopt, params.allow_diagonal );
+    return path;
 }
 
 bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
@@ -965,7 +976,7 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     static const point_rel_omt O( RADIUS * OMAPX,
                                   RADIUS * OMAPY );   // half-height of the area to search in
 
-    if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+    if( source.is_invalid() || dest.is_invalid() ) {
         return false;
     }
 
@@ -1194,7 +1205,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         }
     }
 
-    return random_entry( result, overmap::invalid_tripoint );
+    return random_entry( result, tripoint_abs_omt::invalid );
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
@@ -1227,7 +1238,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all(
 tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
-    return random_entry( find_all( origin, params ), overmap::invalid_tripoint );
+    return random_entry( find_all( origin, params ), tripoint_abs_omt::invalid );
 }
 
 tripoint_abs_omt overmapbuffer::find_random(
@@ -1529,7 +1540,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     const city_reference closest_cref = closest_known_city( where );
 
     if( !closest_cref ) {
-        return ter_name;
+        return ter_name + "\n" + get_origin( oter->get_type_id()->src );
     }
 
     const struct city &closest_city = *closest_cref.city;
@@ -1567,12 +1578,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         }
     }
 
-    // Display Origin
-    const std::string mod_src = enumerate_as_string( oter->get_type_id().obj().src,
-    []( const std::pair<oter_type_str_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-    format_string += "\n" + string_format( _( "Origin: %s" ), mod_src );
+    format_string += "\n" + get_origin( oter->get_type_id()->src );
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
@@ -1588,7 +1594,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
         const map &here = get_map();
-        const tripoint local = here.bub_from_abs( this_monster.get_location() ).raw();
+        const tripoint_bub_ms local = here.bub_from_abs( this_monster.get_location() );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );
@@ -1680,6 +1686,15 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
         }
     }
     return true;
+}
+
+bool overmapbuffer::is_in_city( const tripoint_abs_omt &p )
+{
+    point_abs_om overmap_pos;
+    tripoint_om_omt potential_city_tile;
+    std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( p );
+    overmap &target_overmap = get( overmap_pos );
+    return target_overmap.is_in_city( potential_city_tile );
 }
 
 std::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(

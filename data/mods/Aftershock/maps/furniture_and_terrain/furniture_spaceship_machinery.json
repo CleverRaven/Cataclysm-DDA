@@ -4,7 +4,7 @@
     "id": "f_afs_shuttle_fusion_engine",
     "name": "Direct fusion drive",
     "looks_like": "t_metal_ventilation_shutter",
-    "description": "A powerful fusion engine fuelled by helium.  A miracle of hyperspace age technology, painstakingly reproduced from original schematics without true understanding.  Its core components are notably expensive.",
+    "description": "A powerful fusion engine fueled by helium.  A miracle of hyperspace age technology, painstakingly reproduced from original schematics without true understanding.  Its core components are notably expensive.",
     "symbol": "=",
     "bgcolor": "white",
     "move_cost_mod": -1,

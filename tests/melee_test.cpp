@@ -86,7 +86,7 @@ static void check_near( float prob, const float expected, const float tolerance 
 
 static const int num_iters = 10000;
 
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
 TEST_CASE( "Character_attacking_a_zombie", "[.melee]" )
 {
@@ -329,20 +329,20 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
     for( int i = 0; i < 1000; i++ ) {
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint_east );
-        REQUIRE( mon.pos() == dude.pos() + tripoint_east );
+        monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
+        REQUIRE( mon.pos_bub() == dude.pos_bub() + tripoint::east );
         REQUIRE( mon.get_armor_type( damage_test_fire, body_part_bp_null ) == expected_resist );
         REQUIRE( mon.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( mon.get_hp() == mon.get_hp_max() );
-        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
-        REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
         dude.set_wielded_item( item( "test_fire_sword" ) );
         dude.melee_attack( mon, false );
         if( mon.get_hp() < mon.get_hp_max() ) {
             total_hits++;
             total_dmg += mon.get_hp_max() - mon.get_hp();
-            if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
-                REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+            if( mon.get_value( "general_dmg_type_test_test_fire" ) == "target" ) {
+                REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ) == "source" );
                 set_on_fire++;
             }
         }
@@ -358,25 +358,25 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     int eoc_total_dmg = 0;
     clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-    monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint_east );
-    REQUIRE( mon.pos() == dude.pos() + tripoint_east );
+    monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint::east );
+    REQUIRE( mon.pos_bub() == dude.pos_bub() + tripoint::east );
     REQUIRE( mon.get_hp() == mon.get_hp_max() );
-    REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
-    REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+    REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
+    REQUIRE( mon.get_value( "general_dmg_type_test_test_fire" ).empty() );
     item firesword( "test_fire_sword" );
     dude.set_wielded_item( firesword );
     for( int i = 0; i < 1000; ++i ) {
-        if( dude.melee_attack( mon, false ) && !dude.get_value( "npctalk_var_test_bp" ).empty() ) {
+        if( dude.melee_attack( mon, false ) && !dude.get_value( "test_bp" ).empty() ) {
             break;
         }
     }
-    CHECK( !dude.get_value( "npctalk_var_test_bp" ).empty() );
-    if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
-        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+    CHECK( !dude.get_value( "test_bp" ).empty() );
+    if( mon.get_value( "general_dmg_type_test_test_fire" ) == "target" ) {
+        REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ) == "source" );
     }
 
     eoc_total_dmg = std::round( std::stod(
-                                    dude.get_value( "npctalk_var_test_damage_taken" ) ) );
+                                    dude.get_value( "test_damage_taken" ) ) );
 
     Messages::clear_messages();
     CHECK( eoc_total_dmg == firesword.damage_melee( damage_test_fire ) );
@@ -391,24 +391,24 @@ static void check_damage_from_test_fire( const std::vector<std::string> &armor_i
     for( int i = 0; i < 1000; i++ ) {
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        standard_npc dude2( "TestCharacter2", dude_pos + tripoint_east, {}, 0, 0, 0, 0, 0 );
+        standard_npc dude2( "TestCharacter2", dude_pos + tripoint::east, {}, 0, 0, 0, 0, 0 );
         for( const std::string &itm : armor_items ) {
             REQUIRE( dude2.wear_item( item( itm ), false ).has_value() );
         }
         dude2.set_movement_mode( move_mode_prone ); // no dodging allowed :)
-        REQUIRE( dude2.pos() == dude.pos() + tripoint_east );
+        REQUIRE( dude2.pos_bub() == dude.pos_bub() + tripoint::east );
         REQUIRE( dude2.get_armor_type( damage_test_fire, checked_bp ) == expected_resist );
         REQUIRE( dude2.is_immune_damage( damage_test_fire ) == is_immune );
         REQUIRE( dude2.get_hp() == dude2.get_hp_max() );
-        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
-        REQUIRE( dude2.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( dude2.get_value( "general_dmg_type_test_test_fire" ).empty() );
         dude.set_wielded_item( item( "test_fire_sword" ) );
         dude.melee_attack( dude2, false );
         if( dude2.get_hp() < dude2.get_hp_max() ) {
             total_hits++;
             total_dmg += dude2.get_hp_max() - dude2.get_hp();
-            if( dude2.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
-                REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+            if( dude2.get_value( "general_dmg_type_test_test_fire" ) == "target" ) {
+                REQUIRE( dude.get_value( "general_dmg_type_test_test_fire" ) == "source" );
                 set_on_fire++;
             }
         }

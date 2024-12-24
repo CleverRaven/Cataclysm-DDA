@@ -6,7 +6,7 @@
     "condition": "ALWAYS",
     "name": { "str": "Cold Barrier" },
     "description": "Reduces incoming cold damage by 25%.",
-    "values": [ { "value": "ARMOR_COLD", "multiply": -0.25 } ]
+    "incoming_damage_mod": [ { "type": "cold", "multiply": -0.25 } ]
   },
   {
     "type": "enchantment",
@@ -14,8 +14,14 @@
     "has": "WIELD",
     "name": { "str": "Active Motion Detector" },
     "description": "Actively detects nearby movement.",
-    "condition": { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping", ">=", "1" ] },
-    "values": [ { "value": "MOTION_VISION_RANGE", "add": 24 } ]
+    "condition": { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping >= 1" ] },
+    "special_vision": [
+      {
+        "distance": 24,
+        "precise": true,
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+      }
+    ]
   },
   {
     "type": "enchantment",
@@ -50,7 +56,7 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "name": { "str": "Low Energy Forcefield" },
-    "values": [ { "value": "ARMOR_BASH", "add": -25 }, { "value": "ARMOR_CUT", "add": -25 } ],
+    "incoming_damage_mod": [ { "type": "bash", "add": -25 }, { "type": "cut", "add": -25 } ],
     "description": "Reduces incoming bash and cut damage by 25."
   },
   {
@@ -59,7 +65,7 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "name": { "str": "High Energy Forcefield" },
-    "values": [ { "value": "ARMOR_BULLET", "add": -40 }, { "value": "ARMOR_STAB", "add": -40 } ],
+    "incoming_damage_mod": [ { "type": "stab", "add": -40 }, { "type": "bullet", "add": -40 } ],
     "description": "Reduces incoming pierce and bullet damage by 40."
   },
   {

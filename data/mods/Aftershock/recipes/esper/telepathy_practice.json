@@ -140,7 +140,7 @@
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
-        "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
+        "id": "EOC_PRACTICE_AFS_TELEPATHIC_BLAST",
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",

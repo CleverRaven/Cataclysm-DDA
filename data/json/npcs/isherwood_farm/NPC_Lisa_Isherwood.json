@@ -91,18 +91,18 @@
         "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", ">=", "time('1 h')" ] } ]
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa >= time('1 h')" ] } ]
         }
       },
       {
         "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", "<", "time('1 h')" ] } ]
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa < time('1 h')" ] } ]
         }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -111,11 +111,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LISA_TALK1",
-    "dynamic_line": "My family owns all the land around here, my parents are out in the barn and my other family is down he road.",
+    "dynamic_line": "My family owns all the land around here, my parents are out in the barn and my other family is down the road.",
     "responses": [
       { "text": "Ok, I'll go find them.", "topic": "TALK_DONE" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -123,8 +123,8 @@
     "id": "TALK_LISA_JESSE",
     "dynamic_line": "Mom is in her office, in the barn.  Be careful that you don't let our horses out.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -140,11 +140,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_LISA_CHRIS2",
-    "dynamic_line": "Well he's supposed to be hunting, but since you've been talking to Luke, I bet he mentioned Chris wants to learn more about the end of the world.  Sometimes he'll take off for a few days and I end up patching him up so my parents don't know he left the property.",
+    "dynamic_line": "Well, he's supposed to be hunting, but since you've been talking to Luke, I bet he mentioned Chris wants to learn more about the end of the world.  Sometimes he'll take off for a few days and I end up patching him up so my parents don't know he left the property.",
     "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -154,7 +154,7 @@
     "responses": [
       { "text": "Hi, I'm looking for Jesse.", "topic": "TALK_LISA_JESSE" },
       { "text": "Hi, I'm looking for Chris.", "topic": "TALK_LISA_CHRIS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -176,7 +176,7 @@
     "responses": [
       {
         "text": "Great.  I'll see you there.",
-        "effect": { "math": [ "isherwood_lisa_coming", "=", "1" ] },
+        "effect": { "math": [ "isherwood_lisa_coming = 1" ] },
         "//": "This is temporary.  Lisa should join Chris at the tower with an EOC spawn.",
         "topic": "TALK_DONE"
       }

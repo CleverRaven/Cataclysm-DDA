@@ -1,0 +1,22 @@
+[
+  {
+    "type": "BOOK",
+    "category": "manuals",
+    "id": "book_moons_tears_ingot",
+    "name": { "str": "Report: LAUGHING DANCER metallurgy", "str_pl": "copies of Report: LAUGHING DANCER metallurgy" },
+    "description": "A series of documents discussing the properties of the armor and weapons used by a group or organization only referred to as \"LAUGHING DANCER\".  Some of these described specifications don't seem physically possible.",
+    "material": [ "paper" ],
+    "weight": "60 g",
+    "volume": "250 ml",
+    "looks_like": "mag_glam",
+    "symbol": "?",
+    "color": "light_gray",
+    "skill": "fabrication",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 10,
+    "time": "20 m",
+    "price": "85 USD",
+    "price_postapoc": "12 USD 50 cent"
+  }
+]

@@ -153,11 +153,6 @@ class Item_spawn_data
          */
         virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                                     spawn_flags = spawn_flags::none ) const = 0;
-        /**
-        * Instead of calculating at run-time, give a step to finalize those item_groups that has count-min but not count-max.
-        * The reason is
-        */
-        virtual void finalize( const itype_id & ) = 0;
         std::size_t create( ItemList &list, const time_point &birthday,
                             spawn_flags = spawn_flags::none ) const;
         /**
@@ -340,7 +335,6 @@ class Single_item_creator : public Item_spawn_data
 
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
-        void finalize( const itype_id &container = itype_id::NULL_ID() ) override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         item create_single_without_container( const time_point &birthday, RecursionList &rec ) const;
         void check_consistency( bool actually_spawn ) const override;
@@ -389,7 +383,6 @@ class Item_group : public Item_spawn_data
          * a Single_item_creator or Item_group to @ref items.
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
-        void finalize( const itype_id &container = itype_id::NULL_ID() )override;
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;

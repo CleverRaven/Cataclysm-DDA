@@ -101,7 +101,7 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 5 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 5 },
-          { "queue_eocs": "EOC_BEM_HUMAN_SAMPLE_BUY", "time_in_future": [ "2 days", "2 days" ] }
+          { "run_eocs": "EOC_BEM_HUMAN_SAMPLE_BUY", "time_in_future": [ "2 days", "2 days" ] }
         ]
       },
       {

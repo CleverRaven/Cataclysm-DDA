@@ -2,8 +2,8 @@
   {
     "id": "spell_summon_bat_swarm",
     "type": "SPELL",
-    "name": { "str": "Swarm of Bats" },
-    "description": "Are you the Bat Man?",
+    "name": { "str": "Swarm of Bats", "//~": "NO_I18N" },
+    "description": { "str": "Are you the Bat Man?", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "flags": [ "LOUD", "SOMATIC", "SPAWN_GROUP", "NO_CORPSE_QUIET" ],
     "min_damage": 1,
@@ -28,8 +28,8 @@
   {
     "id": "spell_summon_bat_giant",
     "type": "SPELL",
-    "name": { "str": "Giant Bat" },
-    "description": "Are you the Bat Man?",
+    "name": { "str": "Giant Bat", "//~": "NO_I18N" },
+    "description": { "str": "Are you the Bat Man?", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "flags": [ "LOUD", "SOMATIC", "SPAWN_GROUP", "NO_CORPSE_QUIET" ],
     "min_damage": 1,

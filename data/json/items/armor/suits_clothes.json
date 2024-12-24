@@ -8,7 +8,6 @@
     "volume": "3250 ml",
     "price": "2 kUSD 110 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -34,6 +33,7 @@
     "price_postapoc": "80 cent",
     "material": [ "lycra" ],
     "symbol": "[",
+    "looks_like": "jumpsuit",
     "color": "blue",
     "warmth": 15,
     "material_thickness": 1,
@@ -166,7 +166,6 @@
     "volume": "5750 ml",
     "price": "25 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -194,7 +193,6 @@
     "volume": "3300 ml",
     "price": "65 USD 50 cent",
     "price_postapoc": "8 USD",
-    "to_hit": -3,
     "material": [ "denim" ],
     "symbol": "[",
     "color": "light_blue",
@@ -259,7 +257,6 @@
     "volume": "12 L",
     "price": "2 kUSD 500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "wolfsuit",
@@ -284,7 +281,6 @@
     "volume": "12 L",
     "price": "2 kUSD 500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "wolfsuit",
@@ -308,7 +304,6 @@
     "volume": "12 L",
     "price": "2 kUSD 500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "dinosuit",
@@ -334,7 +329,6 @@
     "volume": "12 L",
     "price": "2 kUSD 500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "wolfsuit",
@@ -410,7 +404,6 @@
     "volume": "3500 ml",
     "price": "89 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -463,7 +456,6 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -618,7 +610,6 @@
     "volume": "1000 ml",
     "price": "100 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -707,7 +698,6 @@
     "volume": "2000 ml",
     "price": "120 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -3,
     "material": [ "cotton", "canvas" ],
     "symbol": "[",
     "looks_like": "technician_coveralls",
@@ -805,7 +795,6 @@
     "volume": "5 L",
     "price": "110 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -845,15 +834,14 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
-    "id": "wolfsuit",
+    "id": "fursuit",
     "type": "ARMOR",
-    "name": { "str": "wolf suit" },
-    "description": "A full-body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
+    "name": { "str": "fursuit" },
+    "description": "A full-body fursuit in the form of an anthropomorphic animal.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
     "price": "2 kUSD 500 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "color": "light_gray",
@@ -869,7 +857,86 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "wolfsuit",
+        "name": { "str": "wolf fursuit" },
+        "description": "A cartoonish full-body fursuit made to resemble an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
+        "weight": 35
+      },
+      {
+        "id": "dogsuit",
+        "name": { "str": "dog fursuit" },
+        "description": " A fuzzy full-body fursuit made to resemble an anthropomorphic domestic canine of unknown breed.  It is quite encumbering and has little storage but is very warm.",
+        "color": "brown",
+        "weight": 30
+      },
+      {
+        "id": "tigersuit",
+        "name": { "str": "tiger fursuit" },
+        "description": "An intricately designed full-body fursuit made to resemble an anthropomorphic bengal tiger, you can't imagine how long it took for it's maker to sew all those stripes onto it.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_red",
+        "weight": 15
+      },
+      {
+        "id": "felinesuit",
+        "name": { "str": "feline fursuit" },
+        "description": "A fluffy full-body fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 30
+      },
+      {
+        "id": "ottersuit",
+        "name": { "str": "otter fursuit" },
+        "description": "A dopey-looking full-body fursuit made to resemble an anthropomorphic otter.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_red",
+        "weight": 15
+      },
+      {
+        "id": "beaversuit",
+        "name": { "str": "beaver fursuit" },
+        "description": "A full-body fursuit made to resemble a nervous-looking anthropomorphic beaver.  It is quite encumbering and has little storage but is very warm.",
+        "color": "brown",
+        "weight": 10
+      },
+      {
+        "id": "dragonsuit",
+        "name": { "str": "dragon fursuit" },
+        "description": "A detailed full-body fursuit made to resemble a western dragon, complete with a set of small stubby wings on its back.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 20
+      },
+      {
+        "id": "lizardsuit",
+        "name": { "str": "lizard fursuit" },
+        "description": "A sleek full-body fursuit made to resemble an anthropomorphic lizard.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 20
+      },
+      {
+        "id": "sharksuit",
+        "name": { "str": "shark fursuit" },
+        "description": "A gnarly looking full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_blue",
+        "weight": 20
+      },
+      {
+        "id": "orcasuit",
+        "name": { "str": "orca fursuit" },
+        "description": "A sleek looking full-body costume in the form of an anthropomorphic orca whale.  It is quite encumbering and has little storage but is very warm.",
+        "color": "dark_gray",
+        "weight": 15
+      },
+      {
+        "id": "dinosuit",
+        "name": { "str": "dinosaur fursuit" },
+        "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 10
+      }
+    ]
   },
   {
     "id": "wool_suit",
@@ -880,7 +947,6 @@
     "volume": "3 L",
     "price": "80 USD",
     "price_postapoc": "3 USD 50 cent",
-    "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -894,6 +960,44 @@
     "warmth": 50,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "wool_suit_devil",
+    "type": "ARMOR",
+    "name": { "str": "devil onesie" },
+    "description": "An encumbering red wool suit with a hood adorned with cartoonish devil horns and a devil's tail on the back.  It's for those who want to feel devilishly warm in their sleep.",
+    "weight": "883 g",
+    "volume": "3 L",
+    "price": "80 USD",
+    "price_postapoc": "3 USD 50 cent",
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "red",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 80, "encumbrance": 15 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
+    ],
+    "warmth": 50,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "HOOD" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "devil_onesie",
+        "name": { "str": "devil onesie" },
+        "description": "An encumbering red wool suit with a hood adorned with cartoonish devil horns and a devil's tail on the back.  It's for those who want to feel devilishly warm in their sleep.",
+        "color": "red"
+      },
+      {
+        "id": "bunny_onesie",
+        "name": { "str": "bunny onesie" },
+        "description": "An encumbering and fluffy bunny onesie with a hood and adorned with a pair of bunny ears.  Very fluffy.",
+        "color": "light_gray"
+      }
+    ]
   },
   {
     "id": "zentai",

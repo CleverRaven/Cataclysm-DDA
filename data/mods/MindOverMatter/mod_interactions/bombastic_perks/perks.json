@@ -1,0 +1,89 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_clear_minded_channeling",
+    "name": { "str": "Clear-Minded Channeling" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "This \"psychic powers\" stuff is easy, as long as nothing distracts you.  When you are concentrating on 0 powers, or have 0 pain, lower focus has a 33% lower effect on your success chance."
+  },
+  {
+    "type": "mutation",
+    "id": "perk_concussive_blasts",
+    "name": { "str": "Concussive Blasts" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your telekinetic attacks really hammer into your target.  Damaging telekinetic powers have a much higher chance to stagger or knock down your targets."
+  },
+  {
+    "type": "mutation",
+    "id": "perk_efficient_slumber",
+    "name": { "str": "Efficient Slumber" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Some part of your Metabolic Hyperefficiency is running even when you sleep, or perhaps your wakeful meditations have made the process of sleeping more efficient.  You can stay awake for 20% longer, and sleep is 20% more restorative.",
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_grace_under_pain",
+    "name": { "str": "Grace Under Pain" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Happy.  In Your Lane.  Focused.  Flourishing.  Your Intelligence is only penalized 66% of the normal amount from pain, and 33% of normal if you're using the Biokinetic power Overcome Pain, the Electrokinetic power Pain Suppression, or the Telepathic power Mood Stabilization.",
+    "enchantments": [
+      {
+        "condition": {
+          "not": { "u_has_any_effect": [ "effect_biokin_overcome_pain", "effect_electrokin_reduce_pain", "effect_telepathic_morale" ] }
+        },
+        "values": [ { "value": "PAIN_PENALTY_MOD_INT", "multiply": -0.33 } ]
+      },
+      {
+        "condition": { "u_has_any_effect": [ "effect_biokin_overcome_pain", "effect_electrokin_reduce_pain", "effect_telepathic_morale" ] },
+        "values": [ { "value": "PAIN_PENALTY_MOD_INT", "multiply": -0.66 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_in_the_zone",
+    "name": { "str": "In the Zone" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Once you get going you just keep rolling.  Your next use of a psionic power within five seconds of channeling one has its stamina cost reduced by 25%."
+  },
+  {
+    "type": "mutation",
+    "id": "perk_mastery_of_form",
+    "name": { "str": "Mastery of Form" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your control of your own body has given you control of your own genetics, albeit a subconscious one.  You will be less likely to suffer from negative mutations when taking mutagen.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+  },
+  {
+    "//": "Playstyle perks begin here",
+    "type": "mutation",
+    "id": "perk_burning_bright",
+    "name": { "str": "Burning Bright" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Nether energy easily flows through you, causing your power to rise and fall far faster than normal.  You gain far more Nether Attunement from channeling or maintaining your powers, but you lose your Nether Attunement much faster as well.  You do not lose Nether Attunement at this accelerated rate while maintaining any powers."
+  },
+  {
+    "type": "mutation",
+    "id": "perk_phoenix_rising",
+    "name": { "str": "Phoenix Rising" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Only the phoenix rises and does not descend, but you're going try your hardest.  The stamina cost of your powers is reduced beginning at Nether Attunement level 8, reaching 1/3rd of normal by Nether Attunement level 12."
+  }
+]

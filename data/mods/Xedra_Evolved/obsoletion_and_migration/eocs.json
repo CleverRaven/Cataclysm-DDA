@@ -1,0 +1,10 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NON_LILIN_RAAB_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
+    "effect": [ { "u_lose_effect": "effect_lilin_no_ruach" } ]
+  }
+]

@@ -3,51 +3,79 @@
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_MERCHANT",
     "dynamic_line": {
-      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_merchant" } ],
+      "math": [ "has_var(n_dialogue_first_meeting_talked_to_merchant)" ],
       "yes": "Hello there.  Nice to see you again.",
       "no": "A new face at the mill?  Who might you be?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_merchant", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
-        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO",
-        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_merchant" } ] } }
+        "condition": { "math": [ "!has_var(n_dialogue_first_meeting_talked_to_merchant)" ] },
+        "effect": { "math": [ "n_dialogue_first_meeting_talked_to_merchant = yes" ] },
+        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
+      },
+      {
+        "text": "Pleasure to see you again.",
+        "condition": { "math": [ "has_var(n_dialogue_first_meeting_talked_to_merchant)" ] },
+        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
       },
       {
         "text": "Hands up!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_merchant" } ] } }
+        "condition": { "math": [ "!has_var(n_dialogue_first_meeting_talked_to_merchant)" ] }
       },
-      {
-        "text": "Pleasure to see you again.",
-        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO",
-        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_merchant" } ] }
-      },
-      { "text": "See ya.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO",
+    "id": [ "TALK_NPC_LUMBERMILL_MERCHANT_INTRO", "TALK_LUMBERMILL_RESTOCK" ],
     "dynamic_line": "So, what's up?",
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_STORY" },
+      { "text": "Let's trade.", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO", "effect": "start_trade" },
+      { "text": "When will you have new stuff in stock?", "topic": "TALK_LUMBERMILL_RESTOCK" },
       {
-        "text": "I'd like to ask you a few questions.",
-        "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_merchant" } ] }
+        "text": "Can I order a batch of lumber?",
+        "condition": { "math": [ "!has_var(n_timer_fabricate_waiting)" ] },
+        "topic": "TALK_LUMBERMILL_FABRICATE"
       },
-      { "text": "Can I purchase some of your wares?", "topic": "TALK_LUMBERMILL_FABRICATE" },
+      {
+        "text": "How is my order going?",
+        "condition": { "math": [ "has_var(n_timer_fabricate_waiting)" ] },
+        "topic": "TALK_LUMBERMILL_FABRICATE_FINISHED"
+      },
+      { "text": "What are you doing here?", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_STORY" },
+      { "text": "I'd like to ask you a few questions.", "topic": "TALK_FRIEND_CONVERSATION" },
+      {
+        "text": "Can I use the gate?  I'd like to bring a vehicle for trade.",
+        "topic": "TALK_LUMBERMILL_GATE_PERMISSION"
+      },
       {
         "text": "Any jobs you need done?",
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUMBERMILL_GATE_PERMISSION",
+    "dynamic_line": "I'll tell the guys to open one of the gates, but you gotta promise to be careful.  We've got a simple rule here: You break it, you buy it!",
+    "responses": [
+      {
+        "text": "I'll be careful.",
+        "effect": { "mapgen_update": "ocu_lumbermill_opens_a_gate", "om_terrain": "lumbermill_1_1_ocu" },
+        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUMBERMILL_RESTOCK",
+    "dynamic_line": "Workers will bring in a new shipment of lumber in <interval>."
   },
   {
     "type": "talk_topic",

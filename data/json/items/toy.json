@@ -911,7 +911,7 @@
       "description": "Hug the imperfect doll.",
       "effect_on_conditions": [ "EOC_queue_unvitrified_return" ]
     },
-    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "TRADER_AVOID" ]
+    "flags": [ "SLEEP_AID", "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "id": "imperfect_doll_legs",
@@ -924,7 +924,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
   },
   {
     "id": "imperfect_doll_arms",
@@ -937,7 +937,7 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "cyan",
-    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
   },
   {
     "id": "imperfect_doll_features",
@@ -950,6 +950,6 @@
     "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
-    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
+    "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT", "MISSION_ITEM" ]
   }
 ]

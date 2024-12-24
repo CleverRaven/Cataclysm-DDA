@@ -1,0 +1,94 @@
+[
+  {
+    "type": "TOOL",
+    "id": "moons_tears_knife_baselard",
+    "copy-from": "knife_baselard",
+    "looks_like": "knife_baselard",
+    "name": { "str_sp": "moon's tears baselard" },
+    "description": "A dagger forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "replace_materials": { "iron": "moon_tears" },
+    "//": "1.2 below produces 10% more damage than hardened steel weapons. Otherwise, use 1.1.",
+    "proportional": { "melee_damage": { "stab": 1.1 }, "weight": 0.56 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_broadsword",
+    "copy-from": "ch_broadsword",
+    "looks_like": "ch_broadsword",
+    "name": { "str_sp": "moon's tears broadsword" },
+    "description": "A broad sword forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
+    "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.56 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_arming_sword",
+    "copy-from": "ch_arming_sword",
+    "looks_like": "ch_arming_sword",
+    "name": { "str_sp": "moon's tears arming sword" },
+    "description": "A classic medieval sword, just the right size to use one-handed, and forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
+    "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.56 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_mace",
+    "copy-from": "ch_mace",
+    "looks_like": "ch_mace",
+    "name": { "str_sp": "moon's tears mace" },
+    "description": "A medieval weapon consisting of a wood handle with a heavy metal head forged from some silvery metal that seems to shine with a soft internal light.  It looks delicate but hits very hard.",
+    "replace_materials": { "ch_steel": "moon_tears" },
+    "proportional": { "melee_damage": { "bash": 1.2 }, "weight": 0.8 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_scimitar",
+    "copy-from": "ch_scimitar",
+    "looks_like": "ch_scimitar",
+    "name": { "str_sp": "moon's tears shamshir" },
+    "description": "A curved sword associated with various Middle Eastern and Central Asian countries, forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
+    "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.6 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_estoc",
+    "copy-from": "ch_estoc",
+    "looks_like": "ch_estoc",
+    "name": { "str_sp": "moon's tears estoc" },
+    "description": "A thin thrusting sword, a sort of predecessor to the rapier, forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
+    "proportional": { "melee_damage": { "stab": 1.2 }, "weight": 0.56 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_spear",
+    "copy-from": "spear_steel",
+    "looks_like": "spear_steel",
+    "//": "copy from ch_spear once that exists",
+    "name": { "str_sp": "moon's tears spear" },
+    "description": "A stout wooden pole with a spearhead forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "material": [ { "type": "moon_tears", "portion": 1 }, { "type": "wood", "portion": 7 } ],
+    "proportional": { "melee_damage": { "stab": 1.1 }, "weight": 0.95 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_battleaxe",
+    "copy-from": "ch_battleaxe",
+    "looks_like": "ch_battleaxe",
+    "name": { "str_sp": "moon's tears battle axe" },
+    "description": "A huge axe designed for warfare, forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "material": [ { "type": "moon_tears", "portion": 1 }, { "type": "wood", "portion": 4 } ],
+    "proportional": { "melee_damage": { "cut": 1.2 }, "weight": 0.8 }
+  },
+  {
+    "type": "TOOL",
+    "id": "moons_tears_katana",
+    "copy-from": "ch_katana",
+    "looks_like": "ch_katana",
+    "name": { "str_sp": "moon's tears katana" },
+    "description": "A thin thrusting sword, a sort of predecessor to the rapier, forged from some silvery metal that seems to shine with a soft internal light.  It's surprisingly sharp.",
+    "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
+    "proportional": { "melee_damage": { "stab": 1.2 }, "weight": 0.56 }
+  }
+]

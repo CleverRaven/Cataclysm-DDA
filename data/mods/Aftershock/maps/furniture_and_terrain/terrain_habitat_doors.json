@@ -24,9 +24,9 @@
         {
           "id": "EOC_unlock_afs_metal_door",
           "effect": [
-            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            { "math": [ "_t_delay = time('20 m')" ] },
             {
-              "run_eoc_with": "EOC_start_lock_hack",
+              "run_eocs": "EOC_start_lock_hack",
               "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
               "alpha_talker": "avatar"
             }

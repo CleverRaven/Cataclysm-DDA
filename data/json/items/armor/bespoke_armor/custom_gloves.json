@@ -101,7 +101,7 @@
     "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 16,

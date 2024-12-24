@@ -234,7 +234,7 @@
     "looks_like": "p226_357sig",
     "type": "GUN",
     "name": { "str": "SIG pistol" },
-    "description": "A semi-automatic pistol chambered in 10mmm and accepting SIG magazines.",
+    "description": "A semi-automatic pistol chambered in 10mm and accepting SIG magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -322,39 +322,5 @@
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
-  },
-  {
-    "id": "STI_DS_10",
-    "copy-from": "pistol_base",
-    "looks_like": "m1911_10",
-    "type": "GUN",
-    "name": { "str": "double-stack 10mm 1911 pistol" },
-    "description": "An updated version of the M1911 pistol, chambered in 10mm Auto, that uses double-stack magazines for greater capacity.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "STI_DS_10",
-        "name": { "str": "STI Tactical 2011 DS 10mm pistol" },
-        "description": "A next-gen model of the venerable 1911, ready to win World War Z.  Modernized and manufactured by Staccato, sporting a double-stack magwell, sleek solid-steel frame, and ergonomic grip; favored by certain dog-loving assassins.  This model is chambered in 10mm Auto.",
-        "weight": 1
-      }
-    ],
-    "weight": "1191 g",
-    "volume": "430 ml",
-    "longest_side": "231 mm",
-    "barrel_length": "127 mm",
-    "price": "2 kUSD 699 USD",
-    "price_postapoc": "30 USD",
-    "material": [ "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": "10mm",
-    "dispersion": 460,
-    "durability": 6,
-    "min_cycle_recoil": 570,
-    "blackpowder_tolerance": 48,
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "2011_17_mag", "2011_22_mag" ] } ],
-    "melee_damage": { "bash": 12 }
   }
 ]

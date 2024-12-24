@@ -7,6 +7,7 @@
 
 #include "cata_unreachable.h"
 #include "filesystem.h"
+#include "game.h"
 #include "json.h"
 
 namespace
@@ -252,6 +253,9 @@ bool JsonValue::read( std::string &s, bool throw_on_error ) const
 void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
+    if( g && g->uquit == quit_status::QUIT_EXIT ) {
+        return;
+    }
     if( !std::uncaught_exceptions() && report_unvisited_members && !visited_fields_bitset_.all() ) {
         std::vector<size_t> skipped_members;
         skipped_members.reserve( visited_fields_bitset_.size() );

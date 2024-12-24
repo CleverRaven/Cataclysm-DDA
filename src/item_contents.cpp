@@ -17,6 +17,7 @@
 #include "flat_set.h"
 #include "imgui/imgui.h"
 #include "input.h"
+#include "input_popup.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -32,7 +33,6 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -89,7 +89,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
             continue;
         }
 
-        if( i == menu->hovered ) {
+        if( i == menu->previewing ) {
             selected_pocket = pocket;
             pocket_num = std::get<1>( pocket_val ) + 1;
             break;
@@ -306,11 +306,9 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         whitelist = false;
         return true;
     } else if( action == "FAV_PRIORITY" ) {
-        string_input_popup popup;
-        popup.title( string_format( _( "Enter Priority (current priority %d)" ),
-                                    selected_pocket->settings.priority() ) );
-        const int ret = popup.query_int();
-        if( popup.confirmed() ) {
+        number_input_popup<int> popup( 34, selected_pocket->settings.priority(), _( "Enter Priority" ) );
+        const int ret = popup.query();
+        if( !popup.cancelled() ) {
             selected_pocket->settings.set_priority( ret );
             selected_pocket->settings.set_was_edited();
         }
@@ -434,16 +432,10 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         }
         return true;
     } else if( action == "FAV_SAVE_PRESET" ) {
-        string_input_popup custom_preset_popup;
-        custom_preset_popup
-        .title( _( "Enter a preset name:" ) )
-        .width( 25 );
-        if( selected_pocket->settings.get_preset_name().has_value() ) {
-            custom_preset_popup.text( selected_pocket->settings.get_preset_name().value() );
-        }
-        custom_preset_popup.query_string();
-        if( !custom_preset_popup.canceled() ) {
-            const std::string &rval = custom_preset_popup.text();
+        string_input_popup_imgui popup( 34, selected_pocket->settings.get_preset_name().value_or( "" ),
+                                        _( "Enter a preset name:" ) );
+        const std::string &rval = popup.query();
+        if( !popup.cancelled() ) {
             // Check if already exists
             item_pocket::load_presets();
             if( item_pocket::has_preset( rval ) ) {
@@ -1256,6 +1248,11 @@ void item_contents::heat_up()
 
 int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_efficiency )
 {
+    return item_contents::ammo_consume( qty, tripoint_bub_ms( pos ), fuel_efficiency );
+}
+
+int item_contents::ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency )
+{
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
@@ -1746,6 +1743,7 @@ content_newness item_contents::get_content_newness( const std::set<itype_id> &re
                     return content_newness::NEW;
                 case content_newness::MIGHT_BE_HIDDEN:
                     ret = content_newness::MIGHT_BE_HIDDEN;
+                    break;
                 case content_newness::SEEN:
                     break;
             }
@@ -2644,6 +2642,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
     std::vector<iteminfo> contents_info;
     std::vector<item_pocket> found_pockets;
     std::map<int, int> pocket_num; // index, amount
+    const bool describe_contents = parts->test( iteminfo_parts::DESCRIPTION_CONTENTS );
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
             bool found = false;
@@ -2652,6 +2651,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                 if( found_pocket == pocket ) {
                     found = true;
                     pocket_num[idx]++;
+                    break;
                 }
                 idx++;
             }
@@ -2659,7 +2659,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                 found_pockets.push_back( pocket );
                 pocket_num[idx]++;
             }
-            pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
+            if( describe_contents ) {
+                pocket.contents_info( contents_info, pocket_number++, contents.size() != 1 );
+            }
         }
     }
     if( parts->test( iteminfo_parts::DESCRIPTION_POCKETS ) ) {
@@ -2687,6 +2689,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
         }
 
         int idx = 0;
+        int pocket_number = 1;
         for( const item_pocket &pocket : found_pockets ) {
             if( pocket.is_forbidden() ) {
                 continue;
@@ -2694,8 +2697,15 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {
-                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d pockets</bold> with capacity:" ),
-                                   pocket_num[idx] ) );
+                std::vector<int> pocket_numbers( pocket_num[idx] );
+                std::iota( pocket_numbers.begin(), pocket_numbers.end(), pocket_number );
+                std::string pocket_numbers_enumeration = enumerate_as_string( pocket_numbers.begin(),
+                pocket_numbers.end(), []( int n ) {
+                    // std::to_string is not addressable, can't be passed directly
+                    return std::to_string( n );
+                } );
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pockets %s</bold>" ),
+                                   pocket_numbers_enumeration ) );
             } else {
                 // If this is the only pocket the item has, label it "Total capacity"
                 // Otherwise, give it a generic "Pocket" heading (is one of several pockets)
@@ -2703,14 +2713,15 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
                 if( only_one_pocket ) {
                     info.emplace_back( "DESCRIPTION", _( "<bold>Total capacity</bold>:" ) );
                 } else {
-                    info.emplace_back( "DESCRIPTION", _( "<bold>Pocket</bold> with capacity:" ) );
+                    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Pocket %d</bold>" ), pocket_number ) );
                 }
             }
+            pocket_number += pocket_num[idx];
             idx++;
             pocket.general_info( info, idx, false );
         }
     }
-    if( parts->test( iteminfo_parts::DESCRIPTION_CONTENTS ) ) {
+    if( describe_contents ) {
         info.insert( info.end(), contents_info.begin(), contents_info.end() );
     }
 }

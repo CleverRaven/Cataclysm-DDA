@@ -40,6 +40,6 @@
       },
       "I live for this stuff.  I'm not really big on books, so this is probably what I'm best at here."
     ],
-    "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   }
 ]

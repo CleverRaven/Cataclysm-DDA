@@ -2,8 +2,9 @@
   {
     "type": "palette",
     "id": "p_resort_palette_main",
+    "palettes": [ "parametrized_walls_palette" ],
     "furniture": {
-      "#": "f_counter",
+      "w": "f_counter",
       ";": "f_counter_gate_c",
       "T": "f_table",
       "H": "f_armchair",
@@ -29,7 +30,6 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "-": "t_door_metal_c",
-      "|": "t_wall_w",
       "o": "t_window_domestic",
       ".": "t_floor",
       ",": "t_carpet_red",
@@ -44,7 +44,7 @@
     },
     "toilets": { "$": {  } },
     "items": {
-      "$": { "item": "stash_drugs", "chance": 75 },
+      "$": { "item": "stash_drugs_illegals", "chance": 75 },
       "Y": { "item": "mansion_safe_nogun", "chance": 100, "repeat": [ 3, 8 ] },
       "l": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
       "e": { "item": "SUS_office_desk", "chance": 50 },

@@ -35,7 +35,6 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "help.h"
 #include "json.h"
 #include "map.h"
 #include "messages.h"
@@ -128,8 +127,6 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->new_game = true;
     g->load_static_data();
 
-    get_help().load();
-
     world_generator->set_active_world( nullptr );
     world_generator->init();
     // Using unicode characters in the world name to test path encoding
@@ -161,7 +158,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     map &here = get_map();
     // TODO: fix point types
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-    get_avatar().move_to( tripoint_abs_ms( tripoint_zero ) );
+    get_avatar().move_to( tripoint_abs_ms::zero );
 
     get_weather().update_weather();
 }

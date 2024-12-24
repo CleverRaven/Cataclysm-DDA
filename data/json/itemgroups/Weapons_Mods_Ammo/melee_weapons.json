@@ -1,0 +1,479 @@
+[
+  {
+    "type": "item_group",
+    "id": "melee_bashing_common",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "battleaxes_homemade", "prob": 1 },
+      { "group": "melee_bashing_rare_weak", "prob": 1 },
+      { "group": "canes", "prob": 16 },
+      { "item": "bat", "prob": 8 },
+      { "item": "bat_metal", "prob": 4 },
+      { "item": "bwirebat", "prob": 4 },
+      { "item": "nailbat", "prob": 8 },
+      { "item": "baton", "prob": 8 },
+      { "item": "PR24-retracted", "prob": 8 },
+      { "item": "blackjack", "prob": 8 },
+      { "item": "bowling_axe", "prob": 2 },
+      { "item": "bowling_pin", "prob": 4 },
+      { "item": "club_wooden", "prob": 8 },
+      { "item": "club_wooden_large", "prob": 4 },
+      { "item": "crutches", "prob": 4 },
+      { "item": "makeshift_crutches", "prob": 8 },
+      { "item": "cudgel", "prob": 8 },
+      { "item": "golf_club", "prob": 8 },
+      { "item": "hockey_stick", "prob": 8 },
+      { "item": "homewrecker", "prob": 1 },
+      { "item": "homemade_polehammer", "prob": 1 },
+      { "item": "homemade_polehammer_makeshift", "prob": 1 },
+      { "item": "mace_trench", "prob": 4 },
+      { "item": "mace_pipe", "prob": 4 },
+      { "item": "mace_pipe_large", "prob": 1 },
+      { "item": "staff_pipe", "prob": 4 },
+      { "item": "makeshift_sap", "prob": 16 },
+      { "item": "nailboard", "prob": 16 },
+      { "item": "rock_sock", "prob": 16 },
+      { "item": "sword_wood", "prob": 8 },
+      { "item": "sword_wood_large", "prob": 4 },
+      { "item": "sword_nail", "prob": 8 },
+      { "item": "wrench", "prob": 8 },
+      { "item": "wrench_large", "prob": 4 },
+      { "item": "primitive_hammer", "prob": 16 },
+      { "item": "pipe", "prob": 16 },
+      { "item": "hammer", "prob": 8 },
+      { "item": "e_tool", "prob": 4 },
+      { "item": "lug_wrench", "prob": 8 },
+      { "item": "chain", "prob": 8 },
+      { "item": "hoe", "prob": 8 },
+      { "item": "primitive_shovel", "prob": 16 },
+      { "item": "shovel", "prob": 8 },
+      { "item": "rake", "prob": 8 },
+      { "item": "crowbar", "prob": 8 },
+      { "item": "makeshift_crowbar", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_bashing_rare",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "battleaxes", "prob": 1 },
+      { "group": "aztec_spears", "prob": 1 },
+      { "group": "aztec_swords", "prob": 1 },
+      { "group": "metal_staves", "prob": 1 },
+      { "group": "maces", "prob": 1 },
+      { "group": "sledgehammers", "prob": 4 },
+      { "item": "2h_flail_steel", "prob": 1 },
+      { "item": "2h_flail_wood", "prob": 2 },
+      { "item": "2h_club_kanabo_studded", "prob": 1 },
+      { "item": "2h_club_kanabo_spiked", "prob": 1 },
+      { "item": "warhammer", "prob": 1 },
+      { "item": "lucern_hammer", "prob": 1 },
+      { "item": "morningstar", "prob": 1 },
+      { "item": "poleaxe", "prob": 1 },
+      { "item": "sword_metal_large", "prob": 1 },
+      { "item": "tazer", "prob": 1 },
+      { "item": "pickaxe", "prob": 4 },
+      { "item": "heavy_crowbar", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_bashing_rare_weak",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bokken", "prob": 4 },
+      { "item": "shillelagh", "prob": 2 },
+      { "item": "shillelagh_weighted", "prob": 1 },
+      { "item": "bo", "prob": 1 },
+      { "item": "q_staff", "prob": 4 },
+      { "item": "tonfa", "prob": 2 },
+      { "item": "tonfa_wood", "prob": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_cutting_common",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "battleaxes_homemade", "prob": 1 },
+      { "item": "glass_shiv", "prob": 8 },
+      { "item": "sword_crude", "prob": 1 },
+      { "item": "sword_crude_large", "prob": 1 },
+      { "item": "sword_sheets_welded", "prob": 1 },
+      { "item": "sword_sheets_welded_large", "prob": 1 },
+      { "item": "makeshift_machete", "prob": 4 },
+      { "item": "machete_gimmick", "prob": 2 },
+      { "item": "makeshift_axe", "prob": 4 },
+      { "item": "primitive_axe", "prob": 4 },
+      { "item": "ax", "prob": 1 },
+      { "item": "hatchet", "prob": 4 },
+      { "item": "throwing_axe", "prob": 2 },
+      { "item": "e_tool", "prob": 4 },
+      { "item": "knife_cleaver", "prob": 2 },
+      { "item": "scythe", "prob": 1 },
+      { "item": "sickle", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_cutting_rare",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "battleaxes", "prob": 1 },
+      { "group": "cavalry_sabres", "prob": 1 },
+      { "group": "aztec_swords", "prob": 1 },
+      { "group": "aztec_spears", "prob": 1 },
+      { "group": "kukris", "prob": 1 },
+      { "group": "jians", "prob": 1 },
+      { "group": "scimitars", "prob": 1 },
+      { "group": "longswords", "prob": 1 },
+      { "group": "arming_swords", "prob": 1 },
+      { "group": "wakizashis", "prob": 1 },
+      { "group": "zweihanders", "prob": 1 },
+      { "group": "nodachis", "prob": 1 },
+      { "group": "broadswords", "prob": 1 },
+      { "group": "katanas", "prob": 1 },
+      { "group": "cutlasses", "prob": 1 },
+      { "group": "kriegsmessers", "prob": 1 },
+      { "group": "falxes", "prob": 1 },
+      { "group": "talwars", "prob": 1 },
+      { "group": "kilijes", "prob": 1 },
+      { "item": "makeshift_scythe_war", "prob": 16 },
+      { "item": "makeshift_halberd", "prob": 16 },
+      { "item": "halberd", "prob": 1 },
+      { "item": "makeshift_glaive", "prob": 16 },
+      { "item": "glaive", "prob": 1 },
+      { "item": "naginata", "prob": 1 },
+      { "item": "scythe_war", "prob": 1 },
+      { "item": "ji", "prob": 1 },
+      { "item": "poleaxe", "prob": 1 },
+      { "item": "sword_metal", "prob": 8 },
+      { "item": "sword_metal_large", "prob": 4 },
+      { "item": "knife_hunting", "prob": 16 },
+      { "item": "machete", "prob": 16 },
+      { "item": "survivor_machete", "prob": 4 },
+      { "item": "survivor_machete_qt", "prob": 1 },
+      { "item": "sword_xiphos", "prob": 1 },
+      { "item": "khopesh", "prob": 1 },
+      { "item": "dao", "prob": 1 },
+      { "item": "sword_bronze", "prob": 4 },
+      { "item": "butterfly_swords", "prob": 1 },
+      { "item": "lajatang", "prob": 1 },
+      { "item": "bagh_nakha", "prob": 1 },
+      { "item": "arisaka_bayonet", "prob": 1 },
+      { "item": "diveknife", "prob": 8 },
+      { "item": "brush_axe", "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_stabbing_common",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "melee_stabbing_rare_weak", "prob": 1 },
+      { "item": "bowling_axe", "prob": 4 },
+      { "item": "pitchfork", "prob": 8 },
+      { "item": "pointy_stick", "prob": 16 },
+      { "item": "pointy_stick_long", "prob": 16 },
+      { "item": "spear_wood", "prob": 4 },
+      { "item": "spear_shaft_sharpened", "prob": 4 },
+      { "item": "spear_spike", "prob": 1 },
+      { "item": "spear_knife", "prob": 1 },
+      { "item": "spear_homemade_halfpike", "prob": 4 },
+      { "item": "spear_steel_crude", "prob": 4 },
+      { "item": "spear_forked", "prob": 1 },
+      { "item": "sharpened_pipe", "prob": 16 },
+      { "item": "simple_spear_pipe", "prob": 8 },
+      { "item": "spear_pipe", "prob": 1 },
+      { "item": "pointed_rebar", "prob": 16 },
+      { "item": "sharp_rebar", "prob": 16 },
+      { "item": "spear_rebar", "prob": 4 },
+      { "item": "spear_stone", "prob": 1 },
+      { "item": "spear_stone_simple", "prob": 8 },
+      { "item": "switchblade", "prob": 1 },
+      { "item": "throwing_knife", "prob": 1 },
+      { "item": "knife_folding", "prob": 8 },
+      { "item": "utility_knife_folding", "prob": 8 },
+      { "item": "knife_swissarmy", "prob": 8 },
+      { "item": "pockknife", "prob": 8 },
+      { "item": "makeshift_knife", "prob": 16 },
+      { "item": "primitive_knife", "prob": 16 },
+      { "item": "bone_knife", "prob": 16 },
+      { "item": "knuckle_katar", "prob": 1 },
+      { "item": "knife_small", "prob": 16 },
+      { "item": "knife_large", "prob": 8 },
+      { "item": "knife_huge", "prob": 4 },
+      { "item": "iceaxe", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_stabbing_rare",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "rambo_knives", "prob": 16 },
+      { "group": "trench_knives", "prob": 16 },
+      { "group": "estocs", "prob": 1 },
+      { "group": "rapiers", "prob": 1 },
+      { "item": "lucern_hammer", "prob": 1 },
+      { "item": "morningstar", "prob": 1 },
+      { "item": "warhammer", "prob": 1 },
+      { "item": "spear_knife_superior", "prob": 16 },
+      { "item": "spear_knife_proper", "prob": 16 },
+      { "item": "spear_copper", "prob": 8 },
+      { "item": "spear_steel", "prob": 4 },
+      { "item": "qiang", "prob": 1 },
+      { "item": "pike_copper", "prob": 8 },
+      { "item": "pike_bronze", "prob": 4 },
+      { "item": "pike", "prob": 1 },
+      { "item": "spear_dory", "prob": 1 },
+      { "item": "sword_metal_fencing", "prob": 4 },
+      { "item": "spear_bronze", "prob": 4 },
+      { "item": "knife_combat_marine", "prob": 16 },
+      { "item": "knife_combat_army", "prob": 16 },
+      { "item": "knife_KABAR", "prob": 16 },
+      { "item": "knife_rm42", "prob": 16 },
+      { "item": "knife_rambo", "prob": 16 },
+      { "item": "punch_dagger", "prob": 16 },
+      { "item": "sword_bayonet", "prob": 4 },
+      { "item": "knife_baselard", "prob": 4 },
+      { "item": "kris", "prob": 1 },
+      { "item": "tanto", "prob": 1 },
+      { "item": "karambit", "prob": 1 },
+      { "item": "kirpan", "prob": 1 },
+      { "item": "shock_foil", "prob": 1 },
+      { "item": "shock_epee", "prob": 1 },
+      { "item": "shock_sabre", "prob": 1 },
+      { "item": "sword_cane", "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "melee_stabbing_rare_weak",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pike_wood", "prob": 1 },
+      { "item": "fencing_foil", "prob": 4 },
+      { "item": "fencing_foil_sharpened", "prob": 1 },
+      { "item": "fencing_epee", "prob": 4 },
+      { "item": "fencing_epee_sharpened", "prob": 1 },
+      { "item": "fencing_sabre", "prob": 4 },
+      { "item": "fencing_sabre_sharpened", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "canes",
+    "items": [ [ "cane", 20 ], [ "makeshift_cane", 20 ], [ "sinister_cane", 5 ], [ "wizard_cane", 2 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "sledgehammers",
+    "items": [
+      [ "hammer_sledge", 20 ],
+      [ "hammer_sledge_short", 20 ],
+      [ "hammer_sledge_engineer", 5 ],
+      [ "hammer_sledge_heavy", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "battleaxes",
+    "items": [ [ "lc_battleaxe", 20 ], [ "mc_battleaxe", 10 ], [ "hc_battleaxe", 5 ], [ "ch_battleaxe", 2 ], [ "qt_battleaxe", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "battleaxes_homemade",
+    "items": [ [ "ax_sheets_welded", 1 ], [ "ax_sheets_bolted", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "aztec_swords",
+    "items": [
+      [ "glass_macuahuitl", 40 ],
+      [ "aztec_sword_stone", 40 ],
+      [ "aztec_sword_scrap", 30 ],
+      [ "lc_aztec_sword", 20 ],
+      [ "mc_aztec_sword", 10 ],
+      [ "teeth_macuahuitl", 10 ],
+      [ "hc_aztec_sword", 5 ],
+      [ "ch_aztec_sword", 2 ],
+      [ "qt_aztec_sword", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "aztec_spears",
+    "items": [
+      [ "aztec_spear_glass", 40 ],
+      [ "aztec_spear_stone", 40 ],
+      [ "aztec_spear_scrap", 30 ],
+      [ "lc_aztec_spear", 20 ],
+      [ "mc_aztec_spear", 10 ],
+      [ "hc_aztec_spear", 5 ],
+      [ "ch_aztec_spear", 2 ],
+      [ "qt_aztec_spear", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "metal_staves",
+    "items": [
+      [ "i_staff", 30 ],
+      [ "lc_steel_staff", 20 ],
+      [ "mc_steel_staff", 10 ],
+      [ "hc_steel_staff", 5 ],
+      [ "ch_steel_staff", 2 ],
+      [ "qt_steel_staff", 1 ],
+      [ "shock_staff", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "maces",
+    "items": [ [ "mace_bronze", 20 ], [ "lc_mace", 20 ], [ "mc_mace", 10 ], [ "hc_mace", 5 ], [ "ch_mace", 2 ], [ "qt_mace", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "rambo_knives",
+    "items": [
+      [ "lc_knife_rambo", 20 ],
+      [ "mc_knife_rambo", 10 ],
+      [ "hc_knife_rambo", 5 ],
+      [ "ch_knife_rambo", 2 ],
+      [ "qt_knife_rambo", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "trench_knives",
+    "items": [
+      [ "lc_knife_trench", 20 ],
+      [ "mc_knife_trench", 10 ],
+      [ "hc_knife_trench", 5 ],
+      [ "ch_knife_trench", 2 ],
+      [ "qt_knife_trench", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "cavalry_sabres",
+    "items": [
+      [ "lc_cavalry_sabre", 20 ],
+      [ "mc_cavalry_sabre", 10 ],
+      [ "hc_cavalry_sabre", 5 ],
+      [ "ch_cavalry_sabre", 2 ],
+      [ "qt_cavalry_sabre", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "kukris",
+    "items": [ [ "lc_kukri", 20 ], [ "mc_kukri", 10 ], [ "hc_kukri", 5 ], [ "ch_kukri", 2 ], [ "qt_kukri", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "jians",
+    "items": [ [ "lc_jian", 20 ], [ "mc_jian", 10 ], [ "hc_jian", 5 ], [ "ch_jian", 2 ], [ "qt_jian", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "scimitars",
+    "items": [ [ "lc_scimitar", 20 ], [ "mc_scimitar", 10 ], [ "hc_scimitar", 5 ], [ "ch_scimitar", 2 ], [ "qt_scimitar", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "estocs",
+    "items": [ [ "lc_estoc", 20 ], [ "mc_estoc", 10 ], [ "hc_estoc", 5 ], [ "ch_estoc", 2 ], [ "qt_estoc", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "longswords",
+    "items": [ [ "lc_longsword", 20 ], [ "mc_longsword", 10 ], [ "hc_longsword", 5 ], [ "ch_longsword", 2 ], [ "qt_longsword", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "arming_swords",
+    "items": [
+      [ "lc_arming_sword", 20 ],
+      [ "mc_arming_sword", 10 ],
+      [ "hc_arming_sword", 5 ],
+      [ "ch_arming_sword", 2 ],
+      [ "qt_arming_sword", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "wakizashis",
+    "items": [ [ "lc_wakizashi", 20 ], [ "mc_wakizashi", 10 ], [ "hc_wakizashi", 5 ], [ "ch_wakizashi", 2 ], [ "qt_wakizashi", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "zweihanders",
+    "items": [
+      [ "lc_zweihander", 20 ],
+      [ "mc_zweihander", 10 ],
+      [ "hc_zweihander", 5 ],
+      [ "ch_zweihander", 2 ],
+      [ "qt_zweihander", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nodachis",
+    "items": [ [ "lc_nodachi", 20 ], [ "mc_nodachi", 10 ], [ "hc_nodachi", 5 ], [ "ch_nodachi", 2 ], [ "qt_nodachi", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "broadswords",
+    "items": [
+      [ "lc_broadsword", 20 ],
+      [ "mc_broadsword", 10 ],
+      [ "hc_broadsword", 5 ],
+      [ "ch_broadsword", 2 ],
+      [ "qt_broadsword", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "rapiers",
+    "items": [ [ "lc_rapier", 20 ], [ "mc_rapier", 10 ], [ "hc_rapier", 5 ], [ "ch_rapier", 2 ], [ "qt_rapier", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "katanas",
+    "items": [ [ "lc_katana", 20 ], [ "mc_katana", 10 ], [ "hc_katana", 5 ], [ "ch_katana", 2 ], [ "qt_katana", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "cutlasses",
+    "items": [ [ "lc_cutlass", 20 ], [ "mc_cutlass", 10 ], [ "hc_cutlass", 5 ], [ "ch_cutlass", 2 ], [ "qt_cutlass", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "kriegsmessers",
+    "items": [
+      [ "lc_kriegsmesser", 20 ],
+      [ "mc_kriegsmesser", 10 ],
+      [ "hc_kriegsmesser", 5 ],
+      [ "ch_kriegsmesser", 2 ],
+      [ "qt_kriegsmesser", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "falxes",
+    "items": [ [ "lc_falx", 20 ], [ "mc_falx", 10 ], [ "hc_falx", 5 ], [ "ch_falx", 2 ], [ "qt_falx", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "talwars",
+    "items": [ [ "lc_talwar", 20 ], [ "mc_talwar", 10 ], [ "hc_talwar", 5 ], [ "ch_talwar", 2 ], [ "qt_talwar", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "kilijes",
+    "items": [ [ "lc_kilij", 20 ], [ "mc_kilij", 10 ], [ "hc_kilij", 5 ], [ "ch_kilij", 2 ], [ "qt_kilij", 1 ] ]
+  }
+]

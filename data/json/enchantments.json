@@ -45,6 +45,142 @@
   },
   {
     "type": "enchantment",
+    "id": "THERMAL_VISION_GOOD",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 60,
+        "precise": true,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "symbol": ".",
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "symbol": ",",
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "symbol": "o",
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "symbol": "O",
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "symbol": "&",
+            "text": "You see a huge figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_GOOD_PASSIVE",
+    "condition": "ALWAYS",
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 60,
+        "precise": true,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "symbol": ".",
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "symbol": ",",
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "symbol": "o",
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "symbol": "O",
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "symbol": "&",
+            "text": "You see a huge figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "THERMAL_VISION_LEAFNOSE",
+    "condition": {
+      "not": {
+        "or": [
+          { "u_has_effect": "smoke", "bodypart": "mouth" },
+          { "u_has_effect": "asthma" },
+          { "u_has_effect": "tpollen" },
+          { "u_has_effect": "hay_fever" },
+          "u_is_underwater"
+        ]
+      }
+    },
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 10,
+        "descriptions": [ { "id": "infrared_creature_medium", "symbol": "o", "text": "You sense a creature with your thermal nostrils." } ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ELECTRIC_VISION",
+    "condition": "ALWAYS",
+    "special_vision": [
+      {
+        "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+        "distance": 1000,
+        "descriptions": [
+          {
+            "id": "electric_creature_sense",
+            "symbol": "?",
+            "color": "c_cyan",
+            "text": "You sense something emitting electricity here."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_great_mech",
+    "condition": "ALWAYS",
+    "values": [ { "value": "NIGHT_VIS", "add": 14 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "nvg_great",
     "name": { "str": "Night Vision Goggles" },
     "description": "You are wearing night vision goggles which allow you to see really well in the dark.",
@@ -131,7 +267,15 @@
     "description": "Your armor lets you detect otherworldly presence with ease.",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 10 } ]
+    "special_vision": [
+      {
+        "condition": {
+          "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+        },
+        "distance": 10,
+        "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+      }
+    ]
   },
   {
     "id": "ench_dampened_steps",

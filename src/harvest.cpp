@@ -188,6 +188,7 @@ void harvest_list::finalize()
 
 void harvest_list::finalize_all()
 {
+    harvest_list_factory.finalize();
     for( const harvest_list &pr : get_all() ) {
         const_cast<harvest_list &>( pr ).finalize();
     }

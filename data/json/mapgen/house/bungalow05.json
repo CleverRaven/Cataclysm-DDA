@@ -5,7 +5,12 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "...---..................",
@@ -44,7 +49,7 @@
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ")": "t_shrub_lilac",
         ",": "t_dirt",
-        "/": "t_carpet_yellow"
+        "/": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "furniture": { "?": "f_table", "$": "f_rack", "&": "f_rack" },
       "items": {

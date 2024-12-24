@@ -5,7 +5,8 @@
     "//": "Mutant beggar in the refugee center.",
     "name_unique": "Yusuke Taylor",
     "gender": "male",
-    "name_suffix": "beggar",
+    "name_suffix": "Computer Technician",
+    "temp_suffix": "Beggar",
     "class": "NC_BEGGAR_5",
     "attitude": 0,
     "mission": 7,
@@ -79,7 +80,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -94,7 +95,7 @@
       },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -109,7 +110,7 @@
       },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -124,7 +125,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -140,7 +141,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -153,8 +154,8 @@
         "text": "Could you tell me more about what happened with Rhode Island?",
         "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -163,8 +164,8 @@
     "dynamic_line": "Same reason as I'm stuck here… it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No <swear> thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
     "responses": [
       { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -173,8 +174,8 @@
     "dynamic_line": "You don't know?  The governor went nuts, like a lot of people did leading up to the end, only he had a lot more power to work with.  One day he just showed up to work with a militia of rowdies and loyalists and staged a coup, taking over the government completely, killing those that opposed him, and moving as many people as he could get behind him onto the islands.  The rumors I've heard is that most of them survived the Cataclysm and are still running the show there, but that seems kind of impossible to me.",
     "responses": [
       { "text": "Do you think you'd go back and look for your family?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -196,8 +197,8 @@
         "text": "I've spoken to all your friends, and except for Dave, they're good to go.  Dave wants to stay here.  How about you?",
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL2"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -205,6 +206,6 @@
     "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL2",
     "dynamic_line": "Huh.  Getting those three to sign on to a suicide mission is quite the feat… sounds like you're pretty dedicated to this.  OK, I'm with you.  Let's round up the others and hit the road.",
     "speaker_effect": [ { "effect": { "u_add_var": "general_recruit_beggars_recruited", "value": "yes" } } ],
-    "responses": [ { "text": "Right.  Let's go.", "topic": "TALK_DONE", "effect": "follow" } ]
+    "responses": [ { "text": "Right.  <lets_go>", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

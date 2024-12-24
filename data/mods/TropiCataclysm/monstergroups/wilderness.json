@@ -35,10 +35,8 @@
       { "monster": "mon_bushelephant", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_hippo", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_guinea_pig", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
-      { "monster": "mon_guinea_fowl", "weight": 9, "cost_multiplier": 2, "pack_size": [ 1, 18 ] },
       { "monster": "mon_rhea", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 10 ] },
       { "monster": "mon_kangaroo_wallaby", "weight": 12, "cost_multiplier": 2, "pack_size": [ 1, 10 ] },
-      { "monster": "mon_quail", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 7 ] },
       { "monster": "mon_iguana", "weight": 15, "cost_multiplier": 10 },
       { "monster": "mon_basiliscus", "weight": 15, "cost_multiplier": 10 },
       { "monster": "mon_corytophanes", "weight": 15, "cost_multiplier": 10 },
@@ -163,7 +161,6 @@
       { "monster": "mon_rufous_hornero", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_boa", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_gecko", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_guinea_fowl", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_macaw", "weight": 10, "cost_multiplier": 0 },
       {
         "monster": "mon_coati",

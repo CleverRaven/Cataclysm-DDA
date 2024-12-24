@@ -1,0 +1,35 @@
+[
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_COMBAT_TEMPO",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Combat Tempo I" },
+    "description": "Perfect.  Now do it again.\nAttacks generate stacks of combat tempo.  Tempo greatly favors the strong.",
+    "flags": "MELEE_PERK_TEMPO"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_TEMPO_SHIFT",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Tempo Shift" },
+    "description": "Gain a stack of combat tempo whenever you successfully block an attack.",
+    "flags": "MELEE_PERK_TEMPO_SHIFT"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_TEMPO_THROW",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Measured Throws" },
+    "description": "Your throwing attacks deal 100% more damage for every combat tempo stack you have.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "THROW_DAMAGE",
+            "multiply": { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 0 ? u_effect_intensity('mabuff:buff_perk_tempo') : 0" ] }
+          }
+        ]
+      }
+    ]
+  }
+]

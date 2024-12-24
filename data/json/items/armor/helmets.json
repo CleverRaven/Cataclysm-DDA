@@ -116,7 +116,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "plastic_pad", "leather" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -168,7 +167,7 @@
     "longest_side": "28 cm",
     "price": "150 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -255,7 +254,7 @@
         "transparent": true
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_army_outdated",
@@ -270,7 +269,7 @@
     "price": "200 USD",
     "//": "assuming this is an antique and not a cheap replica",
     "price_postapoc": "12 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "hc_steel", "plastic", "leather" ],
     "repairs_with": [ "hc_steel" ],
     "symbol": "[",
@@ -349,7 +348,7 @@
     "volume": "2250 ml",
     "price": "250 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
@@ -377,7 +376,7 @@
         "inherits_flags": false
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "tac_helmet",
@@ -389,7 +388,7 @@
     "volume": "1850 ml",
     "price": "200 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
@@ -476,7 +475,7 @@
         "transparent": true
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "firehelmet",
@@ -489,7 +488,7 @@
     "longest_side": "30 cm",
     "price": "240 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -517,7 +516,7 @@
         "specifically_covers": [ "head_ear_l", "head_ear_r", "head_nape" ]
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_ball",
@@ -529,7 +528,6 @@
     "volume": "1750 ml",
     "price": "31 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -560,8 +558,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ]
       }
-    ],
-    "melee_damage": { "bash": 2 }
+    ]
   },
   {
     "id": "helmet_aztec",
@@ -577,8 +574,8 @@
     "price": "150 USD",
     "price_postapoc": "12 USD 50 cent",
     "material": [ "wood", "cotton" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 6 },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 1 },
     "techniques": [ "WBLOCK_1" ],
     "warmth": 15,
     "flags": [ "VARSIZE", "STURDY", "PADDED", "WATERPROOF", "NO_REPAIR" ],
@@ -590,7 +587,7 @@
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead", "head_crown", "head_ear_l", "head_ear_r" ],
-        "encumbrance": 5,
+        "encumbrance": 50,
         "coverage": 100
       },
       {
@@ -669,7 +666,8 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 3 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_helmet_barbute",
@@ -1220,7 +1218,6 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -1228,8 +1225,7 @@
     "warmth": 30,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_motor",
@@ -1242,7 +1238,7 @@
     "longest_side": "33 cm",
     "price": "325 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "hard_plastic_transp", "epoxy", "plastic_pad" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1319,7 +1315,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_motor_raised",
@@ -1334,7 +1330,7 @@
     "longest_side": "33 cm",
     "price": "325 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "epoxy" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1389,7 +1385,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_riding",
@@ -1710,6 +1706,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -1765,7 +1762,8 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "melee_damage": { "bash": 1 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_helmet_kettle",
@@ -1785,7 +1783,7 @@
     "volume": "2750 ml",
     "price": "350 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -1804,7 +1802,7 @@
         "encumbrance_modifiers": [ "IMBALANCED" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_helmet_scrap",
@@ -1865,6 +1863,7 @@
         "encumbrance": 10
       }
     ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -1907,6 +1906,7 @@
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -1944,6 +1944,7 @@
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
     ],
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1956,7 +1957,7 @@
     "volume": "1750 ml",
     "price": "240 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "clumsy" },
     "material": [ "leather", "iron" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -2917,7 +2918,6 @@
     "volume": "1850 ml",
     "price": "60 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "helmet_army",
@@ -3010,8 +3010,7 @@
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
         "transparent": true
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "lc_helmet_turban",

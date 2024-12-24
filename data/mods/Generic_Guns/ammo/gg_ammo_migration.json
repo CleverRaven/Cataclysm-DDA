@@ -637,5 +637,10 @@
     "id": [ "84x246mm_smoke" ],
     "type": "MIGRATION",
     "replace": "rocket_smoke"
+  },
+  {
+    "id": [ "33naval_ball" ],
+    "type": "MIGRATION",
+    "replace": "rifle_ball_cannon"
   }
 ]

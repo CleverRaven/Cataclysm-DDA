@@ -1592,7 +1592,7 @@
         "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 5.0 } ]
       }
     ],
-    "onkill_eocs": [ "EOC_BIOLUM3_cast" ],
+    "onkill_eocs": [ "EOC_BIOLUM3_activated" ],
     "ongethit_eocs": [
       {
         "id": "EOC_MA_DEBUG_GETHIT",

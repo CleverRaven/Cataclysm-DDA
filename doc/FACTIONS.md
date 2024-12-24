@@ -16,6 +16,7 @@ An NPC faction looks like this:
     "fac_food_supply": { "calories": 115200, "vitamins": { "iron": 800, "calcium": 800, "vitC": 600 } },
     "consumes_food": true,
     "lone_wolf_faction": true,
+    "limited_area_claim": false,
     "wealth": 75000000,
     "currency": "FMCNote",
     "price_rules": [
@@ -77,6 +78,7 @@ Field                 | Meaning
 `"relations"`         | dictionary, a description of how the faction sees other factions.  See below
 `"mon_faction"`       | string, optional.  The monster faction `"name"` of the monster faction that this faction counts as.  Defaults to "human" if unspecified.
 `"lone_wolf_faction"` | bool, optional. This is a proto/micro faction template that is used to generate 1-person factions for dynamically spawned NPCs, defaults to "false" if unspecified.
+`"limited_area_claim"`| bool, optional. Default false. Whether or not camps owned by this faction 'claim' the entire reality bubble and will be angered by hostile player actions in that area.  If true, they only claim the specific OMT the camp is located on.
 `"description"`       | string, optional. The player's description of this faction as seen in the faction menu.
 `"epilogues"`         | array of objects, optional. Requires these objects: `power_min` - minimal faction power for epilogue to appear, `power_max` - maximum faction power for epilogue to appear, `id` - id of text snippet containing text of epilogue.
 

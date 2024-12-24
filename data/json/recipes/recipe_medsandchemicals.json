@@ -1462,37 +1462,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "chem_black_powder",
-    "id_suffix": "sulfurless",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
-    "skill_used": "chemistry",
-    "difficulty": 4,
-    "time": "60 m",
-    "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_inorganic_chemistry" },
-      { "proficiency": "prof_organic_chemistry" }
-    ],
-    "charges": 2183,
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [
-      [ [ "chem_saltpetre", 50 ] ],
-      [ [ "water_clean", 1 ] ],
-      [
-        [ "chem_ethanol", 83 ],
-        [ "chem_methanol", 83 ],
-        [ "ether", 83 ],
-        [ "denat_alcohol", 83 ],
-        [ "methed_alcohol", 83 ]
-      ],
-      [ [ "charcoal", 64 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "red_phosphorous",
     "id_suffix": "with_white_phosphorous",
     "charges": 3,
@@ -2646,14 +2615,14 @@
     "batch_time_factors": [ 25, 2 ],
     "//2": "some loss/waste, e.g. imperfect smelting; powder escaping",
     "//2a": "Lower limit is based on a guesstimate about how much charge you need in the furnace for it to operate",
-    "charges": 95000,
+    "charges": 950,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
     "//3": "At least some knowledge on chemicals handling is required.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "//4": "460kJ per mole @ 70% energy efficiency",
-    "tools": [ [ [ "fake_arc_furnace", 650000 ] ] ],
-    "components": [ [ [ "cac2powder", 100000 ] ] ]
+    "tools": [ [ [ "fake_arc_furnace", 6500 ] ] ],
+    "components": [ [ [ "cac2powder", 1000 ] ] ]
   },
   {
     "type": "recipe",

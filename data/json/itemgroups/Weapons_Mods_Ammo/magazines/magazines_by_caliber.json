@@ -224,7 +224,6 @@
     "items": [
       { "group": "magazines_9mm_calico", "prob": 1 },
       { "group": "magazines_9mm_luger", "prob": 60 },
-      { "group": "magazines_9mm_mauser", "prob": 20 },
       { "group": "magazines_9mm_mp40", "prob": 60 },
       { "group": "magazines_9mm_sten", "prob": 40 },
       { "group": "magazines_9mm_tec9", "prob": 60 },

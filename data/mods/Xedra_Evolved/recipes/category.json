@@ -8,6 +8,7 @@
       "CSC_XEDRA_WEAPONS",
       "CSC_XEDRA_ARMOR",
       "CSC_XEDRA_TOOLS",
+      "CSC_XEDRA_CONSUMABLES",
       "CSC_XEDRA_ROBOTS",
       "CSC_XEDRA_MISC",
       "CSC_XEDRA_ALCHEMY",
@@ -55,6 +56,28 @@
     "description": "Recipes related to turning gossamer into armor.",
     "skill_used": "tailor",
     "nested_category_data": [ "gambeson_gossamer", "gambeson_hood_gossamer", "gambeson_pants_gossamer", "gambeson_batting_gossamer" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_moonstears_weapons_clothing",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS",
+    "name": "moon's tears weapons",
+    "description": "Recipes related to turning moon's tears into weaponry.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "moons_tears_knife_baselard",
+      "moons_tears_broadsword",
+      "moons_tears_arming_sword",
+      "moons_tears_mace",
+      "moons_tears_scimitar",
+      "moons_tears_estoc",
+      "moons_tears_spear",
+      "moons_tears_battleaxe",
+      "moons_tears_katana"
+    ],
     "difficulty": 1
   }
 ]

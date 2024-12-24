@@ -12,13 +12,12 @@
     "has": "HELD",
     "condition": "ALWAYS",
     "skills": [ { "value": "dodge", "multiply": -1 } ],
+    "incoming_damage_mod": [ { "type": "bash", "multiply": -0.5 }, { "type": "cut", "multiply": -0.66 } ],
     "values": [
       { "value": "ATTACK_SPEED", "multiply": 2 },
       { "value": "MOVE_COST", "multiply": 1 },
       { "value": "BONUS_DODGE", "multiply": -1 },
-      { "value": "FOOTSTEP_NOISE", "multiply": 4 },
-      { "value": "ARMOR_CUT", "multiply": -0.66 },
-      { "value": "ARMOR_BASH", "multiply": -0.5 }
+      { "value": "FOOTSTEP_NOISE", "multiply": 4 }
     ]
   },
   {
@@ -26,6 +25,7 @@
     "type": "SPELL",
     "name": "Earthquake Stomp",
     "description": "Stomp on the ground and cause a minor local earthquake, damaging buildings and knocking anyone nearby off their feet.",
+    "message": "You stomp the ground and it quakes!",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "IERDE",
@@ -60,8 +60,9 @@
   {
     "id": "ierde_iron_armor_spell",
     "type": "SPELL",
-    "name": "Invulnerable Iron Armor",
+    "name": "Invulnerable Iron Skin",
     "description": "While on living earth or stone, the Ierde may infuse their body with fae iron, slowing their movement and attacks but rendering them much safer from harm.",
+    "message": "You infuse yourself with the resilience of the earth.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "IERDE",
@@ -83,8 +84,8 @@
   {
     "id": "ierde_iron_armor_spell_real",
     "type": "SPELL",
-    "name": "Invulnerable Earthen Armor Real",
-    "description": "The actual spell that summons the iron armor.  It's a bug if you have it.",
+    "name": { "str": "Invulnerable Earthen Armor Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that summons the iron armor.  It's a bug if you have it.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "self" ],
     "flags": [ "RANDOM_DURATION" ],
@@ -105,6 +106,7 @@
     "type": "SPELL",
     "name": "Mountain-Toppling Punch",
     "description": "With the force of a landslide behind it, punch a single target and knock them backwards.",
+    "message": "You wide up and deliver a punch with the strength of a rockslide.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 2,
@@ -131,8 +133,8 @@
   {
     "id": "ierde_knockback_punch_knockback",
     "type": "SPELL",
-    "name": "Mountain-Toppling Punch Knockback",
-    "description": "The knockback part of Mountain-Toppling Punch.  It's a bug if you have it.",
+    "name": { "str": "Mountain-Toppling Punch Knockback", "//~": "NO_I18N" },
+    "description": { "str": "The knockback part of Mountain-Toppling Punch.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "teachable": false,
@@ -170,6 +172,7 @@
     "type": "SPELL",
     "name": "Reshape the Living Earth",
     "description": "You can mold earth like clay, turning it to stone and back, or raising it and lowering it into pits or ramps or walls.",
+    "message": "The earth moves at your command",
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
     "skill": "deduction",
@@ -192,8 +195,11 @@
   {
     "id": "ierde_reshape_the_earth_walls",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Walls)",
-    "description": "The create walls part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Walls)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The create walls part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -206,8 +212,11 @@
   {
     "id": "ierde_reshape_the_earth_pits",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Pits)",
-    "description": "The create pits part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Pits)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The create pits part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -220,8 +229,11 @@
   {
     "id": "ierde_reshape_the_earth_raise",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Raise Earth)",
-    "description": "The raise earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Raise Earth)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The raise earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -234,8 +246,11 @@
   {
     "id": "ierde_reshape_the_earth_lower",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Lower Earth)",
-    "description": "The lower earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Lower Earth)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The lower earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -248,8 +263,11 @@
   {
     "id": "ierde_reshape_the_earth_smooth_stone",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Smooth Stone)",
-    "description": "The smoothing stone part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Smooth Stone)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The smoothing stone part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -262,8 +280,11 @@
   {
     "id": "ierde_reshape_the_earth_churn_earth",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Churn Earth)",
-    "description": "The churning earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Churn Earth)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The churning earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -276,8 +297,11 @@
   {
     "id": "ierde_reshape_the_earth_to_stone",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Earth to Stone)",
-    "description": "The turning earth to stone part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Earth to Stone)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The turning earth to stone part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -290,8 +314,11 @@
   {
     "id": "ierde_reshape_the_stone_to_dirt",
     "type": "SPELL",
-    "name": "Reshape the Living Earth (Stone to Earth)",
-    "description": "The turning stone to earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+    "name": { "str": "Reshape the Living Earth (Stone to Earth)", "//~": "NO_I18N" },
+    "description": {
+      "str": "The turning stone to earth part of the Reshape the Living Earth spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "SILENT", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "valid_targets": [ "ground" ],
     "max_level": { "math": [ "per_to_level(1)" ] },
@@ -304,8 +331,8 @@
   {
     "id": "ierde_stomp_ground_smash_bash_terrain",
     "type": "SPELL",
-    "name": "Earthquake Stomp Bash Terrain",
-    "description": "Destroy furniture and terrain nearby.",
+    "name": { "str": "Earthquake Stomp Bash Terrain", "//~": "NO_I18N" },
+    "description": { "str": "Destroy furniture and terrain nearby.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "RANDOM_DAMAGE" ],
     "effect": "bash",
@@ -320,8 +347,8 @@
   {
     "id": "ierde_stomp_ground_smash_spawn_rubble",
     "type": "SPELL",
-    "name": "Earthquake Stomp Rubble",
-    "description": "Causes rubble to be spawned occasionally.",
+    "name": { "str": "Earthquake Stomp Rubble", "//~": "NO_I18N" },
+    "description": { "str": "Causes rubble to be spawned occasionally.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
     "effect": "ter_transform",
@@ -419,7 +446,7 @@
     "id": "ierde_entrap_target_in_stone",
     "type": "SPELL",
     "name": "Lithic Gaol",
-    "description": "Summon up a series of spikes around a a single target, imprisoning them in a cage of stone.  The target must be on earth or stone for the spell to take effect.",
+    "description": "Summon up a series of spikes around a single target, imprisoning them in a cage of stone.  The target must be on earth or stone for the spell to take effect.",
     "valid_targets": [ "hostile" ],
     "skill": "deduction",
     "spell_class": "IERDE",
@@ -447,8 +474,11 @@
   {
     "id": "ierde_trap_target_local_terrain_bash",
     "type": "SPELL",
-    "name": "Lithic Gaol Local Bash",
-    "description": "Damages ground before the stone fangs come out, to represent the fangs destroying furniture.  It's a bug if you have it.",
+    "name": { "str": "Lithic Gaol Local Bash", "//~": "NO_I18N" },
+    "description": {
+      "str": "Damages ground before the stone fangs come out, to represent the fangs destroying furniture.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "ground" ],
     "spell_class": "IERDE",
     "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
@@ -491,8 +521,11 @@
   {
     "id": "ierde_no_sleep_meditate_spell",
     "type": "SPELL",
-    "name": "Unsleeping Earth Vigil Spell",
-    "description": "The spell cast by the Unsleeping Earth Vigil mutation.  It's a bug if you have it directly.",
+    "name": { "str": "Unsleeping Earth Vigil Spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "The spell cast by the Unsleeping Earth Vigil mutation.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -504,8 +537,8 @@
   {
     "id": "ierde_smashing_punch_spell",
     "type": "SPELL",
-    "name": "Avalanche Blow Spell",
-    "description": "The spell cast by the Avalanche Blow mutation.  It's a bug if you have it directly.",
+    "name": { "str": "Avalanche Blow Spell", "//~": "NO_I18N" },
+    "description": { "str": "The spell cast by the Avalanche Blow mutation.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground" ],
@@ -570,8 +603,11 @@
   {
     "id": "ierde_tunnel_translocation_attune",
     "type": "SPELL",
-    "name": "Traveling the Veins of the Earth Attunement",
-    "description": "Attune to a location for later traveling.  You must attune deep within the earth on the living rock.",
+    "name": { "str": "Traveling the Veins of the Earth Attunement", "//~": "NO_I18N" },
+    "description": {
+      "str": "Attune to a location for later traveling.  You must attune deep within the earth on the living rock.",
+      "//~": "NO_I18N"
+    },
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "IERDE",
@@ -589,8 +625,8 @@
   {
     "id": "ierde_tunnel_translocation_attune_real",
     "type": "SPELL",
-    "name": "Traveling the Veins of the Earth Attunement Real",
-    "description": "The actual Traveling the Veins of the Earth attunement spell.  It's a bug if you have it.",
+    "name": { "str": "Traveling the Veins of the Earth Attunement Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual Traveling the Veins of the Earth attunement spell.  It's a bug if you have it.", "//~": "NO_I18N" },
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "IERDE",

@@ -324,7 +324,7 @@
     "effect": [
       { "u_message": "The trees whisper their secrets to you.  [Check mutations to activate]", "type": "good" },
       { "u_add_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
+      { "run_eocs": "EOC_LOSE_COMMUNE_OAKS", "time_in_future": [ "60 seconds", "60 seconds" ] }
     ],
     "false_effect": [
       {
@@ -459,5 +459,203 @@
     "spell_class": "VAMPIRE",
     "skill": "deduction",
     "base_casting_time": 75
+  },
+  {
+    "id": "arvore_seed_bearer_real",
+    "type": "SPELL",
+    "name": { "str": "Seed Bearer Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that calls forth seeds.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "skill": "deduction",
+    "flags": [ "SPAWN_GROUP" ],
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "farming_seeds",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1
+  },
+  {
+    "id": "arvore_overgrowth_spell_real",
+    "type": "SPELL",
+    "name": { "str": "Overgrowth Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that casts Overgrowth.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_overgrowth",
+    "min_aoe": {
+      "math": [
+        "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
+  },
+  {
+    "id": "arvore_verdant_mother_damage_zombies_and_aliens",
+    "type": "SPELL",
+    "name": { "str": "Embrace of the Verdant Mother Damage Zombies and Aliens", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that damages zombies and aliens as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "targeted_monster_species": [ "ZOMBIE", "MIGO", "NETHER", "FUNGUS", "LEECH_PLANT" ]
+  },
+  {
+    "id": "arvore_verdant_mother_heal_animals",
+    "type": "SPELL",
+    "name": { "str": "Embrace of the Verdant Mother Heal Animals", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that heals animals and plants as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "targeted_monster_species": [
+      "MAMMAL",
+      "BIRD",
+      "AMPHIBIAN",
+      "REPTILE",
+      "FISH",
+      "INSECT",
+      "CENTIPEDE",
+      "SPIDER",
+      "MOLLUSK",
+      "WORM",
+      "INSECT_FLYING",
+      "ARVORE",
+      "PLANT"
+    ]
+  },
+  {
+    "id": "arvore_verdant_mother_heal_npcs",
+    "type": "SPELL",
+    "name": { "str": "Embrace of the Verdant Mother Heal NPCS", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that heals NPCs as part of Embrace of the Verdant Mother.  List below is to exclude all species, since NPCs do not have a species.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "ignored_monster_species": [
+      "FERAL",
+      "HUMAN",
+      "MAMMAL",
+      "BIRD",
+      "AMPHIBIAN",
+      "REPTILE",
+      "FISH",
+      "INSECT",
+      "CENTIPEDE",
+      "SPIDER",
+      "MOLLUSK",
+      "WORM",
+      "ZOMBIE",
+      "MIGO",
+      "NETHER",
+      "FUNGUS",
+      "PLANT",
+      "CYBORG",
+      "KRAKEN",
+      "MUTANT",
+      "NETHER_EMANATION",
+      "SLIME",
+      "LEECH_PLANT",
+      "INSECT_FLYING",
+      "ZOMBIE",
+      "FERAL",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "HORROR",
+      "ABERRATION",
+      "HALLUCINATION",
+      "HUMAN",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "arvore_verdant_mother_heal_ferals",
+    "//": "This needs to be a separate spell since ferals have the FERAL species but NPCs have no species",
+    "type": "SPELL",
+    "name": { "str": "Embrace of the Verdant Mother Heal Ferals", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that damages zombies and aliens as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "targeted_monster_species": [ "FERAL", "HUMAN" ]
+  },
+  {
+    "id": "arvore_sun_foods_on_spell",
+    "type": "SPELL",
+    "name": { "str": "Solar Repast Spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "The spell that provides the effects when your Solar Repast is active.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
+    "skill": "deduction",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SUN_FOODS_ON_KCAL",
+    "shape": "blast"
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_tree_reduce_thirst",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "180 seconds", "spell_effects": [ { "id": "arvore_reduce_thirst_spell" } ] } ] }
+  },
+  {
+    "id": "arvore_reduce_thirst_spell",
+    "type": "SPELL",
+    "name": { "str": "One with the Forest Reduce Thirst", "//~": "NO_I18N" },
+    "description": { "str": "This is the actual spell that reduces thirst for tree form.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "flags": [ "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_TREE_REDUCE_THIRST_DEP",
+    "shape": "blast"
   }
 ]

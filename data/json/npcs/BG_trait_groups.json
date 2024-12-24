@@ -181,6 +181,97 @@
     ]
   },
   {
+    "//": "This group is for NPCs that were left unusually emotionally or physically defenseless after the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_VULNERABLE",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Confused_1" }, { "trait": "BGSS_No_Past_2" }, { "trait": "BGSS_No_Past_3" } ]
+  },
+  {
+    "//": "This group is for NPCs that were exploring a city.",
+    "type": "trait_group",
+    "id": "BG_survival_story_TOURIST",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "BG_survival_story_STUCK_IN_TOWN" } ]
+  },
+  {
+    "//": "This group is for NPCs that retired prior to the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_RETIRED",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Confused_1" }, { "trait": "BGSS_Codger" } ]
+  },
+  {
+    "//": "This group is for NPCs that are ambiguously unemployed and weirder than usual.",
+    "type": "trait_group",
+    "id": "BG_survival_story_ECCENTRIC",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" } ]
+  },
+  {
+    "//": "This group is for NPCs that prepared in advance and hunkered down after the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_PREPPER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Prepper_1" }, { "trait": "BGSS_Prepper_2" } ]
+  },
+  {
+    "//": "This group is for NPCs that are young and roam the streets.",
+    "type": "trait_group",
+    "id": "BG_survival_story_TEENAGER_TOUGH",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_TEENAGER" } ]
+  },
+  {
+    "//": "This group is for NPCs that are particularly focused on a spiritual belief.",
+    "type": "trait_group",
+    "id": "BG_survival_story_SPIRITUAL",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Religious_1" }, { "trait": "BGSS_Religious_2" }, { "trait": "BGSS_Dreamer" } ]
+  },
+  {
+    "//": "This group is for NPCs that are particularly sporty.",
+    "type": "trait_group",
+    "id": "BG_survival_story_SPORTS",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" } ]
+  },
+  {
+    "//": "This group is for NPCs that were commercial workers before the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_WORKER_COMMERCIAL",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" } ]
+  },
+  {
+    "//": "This group is for NPCs that were self-employed before the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_WORKER_SELFEMP",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" } ]
+  },
+  {
+    "//": "This group is for NPCs that were public workers before the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_WORKER_PUBLIC",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" } ]
+  },
+  {
+    "//": "This group is for NPCs that were firefighters before the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_WORKER_FIREFIGHTER",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" } ]
+  },
+  {
+    "//": "This group is for NPCs that were prisoners before the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_PRISONER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Prisoner_1" } ]
+  },
+  {
     "//": "This group is for Cyborgs rescued down in the Lab.",
     "type": "trait_group",
     "id": "BG_survival_story_CYBORG",

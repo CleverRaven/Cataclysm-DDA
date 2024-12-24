@@ -15,11 +15,11 @@
     "id": "TALK_RC_SURVIVOR_1",
     "dynamic_line": "Hey there.  Do you work here, or what?",
     "speaker_effect": {
-      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] } ]
+      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction = rand(3)" ] } ]
     },
     "responses": [
       { "text": "Me?  No, I'm just passing through, how about you?", "topic": "TALK_RC_SURVIVOR_Story" },
-      { "text": "Work here?  No, of course not.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Work here?  No, of course not.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -45,26 +45,26 @@
         "topic": "TALK_RC_SURVIVOR_Join"
       },
       { "text": "You seen anything interesting out there?", "topic": "TALK_RC_SURVIVOR_Tips" },
-      { "text": "Well, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RC_SURVIVOR_Tips",
     "dynamic_line": {
-      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
+      "math": [ "npc_randomize_dialogue_direction == 0" ],
       "yes": {
         "gendered_line": "Sure.  Seen more'n I'd like to think about honestly.  Like, I think these zombies are evolving?  I've seen new things come out that I swear aren't natural.  One of them looked like it was sparking with electricity.",
         "relevant_genders": [ "npc" ]
       },
       "no": {
-        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
+        "math": [ "npc_randomize_dialogue_direction == 1" ],
         "yes": "Come to think of it, yeah.  The other day, I met this weird old man in the woods.  Obsessed with rabbits.  He seemed like a nice fellow, open to visitors, if you'd like I can send you his way to trade.",
         "no": {
-          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
+          "math": [ "npc_randomize_dialogue_direction == 2" ],
           "yes": "I could point you to some acquaintances of mine that have a farm, they're decent folk, if you have goods to trade.  Be careful around them, I get a vibe like they don't like visitors too much, and honestly it makes me nervous that they made it through this so together.  Kinda of ominous, you know?",
           "no": {
-            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
+            "math": [ "npc_randomize_dialogue_direction == 3" ],
             "yes": {
               "gendered_line": "There's so much weird stuff out there in the wilderness now.  A while back, I found this weird cartoon sign with a map on it, pointing to some kind of trade center.  Haven't been there yet but I can show you my copy of the map if you want.",
               "relevant_genders": [ "npc" ]
@@ -80,7 +80,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 1" ] },
             { "not": { "compare_string": [ "lapin", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
@@ -92,7 +92,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 2" ] },
             { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
@@ -104,7 +104,7 @@
         "topic": "TALK_RC_SURVIVOR_Tips2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 3" ] },
             { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
@@ -117,7 +117,7 @@
         "switch": true,
         "default": true
       },
-      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -126,7 +126,7 @@
     "dynamic_line": "Sure, here, I'll draw you up a little map.",
     "responses": [
       { "text": "Thanks!  What's your story?", "topic": "TALK_RC_SURVIVOR_Story" },
-      { "text": "Thanks!  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Thanks!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -136,7 +136,7 @@
     "responses": [
       { "text": "They could come along too.", "topic": "TALK_RC_SURVIVOR_Join1" },
       { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
-      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -145,13 +145,13 @@
     "dynamic_line": "It doesn't really work that way.  They're back in safety, and I've got to go check in with them with some supplies.  You know how it is, not everyone is suited to risk travel these days.",
     "responses": [
       { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
-      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RC_SURVIVOR_Join2",
     "dynamic_line": "Look, I don't know a better way to put this.  I don't know you, I can't bring some random back with me.  For all I know you're a cannibal psycho or something.  We all saw too much of that during <the_cataclysm>.  Me and mine, we're not looking to expand our tribe just now, OK?",
-    "responses": [ { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   }
 ]

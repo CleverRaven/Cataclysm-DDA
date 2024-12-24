@@ -1,0 +1,52 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 20, "cost_multiplier": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_SURFACE",
+    "default": "mon_zombie_scientist",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_SECURITY",
+    "default": "mon_zombie_labsecurity",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "//": "Used in the military bunker",
+    "name": "GROUP_MIL_BASE",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 20, "cost_multiplier": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 20, "cost_multiplier": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_STRONG",
+    "//": "Used in the military bunker, LIXA and Hub01 convoy ambush",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 20, "cost_multiplier": 50 } ]
+  },
+  {
+    "name": "GROUP_MIL_EXTRA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 4 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUNKER",
+    "monsters": [ { "monster": "mon_zombie_bio_op", "weight": 150, "cost_multiplier": 10 } ]
+  }
+]

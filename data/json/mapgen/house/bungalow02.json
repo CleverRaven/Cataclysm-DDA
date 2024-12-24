@@ -6,10 +6,11 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -40,14 +41,14 @@
       ],
       "terrain": {
         "'": "t_floor_noroof",
-        "0": "t_railing_v",
+        "0": "t_railing",
         "}": "t_door_metal_locked",
         ",": "t_gates_mech_control",
         "_": "t_thconc_floor",
-        "(": "t_carpet_red",
+        "(": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "j": "t_floor_noroof",
         "?": "t_thconc_floor",
-        "x": "t_carpet_red",
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "K": "t_floor_noroof",
         "G": "t_floor_noroof",
         "q": "t_thconc_floor",

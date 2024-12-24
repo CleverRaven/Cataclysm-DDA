@@ -96,7 +96,7 @@
       {
         "id": "syndicalist_states_tshirt",
         "name": { "str": "CSA t-shirt" },
-        "description": "A short-sleeved cotton shirt with a globe at the bottom with a C above the globe with an S to the left and A to the right.  The background is like a flag with with the top left being the corner of a black triangle and the bottom right is a red triangle.  They meet in the middle with the globe.",
+        "description": "A short-sleeved cotton shirt with a globe at the bottom with a C above the globe with an S to the left and A to the right.  The background is like a flag with the top left being the corner of a black triangle and the bottom right is a red triangle.  They meet in the middle with the globe.",
         "weight": 1
       }
     ]
@@ -430,5 +430,19 @@
     "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "relic_data": { "passive_effects": [ { "id": "ench_verdant_cloak" } ] }
+  },
+  {
+    "id": "holy_symbol",
+    "type": "ARMOR",
+    "copy-from": "holy_symbol",
+    "name": { "str": "holy symbol" },
+    "extend": { "flags": [ "WARDING_SYMBOL" ] }
+  },
+  {
+    "id": "holy_symbol_wood",
+    "type": "ARMOR",
+    "copy-from": "holy_symbol_wood",
+    "name": { "str": "handmade holy symbol" },
+    "extend": { "flags": [ "WARDING_SYMBOL" ] }
   }
 ]

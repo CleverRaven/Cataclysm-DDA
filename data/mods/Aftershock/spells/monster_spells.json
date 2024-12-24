@@ -2,8 +2,8 @@
   {
     "id": "isohypsa_buff",
     "type": "SPELL",
-    "name": { "str": "Isohypsa Coordination" },
-    "description": "Increases the speed of simpler Wraitheon drones.",
+    "name": { "str": "Isohypsa Coordination", "//~": "NO_I18N" },
+    "description": { "str": "Increases the speed of simpler Wraitheon drones.", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ally" ],
     "targeted_monster_ids": [
       "mon_chickenbot",
@@ -37,8 +37,8 @@
   {
     "type": "SPELL",
     "id": "afs_heat_drain",
-    "name": { "str": "Heat Drain" },
-    "description": "Spews a burst of very cold air.",
+    "name": { "str": "Heat Drain", "//~": "NO_I18N" },
+    "description": { "str": "Spews a burst of very cold air.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 10,
     "min_damage": 0,

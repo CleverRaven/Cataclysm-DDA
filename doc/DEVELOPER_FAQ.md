@@ -72,8 +72,9 @@ Specifically to ablative plates, some transform when damaged instead of damaging
 ## Adding an iuse function.
 
 1. Add the new item use code to `iuse.cpp` and `iuse.h`.
-2. Add the new json_flag to your item. And link it to the iuse function in `item_factory.cpp`.
-3. Document the new flag in `JSON_FLAGS.md`.
+2. Add a new json_flag to `flags.json`, and add the flag to your item(s) and to an `item_actions.json` entry. 
+3. Link the flag to the iuse function in `item_factory.cpp`.
+4. Document the new flag in `JSON_FLAGS.md`.
 
 ## Acid resistance
 

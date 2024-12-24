@@ -1,18 +1,6 @@
 [
   {
     "type": "terrain",
-    "id": "t_hole",
-    "name": "empty space",
-    "description": "An area of empty space.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 2,
-    "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
-    "examine_action": "ledge"
-  },
-  {
-    "type": "terrain",
     "id": "t_pit_shallow",
     "name": "shallow pit",
     "description": "A pit that could be dug even deeper or filled up.  Also useful as a starting foundation for some constructions.",
@@ -140,7 +128,7 @@
             "and": [ { "u_has_items": { "item": "human_sample", "count": 1 } }, { "u_has_mission": "BEM_human_sample_mission" } ]
           },
           "effect": [
-            { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", "++" ] },
+            { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed++" ] },
             { "u_message": "You prepare the drop as instructed", "popup": true },
             { "u_consume_item": "human_sample", "count": 1 },
             { "finish_mission": "BEM_human_sample_mission", "success": true }

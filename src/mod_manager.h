@@ -26,6 +26,8 @@ const std::vector<std::pair<std::string, translation>> &get_mod_list_categories(
 const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
+mod_id get_mod_base_id_from_src( mod_id src );
+
 struct MOD_INFORMATION {
     private:
         friend mod_manager;

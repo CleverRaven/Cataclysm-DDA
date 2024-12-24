@@ -1,0 +1,325 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RUACH_DRAINED_AWAKENING_PENALTIES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "u_has_effect": "effect_lilin_ruach_drain_side_effects" },
+    "effect": [
+      { "math": [ "u_val('sleepiness')", "+=", "40 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 20)" ] },
+      {
+        "u_add_effect": "effect_lilin_health_effects_of_draining",
+        "duration": { "math": [ "10 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * rng(10,20) )" ] }
+      },
+      {
+        "if": { "math": [ "u_lilin_ruach_drained_recently", "==", "1" ] },
+        "then": [
+          { "math": [ "u_lilin_ruach_drained_recently = 0" ] },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "head"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_l"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "arm_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "torso"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_r"
+          },
+          {
+            "u_deal_damage": "biological",
+            "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') / 2)- 3), 0 )" ] },
+            "bodypart": "leg_l"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SELF",
+    "recurrence": [ "6 minutes", "6 minutes" ],
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
+    "//": "Split EoC to allow the deactivate_condition to run",
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
+    "effect": [ { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SELF_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_DRAIN_SELF_2",
+    "condition": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] } ] },
+    "effect": [
+      { "u_lose_effect": "effect_lilin_no_ruach" },
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')--" ] },
+      {
+        "if": { "math": [ "u_vitamin('lilin_ruach_vitamin') == 0" ] },
+        "then": { "u_add_effect": "effect_lilin_no_ruach", "duration": "PERMANENT", "intensity": 1 }
+      },
+      { "run_eocs": "EOC_LILIN_UPDATE_MAX_RUACH_LEVELS" }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_vitamin('lilin_ruach_vitamin') == 0" ] },
+            { "not": { "u_has_effect": "effect_lilin_no_ruach" } },
+            { "u_has_trait": "LILIN_TRAITS" }
+          ]
+        },
+        "then": { "u_add_effect": "effect_lilin_no_ruach", "duration": "PERMANENT", "intensity": 1 }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_UPDATE_MAX_RUACH_LEVELS",
+    "condition": {
+      "math": [
+        "u_vitamin('lilin_ruach_vitamin')",
+        ">=",
+        "1680 + (u_has_trait('LILIN_HOLD_MORE_RUACH') * 1680) + (u_has_trait('LILIN_HOLD_MORE_RUACH_2') * 3360) + (u_has_trait('LILIN_HOLD_MORE_RUACH_3') * 5040)"
+      ]
+    },
+    "effect": {
+      "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
+      "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 6720" ] },
+      "else": {
+        "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
+        "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 5040" ] },
+        "else": {
+          "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
+          "then": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 3360" ] },
+          "else": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 1680" ] }
+        }
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_SPEND_RUACH_FOR_POWERS",
+    "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 240" ] },
+    "effect": [
+      { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "240" ] },
+      { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser", "+=", "0.75" ] },
+      {
+        "math": [ "u_lilin_amount_of_ruach_spent_for_powers", "+=", "u_lilin_amount_of_ruach_spent_for_powers_increaser" ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough ruach to dedicate any to increasing your powers!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_SETUP",
+    "recurrence": { "math": [ "time_until('sunset')" ] },
+    "//": "Lilin have a small chance to gain powers if they're outside under the moon, every night. Each time they gain powers it increases the counter until the next time they can gain more powers.",
+    "condition": {
+      "and": [ "u_is_outside", { "u_has_trait": "LILIN_TRAITS" }, { "not": { "u_has_effect": "effect_gained_lilin_power" } } ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
+    "effect": [ { "run_eocs": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE", "time_in_future": [ "1 hours", "2 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": "is_day" },
+        { "x_in_y_chance": { "x": { "math": [ "u_lilin_amount_of_ruach_spent_for_powers" ] }, "y": 250 } }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 1" ] },
+        "then": [
+          {
+            "u_message": "Under the light of the moon, you realize a new way to use your stolen ruach to empower yourself.",
+            "type": "good"
+          },
+          { "math": [ "u_vitamin('mutagen_lilin')", "+=", "2500" ] },
+          { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+          { "u_mutate": 0 },
+          { "math": [ "u_vitamin('mutagen_lilin')", "-=", "2500" ] },
+          { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
+          {
+            "math": [
+              "u_lilin_new_power_delay_timer",
+              "=",
+              "min( (rand(86400) + (u_sum_traits_of_category_char_has('LILIN') * 1200) ),604800)"
+            ]
+          },
+          { "u_add_effect": "effect_gained_lilin_power", "duration": { "math": [ "u_lilin_new_power_delay_timer" ] } },
+          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers = 0" ] },
+          { "math": [ "u_lilin_amount_of_ruach_spent_for_powers_increaser = 1" ] }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_LILIN_GAIN_POWERS_AT_NIGHT_ACTIVE", "time_in_future": [ "1 hours", "2 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "LILIN_DRAIN_RUACH_LONG_DISTANCE", { "context_val": "trait" } ] },
+    "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell') = -1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE_FALLBACK",
+    "recurrence": [ "6 minutes", "6 minutes" ],
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
+    "//": "Split EoC to allow the deactivate_condition to run",
+    "deactivate_condition": {
+      "or": [
+        { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell') >= 0" ] },
+        { "not": { "u_has_trait": "LILIN_TRAITS" } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_LILIN_DRAIN_RUACH_INCREASE_DISTANCE_FALLBACK_2",
+            "condition": { "math": [ "u_spell_level('lilin_drain_ruach_long_ranged_spell') >= 0" ] },
+            "effect": [ { "math": [ "u_spell_level('lilin_drain_ruach_short_ranged_spell') = -1" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_INITIAL",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "LILIN_ATTRIBUTE_BONUSES", { "context_val": "trait" } ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_STRENGTH",
+          "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_DEXTERITY",
+          "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_PERCEPTION"
+        ],
+        "names": [ "Empower your Strength", "Empower your Dexterity", "Empower your Perception" ],
+        "title": "Pick a choice",
+        "descriptions": [
+          "Gain strength bonuses when using From Strength to Strength.",
+          "Gain dexterity and dodge bonuses when using From Strength to Strength.",
+          "Gain perception bonuses when using From Strength to Strength."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_STRENGTH",
+    "effect": [ { "u_add_trait": "LILIN_ATTRIBUTE_BONUSES_STRENGTH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_DEXTERITY",
+    "effect": [ { "u_add_trait": "LILIN_ATTRIBUTE_BONUSES_DEXTERITY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_GAINS_STRENGTH_TO_STRENGTH_CHOOSE_PERCEPTION",
+    "effect": [ { "u_add_trait": "LILIN_ATTRIBUTE_BONUSES_PERCEPTION" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_RUACH_UI_UPDATER",
+    "//": "Not great but required for now",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
+    "effect": [
+      {
+        "if": { "not": { "u_has_any_trait": [ "LILIN_HOLD_MORE_RUACH", "LILIN_HOLD_MORE_RUACH_2", "LILIN_HOLD_MORE_RUACH_3" ] } },
+        "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),1680)" ] },
+        "else": {
+          "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH" },
+          "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),3360)" ] },
+          "else": {
+            "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_2" },
+            "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),5040)" ] },
+            "else": {
+              "if": { "u_has_trait": "LILIN_HOLD_MORE_RUACH_3" },
+              "then": { "math": [ "u_ruach_amount_for_graph = min(u_vitamin('lilin_ruach_vitamin'),6720)" ] }
+            }
+          }
+        }
+      },
+      {
+        "math": [
+          "u_ruach_max_amount_for_graph",
+          "=",
+          "1680 + (u_has_trait('LILIN_HOLD_MORE_RUACH') * 1680) + (u_has_trait('LILIN_HOLD_MORE_RUACH_2') * 3360) + (u_has_trait('LILIN_HOLD_MORE_RUACH_3') * 5040)"
+        ]
+      },
+      { "math": [ "u_ruach_days_left = trunc(u_vitamin('lilin_ruach_vitamin') / 240)" ] },
+      { "run_eocs": "EOC_LILIN_UPDATE_MAX_RUACH_LEVELS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_LILIN_IN_CITY_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "LILIN_TRAITS" },
+    "effect": [
+      {
+        "if": { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } },
+        "then": { "math": [ "u_lilit_is_in_civilization = 1" ] },
+        "else": { "math": [ "u_lilit_is_in_civilization = 0" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_INCREMENTAL_SPEED_BOOST_SETUP",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "LILIN_INCREMENTAL_SPEED_BOOST", { "context_val": "trait" } ] },
+    "effect": [
+      {
+        "run_eocs": "EOC_LILIN_INCREMENTAL_SPEED_BOOST_TRIGGER",
+        "time_in_future": { "math": [ "time_until('night_time')" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "//": "this EOC is required to call the real EOC without having errors.",
+    "id": "EOC_LILIN_INCREMENTAL_SPEED_BOOST_TRIGGER",
+    "effect": { "run_eocs": [ "EOC_LILIN_INCREMENTAL_SPEED_BOOST" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_INCREMENTAL_SPEED_BOOST",
+    "recurrence": [ "24 hours", "24 hours" ],
+    "condition": { "u_has_trait": "LILIN_INCREMENTAL_SPEED_BOOST" },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_INCREMENTAL_SPEED_BOOST" } },
+    "effect": [
+      {
+        "u_add_effect": "effect_lilin_incremental_speed_boost",
+        "intensity": { "math": [ "u_effect_intensity('effect_lilin_incremental_speed_boost') + 1" ] },
+        "duration": "PERMANENT"
+      }
+    ]
+  }
+]

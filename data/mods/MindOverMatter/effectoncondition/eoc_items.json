@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ZENER_DECK",
-    "condition": { "math": [ "u_school_level('CLAIRSENTIENT')", ">=", "10" ] },
+    "condition": { "math": [ "u_school_level('CLAIRSENTIENT') >= 10" ] },
     "effect": [
       {
         "switch": { "math": [ "rand(4)" ] },
@@ -97,7 +97,7 @@
         "run_eocs": [
           {
             "id": "EOC_FORCE_FIELD_GENERATOR_ACTIVATION_2",
-            "condition": { "math": [ "rng(0,99)", ">=", "3" ] },
+            "condition": { "math": [ "rng(0,99) >= 3" ] },
             "effect": [
               { "u_consume_item": "matrix_crystal_drained", "count": 1 },
               { "u_message": "The matrix crystal cracks into pieces as the device activates!", "type": "mixed" },
@@ -128,11 +128,8 @@
     "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT",
     "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
     "effect": [
-      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
-      {
-        "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT",
-        "time_in_future": [ "4 minutes", "7 minutes" ]
-      }
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT", "time_in_future": [ "4 minutes", "7 minutes" ] }
     ]
   },
   {
@@ -142,7 +139,7 @@
     "effect": [
       { "u_message": "The transporter remote emits a small beep.", "type": "neutral" },
       { "u_make_sound": "a small beep", "volume": 2, "type": "music" },
-      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {

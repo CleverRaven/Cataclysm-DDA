@@ -16,15 +16,15 @@
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
-      { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I changed my mind.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "I changed my mind.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I changed my mind.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodize",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "n_val('sold')", ">=", "100" ],
+      "math": [ "n_val('sold') >= 100" ],
       "yes": {
         "//~": "Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
         "str": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught."
@@ -45,28 +45,28 @@
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe1",
-        "condition": { "or": [ { "math": [ "n_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
+        "condition": { "or": [ { "math": [ "n_val('sold') >= 100" ] }, { "u_has_faction_trust": 5 } ] }
       },
       {
         "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
         "topic": "TALK_EXODII_MERCHANT_ExodizeNope",
-        "condition": { "or": [ { "math": [ "n_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
+        "condition": { "or": [ { "math": [ "n_val('sold') >= 100" ] }, { "u_has_faction_trust": 5 } ] }
       },
       {
         "text": "Maybe try that clarity-draught?",
         "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate",
-        "condition": { "or": [ { "math": [ "n_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
+        "condition": { "or": [ { "math": [ "n_val('sold') >= 100" ] }, { "u_has_faction_trust": 5 } ] }
       },
       {
         "text": "OK, well, I've got some stuff I could trade right now.",
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
-        "condition": { "and": [ { "math": [ "n_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
+        "condition": { "and": [ { "math": [ "n_val('sold') < 100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
       },
       {
         "text": "OK, maybe I'll come back when I've traded a bit more.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "math": [ "n_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
+        "condition": { "and": [ { "math": [ "n_val('sold') < 100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
       }
     ]
   },
@@ -80,7 +80,7 @@
         "condition": {
           "or": [
             { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] } },
-            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization) >= time('2 d')" ] }
           ]
         },
         "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
@@ -91,7 +91,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] },
-            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization) < time('2 d')" ] }
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
@@ -121,7 +121,7 @@
         "condition": {
           "or": [
             { "not": { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] } },
-            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization) >= time('2 d')" ] }
           ]
         },
         "//": "if you've had some time to think about your previous refusal, or if you never went through the process of refusal and reconsideration, it has no impact on Rubik's opinion of you.",
@@ -132,7 +132,7 @@
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "decisions_blobpsychosis_u_declined_exodization" } ] },
-            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
+            { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization) < time('2 d')" ] }
           ]
         },
         "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
@@ -150,12 +150,12 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
+      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
       "str": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff."
     },
     "responses": [
       {
-        "text": "One thousand units of, uh, anesthetic, coming up.  Can we talk about something else?",
+        "text": "One thousand units of, uh, anesthetic, coming up.  <done_conversation_section>",
         "condition": {
           "not": {
             "or": [
@@ -196,7 +196,7 @@
     "id": "TALK_EXODII_MERCHANT_ExodizeMe2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik.",
+      "//~": "Great, great, great!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik.",
       "str": "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik."
     },
     "responses": [
@@ -230,11 +230,11 @@
           { "u_add_faction_trust": 2 },
           { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "-=", "2" ] },
           { "u_add_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
-          { "math": [ "u_timer_blobpsychosis_u_declined_exodization", "=", "time('now')" ] }
+          { "math": [ "u_timer_blobpsychosis_u_declined_exodization = time('now')" ] }
         ]
       }
     ],
-    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodized",
@@ -243,15 +243,15 @@
     "speaker_effect": { "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } },
     "responses": [
       { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Thanks for the brain implants.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  Thanks for the brain implants.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodized2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you s tarted, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
+      "//~": "This is what you'd call a 'starter package', if I understand it.  Suitable to get you started, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff.",
       "str": "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more."
     },
     "responses": [
@@ -260,8 +260,8 @@
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   }
 ]

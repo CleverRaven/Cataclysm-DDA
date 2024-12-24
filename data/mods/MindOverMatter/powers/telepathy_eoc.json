@@ -1,6 +1,133 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_MESMERIZE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TEEP_IMMUNE" } },
+        {
+          "not": {
+            "and": [
+              { "u_has_flag": "TEEPSHIELD" },
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_mesmerize')" ] }
+            ]
+          }
+        },
+        { "not": { "and": [ { "u_has_flag": "TEEPSHIELD" }, { "u_has_worn_with_flag": "PORTAL_PROOF" } ] } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telepathy_mesmer_power_level = n_spell_level('telepathic_mesmerize')" ] },
+      { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "math": [
+          "u_telepath_mesmerism_duration",
+          "=",
+          "rng((( (u_telepathy_mesmer_power_level * 2) + 8) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling),(( (u_telepathy_mesmer_power_level * 5) + 20) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling))"
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_TELEPATH_MESMERIZE_2",
+            "condition": "u_is_character",
+            "//": "If you're not totally immune, there's always a chance mesmerism will work",
+            "effect": [
+              {
+                "if": {
+                  "not": {
+                    "x_in_y_chance": {
+                      "x": { "math": [ "min((u_val('intelligence') + u_val('perception')), 30) + (rand(9) + 1) + (rand(9) + 1)" ] },
+                      "y": 40
+                    }
+                  }
+                },
+                "then": [
+                  { "u_add_effect": "psi_stunned", "duration": { "math": [ "u_telepath_mesmerism_duration" ] } },
+                  {
+                    "u_add_effect": "effect_telepath_mesmerize_tracker",
+                    "duration": { "math": [ "u_telepath_mesmerism_duration" ] }
+                  },
+                  { "npc_message": "You mesmerize your target and they stand in a daze.", "type": "good" }
+                ],
+                "else": { "npc_message": "Your target resists the mesmerism!", "type": "bad" }
+              }
+            ],
+            "false_effect": [
+              {
+                "if": {
+                  "and": [
+                    { "x_in_y_chance": { "x": 1, "y": 2 } },
+                    {
+                      "or": [ { "u_has_species": "MIGO" }, { "u_has_species": "NETHER" }, { "u_has_species": "PLANT" } ]
+                    }
+                  ]
+                },
+                "then": [
+                  { "u_add_effect": "psi_stunned", "duration": { "math": [ "u_telepath_mesmerism_duration" ] } },
+                  {
+                    "u_add_effect": "effect_telepath_mesmerize_tracker",
+                    "duration": { "math": [ "u_telepath_mesmerism_duration" ] }
+                  },
+                  { "npc_message": "You mesmerize the alien creature and it stands in a daze.", "type": "good" }
+                ],
+                "else": { "npc_message": "Your target resists the mesmerism!", "type": "bad" }
+              },
+              {
+                "if": { "and": [ { "x_in_y_chance": { "x": 19, "y": 20 } }, { "u_has_species": "FERAL" } ] },
+                "then": [
+                  { "u_add_effect": "psi_stunned", "duration": { "math": [ "u_telepath_mesmerism_duration" ] } },
+                  {
+                    "u_add_effect": "effect_telepath_mesmerize_tracker",
+                    "duration": { "math": [ "u_telepath_mesmerism_duration" ] }
+                  },
+                  { "npc_message": "You mesmerize the feral human and they stand in a daze.", "type": "good" }
+                ],
+                "else": { "npc_message": "Your target resists the mesmerism!", "type": "bad" }
+              },
+              {
+                "if": {
+                  "and": [
+                    { "not": { "u_has_species": "FERAL" } },
+                    { "not": { "u_has_species": "MIGO" } },
+                    { "not": { "u_has_species": "PLANT" } },
+                    { "not": { "u_has_species": "NETHER" } }
+                  ]
+                },
+                "then": [
+                  { "u_add_effect": "psi_stunned", "duration": { "math": [ "u_telepath_mesmerism_duration" ] } },
+                  {
+                    "u_add_effect": "effect_telepath_mesmerize_tracker",
+                    "duration": { "math": [ "u_telepath_mesmerism_duration" ] }
+                  },
+                  { "npc_message": "You mesmerize your target and they stand in a daze.", "type": "good" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_MESMERISM_REMOVAL_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "psi_stunned" }, { "u_has_effect": "effect_telepath_mesmerize_tracker" } ] },
+    "effect": [ { "u_lose_effect": "effect_telepath_mesmerize_tracker" }, { "u_lose_effect": "psi_stunned" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_MESMERISM_REMOVAL_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "psi_stunned" }, { "u_has_effect": "effect_telepath_mesmerize_tracker" } ] },
+    "effect": [ { "u_lose_effect": "effect_telepath_mesmerize_tracker" }, { "u_lose_effect": "psi_stunned" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MORALE_INITIATE",
     "condition": "u_is_avatar",
     "effect": [ { "run_eocs": "EOC_TELEPATH_MORALE_INITIATE_SELF" } ],
@@ -11,9 +138,9 @@
             "id": "EOC_TELEPATH_MORALE_INITIATE_NPC_CHECK",
             "condition": "u_is_npc",
             "effect": [
-              { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-              { "math": [ "u_telepathy_power_level", "=", "n_spell_level('telepathic_morale')" ] },
-              { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+              { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+              { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_morale')" ] },
+              { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
               {
                 "math": [
                   "u_mood_stabilized_power_level",
@@ -24,9 +151,9 @@
               { "run_eocs": "EOC_TELEPATH_MORALE_MODIFY_NPC_VALUES" }
             ],
             "false_effect": [
-              { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-              { "math": [ "u_telepathy_power_level", "=", "n_spell_level('telepathic_morale')" ] },
-              { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+              { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+              { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_morale')" ] },
+              { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
               {
                 "math": [
                   "u_mood_stabilized_power_level",
@@ -52,9 +179,9 @@
             "id": "EOC_TELEPATH_MORALE_MODIFY_NPC_VALUES_2",
             "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
             "effect": [
-              { "math": [ "u_npc_fear()", "=", "max(-10, (u_npc_fear() - (u_mood_stabilized_power_level / 2)))" ] },
-              { "math": [ "u_npc_anger()", "=", "max(-10, (u_npc_anger() - (u_mood_stabilized_power_level / 2)))" ] },
-              { "math": [ "u_npc_trust()", "=", "min(20, (u_npc_trust() + (u_mood_stabilized_power_level / 4)))" ] },
+              { "math": [ "u_npc_fear() = max(-10, (u_npc_fear() - (u_mood_stabilized_power_level / 2)))" ] },
+              { "math": [ "u_npc_anger() = max(-10, (u_npc_anger() - (u_mood_stabilized_power_level / 2)))" ] },
+              { "math": [ "u_npc_trust() = min(20, (u_npc_trust() + (u_mood_stabilized_power_level / 4)))" ] },
               {
                 "npc_message": "You reach in and, with a deft touch, sooth your target's negative emotions.",
                 "type": "good"
@@ -106,6 +233,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_OBSCURITY_REMOVAL_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "telepathic_ignorance" }, { "npc_has_effect": "telepathic_ignorance_self" } ] },
+    "effect": [ { "u_lose_effect": "telepathic_ignorance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPATH_OBSCURITY_REMOVAL_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_effect": "telepathic_ignorance" }, { "npc_has_effect": "telepathic_ignorance_self" } ] },
+    "effect": [ { "u_lose_effect": "telepathic_ignorance" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPATH_PRIMAL_TERROR",
     "condition": {
       "and": [
@@ -114,7 +257,7 @@
           "not": {
             "and": [
               { "u_has_flag": "TEEPSHIELD" },
-              { "math": [ "n_spell_level('telepathic_shield')", ">=", "n_spell_level('telepathic_fear')" ] }
+              { "math": [ "u_spell_level('telepathic_shield') >= n_spell_level('telepathic_fear')" ] }
             ]
           }
         },
@@ -122,9 +265,9 @@
       ]
     },
     "effect": [
-      { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telepathy_power_level", "=", "n_spell_level('telepathic_fear')" ] },
-      { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telepathy_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telepathy_power_level = n_spell_level('telepathic_fear')" ] },
+      { "math": [ "u_nether_attunement_telepathy_scaling = n_nether_attunement_power_scaling" ] },
       {
         "u_add_effect": "psi_stunned",
         "duration": {

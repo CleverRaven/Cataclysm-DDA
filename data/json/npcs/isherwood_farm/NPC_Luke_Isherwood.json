@@ -108,10 +108,7 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
             { "compare_string": [ "yes", { "u_val": "chris_planned_for_bomb" } ] },
             {
-              "and": [
-                { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } },
-                { "math": [ "isherwood_luke_truck_status", "<", "1" ] }
-              ]
+              "and": [ { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } }, { "math": [ "isherwood_luke_truck_status < 1" ] } ]
             }
           ]
         },
@@ -125,8 +122,8 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" } },
-                { "math": [ "isherwood_luke_truck_coming", "<", "1" ] },
-                { "math": [ "isherwood_luke_truck_status", "==", "1" ] }
+                { "math": [ "isherwood_luke_truck_coming < 1" ] },
+                { "math": [ "isherwood_luke_truck_status == 1" ] }
               ]
             }
           ]
@@ -152,8 +149,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", "<=", "time('7 d')" ] },
-            { "math": [ "u_timer_barry_rescue", "<=", "time('5 d')" ] }
+            { "math": [ "time_since(u_timer_luke_isherwood_books) <= time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue <= time('5 d')" ] }
           ]
         }
       },
@@ -162,8 +159,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS3",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", ">", "time('7 d')" ] },
-            { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
+            { "math": [ "time_since(u_timer_luke_isherwood_books) > time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue > time('5 d')" ] }
           ]
         }
       },
@@ -178,7 +175,7 @@
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
@@ -190,8 +187,8 @@
     "dynamic_line": "I don't see how it's much of your business what our story is.  You can try asking my dad, Eddie, if you really want.  Just don't start acting like some little piece of tin in your pocket means you can come in like you own the place.",
     "speaker_effect": { "effect": { "u_add_var": "isherwood_luke_marshal_questions", "value": "known" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -204,8 +201,8 @@
         "text": "Must be tough having the world fall apart when you had you future to look forward to.",
         "topic": "TALK_ISHERWOOD_LUKE3"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -218,8 +215,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS_BARRY",
         "condition": { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -227,8 +224,8 @@
     "id": "TALK_ISHERWOOD_LUKE_BOOKS_BARRY",
     "dynamic_line": "*winces a little at the name.  \"Yeah.  Because of Barry.\"  You can see he'd rather not pursue the topic.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -236,8 +233,8 @@
     "id": "TALK_ISHERWOOD_LUKE_BOOKS2",
     "dynamic_line": "*smiles.  \"Bit early to tell, but I've been doing some night time reading and trying a few things out.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -245,8 +242,8 @@
     "id": "TALK_ISHERWOOD_LUKE_BOOKS3",
     "dynamic_line": "*smiles brightly.  \"Real great, thanks!  I've learned a lot from them already.  Tried my hand at some basic stuff, it's fun to learn new things.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -264,8 +261,8 @@
     },
     "responses": [
       { "text": "Maybe I can help out.  What do you need?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -279,8 +276,8 @@
       { "text": "Where can I find Chris?", "topic": "TALK_LUKE_CHRIS" },
       { "text": "What sort of ideas does Chris have?", "topic": "TALK_LUKE_CHRIS2" },
       { "text": "That is a good idea, what do you need?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'm not interested right now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -289,8 +286,8 @@
     "dynamic_line": "&His shoulders slump a little at the question.  \"Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…\"",
     "responses": [
       { "text": "What happened to Barry?", "topic": "TALK_LUKE_BARRY" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -298,8 +295,8 @@
     "id": "TALK_LUKE_EDDIE_YesBarry",
     "dynamic_line": "*looks around, then leans in just a little closer.  \"He's doing OK now that Barry's home, but, well, things still aren't the same.  I imagine that'll take time.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -317,8 +314,8 @@
         "topic": "TALK_LUKE_BARRYhelp",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] } }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -326,8 +323,8 @@
     "id": "TALK_LUKE_BARRY2",
     "dynamic_line": "*frowns.  \"I don't know how much I can tell you.  Your best bet is to talk to Uncle Carlos.\"",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -335,8 +332,8 @@
     "id": "TALK_LUKE_BARRYhelp",
     "dynamic_line": "I really… okay.  Maybe ask my grandma, Claire.  She'll know if it's okay to talk about.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -345,8 +342,8 @@
     "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
     "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "value": "yes" } },
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -354,8 +351,8 @@
     "id": "TALK_LUKE_CHRIS2",
     "dynamic_line": "Well, he doesn't agree that what we're doing here will last.  He thinks things will only get worse.\"  Luke shrugs, as if to say he doesn't have a strong opinion on the matter.  \"It's tough to get the adults to listen though, much less agree with his solution.  You can go talk to him more about it if you want.",
     "responses": [
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -393,7 +390,7 @@
           ]
         }
       },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -405,8 +402,8 @@
         "text": "Well, we are going to turn this truck into a bomb that'll give us a big enough opening in the tower to let out some of the heat and gas.  But small enough that it won't kill Barry unless it's right next to him.",
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -418,8 +415,8 @@
         "text": "Exactly, and I wouldn't do anything to risk him unnecessarily.",
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -432,7 +429,7 @@
         "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" },
         "topic": "TALK_DONE"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "Surely we can think of a better way in.", "topic": "TALK_DONE" }
     ]
   },
@@ -446,7 +443,7 @@
         "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
         "topic": "TALK_DONE"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "Not doing it.", "topic": "TALK_DONE" }
     ]
   },
@@ -490,10 +487,7 @@
     "count": 1,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [
-        { "u_add_var": "u_did_luke_missions", "value": "yes" },
-        { "math": [ "u_timer_luke_isherwood_books", "=", "time('now')" ] }
-      ]
+      "effect": [ { "u_add_var": "u_did_luke_missions", "value": "yes" }, { "math": [ "u_timer_luke_isherwood_books = time('now')" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -525,7 +519,7 @@
         ]
       }
     },
-    "end": { "effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
+    "end": { "effect": [ { "run_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {
@@ -554,7 +548,7 @@
         "place_vehicles": [ { "vehicle": "truck_trailer_explosives", "chance": 100, "rotation": 270, "x": [ 7 ], "y": [ 7 ] } ]
       }
     },
-    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming", "++" ] } ] },
+    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming++" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//2": "Dialogue for this mission is handled externally.",
     "dialogue": {

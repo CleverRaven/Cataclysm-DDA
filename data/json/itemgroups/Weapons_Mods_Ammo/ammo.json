@@ -566,7 +566,7 @@
   {
     "type": "item_group",
     "id": "ammo_launcher_grenade_adapter",
-    "//": "Adapters for for firing multiples of civilian legal ammo from a greneade launcher",
+    "//": "Adapters for firing multiples of civilian legal ammo from a greneade launcher",
     "subtype": "distribution",
     "entries": [ { "item": "40x46mm_hornets_nest_22lr", "prob": 50 }, { "item": "40x46mm_hornets_nest_410", "prob": 50 } ]
   },

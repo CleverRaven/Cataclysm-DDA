@@ -62,8 +62,8 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
     REQUIRE_FALSE( they.is_wearing_shoes() );
     REQUIRE_FALSE( they.is_npc() );
     // You put your left foot in, you put your right foot in
-    const tripoint left = they.pos();
-    const tripoint right = left + tripoint_east;
+    const tripoint_bub_ms left = they.pos_bub();
+    const tripoint_bub_ms right = left + tripoint::east;
     // You ensure two tiles of terrain to hokey-pokey in
     here.ter_set( left, terrain );
     here.ter_set( right, terrain );
@@ -84,10 +84,10 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
     while( they.can_run() && steps < STOP_STEPS ) {
         // Step right on even steps, left on odd steps
         if( steps % 2 == 0 ) {
-            REQUIRE( they.pos() == left );
+            REQUIRE( they.pos_bub() == left );
             REQUIRE( g->walk_move( right, false, false ) );
         } else {
-            REQUIRE( they.pos() == right );
+            REQUIRE( they.pos_bub() == right );
             REQUIRE( g->walk_move( left, false, false ) );
         }
         ++steps;

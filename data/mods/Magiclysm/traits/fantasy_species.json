@@ -11,7 +11,7 @@
       "THRESH_SPECIES_ELF",
       "ANIMALEMPATH2",
       "ELVEN_BUILD",
-      "ELFA_NV",
+      "ELVEN_SIGHT",
       "ELVEN_BEAUTY",
       "ELVEN_SLEEP",
       "ELFA_EARS",
@@ -119,7 +119,7 @@
     "traits": [
       "THRESH_SPECIES_RAVENFOLK",
       "RAVENFOLK_BUILD",
-      "WINGS_BIRD",
+      "RAVENFOLK_WINGS",
       "DOWN",
       "BEAK_RAVEN",
       "RAVENFOLK_LEGS",

@@ -81,7 +81,11 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ { "group": "afs_armor_military_infantry_g", "prob": 90 }, { "item": "afs_backpack_rockets", "prob": 10 } ]
+    "items": [
+      { "group": "afs_armor_military_infantry_g", "prob": 85 },
+      { "item": "afs_backpack_rockets", "prob": 10 },
+      { "item": "afs_backpack_shieldgen", "prob": 5 }
+    ]
   },
   {
     "type": "npc",

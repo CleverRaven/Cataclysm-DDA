@@ -35,14 +35,15 @@
         "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "terrain": {
         ",": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "0": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "f": "t_carpet_green",
-        "h": "t_carpet_green",
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "W": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "₸": "t_thconc_floor",
         "U": "t_thconc_floor",

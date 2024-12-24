@@ -53,7 +53,7 @@
         "effect": "start_trade"
       },
       { "text": "When will you have new material?", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_AskedRestock" },
-      { "text": "That's all for now.  Take care.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -64,7 +64,7 @@
       "I am expecting some new materials <interval>, hopefully some good escapism."
     ],
     "responses": [
-      { "text": "Actually, I wanted to ask…", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" },
+      { "text": "<done_conversation_section>", "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk" },
       { "text": "Thanks, I will make sure to check back.", "topic": "TALK_DONE" }
     ]
   },
@@ -86,7 +86,7 @@
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
         "effect": "start_trade"
       },
-      { "text": "I just want to browse.  See you.", "topic": "TALK_DONE" }
+      { "text": "I just want to browse.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -118,7 +118,7 @@
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
         "effect": "start_trade"
       },
-      { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
