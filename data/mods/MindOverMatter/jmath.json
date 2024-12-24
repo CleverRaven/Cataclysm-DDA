@@ -27,7 +27,7 @@
     "type": "jmath_function",
     "id": "psionics_kcal_cost",
     "num_args": 1,
-    "return": "(4 * _0) * rng( 0.3, 1.7)"
+    "return": "(4 * _0) * rng( 0.3, 1.7) * u_nether_attunement_power_scaling"
   },
   {
     "type": "jmath_function",
