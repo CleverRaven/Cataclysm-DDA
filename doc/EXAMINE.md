@@ -94,7 +94,7 @@ Whether or not to remove hostile monsters with the `ID_CARD_DESPAWN` flag.
 #### `omt_allowed_radius`
 Optional, defaults to infinity.
 Integer (0 or greater).
-For cards with the `PRESERVE_SPAWN_OMT` / `HINT_THE_LOCATION` flag, how many overmap tiles away a card can spawn and be accepted for this cardreader.
+For cards with the `PRESERVE_SPAWN_OMT` flag, how many overmap tiles away a card can spawn and be accepted for this cardreader.
 For cards without the flag, this field is ignored.
 
 #### `mapgen_id`

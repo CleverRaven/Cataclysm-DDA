@@ -136,7 +136,6 @@ static const efftype_id effect_weakened_gravity( "weakened_gravity" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
-static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
@@ -5620,14 +5619,12 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
                           coords::project_to<coords::omt>( getglobal( p ) ) );
     }
 
-    if( ( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) ||
-          new_item.has_flag( json_flag_HINT_THE_LOCATION ) ) &&
+    if( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
         !new_item.has_var( "spawn_location_omt" ) ) {
         new_item.set_var( "spawn_location_omt", coords::project_to<coords::omt>( getglobal( p ) ) );
     }
     for( item *const it : new_item.all_items_top( pocket_type::CONTAINER ) ) {
-        if( ( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) ||
-              it->has_flag( json_flag_HINT_THE_LOCATION ) ) &&
+        if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
             !it->has_var( "spawn_location_omt" ) ) {
             it->set_var( "spawn_location_omt", coords::project_to<coords::omt>( getglobal( p ) ) );
         }
