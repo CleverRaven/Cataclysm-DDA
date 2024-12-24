@@ -1500,8 +1500,7 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
         already_there_spots.push_back( elem );
         combined_spots.push_back( elem );
     }
-    // TODO: fix point types
-    for( const tripoint &elem : mgr.get_point_set_loot(
+    for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
              you.get_location(), distance, you.is_npc(), _fac_id( you ) ) ) {
         // if there is a loot zone that's already near the work spot, we don't want it to be added twice.
         if( std::find( already_there_spots.begin(), already_there_spots.end(),
@@ -2804,8 +2803,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
         requirement_id what_we_need;
         std::vector<tripoint_bub_ms> loot_zone_spots;
         std::vector<tripoint_bub_ms> combined_spots;
-        // TODO: fix point types
-        for( const tripoint &elem : mgr.get_point_set_loot(
+        for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
                  abspos, MAX_VIEW_DISTANCE, you.is_npc(), _fac_id( you ) ) ) {
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );

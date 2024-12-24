@@ -31,18 +31,18 @@ TEST_CASE( "zones_custom", "[zones]" )
         }
         CAPTURE( num, bag_plastic.display_name() );
 
-        mapgen_place_zone( zone_loc.raw() + tripoint::north_west, zone_loc.raw() + tripoint::south_east,
+        mapgen_place_zone( zone_loc + tripoint::north_west, zone_loc + tripoint::south_east,
                            zone_type_LOOT_CUSTOM, your_fac, {}, "completely unrelated overlap" );
-        mapgen_place_zone( zone_loc.raw(), zone_hammer_end.raw(), zone_type_LOOT_CUSTOM, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_hammer_end, zone_type_LOOT_CUSTOM, your_fac, {},
                            "hammer" );
-        mapgen_place_zone( zone_loc.raw(), zone_bowsaw_end.raw(), zone_type_LOOT_CUSTOM, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_bowsaw_end, zone_type_LOOT_CUSTOM, your_fac, {},
                            "c:tools,-hammer" );
-        mapgen_place_zone( zone_loc.raw(), zone_testgroup_end.raw(), zone_type_LOOT_ITEM_GROUP, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_testgroup_end, zone_type_LOOT_ITEM_GROUP, your_fac, {},
                            "test_event_item_spawn" );
-        mapgen_place_zone( zone_loc.raw(), zone_groupbatt_end.raw(), zone_type_LOOT_ITEM_GROUP, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_groupbatt_end, zone_type_LOOT_ITEM_GROUP, your_fac, {},
                            "test_group_disp" );
         tripoint_abs_ms const m_zone_loc = m.getglobal( tripoint_bub_ms{-5, -5, 0 } );
-        mapgen_place_zone( m_zone_loc.raw(), m_zone_loc.raw(), zone_type_LOOT_CUSTOM, your_fac, {},
+        mapgen_place_zone( m_zone_loc, m_zone_loc, zone_type_LOOT_CUSTOM, your_fac, {},
                            "plastic bag" );
 
         zone_manager &zmgr = zone_manager::get_manager();
