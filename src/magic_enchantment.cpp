@@ -1466,12 +1466,19 @@ void enchant_cache::clear()
     skill_values_multiply.clear();
     damage_values_add.clear();
     damage_values_multiply.clear();
+    armor_values_add.clear();
+    armor_values_multiply.clear();
+    extra_damage_add.clear();
+    extra_damage_multiply.clear();
     special_vision_vector.clear();
     hit_me_effect.clear();
     hit_you_effect.clear();
     ench_effects.clear();
+    emitter.reset();
     mutations.clear();
     modified_bodyparts.clear();
+    intermittent_activation.clear();
+    details.clear();
 }
 
 bool enchant_cache::operator==( const enchant_cache &rhs ) const
