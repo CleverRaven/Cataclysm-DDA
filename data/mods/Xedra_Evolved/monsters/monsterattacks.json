@@ -289,6 +289,7 @@
     "blockable": false,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 7 } ],
     "condition": { "not": { "u_has_effect": "maimed_arm" } },
+    "eoc": [ "EOC_MIGO_FLESH_PULL" ],
     "effects": [ { "id": "discombobulate", "duration": { "math": [ "_damage * 10" ] } } ],
     "hit_dmg_u": "%1$s hits your %2$s with an appendage and the flesh becomes like taffy!",
     "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an appendage and the flesh becomes like taffy!",
@@ -296,6 +297,11 @@
     "miss_msg_npc": "%1$s tries to snatch <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s hits your %2$s and your flesh remains firm.",
     "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s and their flesh remains firm."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIGO_FLESH_PULL",
+    "effect": [ { "u_add_effect": "stunned", "duration": { "math": [ "_damage * 10" ] } } ]
   },
   {
     "id": "ophanim_death",
