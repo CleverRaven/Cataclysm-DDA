@@ -14,5 +14,24 @@
     ],
     "description": "Cut damage multiply by 2, crit only",
     "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "VIKTORHAND_MANATOUCHED_BLAST",
+    "name": "magichand manablast",
+    "//": "supposed to simulate a chaser attack.",
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "reach_ok": true,
+    "crit_ok": true,
+    "messages": [ "Your appendage blasts $s", "<npcname> blasts $s!" ],
+    "weighting": 5,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "int", "scale": 0.75 },
+      { "stat": "damage", "type": "nether", "scaling-stat": "spellcraft", "scale": 1 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
+      { "stat": "damage", "type": "pure", "scaling-stat": "u_val('mana')", "scale": 0.001 }
+    ],
+    "attack_vectors": ["vector_null"]
   }
 ]
