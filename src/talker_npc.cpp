@@ -699,7 +699,7 @@ std::string talker_npc_const::view_personality_traits() const
     std::string assessment = "&";
     assessment += _( "<npc_name> seems to be:" );
     bool found_personality_trait = false;
-    for( const auto &trait_data_pairs : me_npc->my_mutations ) {
+    for( const auto &trait_data_pairs : me_npc->cached_mutations ) {
         const mutation_branch &mdata = trait_data_pairs.first.obj();
         if( mdata.personality_score ) {
             found_personality_trait = true;

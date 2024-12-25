@@ -33,7 +33,7 @@
       "r": "f_rack",
       "t": "f_table",
       "Ю": "f_sandbag_half",
-      "L": "f_locker"
+      "q": "f_locker"
     },
     "items": {  },
     "toilets": { "T": {  } }

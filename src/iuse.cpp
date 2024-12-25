@@ -3536,7 +3536,7 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
             here.add_field( flame, fd_fire, rng( 0, 2 ) );
         }
     }
-    explosion_handler::explosion( p, pos.raw(), 8, 0.8, true );
+    explosion_handler::explosion( p, pos, 8, 0.8, true );
     for( const tripoint_bub_ms &dest : here.points_in_radius( pos, 2 ) ) {
         here.add_field( dest, fd_incendiary, 3 );
     }
@@ -5477,18 +5477,18 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
             // Build a list of all unfriendly robots in range.
             // TODO: change into vector<Creature*>
             std::vector< shared_ptr_fast< monster> > mons;
-            std::vector< tripoint > locations;
+            std::vector< tripoint_bub_ms > locations;
             int entry_num = 0;
             for( const monster &candidate : g->all_monsters() ) {
                 if( robotcontrol_can_target( p, candidate ) ) {
                     mons.push_back( g->shared_from( candidate ) );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
-                    tripoint seen_loc;
+                    tripoint_bub_ms seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
                     if( p->sees( candidate ) ) {
-                        seen_loc = candidate.pos_bub().raw();
+                        seen_loc = candidate.pos_bub();
                     } else {
-                        seen_loc = p->pos_bub().raw();
+                        seen_loc = p->pos_bub();
                     }
                     locations.push_back( seen_loc );
                 }
@@ -7379,10 +7379,10 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
             vehs.push_back( v );
         }
     }
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub().raw() );
+        locations.push_back( veh->pos_bub() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 

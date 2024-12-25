@@ -302,19 +302,10 @@ void explosion_handler::draw_explosion( const tripoint_bub_ms &p, const int r, c
     }
 }
 
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
-{
-    explosion_handler::draw_explosion( tripoint_bub_ms( p ), r, col );
-}
 #else
 void explosion_handler::draw_explosion( const tripoint_bub_ms &p, const int r, const nc_color &col )
 {
     draw_explosion_curses( *g, p, r, col );
-}
-
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
-{
-    draw_explosion_curses( *g, tripoint_bub_ms( p ), r, col );
 }
 #endif
 

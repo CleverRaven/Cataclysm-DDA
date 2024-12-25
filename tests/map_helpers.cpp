@@ -149,8 +149,8 @@ void clear_map( int zmin, int zmax )
         clear_fields( z );
     }
     clear_zones();
-    wipe_map_terrain();
     clear_npcs();
+    wipe_map_terrain();
     clear_creatures();
     here.clear_traps();
     for( int z = zmin; z <= zmax; ++z ) {

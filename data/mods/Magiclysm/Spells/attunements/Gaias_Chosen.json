@@ -14,11 +14,10 @@
     "base_energy_cost": 800,
     "energy_source": "MANA",
     "difficulty": 8,
-    "min_damage": -20,
-    "max_damage": -200,
-    "damage_increment": -4.5,
+    "min_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -1.6) - 5" ] },
+    "max_damage": { "math": [ "(u_spell_level('gaiaschosen_samsara') * -4) - 12" ] },
     "max_level": 40,
-    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "dust_reborn",

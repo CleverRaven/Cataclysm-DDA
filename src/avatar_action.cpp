@@ -1060,7 +1060,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // otherwise see.
     const tripoint_bub_ms original_player_position = you.pos_bub();
     if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos );
+        you.setpos( *blind_throw_from_pos, false );
     }
 
     g->temp_exit_fullscreen();
@@ -1071,7 +1071,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {
-        you.setpos( original_player_position );
+        you.setpos( original_player_position, false );
     }
 
     if( trajectory.empty() ) {
