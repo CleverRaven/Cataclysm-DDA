@@ -201,10 +201,7 @@
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }
       ]
     },
-    "effect": [
-      { "message": "This is proof that the EoC works right." },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] }
-    ]
+    "effect": [ { "run_eocs": [ "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" ] } ]
   },
   {
     "type": "effect_on_condition",
