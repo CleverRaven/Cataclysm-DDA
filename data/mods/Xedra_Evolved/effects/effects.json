@@ -3046,6 +3046,7 @@
     "desc": [ "Your %s flesh is warped and taffy-like." ],
     "main_parts_only": true,
     "part_descs": true,
+    "show_in_info": true,
     "miss_messages": [ [ "Your limbs don't move as smoothly as usual", 1 ] ],
     "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "RESTRICTED", "CHAOTIC_BAD" ],

@@ -82,11 +82,25 @@
       [ "PARROT", 100 ],
       {
         "id": "scratch",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ],
-        "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ]
       },
       {
-        "id": "migo_flesh_pull"
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "migo_flesh_pull",
+        "cooldown": 7,
+        "move_cost": 106,
+        "accuracy": 6,
+        "blockable": false,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 7 } ],
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "eoc": [ "EOC_MIGO_FLESH_PULL" ],
+        "hit_dmg_u": "%1$s hits your %2$s with an appendage and the flesh becomes like taffy!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an appendage and the flesh becomes like taffy!",
+        "miss_msg_u": "%1$s tries to snatch you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to snatch <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s and your flesh remains firm.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s and their flesh remains firm."
       },
       {
         "id": "migo_genetwist_armor",
@@ -161,8 +175,7 @@
       [ "PARROT", 100 ],
       {
         "id": "scratch",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ],
-        "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ]
       },
       {
         "id": "migo_void_priest_dispel",
@@ -179,24 +192,6 @@
         "cooldown": 300,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s antennae point at %3$s and you could swear you see a gaping maw overlay %3$s for half a second while you hear a spectral scream."
-      },
-      {
-        "id": "migo_void_priest_entropic_field",
-        "type": "spell",
-        "spell_data": { "id": "migo_genetwist_armor_spell" },
-        "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "effect_monster_genetwist_armor" } } ]
-        },
-        "monster_message": "%1$s's skin pinches into connecting scutes."
-      },
-      {
-        "id": "migo_genetwist_extra_limbs",
-        "type": "spell",
-        "spell_data": { "id": "migo_genetwist_extra_limbs_spell" },
-        "cooldown": 1,
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_SPELLCASTING" } }, { "not": { "u_has_effect": "effect_migo_extra_limbs" } } ] },
-        "monster_message": "%1$s additional leglike appendages spread out from its body and began increasing its speed and agility."
       }
     ],
     "flags": [
