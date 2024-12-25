@@ -85,9 +85,7 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ],
         "effects": [ { "id": "effect_flesh_rending", "duration": 10, "affect_hit_bp": true } ]
       },
-      {
-        "id": "migo_flesh_pull"
-      },
+      { "id": "migo_flesh_pull" },
       {
         "id": "migo_genetwist_armor",
         "type": "spell",
