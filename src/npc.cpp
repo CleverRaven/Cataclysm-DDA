@@ -737,7 +737,7 @@ void npc::catchup_skills()
 
 void npc::clear_personality_traits()
 {
-    for( const trait_id &trait : get_mutations() ) {
+    for( const trait_id &trait : get_functioning_mutations() ) {
         if( trait.obj().personality_score ) {
             unset_mutation( trait );
         }
@@ -773,7 +773,7 @@ void npc::randomize_personality()
 
 void npc::learn_ma_styles_from_traits()
 {
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         if( !iter->initial_ma_styles.empty() ) {
             std::vector<matype_id> shuffled_trait_styles = iter->initial_ma_styles;
             std::shuffle( shuffled_trait_styles.begin(), shuffled_trait_styles.end(), rng_get_engine() );
@@ -1136,7 +1136,6 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 
 void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
-    // TODO: fix point types
     const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
     spawn_at_omt( pos );
     const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
@@ -1655,7 +1654,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
     }
 
     int u_ugly = 0;
-    for( trait_id &mut : you.get_mutations() ) {
+    for( trait_id &mut : you.get_functioning_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     for( const bodypart_id &bp : you.get_all_body_parts() ) {
@@ -2890,10 +2889,10 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( tripoint_bub_ms &pos, const point &d )
+static void maybe_shift( tripoint_bub_ms &pos, const point_rel_ms &d )
 {
     if( !pos.is_invalid() ) {
-        pos += d;
+        pos += d.raw();  // TODO: Make += etc. available to corresponding relative coordinates.
     }
 }
 
@@ -2901,7 +2900,7 @@ void npc::shift( const point_rel_sm &s )
 {
     const point_rel_ms shift = coords::project_to<coords::ms>( s );
     // TODO: convert these to absolute coords and get rid of shift()
-    maybe_shift( wanted_item_pos, point( -shift.x(), -shift.y() ) );
+    maybe_shift( wanted_item_pos, -shift );
     path.clear();
 }
 

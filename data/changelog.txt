@@ -192,6 +192,10 @@ Items salvaged from cutting will now be placed in vehicle, if you're cutting the
 tile layering supports item variants
 Some herbivore threshold mutants can now eat usually unpalatable raw fruit and vegetables
 Query the player on whether they really want to cut up other people's stuff
+Relaxing with Alonso is now fun
+Prompt before oxytorch activity if you don't have enough gas
+Ability to hide/unhide revealed wall wiring by examining it
+Special vision enchantment for Antennae mutation
 
 
 ## Content:
@@ -409,6 +413,8 @@ Add tupelo and nannyberry,  hobblebush and autumn olive trees
 New exodii rifle
 Remade the 3x3 hospital
 Some houses are under construction
+Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
+fungalize stages for rest of zombies
 
 
 ## Interface:
@@ -537,6 +543,11 @@ Migrate scores window to imgui
 Audit `satiety`
 Add filter for body part coverage to the crafting GUI
 Add filter for clothing layer to the crafting GUI, AIM, inventory etc.
+Crafting GUI: Filter recipes by what can fit into the result (longest_side, volume, mass)
+Migrate popups in pocket settings menu to ImGui
+Migrate martial arts details window to imgui
+Add sorting by price to weight ratio
+Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
 
 
 ## Mods:
@@ -881,6 +892,17 @@ Martial Mastery: Insight is cleared when using other martial arts
 [Xedra Evolved] Add new time related powers for each default dream class
 Aftershock: Replace exosuit forcefield with backpack generator
 [MoM] Add new `u_cancel_activity` to unlocking new power/wakeful rest
+Aftershock: Shield bionics deploy Riemman shields
+[Xedra Evolved] Add more wilderness spooky messages
+[Xedra Evolved] Add Exhalation of Ashes spell to salamanders
+[MoM] Psi passives turn off if you can't use psionics
+[Magiclysm/Xedra Evolved] Animals can't do that
+[XE] Gracken Stomach Traits
+[Magiclysm/Innawood] Revamp goblin/orc drops to separate itemgroups, make them fit Innawood
+[Magiclysm] The Forge of Wonders puts no value on food or drink, minimal value on guns and ammo (except the pirates)
+[Magiclysm/Innawood] Allow troll caves to spawn innawood
+[Magiclysm] Rock trolls actually turn to stone
+[Xedra Evolved] Add Time Related Monsters
 
 
 ## Balance:
@@ -1380,6 +1402,7 @@ crash on keybind reset in UILIST
 Fix broken macOS build due removed folder
 Fix an EOC that was looping infinitely and starting more loops as you travel
 Allow attacking with CANNOT_MOVE flag
+Killing hostile NPCs won't give "Killed innocent" morale debuff anymore
 
 
 ## Performance:
@@ -1420,6 +1443,7 @@ Cache mutation trait flags
 Cache item info for crafting GUI full-text search
 Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
+AIM cache filter function once
 
 
 ## Infrastructure:
@@ -1529,6 +1553,9 @@ Traps can directly trigger EoCs as their action
 Replace point constants with static class members
 Upgrade ImGui to version to 1.91.5
 less verbose reading of layering.json
+Imgui input popups
+Retired mingw cross compile build
+Script for updating Translate Complex Dialogue mod
 
 ## Build:
 Support Mac arm64 build
@@ -1558,6 +1585,7 @@ Allow the game to build on OSX
 Fix mac builds post freetype dependency addition
 Add imgui_stdlib to CMake
 Fixes potential artifact poisoning route in CI
+Update vcpkg commit to new mainline, remove portfile override
 
 
 ## I18N and A11Y:
