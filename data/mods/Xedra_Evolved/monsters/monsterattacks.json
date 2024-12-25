@@ -300,7 +300,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MIGO_FLESH_PULL",
-    "effect": [ { "u_add_effect": "discombobulate", "duration": { "math": [ "_damage * 10" ] } } ]
+    "effect": [ { "npc_add_effect": "discombobulate", "duration": { "math": [ "_damage * 10" ] } } ]
   },
   {
     "id": "ophanim_death",
