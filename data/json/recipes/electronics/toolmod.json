@@ -123,23 +123,5 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
     "components": [ [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "car_battery",
-    "category": "CC_VEHICLE",
-    "subcategory": "CSC_VEHICLE_PARTS",
-    "skill_used": "mechanics",
-    "skills_required": [ "electronics", 3 ],
-    "difficulty": 5,
-    "time": "1 h",
-    "reversible": false,
-    "decomp_learn": 3,
-    "book_learn": [ [ "manual_mechanics", 3 ], [ "advanced_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
-    "qualities": [ { "id": "SCREW", "level": 2 }, { "id": "WRENCH", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_mechanics_basic" }, { "proficiency": "prof_elec_circuits" } ],
-    "components": [ [ [ "battery_cell", 100 ] ], [ [ "scrap", 20 ] ], [ [ "cable", 15 ] ] ]
   }
 ]
