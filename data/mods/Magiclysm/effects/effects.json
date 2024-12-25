@@ -1704,8 +1704,8 @@
   {
     "type": "effect_type",
     "id": "archerybracers",
-    "name": [""],
-    "desc": [""],
+    "name": [ "" ],
+    "desc": [ "" ],
     "rating": "good",
     "enchantments": [ { "values": [ {"value": "WEAKPOINT_ACCURACY", "multiply": {"math": [ "1+(u_skill('archery'))" ]}}]}]
 
