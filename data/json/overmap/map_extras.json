@@ -451,7 +451,7 @@
     "type": "map_extra",
     "name": { "str": "Clay Deposit" },
     "description": "Small clay deposit is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clay_deposit" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_clay_deposit" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": "c",
     "color": "brown",
