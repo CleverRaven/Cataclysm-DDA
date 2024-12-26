@@ -81,7 +81,7 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int get_hp_max( const bodypart_id & ) const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
 
-        bool can_see_location( const tripoint &pos ) const override;
+        bool can_see_location( const tripoint_bub_ms &pos ) const override;
         int get_volume() const override;
         int get_weight() const override;
         bool is_warm() const override;

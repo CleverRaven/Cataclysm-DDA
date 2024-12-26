@@ -2148,7 +2148,7 @@ conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view m
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, target]( const_dialogue const & d ) {
         tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        return d.const_actor( is_npc )->can_see_location( get_map().bub_from_abs( target_pos ).raw() );
+        return d.const_actor( is_npc )->can_see_location( get_map().bub_from_abs( target_pos ) );
     };
 }
 
