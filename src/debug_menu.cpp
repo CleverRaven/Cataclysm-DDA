@@ -48,6 +48,7 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_imgui_demo.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
@@ -3777,63 +3778,11 @@ static void wind_speed()
     }
 }
 
-class demo_ui : public cataimgui::window
-{
-    public:
-        demo_ui();
-        void init();
-        void run();
 
-    protected:
-        void draw_controls() override;
-        cataimgui::bounds get_bounds() override;
-        void on_resized() override {
-            init();
-        };
-};
-demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) ) {}
-cataimgui::bounds demo_ui::get_bounds()
-{
-    return { 0.0f, 0.0f, 0.0f, 0.0f };
-}
-void demo_ui::draw_controls()
-{
-#ifndef TUI
-    ImGui::ShowDemoWindow();
-#endif
-}
-void demo_ui::init()
-{
-    // The demo makes it's own screen.  Don't get in the way
-    force_to_back = true;
-}
-
-void demo_ui::run()
-{
-    init();
-
-    input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    std::string action;
-
-    ui_manager::redraw();
-
-    while( is_open ) {
-        ui_manager::redraw();
-        action = ctxt.handle_input( 5 );
-        if( action == "QUIT" ) {
-            break;
-        }
-    }
-}
 
 static void run_imgui_demo()
 {
-    demo_ui demo;
+    debug_imgui_demo_ui demo;
     demo.run();
 }
 
