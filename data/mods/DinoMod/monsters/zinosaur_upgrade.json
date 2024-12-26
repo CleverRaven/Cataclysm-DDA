@@ -589,7 +589,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanchisaurus_brute",
-    "name": { "str": "American Ammo" },
+    "name": { "str_sp": "American Ammo" },
     "copy-from": "mon_zanchisaurus",
     "description": "Long-necked, four-legged dinosaur corpse.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
