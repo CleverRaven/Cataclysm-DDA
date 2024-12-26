@@ -272,6 +272,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
 		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
         case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
+        case debug_menu::debug_menu_index::IMGUI_DEMO: return "IMGUI_DEMO";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -900,6 +901,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
             { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
+            { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -3775,6 +3777,66 @@ static void wind_speed()
     }
 }
 
+class demo_ui : public cataimgui::window
+{
+    public:
+        demo_ui();
+        void init();
+        void run();
+
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override;
+        void on_resized() override {
+            init();
+        };
+};
+demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) ) {}
+cataimgui::bounds demo_ui::get_bounds()
+{
+    return { 0.0f, 0.0f, 0.0f, 0.0f };
+}
+void demo_ui::draw_controls()
+{
+#ifndef TUI
+    ImGui::ShowDemoWindow();
+#endif
+}
+void demo_ui::init()
+{
+    // The demo makes it's own screen.  Don't get in the way
+    force_to_back = true;
+}
+
+void demo_ui::run()
+{
+    init();
+
+    input_context ctxt( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    std::string action;
+
+    ui_manager::redraw();
+
+    while( is_open ) {
+        ui_manager::redraw();
+        action = ctxt.handle_input( 5 );
+        if( action == "QUIT" ) {
+            break;
+        }
+    }
+}
+
+static void run_imgui_demo()
+{
+    demo_ui demo;
+    demo.run();
+}
+
 static void write_city_list()
 {
     write_to_file( "cities.output", [&]( std::ostream & testfile ) {
@@ -4336,6 +4398,10 @@ void debug()
 
         case debug_menu_index::WRITE_CITY_LIST:
             write_city_list();
+            break;
+
+        case debug_menu_index::IMGUI_DEMO:
+            run_imgui_demo();
             break;
 
         case debug_menu_index::TALK_TOPIC:
