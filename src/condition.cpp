@@ -609,12 +609,12 @@ void finalize_conditions()
         deferred_math &math = dfr.front();
         try {
             math.exp->parse( math.str, false );
+            math._validate_type();
         } catch( math::exception const &ex ) {
             JsonObject jo{ std::move( math.jo ) };
             clear_deferred_math();
             jo.throw_error_at( "math", ex.what() );
         }
-        math._validate_type();
         dfr.pop();
     }
 }
@@ -2483,10 +2483,10 @@ void deferred_math::_validate_type() const
 {
     math_type_t exp_type = exp->get_type();
     if( exp_type == math_type_t::assign && type != math_type_t::assign ) {
-        jo.throw_error_at( "math",
-                           R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
+        throw math::syntax_error(
+            R"(Assignment operators can't be used in this context.  Did you mean to use "=="? )" );
     } else if( exp_type != math_type_t::assign && type == math_type_t::assign ) {
-        jo.throw_error_at( "math", R"(Eval statement in assignment context has no effect)" );
+        throw math::syntax_error( R"(Eval statement in assignment context has no effect)" );
     }
 }
 
