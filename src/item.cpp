@@ -6085,7 +6085,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
         const inventory &crafting_inv = player_character.crafting_inventory();
-        const recipe_subset available_recipe_subset = player_character.get_group_available_recipes();
+        const recipe_subset &available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
         insert_separation_line( info );
@@ -6093,6 +6093,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "DESCRIPTION", _( "You know of nothing you could craft with it." ) );
         } else {
             std::vector<std::string> crafts;
+            crafts.reserve( item_recipes.size() );
             for( const recipe *r : item_recipes ) {
                 const bool can_make = r->deduped_requirements()
                                       .can_make_with_inventory( crafting_inv, r->get_component_filter() );
