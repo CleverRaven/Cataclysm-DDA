@@ -1798,7 +1798,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         }
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
-            get_event_bus().send<event_type::character_gains_effect>( ch->getID(), bp.id(), eff_id );
+            get_event_bus().send<event_type::character_gains_effect>( ch->getID(), bp.id(), eff_id, intensity );
             if( is_avatar() ) {
                 eff_id->add_apply_msg( e.get_intensity() );
             }
@@ -3218,8 +3218,6 @@ void Creature::draw( const catacurses::window &w, const tripoint_bub_ms &origin,
     } else {
         mvwputch( w, draw, symbol_color(), symbol() );
     }
-
-    Creature::draw( w, origin, inverted );
 }
 
 bool Creature::is_symbol_highlighted() const

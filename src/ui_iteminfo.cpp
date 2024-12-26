@@ -14,11 +14,14 @@ iteminfo_window::iteminfo_window( item_info_data &info, point pos, int width, in
     if( info.handle_scrolling ) {
         ctxt.register_action( "PAGE_UP" );
         ctxt.register_action( "PAGE_DOWN" );
+        ctxt.register_action( "HOME" );
+        ctxt.register_action( "END" );
         if( info.arrow_scrolling ) {
             ctxt.register_action( "UP" );
             ctxt.register_action( "DOWN" );
         }
     }
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     if( info.any_input ) {
@@ -72,6 +75,10 @@ void iteminfo_window::execute()
             s = cataimgui::scroll::page_up;
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
             s = cataimgui::scroll::page_down;
+        } else if( data.handle_scrolling && action == "HOME" ) {
+            s = cataimgui::scroll::begin;
+        } else if( data.handle_scrolling && action == "END" ) {
+            s = cataimgui::scroll::end;
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) ) {
             break;

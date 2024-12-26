@@ -72,6 +72,7 @@ class talker_character_const: virtual public const_talker
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        int get_speed() const override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &dam ) const override;
         int pain_cur() const override;
@@ -189,7 +190,7 @@ class talker_character_const: virtual public const_talker
         bool is_warm() const override;
 
         bool can_see() const override;
-        bool can_see_location( const tripoint &pos ) const override;
+        bool can_see_location( const tripoint_bub_ms &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
         int get_rad() const override;
@@ -301,6 +302,7 @@ class talker_character: virtual public talker
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void mod_livestyle( int ) override;
         void set_fac_relation( const Character *guy, npc_factions::relationship rule,
                                bool should_set_value ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,

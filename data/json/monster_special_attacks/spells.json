@@ -569,7 +569,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
-    "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "npc_is_character", "has_beta" ] },
+    "condition": { "and": [ { "math": [ "_proj_damage + _damage > 0" ] }, "has_beta", "npc_is_character" ] },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
       { "npc_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
@@ -1197,7 +1197,7 @@
     "effect": [
       { "u_message": "The terrifying visage of the <npc_name> paralyzes you.", "type": "bad" },
       { "u_add_effect": "fearparalyze", "duration": 5 },
-      { "turn_cost": "4 s" }
+      { "turn_cost": { "math": [ "4 * u_speed() / 100" ] } }
     ],
     "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
   },

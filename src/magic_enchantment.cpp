@@ -747,6 +747,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
             jsout.member( "id", struc_desc.id );
             jsout.end_object();
         }
+        jsout.end_array();
         jsout.end_object();
     }
     jsout.end_array();
@@ -776,6 +777,14 @@ bool enchant_cache::add( const enchant_cache &rhs )
     force_add( rhs );
     return true;
 }
+
+void enchant_cache::force_add_mutation( const enchantment &rhs )
+{
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.push_back( branch );
+    }
+}
+
 
 void enchant_cache::force_add( const enchant_cache &rhs )
 {
@@ -851,7 +860,7 @@ void enchant_cache::force_add( const enchant_cache &rhs )
     }
 
     for( const trait_id &branch : rhs.mutations ) {
-        mutations.emplace( branch );
+        mutations.push_back( branch );
     }
 
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
@@ -998,7 +1007,7 @@ void enchant_cache::force_add_with_dialogue( const enchantment &rhs, const const
     }
 
     for( const trait_id &branch : rhs.mutations ) {
-        mutations.emplace( branch );
+        mutations.push_back( branch );
     }
 
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
@@ -1458,10 +1467,19 @@ void enchant_cache::clear()
     skill_values_multiply.clear();
     damage_values_add.clear();
     damage_values_multiply.clear();
+    armor_values_add.clear();
+    armor_values_multiply.clear();
+    extra_damage_add.clear();
+    extra_damage_multiply.clear();
     special_vision_vector.clear();
     hit_me_effect.clear();
     hit_you_effect.clear();
     ench_effects.clear();
+    emitter.reset();
+    mutations.clear();
+    modified_bodyparts.clear();
+    intermittent_activation.clear();
+    details.clear();
 }
 
 bool enchant_cache::operator==( const enchant_cache &rhs ) const

@@ -274,7 +274,7 @@ int Character::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             res = std::max( res, mut->butchering_quality );
         }
     }
