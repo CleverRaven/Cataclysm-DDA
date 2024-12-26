@@ -94,7 +94,7 @@ jobs:
             dont_skip_data_only_changes: 1
             mods: --mods=magiclysm
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
-            ccache_limit: 5G
+            ccache_limit: 4.5G
             ccache_key: linux-llvm-10-break1
 
           - compiler: clang++
@@ -106,7 +106,7 @@ jobs:
             sound: 1
             localize: 1
             title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
-            ccache_limit: 6G
+            ccache_limit: 10G
             ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
@@ -122,7 +122,7 @@ jobs:
             pch: 1
             cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
-            ccache_limit: 4.5G
+            ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
 
           - compiler: clang++-12
@@ -137,7 +137,7 @@ jobs:
             cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
-            ccache_limit: 4.5G
+            ccache_limit: 6G
             ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
@@ -150,7 +150,7 @@ jobs:
             pch: 1
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
-            ccache_limit: 6G
+            ccache_limit: 6.5G
             ccache_key: linux-gcc-11-asan
 
           - compiler: g++-9
@@ -162,7 +162,7 @@ jobs:
             native: linux64
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
-            ccache_limit: 3G
+            ccache_limit: 1G
             ccache_key: linux-gcc-9-cmake
 
     name: ${{ matrix.title }}
@@ -221,11 +221,12 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       run: |
           sudo apt-get install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
-    - name: install recent ccache on ubuntu 20.04
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.os == 'ubuntu-20.04' }}
+    - name: install recent ccache on ubuntu
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
+          ccache --version
           sudo apt-get remove --purge -y ccache
-          curl -sL https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.8.3-linux-x86_64/ccache
+          curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
           ccache --version
     - name: install Clang 12 (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
@@ -264,6 +265,7 @@ jobs:
       if: ${{ env.SKIP == 'false' }}
       run: |
         echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "datetime-seconds=$(/bin/date +%s)" >> $GITHUB_OUTPUT
         echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
@@ -282,6 +284,10 @@ jobs:
     - name: post-build ccache manipulation
       if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |
+        ccache --show-stats --verbose
+        NOW=`/bin/date +%s`
+        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        ccache --evict-older-than ${DELTA}s
         ccache --show-stats --verbose
         ccache -M ${{ env.CCACHE_LIMIT }}
         ccache -c

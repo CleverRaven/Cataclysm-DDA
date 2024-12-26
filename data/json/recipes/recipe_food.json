@@ -98,7 +98,7 @@
     "charges": 4,
     "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
-    "components": [ [ [ "water_murky", 1 ] ], [ [ "pur_tablets", 1 ] ] ]
+    "components": [ [ [ "water_murky", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8861,6 +8861,7 @@
         [ "seed_rose", 3 ],
         [ "seed_cattail", 3 ],
         [ "seed_dahlia", 3 ],
+        [ "seed_eggplant", 3 ],
         [ "seed_flower", 3 ],
         [ "seed_cactus", 3 ],
         [ "seed_hops", 3 ],
