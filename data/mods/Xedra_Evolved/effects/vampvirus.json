@@ -40,7 +40,7 @@
         "u_add_effect": "vampire_virus",
         "intensity": { "math": [ "u_effect_intensity('vampire_virus') - 1" ] },
         "duration": "PERMANENT"
-      }
+      },
               { "u_lose_trait": "VAMPIRE2" },
               { "u_lose_trait": "COAGULANTWEAVE" },
               { "u_lose_trait": "BLOODHEAL" },
@@ -61,7 +61,11 @@
             "id": "EOC_REDUCE_VAMPVIRUS2",
             "condition": { "math": [ "u_effect_intensity('vampire_virus') == 3" ] },
             "effect": [
-              { "u_add_effect": "vampire_virus", "duration": 0, "intensity": -1 },
+                           {
+        "u_add_effect": "vampire_virus",
+        "intensity": { "math": [ "u_effect_intensity('vampire_virus') - 1" ] },
+        "duration": "PERMANENT"
+      },
               { "u_lose_trait": "VAMPIRE3" },
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
