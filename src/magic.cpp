@@ -2571,12 +2571,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::EndChild();
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
-            ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[I]", ignore_string.c_str() );
+            ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[L1+L\u2B88]", ignore_string.c_str() );
             ImGui::SameLine();
-            if( cataimgui::BeginRightAlign( "hotkeys" ) ) {
-                ImGui::TextColored( c_yellow, "%s", _( "Assign Hotkey [=]" ) );
-                cataimgui::EndRightAlign();
-            }
         }
 };
 

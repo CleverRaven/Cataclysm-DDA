@@ -8331,7 +8331,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 
     tokens.emplace_back( _( "<X>-Examine" ) );
     tokens.emplace_back( _( "<Y>-Compare" ) );
-    tokens.emplace_back( _( "<A>-Travel to" ) );
+    tokens.emplace_back( _( "<R1>-Travel to" ) );
 
     int gaps = tokens.size() + 1;
     letters = 0;

@@ -122,7 +122,7 @@ std::string convert_to_gamepad( const std::string keybind_in_pre )
         keybind_out = string_format( "%s%s", l_mod, gp_rstick_left );
     } else if( keybind_in == "Z" ) {
         keybind_out = string_format( "%s%s", l_mod, gp_rstick_right );
-    } else if( keybind_in == "i" ) {
+    } else if( keybind_in == "F1" ) {
         keybind_out = gp_hotkey;
     } else if( keybind_in == "&" ) {
         keybind_out = string_format( "%s%s", gp_hotkey_mod, gp_cross );
