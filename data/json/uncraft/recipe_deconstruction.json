@@ -2427,6 +2427,22 @@
     "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
+    "result": "sheet_denim",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_denim_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -7848,7 +7864,7 @@
     "components": [
       [ [ "2x4", 12 ] ],
       [ [ "nail", 12 ] ],
-      [ [ "qt_wire", 26 ] ],
+      [ [ "piano_wire", 26 ] ],
       [ [ "wheel_caster", 1 ] ],
       [ [ "steel_chunk", 3 ] ],
       [ [ "plastic_chunk", 10 ] ]

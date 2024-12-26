@@ -8596,7 +8596,7 @@ ter_str_id uniform_terrain( const oter_id &oter )
 // Does not create or require a temporary map and does its own saving
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter )
 {
-    if( MAPBUFFER.lookup_submap( p ) ) {
+    if( MAPBUFFER.submap_exists( p ) ) {
         return false;
     }
 
@@ -8646,7 +8646,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
         for( int gridy = 0; gridy <= 1; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 const tripoint grid_pos( gridx, gridy, gridz );
-                if( MAPBUFFER.lookup_submap( grid_sm_base.xy() + grid_pos ) == nullptr ) {
+                if( !MAPBUFFER.submap_exists( grid_sm_base.xy() + grid_pos ) ) {
                     map_incomplete = true;
                     break;
                 }
@@ -8662,8 +8662,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
 
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
             const tripoint_abs_sm pos = {grid_sm_base.xy(), gridz };
-            submap *tmpsub = MAPBUFFER.lookup_submap( pos );
-            if( tmpsub == nullptr ) {
+            if( !MAPBUFFER.submap_exists( pos ) ) {
                 dbg( D_ERROR ) << "failed to generate a submap at " << pos;
                 debugmsg( "failed to generate a submap at %s", pos.to_string() );
                 return;
@@ -9018,7 +9017,7 @@ void map::produce_sap( const tripoint_bub_ms &p, const time_duration &time_since
     }
 }
 
-void map::cut_down_tree( tripoint_bub_ms p, point dir )
+void map::cut_down_tree( tripoint_bub_ms p, point_rel_ms dir )
 {
     if( !zlevels ) {
         debugmsg( "Call to cut_down_tree from a map that doesn't support zlevels." );

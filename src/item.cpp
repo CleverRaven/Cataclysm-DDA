@@ -5661,6 +5661,27 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     }
 }
 
+std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
+        const std::list<const item *> &items )
+{
+    std::vector<std::pair<item const *, int>> counted_items;
+    for( const item *contents_item : items ) {
+        bool found = false;
+        for( std::pair<const item *, int> &content : counted_items ) {
+            if( content.first->display_stacked_with( *contents_item ) ) {
+                content.second += 1;
+                found = true;
+            }
+        }
+        if( !found ) {
+            std::pair<const item *, int> new_content( contents_item, 1 );
+            counted_items.push_back( new_content );
+        }
+    }
+    return counted_items;
+}
+
+
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool /*debug*/ ) const
 {
@@ -5686,8 +5707,14 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
         info.emplace_back( "DESCRIPTION", mod_str );
         info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
     }
+
+    const std::list<const item *> all_contents = contents.all_items_top();
+    const std::vector<std::pair<item const *, int>> counted_contents = get_item_duplicate_counts(
+                all_contents );
     bool contents_header = false;
-    for( const item *contents_item : contents.all_items_top() ) {
+    for( const std::pair<const item *, int> &content_w_count : counted_contents ) {
+        const item *contents_item = content_w_count.first;
+        int count = content_w_count.second;
         if( !contents_header ) {
             insert_separation_line( info );
             info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this item</bold>:" ) );
@@ -5701,12 +5728,16 @@ void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
         if( contents_item->made_of_from_type( phase_id::LIQUID ) ) {
             units::volume contents_volume = contents_item->volume() * batch;
-            info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
-                               contents_item->color_in_inventory() ) );
+            info.emplace_back( "DESCRIPTION",
+                               colorize( contents_item->display_name(), contents_item->color_in_inventory() ) );
             info.emplace_back( vol_to_info( "CONTAINER", description + space, contents_volume ) );
         } else {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item->display_name(),
-                               contents_item->color_in_inventory() ) );
+            std::string name;
+            if( count > 1 ) {
+                name += std::to_string( count ) + " ";
+            }
+            name += colorize( contents_item->display_name( count ), contents_item->color_in_inventory() );
+            info.emplace_back( "DESCRIPTION", name );
             info.emplace_back( "DESCRIPTION", description.translated() );
         }
     }
@@ -13409,40 +13440,6 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-std::vector<trait_id> item::mutations_from_wearing( const Character &guy, bool removing ) const
-{
-    if( !is_relic() ) {
-        return std::vector<trait_id> {};
-    }
-    std::vector<trait_id> muts;
-
-    for( const enchant_cache &ench : relic_data->get_proc_enchantments() ) {
-        for( const trait_id &mut : ench.get_mutations() ) {
-            // this may not be perfectly accurate due to conditions
-            muts.push_back( mut );
-        }
-    }
-    if( type->relic_data ) {
-        for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
-            for( const trait_id &mut : ench.get_mutations() ) {
-                // this may not be perfectly accurate due to conditions
-                muts.push_back( mut );
-            }
-        }
-    }
-    for( const trait_id &char_mut : guy.get_mutations( true, removing ) ) {
-        for( auto iter = muts.begin(); iter != muts.end(); ) {
-            if( char_mut == *iter ) {
-                iter = muts.erase( iter );
-            } else {
-                ++iter;
-            }
-        }
-    }
-
-    return muts;
-}
-
 void item::overwrite_relic( const relic &nrelic )
 {
     this->relic_data = cata::make_value<relic>( nrelic );
@@ -13525,7 +13522,7 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
         return true; //destroy fake mill
     }
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::mill_finalize( get_avatar(), pos.raw() ); //activate effects when timers goes to zero
+        iexamine::mill_finalize( get_avatar(), pos ); //activate effects when timers goes to zero
         return true; //destroy fake mill item
     }
 
@@ -13542,7 +13539,7 @@ bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoin
     }
 
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::on_smoke_out( pos.raw(), birthday() ); //activate effects when timers goes to zero
+        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
         return true; //destroy fake smoke when it 'burns out'
     }
 

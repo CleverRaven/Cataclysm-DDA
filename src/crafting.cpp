@@ -1122,7 +1122,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     }
 
     // Mutations can define specific skill bonuses and penalties.  Gotta include those.
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         for( const std::pair<const skill_id, int> &skill_bonuses : mut->craft_skill_bonus ) {
             if( making.skill_used == skill_bonuses.first ) {
                 total_skill_modifiers += skill_bonuses.second * 1.0f;

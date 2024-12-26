@@ -943,7 +943,7 @@ class Character : public Creature, public visitable
         /** Updates the stomach to give accurate hunger messages */
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
-        void update_enchantment_mutations();
+        void update_cached_mutations();
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -1376,10 +1376,12 @@ class Character : public Creature, public visitable
         bool purifiable( const trait_id &flag ) const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
-        /** Returns true if the player has the entered trait */
+        /** Returns true if the player has the entered trait in cached_mutations */
         bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered trait with the desired variant */
         bool has_trait_variant( const trait_and_var & ) const;
+        /** Returns true if the player has the entered trait in my_mutations */
+        bool has_permanent_trait( const trait_id &b ) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -1445,7 +1447,8 @@ class Character : public Creature, public visitable
         void mutation_reflex_trigger( const trait_id &mut );
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const trait_id &mutation );
+        void activate_mutation( const trait_id &mut );
+        void activate_cached_mutation( const trait_id &mut );
         void deactivate_mutation( const trait_id &mut );
 
         bool can_mount( const monster &critter ) const;
@@ -2672,6 +2675,11 @@ class Character : public Creature, public visitable
             bool include_hidden = true,
             bool ignore_enchantment = false,
             const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
+        /** Get the idents of all traits/mutations with corrupted = 0. */
+        std::vector<trait_id> get_functioning_mutations(
+            bool include_hidden = true,
+            bool ignore_enchantment = false,
+            const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
         /** Same as above, but also grab the variant ids (or empty string if none) */
         std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
                 bool ignore_enchantment = false ) const;
@@ -3183,8 +3191,6 @@ class Character : public Creature, public visitable
         void on_item_wear( const item &it );
         /** Called when an item is taken off */
         void on_item_takeoff( const item &it );
-        // things to call when mutations enchantments change
-        void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
@@ -3883,6 +3889,12 @@ class Character : public Creature, public visitable
         void swap_character( Character &other );
     public:
         struct trait_data {
+            /**
+             * Updated in Character::update_cached_mutations(),
+             * corrupted > 0 means that the mutation is not functioning,
+             * because of other conflicting enchantment mutations.
+             */
+            int corrupted = 0;
             /** Whether the mutation is activated. */
             bool powered = false;
             /** Key to select the mutation in the UI. */
@@ -3971,14 +3983,18 @@ class Character : public Creature, public visitable
         // Mutations that have been turned unpurifiable via EoC
         std::unordered_set<trait_id> my_intrinsic_mutations;
         /**
-         * Pointers to mutation branches in @ref my_mutations.
+         * Cache containing my_mutations and enchantment mutations.
          */
-        std::vector<const mutation_branch *> cached_mutations;
+        std::unordered_map<trait_id, trait_data> cached_mutations;
+        /**
+         * Cache newly mutated mutations in my_mutations.
+         */
+        std::unordered_map<trait_id, trait_data> my_mutations_dirty;
 
         // if the player puts on and takes off items these mutations
-        // are added or removed at the beginning of the next
-        std::vector<trait_id> mutations_to_remove;
-        std::vector<trait_id> mutations_to_add;
+        // are added or removed at the beginning of the next turn.
+        std::set<trait_id> mutations_to_remove;
+        std::set<trait_id> mutations_to_add;
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated
@@ -4157,6 +4173,10 @@ class Character : public Creature, public visitable
     public:
         mutable time_point next_climate_control_check;
         mutable bool last_climate_control_ret;
+
+        /* cached enchantment mutations */
+        pimpl<enchant_cache> old_mutation_cache;
+        pimpl<enchant_cache> new_mutation_cache;
 
     private:
         /* cached recipes, which are invalidated if the turn changes */

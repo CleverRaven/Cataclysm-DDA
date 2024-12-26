@@ -2204,7 +2204,7 @@ class map
         * Removes the tree at 'p' and produces a trunk_yield length line of trunks in the 'dir'
         * direction from 'p', leaving a stump behind at 'p'.
         */
-        void cut_down_tree( tripoint_bub_ms p, point dir );
+        void cut_down_tree( tripoint_bub_ms p, point_rel_ms dir );
     protected:
         /**
          * Radiation-related plant (and fungus?) death.
@@ -2614,7 +2614,7 @@ class tinymap : private map
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
         // This operation cannot be used with tinymap due to a lack of zlevel support, but are carried through for use by smallmap.
-        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+        void cut_down_tree( tripoint_omt_ms p, point_rel_ms dir ) {
             map::cut_down_tree( rebase_bub( p ), dir );
         };
 
@@ -2920,7 +2920,7 @@ class smallmap : public tinymap
     public:
         smallmap() : tinymap( 2, true ) {}
 
-        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+        void cut_down_tree( tripoint_omt_ms p, point_rel_ms dir ) {
             tinymap::cut_down_tree( p, dir );
         };
 };

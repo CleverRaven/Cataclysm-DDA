@@ -6611,7 +6611,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         }
     }
 
-    here.cut_down_tree( pos, direction.xy().raw() );
+    here.cut_down_tree( pos, direction.xy() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree

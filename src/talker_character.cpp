@@ -124,6 +124,11 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+int talker_character_const::get_speed() const
+{
+    return me_chr_const->get_speed();
+}
+
 dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam ) const
 {
@@ -867,7 +872,7 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
-bool talker_character_const::can_see_location( const tripoint &pos ) const
+bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
     return me_chr_const->sees( pos );
 }
@@ -880,6 +885,11 @@ void talker_character::set_sleepiness( int amount )
 void talker_character::mod_daily_health( int amount, int cap )
 {
     me_chr->mod_daily_health( amount, cap );
+}
+
+void talker_character::mod_livestyle( int amount )
+{
+    me_chr->mod_livestyle( amount );
 }
 
 int talker_character_const::morale_cur() const

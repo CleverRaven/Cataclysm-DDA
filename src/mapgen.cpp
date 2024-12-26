@@ -3488,7 +3488,7 @@ class jmapgen_zone : public jmapgen_piece
                                           dat.zlevel() + z.get() ) );
             const tripoint_abs_ms end = dat.m.getglobal( tripoint_bub_ms( int( x.valmax ), int( y.valmax ),
                                         dat.zlevel() + z.get() ) );
-            mapgen_place_zone( start.raw(), end.raw(), chosen_zone_type, chosen_faction, name, filter, &dat.m );
+            mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3527,8 +3527,8 @@ class jmapgen_remove_vehicles : public jmapgen_piece
     public:
         std::vector<vproto_id> vehicles_to_remove;
         jmapgen_remove_vehicles( const JsonObject &jo, const std::string_view/*context*/ ) {
-            for( std::string item_id : jo.get_string_array( "vehicles" ) ) {
-                vehicles_to_remove.emplace_back( item_id );
+            for( std::string vehicle_prototype_id : jo.get_string_array( "vehicles" ) ) {
+                vehicles_to_remove.emplace_back( vehicle_prototype_id );
             }
         }
         mapgen_phase phase() const override {
@@ -3536,18 +3536,17 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-
             const tripoint_bub_ms start( int( x.val ), int( y.val ), dat.zlevel() + z.get() );
             const tripoint_bub_ms end( int( x.valmax ), int( y.valmax ), dat.zlevel() + z.get() );
             const tripoint_range<tripoint_bub_ms> range = tripoint_range<tripoint_bub_ms>( start, end );
+            auto is_in_vehicles_to_remove = [&]( vproto_id & vproto ) -> bool {
+                return std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(), vproto ) != vehicles_to_remove.end();
+            };
             for( const tripoint_bub_ms &p : range ) {
-                if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
-                    const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
-                                                vp->vehicle().type );
-                    if( rit != vehicles_to_remove.end() ) {
-                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
-                        dat.m.destroy_vehicle( &vp->vehicle() );
-                    }
+                optional_vpart_position vp = dat.m.veh_at( p );
+                if( vp && ( vehicles_to_remove.empty() || is_in_vehicles_to_remove( vp->vehicle().type ) ) ) {
+                    get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
+                    dat.m.destroy_vehicle( &vp->vehicle() );
                 }
             }
         }
@@ -7082,10 +7081,10 @@ computer *map::add_computer( const tripoint_bub_ms &p, const std::string &name, 
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x(), l.y() );
-        static computer null_computer = computer( name, security, p.raw() );
+        static computer null_computer = computer( name, security, p );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security, p.raw() ) );
+    place_on_submap->set_computer( l, computer( name, security, p ) );
     return place_on_submap->get_computer( l );
 }
 

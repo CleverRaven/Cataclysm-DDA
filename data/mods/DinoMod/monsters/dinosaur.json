@@ -2651,6 +2651,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_fona",
+    "name": { "str_sp": "fona" },
+    "copy-from": "mon_oryctodromeus",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "stomach_size": 1000,
+    "hp": 50,
+    "zombify_into": "mon_zona",
+    "description": "A feathered bipedal dinosaur with claws and a long tail.  The dinosaur is the size of a large dog.",
+    "reproduction": { "baby_type": { "baby_egg": "egg_fona" }, "baby_count": 3, "baby_timer": 12 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_oryctodromeus",
     "name": { "str_sp": "oryctodromeus" },
     "looks_like": "mon_eoraptor",

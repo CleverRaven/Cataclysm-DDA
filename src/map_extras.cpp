@@ -121,12 +121,10 @@ static const itype_id itype_withered( "withered" );
 
 static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
-static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
 static const map_extra_id map_extra_mx_fungal_zone( "mx_fungal_zone" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
-static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
 static const map_extra_id map_extra_mx_null( "mx_null" );
@@ -139,7 +137,6 @@ static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
-static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
 static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
 static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
@@ -155,7 +152,6 @@ static const oter_type_str_id oter_type_road( "road" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
-static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_coast_rock_surf( "t_coast_rock_surf" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
@@ -1164,22 +1160,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
-{
-    // A rare chance to spawn a jabberwock. This was extracted from the hardcoded forest mapgen
-    // and moved into a map extra. It still has a one_in chance of spawning because otherwise
-    // the rarity skewed the values for all the other extras too much. I considered moving it
-    // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
-    // not easily replicated there.
-    if( one_in( 50 ) ) {
-        m.place_spawns( GROUP_JABBERWOCK, 1, point_bub_ms::zero, { SEEX * 2, SEEY * 2 },
-                        m.get_abs_sub().z(), 1, true );
-        return true;
-    }
-
-    return false;
-}
-
 static bool mx_grove( map &m, const tripoint &abs_sub )
 {
     // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
@@ -1300,51 +1280,6 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
                     abs_sub.z,
                     0.15f );
     return true;
-}
-
-static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
-{
-    // This map extra creates small clay deposits using a simple cellular automaton.
-
-    constexpr int width = SEEX * 2;
-    constexpr int height = SEEY * 2;
-
-    for( int tries = 0; tries < 5; tries++ ) {
-        // Generate the cells for our clay deposit.
-        std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                                height, 35, 5, 4, 3 );
-
-        // With our settings for the CA, it's sometimes possible to get a bad generation with not enough
-        // alive cells (or even 0).
-        int alive_count = 0;
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
-                alive_count += current[i][j];
-            }
-        }
-
-        // If we have fewer than 4 alive cells, lets try again.
-        if( alive_count < 4 ) {
-            continue;
-        }
-
-        // Loop through and turn every live cell into clay.
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
-                if( current[i][j] == 1 ) {
-                    const tripoint location( i, j, abs_sub.z );
-                    m.furn_set( location, furn_str_id::NULL_ID() );
-                    m.ter_set( location, ter_t_clay );
-                }
-            }
-        }
-
-        // If we got here, it meant we had a successful try and can just break out of
-        // our retry loop.
-        return true;
-    }
-
-    return false;
 }
 
 static bool mx_reed( map &m, const tripoint &abs_sub )
@@ -2028,11 +1963,9 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_minefield, mx_minefield },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
-    { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },
     { map_extra_mx_pond, mx_pond },
-    { map_extra_mx_clay_deposit, mx_clay_deposit },
     { map_extra_mx_casings, mx_casings },
     { map_extra_mx_looters, mx_looters },
     { map_extra_mx_corpses, mx_corpses },
