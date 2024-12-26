@@ -80,10 +80,7 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 100 ],
-      {
-        "id": "scratch",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ]
-      },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 16, "armor_multiplier": 0.8 } ] },
       {
         "type": "monster_attack",
         "attack_type": "melee",
