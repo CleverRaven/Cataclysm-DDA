@@ -511,6 +511,7 @@
       { "u_lose_effect": "bile_stink" },
       { "u_lose_morale": "morale_bile" },
       { "u_lose_effect": "boomered", "target_part": "eyes" },
+      { "u_lose_effect": "skunk_spray" },
       { "u_lose_effect": "wet" },
       { "u_lose_effect": "wet", "target_part": "head" },
       { "u_lose_effect": "wet", "target_part": "arm_l" },
