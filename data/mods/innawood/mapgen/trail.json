@@ -60,13 +60,7 @@
     "//": "For placing the intersection as part of a special",
     "object": {
       "predecessor_mapgen": "forest_thick",
-      "place_nested": [
-        {
-          "chunks": [ "24x24_forest_trail_intersection_inna" ],
-          "x": 0,
-          "y": 0
-        }
-      ]
+      "place_nested": [ { "chunks": [ "24x24_forest_trail_intersection_inna" ], "x": 0, "y": 0 } ]
     }
   }
 ]
