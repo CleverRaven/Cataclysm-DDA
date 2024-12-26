@@ -45,6 +45,7 @@
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
       { "monster": "mon_triceratops_hatchling", "weight": 3 },
+      { "monster": "mon_fona_hatchling", "weight": 3 },
       { "monster": "mon_thescelosaurus_hatchling", "weight": 3 }
     ]
   },
