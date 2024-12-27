@@ -11,7 +11,13 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 860 },
-      { "monster": "mon_giant_heron_ridable", "weight": 10, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_giant_heron_ridable",
+        "weight": 15,
+        "cost_multiplier": 2,
+        "pack_size": [ 2, 3 ],
+        "starts": "21 days"
+      },
       { "monster": "mon_owlbear", "weight": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_troll", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
