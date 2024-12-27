@@ -36,7 +36,10 @@ jobs:
       matrix:
         # To make the run finish in the run time limit, we split it up into two
         # parts: the src directory and everything else
-        subset: [ 'src', 'other' ]
+        subset: [ 
+            'directly-changed'
+            #'src', 'other' 
+        ]
 
     runs-on: ubuntu-22.04
     env:

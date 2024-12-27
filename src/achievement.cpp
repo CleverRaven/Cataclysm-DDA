@@ -25,6 +25,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
+
 template <typename E> struct enum_traits;
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
