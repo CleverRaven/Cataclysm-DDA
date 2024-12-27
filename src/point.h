@@ -479,7 +479,9 @@ std::optional<Point> find_point_closest_first( const Point &center, int min_dist
         return {};
     }
 
-    if( min_dist == 0 && predicate_fn( center ) ) {
+    const bool is_center_included = min_dist == 0;
+
+    if( is_center_included && predicate_fn( center ) ) {
         return center;
     }
 
@@ -488,7 +490,7 @@ std::optional<Point> find_point_closest_first( const Point &center, int min_dist
 
     point d { 1, 0 };
 
-    for( int i = 0; i < *n; i++ ) {
+    for( int i = (int) is_center_included; i < *n; i++ ) {
         const Point next = Point{ center.raw() + p.raw() };
         if( predicate_fn( next ) ) {
             return next;
