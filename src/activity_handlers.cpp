@@ -235,7 +235,6 @@ static const skill_id skill_survival( "survival" );
 
 static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_tree( "t_tree" );
@@ -621,9 +620,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 
     // TODO: Extract this bool into a function
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
-                          corpse.in_species( species_FERAL ) ) &&
-                          !corpse.in_species( species_ZOMBIE ) );
+    const bool is_human = corpse.id == mtype_id::NULL_ID() ||
+                          corpse.in_species( species_HUMAN ) ||
+                          corpse.in_species( species_FERAL );
 
     // applies to all butchery actions except for dissections
     if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
