@@ -132,7 +132,9 @@ namespace
 void check_sigint()
 {
     if( g && g->uquit == quit_status::QUIT_EXIT ) {
-        g->query_exit_to_OS();
+        if( g->query_exit_to_OS() ) {
+            throw game::exit_exception();
+        }
     }
 }
 

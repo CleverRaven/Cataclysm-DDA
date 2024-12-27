@@ -853,13 +853,13 @@ int main( int argc, const char *argv[] )
 
     while( true ) {
         main_menu menu;
-        try {
-            if( !menu.opening_screen() ) {
-                break;
-            }
+        if( !menu.opening_screen() ) {
+            break;
+        }
 
-            shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-            get_event_bus().send<event_type::game_begin>( getVersionString() );
+        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        get_event_bus().send<event_type::game_begin>( getVersionString() );
+        try {
             while( !do_turn() ) { }
         } catch( game::exit_exception const &/* ex */ ) {
             break;

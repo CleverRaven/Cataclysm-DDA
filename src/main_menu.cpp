@@ -1151,8 +1151,6 @@ bool main_menu::new_character_tab()
         world_generator->set_active_world( world );
         try {
             g->setup();
-        } catch( const game::exit_exception &ex ) {
-            throw ex; // re-throw to main loop
         } catch( const std::exception &err ) {
             debugmsg( "Error: %s", err.what() );
             return false;

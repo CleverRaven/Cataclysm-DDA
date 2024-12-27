@@ -33,7 +33,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "game.h"
 #include "get_version.h"
 #include "input.h"
 #include "loading_ui.h"
@@ -383,15 +382,7 @@ static void debug_error_prompt(
 #endif
     for( bool stop = false; !stop; ) {
         ui_manager::redraw();
-        inp_mngr.set_timeout( 50 );
-        input_event ievent = inp_mngr.get_input_event();
-        if( ievent.type == input_event_t::timeout ) {
-            if( g && g->uquit == QUIT_EXIT ) {
-                g->query_exit_to_OS();
-            }
-            continue;
-        }
-        switch( ievent.get_first_input() ) {
+        switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)
             case 'c':
             case 'C':
