@@ -10258,7 +10258,21 @@ bool item::is_funnel_container( units::volume &bigger_than ) const
 
 bool item::is_emissive() const
 {
-    return light.luminance > 0 || type->light_emission > 0;
+    if( light.luminance > 0 || type->light_emission > 0 ) {
+        return true;
+    }
+
+    for( const item_pocket *pkt : get_all_contained_pockets() ) {
+        if( pkt->transparent() ) {
+            for( const item *it : pkt->all_items_top() ) {
+                if( it->is_emissive() ) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 bool item::is_deployable() const
