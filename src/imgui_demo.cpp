@@ -8,17 +8,14 @@
 #include "translations.h"
 
 
-imgui_demo_ui::imgui_demo_ui() :
-    cataimgui::window( _( "ImGui Demo Screen" ) )
+imgui_demo_ui::imgui_demo_ui(): cataimgui::window( _( "ImGui Demo Screen" ) )
 {
-
-    // char *text = "Some long text that will wrap around nicely. </color> <color_green><color_red>Some red text in the </color>middle.</color>  Some long text that will <color_light_blue_yellow>wrap around nicely.";
     std::string text =
         "Some long text that will wrap around nicely.  <color_red>Some red text in the middle.</color>  Some long text that will wrap around nicely.";
     stuff = std::make_shared<cataimgui::Paragraph>();
     stuff->append_colored_text( text, c_white );
-
 }
+
 cataimgui::bounds imgui_demo_ui::get_bounds()
 {
     return { -1.f, -1.f, ImGui::GetMainViewport()->Size.x, ImGui::GetMainViewport()->Size.y };
