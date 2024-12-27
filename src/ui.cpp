@@ -995,7 +995,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
                 ret = entries[selected].retval;
             }
         } else if( ( allow_cancel && ret_act == "UILIST.QUIT" ) ||
-                   ( are_we_quitting() && ret_act == "QUIT" ) ) {
+                   ( g->uquit == QUIT_EXIT && ret_act == "QUIT" ) ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_WAIT_INPUT;

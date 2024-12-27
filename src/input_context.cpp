@@ -447,7 +447,6 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         if( g->uquit == QUIT_EXIT ) {
-            g->uquit = QUIT_EXIT_PENDING;
             result = &QUIT;
             break;
         }

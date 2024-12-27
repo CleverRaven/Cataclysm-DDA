@@ -103,7 +103,7 @@ namespace turn_handler
 bool cleanup_at_end()
 {
     avatar &u = get_avatar();
-    if( are_we_quitting() ) {
+    if( g->uquit == QUIT_EXIT ) {
         return true;
     }
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {

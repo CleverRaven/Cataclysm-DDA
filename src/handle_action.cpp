@@ -336,7 +336,7 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
-            if( are_we_quitting() ) {
+            if( g->uquit == QUIT_EXIT ) {
                 break;
             }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
@@ -3143,7 +3143,7 @@ bool game::handle_action()
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
 
-    if( are_we_quitting() ) {
+    if( uquit == QUIT_EXIT ) {
         return false;
     }
 

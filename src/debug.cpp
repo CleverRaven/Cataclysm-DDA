@@ -386,7 +386,7 @@ static void debug_error_prompt(
         inp_mngr.set_timeout( 50 );
         input_event ievent = inp_mngr.get_input_event();
         if( ievent.type == input_event_t::timeout ) {
-            if( are_we_quitting() ) {
+            if( g && g->uquit == QUIT_EXIT ) {
                 g->query_exit_to_OS();
             }
             continue;

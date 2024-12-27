@@ -1322,6 +1322,4 @@ namespace cata_event_dispatch
 void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
 
-bool are_we_quitting();
-
 #endif // CATA_SRC_GAME_H

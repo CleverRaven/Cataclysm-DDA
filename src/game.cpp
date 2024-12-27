@@ -2884,7 +2884,7 @@ bool game::query_exit_to_OS()
 
 bool game::is_game_over()
 {
-    if( are_we_quitting() ) {
+    if( uquit == QUIT_EXIT ) {
         return query_exit_to_OS();
     }
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
@@ -14149,9 +14149,4 @@ weather_manager &get_weather()
 global_variables &get_globals()
 {
     return g->global_variables_instance;
-}
-
-bool are_we_quitting()
-{
-    return g && ( g->uquit == QUIT_EXIT || g->uquit == QUIT_EXIT_PENDING );
 }
