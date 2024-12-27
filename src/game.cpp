@@ -13730,7 +13730,7 @@ void game::climb_down_menu_gen( const tripoint_bub_ms &examp, uilist &cmenu )
     }
 
     // Scan the height of the drop and what's in the way.
-    const climbing_aid::fall_scan fall( examp.raw() );
+    const climbing_aid::fall_scan fall( examp );
 
     add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", fall.height );
     if( fall.height == 0 ) {
@@ -13741,7 +13741,7 @@ void game::climb_down_menu_gen( const tripoint_bub_ms &examp, uilist &cmenu )
     // This is used to mention object names.  TODO make this more flexible.
     std::string target_disp_name = m.disp_name( fall.pos_furniture_or_floor() );
 
-    climbing_aid::condition_list conditions = climbing_aid::detect_conditions( you, examp.raw() );
+    climbing_aid::condition_list conditions = climbing_aid::detect_conditions( you, examp );
 
     climbing_aid::aid_list aids = climbing_aid::list( conditions );
 
@@ -13838,7 +13838,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     }
 
     // Scan the height of the drop and what's in the way.
-    const climbing_aid::fall_scan fall( examp.raw() );
+    const climbing_aid::fall_scan fall( examp );
 
     int estimated_climb_cost = you.climbing_cost( tripoint_bub_ms( fall.pos_bottom() ), examp );
     const float fall_mod = you.fall_damage_mod();

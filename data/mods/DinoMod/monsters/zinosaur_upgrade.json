@@ -1776,6 +1776,29 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zona_brute",
+    "name": { "str": "Fona Fury", "str_pl": "Fona Furies" },
+    "copy-from": "mon_zona",
+    "description": "The shuffling corpse of a bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 120,
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": false,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zescelosaurus_brute",
     "name": { "str_sp": "Godlike Goliath" },
     "copy-from": "mon_zescelosaurus",
@@ -2143,6 +2166,18 @@
     "copy-from": "mon_zankylosaurus",
     "upgrades": { "half_life": 15, "into": "mon_zankylosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
+    "color": "light_gray",
+    "vision_day": 3,
+    "vision_night": 40,
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zona_shady",
+    "name": { "str": "shady fona zombie" },
+    "copy-from": "mon_zona",
+    "upgrades": { "half_life": 15, "into": "mon_zona_nightstalker" },
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a long tail.",
     "color": "light_gray",
     "vision_day": 3,
     "vision_night": 40,
@@ -2710,6 +2745,28 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "SMELLS" ] },
+    "upgrades": false
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zona_nightstalker",
+    "name": { "str": "fona nightstalker" },
+    "copy-from": "mon_zona_shady",
+    "looks_like": "mon_zona_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a long tail.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 120,
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
@@ -4446,6 +4503,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_sona",
+    "name": { "str_sp": "skeletal fona" },
+    "copy-from": "mon_sescelosaurus",
+    "description": "Monstrous columns of dense bone covering feathers and clawed arms, cracks dripping black goo.",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 75,
+    "attack_cost": 75,
+    "hp": 60,
+    "melee_dice": 1,
+    "upgrades": { "half_life": 15, "into": "mon_sona_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sescelosaurus",
     "name": { "str_sp": "skeletal thescelosaurus" },
     "copy-from": "mon_sallimimus",
@@ -5255,9 +5326,31 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_sona_brute",
+    "name": { "str": "skeletal fona brute" },
+    "copy-from": "mon_sona",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's feathers and long tail.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+      "vision_day": 35,
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sescelosaurus_brute",
     "name": { "str": "skeletal thescelosaurus brute" },
-    "copy-from": "mon_sallimimus",
+    "copy-from": "mon_sescelosaurus",
     "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's beak and feathers.  Joints and cracks around its body ooze with black goo.",
     "proportional": { "hp": 5 },
     "relative": {
@@ -5279,7 +5372,7 @@
     "type": "MONSTER",
     "id": "mon_sescelosaurus_hulk",
     "name": { "str_sp": "skeletal beaked juggernaut" },
-    "copy-from": "mon_sallimimus_brute",
+    "copy-from": "mon_sescelosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },

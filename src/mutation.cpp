@@ -378,8 +378,8 @@ void Character::unset_mutation( const trait_id &trait_ )
         cached_mutations.erase( trait_ );
         if( !mut.enchantments.empty() ) {
             recalculate_enchantment_cache();
-            mutation_loss_effect( trait );
         }
+        mutation_loss_effect( trait );
     }
 }
 

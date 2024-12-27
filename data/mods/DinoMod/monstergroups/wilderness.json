@@ -50,6 +50,7 @@
       { "monster": "mon_torosaurus", "weight": 3, "cost_multiplier": 25, "pack_size": [ 4, 8 ] },
       { "monster": "mon_triceratops", "weight": 3, "cost_multiplier": 30, "pack_size": [ 4, 8 ] },
       { "monster": "mon_nanosaurus", "weight": 5, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_fona", "weight": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_thescelosaurus", "weight": 10, "pack_size": [ 2, 4 ] }
     ]
   },

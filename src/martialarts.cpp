@@ -2202,7 +2202,7 @@ class ma_details_ui_impl : public cataimgui::window
         void init_data();
 
     private:
-        void draw_ma_details_text() const;
+        void draw_ma_details_text();
 
         size_t window_width = ImGui::GetMainViewport()->Size.x * 8 / 9;
         size_t window_height = ImGui::GetMainViewport()->Size.y * 8 / 9;
@@ -2219,6 +2219,8 @@ class ma_details_ui_impl : public cataimgui::window
         std::map<std::string, std::string> weapons_text;
         int buffs_total = 0;
         int weapons_total = 0;
+
+        cataimgui::scroll s = cataimgui::scroll::none;
 
     protected:
         void draw_controls() override;
@@ -2411,7 +2413,7 @@ void ma_details_ui_impl::init_data()
     }
 }
 
-void ma_details_ui_impl::draw_ma_details_text() const
+void ma_details_ui_impl::draw_ma_details_text()
 {
 
     if( !general_info_text.empty() &&
@@ -2466,6 +2468,8 @@ void ma_details_ui_impl::draw_ma_details_text() const
             ImGui::Separator();
         }
     }
+
+    cataimgui::set_scroll( s );
 }
 
 void ma_details_ui_impl::draw_controls()
@@ -2483,21 +2487,21 @@ void ma_details_ui_impl::draw_controls()
     } else if( last_action == "TOGGLE_WEAPONS_GROUP" ) {
         weapons_group_collapsed = !weapons_group_collapsed;
     } else if( last_action == "UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_up;
     } else if( last_action == "DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_down;
     } else if( last_action == "LEFT" ) {
         ImGui::SetScrollX( ImGui::GetScrollX() - ImGui::CalcTextSize( "x" ).x );
     } else if( last_action == "RIGHT" ) {
         ImGui::SetScrollX( ImGui::GetScrollX() + ImGui::CalcTextSize( "x" ).x );
     } else if( last_action == "PAGE_UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - window_height );
+        s = cataimgui::scroll::page_up;
     } else if( last_action == "PAGE_DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + window_height );
+        s = cataimgui::scroll::page_down;
     } else if( last_action == "HOME" ) {
-        ImGui::SetScrollY( 0 );
+        s = cataimgui::scroll::begin;
     } else if( last_action == "END" ) {
-        ImGui::SetScrollY( ImGui::GetScrollMaxY() );
+        s = cataimgui::scroll::end;
     }
 
     draw_ma_details_text();
