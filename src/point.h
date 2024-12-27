@@ -479,7 +479,7 @@ std::optional<Point> find_point_closest_first( const Point &center, int min_dist
         return {};
     }
 
-    if( min_dist == 0 && predicate_fn(center) ) {
+    if( min_dist == 0 && predicate_fn( center ) ) {
         return center;
     }
 
