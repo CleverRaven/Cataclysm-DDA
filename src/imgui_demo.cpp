@@ -1,4 +1,4 @@
-#include "debug_imgui_demo.h"
+#include "imgui_demo.h"
 
 #include <imgui/imgui.h>
 
@@ -8,7 +8,7 @@
 #include "translations.h"
 
 
-debug_imgui_demo_ui::debug_imgui_demo_ui() :
+imgui_demo_ui::imgui_demo_ui() :
     cataimgui::window( _( "ImGui Demo Screen" ) )
 {
 
@@ -19,7 +19,7 @@ debug_imgui_demo_ui::debug_imgui_demo_ui() :
     stuff->append_colored_text( text, c_white );
 
 }
-cataimgui::bounds debug_imgui_demo_ui::get_bounds()
+cataimgui::bounds imgui_demo_ui::get_bounds()
 {
     return { -1.f, -1.f, ImGui::GetMainViewport()->Size.x, ImGui::GetMainViewport()->Size.y };
 }
@@ -104,7 +104,7 @@ static void draw_lorem( const std::shared_ptr<cataimgui::Paragraph> &stuff )
     ImGui::End();
 }
 
-void debug_imgui_demo_ui::draw_controls()
+void imgui_demo_ui::draw_controls()
 {
 #ifndef TUI
     ImGui::ShowDemoWindow();
@@ -112,13 +112,13 @@ void debug_imgui_demo_ui::draw_controls()
     draw_lorem( stuff );
 }
 
-void debug_imgui_demo_ui::init()
+void imgui_demo_ui::init()
 {
     // The demo makes it's own screen.  Don't get in the way
     force_to_back = true;
 }
 
-void debug_imgui_demo_ui::run()
+void imgui_demo_ui::run()
 {
     init();
 

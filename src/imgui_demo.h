@@ -1,13 +1,13 @@
 #pragma once
-#ifndef CATA_SRC_DEBUG_IMGUI_DEMO_H
-#define CATA_SRC_DEBUG_IMGUI_DEMO_H
+#ifndef CATA_SRC_IMGUI_DEMO_H
+#define CATA_SRC_IMGUI_DEMO_H
 
 #include "cata_imgui.h"
 
-class debug_imgui_demo_ui : public cataimgui::window
+class imgui_demo_ui : public cataimgui::window
 {
     public:
-        debug_imgui_demo_ui();
+        imgui_demo_ui();
         void init();
         void run();
 
@@ -21,4 +21,4 @@ class debug_imgui_demo_ui : public cataimgui::window
         std::shared_ptr<cataimgui::Paragraph> stuff;
 };
 
-#endif // CATA_SRC_DEBUG_IMGUI_DEMO_H
+#endif // CATA_SRC_IMGUI_DEMO_H

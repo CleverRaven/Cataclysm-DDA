@@ -48,7 +48,7 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "debug_imgui_demo.h"
+#include "imgui_demo.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
@@ -3782,7 +3782,7 @@ static void wind_speed()
 
 static void run_imgui_demo()
 {
-    debug_imgui_demo_ui demo;
+    imgui_demo_ui demo;
     demo.run();
 }
 

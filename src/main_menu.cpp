@@ -26,7 +26,7 @@
 #include "character_id.h"
 #include "color.h"
 #include "debug.h"
-#include "debug_imgui_demo.h"
+#include "imgui_demo.h"
 #include "enums.h"
 #include "filesystem.h"
 #include "game.h"
@@ -1006,7 +1006,7 @@ bool main_menu::opening_screen()
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
                     } else if( sel2 == 5 ) { /// ImGui demo
-                        debug_imgui_demo_ui demo;
+                        imgui_demo_ui demo;
                         demo.run();
                     }
                     break;
