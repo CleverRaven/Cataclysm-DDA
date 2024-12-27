@@ -1134,7 +1134,7 @@
     "id": "menorah",
     "type": "TOOL",
     "name": { "str": "menorah" },
-    "description": "An eight-branched candelabra more properly called a 'hanukkiah', the memorah is used to celebrate the Jewish festival of Hanukkah.",
+    "description": "An eight-branched candelabra more properly called a 'hanukkiah', the menorah is used to celebrate the Jewish festival of Hanukkah.",
     "weight": "229 g",
     "volume": "1931 ml",
     "longest_side": "184 mm",
