@@ -873,7 +873,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         const w_point weatherPoint = *get_weather().weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                           g->is_sheltered( player_character.pos() ) );
+                                           g->is_sheltered( player_character.pos_bub() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
@@ -897,7 +897,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_resonator ) {
         add_msg_activate();
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
+        sounds::sound( pos_bub(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
                        static_cast<std::string>( bio_resonator ) );
         for( const tripoint_bub_ms &bashpoint : here.points_in_radius( pos_bub(), 1 ) ) {
             here.bash( bashpoint, 110 );
@@ -953,7 +953,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             set_rad( 0 );
         }
     } else if( bio.id == bio_emp ) {
-        if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+        if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub(
+                    _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
             explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
@@ -1049,11 +1050,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.id == bio_flashbang ) {
         add_msg_activate();
-        explosion_handler::flashbang( pos(), true );
+        explosion_handler::flashbang( pos_bub(), true );
         mod_moves( -100 );
     } else if( bio.id == bio_shockwave ) {
         add_msg_activate();
-        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true );
+        explosion_handler::shockwave( pos_bub(), 3, 4, 2, 8, true );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == bio_meteorologist ) {
@@ -1069,13 +1070,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         weather_manager &weather = get_weather();
         const units::temperature player_local_temp = weather.get_temperature( player_character.pos() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                              cur_om_ter, get_location(), weather.winddirection, g->is_sheltered( pos() ) );
+                              cur_om_ter, get_location(), weather.winddirection, g->is_sheltered( pos_bub() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                       g->is_sheltered( player_character.pos() ) ) ) );
+                                       g->is_sheltered( player_character.pos_bub() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
@@ -1174,9 +1175,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     }
     bio_flag_cache.clear();
-    // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
-    reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
     if( bio.has_weapon() || !bio.info().passive_pseudo_items.empty() ||
@@ -1272,9 +1271,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         }
     }
 
-    // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
-    reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
     }
@@ -1442,7 +1439,7 @@ void Character::burn_fuel( bionic &bio )
     bool solar_powered = ( !bio.id->fuel_opts.empty() &&
                            bio.id->fuel_opts.front() == fuel_type_sun_light ) ||
                          !result.connected_solar.empty();
-    if( energy_gain == 0_J && solar_powered && !g->is_sheltered( pos() ) ) {
+    if( energy_gain == 0_J && solar_powered && !g->is_sheltered( pos_bub() ) ) {
         // Some sort of solar source
 
         const weather_type_id &wtype = current_weather( get_location() );
@@ -1713,7 +1710,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 5_minutes ) ) {
             const w_point weatherPoint = *get_weather().weather_precise;
             int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                               g->is_sheltered( pos() ) );
+                                               g->is_sheltered( pos_bub() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );
             // At 50% relative humidity or more, the player will draw 10 mL
@@ -2457,7 +2454,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
     if( installer.has_trait( trait_DEBUG_BIONICS ) ||
         installer.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         perform_install( bioid, upbio_uid, difficulty, success, pl_skill, "NOT_MED",
-                         bioid->canceled_mutations, pos() );
+                         bioid->canceled_mutations, pos_bub() );
         return true;
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
@@ -2487,7 +2484,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
 
 void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int difficulty,
                                  int success, int pl_skill, const std::string &installer_name,
-                                 const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
+                                 const std::vector<trait_id> &trait_to_rem, const tripoint_bub_ms &patient_pos )
 {
     // if we chop off a limb, our stored kcal should decrease proportionally
     float cached_healthy_kcal = get_healthy_kcal();
@@ -2533,7 +2530,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,
-        int difficulty, int success, float adjusted_skill, const tripoint &patient_pos )
+        int difficulty, int success, float adjusted_skill, const tripoint_bub_ms &patient_pos )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -2720,7 +2717,7 @@ int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
     const bodypart_str_id &id = bp.id();
     int mut_bio_slots = 0;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         mut_bio_slots += mut->bionic_slot_bonus( id );
     }
     return bp->bionic_slots() + mut_bio_slots;

@@ -4905,6 +4905,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_MELEE_TO_HIT_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_MELEE_TO_HIT_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": 100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_TO_HIT_ench_item_2",
+    "copy-from": "test_item_ench",
+    "name": "test_MELEE_TO_HIT_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_TO_HIT", "add": -100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
     "id": "test_BONUS_DODGE_ench_item_1",
     "copy-from": "test_item_ench",
     "name": "test_BONUS_DODGE_ench_item_1",

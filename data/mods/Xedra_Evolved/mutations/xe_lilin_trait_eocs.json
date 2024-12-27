@@ -10,7 +10,7 @@
           "run_eocs": [
             {
               "id": "EOC_LILIN_TEMPORARY_GLORIOUS_activated_2",
-              "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
+              "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
               "effect": [
                 { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
                 { "u_add_trait": "BEAUTIFUL3" },
@@ -65,7 +65,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_TEMPORARY_GLORIOUS_maintenance_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
               {
@@ -108,7 +108,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_ATTRIBUTE_BONUSES_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "80 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 80 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "80 * lilin_has_ruach_efficiency()" ] },
               { "u_add_effect": "effect_lilin_attribute_bonuses", "duration": "PERMANENT" },
@@ -160,7 +160,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_ATTRIBUTE_BONUSES_maintenance_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "60 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 60 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "60 * lilin_has_ruach_efficiency()" ] },
               {
@@ -194,7 +194,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_TURN_INTO_OWL_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "360 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 360 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "360 * lilin_has_ruach_efficiency()" ] },
@@ -249,7 +249,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "100 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "100 * lilin_has_ruach_efficiency()" ] },
               { "u_add_effect": "effect_lilin_bonus_healing_active", "duration": "PERMANENT" },
@@ -294,34 +294,16 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "100 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "100 * lilin_has_ruach_efficiency()" ] },
               { "u_message": "You feel icy pinpricks on your skin as your wounds heal.", "type": "mixed" },
-              {
-                "if": { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-                "then": { "math": [ "u_hp('torso')", "++" ] }
-              },
-              {
-                "if": { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] },
-                "then": { "math": [ "u_hp('head')", "++" ] }
-              },
-              {
-                "if": { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-                "then": { "math": [ "u_hp('arm_l')", "++" ] }
-              },
-              {
-                "if": { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-                "then": { "math": [ "u_hp('arm_r')", "++" ] }
-              },
-              {
-                "if": { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-                "then": { "math": [ "u_hp('leg_l')", "++" ] }
-              },
-              {
-                "if": { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-                "then": { "math": [ "u_hp('leg_r')", "++" ] }
-              },
+              { "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, "then": { "math": [ "u_hp('torso')++" ] } },
+              { "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] }, "then": { "math": [ "u_hp('head')++" ] } },
+              { "if": { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
+              { "if": { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] }, "then": { "math": [ "u_hp('arm_r')++" ] } },
+              { "if": { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } },
+              { "if": { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
               {
                 "if": {
                   "and": [
@@ -359,7 +341,7 @@
         { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
         { "x_in_y_chance": { "x": { "math": [ "max( (u_vitamin('lilin_ruach_vitamin') / 1000) , 1)" ] }, "y": 10 } },
         { "not": "u_has_weapon" },
-        { "math": [ "_hits", "!=", "false" ] }
+        { "math": [ "_hits != false" ] }
       ]
     },
     "effect": [
@@ -382,7 +364,7 @@
         { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
         { "x_in_y_chance": { "x": { "math": [ "max( (u_vitamin('lilin_ruach_vitamin') / 1000) , 1)" ] }, "y": 10 } },
         { "not": "u_has_weapon" },
-        { "math": [ "_hits", "!=", "false" ] }
+        { "math": [ "_hits != false" ] }
       ]
     },
     "effect": [
@@ -404,7 +386,7 @@
         "run_eocs": [
           {
             "id": "EOC_LILIN_TRANSFORM_INTO_WAR_OWL_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">=", "480 * lilin_has_ruach_efficiency()" ] },
+            "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 480 * lilin_has_ruach_efficiency()" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
               { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "480 * lilin_has_ruach_efficiency()" ] },
@@ -494,27 +476,27 @@
     "effect": [
       {
         "if": { "math": [ "u_hp('torso')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_torso", "=", "u_hp('torso')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_torso = u_hp('torso')" ] }
       },
       {
         "if": { "math": [ "u_hp('head')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_head", "=", "u_hp('head')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_head = u_hp('head')" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_l')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_arm_l", "=", "u_hp('arm_l')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_arm_l = u_hp('arm_l')" ] }
       },
       {
         "if": { "math": [ "u_hp('arm_r')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_arm_r", "=", "u_hp('arm_r')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_arm_r = u_hp('arm_r')" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_l')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_leg_l", "=", "u_hp('leg_l')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_leg_l = u_hp('leg_l')" ] }
       },
       {
         "if": { "math": [ "u_hp('leg_r')", ">", "0" ] },
-        "then": { "math": [ "u_lilin_return_from_death_hp_leg_r", "=", "u_hp('leg_r')" ] }
+        "then": { "math": [ "u_lilin_return_from_death_hp_leg_r = u_hp('leg_r')" ] }
       }
     ]
   },
@@ -526,18 +508,18 @@
       {
         "if": { "math": [ "u_vitamin('lilin_ruach_vitamin')", ">", "3000 * lilin_has_ruach_efficiency()" ] },
         "then": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "-=", "3000 * lilin_has_ruach_efficiency()" ] },
-        "else": { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "0" ] }
+        "else": { "math": [ "u_vitamin('lilin_ruach_vitamin') = 0" ] }
       },
-      { "math": [ "u_hp('ALL_MINOR')", "=", "999" ] },
-      { "math": [ "u_hp('torso')", "=", "max( u_lilin_return_from_death_hp_torso, 10)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_lilin_return_from_death_hp_head, 10)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_lilin_return_from_death_hp_arm_l, 10)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_lilin_return_from_death_hp_arm_r, 10)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_lilin_return_from_death_hp_leg_l, 10)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_lilin_return_from_death_hp_leg_r, 10)" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
-      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
-      { "math": [ "u_vitamin('blood')", "=", "0" ] },
+      { "math": [ "u_hp('ALL_MINOR') = 999" ] },
+      { "math": [ "u_hp('torso') = max( u_lilin_return_from_death_hp_torso, 10)" ] },
+      { "math": [ "u_hp('head') = max( u_lilin_return_from_death_hp_head, 10)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_lilin_return_from_death_hp_arm_l, 10)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_lilin_return_from_death_hp_arm_r, 10)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_lilin_return_from_death_hp_leg_l, 10)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_lilin_return_from_death_hp_leg_r, 10)" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "dazed" },
       { "u_lose_effect": "downed" },

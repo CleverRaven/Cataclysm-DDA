@@ -81,7 +81,7 @@
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF "
       ],
       "palettes": [ "farm" ],
-      "terrain": { "│": "t_hole" },
+      "terrain": { "│": "t_open_air" },
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },

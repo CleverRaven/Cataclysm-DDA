@@ -360,8 +360,11 @@
   {
     "id": "telepathic_confusion_blind",
     "type": "SPELL",
-    "name": "[Ψ]Sensory Deprivation blind Effect",
-    "description": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Sensory Deprivation blind Effect", "//~": "NO_I18N" },
+    "description": {
+      "str": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "teachable": false,
     "skill": "metaphysics",
@@ -485,8 +488,11 @@
   {
     "id": "telepathic_invisibility_self",
     "type": "SPELL",
-    "name": "[Ψ]Obscurity Self",
-    "description": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+    "name": { "str": "[Ψ]Obscurity Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -558,8 +564,11 @@
   {
     "id": "telepathic_blast_radius_guaranteed",
     "type": "SPELL",
-    "name": "[Ψ]Psychic Scream Additional Damage",
-    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Psychic Scream Additional Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
@@ -641,8 +650,8 @@
   {
     "id": "telepathic_beast_taming_pet",
     "type": "SPELL",
-    "name": "[Ψ]Beast Tamer Pet Effect",
-    "description": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Beast Tamer Pet Effect", "//~": "NO_I18N" },
+    "description": { "str": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -780,8 +789,8 @@
   {
     "id": "telepathic_network_real",
     "type": "SPELL",
-    "name": "[Ψ]Network Effect Real",
-    "description": "The actual power that implements the Network Effect.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Network Effect Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that implements the Network Effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally" ],

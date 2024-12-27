@@ -18,7 +18,7 @@
     "type": "terrain",
     "abstract": "t_abstract_column",
     "name": { "str": "abstract column", "//~": "NO_I18N" },
-    "description": "Encompasses rock columns.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses rock columns.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "color": "light_gray",
     "symbol": "1",
     "move_cost": 0,
@@ -48,7 +48,7 @@
     "abstract": "t_abstract_wall_wood",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract wooden wall", "//~": "NO_I18N" },
-    "description": "Encompasses most wood-like walls.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most wood-like walls.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "roof": "t_wood_roof",
     "extend": { "flags": [ "FLAMMABLE" ] }
   },
@@ -57,25 +57,27 @@
     "abstract": "t_abstract_wall_concrete",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract concrete wall", "//~": "NO_I18N" },
-    "description": "Encompasses most concrete-like walls.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most concrete-like walls.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "roof": "t_concrete_roof",
-    "color": "light_gray"
+    "color": "light_gray",
+    "extend": { "flags": [ "WIRED_WALL" ] }
   },
   {
     "type": "terrain",
     "abstract": "t_abstract_wall_brick",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract brick wall", "//~": "NO_I18N" },
-    "description": "Encompasses most brick-like walls.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most brick-like walls.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "roof": "t_brick_roof",
-    "color": "brown"
+    "color": "brown",
+    "extend": { "flags": [ "WIRED_WALL" ] }
   },
   {
     "type": "terrain",
     "abstract": "t_abstract_wall_stone",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract stone wall", "//~": "NO_I18N" },
-    "description": "Encompasses most stone-like walls.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most stone-like walls.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "color": "light_gray",
     "roof": "t_rock_roof"
   },
@@ -84,7 +86,7 @@
     "abstract": "t_abstract_wall_metal",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract metal wall", "//~": "NO_I18N" },
-    "description": "Encompasses most metal-like walls.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most metal-like walls.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "color": "cyan",
     "roof": "t_metal_flat_roof"
   },
@@ -93,7 +95,7 @@
     "abstract": "t_abstract_wall_earthen",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract earthen wall", "//~": "NO_I18N" },
-    "description": "Encompasses most below-ground walls.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most below-ground walls.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "color": "brown"
   },
   {
@@ -101,7 +103,7 @@
     "abstract": "t_abstract_wall_glass",
     "copy-from": "t_abstract_wall",
     "name": { "str": "abstract glass wall", "//~": "NO_I18N" },
-    "description": "Encompasses most wall-sized glass panes.  If you see this in-game, it's a bug.",
+    "description": { "str": "Encompasses most wall-sized glass panes.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "color": "cyan",
     "roof": "t_flat_roof",
     "coverage": 0,
@@ -130,7 +132,7 @@
     "abstract": "t_wall_color",
     "copy-from": "t_wall",
     "name": { "str": "abstract colored wall", "//~": "NO_I18N" },
-    "description": "An abstract for t_wall color variants.  If you see this in-game, it's a bug.",
+    "description": { "str": "An abstract for t_wall color variants.  If you see this in-game, it's a bug.", "//~": "NO_I18N" },
     "extend": { "flags": [ "CHIP" ] }
   },
   {
@@ -1462,6 +1464,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_glass_lab",
+    "copy-from": "t_wall_glass",
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_strconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_laminated_glass",
     "copy-from": "t_abstract_wall_glass",
     "name": "laminated glass",
@@ -1524,6 +1541,21 @@
       "reduce_damage_laser": [ 0, 10 ],
       "destroy_damage": [ 60, 160 ],
       "no_laser_destroy": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_reinforced_glass_lab",
+    "copy-from": "t_reinforced_glass",
+    "bash": {
+      "str_min": 40,
+      "str_max": 210,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 20,
+      "sound_fail_vol": 14,
+      "ter_set": "t_strconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "mc_wire", "prob": 20 } ]
     }
   },
   {
@@ -2018,12 +2050,13 @@
     "id": "t_drystone_wall_half",
     "looks_like": "t_rock_wall_half",
     "name": "field stone half-wall",
-    "description": "A sturdy, half-height, dry stone wall.  Just rocks fitted together without mortar.  Looks pretty good as-is, but with extensive work it could be doubled in height.",
+    "description": "A sturdy, half-height, dry stone wall.  Just rocks fitted together without mortar.",
     "symbol": "#",
     "color": "light_gray",
-    "move_cost": 4,
+    "move_cost": 0,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE" ],
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "MINEABLE", "THIN_OBSTACLE", "CLIMBABLE", "BURROWABLE" ],
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "bash": {

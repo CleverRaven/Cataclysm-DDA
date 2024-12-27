@@ -1,0 +1,138 @@
+[
+  {
+    "id": "feral_technomancer_CBM_harvest_power",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "feral_technomancer_CBM_harvest_charging_tools", "prob": 25 },
+      {
+        "distribution": [ { "item": "bio_power_storage", "prob": 90 }, { "item": "bio_power_storage_mkII", "prob": 10 } ],
+        "prob": 50
+      },
+      { "item": "bio_power_storage", "prob": 20 },
+      { "item": "burnt_out_bionic", "prob": 50 }
+    ]
+  },
+  {
+    "id": "feral_technomancer_CBM_harvest_charging_tools",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bio_ethanol", "prob": 50 },
+      { "item": "bio_fuel_cell_gasoline", "prob": 50 },
+      { "item": "bio_fuel_cell_blood", "prob": 5 },
+      { "item": "bio_torsionratchet", "prob": 200 }
+    ]
+  },
+  {
+    "id": "feral_technomancer_CBM_harvest",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Nothing combat-oriented, this was a civilian",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "bio_alarm", "prob": 20 },
+          { "item": "bio_flashlight", "prob": 30 },
+          { "item": "bio_geiger", "prob": 10 },
+          { "item": "bio_jointservo", "prob": 15 },
+          { "item": "bio_lockpick", "prob": 30 },
+          { "item": "bio_tattoo_led", "prob": 40 },
+          { "item": "burnt_out_bionic", "prob": 60 }
+        ],
+        "prob": 90
+      },
+      {
+        "distribution": [
+          { "item": "bio_tools", "prob": 15 },
+          { "item": "bio_electrokit", "prob": 15 },
+          { "item": "bio_magnet", "prob": 15 },
+          { "item": "bio_soporific", "prob": 20 },
+          { "item": "bio_sunglasses", "prob": 25 },
+          { "item": "bio_syringe", "prob": 10 },
+          { "item": "bio_tattoo_led", "prob": 40 },
+          { "item": "burnt_out_bionic", "prob": 50 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 100 },
+          { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 },
+          { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 30 },
+          { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 },
+          { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "feral_high_technomancer_CBM_harvest_power",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "feral_technomancer_CBM_harvest_charging_tools", "prob": 25 },
+      {
+        "distribution": [ { "item": "bio_power_storage", "prob": 75 }, { "item": "bio_power_storage_mkII", "prob": 25 } ],
+        "prob": 50
+      },
+      { "item": "bio_power_storage", "prob": 20 },
+      { "item": "burnt_out_bionic", "prob": 30 }
+    ]
+  },
+  {
+    "id": "feral_high_technomancer_CBM_harvest",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Nothing combat-oriented, this was a civilian",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "bio_alarm", "prob": 20 },
+          { "item": "bio_flashlight", "prob": 30 },
+          { "item": "bio_geiger", "prob": 10 },
+          { "item": "bio_jointservo", "prob": 15 },
+          { "item": "bio_lockpick", "prob": 30 },
+          { "item": "bio_tattoo_led", "prob": 40 },
+          { "item": "burnt_out_bionic", "prob": 30 }
+        ],
+        "prob": 90
+      },
+      {
+        "distribution": [
+          { "item": "bio_tools", "prob": 15 },
+          { "item": "bio_electrokit", "prob": 15 },
+          { "item": "bio_magnet", "prob": 15 },
+          { "item": "bio_soporific", "prob": 20 },
+          { "item": "bio_sunglasses", "prob": 25 },
+          { "item": "bio_syringe", "prob": 10 },
+          { "item": "bio_tattoo_led", "prob": 40 },
+          { "item": "burnt_out_bionic", "prob": 30 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 50 },
+          { "group": "Zomborg_CBM_harvest_sensors", "prob": 20 },
+          { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 30 },
+          { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 }
+        ],
+        "prob": 20
+      }
+    ]
+  }
+]

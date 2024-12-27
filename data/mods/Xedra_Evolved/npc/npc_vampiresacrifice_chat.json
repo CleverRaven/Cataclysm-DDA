@@ -9,8 +9,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE_MISSION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "10" ] },
-            { "math": [ "n_npc_value()", ">=", "10" ] },
+            { "math": [ "n_npc_trust() >= 10" ] },
+            { "math": [ "n_npc_value() >= 10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "not": { "u_has_mission": "mission_best_friend_bookhunt1" } },
             { "not": { "u_has_mission": "mission_best_friend_bookhunt2" } },
@@ -21,7 +21,7 @@
             { "not": { "compare_string": [ "yes", { "u_val": "best_friend" } ] } }
           ]
         },
-        "effect": [ { "math": [ "npc_randomize_book_find_mission", "=", "rand(3)" ] } ]
+        "effect": [ { "math": [ "npc_randomize_book_find_mission = rand(3)" ] } ]
       }
     ]
   },
@@ -43,8 +43,8 @@
                 { "u_has_mission": "mission_best_friend_gamehunt3" }
               ]
             },
-            { "math": [ "n_npc_trust()", ">=", "10" ] },
-            { "math": [ "n_npc_value()", ">=", "10" ] },
+            { "math": [ "n_npc_trust() >= 10" ] },
+            { "math": [ "n_npc_value() >= 10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "not": { "compare_string": [ "yes", { "u_val": "best_friend" } ] } }
           ]
@@ -62,8 +62,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "10" ] },
-            { "math": [ "n_npc_value()", ">=", "10" ] },
+            { "math": [ "n_npc_trust() >= 10" ] },
+            { "math": [ "n_npc_value() >= 10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "compare_string": [ "yes", { "u_val": "best_friend" } ] },
             { "not": { "npc_has_trait": "VAMPIRE_SACRIFICE" } }
@@ -82,8 +82,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", "<=", "9" ] },
-            { "math": [ "n_npc_value()", "<=", "9" ] },
+            { "math": [ "n_npc_trust() <= 9" ] },
+            { "math": [ "n_npc_value() <= 9" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" }
           ]
         }
@@ -103,16 +103,16 @@
     "type": "talk_topic",
     "id": "TALK_FRIEND_FOLLOWER_SACRIFICE_MISSION",
     "dynamic_line": {
-      "math": [ "npc_randomize_book_find_mission", "==", "1" ],
+      "math": [ "npc_randomize_book_find_mission == 1" ],
       "yes": "I would love it if you could find my favorite book.  Could you help me find it?  It's an anthology of stories titled 'Apocalypse Now'.  I know it's weird to want to read a book about apocalypses during one, but it gives me hope we'll come out the other side of this one too.",
       "no": {
-        "math": [ "npc_randomize_book_find_mission", "==", "2" ],
+        "math": [ "npc_randomize_book_find_mission == 2" ],
         "yes": "I would love it if you could find my favorite book.  Could you help me find it?  It's Brave New World by Aldous Huxley.  It really spoke to me before the end and even more now.",
         "no": {
-          "math": [ "npc_randomize_book_find_mission", "==", "3" ],
+          "math": [ "npc_randomize_book_find_mission == 3" ],
           "yes": "I would love it if you could find my favorite book.  Could you help me find it?  It's All Things Weird, by Felicity Powell.  It gives a great sense of humor to the end of the world!",
           "no": {
-            "math": [ "npc_randomize_book_find_mission", ">", "3" ],
+            "math": [ "npc_randomize_book_find_mission > 3" ],
             "yes": "PLEASE REPORT THIS ON GITHUB.  A RNG OF 1-3 PICKED A HIGHER NUMBER.",
             "no": "ERROR: couldn't pick a mission for the book search."
           }
@@ -123,21 +123,21 @@
       {
         "text": "I will find that book for you.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "npc_randomize_book_find_mission", "==", "1" ] },
+        "condition": { "math": [ "npc_randomize_book_find_mission == 1" ] },
         "effect": { "assign_mission": "mission_best_friend_bookhunt1" },
         "switch": true
       },
       {
         "text": "I will find that book for you.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "npc_randomize_book_find_mission", "==", "2" ] },
+        "condition": { "math": [ "npc_randomize_book_find_mission == 2" ] },
         "effect": { "assign_mission": "mission_best_friend_bookhunt2" },
         "switch": true
       },
       {
         "text": "I will find that book for you.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "npc_randomize_book_find_mission", "==", "3" ] },
+        "condition": { "math": [ "npc_randomize_book_find_mission == 3" ] },
         "effect": { "assign_mission": "mission_best_friend_bookhunt3" },
         "switch": true
       },
@@ -148,16 +148,16 @@
     "type": "talk_topic",
     "id": "TALK_FRIEND_FOLLOWER_SACRIFICE_MISSION_2",
     "dynamic_line": {
-      "math": [ "npc_randomize_game_find_mission", "==", "1" ],
+      "math": [ "npc_randomize_game_find_mission == 1" ],
       "yes": "I would love it if you could find my favorite game.  Could you help me find it?  It's a board game called Pathogen.  At least the diseases in this game can be beaten.",
       "no": {
-        "math": [ "npc_randomize_game_find_mission", "==", "2" ],
+        "math": [ "npc_randomize_game_find_mission == 2" ],
         "yes": "I would love it if you could find my favorite game.  Could you help me find it?  It's a board game called Steam Gears.  Alternate history is so much better than real history.",
         "no": {
-          "math": [ "npc_randomize_game_find_mission", "==", "3" ],
+          "math": [ "npc_randomize_game_find_mission == 3" ],
           "yes": "I would love it if you could find my favorite game.  Could you help me find it?  It's a board game called Terraforming Mercury.  I guess terraforming anywhere is a pipe dream now.",
           "no": {
-            "math": [ "npc_randomize_game_find_mission", ">", "3" ],
+            "math": [ "npc_randomize_game_find_mission > 3" ],
             "yes": "PLEASE REPORT THIS ON GITHUB.  A RNG OF 0-3 PICKED A HIGHER NUMBER.",
             "no": "ERROR: couldn't pick a mission for the game search."
           }
@@ -337,15 +337,15 @@
       "cases": [
         {
           "case": 1,
-          "effect": [ { "assign_mission": "mission_best_friend_gamehunt1" }, { "math": [ "npc_randomize_game_find_mission", "=", "1" ] } ]
+          "effect": [ { "assign_mission": "mission_best_friend_gamehunt1" }, { "math": [ "npc_randomize_game_find_mission = 1" ] } ]
         },
         {
           "case": 2,
-          "effect": [ { "assign_mission": "mission_best_friend_gamehunt2" }, { "math": [ "npc_randomize_game_find_mission", "=", "2" ] } ]
+          "effect": [ { "assign_mission": "mission_best_friend_gamehunt2" }, { "math": [ "npc_randomize_game_find_mission = 2" ] } ]
         },
         {
           "case": 3,
-          "effect": [ { "assign_mission": "mission_best_friend_gamehunt3" }, { "math": [ "npc_randomize_game_find_mission", "=", "3" ] } ]
+          "effect": [ { "assign_mission": "mission_best_friend_gamehunt3" }, { "math": [ "npc_randomize_game_find_mission = 3" ] } ]
         }
       ]
     }

@@ -113,7 +113,7 @@
     "terrain": [
       { "result": "t_dirt", "valid_terrain": [ "t_soil" ], "message": "The solid earth sinks away." },
       { "result": "t_pit", "valid_flags": [ "DIGGABLE" ], "message": "The ground opens up!" },
-      { "result": "t_hole", "valid_terrain": [ "t_pit" ], "message": "The pit deepens!" }
+      { "result": "t_open_air", "valid_terrain": [ "t_pit" ], "message": "The pit deepens!" }
     ]
   },
   {

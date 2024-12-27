@@ -361,7 +361,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "DURABLE_MELEE" ],
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "DURABLE_MELEE" ],
     "armor": [
       {
         "encumbrance": 4,
@@ -415,7 +415,7 @@
     "looks_like": "gloves_wraps",
     "color": "light_blue",
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS", "SOFT" ],
+    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "SOFT" ],
     "armor": [ { "encumbrance": 7, "coverage": 70, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -433,7 +433,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "coverage": 75,
@@ -464,7 +464,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "coverage": 90,
@@ -839,7 +839,7 @@
     "volume": "1500 ml",
     "price": "400 USD",
     "price_postapoc": "30 USD",
-    "material": [ "iron", "leather" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
@@ -855,7 +855,7 @@
         "specifically_covers": [ "hand_back_l", "hand_back_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
         ]
       },
       {
@@ -864,7 +864,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
         ]
       },
       {
@@ -879,7 +879,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "iron", "covered_by_mat": 80, "thickness": 2.0 }
+          { "type": "steel", "covered_by_mat": 80, "thickness": 2.0 }
         ]
       }
     ],
@@ -1007,7 +1007,7 @@
     "color": "blue",
     "warmth": 40,
     "material_thickness": 3,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 7,
@@ -1092,7 +1092,7 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1110,7 +1110,7 @@
     "color": "brown",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1128,7 +1128,7 @@
     "color": "brown",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1146,7 +1146,7 @@
     "color": "blue",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 2, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1245,7 +1245,7 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "coverage": 100,
@@ -1658,7 +1658,7 @@
     "looks_like": "gloves_tactical",
     "color": "dark_gray",
     "warmth": 5,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 4,

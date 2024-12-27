@@ -16,43 +16,43 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Katherine_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Katherine_Mood" },
       {
         "text": "Can you tell me about Arturo?",
         "topic": "TALK_GODCO_Katherine_Arturo",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Corrie?",
         "topic": "TALK_GODCO_Katherine_Corrie",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Jane?",
         "topic": "TALK_GODCO_Katherine_Jane",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Sonia?",
         "topic": "TALK_GODCO_Katherine_Sonia",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Zachary?",
         "topic": "TALK_GODCO_Katherine_Zachary",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Simon?",
         "topic": "TALK_GODCO_Katherine_Simon",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Jeremiah?",
         "topic": "TALK_GODCO_Katherine_Jeremiah",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -74,13 +74,13 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Katherine_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Katherine_Job" },
       {
         "text": "You don't seem to like the joinees very much.  Why is that?",
         "topic": "TALK_GODCO_Katherine_Joinee_Opinion",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Do you know where I could find some work?", "topic": "TALK_MISSION_LIST" },
       { "text": "How are things here?", "topic": "TALK_GODCO_Katherine_Mood" }
@@ -93,7 +93,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Please go away, I'm not in the mood to talk right now.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ],
@@ -108,7 +108,7 @@
         "topic": "TALK_GODCO_Katherine_2a",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -129,7 +129,7 @@
         "text": "You sure, I've got plenty of time.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -139,7 +139,7 @@
         "text": "<end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -149,7 +149,7 @@
         "text": "Okay, I'll see you later.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -159,7 +159,7 @@
         "text": "Alright, fuck you then.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -321,7 +321,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Angry_Pressed",
     "dynamic_line": "&Katherine scowls with anger at you.  \"This is the exact <swear> reason I don't want to talk to you, now go away!\"",
-    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "++" ] } } ],
+    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()++" ] } } ],
     "responses": [ { "text": "Fuck's sake <name_b>, I'm leaving!", "topic": "TALK_DONE" } ]
   }
 ]

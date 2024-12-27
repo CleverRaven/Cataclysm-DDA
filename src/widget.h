@@ -46,6 +46,7 @@ enum class widget_var : int {
     cardio_fit,     // Cardio fitness, integer near BMR
     cardio_acc,     // Cardio accumulator, integer
     carry_weight,   // Weight carried, relative to capacity, in % (0 - >100)
+    custom,         // Value of variable object or math expression specified by "custom_var", integer
     // Text vars
     activity_text,  // Activity level text, color string
     body_graph,     // Body graph showing color-coded body part health
@@ -60,6 +61,7 @@ enum class widget_var : int {
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
+    faction_territory,  // Name of faction whose base/territory you are at, if any
     mood_text,      // Mood as a text emote, color string
     move_count_mode_text, // Movement counter and mode letter like "50(R)", color string
     overmap_loc_text,// Local overmap position, pseudo latitude/longitude with Z-level
@@ -207,6 +209,18 @@ struct widget_clause {
                                           const widget_id &wgt, bool skip_condition = false );
 };
 
+// A specified variable object or math expression for use with "var": "custom".
+struct widget_custom_var {
+    dbl_or_var_part value;
+    dbl_or_var_part min;
+    dbl_or_var_part max;
+    std::pair<dbl_or_var_part, dbl_or_var_part> norm;
+
+    void deserialize( const JsonObject &jo );
+    void set_widget_var_range( const avatar &ava, widget &wgt ) const;
+    int get_var_value( const avatar &ava ) const;
+};
+
 // A widget is a UI element displaying information from the underlying value of a widget_var.
 // It may be loaded from a JSON object having "type": "widget".
 class widget
@@ -241,6 +255,8 @@ class widget
         int _padding;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var = widget_var::last;
+        // Specification for widget_var::custom
+        widget_custom_var _custom_var;
         // Minimum meaningful var value, set by set_default_var_range
         int _var_min = INT_MIN;
         // Maximum meaningful var value, set by set_default_var_range

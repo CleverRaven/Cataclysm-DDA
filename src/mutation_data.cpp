@@ -311,6 +311,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
+    optional( jo, was_loaded, "random_at_chargen", random_at_chargen, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );

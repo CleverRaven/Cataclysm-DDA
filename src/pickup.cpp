@@ -269,7 +269,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
                 newit = it;
                 newit.invlet = invlet;
             }
-        // Intentional fallthrough
+            [[fallthrough]];
         case STASH: {
             int last_charges = newit.charges;
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
@@ -422,11 +422,11 @@ void Pickup::autopickup( const tripoint &p )
         }
     }
     // Bail out if this square cannot be auto-picked-up
-    if( g->check_zone( zone_type_NO_AUTO_PICKUP, p ) ||
+    if( g->check_zone( zone_type_NO_AUTO_PICKUP, tripoint_bub_ms( p ) ) ||
         local.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
         return;
     }
-    drop_locations selected_items = auto_pickup::select_items( here, p );
+    drop_locations selected_items = auto_pickup::select_items( here, tripoint_bub_ms( p ) );
     if( selected_items.empty() ) {
         return;
     }

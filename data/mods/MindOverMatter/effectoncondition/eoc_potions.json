@@ -70,7 +70,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_POTION_JITTERS_CHECKER",
     "condition": { "and": [ { "u_has_trait": "JITTERY" }, { "not": { "u_has_effect": "effect_electrokin_potion_comedown" } } ] },
-    "effect": [ { "math": [ "u_preexisting_jittery_trait", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_preexisting_jittery_trait = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -78,7 +78,7 @@
     "effect": [
       { "u_lose_effect": "effect_electrokin_potion" },
       { "u_lose_effect": "effect_matrix_potion_nether_boost" },
-      { "if": { "math": [ "u_preexisting_jittery_trait", "!=", "1" ] }, "then": { "u_add_trait": "JITTERY" } },
+      { "if": { "math": [ "u_preexisting_jittery_trait != 1" ] }, "then": { "u_add_trait": "JITTERY" } },
       { "u_add_effect": "effect_electrokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -88,7 +88,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_electrokin_potion_comedown", { "context_val": "effect" } ] },
-    "effect": [ { "if": { "math": [ "u_preexisting_jittery_trait", "!=", "1" ] }, "then": { "u_lose_trait": "JITTERY" } } ]
+    "effect": [ { "if": { "math": [ "u_preexisting_jittery_trait != 1" ] }, "then": { "u_lose_trait": "JITTERY" } } ]
   },
   {
     "type": "effect_on_condition",

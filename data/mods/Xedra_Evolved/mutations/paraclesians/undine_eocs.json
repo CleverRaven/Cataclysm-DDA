@@ -40,8 +40,8 @@
                 { "u_at_om_location": "undine_genius_loci_SE" }
               ]
             },
-            "effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_undine_is_connected_to_waters = 1" ] } ],
+            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters = 0" ] } ]
           }
         ]
       }
@@ -76,7 +76,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_UNDINE_CLOSE_TO_OR_IN_WATER",
     "condition": {
-      "or": [ { "math": [ "u_undine_is_connected_to_waters", "==", "1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
+      "or": [ { "math": [ "u_undine_is_connected_to_waters == 1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
     },
     "effect": [  ]
   },

@@ -89,8 +89,8 @@
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
-    "name": { "str": "heavy battery mod" },
-    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
+    "name": { "str": "tool battery mod" },
+    "description": "A battery compartment mod that allows the use of tool batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [

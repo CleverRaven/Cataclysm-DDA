@@ -4749,7 +4749,8 @@
       { "point": [ 0, 0, 0 ], "overmap": "pawn_pf_north" },
       { "point": [ 0, 0, -1 ], "overmap": "pawn_pf_under_north" },
       { "point": [ 0, 0, 1 ], "overmap": "pawn_pf_roof_north" }
-    ]
+    ],
+    "flags": [ "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "city_building",

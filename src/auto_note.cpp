@@ -14,6 +14,7 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"
@@ -21,7 +22,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translation.h"
 #include "translations.h"
 #include "ui.h"
@@ -31,7 +31,7 @@ namespace auto_notes
 {
 cata_path auto_note_settings::build_save_path() const
 {
-    return PATH_INFO::player_base_save_path_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -314,7 +314,7 @@ void auto_note_manager_gui::show()
                                        iOffset );
 
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
+                                       iOffset + point::south_east );
 
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                 iOffset + point( 1, iHeaderHeight + 1 ) );
@@ -415,7 +415,7 @@ void auto_note_manager_gui::show()
                         _( "<Tab> to change pages." ) );
 
         // Clear table
-        mvwrectf( w, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
         mvwvline( w, point( 51, 0 ), c_light_gray, LINE_XOXO, iContentHeight );
         mvwvline( w, point( 60, 0 ), c_light_gray, LINE_XOXO, iContentHeight );
         int cacheSize = bCharacter ? char_cacheSize : global_cacheSize;
@@ -510,16 +510,13 @@ void auto_note_manager_gui::show()
             entry.second = false;
             ( bCharacter ? charwasChanged : globalwasChanged ) = true;
         } else if( action == "CHANGE_MAPEXTRA_CHARACTER" ) {
-            string_input_popup custom_symbol_popup;
-            custom_symbol_popup
-            .title( _( "Enter a map extra custom symbol (empty to unset):" ) )
-            .width( 2 )
-            .query_string();
+            string_input_popup_imgui custom_symbol_popup( 0 );
+            custom_symbol_popup.set_label( _( "Enter a map extra custom symbol (empty to unset):" ) );
+            custom_symbol_popup.set_max_input_length( 1 );
+            const std::string &custom_symbol_str = custom_symbol_popup.query();
 
-            if( !custom_symbol_popup.canceled() ) {
-                const std::string &custom_symbol_str = custom_symbol_popup.text();
+            if( !custom_symbol_popup.cancelled() ) {
                 if( custom_symbol_str.empty() ) {
-
                     ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).erase( currentItem );
                 } else {
                     uilist ui_colors;

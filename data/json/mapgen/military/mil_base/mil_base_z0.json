@@ -490,9 +490,9 @@
         },
         { "item": "elbow_pads", "x": 37, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "knee_pads", "x": 36, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "light_battery_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "light_battery_cell", "x": 45, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "light_battery_cell", "x": 44, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "fully_loaded_medium_battery_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "fully_loaded_medium_battery_cell", "x": 45, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "fully_loaded_medium_battery_cell", "x": 44, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "hand_crank_charger", "x": 43, "y": 60, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "flashlight", "x": 42, "y": 60, "chance": 75, "repeat": [ 50, 200 ] },
         { "item": "heavy_flashlight", "x": 41, "y": 60, "chance": 75, "repeat": [ 25, 50 ] },
@@ -575,6 +575,11 @@
         { "vehicle": "forklift_vehicles", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
       ]
     }
+  },
+  {
+    "type": "item_group",
+    "id": "fully_loaded_medium_battery_cell",
+    "items": [ { "item": "medium_battery_cell", "prob": 100, "charges": 100 } ]
   },
   {
     "type": "mapgen",
@@ -744,8 +749,8 @@
         { "item": "turret_mount", "x": 79, "y": 20, "chance": 50, "repeat": [ 1, 5 ] },
         { "item": "weldtank", "x": 71, "y": [ 17, 18 ], "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "weldtank", "x": 72, "y": [ 17, 18 ], "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "tinyweldtank", "x": 71, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
-        { "item": "tinyweldtank", "x": 72, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
+        { "item": "smallweldtank", "x": 71, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
+        { "item": "smallweldtank", "x": 72, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "motor_oil", "x": 75, "y": [ 17, 18 ], "chance": 50, "repeat": [ 20, 40 ] },
         { "group": "fuel_jp8", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
         { "item": "jerrycan", "x": 75, "y": 20, "chance": 80, "repeat": [ 1, 10 ] },

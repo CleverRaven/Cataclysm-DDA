@@ -184,7 +184,7 @@
       "inquire": "They speak sometimes.  I wonder if they still think.",
       "success": "Let's see what improvements we can divine from these beauties.",
       "success_lie": "Thanks for trying… I guess.",
-      "failure": "I can't be Dr Frankenstein unless you get me these."
+      "failure": "I can't be Dr. Frankenstein unless you get me these."
     },
     "end": { "effect": [ { "u_spawn_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
   },

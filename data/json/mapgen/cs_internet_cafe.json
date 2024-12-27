@@ -32,13 +32,13 @@
         "  ####################  ",
         "   4                    "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         ",": "t_floor",
-        ".": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "s": "t_sidewalk",
         "D": "t_door_c",
         "g": "t_wall_glass_alarm",

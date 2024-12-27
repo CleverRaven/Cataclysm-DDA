@@ -138,7 +138,7 @@ static void build_line( spell_detail::line_iterable line, const tripoint_bub_ms 
                         const point &delta, const point &delta_perp, bool ( *test )( const tripoint_bub_ms & ),
                         std::set<tripoint_bub_ms> &result )
 {
-    while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
+    while( between_or_on( point::zero, delta, delta_perp, line.get() ) ) {
         if( !test( source + line.get() ) ) {
             break;
         }
@@ -176,7 +176,7 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
 {
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
-    critter->setpos( caster.pos() );
+    critter->setpos( caster.pos_bub() );
     caster.setpos( target );
 
     //update map in case a monster swapped positions with the player
@@ -299,7 +299,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         const tripoint_bub_ms &source, const tripoint_bub_ms &target )
 {
     const point delta = ( target - source ).xy().raw();
-    const int dist = square_dist( point_zero, delta );
+    const int dist = square_dist( point::zero, delta );
     // Early out to prevent unnecessary calculations
     if( dist == 0 ) {
         return std::set<tripoint_bub_ms>();
@@ -323,18 +323,18 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
     }
 
     // is delta aligned with, cw, or ccw of primary axis
-    int delta_side = spell_detail::side_of( point_zero, axis_delta, delta );
+    int delta_side = spell_detail::side_of( point::zero, axis_delta, delta );
 
     bool ( *test )( const tripoint_bub_ms & ) = params.ignore_walls ? test_always_true : test_passable;
 
     // Canonical path from source to target, offset to local space
-    std::vector<point> path_to_target = line_to( point_zero, delta );
+    std::vector<point> path_to_target = line_to( point::zero, delta );
     // Remove endpoint,
     path_to_target.pop_back();
     // and insert startpoint. Path is now prepared for wrapped iteration
-    path_to_target.insert( path_to_target.begin(), point_zero );
+    path_to_target.insert( path_to_target.begin(), point::zero );
 
-    spell_detail::line_iterable base_line( point_zero, delta, path_to_target );
+    spell_detail::line_iterable base_line( point::zero, delta, path_to_target );
 
     std::set<tripoint_bub_ms> result;
 
@@ -344,7 +344,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
     // Add cw and ccw legs
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
             if( !test( source + p ) ) {
                 break;
@@ -353,7 +353,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // ccw leg
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
             if( !test( source + p ) ) {
                 break;
@@ -363,11 +363,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         }
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // forward until in
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -376,11 +376,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // cw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // move back
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -391,11 +391,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         }
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // move back
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -405,11 +405,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // cw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // forward until in
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -472,14 +472,14 @@ static std::set<tripoint_bub_ms> spell_effect_area( const spell &sp, const tripo
     std::set<tripoint_bub_ms> targets = calculate_spell_effect_area( sp, target, caster );
     if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
         // Draw the explosion
-        std::map<tripoint, nc_color> explosion_colors;
+        std::map<tripoint_bub_ms, nc_color> explosion_colors;
         for( const tripoint_bub_ms &pt : targets ) {
-            explosion_colors[pt.raw()] = sp.damage_type_color();
+            explosion_colors[pt] = sp.damage_type_color();
         }
 
         std::string exp_name = "explosion_" + sp.id().str();
 
-        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+        explosion_handler::draw_custom_explosion( explosion_colors,
                 exp_name );
     }
     return targets;
@@ -885,7 +885,7 @@ static void spell_move( const spell &sp, const Creature &caster,
                 valid |= victim == &caster && can_target_self;
             }
             if( valid ) {
-                victim->knock_back_to( to.raw() );
+                victim->knock_back_to( to );
             }
         }
     }
@@ -1165,13 +1165,10 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
     }
 }
 
-void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint_bub_ms & )
+void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
+                                        const tripoint_bub_ms &center )
 {
-    if( !caster.is_avatar() ) {
-        debugmsg( "Spells that spawn items are only supported for the avatar, not for %s.",
-                  caster.disp_name() );
-        return;
-    }
+    Character *character_at_target = get_creature_tracker().creature_at<Character>( center );
 
     std::vector<item> granted;
 
@@ -1186,28 +1183,39 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         }
     }
 
-    avatar &player_character = get_avatar();
-    for( item &it : granted ) {
-        // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
-        if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
-            !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
-            it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
-            it.ethereal = true;
-        }
+    if( character_at_target != nullptr ) {
+        for( item &it : granted ) {
+            // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
+            if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
+                !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
+                it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+                it.ethereal = true;
+            }
 
-        if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
-            // Ethereal equipment already exists so just update its duration
-            item *existing_item = player_character.item_worn_with_id( it.typeId() );
-            existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
-        } else if( player_character.can_wear( it ).success() ) {
-            it.set_flag( json_flag_FIT );
-            player_character.wear_item( it, false );
-        } else if( !player_character.has_wield_conflicts( it ) &&
-                   !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
-                   player_character.wield( it, 0 ) ) {
-            // nothing to do
-        } else {
-            player_character.i_add( it );
+            if( it.ethereal && character_at_target->is_wearing( it.typeId() ) ) {
+                // Ethereal equipment already exists so just update its duration
+                item *existing_item = character_at_target->item_worn_with_id( it.typeId() );
+                existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+            } else if( character_at_target->can_wear( it ).success() ) {
+                it.set_flag( json_flag_FIT );
+                character_at_target->wear_item( it, false );
+            } else if( !character_at_target->has_wield_conflicts( it ) &&
+                       !character_at_target->martial_arts_data->keep_hands_free && //No wield if hands free
+                       character_at_target->wield( it ) ) {
+                // nothing to do
+            } else {
+                character_at_target->i_add( it );
+            }
+        }
+    } else {
+        for( item &it : granted ) {
+            // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
+            if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
+                !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
+                it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+                it.ethereal = true;
+            }
+            get_map().add_item_or_charges( center, it );
         }
     }
     sp.make_sound( caster.pos_bub(), caster );
@@ -1352,7 +1360,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         return;
     }
     if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees,
-                                         100, 0, false ) ) {
+                                         100, 2, false, true ) ) {
         veh->unlock();
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
@@ -1437,13 +1445,13 @@ void spell_effect::pull_to_caster( const spell &sp, Creature &caster,
 
 void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    explosion_handler::explosion( &caster, target.raw(), sp.damage( caster ), sp.aoe( caster ) / 10.0,
+    explosion_handler::explosion( &caster, target, sp.damage( caster ), sp.aoe( caster ) / 10.0,
                                   true );
 }
 
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
-    explosion_handler::flashbang( target.raw(), caster.is_avatar() &&
+    explosion_handler::flashbang( target, caster.is_avatar() &&
                                   !sp.is_valid_target( spell_target::self ) );
 }
 
@@ -1536,7 +1544,7 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint_bub
                    !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
                 continue;
             }
-            if( g->revive_corpse( aoe.raw(), corpse ) ) {
+            if( g->revive_corpse( aoe, corpse ) ) {
                 here.i_rem( aoe, &corpse );
                 break;
             }
@@ -1559,7 +1567,7 @@ void spell_effect::revive_dormant( const spell &sp, Creature &caster,
                 continue;
             }
             // relaxed revive with radius.
-            if( g->revive_corpse( aoe.raw(), corpse, 3 ) ) {
+            if( g->revive_corpse( aoe, corpse, 3 ) ) {
                 here.i_rem( aoe, &corpse );
                 break;
             }
@@ -1933,8 +1941,8 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
 
             shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
             mon->ammo = mon->type->starting_ammo;
-            if( mon->will_move_to( dest.raw() ) && mon->know_danger_at( dest.raw() ) ) {
-                if( monster *const blob = g->place_critter_around( mon, dest.raw(), 0 ) ) {
+            if( mon->will_move_to( dest ) && mon->know_danger_at( dest ) ) {
+                if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
                     sp.make_sound( dest, caster );
                     if( !permanent ) {
                         blob->set_summon_time( sp.duration_turns( caster ) );

@@ -15,12 +15,12 @@
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Zachary_Story0",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Why don't you blow this joint and come with me?",
         "topic": "TALK_GODCO_Zachary_Follow",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Zachary_Feeling" },
       { "text": "Is everyone treating you fairly?", "topic": "TALK_GODCO_Zachary_Godco" }
@@ -30,7 +30,7 @@
     "id": "TALK_GODCO_Zachary",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "You're back?  Shove off <name_b>!",
       "no": { "gendered_line": "I got my rights to be here, chum.  Squatter's rights!", "relevant_genders": [ "u" ] }
     },
@@ -45,7 +45,7 @@
         "text": "Hey, good to see you're still around.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_zachary" } ] }
           ]
         },

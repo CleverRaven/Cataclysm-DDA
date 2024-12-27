@@ -49,7 +49,7 @@ class advanced_inv_area
 
         const aim_location id;
         // Used for the small overview 3x3 grid
-        point hscreen = point_zero;
+        point hscreen = point::zero;
         // relative (to the player) position of the map point
         tripoint_rel_ms off;
         /** Long name, displayed, translated */

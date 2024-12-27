@@ -4,7 +4,6 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"
@@ -60,20 +59,20 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         avatar &player_character = get_avatar();
         player_character.setpos( test_origin );
-        const tripoint_bub_ms vehicle_origin = test_origin + tripoint_south_east;
+        const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                                              0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        tripoint_bub_ms grab_point = test_origin + tripoint_east;
-        player_character.grab( object_type::VEHICLE, tripoint_rel_ms_east );
+        tripoint_bub_ms grab_point = test_origin + tripoint::east;
+        player_character.grab( object_type::VEHICLE, tripoint_rel_ms::east );
         REQUIRE( player_character.get_grab_type() == object_type::VEHICLE );
-        REQUIRE( player_character.grab_point == tripoint_rel_ms_east );
+        REQUIRE( player_character.grab_point == tripoint_rel_ms::east );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms::zero );
             }
         }
     }
@@ -88,7 +87,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
                        0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
-    const tripoint_bub_ms pos = vehicle_origin + tripoint_west;
+    const tripoint_bub_ms pos = vehicle_origin + tripoint::west;
     const std::optional<vpart_reference> ovp_cargo = get_map().veh_at( pos ).cargo();
     REQUIRE( ovp_cargo );
     //Must not be broken yet
@@ -158,7 +157,7 @@ static void complete_activity( Character &u, const activity_actor &act )
 
 static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_preset )
 {
-    map_stack spot = m.i_at( u.pos_bub() + tripoint_north );
+    map_stack spot = m.i_at( u.pos_bub() + tripoint::north );
     for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
         spot.insert( item( tool_itype_id ) );
     }
@@ -167,7 +166,7 @@ static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_
 
 static void clear_spawned_tools( map &m, Character &u )
 {
-    m.i_at( u.pos_bub() + tripoint_north ).clear();
+    m.i_at( u.pos_bub() + tripoint::north ).clear();
     u.invalidate_crafting_inventory();
 }
 
@@ -332,9 +331,9 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     optional_vpart_position ovp = m.veh_at( u.get_location() );
     REQUIRE( ovp.has_value() );
 
-    // don't actually need point_north but damage_all filters out direct damage
+    // don't actually need point_rel_ms::north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_rel_ms_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount_pos() + point_rel_ms::north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -479,7 +478,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_rel_ms_west );
+                m.displace_vehicle( app1, tripoint_rel_ms::west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -495,7 +494,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_rel_ms_east );
+                m.displace_vehicle( app2, tripoint_rel_ms::east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -522,7 +521,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_rel_ms_west );
+                m.displace_vehicle( app1, tripoint_rel_ms::west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -538,7 +537,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_rel_ms_east );
+                m.displace_vehicle( app2, tripoint_rel_ms::east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -694,7 +693,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
         // basic test; rack bike on car, unrack it, everything should succeed
         {
             { vehicle_prototype_car, vehicle_prototype_bicycle },
-            { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ) },
+            { tripoint_bub_ms::zero,         tripoint_bub_ms( -4, 0, 0 ) },
             { { -3, -1 }, { -3, 0}, { -3, 1}, { -3, 2}},
             { 0_degrees,             90_degrees },
 
@@ -705,7 +704,7 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
         // racking vehicles with same name on ( potentially ) same rack should expect failures
         {
             { vehicle_prototype_car, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
-            { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ),         tripoint_bub_ms( -4, 1, 0 )         },
+            { tripoint_bub_ms::zero,         tripoint_bub_ms( -4, 0, 0 ),         tripoint_bub_ms( -4, 1, 0 )         },
             { { -3, -1 }, { -3, 0}, { -3, 1}, { -3, 2}},
             { 0_degrees,             0_degrees,                    0_degrees                    },
 
@@ -744,7 +743,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( tripoint::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();
@@ -755,7 +754,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     vehicle &veh = *veh_ptr;
     if( !extra_part.is_null() ) {
         vehicle_part vp( extra_part, item( extra_part->base_item ) );
-        const int part_index = veh.install_part( point_zero, std::move( vp ) );
+        const int part_index = veh.install_part( point::zero, std::move( vp ) );
         REQUIRE( part_index >= 0 );
     }
 

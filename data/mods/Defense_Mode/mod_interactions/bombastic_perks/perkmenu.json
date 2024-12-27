@@ -18,7 +18,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "wave_number", ">=", "1" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "wave_number >= 1" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -37,7 +37,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -56,7 +56,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -75,7 +75,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -120,7 +120,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "and": [ { "math": [ "u_skill('swimming')", ">=", "5" ] }, { "u_has_trait": "perk_gymrat" } ] }
+            "condition": { "and": [ { "math": [ "u_skill('swimming') >= 5" ] }, { "u_has_trait": "perk_gymrat" } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -140,7 +140,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -159,7 +159,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       }

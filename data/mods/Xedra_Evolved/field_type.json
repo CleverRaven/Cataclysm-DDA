@@ -253,5 +253,55 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_frozen_time",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "frozen time", "sym": "O", "color": "light_gray", "transparent": true, "move_cost": -1000 } ],
+    "priority": 100,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "in",
+    "half_life": "1 seconds",
+    "linear_half_life": true,
+    "indestructible": true,
+    "bash": { "str_min": 10000, "sound_vol": 0, "sound_fail_vol": 0, "msg_success": "Your strength is stronger than time itself!" },
+    "immunity_data": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "id": "fd_frozen_time_permanent",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "stable frozen time", "sym": "O", "color": "light_gray", "transparent": true, "move_cost": -1000 } ],
+    "priority": 100,
+    "display_items": true,
+    "display_field": true,
+    "description_affix": "in",
+    "indestructible": true,
+    "bash": { "str_min": 10000, "sound_vol": 0, "sound_fail_vol": 0, "msg_success": "Your strength is stronger than time itself!" },
+    "immunity_data": { "flags": [ "STABILIZED_TIMELINE" ] }
+  },
+  {
+    "id": "fd_xedra_dreamer_accelerated_time",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "accelerated time",
+        "sym": "o",
+        "color": "light_gray",
+        "transparent": true,
+        "effects": [
+          {
+            "effect_id": "effect_xedra_dreamer_accelerated_time",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1
+          }
+        ]
+      }
+    ],
+    "priority": 50,
+    "display_items": true,
+    "description_affix": "in",
+    "half_life": "2 seconds"
   }
 ]

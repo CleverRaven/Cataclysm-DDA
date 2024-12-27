@@ -80,7 +80,9 @@
       { "monster": "mon_feral_magus", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_feral_magus_enhanced", "weight": 5, "cost_multiplier": 4 },
       { "monster": "mon_feral_stormshaper", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_feral_stormshaper_enhanced", "weight": 5, "cost_multiplier": 4 }
+      { "monster": "mon_feral_stormshaper_enhanced", "weight": 5, "cost_multiplier": 4 },
+      { "monster": "mon_feral_technomancer", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 5, "cost_multiplier": 4 }
     ]
   },
   {
@@ -200,26 +202,38 @@
   {
     "type": "monstergroup",
     "name": "GROUP_LAB",
-    "monsters": [ { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_SURFACE",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_feral_radiation_mage", "weight": 2, "cost_multiplier": 10 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MICROLAB",
-    "monsters": [ { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 2, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 1, "cost_multiplier": 50 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_RESEARCHERS",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 20, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_feral_radiation_mage", "weight": 1, "cost_multiplier": 10 }
     ]
   },
@@ -461,7 +475,8 @@
       { "monster": "mon_mossling", "weight": 8, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
       { "monster": "mon_dryad", "weight": 8, "cost_multiplier": 2 },
       { "monster": "mon_dryad", "weight": 3, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_brackenwight", "weight": 5, "cost_multiplier": 5 }
+      { "monster": "mon_brackenwight", "weight": 5, "cost_multiplier": 5 },
+      { "monster": "mon_treant", "weight": 2, "cost_multiplier": 10 }
     ]
   },
   {

@@ -1,0 +1,43 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "//": "Meant to be Alberta, Canada",
+    "//1": "TODO: Should change regional terrain/furniture",
+    "overmap_lake_settings": { "//": "Smaller less numerous lakes", "noise_threshold_lake": 0.35, "lake_size_min": 15 },
+    "overmap_ocean_settings": { "ocean_start_north": 250, "ocean_start_east": 900, "ocean_start_west": 200 },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 0.4,
+      "noise_threshold_forest_thick": 0.45,
+      "noise_threshold_swamp_adjacent_water": 0.5,
+      "noise_threshold_swamp_isolated": 0.7
+    },
+    "city": {
+      "//": "Increased hunting store chance, decreased gun store/mil surplus chances.",
+      "shops": {
+        "s_hunting": 300,
+        "s_gun": 50,
+        "s_gun_looted": 50,
+        "s_gun_1": 50,
+        "s_gun_2": 50,
+        "s_gun_3": 50,
+        "s_gun_3_looted": 50,
+        "s_gun_4": 50,
+        "s_gun_4_looted": 50,
+        "s_gunstore": 50,
+        "s_gunstore_looted": 50,
+        "mil_surplus": 20,
+        "mil_surplus_1": 20,
+        "mil_surplus_2": 20
+      }
+    },
+    "weather": {
+      "base_temperature": 5.5,
+      "base_humidity": 50.0,
+      "base_pressure": 1000,
+      "base_wind": 4.4,
+      "weather_black_list": [ "early_portal_storm", "portal_storm" ]
+    },
+    "overmap_feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
+  }
+]

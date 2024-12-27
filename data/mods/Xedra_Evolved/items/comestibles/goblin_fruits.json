@@ -2,8 +2,11 @@
   {
     "type": "COMESTIBLE",
     "id": "goblin_fruit_abstract",
-    "name": { "str": "Abstract Goblin Fruit" },
-    "description": "Somehow you got a hold of the platonic goblin fruit, the one fruit to rule them all.  It's a bug if you have this, but the lords of the Bright Lands will surely pay a high price for it.",
+    "name": { "str": "Abstract Goblin Fruit", "//~": "NO_I18N" },
+    "description": {
+      "str": "Somehow you got a hold of the platonic goblin fruit, the one fruit to rule them all.  It's a bug if you have this, but the lords of the Bright Lands will surely pay a high price for it.",
+      "//~": "NO_I18N"
+    },
     "weight": "182 g",
     "volume": "232 ml",
     "color": "magenta",
@@ -473,7 +476,7 @@
     "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
-      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [

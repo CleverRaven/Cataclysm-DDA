@@ -243,11 +243,7 @@
     "price_rules": [
       { "item": "money_strap_FMCNote", "fixed_adj": 0 },
       { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
-      {
-        "item": "RobofacCoin",
-        "fixed_adj": 0.15,
-        "condition": { "math": [ "free_merchants_hub_trade_route", "==", "2" ] }
-      },
+      { "item": "RobofacCoin", "fixed_adj": 0.15, "condition": { "math": [ "free_merchants_hub_trade_route == 2" ] } },
       { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
       { "group": "games_board_all", "premium": 2.5 }
     ],

@@ -34,7 +34,7 @@
     "effect": {
       "run_eocs": {
         "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
-        "condition": { "math": [ "ps_str", ">", "4" ] },
+        "condition": { "math": [ "ps_str > 4" ] },
         "effect": {
           "weighted_list_eocs": [
             [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],

@@ -545,6 +545,28 @@
     }
   },
   {
+    "id": "photokinetic_sterilize_food",
+    "type": "SPELL",
+    "name": "[Ψ]Gamma Sterilization",
+    "description": "Use a focused emission of high-power radiation to eliminating microorganisms in food and allowing it to last much longer before rotting.  This power is <color_red>extremely taxing</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "SILENT", "RANDOM_DAMAGE" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKINETIC_STERILIZE_FOODS",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7500,
+    "final_energy_cost": 4000,
+    "energy_increment": -200,
+    "base_casting_time": 1500
+  },
+  {
     "id": "photokinetic_stun_robots",
     "type": "SPELL",
     "name": "[Ψ]Sensor Jamming",

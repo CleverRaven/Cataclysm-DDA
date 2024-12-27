@@ -643,7 +643,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
         WHEN( "when player cuts npc" ) {
 
-            npc &test_npc = *spawn_npc( player.pos_bub().xy() + point_south_west, "thug" );
+            npc &test_npc = *spawn_npc( player.pos_bub().xy() + point::south_west, "thug" );
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
                 test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );
@@ -656,8 +656,8 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
     }
     GIVEN( "two npcs" ) {
-        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point_south, "thug" );
-        npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point_south_east, "thug" );
+        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "thug" );
+        npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
             THEN( "bleed effect gets attributed to npc_src" ) {
@@ -742,7 +742,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     // Place a hundred debug monsters, our subjects
     for( int i = 0; i < 10; ++i ) {
         for( int j = 0; j < 10; ++j ) {
-            tripoint cursor( i + 20, j + 20, 0 );
+            tripoint_bub_ms cursor( i + 20, j + 20, 0 );
 
             mons.push_back( g->place_critter_at( pseudo_debug_mon, cursor ) );
             // make sure they're there!

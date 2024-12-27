@@ -4,7 +4,7 @@
     "id": "megastore",
     "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
-      "│": "t_hole",
+      "│": "t_open_air",
       " ": "t_region_groundcover_urban",
       "_": "t_pavement",
       ",": "t_concrete",

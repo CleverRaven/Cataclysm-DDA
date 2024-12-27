@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher" ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -31,10 +31,10 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "commercial", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "commercial", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "b": "t_sidewalk",
         "d": "t_wall_glass",
         "e": "t_door_c",
@@ -186,7 +186,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher_1" ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -213,10 +213,10 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "commercial", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "commercial", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover",
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ",": "t_floor",
         "l": "t_floor",
         "c": "t_floor",
@@ -379,7 +379,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher_2" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -406,10 +406,10 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "commercial", "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "commercial", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover",
-        ".": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "l": "t_floor",
         "c": "t_floor",
         "s": "t_floor",

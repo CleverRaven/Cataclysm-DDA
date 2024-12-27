@@ -23,11 +23,11 @@ TEST_CASE( "pavement_destroy", "[.]" )
     clear_map_and_put_player_underground();
     map &here = get_map();
     // Populate the map with pavement.
-    here.ter_set( tripoint_bub_ms_zero, ter_id( "t_pavement" ) );
+    here.ter_set( tripoint_bub_ms::zero, ter_id( "t_pavement" ) );
 
     // Destroy it
-    here.destroy( tripoint_bub_ms_zero, true );
-    ter_id after_destroy = here.ter( tripoint_bub_ms_zero );
+    here.destroy( tripoint_bub_ms::zero, true );
+    ter_id after_destroy = here.ter( tripoint_bub_ms::zero );
     if( after_destroy == flat_roof_id ) {
         FAIL( flat_roof_id.obj().name() << " found after destroying pavement" );
     } else {
@@ -154,7 +154,7 @@ TEST_CASE( "collapse_checks", "[.]" )
 
     map &here = get_map();
     // build a structure
-    const tripoint_bub_ms &midair{ tripoint_bub_ms_zero + tripoint_above };
+    const tripoint_bub_ms &midair{ tripoint_bub_ms::zero + tripoint::above };
     for( const tripoint_bub_ms &pt : here.points_in_radius( midair, wall_size, 1 ) ) {
         here.ter_set( pt, floor_id );
     }
@@ -179,7 +179,7 @@ TEST_CASE( "collapse_checks", "[.]" )
     }
 
     // destroy the floor on the first floor; floor above should not collapse
-    for( const tripoint_bub_ms &pt : here.points_in_radius( tripoint_bub_ms_zero, wall_size ) ) {
+    for( const tripoint_bub_ms &pt : here.points_in_radius( tripoint_bub_ms::zero, wall_size ) ) {
         if( corners.find( pt ) == corners.end() ) {
             here.destroy( pt, true );
         }

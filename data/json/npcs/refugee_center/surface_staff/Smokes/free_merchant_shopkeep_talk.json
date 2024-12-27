@@ -221,7 +221,7 @@
       {
         "text": "[Social 1] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
-        "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
+        "condition": { "math": [ "u_skill('speech') >= 1" ] },
         "effect": { "npc_add_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
@@ -418,7 +418,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]

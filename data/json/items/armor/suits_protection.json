@@ -1054,7 +1054,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor suit" },
-    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
+    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance than its constituent parts.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "3 kg",
     "volume": "12500 ml",
     "price": "600 USD",

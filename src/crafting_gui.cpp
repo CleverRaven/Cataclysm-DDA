@@ -265,6 +265,7 @@ struct availability {
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
+        // Used as an indicator to see if crafting is called via camp. if not nullptr, we must be camp crafting
         inventory *inv_override;
     private:
         const recipe *rec;
@@ -488,7 +489,7 @@ static std::vector<std::string> recipe_info(
                   "when it is not</color>.\n" );
     }
     std::string reason;
-    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason );
+    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason ) && !avail.inv_override ;
     if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() && !npc_cant ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components.</color>\n" );
@@ -985,6 +986,31 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::quality_result, progress_callback );
                     break;
 
+                case 'L':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::length, progress_callback );
+                    break;
+
+                case 'V':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::volume, progress_callback );
+                    break;
+
+                case 'M':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::mass, progress_callback );
+                    break;
+
+                case 'v':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::covers, progress_callback );
+                    break;
+
+                case 'e':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::layer, progress_callback );
+                    break;
+
                 case 'd':
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::description_result, progress_callback );
@@ -1018,7 +1044,7 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                 case 'r': {
                     recipe_subset result;
                     for( const itype *e : item_controller->all() ) {
-                        if( wildcard_match( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
+                        if( lcmatch( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
                             result.include( recipe_subset( available_recipes,
                                                            available_recipes.recipes_that_produce( e->get_id() ) ) );
                         }
@@ -1065,10 +1091,15 @@ static const std::vector<SearchPrefix> prefixes = {
     { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
     { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
+    { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
-    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
+    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>" ) },
+    { 'L', to_translation( "122 cm" ), to_translation( "result can contain item of <color_cyan>length</color>" ) },
+    { 'V', to_translation( "450 ml" ), to_translation( "result can contain item of <color_cyan>volume</color>" ) },
+    { 'M', to_translation( "250 kg" ), to_translation( "result can contain item of <color_cyan>mass</color>" ) },
+    { 'v', to_translation( "head" ), to_translation( "<color_cyan>body part</color> the result covers" ) },
+    { 'e', to_translation( "close to skin" ), to_translation( "<color_cyan>layer</color> the result covers" ) },
     { 'a', to_translation( "brisk" ), to_translation( "recipe's <color_cyan>activity level</color>" ) }
 };
 
@@ -1447,7 +1478,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         // Draw borders
         wattron( w_data, BORDER_COLOR );
         mvwhline( w_data, point( 1, dataHeight - 1 ), LINE_OXOX, width - 2 );
-        mvwvline( w_data, point_zero, LINE_XOXO, dataHeight - 1 );
+        mvwvline( w_data, point::zero, LINE_XOXO, dataHeight - 1 );
         mvwvline( w_data, point( width - 1, 0 ), LINE_XOXO, dataHeight - 1 );
         mvwaddch( w_data, point( 0, dataHeight - 1 ), LINE_XXOO ); // |_
         mvwaddch( w_data, point( width - 1, dataHeight - 1 ), LINE_XOOX ); // _|
@@ -1545,14 +1576,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             werase( w_iteminfo );
             if( cur_recipe->is_practice() ) {
                 const std::string desc = practice_recipe_description( *cur_recipe, *crafter );
-                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
                 std::string desc = cur_recipe->description.translated() + "\n\n";
                 desc += list_nested( *crafter, cur_recipe, available_recipes );
-                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                fold_and_print( w_iteminfo, point::zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
@@ -1856,8 +1887,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             } else if( !available[line].can_craft ||
                        !available[line].crafter_has_primary_skill ) {
                 popup( _( "Crafter can't craft that!" ) );
-            } else if( !crafter->check_eligible_containers_for_crafting( *current[line],
-                       batch ? line + 1 : 1 ) ) {
+            } else if( available[line].inv_override == nullptr &&
+                       !crafter->check_eligible_containers_for_crafting( *current[line], batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
                 popup( _( "Crafter can't see!" ) );
@@ -2278,7 +2309,8 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
         if( !to_compare ) {
             break;
         }
-        game_menus::inv::compare_items( recipe_item, *to_compare );
+        game_menus::inv::compare_item_menu menu( recipe_item, *to_compare );
+        menu.show();
     } while( true );
 }
 
@@ -2448,7 +2480,7 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
     int width = getmaxx( w );
 
     wattron( w, BORDER_COLOR );
-    mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
+    mvwvline( w, point::zero, LINE_XOXO, getmaxy( w ) );  // |
     mvwvline( w, point( width - 1, 0 ), LINE_XOXO, getmaxy( w ) );  // |
     wattroff( w, BORDER_COLOR );
 
@@ -2498,7 +2530,7 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
         case BATCH:
             werase( w );
             wattron( w, BORDER_COLOR );
-            mvwvline( w, point_zero, LINE_XOXO, 3 ); // |
+            mvwvline( w, point::zero, LINE_XOXO, 3 ); // |
             mvwvline( w, point( width - 1, 0 ), LINE_XOXO, 3 ); // |
             wattroff( w, BORDER_COLOR );
             break;

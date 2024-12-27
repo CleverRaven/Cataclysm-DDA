@@ -158,7 +158,7 @@
       {
         "id": "coat_rabbit_fur",
         "name": { "str": "rabbit overcoat" },
-        "description": "Prey and predator are brought together within this luxurious fir coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
+        "description": "Prey and predator are brought together within this luxurious fur coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
         "color": "white",
         "weight": 6
       },
@@ -1738,7 +1738,7 @@
       {
         "id": "black_white_varsity_jacket",
         "name": { "str": "black and white varsity jacket" },
-        "description": "This one is is black except the white arms, and has no discerning emblem or writing.",
+        "description": "This one is black except the white arms, and has no discerning emblem or writing.",
         "color": "white",
         "weight": 10,
         "append": true
@@ -3723,7 +3723,7 @@
       {
         "id": "tacjacket_desert",
         "name": { "str": "arid tactical jacket" },
-        "description": "If you were traipsing off to the Sonoran desert, this pocket-laden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
+        "description": "If you were traipsing off to the Sonoran desert, this pocket-laden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is, is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
         "color": "brown",
         "weight": 10,
         "append": true

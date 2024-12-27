@@ -30,6 +30,7 @@
     "purifiable": false,
     "enchantments": [
       {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
           { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] } },
           {
@@ -60,11 +61,18 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "HEARING_MULT", "multiply": 0.2 },
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_NETHER",
-            "add": { "math": [ "(2 + (0.075 * u_spell_level_sum('school': 'CLAIRSENTIENT')))" ] }
+            "condition": {
+              "and": [
+                { "not": { "u_has_flag": "NO_PSIONICS" } },
+                {
+                  "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+                }
+              ]
+            },
+            "distance": { "math": [ "2 + (0.075 * u_spell_level_sum('school': 'CLAIRSENTIENT'))" ] },
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
           }
         ]
       }
@@ -81,10 +89,9 @@
     "purifiable": false,
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') / -0.2" ] } },
-          { "value": "PAIN", "multiply": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') * -0.00035" ] } }
-        ]
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') / -0.2" ] } } ],
+        "values": [ { "value": "PAIN", "multiply": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') * -0.00035" ] } } ]
       }
     ]
   },
@@ -109,6 +116,7 @@
     "bodytemp_modifiers": [ 250, 750 ],
     "enchantments": [
       {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [ { "value": "BODYTEMP_SLEEP", "add": { "math": [ "0.05 * u_spell_level_sum('school': 'PYROKINETIC')" ] } } ]
       }
     ],
@@ -139,6 +147,7 @@
     "purifiable": false,
     "enchantments": [
       {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
           {
             "value": "OBTAIN_COST_MULTIPLIER",
@@ -159,6 +168,7 @@
     "purifiable": false,
     "enchantments": [
       {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
           { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATH')))" ] } },
           { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATH')))" ] } },
@@ -182,6 +192,7 @@
     "purifiable": false,
     "enchantments": [
       {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.00025 * u_spell_level_sum('school': 'TELEPORTER')))" ] } } ]
       }
     ]
@@ -199,6 +210,7 @@
     "purifiable": false,
     "enchantments": [
       {
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } },
           {

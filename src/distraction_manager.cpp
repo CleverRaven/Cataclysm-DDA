@@ -67,7 +67,7 @@ void distraction_manager_gui::show()
                                        iOffset );
 
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
+                                       iOffset + point::south_east );
 
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                 iOffset + point( 1, iHeaderHeight + 1 ) );
@@ -98,7 +98,7 @@ void distraction_manager_gui::show()
 
         // Draw header
         werase( w_header );
-        fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white,
+        fold_and_print( w_header, point::zero, getmaxx( w_header ), c_white,
                         _( get_configurable_distractions()[currentLine].description.c_str() ) );
 
         // Draw horizontal line and corner pieces of the table
@@ -111,7 +111,7 @@ void distraction_manager_gui::show()
         wnoutrefresh( w_header );
 
         // Clear table
-        mvwrectf( w, point_zero, c_black, ' ', 79, iContentHeight );
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
         mvwvline( w, point( 60, 0 ), c_light_gray, LINE_XOXO, iContentHeight ) ;
 
         draw_scrollbar( w_border, currentLine, iContentHeight, number_of_distractions, point( 0,

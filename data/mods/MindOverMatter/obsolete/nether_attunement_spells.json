@@ -249,7 +249,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') < 15" ] },
     "effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_BELOW_THRESHOLD" } ],
     "false_effect": [ { "run_eocs": "EOC_RAISE_NETHER_ATTUNEMENT_MAINTENANCE_ABOVE_THRESHOLD" } ]
   },

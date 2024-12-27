@@ -21,15 +21,26 @@
   {
     "id": "EOC_LUMBERMILL_FABRICATE_order",
     "type": "effect_on_condition",
-    "condition": { "expects_vars": [ "name", "batch", "cost" ] },
+    "condition": { "expects_vars": [ "name", "max" ] },
     "effect": [
       {
         "set_string_var": "n_number_fabricate_<context_val:name>",
         "target_var": { "context_val": "item" },
         "parse_tags": true
       },
-      { "math": [ "v_item", "+=", "_batch" ] },
-      { "math": [ "n_number_fabricate_price", "+=", "_cost * _batch" ] }
+      { "math": [ "v_item = clamp(num_input('', v_item), 0, _max)" ] },
+      { "math": [ "n_number_fabricate_price = 0" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1   * n_number_fabricate_2x4" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "0.7 * n_number_fabricate_plank_short" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1.5 * n_number_fabricate_plank_long" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1   * n_number_fabricate_wooden_post" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "0.7 * n_number_fabricate_wooden_post_short" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "1.5 * n_number_fabricate_wooden_post_long" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "8   * n_number_fabricate_wood_panel" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "16  * n_number_fabricate_wood_sheet" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "25  * n_number_fabricate_wood_beam" ] },
+      { "math": [ "n_number_fabricate_price", "+=", "5   * n_number_fabricate_log" ] },
+      { "math": [ "n_number_fabricate_wait = max(1, ceil(n_number_fabricate_price/150))" ] }
     ]
   },
   {
@@ -39,177 +50,140 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "math": [ "has_var(n_number_fabricate_price)" ],
-          "yes": "&Your current order.  Total: <npc_val:number_fabricate_price>$",
+          "math": [ "n_number_fabricate_price != 0" ],
+          "yes": "&Your current order.  Total: $<npc_val:number_fabricate_price>.  Waiting time: <npc_val:number_fabricate_wait> days.",
           "no": "We offer various specialty cuts direct to our customers.  Here's a list of available materials.  Order waiting time depends on the amount of lumber ordered.  So, what would you like?"
         },
+        { "math": [ "n_number_fabricate_2x4 != 0" ], "yes": "\n<item_name:2x4>: <npc_val:number_fabricate_2x4> pcs." },
         {
-          "math": [ "has_var(n_number_fabricate_2x4)" ],
-          "yes": "\n<item_name:2x4>: <npc_val:number_fabricate_2x4> pcs."
-        },
-        {
-          "math": [ "has_var(n_number_fabricate_plank_short)" ],
+          "math": [ "n_number_fabricate_plank_short != 0" ],
           "yes": "\n<item_name:plank_short>: <npc_val:number_fabricate_plank_short> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_plank_long)" ],
+          "math": [ "n_number_fabricate_plank_long != 0" ],
           "yes": "\n<item_name:plank_long>: <npc_val:number_fabricate_plank_long> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_wooden_post)" ],
+          "math": [ "n_number_fabricate_wooden_post != 0" ],
           "yes": "\n<item_name:wooden_post>: <npc_val:number_fabricate_wooden_post> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_wooden_post_short)" ],
+          "math": [ "n_number_fabricate_wooden_post_short != 0" ],
           "yes": "\n<item_name:wooden_post_short>: <npc_val:number_fabricate_wooden_post_short> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_wooden_post_long)" ],
+          "math": [ "n_number_fabricate_wooden_post_long != 0" ],
           "yes": "\n<item_name:wooden_post_long>: <npc_val:number_fabricate_wooden_post_long> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_wood_panel)" ],
+          "math": [ "n_number_fabricate_wood_panel != 0" ],
           "yes": "\n<item_name:wood_panel>: <npc_val:number_fabricate_wood_panel> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_wood_sheet)" ],
+          "math": [ "n_number_fabricate_wood_sheet != 0" ],
           "yes": "\n<item_name:wood_sheet>: <npc_val:number_fabricate_wood_sheet> pcs."
         },
         {
-          "math": [ "has_var(n_number_fabricate_wood_beam)" ],
+          "math": [ "n_number_fabricate_wood_beam != 0" ],
           "yes": "\n<item_name:wood_beam>: <npc_val:number_fabricate_wood_beam> pcs."
         },
-        {
-          "math": [ "has_var(n_number_fabricate_log)" ],
-          "yes": "\n<item_name:log>: <npc_val:number_fabricate_log> pcs."
-        }
+        { "math": [ "n_number_fabricate_log != 0" ], "yes": "\n<item_name:log>: <npc_val:number_fabricate_log> pcs." }
       ]
     },
     "responses": [
       {
-        "text": "[x20 <item_name:2x4>, $1 a piece, max 200]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_2x4", "<", "200" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "2x4", "batch": "20", "cost": "1" } },
+        "text": "[<item_name:2x4>, $1 a piece, max 200]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "2x4", "max": "200" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x20 <item_name:plank_short>, $0.7 a piece, max 200]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_plank_short", "<", "200" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_short", "batch": "20", "cost": "0.7" } },
+        "text": "[<item_name:plank_short>, $0.7 a piece, max 200]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_short", "max": "200" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x20 <item_name:plank_long>, $1.5 a piece, max 200]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_plank_long", "<", "200" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_long", "batch": "20", "cost": "1.5" } },
+        "text": "[<item_name:plank_long>, $1.5 a piece, max 200]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "plank_long", "max": "200" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x10 <item_name:wooden_post>, $1 a piece, max 100]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_wooden_post", "<", "100" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post", "batch": "10", "cost": "1" } },
+        "text": "[<item_name:wooden_post>, $1 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post", "max": "100" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x10 <item_name:wooden_post_short>, $0.7 a piece, max 100]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_wooden_post_short", "<", "100" ] },
-        "effect": {
-          "run_eocs": "EOC_LUMBERMILL_FABRICATE_order",
-          "variables": { "name": "wooden_post_short", "batch": "10", "cost": "0.7" }
-        },
+        "text": "[<item_name:wooden_post_short>, $0.7 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_short", "max": "100" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x10 <item_name:wooden_post_long>, $1.5 a piece, max 100]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_wooden_post_long", "<", "100" ] },
-        "effect": {
-          "run_eocs": "EOC_LUMBERMILL_FABRICATE_order",
-          "variables": { "name": "wooden_post_long", "batch": "10", "cost": "1.5" }
-        },
+        "text": "[<item_name:wooden_post_long>, $1.5 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wooden_post_long", "max": "100" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x5 <item_name:wood_panel>, $8 a piece, max 100]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_wood_panel", "<", "100" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_panel", "batch": "5", "cost": "8" } },
+        "text": "[<item_name:wood_panel>, $8 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_panel", "max": "100" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x5 <item_name:wood_sheet>, $16 a piece, max 100]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_wood_sheet", "<", "100" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_sheet", "batch": "5", "cost": "16" } },
+        "text": "[<item_name:wood_sheet>, $16 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_sheet", "max": "100" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x1 <item_name:wood_beam>, $20 a piece, max 50]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_wood_beam", "<", "50" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_beam", "batch": "1", "cost": "20" } },
+        "text": "[<item_name:wood_beam>, $25 a piece, max 50]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "wood_beam", "max": "50" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "[x5 <item_name:log>, $5 a piece, max 100]",
-        "show_always": true,
-        "condition": { "math": [ "n_number_fabricate_log", "<", "100" ] },
-        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "log", "batch": "5", "cost": "5" } },
+        "text": "[<item_name:log>, $5 a piece, max 100]",
+        "effect": { "run_eocs": "EOC_LUMBERMILL_FABRICATE_order", "variables": { "name": "log", "max": "100" } },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
         "text": "<color_light_red>[Reset.]</color>",
-        "condition": { "math": [ "has_var(n_number_fabricate_price)" ] },
+        "condition": { "math": [ "n_number_fabricate_price != 0" ] },
         "effect": { "run_eocs": [ "EOC_LUMBERMILL_FABRICATE_cleanup" ] },
         "topic": "TALK_LUMBERMILL_FABRICATE"
       },
       {
-        "text": "<color_light_green>That's all.  I'm ready to pay.</color>",
-        "condition": { "math": [ "has_var(n_number_fabricate_price)" ] },
-        "//": "Calculate waiting time",
-        "effect": { "math": [ "n_number_fabricate_wait", "=", "max(1, ceil(n_number_fabricate_price/150))" ] },
-        "topic": "TALK_LUMBERMILL_FABRICATE_PAYMENT"
+        "text": "<color_light_green>[$<npc_val:number_fabricate_price>] That's all.  I'm ready to pay.</color>",
+        "condition": { "math": [ "n_number_fabricate_price != 0" ] },
+        "effect": {
+          "u_buy_item": "file",
+          "count": 1,
+          "cost": { "math": [ "n_number_fabricate_price * 100" ] },
+          "true_eocs": [
+            {
+              "id": "EOC_LUMBERMILL_FABRICATE_ordered",
+              "effect": [
+                { "math": [ "n_timer_fabricate_waiting = time('now')" ] },
+                {
+                  "u_message": "Your order will be ready in <npc_val:number_fabricate_wait> days.\nCome back in that time to pick up your lumber.",
+                  "popup": true
+                }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
       },
       { "text": "Actually, I don't want to place an order.", "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LUMBERMILL_FABRICATE_PAYMENT",
-    "dynamic_line": "Sure.  That'll be $<npc_val:number_fabricate_price>.  I estimate we'll have your order done in <npc_val:number_fabricate_wait> days.",
-    "responses": [
-      {
-        "text": "[$<npc_val:number_fabricate_price>] Deal.",
-        "effect": {
-          "u_buy_item": "file",
-          "count": 1,
-          "cost": { "math": [ "n_number_fabricate_price * 100" ] },
-          "true_eocs": [
-            { "id": "EOC_LUMBERMILL_FABRICATE_ordered", "effect": { "math": [ "n_timer_fabricate_waiting", "=", "time('now')" ] } }
-          ]
-        },
-        "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO"
-      },
-      { "text": "<end_talking_nevermind>", "topic": "TALK_LUMBERMILL_FABRICATE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_LUMBERMILL_FABRICATE_FINISHED",
     "dynamic_line": {
-      "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days')", ">=", "n_number_fabricate_wait" ],
+      "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days') >= n_number_fabricate_wait" ],
       "yes": "Let me check…  <u_name>…  Yes, all your lumber are ready, you can pick it up.",
       "no": "Your order?  No, sorry, we're still working on it."
     },
     "responses": [
       {
         "text": "Thanks.  <end_talking_bye>",
-        "condition": { "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days')", ">=", "n_number_fabricate_wait" ] },
+        "condition": { "math": [ "time_since(n_timer_fabricate_waiting, 'unit':'days') >= n_number_fabricate_wait" ] },
         "switch": true,
         "effect": [
           {
@@ -234,7 +208,7 @@
                 "parse_tags": true
               },
               {
-                "if": { "math": [ "has_var(v_item)" ] },
+                "if": { "math": [ "v_item != 0" ] },
                 "then": { "u_spawn_item": { "context_val": "name" }, "count": { "var_val": "item" } }
               }
             ]

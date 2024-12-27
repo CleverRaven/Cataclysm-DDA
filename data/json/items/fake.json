@@ -51,7 +51,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
-    "description": "A set of speakers implanted into your skull, that can recieve local radiowaves and play downloaded music at a concert hall quality.  It comes with \"Rubik's Mickse\" preloaded.  Activate it to start playing some tunes.",
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It comes with \"Rubik's Mickse\" preloaded.  Activate it to start playing some tunes.",
     "use_action": [
       {
         "target": "internal_mp3_music",
@@ -71,7 +71,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
-    "description": "A set of speakers implanted into your skull, that can recieve local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to find the Spirit of the Radio.",
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to find the Spirit of the Radio.",
     "use_action": [
       {
         "target": "internal_mp3_radio",
@@ -94,7 +94,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
-    "description": "A set of speakers implanted into your skull, that can recieve local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to turn it off.",
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to turn it off.",
     "use_action": [
       "RADIO_ON",
       {
@@ -480,6 +480,14 @@
     "name": { "str": "concrete mixer" },
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 20
+  },
+  {
+    "id": "debug_item_search",
+    "name": { "str": "debug item search", "//~": "NO_I18N" },
+    "type": "GENERIC",
+    "symbol": "?",
+    "description": { "str": "This is a dummy item used by item search.  You should never see it outside of debug.", "//~": "NO_I18N" },
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "fake_dynamite_50lbs",

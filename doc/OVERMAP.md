@@ -267,6 +267,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 ### `see_cost` values
 
 | name | role |
+|------|------|
 | `"all_clear"` | This tile has no or minimal horizontal obstacles and can be seen down through |
 | `"none"` | This tile has no or minimal horizontal obstacles - most flat terrain |
 | `"low"` | This tile has low horizontal obstacles or few higher obstacles |
@@ -303,7 +304,7 @@ an exhaustive example...
     "travel_cost_type": "field",
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE", 
-      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
+      "condition": { "math": [ "refugee_centers < 1" ] }, 
       "effect": [ { "math": [ "refugee_centers", "++" ] } ]
     }
 }

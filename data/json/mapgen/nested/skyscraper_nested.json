@@ -472,16 +472,17 @@
         "                        ",
         "    RG..........]..U    ",
         "    RG..tttttt..cbS.    ",
-        "    RG..------..cc$c ^  ",
-        "    --..rrrrrr......G   ",
+        "    RG..||||||..cc$c ^  ",
+        "    ||..rrrrrr......G   ",
         "   H................G   ",
         "   H.ffffff.r|t.r|G# ^  ",
-        "   H.------.r|t.r|.A    ",
+        "   H.||||||.r|t.r|.A    ",
         "  d .rrrrrr.r|t.r|.A    ",
         "  d ........            ",
         "  s!.BBBBBB.            ",
         "                        "
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "set": [
         { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 13, "x2": 11, "y2": 22 },
         { "square": "terrain", "id": "t_linoleum_white", "x": 12, "y": 13, "x2": 19, "y2": 20 }
@@ -490,9 +491,6 @@
         ".": "t_linoleum_white",
         "R": "t_thconc_floor",
         "!": "t_door_metal_locked",
-        "-": "t_wall_w",
-        "|": "t_wall_w",
-        "#": "t_brick_wall",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
@@ -566,16 +564,17 @@
         "                        ",
         "    C...........]..U    ",
         "    C...tttttt..cbS.    ",
-        "    C...------..cc$c ^  ",
-        "    --..RRRRRR......G   ",
+        "    C...||||||..cc$c ^  ",
+        "    ||..RRRRRR......G   ",
         "   H................G   ",
         "   H.ffffff.1|2.3|G# ^  ",
-        "   H.------.1|2.3|.A    ",
+        "   H.||||||.1|2.3|.A    ",
         "  d .rrrrrr.1|2.3|.A    ",
         "  d ........            ",
         "  s!.CCCCCC.            ",
         "                        "
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "set": [
         { "square": "terrain", "id": "t_floor", "x": 4, "y": 13, "x2": 11, "y2": 22 },
         { "square": "terrain", "id": "t_floor", "x": 12, "y": 13, "x2": 19, "y2": 20 }
@@ -584,9 +583,6 @@
         ".": "t_floor",
         "R": "t_thconc_floor",
         "!": "t_door_metal_locked",
-        "-": "t_wall_w",
-        "|": "t_wall_w",
-        "#": "t_brick_wall",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
@@ -660,6 +656,7 @@
         "  s!.IIIAMM.            ",
         "                        "
       ],
+      "palettes": [ "parametrized_highrise_walls_palette" ],
       "set": [
         { "square": "terrain", "id": "t_floor", "x": 4, "y": 13, "x2": 11, "y2": 22 },
         { "square": "terrain", "id": "t_floor", "x": 12, "y": 13, "x2": 19, "y2": 20 }
@@ -667,9 +664,6 @@
       "terrain": {
         ".": "t_floor",
         "!": "t_door_metal_locked",
-        "-": "t_wall_w",
-        "|": "t_wall_w",
-        "#": "t_brick_wall",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
@@ -808,9 +802,9 @@
         "ddx.c",
         "....."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2, "rotation": 90, "chance": 75 } ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 2 ], "chance": 80, "repeat": [ 1, 2 ] } ]
     }
@@ -826,12 +820,12 @@
         "xddhc",
         "x...c",
         "xFF.c",
-        "---+-",
+        "|||+|",
         "....."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "rotation": 90, "chance": 75 } ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 2 ], "chance": 80, "repeat": [ 1, 2 ] } ]
     }
@@ -856,10 +850,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -882,10 +876,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -908,10 +902,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -934,10 +928,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -951,18 +945,18 @@
         "xdFdx",
         "dh.hd",
         "d...d",
-        "-HGH-",
+        "|HGH|",
         ":::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "x": "t_linoleum_white",
-        "d": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "F": "t_linoleum_white"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -976,11 +970,11 @@
         "xdFdx",
         "dh.hd",
         "d...d",
-        "-HGH-",
+        "|HGH|",
         ":::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -988,7 +982,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1002,11 +996,11 @@
         "xdFdx",
         "dh.hd",
         "d...d",
-        "-HGH-",
+        "|HGH|",
         ":::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -1014,7 +1008,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1028,11 +1022,11 @@
         "xdFdx",
         "dh.hd",
         "d...d",
-        "-HGH-",
+        "|HGH|",
         ":::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -1040,7 +1034,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1054,11 +1048,11 @@
         "xdFdx",
         "dh.hd",
         "d...d",
-        "-HGH-",
+        "|HGH|",
         ":::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -1066,7 +1060,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1080,20 +1074,20 @@
         "Vdd..F",
         "Vxh..F",
         "Vdd...",
-        "|-HGH-",
+        "||HGH|",
         "::::::",
         "::::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        ".": "t_linoleum_white",
-        "x": "t_linoleum_white",
-        "d": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "F": "t_linoleum_white"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1108,12 +1102,12 @@
         "Vdd..F",
         "Vxh..F",
         "Vdd...",
-        "|-HGH-",
+        "||HGH|",
         "::::::",
         "::::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -1121,7 +1115,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1136,12 +1130,12 @@
         "Vdd..F",
         "Vxh..F",
         "Vdd...",
-        "|-HGH-",
+        "||HGH|",
         "::::::",
         "::::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -1149,7 +1143,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1164,12 +1158,12 @@
         "Vdd..F",
         "Vxh..F",
         "Vdd...",
-        "|-HGH-",
+        "||HGH|",
         "::::::",
         "::::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -1177,7 +1171,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1192,12 +1186,12 @@
         "Vdd..F",
         "Vxh..F",
         "Vdd...",
-        "|-HGH-",
+        "||HGH|",
         "::::::",
         "::::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -1205,7 +1199,7 @@
         "F": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1224,9 +1218,9 @@
         "......",
         "......"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1245,9 +1239,9 @@
         "..^.^.",
         "......"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1261,13 +1255,13 @@
         "|F.F.F",
         "|F.F.F",
         "|F...F",
-        "|--+--",
+        "|||+||",
         "......",
         "......"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1284,10 +1278,10 @@
         "cxddd",
         "....."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 1 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1304,9 +1298,9 @@
         ".....",
         ".cccc"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 80, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1331,10 +1325,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1358,10 +1352,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1385,10 +1379,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1412,10 +1406,10 @@
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
-        ":": "t_linoleum_gray"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -1432,9 +1426,9 @@
         "dx..d",
         "....."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 2 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1458,13 +1452,13 @@
         "*Vd.h...h.d..d..",
         "*Vx..h.d.h..hd..",
         "*|dddd.dxdd..x..",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1487,13 +1481,13 @@
         "*Vdddxdddxdddx..",
         "*Vd.h.d.h.d.....",
         "*|..........h...",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1507,7 +1501,7 @@
         "*V::::::::::::::",
         "*V::::::::::::::",
         "*V^::::^::^::::^",
-        "*|-HHHH----HGGH-",
+        "*||HHHH||||HGGH|",
         "*Vd.h..d.h.....Y",
         "*Vdddx.dxdd.....",
         "*V..............",
@@ -1516,23 +1510,23 @@
         "*V..............",
         "*Vdddd.xddd.xddd",
         "*|x.h....hd..h.d",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "****************",
         "****************",
         "****************"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "a": "t_linoleum_gray",
-        "F": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "d": "t_linoleum_white",
-        "x": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "Y": "t_linoleum_white"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1546,7 +1540,7 @@
         "*V..............",
         "*V..............",
         "*V..FFFFF..^....",
-        "*|----|----|d..Y",
+        "*|||||||||||d..Y",
         "*Vdx.d|dx.d|dh..",
         "*Vdhhd|d.hd|d...",
         "*Vd.xd|dhxd|dx..",
@@ -1555,13 +1549,13 @@
         "*Vd.xd|d.xd|dh.d",
         "*Vdh.d|dhhd|d.hd",
         "*|dxhd|dx.d|dxxd",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1576,7 +1570,7 @@
         "*V..............",
         "*V..............",
         "*|...FFF..FFF...",
-        "*V...-|-..-|-...",
+        "*V...|||..|||...",
         "*Vdx.d|dx.d|dx..",
         "*Vdh.d|dh.d|d...",
         "*|d.hd|d.hd|d.h.",
@@ -1584,13 +1578,13 @@
         "*V....|....|....",
         "*Vd.h.|d.h.|..hd",
         "*|dddx|dxdd|xddd",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1604,33 +1598,33 @@
         "::::::::::::::V*",
         ":::::::::::::^V*",
         "::::^::^a:::::V*",
-        "----|++|HHGGHH|*",
+        "|||||++|HHGGHH|*",
         "CoSe|..|⌅~~~~⌅V*",
         "Ciii|..|~~~~~~V*",
         ".......|~~ddxdV*",
         ".......|~~~~~dV*",
         "bb...bb|~~~~~~V*",
-        "tt...tt|-=----|*",
+        "tt...tt||=|||||*",
         "tt...tt|......|*",
         "bb.å.bb|FFFFFF|*",
-        "-HHHHH-|------|*",
+        "|HHHHH|||||||||*",
         "****************",
         "****************",
         "****************"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "b": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "å": "t_linoleum_white",
-        "F": "t_linoleum_white",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "å": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "~": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1645,33 +1639,33 @@
         "::::::::::::::V*",
         ":::::::::::::^V*",
         "::::^::^a:::::V*",
-        "----|++|HHGGHH|*",
+        "|||||++|HHGGHH|*",
         "CoSe|..|⌅~~~~⌅V*",
         "Ciii|..|~~~~~~V*",
         ".......|~~ddxdV*",
         ".......|~~~~~dV*",
         "bb...bb|~~~~~~V*",
-        "tt...tt|-=----|*",
+        "tt...tt||=|||||*",
         "tt...tt|......|*",
         "bb.å.bb|FFFFFF|*",
-        "-HHHHH-|------|*",
+        "|HHHHH|||||||||*",
         "****************",
         "****************",
         "****************"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "b": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "å": "t_linoleum_white",
-        "F": "t_linoleum_white",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "å": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "~": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1686,33 +1680,33 @@
         "::::::::::::::V*",
         ":::::::::::::^V*",
         "::::^::^a:::::V*",
-        "----|++|HHGGHH|*",
+        "|||||++|HHGGHH|*",
         "CoSe|..|⌅~~~~⌅V*",
         "Ciii|..|~~~~~~V*",
         ".......|~~ddxdV*",
         ".......|~~~~~dV*",
         "bb...bb|~~~~~~V*",
-        "tt...tt|-=----|*",
+        "tt...tt||=|||||*",
         "tt...tt|......|*",
         "bb.å.bb|FFFFFF|*",
-        "-HHHHH-|------|*",
+        "|HHHHH|||||||||*",
         "****************",
         "****************",
         "****************"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "b": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "å": "t_linoleum_white",
-        "F": "t_linoleum_white",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "å": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "~": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1727,33 +1721,33 @@
         "::::::::::::::V*",
         ":::::::::::::^V*",
         "::::^::^a:::::V*",
-        "----|++|HHGGHH|*",
+        "|||||++|HHGGHH|*",
         "CoSe|..|⌅~~~~⌅V*",
         "Ciii|..|~~~~~~V*",
         ".......|~~ddxdV*",
         ".......|~~~~~dV*",
         "bb...bb|~~~~~~V*",
-        "tt...tt|-=----|*",
+        "tt...tt||=|||||*",
         "tt...tt|......|*",
         "bb.å.bb|FFFFFF|*",
-        "-HHHHH-|------|*",
+        "|HHHHH|||||||||*",
         "****************",
         "****************",
         "****************"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "b": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "å": "t_linoleum_white",
-        "F": "t_linoleum_white",
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "å": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "~": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "x": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "⌅": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "furniture": { "å": "f_trashcan", "⌅": [ "f_indoor_plant", "f_indoor_plant_y" ] },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 9, 12 ], "y": [ 7, 8 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1777,13 +1771,13 @@
         "..xdddxdddxdddV*",
         ".....d.h.d...dV*",
         "...h.......h..|*",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1797,7 +1791,7 @@
         "::::::::::::::V*",
         "::::::::::::::V*",
         "^::::FFFF:::::V*",
-        "-HGGH----HHHH-|*",
+        "|HGGH||||HHHH||*",
         "^.....h.d...hdV*",
         ".....ddxd.xdddV*",
         "..............V*",
@@ -1806,21 +1800,21 @@
         "..............V*",
         "dddx.dddx.ddddV*",
         "d..h.d.h...h.x|*",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "****************",
         "****************",
         "****************"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "h": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "a": "t_linoleum_white",
-        "d": "t_linoleum_white",
-        "x": "t_linoleum_white"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1835,22 +1829,22 @@
         ".............YV*",
         "..............V*",
         "...FFF..FFF...|*",
-        "-..-|-..-|-...V*",
+        "|..|||..|||...V*",
         "...d|dx.d|dx.dV*",
         "...d|dh.d|d.hdV*",
         "..hc|d.hd|dh.d|*",
         "..xc|d.xd|d.xdV*",
-        "...-|-..-|-...V*",
+        "...|||..|||...V*",
         "d.h.|.h.d|.h.dV*",
         "dddx|ddxd|xddd|*",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1864,7 +1858,7 @@
         "..............V*",
         "..............V*",
         ".....^FFFF^...V*",
-        "..xd|----|----|*",
+        "..xd|||||||||||*",
         "...d|dddd|dxddV*",
         "..hd|dhhc|dhhdV*",
         "...d|x..x|d..xV*",
@@ -1873,14 +1867,14 @@
         "d.hd|x.hd|dh.dV*",
         "dh.d|dh.d|d.hdV*",
         "dxxd|dddx|xddx|*",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1903,14 +1897,14 @@
         "..d..xh...d.h.V*",
         "..dh...hd..h.dV*",
         "..x..ddxd.ddxd|*",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "****************",
         "****************",
         "****************"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1927,9 +1921,9 @@
         "....d",
         "FFF.."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 0, 3 ], "y": [ 2, 3 ], "rotation": 90, "chance": 75, "repeat": [ 1, 2 ] } ]
     }
   },
@@ -1947,9 +1941,9 @@
         ".h...",
         "dddx."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1966,9 +1960,9 @@
         "d.h..",
         "dddx^"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -1986,7 +1980,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -1994,7 +1988,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2012,7 +2006,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -2020,7 +2014,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2038,7 +2032,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -2046,7 +2040,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2064,7 +2058,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -2072,7 +2066,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2086,22 +2080,22 @@
         "****************",
         "****************",
         "****************",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "*|dddx|dxdd|xddd",
         "*Vd.h.|d.h.|..hd",
-        "*V...-|-..-|-...",
+        "*V...|||..|||...",
         "*Vdx.d|dx.d|dx..",
         "*|dh.d|d.hd|d...",
         "*Vd.hc|dh.d|dh..",
         "*Vd.xc|d.xd|d...",
-        "*V...-|-..-|-..a",
+        "*V...|||..|||..a",
         "*|...FFF..FFF..Y",
         "*V..............",
         "*V..............",
         "*V.............."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2115,7 +2109,7 @@
         "****************",
         "****************",
         "****************",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "*|dddd.dddd.dda.",
         "*V..hx..h.x..d..",
         "*V..........hd..",
@@ -2129,8 +2123,8 @@
         "*V..............",
         "*V.............."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2144,7 +2138,7 @@
         "****************",
         "****************",
         "****************",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "*|......h......F",
         "*Vd.h.d...d.h..F",
         "*Vdddxdddxdddx..",
@@ -2158,8 +2152,8 @@
         "*V..............",
         "*V.............."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2173,7 +2167,7 @@
         "****************",
         "****************",
         "****************",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "*|dddd|dddx|dddd",
         "*Vd.hd|xh.d|x.h.",
         "*Vxh.x|d.hd|....",
@@ -2182,13 +2176,13 @@
         "*Vx.hd|d..d|d...",
         "*Vdh.d|dhhd|dh..",
         "*Vdddx|dxxd|d...",
-        "*|----|----|dx..",
+        "*|||||||||||dx..",
         "*V.....^FFFY....",
         "*V..............",
         "*V.............."
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2202,7 +2196,7 @@
         "****************",
         "****************",
         "****************",
-        "*|-HHH-HHHH-HHH-",
+        "*||HHH|HHHH|HHH|",
         "*|d.h....hd..h.d",
         "*Vdddx.xddd.ddxd",
         "*V..............",
@@ -2211,23 +2205,23 @@
         "*V..MM........h.",
         "*V.Mtt.xddd.xddd",
         "*V..MM..h.d.....",
-        "*|-HHHH----HGGH-",
+        "*||HHHH||||HGGH|",
         "*Va::::FFFF:::::",
         "*V::::::::::::::",
         "*V::::::::::::::"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "a": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "h": "t_linoleum_white",
-        "d": "t_linoleum_white",
-        "x": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "M": "t_linoleum_white",
-        "t": "t_linoleum_white"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2241,22 +2235,22 @@
         "****************",
         "****************",
         "****************",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "dddx|dxdd|xddd|*",
         "d.h.|d.h.|..hdV*",
-        "...-|-..-|-...V*",
+        "...|||..|||...V*",
         "...d|dx.d|dx.dV*",
         "...d|d.hd|d.hd|*",
         "..hd|dh.d|dh.dV*",
         "..xd|d.xd|d.xdV*",
-        "...-|-..-|-..aV*",
+        "...|||..|||..aV*",
         "...FFF..FFF..Y|*",
         "..............V*",
         "..............V*",
         "..............V*"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2270,7 +2264,7 @@
         "****************",
         "****************",
         "****************",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "..x..dddd.dddd|*",
         "..dh...hx..h.xV*",
         "..dh..........V*",
@@ -2284,8 +2278,8 @@
         "..............V*",
         "..............V*"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2299,7 +2293,7 @@
         "****************",
         "****************",
         "****************",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "^.............|*",
         "..d.h.d.h.d.h.V*",
         "..dddxdddxdddxV*",
@@ -2313,8 +2307,8 @@
         "..............V*",
         "..............V*"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2328,7 +2322,7 @@
         "****************",
         "****************",
         "****************",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "dddd|dddx|dddd|*",
         "..hx|xh.d|d.hdV*",
         "....|d.hd|xh.xV*",
@@ -2337,13 +2331,13 @@
         "...d|x.hd|d..dV*",
         "..hd|dh.d|dhhdV*",
         "a..d|dddx|dxxdV*",
-        "Y.xd|----|----|*",
+        "Y.xd|||||||||||*",
         "....^.FF.^.FF.V*",
         "..............V*",
         "..............V*"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2357,7 +2351,7 @@
         "****************",
         "****************",
         "****************",
-        "-HHH-HHHH-HHH-|*",
+        "|HHH|HHHH|HHH||*",
         "d.h....hd..h.d|*",
         "dddx.xddd.ddxdV*",
         ".............FV*",
@@ -2366,21 +2360,21 @@
         ".............FV*",
         ".....xddd.xdddV*",
         "Y.....h.d..h.dV*",
-        "-HGGH----HHHH-|*",
+        "|HGGH||||HHHH||*",
         "a::::^::^:::::V*",
         "::::::::::::::V*",
         "::::::::::::::V*"
       ],
       "terrain": {
-        ":": "t_linoleum_gray",
-        "a": "t_linoleum_gray",
-        "D": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "d": "t_linoleum_white",
-        "x": "t_linoleum_white",
-        "Y": "t_linoleum_white"
+        ":": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "D": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "x": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2397,9 +2391,9 @@
         "d.h..",
         "..FFF"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2416,9 +2410,9 @@
         ".dh.d",
         ".xccx"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2436,7 +2430,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -2444,7 +2438,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2462,7 +2456,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -2470,7 +2464,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2488,7 +2482,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -2496,7 +2490,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2514,7 +2508,7 @@
         "?:::?"
       ],
       "terrain": {
-        ".": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "^": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -2522,7 +2516,7 @@
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -2535,7 +2529,7 @@
       "rows": [
         "iiii+",
         "TiSi|",
-        "----|",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2552,12 +2546,12 @@
       "rows": [
         "???.=",
         "nnhh|",
-        "----|",
+        "|||||",
         "*****",
         "*****"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2570,7 +2564,7 @@
       "rows": [
         "MMnn=",
         "hMnn|",
-        "----|",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2587,12 +2581,12 @@
       "rows": [
         "xcc.=",
         "xx.h|",
-        "----|",
+        "|||||",
         "*****",
         "*****"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ]
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ]
     }
   },
   {
@@ -2605,7 +2599,7 @@
       "rows": [
         "iiii=",
         "Syyy|",
-        "----|",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2622,7 +2616,7 @@
       "rows": [
         "iiii=",
         "SCCy|",
-        "----|",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2640,7 +2634,7 @@
       "rows": [
         "+iiii",
         "|SiTi",
-        "|----",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2658,12 +2652,12 @@
       "rows": [
         "=.???",
         "|nnhh",
-        "|----",
+        "|||||",
         "*****",
         "*****"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -2677,7 +2671,7 @@
       "rows": [
         "=nnMM",
         "|nnMh",
-        "|----",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2695,12 +2689,12 @@
       "rows": [
         "=xc.c",
         "|.xxh",
-        "|----",
+        "|||||",
         "*****",
         "*****"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -2714,7 +2708,7 @@
       "rows": [
         "=iiii",
         "|Syyy",
-        "|----",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2732,7 +2726,7 @@
       "rows": [
         "=iiii",
         "|yCCS",
-        "|----",
+        "|||||",
         "*****",
         "*****"
       ],
@@ -2748,14 +2742,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V...d|",
         "**V...d|",
         "**G.ddx|",
         "**G..h.+",
         "**V.h..|",
         "**VFFFF|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -2777,14 +2771,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V...d|",
         "**V...d|",
         "**G.ddx|",
         "**G..h.+",
         "**V.h..|",
         "**VFFFF|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -2806,14 +2800,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V...d|",
         "**V...d|",
         "**G.ddx|",
         "**G..h.+",
         "**V.h..|",
         "**VFFFF|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -2835,14 +2829,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V...d|",
         "**V...d|",
         "**G.ddx|",
         "**G..h.+",
         "**V.h..|",
         "**VFFFF|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -2864,14 +2858,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**VCSoe|",
         "**VCiii|",
         "**G::tM|",
         "**G::tM|",
         "**Vtt:a|",
         "**VMM89|",
-        "**|----|"
+        "**||||||"
       ],
       "palettes": [ "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -2885,14 +2879,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**Vdddx|",
         "**Vd.h.|",
         "**G...F|",
         "**G....|",
         "**V.h.d|",
         "**Vxddd|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -2913,14 +2907,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**Vdccx|",
         "**Vd:h:|",
         "**G:::F|",
         "**G::::|",
         "**V:h:d|",
         "**Vxccd|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -2941,14 +2935,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**Vdccx|",
         "**Vd:h:|",
         "**G:::F|",
         "**G::::|",
         "**V:h:d|",
         "**Vxccd|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -2969,14 +2963,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**Vdccx|",
         "**Vd:h:|",
         "**G:::F|",
         "**G::::|",
         "**V:h:d|",
         "**Vxccd|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         ":": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -2997,14 +2991,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V^..B|",
         "**V....+",
         "**GMnnM|",
         "**GMnnM|",
         "**VMnnM|",
         "**V....|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -3025,14 +3019,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V^..B|",
         "**V....+",
         "**GMnnM|",
         "**GMnnM|",
         "**VMnnM|",
         "**V....|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -3053,14 +3047,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V^..B|",
         "**V....+",
         "**GMnnM|",
         "**GMnnM|",
         "**VMnnM|",
         "**V....|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -3081,14 +3075,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "**|HHH-|",
+        "**|HHH||",
         "**V^..B|",
         "**V....+",
         "**GMnnM|",
         "**GMnnM|",
         "**VMnnM|",
         "**V....|",
-        "**|----|"
+        "**||||||"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -3109,14 +3103,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "FdddxV**",
         ".d.h.V**",
         ".....G**",
         ".....G**",
         "..h.dV**",
         "FxdddV**",
-        "-----|**"
+        "||||||**"
       ],
       "terrain": {
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -3137,14 +3131,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "FdddxV**",
         ".d.h.V**",
         ".....G**",
         ".....G**",
         "..h.dV**",
         "FxdddV**",
-        "-----|**"
+        "||||||**"
       ],
       "terrain": {
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -3165,14 +3159,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "FdddxV**",
         ".d.h.V**",
         ".....G**",
         ".....G**",
         "..h.dV**",
         "FxdddV**",
-        "-----|**"
+        "||||||**"
       ],
       "terrain": {
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -3193,14 +3187,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "FdddxV**",
         ".d.h.V**",
         ".....G**",
         ".....G**",
         "..h.dV**",
         "FxdddV**",
-        "-----|**"
+        "||||||**"
       ],
       "terrain": {
         ".": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
@@ -3221,17 +3215,17 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "..M.dV**",
         ".xdddV**",
         ".h...G**",
         "...h.G**",
         ".....V**",
         "^FFF^V**",
-        "-----|**"
+        "||||||**"
       ],
-      "terrain": { ".": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": { ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3243,42 +3237,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "^???.V**",
         "....MV**",
         "..n..G**",
         ".....G**",
         "....MV**",
         "^???.V**",
-        "-----|**"
-      ],
-      "terrain": {
-        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
-        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
-      },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "skyscraper_8x8_sofas_ar",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rotation": [ 0, 0 ],
-      "rows": [
-        "--HHH|**",
-        "^???.V**",
-        "....MV**",
-        "..n..G**",
-        ".....G**",
-        "....MV**",
-        "^???.V**",
-        "-----|**"
+        "||||||**"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
@@ -3299,14 +3265,42 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "^???.V**",
         "....MV**",
         "..n..G**",
         ".....G**",
         "....MV**",
         "^???.V**",
-        "-----|**"
+        "||||||**"
+      ],
+      "terrain": {
+        "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ".": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "^": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
+      },
+      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_8x8_sofas_ar",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "||HHH|**",
+        "^???.V**",
+        "....MV**",
+        "..n..G**",
+        ".....G**",
+        "....MV**",
+        "^???.V**",
+        "||||||**"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
@@ -3327,14 +3321,14 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "^???.V**",
         "....MV**",
         "..n..G**",
         ".....G**",
         "....MV**",
         "^???.V**",
-        "-----|**"
+        "||||||**"
       ],
       "terrain": {
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
@@ -3355,17 +3349,21 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 0 ],
       "rows": [
-        "--HHH|**",
+        "||HHH|**",
         "FFFF^|**",
         ".....|**",
         "cccc.+**",
         "cccc.+**",
         ".....|**",
         "FFFF^|**",
-        "-----|**"
+        "||||||**"
       ],
-      "terrain": { ".": "t_linoleum_gray", "c": "t_linoleum_gray", "F": "t_linoleum_gray" },
-      "palettes": [ "skyscraper_office_palette" ],
+      "terrain": {
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
+      },
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3489,13 +3487,13 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3517,13 +3515,13 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3545,13 +3543,13 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3573,13 +3571,13 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3601,13 +3599,13 @@
         "**|....."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "c": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "h": "t_linoleum_white"
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3629,14 +3627,14 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3658,14 +3656,14 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "^": "t_linoleum_white",
-        "B": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3687,12 +3685,12 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3714,12 +3712,12 @@
         "**|^...."
       ],
       "terrain": {
-        ".": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3741,13 +3739,13 @@
         "...FF|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "Y": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3769,13 +3767,13 @@
         "...FF|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "Y": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3797,13 +3795,13 @@
         "...FF|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "Y": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3825,13 +3823,13 @@
         "...FF|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "Y": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3853,14 +3851,14 @@
         ".Y..a|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "a": "t_linoleum_white",
-        "^": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "a": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3882,14 +3880,14 @@
         "....Y|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "^": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3911,14 +3909,14 @@
         "....Y|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "^": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_green" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3940,14 +3938,14 @@
         "....Y|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "^": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3969,14 +3967,14 @@
         "....Y|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "^": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "M": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "n": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "¢": { "param": "carpet_color_type", "fallback": "t_carpet_purple" }
       },
-      "palettes": [ "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -3998,13 +3996,13 @@
         "FFF.Y|**"
       ],
       "terrain": {
-        ".": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "Y": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "^": "t_linoleum_white"
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "^": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
-      "palettes": [ "skyscraper_office_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "skyscraper_office_palette" ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }

@@ -290,7 +290,7 @@ std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
     if( it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_zero ) );
+        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
         tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );
@@ -523,7 +523,7 @@ std::string weapon_mods( item const &it, unsigned int /* quantity */,
         modtext += _( "pistol " );
     }
     if( it.has_flag( flag_DIAMOND ) ) {
-        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
+        modtext += pgettext( "Adjective, as in diamond katana", "diamond " );
     }
     return modtext;
 }

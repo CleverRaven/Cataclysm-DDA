@@ -70,8 +70,8 @@
         "  -..............-      ",
         "  ----------------      "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
+      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
+      "terrain": { "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [
@@ -273,8 +273,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
+      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
+      "terrain": { "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [

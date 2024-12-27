@@ -31,7 +31,7 @@
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       {
         "run_eocs": [
           "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
@@ -83,7 +83,7 @@
     "condition": { "u_has_effect": "effect_telepath_sense_minds" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       {
         "run_eocs": [
           "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
@@ -137,7 +137,7 @@
     "condition": { "u_has_effect": "effect_telepathic_suggestion" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_suggestion')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       {
         "run_eocs": [
           "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",

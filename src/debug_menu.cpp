@@ -401,7 +401,7 @@ void write_min_archive()
     tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
     tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
-    fs::path const save_root( PATH_INFO::world_base_save_path_path() );
+    fs::path const save_root( PATH_INFO::world_base_save_path() );
     std::string const ofile = save_root.string() + "-trimmed.tar.gz";
 
     tgz_archiver tgz( ofile );
@@ -534,7 +534,7 @@ static void normalize_body( Character &u )
 
 static tripoint_abs_ms player_picks_tile()
 {
-    std::optional<tripoint> newpos = g->look_around();
+    std::optional<tripoint_bub_ms> newpos = g->look_around();
     return newpos ? get_map().getglobal( *newpos ) : get_player_character().get_location();
 }
 
@@ -697,12 +697,12 @@ static int creature_uilist()
 
 static void monster_edit_menu()
 {
-    std::vector<tripoint> locations;
+    std::vector<tripoint_bub_ms> locations;
     uilist monster_menu;
     int charnum = 0;
     for( const monster &mon : g->all_monsters() ) {
         monster_menu.addentry( charnum++, true, MENU_AUTOASSIGN, mon.disp_name() );
-        locations.emplace_back( mon.pos() );
+        locations.emplace_back( mon.pos_bub() );
     }
 
     if( locations.empty() ) {
@@ -1387,7 +1387,9 @@ static void change_spells( Character &character )
             character.magic->get_spellbook().emplace( splt.id, spl );
         }
 
-        character.magic->get_spell( splt.id ).set_exp( spell::exp_for_level( spell_level ) );
+        // storing the spell to be used instead of getting it twice somehow breaks the debug functionality.
+        int set_to_exp = character.magic->get_spell( splt.id ).exp_for_level( spell_level );
+        character.magic->get_spell( splt.id ).set_exp( set_to_exp );
     };
 
     ui_adaptor spellsui;
@@ -1403,7 +1405,7 @@ static void change_spells( Character &character )
     struct win_info w_name;
     w_name.border = &borders.add_border();
     w_name.width = spname_len + 1;
-    w_name.start = point_zero;
+    w_name.start = point::zero;
 
     struct win_info w_level;
     w_level.border = &borders.add_border();
@@ -1437,7 +1439,7 @@ static void change_spells( Character &character )
         w_descborder.border->set( w_descborder.start, { w_descborder.width, TERMY } );
 
         scrllbr.viewport_size( TERMY - 2 );
-        ui.position( point_zero, { TERMX, TERMY } );
+        ui.position( point::zero, { TERMX, TERMY } );
     } );
     spellsui.mark_resize();
 
@@ -1516,7 +1518,7 @@ static void change_spells( Character &character )
         }
 
         nc_color gray = c_light_gray;
-        print_colored_text( w_desc.window, point_zero, gray, gray,
+        print_colored_text( w_desc.window, point::zero, gray, gray,
                             std::get<2>( *spells_relative[spell_selected] ) );
 
         wnoutrefresh( w_name.window );
@@ -1725,11 +1727,11 @@ static void spawn_artifact()
         if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
             && query_int( artifact_power_level, _( "Enter power level:" ) )
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
-            if( const std::optional<tripoint> center = g->look_around() ) {
+            if( const std::optional<tripoint_bub_ms> center = g->look_around() ) {
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
-                here.spawn_artifact( tripoint_bub_ms( *center ), relic_list[relic_menu.ret],
+                here.spawn_artifact( *center, relic_list[relic_menu.ret],
                                      artifact_max_attributes,
                                      artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
@@ -1739,13 +1741,13 @@ static void spawn_artifact()
 
 static void teleport_short()
 {
-    const std::optional<tripoint> where = g->look_around();
+    const std::optional<tripoint_bub_ms> where = g->look_around();
     const Character &player_character = get_player_character();
-    if( !where || *where == player_character.pos() ) {
+    if( !where || *where == player_character.pos_bub() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_character.pos() );
+    const tripoint_bub_ms new_pos( player_character.pos_bub() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 
@@ -1753,7 +1755,7 @@ static void teleport_long()
 {
     const tripoint_abs_omt where( ui::omap::choose_point( _( "Choose a teleport destination." ),
                                   true ) );
-    if( where == overmap::invalid_tripoint ) {
+    if( where.is_invalid() ) {
         return;
     }
     g->place_player_overmap( where );
@@ -1837,7 +1839,7 @@ static void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_ids.size() ) ) {
-        const std::optional<tripoint> where = g->look_around();
+        const std::optional<tripoint_bub_ms> where = g->look_around();
         if( !where ) {
             return;
         }
@@ -2284,16 +2286,16 @@ static faction *select_faction()
 
 static void character_edit_menu()
 {
-    std::vector< tripoint > locations;
+    std::vector< tripoint_bub_ms > locations;
     uilist charmenu;
     charmenu.title = _( "Edit which character?" );
     int charnum = 0;
     avatar &player_character = get_avatar();
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-    locations.emplace_back( player_character.pos() );
+    locations.emplace_back( player_character.pos_bub() );
     for( const npc &guy : g->all_npcs() ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
-        locations.emplace_back( guy.pos() );
+        locations.emplace_back( guy.pos_bub() );
     }
 
     pointmenu_cb callback( locations );
@@ -2429,7 +2431,7 @@ static void character_edit_menu()
             you.remove_weapon();
             break;
         case D_DROP_ITEMS:
-            you.drop( game_menus::inv::multidrop( you ), you.pos() );
+            you.drop( game_menus::inv::multidrop( you ), you.pos_bub() );
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );
@@ -2604,7 +2606,7 @@ static void character_edit_menu()
             mission_debug::edit( you );
             break;
         case D_TELE: {
-            if( const std::optional<tripoint> newpos = g->look_around() ) {
+            if( const std::optional<tripoint_bub_ms> newpos = g->look_around() ) {
                 you.setpos( *newpos );
                 if( you.is_avatar() ) {
                     if( you.is_mounted() ) {
@@ -3157,7 +3159,7 @@ static void debug_menu_spawn_vehicle()
             if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 4 ) {
                 // TODO: Allow picking this when add_vehicle has 3d argument
                 vehicle *veh = here.add_vehicle(
-                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
+                                   selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1, true, true );
                 if( veh != nullptr ) {
                     here.board_vehicle( dest, &player_character );
                 }
@@ -3220,7 +3222,7 @@ static void debug_menu_force_temperature()
         auto ask = [&pop]( const std::string & unit, std::optional<float> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
-                      .text( current ? std::to_string( *current ) : "" )
+                      .text( current ? std::to_string( static_cast<int>( std::round( *current ) ) ) : "" )
                       .query_int();
 
             return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
@@ -3427,7 +3429,7 @@ static void generate_effect_list()
 
 static void gen_sound()
 {
-    const std::optional<tripoint> where = g->look_around();
+    const std::optional<tripoint_bub_ms> where = g->look_around();
     if( !where ) {
         return;
     }
@@ -3483,7 +3485,7 @@ static void kill_area()
     popup.on_top( true );
     popup.message( "%s", _( "Select first point." ) );
 
-    tripoint initial_pos = get_avatar().pos();
+    tripoint_bub_ms initial_pos = get_avatar().pos_bub();
     const look_around_result first = g->look_around( false, initial_pos, initial_pos,
                                      false, true, false );
 
@@ -3527,7 +3529,7 @@ static void map_extra()
     if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
         const tripoint_abs_omt where_omt( ui::omap::choose_point(
                                               _( "Select location to spawn map extra." ), true ) );
-        if( where_omt != overmap::invalid_tripoint ) {
+        if( !where_omt.is_invalid() ) {
             smallmap mx_map;
             mx_map.load( where_omt, false );
             MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
@@ -3592,15 +3594,15 @@ static void show_sound()
 static void set_automove()
 {
     avatar &player_character = get_avatar();
-    const std::optional<tripoint> dest = g->look_around();
-    if( !dest || *dest == player_character.pos() ) {
+    const std::optional<tripoint_bub_ms> dest = g->look_around();
+    if( !dest || *dest == player_character.pos_bub() ) {
         return;
     }
 
-    // TODO: fix point types
-    auto rt = get_map().route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
-                               player_character.get_pathfinding_settings(),
-                               player_character.get_path_avoid() );
+    std::vector<tripoint_bub_ms> rt = get_map().route( player_character.pos_bub(),
+                                      tripoint_bub_ms( *dest ),
+                                      player_character.get_pathfinding_settings(),
+                                      player_character.get_path_avoid() );
     if( !rt.empty() ) {
         player_character.set_destination( rt );
     } else {

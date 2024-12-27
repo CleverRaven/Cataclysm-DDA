@@ -126,5 +126,66 @@
     "fun": 5,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_meat"
+  },
+  {
+    "id": "omnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "omnivore stomach" },
+    "description": "The stomach of an omnivorous creature.  It is surprisingly durable."
+  },
+  {
+    "id": "ruminant_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "ruminant stomach" },
+    "description": "The four stomachs of a grazing creature.  It is surprisingly durable.",
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+  },
+  {
+    "id": "herbivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "herbivore stomach" },
+    "description": "The stomach of a herbivore.  It is surprisingly durable."
+  },
+  {
+    "id": "carnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "carnivore stomach" },
+    "description": "The stomach of an carnivorous creature.  It is surprisingly durable."
+  },
+  {
+    "id": "small_carnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small carnivore stomach" },
+    "description": "The stomach of a small carnivorous creature.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
+  {
+    "id": "small_omnivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small omnivore stomach" },
+    "description": "The stomach of a small omnivorous creature.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
+  {
+    "id": "small_herbivore_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "small herbivore stomach" },
+    "description": "The stomach of a small herbivore.  It is surprisingly durable.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+  },
+  {
+    "id": "ant_stomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": { "str": "ant stomach" },
+    "description": "The two stomachs of a giant ant.  One stomach is for digestion and one stomach is for storing food for the colony.",
+    "proportional": { "weight": 1.5, "volume": 1.5, "calories": 1.25 }
   }
 ]

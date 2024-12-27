@@ -36,7 +36,7 @@
     "id": "EOC_TELEPATH_CONCENTRATION_DRAIN",
     "condition": { "u_has_effect": "effect_telepathic_learning_bonus" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -95,7 +95,7 @@
     "id": "EOC_TELEPATH_SHIELD_DRAIN",
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -154,7 +154,7 @@
     "id": "EOC_TELEPATH_SENSE_MINDS_DRAIN",
     "condition": { "u_has_effect": "effect_telepath_sense_minds" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -232,7 +232,7 @@
     "id": "EOC_TELEPATH_MORALE_DRAIN",
     "condition": { "u_has_effect": "effect_telepathic_morale" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },

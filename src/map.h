@@ -170,7 +170,7 @@ struct bash_params {
 /** Draw parameters used by map::drawsq() and similar methods. */
 struct drawsq_params {
     private:
-        tripoint_bub_ms view_center = tripoint_bub_ms( tripoint_min );
+        tripoint_bub_ms view_center = tripoint_bub_ms::invalid;
         ter_str_id ter_override = ter_str_id::NULL_ID();
         furn_str_id furn_override = furn_str_id::NULL_ID();
         bool do_highlight = false;
@@ -278,7 +278,7 @@ struct drawsq_params {
             return *this;
         }
         constexpr drawsq_params &center_at_avatar() {
-            view_center = tripoint_bub_ms( tripoint_min );
+            view_center = tripoint_bub_ms::invalid;
             return *this;
         }
         tripoint_bub_ms center() const;
@@ -599,10 +599,13 @@ class map
         * n > 0     | x*n turns to move past this
         */
         // TODO: fix point types (remove the first overload)
-        int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
-        int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr ) const;
-        int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr ) const {
-            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle );
+        int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr,
+                       bool ignore_fields = false ) const;
+        int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
+                       bool ignore_fields = false ) const;
+        int move_cost( const point_bub_ms &p, const vehicle *ignored_vehicle = nullptr,
+                       bool ignore_fields = false ) const {
+            return move_cost( tripoint_bub_ms( p, abs_sub.z() ), ignored_vehicle, ignore_fields );
         }
         // TODO: fix point types (remove the first overload)
         bool impassable( const tripoint &p ) const;
@@ -620,6 +623,8 @@ class map
         bool passable( const point_bub_ms &p ) const {
             return passable( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+        bool passable_skip_fields( const tripoint &p ) const;
+        bool passable_skip_fields( const tripoint_bub_ms &p ) const;
         // TODO: Get rid of untyped overload.
         bool is_wall_adjacent( const tripoint &center ) const;
         bool is_wall_adjacent( const tripoint_bub_ms &center ) const;
@@ -627,6 +632,8 @@ class map
         // TODO: Get rid of untyped overload
         bool is_open_air( const tripoint & ) const;
         bool is_open_air( const tripoint_bub_ms &p ) const;
+
+        bool try_fall( const tripoint_bub_ms &p, Creature *c ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -646,7 +653,8 @@ class map
         */
         int combined_movecost( const tripoint_bub_ms &from, const tripoint_bub_ms &to,
                                const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false, bool via_ramp = false ) const;
+                               int modifier = 0, bool flying = false, bool via_ramp = false,
+                               bool ignore_fields = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
@@ -767,15 +775,9 @@ class map
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
-        // TODO: fix point types (remove the first overload)
-        std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                                     const pathfinding_settings &settings,
-        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
-            return false;
-        } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
+        const std::function<bool( const tripoint_bub_ms & )> &avoid = []( const tripoint_bub_ms & ) {
             return false;
         } ) const;
 
@@ -1806,6 +1808,12 @@ class map
         // TODO: Get rid of untyped overload.
         bool has_field_at( const tripoint &p, const field_type_id &type ) const;
         bool has_field_at( const tripoint_bub_ms &p, const field_type_id &type ) const;
+
+        // returns the a field entry that is impassable at the given point if it exists
+        std::optional<field_entry> get_impassable_field_at( const tripoint_bub_ms &p );
+        std::vector<field_type_id> get_impassable_field_type_ids_at( const tripoint &p );
+        std::vector<field_type_id> get_impassable_field_type_ids_at( const tripoint_bub_ms &p );
+
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
@@ -1813,6 +1821,8 @@ class map
         field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type );
         const field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint_bub_ms &p );
+        bool impassable_field_at( const tripoint &p );
+        bool impassable_field_at( const tripoint_bub_ms &p );
 
         // Check if player can move on top of it during mopping zone activity
         bool mopsafe_field_at( const tripoint_bub_ms &p );
@@ -1949,9 +1959,9 @@ class map
         // TODO: Get rid of untyped overload
         bool has_vehicle_floor( const tripoint &p ) const;
         bool has_vehicle_floor( const tripoint_bub_ms &p ) const;
-
+    private:
         /**
-         * Handles map objects of given type (not creatures) falling down.
+         * Handles map objects of given type falling down.
          */
         /*@{*/
         void drop_everything( const tripoint_bub_ms &p );
@@ -1959,8 +1969,9 @@ class map
         void drop_items( const tripoint_bub_ms &p );
         void drop_vehicle( const tripoint_bub_ms &p );
         void drop_fields( const tripoint_bub_ms &p );
+        void drop_creature( const tripoint_bub_ms &p ) const;
         /*@}*/
-
+    public:
         /**
          * Invoked @ref drop_everything on cached dirty tiles.
          */
@@ -2024,14 +2035,18 @@ class map
         //                          if false and vehicle will overlap aborts and returns nullptr
         // TODO: Get rid of untyped overload
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              bool force_status = false );
         vehicle *add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              bool force_status = false );
 
         // Light/transparency
         float light_transparency( const tripoint_bub_ms &p ) const;
         // Assumes 0,0 is light map center
+        // TODO: Get rid of untyped overload.
         lit_level light_at( const tripoint &p ) const;
+        lit_level light_at( const tripoint_bub_ms &p ) const;
         // Raw values for tilesets
         float ambient_light_at( const tripoint_bub_ms &p ) const;
         /**
@@ -2189,7 +2204,7 @@ class map
         * Removes the tree at 'p' and produces a trunk_yield length line of trunks in the 'dir'
         * direction from 'p', leaving a stump behind at 'p'.
         */
-        void cut_down_tree( tripoint_bub_ms p, point dir );
+        void cut_down_tree( tripoint_bub_ms p, point_rel_ms dir );
     protected:
         /**
          * Radiation-related plant (and fungus?) death.
@@ -2210,7 +2225,6 @@ class map
         void draw_map( mapgendata &dat );
 
         void draw_lab( mapgendata &dat );
-        void draw_slimepit( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -2600,7 +2614,7 @@ class tinymap : private map
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
         // This operation cannot be used with tinymap due to a lack of zlevel support, but are carried through for use by smallmap.
-        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+        void cut_down_tree( tripoint_omt_ms p, point_rel_ms dir ) {
             map::cut_down_tree( rebase_bub( p ), dir );
         };
 
@@ -2826,9 +2840,10 @@ class tinymap : private map
             return map::veh_at( rebase_bub( p ) );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true ) {
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true,
+                              bool force_status = false ) {
             return map::add_vehicle( type, rebase_bub( p ), dir, init_veh_fuel, init_veh_status,
-                                     merge_wrecks );
+                                     merge_wrecks, force_status );
         }
         void add_splatter_trail( const field_type_id &type, const tripoint_omt_ms &from,
                                  const tripoint_omt_ms &to ) {
@@ -2905,7 +2920,7 @@ class smallmap : public tinymap
     public:
         smallmap() : tinymap( 2, true ) {}
 
-        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+        void cut_down_tree( tripoint_omt_ms p, point_rel_ms dir ) {
             tinymap::cut_down_tree( p, dir );
         };
 };
