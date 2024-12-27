@@ -3913,7 +3913,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 default:
                     cata_fatal( "invalid ItemType" );
             }
-        } else if( action == "QUIT" ) {
+        } else if( are_we_quitting() || action == "QUIT" ) {
             break;
         }
     }

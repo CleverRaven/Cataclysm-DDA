@@ -29,6 +29,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "enum_conversions.h"
+#include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
 #include "inventory.h"
@@ -160,7 +161,7 @@ void tab_manager::draw( const catacurses::window &w )
 
 bool tab_manager::handle_input( const std::string &action, const input_context &ctxt )
 {
-    if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
+    if( are_we_quitting() || ( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) ) {
         quit = true;
     } else if( action == "PREV_TAB" ) {
         position.prev();
