@@ -473,31 +473,23 @@ template <typename PredicateFn, typename Point>
 std::optional<Point> find_point_closest_first( const Point &center, int min_dist, int max_dist,
         PredicateFn &&predicate_fn )
 {
-    std::optional<int> n = rectangle_size( min_dist, max_dist );
+    const std::optional<int> n = rectangle_size( min_dist, max_dist );
 
     if( n == std::nullopt ) {
         return {};
     }
 
-    const bool is_center_included = min_dist == 0;
-
-    if( is_center_included ) {
-        if( predicate_fn( center ) ) {
-            return center;
-        }
+    if( min_dist == 0 && predicate_fn(center) ) {
+        return center;
     }
 
     int x_init = std::max( min_dist, 1 );
-    point p;
-    p.x = x_init;
-    p.y = 1 - x_init;
+    point p {x_init, 1 - x_init};
 
-    point d;
-    d.x += 1;
+    point d { 1, 0 };
 
     for( int i = 0; i < *n; i++ ) {
-        // FIXME: Ugly but we don't know the type of center + p.
-        const Point next = Point{ ( center + p ).x, ( center + p ).y, ( center + p ).z };
+        const Point next = Point{ center.raw() + p.raw() };
         if( predicate_fn( next ) ) {
             return next;
         }
@@ -507,8 +499,7 @@ std::optional<Point> find_point_closest_first( const Point &center, int min_dist
             d.x = -d.x;
         }
 
-        p.x += d.x;
-        p.y += d.y;
+        p += d;
     }
 
     return std::nullopt;
