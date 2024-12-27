@@ -336,9 +336,6 @@ input_context game::get_player_input( std::string &action )
 
         creature_tracker &creatures = get_creature_tracker();
         do {
-            if( g->uquit == QUIT_EXIT ) {
-                break;
-            }
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -3142,10 +3139,6 @@ bool game::handle_action()
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
     std::optional<tripoint_bub_ms> mouse_target;
-
-    if( uquit == QUIT_EXIT ) {
-        return false;
-    }
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;

@@ -2866,27 +2866,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
     return true;
 }
 
-bool game::query_exit_to_OS()
-{
-    const int old_timeout = inp_mngr.get_timeout();
-    inp_mngr.reset_timeout();
-    uquit = QUIT_EXIT_PENDING; // change it before query so input_context doesn't get confused
-    if( query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-        uquit = QUIT_EXIT;
-        throw exit_exception();
-    }
-    uquit = QUIT_NO;
-    inp_mngr.set_timeout( old_timeout );
-    ui_manager::redraw_invalidated();
-    catacurses::doupdate();
-    return false;
-}
-
 bool game::is_game_over()
 {
-    if( uquit == QUIT_EXIT ) {
-        return query_exit_to_OS();
-    }
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
         Creature *player_killer = u.get_killer();
         if( player_killer && player_killer->as_character() ) {
