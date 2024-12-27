@@ -60,9 +60,6 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "cata_imgui.h"
-#if defined(MACOSX) || defined(__CYGWIN__)
-#   include <unistd.h> // getpid()
-#endif
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
@@ -161,20 +158,8 @@ void exit_handler( int s )
         signal( SIGABRT, SIG_DFL );
 #endif
 
-#if !defined(_WIN32)
-        if( s == 2 ) {
-            struct sigaction sigIntHandler;
-            sigIntHandler.sa_handler = SIG_DFL;
-            sigemptyset( &sigIntHandler.sa_mask );
-            sigIntHandler.sa_flags = 0;
-            sigaction( SIGINT, &sigIntHandler, nullptr );
-            kill( getpid(), s );
-        } else
-#endif
-        {
-            imclient.reset();
-            exit( exit_status );
-        }
+        imclient.reset();
+        exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
     ui_manager::redraw_invalidated();
