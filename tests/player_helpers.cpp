@@ -219,12 +219,15 @@ void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
     }
 }
 
-void process_activity( Character &dummy )
+void process_activity( Character &dummy, bool pass_time )
 {
     do {
         dummy.mod_moves( dummy.get_speed() );
         while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
+            if( pass_time ) {
+                calendar::turn += 1_seconds;
+            }
         }
     } while( dummy.activity );
 }
