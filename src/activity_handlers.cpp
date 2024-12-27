@@ -207,10 +207,7 @@ static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 
 static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
 static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
-static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
@@ -479,6 +476,32 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
+static bool do_cannibalism_piss_people_off( Character &you )
+{
+    if( !you.is_avatar() ) {
+        return true; // NPCs dont accidentally cause player hate
+    }
+
+    if( !query_yn(
+            _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+        return false; // player cancels
+    }
+
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_active() && guy.sees( you ) && !guy.okay_with_eating_humans() ) {
+            guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
+            // massive opinion penalty
+            guy.op_of_u.trust -= 5;
+            guy.op_of_u.value -= 5;
+            guy.op_of_u.anger += 5;
+            if( guy.turned_hostile() ) {
+                guy.make_angry();
+            }
+        }
+    }
+    return true;
+}
+
 static void set_up_butchery( player_activity &act, Character &you, butcher_type action )
 {
     const int factor = you.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
@@ -597,20 +620,18 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-
+    // TODO: Extract this bool into a function
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
                           corpse.in_species( species_FERAL ) ) &&
                           !corpse.in_species( species_ZOMBIE ) );
 
     // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
             if( you.is_avatar() ) {
-                if( query_yn(
-                        _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+                if( do_cannibalism_piss_people_off( you ) ) {
                     //give the player a random message showing their disgust and cause morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -638,7 +659,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         } else {
             //this runs if the butcherer does NOT have prof_dissect_humans
             if( you.is_avatar() ) {
-                if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
+                if( do_cannibalism_piss_people_off( you ) ) {
                     //random message and morale penalty
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -667,8 +688,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 
     // applies to only dissections, so that dissect_humans training makes a difference.
-    if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && action == butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {

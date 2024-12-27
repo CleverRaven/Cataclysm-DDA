@@ -226,6 +226,7 @@ static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 // vitamin flags
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+static const std::string flag_NO_SELL( "NO_SELL" );
 
 // fault flags
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
@@ -7168,6 +7169,15 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 
     for( fault_id fault : faults ) {
         price *= fault->price_mod();
+    }
+
+    if( is_food() && get_comestible() ) {
+        const nutrients &nutrients_value = default_character_compute_effective_nutrients( *this );
+        for( const std::pair<const vitamin_id, int> &vit_pair : nutrients_value.vitamins() ) {
+            if( vit_pair.second > 0 && vit_pair.first->has_flag( flag_NO_SELL ) ) {
+                price = 0.0;
+            }
+        }
     }
 
     return price;
