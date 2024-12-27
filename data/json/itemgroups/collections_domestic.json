@@ -2462,6 +2462,6 @@
     "id": "small_candles_in_box",
     "subtype": "collection",
     "container-item": "box_small",
-    "entries": [ { "item": "candle_small", "container-item": "null", "count": [ 20, 75 ] } ]
+    "entries": [ { "item": "candle_small", "container-item": "null", "count": [ 20, 45 ] } ]
   }
 ]

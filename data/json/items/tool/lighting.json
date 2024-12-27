@@ -1114,7 +1114,7 @@
   {
     "id": "candle_small_lit",
     "type": "TOOL",
-    "copy-from": "small candle",
+    "copy-from": "candle_small",
     "name": { "str": "small candle" },
     "description": "A thin wax candle.  It doesn't provide very much light and will burn relatively quickly.  This candle is lit.",
     "turns_per_charge": 1260,
