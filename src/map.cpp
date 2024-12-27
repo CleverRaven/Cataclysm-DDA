@@ -3125,7 +3125,7 @@ void map::drop_items( const tripoint_bub_ms &p )
             } else if( creature_hit_chance < 100 ) {
                 hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::leg );
             } else {
-                add_msg_if_player_sees( creature_below->pos(), _( "Falling %1$s misses %2$s!" ), i.tname(),
+                add_msg_if_player_sees( creature_below->pos_bub(), _( "Falling %1$s misses %2$s!" ), i.tname(),
                                         creature_below->disp_name() );
             }
             // Did we hit at all? Then run the message.
@@ -3133,10 +3133,10 @@ void map::drop_items( const tripoint_bub_ms &p )
                 if( hit_part.is_valid() && !creature_below->is_monster() ) {
                     //~First positional argument: Item name. Second: Name of a person (e.g. "Jane") or player (e.g. "you"). Third: Body part name, accusative.
                     const std::string msg = _( "Falling %1$s hits %2$s on the %3$s for %4$i damage!" );
-                    add_msg_if_player_sees( creature_below->pos(), msg,
+                    add_msg_if_player_sees( creature_below->pos_bub(), msg,
                                             i.tname(), creature_below->disp_name(), hit_part->accusative, static_cast<int>( damage ) );
                 } else {
-                    add_msg_if_player_sees( creature_below->pos(), _( "Falling %1$s hits %2$s for %3$i damage!" ),
+                    add_msg_if_player_sees( creature_below->pos_bub(), _( "Falling %1$s hits %2$s for %3$i damage!" ),
                                             i.tname(), creature_below->disp_name(), static_cast<int>( damage ) );
                 }
                 // FIXME: Hardcoded damage type!
@@ -4147,16 +4147,16 @@ void map::smash_items( const tripoint_bub_ms &p, const int power, const std::str
 
     // Let the player know that the item was damaged if they can see it.
     if( items_destroyed > 1 ) {
-        add_msg_if_player_sees( p.raw(), m_bad, _( "The %s destroys several items!" ), cause_message );
+        add_msg_if_player_sees( p, m_bad, _( "The %s destroys several items!" ), cause_message );
     } else if( items_destroyed == 1 && items_damaged == 1 ) {
         //~ %1$s: the cause of destruction, %2$s: destroyed item name
-        add_msg_if_player_sees( p.raw(), m_bad, _( "The %1$s destroys the %2$s!" ), cause_message,
+        add_msg_if_player_sees( p, m_bad, _( "The %1$s destroys the %2$s!" ), cause_message,
                                 damaged_item_name );
     } else if( items_damaged > 1 ) {
-        add_msg_if_player_sees( p.raw(), m_bad, _( "The %s damages several items." ), cause_message );
+        add_msg_if_player_sees( p, m_bad, _( "The %s damages several items." ), cause_message );
     } else if( items_damaged == 1 ) {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg_if_player_sees( p.raw(), m_bad, _( "The %1$s damages the %2$s." ), cause_message,
+        add_msg_if_player_sees( p, m_bad, _( "The %1$s damages the %2$s." ), cause_message,
                                 damaged_item_name );
     }
 
@@ -4882,7 +4882,7 @@ bool map::hit_with_acid( const tripoint_bub_ms &p )
                t == ter_t_bars ||
                t == ter_t_reb_cage ) {
         ter_set( p, ter_t_floor );
-        add_msg_if_player_sees( p.raw(), m_warning, _( "The metal bars melt!" ) );
+        add_msg_if_player_sees( p, m_warning, _( "The metal bars melt!" ) );
     } else if( t == ter_t_door_b ) {
         if( one_in( 4 ) ) {
             ter_set( p, ter_t_door_frame );
@@ -5671,7 +5671,7 @@ item map::liquid_from( const tripoint_bub_ms &p ) const
         source_terrain.liquid_source_count == std::make_pair( 0, 0 ) ) {
 
         item ret( source_terrain.liquid_source_item_id, calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             units::from_celsius( source_terrain.liquid_source_min_temp ) ) );
         return ret;
     }
@@ -7184,7 +7184,7 @@ void map::update_visibility_cache( const int zlev )
 {
     Character &player_character = get_player_character();
     if( !visibility_variables_cache.visibility_cache_dirty &&
-        player_character.pos_bub().raw() == visibility_variables_cache.last_pos ) {
+        player_character.pos_bub() == visibility_variables_cache.last_pos ) {
         return;
     }
 
@@ -7239,7 +7239,7 @@ void map::update_visibility_cache( const int zlev )
     }
 #endif
 
-    visibility_variables_cache.last_pos = player_character.pos();
+    visibility_variables_cache.last_pos = player_character.pos_bub();
     visibility_variables_cache.visibility_cache_dirty = false;
 }
 
@@ -8995,7 +8995,7 @@ void map::produce_sap( const tripoint_bub_ms &p, const time_duration &time_since
 
     item sap( "maple_sap", calendar::turn );
 
-    sap.set_item_temperature( get_weather().get_temperature( p.raw() ) );
+    sap.set_item_temperature( get_weather().get_temperature( p ) );
     sap.charges = new_charges;
 
     // Is there a proper container?
@@ -10459,7 +10459,7 @@ void map::maybe_trigger_prox_trap( const tripoint_bub_ms &pos, Creature &c,
         c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
                                  tr.name() );
     }
-    tr.trigger( pos.raw(), c );
+    tr.trigger( pos, c );
 }
 
 // TODO: Should be moved to submap or Creature?
@@ -10622,7 +10622,7 @@ void map::maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, const boo
         c.add_msg_player_or_npc( m_bad, tr.get_trigger_message_u(), tr.get_trigger_message_npc(),
                                  tr.name() );
     }
-    tr.trigger( c.pos(), c );
+    tr.trigger( c.pos_bub(), c );
 }
 
 template<typename Functor>

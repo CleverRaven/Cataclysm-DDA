@@ -548,7 +548,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 }
 
 //the main call for drawing the pixel minimap to the screen
-void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
+void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center )
 {
     if( !g ) {
         return;
@@ -559,8 +559,8 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     }
 
     set_screen_rect( screen_rect );
-    process_cache( center );
-    render( center );
+    process_cache( center.raw() );
+    render( center.raw() );
 }
 
 void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )

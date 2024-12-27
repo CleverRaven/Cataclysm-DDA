@@ -2121,11 +2121,11 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
-    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p.raw() ) );
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
     if( calendar::once_every( 1_minutes ) ) {
         // TODO: fix point types
         //~ Sound of a shovel digging a pit at work!
-        sounds::sound( p.raw(), 10, sounds::sound_t::activity, _( "hsh!" ) );
+        sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
     if( !who.knows_trap( p ) ) {
         get_map().maybe_trigger_trap( p, who, true );

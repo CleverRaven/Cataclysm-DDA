@@ -3134,7 +3134,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
             if( is_boring_wall || act_trap == apply_action::act_erase ) {
                 dat.m.remove_trap( p );
             } else if( act_trap == apply_action::act_dismantle ) {
-                dat.m.tr_at( p ).on_disarmed( dat.m, p.raw() );
+                dat.m.tr_at( p ).on_disarmed( dat.m, p );
             }
 
             if( is_boring_wall || act_item == apply_action::act_erase ) {

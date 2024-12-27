@@ -2268,7 +2268,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !here.passable( e );
     } ), tiles.end() );
-    tripoint eject = tiles.empty() ? pos : random_entry( tiles );
+    tripoint_bub_ms eject{ tiles.empty() ? pos : random_entry( tiles ) };
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )

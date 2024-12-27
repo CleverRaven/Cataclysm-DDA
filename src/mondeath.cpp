@@ -212,7 +212,7 @@ item_location mdeath::splatter( monster &z )
 void mdeath::disappear( monster &z )
 {
     if( !z.type->has_flag( mon_flag_SILENT_DISAPPEAR ) ) {
-        add_msg_if_player_sees( z.pos(), m_good, _( "The %s disappears." ), z.name() );
+        add_msg_if_player_sees( z.pos_bub(), m_good, _( "The %s disappears." ), z.name() );
     }
 }
 
@@ -274,9 +274,9 @@ void mdeath::broken( monster &z )
 
     // TODO: make mdeath::splatter work for robots
     if( broken_mon.damage() >= broken_mon.max_damage() ) {
-        add_msg_if_player_sees( z.pos(), m_good, _( "The %s is destroyed!" ), z.name() );
+        add_msg_if_player_sees( z.pos_bub(), m_good, _( "The %s is destroyed!" ), z.name() );
     } else {
-        add_msg_if_player_sees( z.pos(), m_good, _( "The %s collapses!" ), z.name() );
+        add_msg_if_player_sees( z.pos_bub(), m_good, _( "The %s collapses!" ), z.name() );
     }
 }
 
