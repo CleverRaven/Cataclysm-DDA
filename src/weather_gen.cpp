@@ -48,15 +48,16 @@ struct weather_gen_common {
     season_type season = season_type::SPRING;
 };
 
-static weather_gen_common get_common_data( const tripoint &location, const time_point &real_t,
+static weather_gen_common get_common_data( const tripoint_abs_ms &location,
+        const time_point &real_t,
         unsigned seed )
 {
     season_effective_time t( real_t );
     weather_gen_common result;
     // Integer x position / widening factor of the Perlin function.
-    result.x = location.x / 2000.0;
+    result.x = location.x() / 2000.0;
     // Integer y position / widening factor of the Perlin function.
-    result.y = location.y / 2000.0;
+    result.y = location.y() / 2000.0;
     // Integer turn / widening factor of the Perlin function.
     result.z = to_days<double>( real_t - calendar::turn_zero );
     // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
@@ -107,7 +108,7 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
 }
 
 units::temperature weather_generator::get_weather_temperature(
-    const tripoint &location, const time_point &real_t, unsigned seed ) const
+    const tripoint_abs_ms &location, const time_point &real_t, unsigned seed ) const
 {
     return weather_temperature_from_common_data( *this, get_common_data( location, real_t, seed ),
             season_effective_time( real_t ) );
@@ -116,7 +117,7 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
                                         unsigned seed ) const
 {
     season_effective_time t( real_t );
-    const weather_gen_common common = get_common_data( location.raw(), real_t, seed );
+    const weather_gen_common common = get_common_data( location, real_t, seed );
 
     const double x( common.x );
     const double y( common.y );

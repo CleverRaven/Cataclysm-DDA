@@ -2265,7 +2265,7 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
-        harvest.set_item_temperature( get_weather().get_temperature( you.pos() ) );
+        harvest.set_item_temperature( get_weather().get_temperature( you.pos_bub() ) );
     }
     if( !force_drop && you.can_pickVolume( harvest, true ) &&
         you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -4598,7 +4598,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint_bub_ms &examp )
     you.activity.auto_resume = true;
 }
 
-void trap::examine( const tripoint &examp ) const
+void trap::examine( const tripoint_bub_ms &examp ) const
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -4689,11 +4689,6 @@ void trap::examine( const tripoint &examp ) const
 
         return;
     }
-}
-
-void trap::examine( const tripoint_bub_ms &examp ) const
-{
-    trap::examine( examp.raw() );
 }
 
 void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
@@ -6763,7 +6758,7 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
 
     Character &player_character = get_player_character();
     // select from where to get the items from and place them
-    inv.form_from_map( player_character.pos(), PICKUP_RANGE, &player_character );
+    inv.form_from_map( player_character.pos_bub(), PICKUP_RANGE, &player_character );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );

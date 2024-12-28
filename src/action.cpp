@@ -1192,7 +1192,13 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
 
 std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
-    return choose_adjacent( get_player_character().pos(), message, allow_vertical );
+    const std::optional<tripoint_bub_ms> temp = choose_adjacent( get_player_character().pos_bub(),
+            message, allow_vertical );
+    std::optional<tripoint> result;
+    if( temp.has_value() ) {
+        result = temp.value().raw();
+    }
+    return result;
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent_bub( const std::string &message,
@@ -1250,17 +1256,7 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
     }
 }
 
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const action_id action,
-        const bool allow_vertical, const bool allow_autoselect )
-{
-    const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
-        return can_interact_at( action, tripoint_bub_ms( p ) );
-    };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
-}
-
-std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const action_id action,
         const bool allow_vertical, const bool allow_autoselect )
 {
@@ -1270,61 +1266,12 @@ std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::stri
     return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
 }
 
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical, const bool allow_autoselect )
-{
-    return choose_adjacent_highlight( get_avatar().pos(), message, failure_message, allowed,
-                                      allow_vertical, allow_autoselect );
-}
-
 std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         const bool allow_vertical, const bool allow_autoselect )
 {
     return choose_adjacent_highlight( get_avatar().pos_bub(), message, failure_message, allowed,
                                       allow_vertical, allow_autoselect );
-}
-
-std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical, bool allow_autoselect )
-{
-    std::vector<tripoint_bub_ms> valid;
-    map &here = get_map();
-    if( allowed ) {
-        for( const tripoint_bub_ms &pos : here.points_in_radius( tripoint_bub_ms( pos ), 1 ) ) {
-            if( allowed( pos.raw() ) ) {
-                valid.emplace_back( pos );
-            }
-        }
-    }
-
-    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
-    if( valid.empty() && auto_select ) {
-        add_msg( failure_message );
-        return std::nullopt;
-    } else if( valid.size() == 1 && auto_select ) {
-        return valid.back().raw();
-    }
-
-    shared_ptr_fast<game::draw_callback_t> hilite_cb;
-    if( !valid.empty() ) {
-        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-            for( const tripoint_bub_ms &pos : valid ) {
-                here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
-            }
-        } );
-        g->add_draw_callback( hilite_cb );
-    }
-
-    const std::optional<tripoint_bub_ms> chosen = choose_adjacent( tripoint_bub_ms( pos ), message,
-            allow_vertical );
-    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
-        return std::optional<tripoint>( chosen.value().raw() );
-    }
-
-    return std::nullopt;
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
