@@ -26,13 +26,8 @@
     "type": "effect_on_condition",
     "id": "shade_arms",
     "condition": { "not": { "u_has_trait": "SHADE_ARMS" } },
-    "effect": [
-      { "u_message": "You exchanged your previous arms for this." },
-      { "u_add_trait": "SHADE_ARMS" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already have Gracken arms.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_ARMS" } ],
+    "false_effect": [ { "u_message": "You are already have Gracken arms.", "type": "neutral" } ]
   },
   {
     "id": "gracken_strong_arms",
@@ -47,13 +42,8 @@
     "type": "effect_on_condition",
     "id": "strong_arms",
     "condition": { "not": { "u_has_trait": "SHADE_STRONG_ARMS" } },
-    "effect": [
-      { "u_message": "You exchanged your previous arms for this." },
-      { "u_add_trait": "SHADE_STRONG_ARMS" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already have strong arms.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_STRONG_ARMS" } ],
+    "false_effect": [ { "u_message": "You are already have strong arms.", "type": "neutral" } ]
   },
   {
     "id": "gracken_long_arms",
@@ -68,13 +58,8 @@
     "type": "effect_on_condition",
     "id": "long_arms",
     "condition": { "not": { "u_has_trait": "SHADE_LONG_ARMS" } },
-    "effect": [
-      { "u_message": "You exchanged your previous arms for this." },
-      { "u_add_trait": "SHADE_LONG_ARMS" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already have long arms.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_LONG_ARMS" } ],
+    "false_effect": [ { "u_message": "You are already have long arms.", "type": "neutral" } ]
   },
   {
     "id": "gracken_shade_hands",
@@ -89,13 +74,8 @@
     "type": "effect_on_condition",
     "id": "gracken_shade_hands",
     "condition": { "not": { "u_has_trait": "SHADE_HANDS" } },
-    "effect": [
-      { "u_message": "You exchanged your previous arms for this." },
-      { "u_add_trait": "SHADE_HANDS" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already have normal Gracken hands.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous arms for this." }, { "u_add_trait": "SHADE_HANDS" } ],
+    "false_effect": [ { "u_message": "You are already have normal Gracken hands.", "type": "neutral" } ]
   },
   {
     "id": "gracken_sharp_nails",
@@ -110,13 +90,8 @@
     "type": "effect_on_condition",
     "id": "sharp_nails",
     "condition": { "not": { "u_has_trait": "SHADE_SHARP_NAILS" } },
-    "effect": [
-      { "u_message": "You exchanged your previous hands for this." },
-      { "u_add_trait": "SHADE_SHARP_NAILS" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already have sharpened nails.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous hands for this." }, { "u_add_trait": "SHADE_SHARP_NAILS" } ],
+    "false_effect": [ { "u_message": "You are already have sharpened nails.", "type": "neutral" } ]
   },
   {
     "id": "gracken_dextrous_hands",
@@ -131,13 +106,8 @@
     "type": "effect_on_condition",
     "id": "dextrous_hands",
     "condition": { "not": { "u_has_trait": "SHADE_DEXTROUS_HANDS" } },
-    "effect": [
-      { "u_message": "You exchanged your previous hands for this." },
-      { "u_add_trait": "SHADE_DEXTROUS_HANDS" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already have dextrous hands.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous hands for this." }, { "u_add_trait": "SHADE_DEXTROUS_HANDS" } ],
+    "false_effect": [ { "u_message": "You are already have dextrous hands.", "type": "neutral" } ]
   },
   {
     "id": "gracken_herbivorous_stomach",
@@ -152,13 +122,8 @@
     "type": "effect_on_condition",
     "id": "herbivorous_stomach",
     "condition": { "not": { "u_has_trait": "SHADE_HERBIVORE" } },
-    "effect": [
-      { "u_message": "You exchanged your previous stomach for this." },
-      { "u_add_trait": "SHADE_HERBIVORE" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already an herbivore.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_HERBIVORE" } ],
+    "false_effect": [ { "u_message": "You are already an herbivore.", "type": "neutral" } ]
   },
   {
     "id": "gracken_omnivorous_stomach",
@@ -173,13 +138,8 @@
     "type": "effect_on_condition",
     "id": "omnivorous_stomach",
     "condition": { "not": { "u_has_trait": "SHADE_OMNIVORE" } },
-    "effect": [
-      { "u_message": "You exchanged your previous stomach for this." },
-      { "u_add_trait": "SHADE_OMNIVORE" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already an omnivore.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_OMNIVORE" } ],
+    "false_effect": [ { "u_message": "You are already an omnivore.", "type": "neutral" } ]
   },
   {
     "id": "gracken_carnivorous_stomach",
@@ -194,12 +154,7 @@
     "type": "effect_on_condition",
     "id": "carnivorous_stomach",
     "condition": { "not": { "u_has_trait": "SHADE_CARNIVORE" } },
-    "effect": [
-      { "u_message": "You exchanged your previous stomach for this." },
-      { "u_add_trait": "SHADE_CARNIVORE" }
-    ],
-    "false_effect": [
-      { "u_message": "You are already a carnivore.", "type": "neutral" }
-    ]
+    "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_CARNIVORE" } ],
+    "false_effect": [ { "u_message": "You are already a carnivore.", "type": "neutral" } ]
   }
 ]
