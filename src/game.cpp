@@ -6141,14 +6141,16 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 
     if( m.has_furn( examp ) ) {
         if( !u.cant_do_mounted() ) {
-            if( !warn_player_maybe_anger_local_faction( false, true ) ) {
+            if( !m.has_flag( "FREE_TO_EXAMINE", examp ) &&
+                !warn_player_maybe_anger_local_faction( false, true ) ) {
                 return; // player declined to mess with faction's stuff
             }
             xfurn_t.examine( u, examp );
         }
     } else {
         if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
-            if( !warn_player_maybe_anger_local_faction( false, true ) ) {
+            if( !m.has_flag( "FREE_TO_EXAMINE", examp ) &&
+                !warn_player_maybe_anger_local_faction( false, true ) ) {
                 return; // player declined to mess with faction's stuff
             }
             xter_t.examine( u, examp );
