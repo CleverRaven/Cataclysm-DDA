@@ -67,7 +67,7 @@
       [ "car_mini_dwarf_modded", 4 ],
       [ "car_hybrid_dwarf_modded", 5 ],
       [ "4seat_pickup_dwarf_modded", 1 ],
-      [ "extended_pickup_dwarf_modded",  ],
+      [ "extended_pickup_dwarf_modded", 3 ],
       [ "4x4_car_dwarf_modded", 2 ],
       [ "4x4_car_diesel_dwarf_modded", 2 ]
        ]
