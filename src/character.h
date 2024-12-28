@@ -3056,6 +3056,8 @@ class Character : public Creature, public visitable
         // age in years
         int age( time_point when = calendar::turn ) const;
         std::string age_string( time_point when = calendar::turn ) const;
+        // returns ugliness of character
+        int ugliness() const;
         // returns the height in cm
         int base_height() const;
         void set_base_height( int height );
