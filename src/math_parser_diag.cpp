@@ -1489,14 +1489,13 @@ diag_eval_dbl_f test_str_len( char /* scope */, std::vector<diag_value> const &p
     return _test_func( params, kwargs, _test_len );
 }
 
-diag_eval_dbl_f ugliness_eval(char scope, std::vector<diag_value> const& /* params */,
-    diag_kwargs const& /* kwargs */)
+diag_eval_dbl_f ugliness_eval( char scope, std::vector<diag_value> const & /* params */,
+                               diag_kwargs const & /* kwargs */ )
 {
-    return[beta = is_beta(scope)](const_dialogue const& d) {
-        if (d.const_actor(beta)) {
-            return d.const_actor(beta)->get_ugliness();
-        }
-        else {
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        if( d.const_actor( beta ) ) {
+            return d.const_actor( beta )->get_ugliness();
+        } else {
             return 0;
         }
     };

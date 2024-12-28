@@ -6388,17 +6388,17 @@ std::string Character::age_string( time_point when ) const
 int Character::ugliness() const
 {
     int ugliness = 0;
-    for (trait_id& mut : get_functioning_mutations()) {
+    for( trait_id &mut : get_functioning_mutations() ) {
         ugliness += mut.obj().ugliness;
     }
-    for (const bodypart_id& bp : get_all_body_parts()) {
-        if (bp->ugliness == 0 && bp->ugliness_mandatory == 0) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
             continue;
         }
         ugliness += bp->ugliness_mandatory;
-        ugliness += bp->ugliness - (bp->ugliness * worn.get_coverage(bp) / 100);
+        ugliness += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
     }
-    ugliness = enchantment_cache->modify_value(enchant_vals::mod::UGLINESS, ugliness);
+    ugliness = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, ugliness );
     return ugliness;
 }
 
