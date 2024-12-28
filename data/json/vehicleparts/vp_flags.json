@@ -687,6 +687,11 @@
     "type": "json_flag"
   },
   {
+    "id": "INOPERABLE_LARGE",
+    "info": "People who are normal sized or larger may be unable to make use of this part.",
+    "type": "json_flag"
+  },
+  {
     "id": "INOPERABLE_SMALL",
     "info": "People who are very short may be unable to make use of this part.",
     "type": "json_flag"
