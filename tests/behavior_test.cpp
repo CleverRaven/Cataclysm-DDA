@@ -168,7 +168,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather_manager &weather = get_weather();
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
-        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos() ) ) == Approx( 0 ) );
+        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos_bub() ) ) == Approx( 0 ) );
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );

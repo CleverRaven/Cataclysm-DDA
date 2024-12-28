@@ -78,6 +78,7 @@
       { "monster": "mon_zosmoceratops_fungus", "starts": "3 days" },
       { "monster": "mon_zorosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zriceratops_fungus", "starts": "3 days" },
+      { "monster": "mon_zona_fungus", "starts": "3 days" },
       { "monster": "mon_zescelosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zteranodon_fungus", "starts": "3 days" },
       { "monster": "mon_zuetzalcoatlus_fungus", "starts": "3 days" }

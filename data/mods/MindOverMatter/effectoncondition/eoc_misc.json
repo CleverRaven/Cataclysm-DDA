@@ -183,7 +183,19 @@
             { "compare_string": [ "dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed", { "context_val": "effect" } ] },
             { "compare_string": [ "psi_dazed_zap", { "context_val": "effect" } ] },
-            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+            { "compare_string": [ "downed", { "context_val": "effect" } ] },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 5" ] }
+              ]
+            },
+            {
+              "and": [
+                { "compare_string": [ "effect_disease_psionic_drain", { "context_val": "effect" } ] },
+                { "math": [ "_intensity == 11" ] }
+              ]
+            }
           ]
         },
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] }

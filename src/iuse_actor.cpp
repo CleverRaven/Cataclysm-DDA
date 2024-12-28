@@ -386,7 +386,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
         item tmp = item( target );
         if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
             !tmp.has_flag( flag_SEMITANGIBLE ) ) {
-            for( const trait_id &mut : p.get_mutations() ) {
+            for( const trait_id &mut : p.get_functioning_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
                     return ret_val<void>::make_failure( _( "Your %1$s mutation prevents you from doing that." ),
@@ -406,7 +406,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos(), 1, &p, true, true );
+    inv.form_from_map( p.pos_bub(), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -3957,7 +3957,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos.raw(), p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }
@@ -5700,6 +5700,11 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint_bub_ms &point ) const
 {
+    if( it.type->comestible ) {
+        debugmsg( "Comestibles are not properly consumed via effect_on_conditions and effect_on_conditions should not be used on items of type comestible until/unless this is resolved." );
+        return 0;
+    }
+
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return std::nullopt;
@@ -5731,6 +5736,10 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
+    // NOTE: Because this section and/or calling stack does not check if the item exists in the surrounding tiles
+    // it will not properly decrement any item of type `comestible` if consumed via the `E` `Consume item` menu.
+    // Therefore, it is not advised to use items of type `comestible` with a `use_action` of type
+    // `effect_on_conditions` until/unless this section is properly updated to actually consume said item.
     if( p && !p->has_item( it ) ) {
         return 0;
     }

@@ -272,7 +272,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         vit.second = vit.first->RDA_to_default( vit.second );
     }
 
-    for( const trait_id &trait : you.get_mutations() ) {
+    for( const trait_id &trait : you.get_functioning_mutations() ) {
         const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
@@ -606,7 +606,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 {
     time_duration res = vit.obj().rate();
 
-    for( const auto &m : get_mutations() ) {
+    for( const auto &m : get_functioning_mutations() ) {
         const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
@@ -941,7 +941,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 _( "You're still not going to eat animal products." ) );
     }
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
         }
@@ -961,6 +961,12 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     return ret_val<edible_rating>::make_success();
+}
+
+bool Character::okay_with_eating_humans() const
+{
+    return has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ||
+           has_flag( json_flag_PSYCHOPATH ) || has_flag( json_flag_SAPIOVORE );
 }
 
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
@@ -997,8 +1003,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
-          !has_flag( json_flag_PSYCHOPATH ) && !has_flag( json_flag_SAPIOVORE ) ) &&
+    if( ( food_is_human_flesh && !okay_with_eating_humans() ) &&
         ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }

@@ -54,7 +54,7 @@ bool Character::can_interface_armor() const
 resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         res += iter->damage_resistance( bp );
     }
 

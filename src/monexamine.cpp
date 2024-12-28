@@ -176,8 +176,9 @@ void push( monster &z )
         return;
     }
 
-    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    if( z.move_to( tripoint_bub_ms( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+    // Attempt to double the vector between the player and monster
+    const tripoint_rel_ms delta = z.pos_bub() - player_character.pos_bub();
+    if( z.move_to( z.pos_bub() + delta.xy() ) ) {
         add_msg( _( "You pushed the %s." ), pet_name );
     } else {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );

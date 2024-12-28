@@ -137,6 +137,23 @@ diag_assign_dbl_f addiction_turns_ass( char scope, std::vector<diag_value> const
     };
 }
 
+diag_eval_dbl_f health_eval( char scope, std::vector<diag_value> const & /* params */,
+                             diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_health();
+    };
+}
+
+diag_assign_dbl_f health_ass( char scope, std::vector<diag_value> const & /* params */,
+                              diag_kwargs const & /* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d, double val ) {
+        const int current_health = d.actor( beta )->get_health();
+        return d.actor( beta )->mod_livestyle( val - current_health );
+    };
+}
+
 diag_eval_dbl_f armor_eval( char scope, std::vector<diag_value> const &params,
                             diag_kwargs const & /* kwargs */ )
 {
@@ -268,19 +285,28 @@ diag_assign_dbl_f faction_trust_ass( char /* scope */, std::vector<diag_value> c
 }
 
 diag_eval_dbl_f faction_food_supply_eval( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return [fac_val = params[0]]( const_dialogue const & d ) {
+    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
+    return [fac_val = params[0], vit_val]( const_dialogue const & d ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        if( !vit_val.is_empty() ) {
+            return static_cast<double>( fac->food_supply.get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
+        }
         return static_cast<double>( fac->food_supply.calories );
     };
 }
 
 diag_assign_dbl_f faction_food_supply_ass( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return [fac_val = params[0]]( dialogue const & d, double val ) {
+    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
+    return [fac_val = params[0], vit_val]( dialogue const & d, double val ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        if( !vit_val.is_empty() ) {
+            fac->food_supply.add_vitamin( vitamin_id( vit_val.str( d ) ), val );
+            return;
+        }
         fac->food_supply.calories = val;
     };
 }
@@ -656,6 +682,14 @@ diag_eval_dbl_f attack_speed_eval( char scope, std::vector<diag_value> const & /
 {
     return[beta = is_beta( scope )]( const_dialogue const & d ) {
         return d.const_actor( beta )->attack_speed();
+    };
+}
+
+diag_eval_dbl_f move_speed_eval( char scope, std::vector<diag_value> const & /* params */,
+                                 diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_speed();
     };
 }
 
@@ -1779,6 +1813,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "addiction_turns", { "un", 1, addiction_turns_eval, addiction_turns_ass } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "speed", { "un", 0, move_speed_eval } },
     { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
@@ -1787,6 +1822,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "effect_duration", { "un", 1, effect_duration_eval } },
+    { "health", { "un", 0, health_eval, health_ass } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "faction_like", { "g", 1, faction_like_eval, faction_like_ass } },

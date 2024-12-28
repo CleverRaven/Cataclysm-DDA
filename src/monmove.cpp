@@ -1419,7 +1419,7 @@ void monster::footsteps( const tripoint_bub_ms &p )
         return;
     }
     int dist = rl_dist( p, get_player_character().pos_bub() );
-    sounds::add_footstep( p.raw(), volume, dist, this, type->get_footsteps() );
+    sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
 }
 
 tripoint_bub_ms monster::scent_move()
@@ -2433,7 +2433,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
             }
             if( shove_velocity > 0 ) {
                 //~ %1$s - monster name, %2$s - vehicle name
-                add_msg_if_player_sees( this->pos(), m_bad, _( "%1$s shoves %2$s out of their way!" ),
+                add_msg_if_player_sees( this->pos_bub(), m_bad, _( "%1$s shoves %2$s out of their way!" ),
                                         this->disp_name(),
                                         veh.disp_name() );
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;

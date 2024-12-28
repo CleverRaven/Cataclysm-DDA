@@ -729,7 +729,7 @@ std::optional<int> iuse::fungicide( Character *p, item *, const tripoint_bub_ms 
                 if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( !critter.type->in_species( species_FUNGUS ) ) {
-                        add_msg_if_player_sees( dest.raw(), m_warning, _( "The %s is covered in tiny spores!" ),
+                        add_msg_if_player_sees( dest, m_warning, _( "The %s is covered in tiny spores!" ),
                                                 critter.name() );
                     }
                     if( !critter.make_fungus() ) {
@@ -3342,7 +3342,7 @@ std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint_bub_ms 
             found = here.passable( goop ) && here.tr_at( goop ).is_null();
         } while( !found && tries < 10 );
         if( found ) {
-            add_msg_if_player_sees( goop.raw(), m_warning,
+            add_msg_if_player_sees( goop, m_warning,
                                     _( "A nearby splatter of goo forms into a goo pit." ) );
             here.trap_set( goop, tr_goo );
         } else {
@@ -7864,7 +7864,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
             meal.heat_up();
         } else {
             meal.set_item_temperature( std::max( temperatures::cold,
-                                                 get_weather().get_temperature( pos.raw() ) ) );
+                                                 get_weather().get_temperature( pos ) ) );
         }
 
         it->active = false;
@@ -7896,7 +7896,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint_bu
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const units::temperature player_local_temp = weather.get_temperature( p->pos_bub().raw() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos_bub() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -8218,8 +8218,8 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 
 static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
 {
-    const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select an appliance." ),
-                                       _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
+    const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( _( "Select an appliance." ),
+            _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
     if( !pt ) {
         p->add_msg_if_player( m_info, _( "You haven't selected any appliance." ) );
         return std::nullopt;
@@ -8251,7 +8251,7 @@ static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( C
                     p->add_msg_if_player( m_info, _( "You haven't selected any heater." ) );
                     return std::nullopt;
                 } else {
-                    return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
+                    return std::make_pair( pt.value().raw(), pseudo_tools[app_menu.ret] );
                 }
 
             }

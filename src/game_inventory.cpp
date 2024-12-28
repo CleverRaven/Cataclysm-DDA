@@ -2308,10 +2308,7 @@ game_menus::inv::compare_item_menu::compare_item_menu( const item &first, const 
         ctxt.register_action( "CONFIRM" );
     }
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_navigate_ui_list();
     ctxt.set_timeout( 10 );
 
     // todo: regen info when toggling language?
@@ -2388,6 +2385,10 @@ bool game_menus::inv::compare_item_menu::show()
             s = cataimgui::scroll::page_up;
         } else if( action == "PAGE_DOWN" ) {
             s = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            s = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            s = cataimgui::scroll::end;
         } else if( action == "CONFIRM" ) {
             return true;
         } else if( action == "QUIT" ) {

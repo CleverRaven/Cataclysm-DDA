@@ -661,7 +661,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     Character &player_character = get_player_character();
     if( !hits ) {
         int stumble_pen = stumble( *this, cur_weapon );
-        sfx::generate_melee_sound( pos(), t.pos(), false, false );
+        sfx::generate_melee_sound( pos_bub(), t.pos_bub(), false, false );
 
         const ma_technique miss_recovery = martial_arts_data->get_miss_recovery( *this );
 
@@ -873,7 +873,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos(), t.pos(), true, t.is_monster(), material );
+            sfx::generate_melee_sound( pos_bub(), t.pos_bub(), true, t.is_monster(), material );
             int dam = dealt_dam.total_damage();
             melee::melee_stats.damage_amount += dam;
 
@@ -2370,7 +2370,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
     const body_part_set usable_body_parts = exclusive_flag_coverage( flag_ALLOWS_NATURAL_ATTACKS );
     const int unarmed = get_skill_level( skill_unarmed );
 
-    for( const trait_id &pr : get_mutations() ) {
+    for( const trait_id &pr : get_functioning_mutations() ) {
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part

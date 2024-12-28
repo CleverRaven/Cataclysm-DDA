@@ -1255,7 +1255,8 @@
     "description": "A normal and healthy purple eggplant.  Needs to be disassembled before being useful for cooking.",
     "healthy": -1,
     "symbol": "e",
-    "flags": [ "RAW", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "flags": [ "RAW", "SMOKABLE", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -8
   },
@@ -1276,7 +1277,8 @@
     "healthy": -1,
     "symbol": "e",
     "looks_like": "eggplant",
-    "flags": [ "RAW" ],
+    "flags": [ "RAW", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", "60500 μg" ], [ "iron", "650 μg" ], [ "calcium", "24650 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
   },
