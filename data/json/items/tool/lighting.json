@@ -1100,7 +1100,7 @@
     "symbol": ",",
     "color": "blue_white",
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 5 }, "rigid": true } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {
       "target": "candle_small_lit",
       "msg": "You light the candle.",
@@ -1117,7 +1117,7 @@
     "copy-from": "candle_small",
     "name": { "str": "small candle" },
     "description": "A thin wax candle.  It doesn't provide very much light and will burn relatively quickly.  This candle is lit.",
-    "turns_per_charge": 1260,
+    "turns_per_charge": 63,
     "use_action": [
       { "type": "firestarter", "moves": 100 },
       {
