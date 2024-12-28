@@ -304,7 +304,10 @@
       { "u_add_trait": "EXTEND_LIFE" }
     ],
     "false_effect": [
-      { "u_message": "This was a very valuable elixir that you just wasted drinking yourself.  You can't become more unaging.", "type": "neutral" }
+      {
+        "u_message": "This was a very valuable elixir that you just wasted drinking yourself.  You can't become more unaging.",
+        "type": "neutral"
+      }
     ]
   },
   {
@@ -352,12 +355,12 @@
     "type": "effect_on_condition",
     "id": "hyde_formula",
     "condition": { "not": { "u_has_trait": "HYDE" } },
-    "effect": [
-      { "u_message": "You imbibed the concoction and you feel your inner self unleashed." },
-      { "u_add_trait": "HYDE" }
-    ],
+    "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ],
     "false_effect": [
-      { "u_message": "If this was a just world choosing to drink this concotion more than once would send you into an uncontrollable rage state where you rampaged until your inevitable death.  This is not a just world.", "type": "neutral" }
+      {
+        "u_message": "If this was a just world choosing to drink this concotion more than once would send you into an uncontrollable rage state where you rampaged until your inevitable death.  This is not a just world.",
+        "type": "neutral"
+      }
     ]
   },
   {
