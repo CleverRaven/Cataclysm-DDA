@@ -746,7 +746,8 @@ class cata_tiles
             const point &base_tile_cnt, bool iso );
         point player_to_tile( const point_bub_ms &pos ) const;
         point player_to_screen( const point_bub_ms &pos ) const;
-        point player_to_screen( const point_abs_omt &pos ) {
+        point player_to_screen( const point_abs_omt &pos ) const {
+            // This weird type casting relies on the underlying logic being the same regardless of the coordinate system and scale.
             return player_to_screen( point_bub_ms( pos.raw() ) );
         }
         static point_bub_ms screen_to_player(
