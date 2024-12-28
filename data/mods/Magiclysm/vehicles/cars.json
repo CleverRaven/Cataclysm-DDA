@@ -23,7 +23,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "roof", "reclining_seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ]
+      },
       { "x": 0, "y": 0, "parts": [ "horn_car", "stereo" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_2_right", "roof", "reclining_seat#windshield_front" ] },
@@ -105,7 +109,15 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#vertical_2", "seat#windshield_front", "seatbelt", "roof", "controls", "pedal_extenders", "integrated_heater_small" ]
+        "parts": [
+          "frame#vertical_2",
+          "seat#windshield_front",
+          "seatbelt",
+          "roof",
+          "controls",
+          "pedal_extenders",
+          "integrated_heater_small"
+        ]
       },
       { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
@@ -146,7 +158,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "reclining_seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ]
+      },
       { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "reclining_seat#windshield_front", "seatbelt", "roof" ] },
@@ -309,7 +325,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2", "reclining_seat#windshield_front", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ]
+      },
       { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "reclining_seat#windshield_front", "seatbelt", "roof" ] },
@@ -442,7 +462,15 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "integrated_heater_small", "stereo" ]
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "pedal_extenders",
+          "integrated_heater_small",
+          "stereo"
+        ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
@@ -486,7 +514,15 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "integrated_heater_small", "stereo" ]
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "pedal_extenders",
+          "integrated_heater_small",
+          "stereo"
+        ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
@@ -559,7 +595,15 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "integrated_heater_small", "stereo" ]
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "pedal_extenders",
+          "integrated_heater_small",
+          "stereo"
+        ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
@@ -629,7 +673,15 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "integrated_heater_small", "stereo" ]
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "pedal_extenders",
+          "integrated_heater_small",
+          "stereo"
+        ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
@@ -846,7 +898,15 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "integrated_heater_small", "stereo" ]
+        "parts": [
+          "frame#cross",
+          "seat#windshield_front",
+          "seatbelt",
+          "controls",
+          "pedal_extenders",
+          "integrated_heater_small",
+          "stereo"
+        ]
       },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "parts": [ "roof" ] },
@@ -1175,7 +1235,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "pedal_extenders", "integrated_heater_small", "dashboard", "vehicle_alarm" ]
+      },
       { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_2", "roof" ] },
@@ -1411,7 +1475,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame#vertical_2" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "pedal_extenders", "dashboard", "integrated_heater_small", "vehicle_alarm" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "controls", "pedal_extenders", "dashboard", "integrated_heater_small", "vehicle_alarm" ]
+      },
       { "x": 0, "y": 0, "parts": [ "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "door#nw" ] },
       { "x": 0, "y": 1, "parts": [ "frame#cross", "stereo", "box", "roof" ] },
@@ -1848,7 +1916,11 @@
       [ "o-+o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#cross", "seat_leather#windshield_front", "seatbelt", "controls", "pedal_extenders" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "xlframe#cross", "seat_leather#windshield_front", "seatbelt", "controls", "pedal_extenders" ]
+      },
       {
         "x": 0,
         "y": 0,
@@ -1944,7 +2016,11 @@
       [ "##++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "xlframe#cross", "seat#windshield_front", "seatbelt", "controls", "pedal_extenders", "stereo" ]
+      },
       {
         "x": 0,
         "y": 0,
@@ -1997,7 +2073,11 @@
       [ "-o-++o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "reclining_seat#windshield_front", "seatbelt", "controls", "pedal_extenders" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame#cross", "reclining_seat#windshield_front", "seatbelt", "controls", "pedal_extenders" ]
+      },
       {
         "x": 0,
         "y": 0,
@@ -2144,7 +2224,11 @@
     "type": "vehicle",
     "name": "Survivor Car",
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "reclining_seat#windshield_front", "seatbelt", "controls", "pedal_extenders" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame#cross", "reclining_seat#windshield_front", "seatbelt", "controls", "pedal_extenders" ]
+      },
       {
         "x": 0,
         "y": 0,

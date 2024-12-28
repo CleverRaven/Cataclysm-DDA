@@ -2,8 +2,8 @@
   {
     "type": "vehicle_group",
     "id": "city_vehicles",
-    "vehicles": [ 
-      [ "bicycle_orichalcum", 300 ], 
+    "vehicles": [
+      [ "bicycle_orichalcum", 300 ],
       [ "dwarf_supercompact_car", 100 ],
       [ "car_dwarf_modded", 7 ],
       [ "car_diesel_dwarf_modded", 3 ],
@@ -37,7 +37,7 @@
       [ "car_shootingbrake_long_v12_dwarf_modded", 1 ],
       [ "car_shootingbrake_long_electric_dwarf_modded", 1 ],
       [ "car_sedan_dwarf_modded", 3 ],
-      [ "car_sedan_diesel_i4_dwarf_modded", 3],
+      [ "car_sedan_diesel_i4_dwarf_modded", 3 ],
       [ "car_sedan_diesel_v6_dwarf_modded", 3 ],
       [ "car_sedan_v8_dwarf_modded", 3 ],
       [ "car_sedan_sports_v12_dwarf_modded", 3 ],
@@ -67,10 +67,10 @@
       [ "car_mini_dwarf_modded", 4 ],
       [ "car_hybrid_dwarf_modded", 5 ],
       [ "4seat_pickup_dwarf_modded", 1 ],
-      [ "extended_pickup_dwarf_modded",  ],
+      [ "extended_pickup_dwarf_modded", 3 ],
       [ "4x4_car_dwarf_modded", 2 ],
       [ "4x4_car_diesel_dwarf_modded", 2 ]
-       ]
+    ]
   },
   {
     "type": "vehicle_group",
