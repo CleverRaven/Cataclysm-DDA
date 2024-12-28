@@ -1493,11 +1493,7 @@ diag_eval_dbl_f ugliness_eval( char scope, std::vector<diag_value> const & /* pa
                                diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope )]( const_dialogue const & d ) {
-        if( d.const_actor( beta ) ) {
-            return d.const_actor( beta )->get_ugliness();
-        } else {
-            return 0;
-        }
+        return d.const_actor( beta )->get_ugliness();
     };
 }
 
