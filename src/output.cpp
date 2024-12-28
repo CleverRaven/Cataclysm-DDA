@@ -3005,11 +3005,11 @@ std::string satiety_bar( const int calpereffv )
 std::string healthy_bar( const int healthy )
 {
     if( healthy > 3 ) {
-        return "<good>+++</good>";
+        return "<good>\u2665</good>";
     } else if( healthy > 0 ) {
         return "<good>+</good>";
     } else if( healthy < -3 ) {
-        return "<bad>!!!</bad>";
+        return "<bad>\u2620</bad>";
     } else if( healthy < 0 ) {
         return "<bad>-</bad>";
     } else {

@@ -1587,17 +1587,17 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
         return 0;
     }
 
-    size_t res = 2;
-    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-        res += 2;
-    }
-    if( allows_selecting() && activatable() && multiselect ) {
-        res += 2;
-    }
+    size_t res = 1;
+    //if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+    //    res += 2;
+    //}
+    //if( allows_selecting() && activatable() && multiselect ) {
+    //    res += 2;
+    //}
     if( entry.is_item() ) {
-        if( collate_entries() && entry.is_collation_entry() ) {
-            res += 2;
-        }
+        //if( collate_entries() && entry.is_collation_entry() ) {
+        //    res += 2;
+        //}
         if( indent_entries() ) {
             res += entry.indent;
         }
@@ -2367,14 +2367,17 @@ void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
         bool use_num_invlet = uistate.numpad_navigation ? false : use_invlet;
-        int min_invlet = static_cast<uint8_t>( use_num_invlet ? '0' : '\0' );
+        //int min_invlet = static_cast<uint8_t>( use_num_invlet ? '0' : '\0' );
+		int min_invlet = static_cast<uint8_t>( use_num_invlet ? ' ' : ' ' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
-            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? '9' : '\0' );
+            //min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? '9' : '\0' );
+			min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? ' ' : ' ' );
         }
     } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
         const std::string all_pickup_chars = use_invlet ?
-                                             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
+                                             //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
+											 "" : "";
         std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
         int cur_idx = 0;
         auto elemfilter = []( const inventory_entry & e ) {

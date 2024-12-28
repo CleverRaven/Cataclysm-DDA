@@ -387,8 +387,6 @@ std::string input_context::get_desc(
                     const std::string key = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        //return string_format( inline_fmt, text.substr( 0, pos ),
-                        //                      key, text.substr( pos + key.size() ) );
 				        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
                     }
                 }
@@ -667,7 +665,7 @@ const
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
 static const std::string display_help_hotkeys =
-    "uvwxyzlpmDEFGUVWXYZLPM";
+    "[]uvwxyzlpmDEFG{}UVWXYZLPM";
 
 namespace
 {

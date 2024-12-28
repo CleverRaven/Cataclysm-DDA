@@ -485,7 +485,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display keybindings menu",
+    "name": "Display keybinds",
     "bindings": [ { "input_method": "keyboard_char", "key": "F1" } ]
   },
   {
@@ -3219,13 +3219,15 @@
     "type": "keybinding",
     "id": "AUTO_BALANCE",
     "category": "INVENTORY",
-    "name": "Auto balance trade using highlighted item"
+    "name": "Auto balance trade using highlighted item",
+    "bindings": [ { "input_method": "keyboard_char", "key": "f" } ]
   },
   {
     "type": "keybinding",
     "id": "BANK_BALANCE",
     "category": "INVENTORY",
-    "name": "Auto balance trade using bank account"
+    "name": "Auto balance trade using bank account",
+    "bindings": [ { "input_method": "keyboard_char", "key": "g" } ]
   },
   {
     "type": "keybinding",
@@ -3681,7 +3683,8 @@
     "type": "keybinding",
     "id": "SWITCH_LISTS",
     "category": "INVENTORY",
-    "name": "Switch lists"
+    "name": "Switch lists",
+    "bindings": [ { "input_method": "keyboard_char", "key": "LEFT" } ]
   },
   {
     "type": "keybinding",
@@ -4172,7 +4175,7 @@
   {
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
-    "name": "Display keybindings menu",
+    "name": "Display keybinds",
     "category": "STRING_EDITOR",
     "//": "'?' is treated as text input, so a different key is used.",
     "bindings": [ { "input_method": "keyboard_char", "key": "F1" } ]

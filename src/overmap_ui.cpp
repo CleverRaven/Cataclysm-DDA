@@ -1124,10 +1124,9 @@ static void draw_om_sidebar( ui_adaptor &ui,
     wattron( wbar, c_white );
     if( has_target ) {
         const int distance = rl_dist( cursor_pos, target );
-        mvwprintw( wbar, point( 1, ++lines ), _( "Distance to current objective:" ) );
-        mvwprintw( wbar, point( 1, ++lines ), _( "%d tiles" ), distance );
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        mvwprintw( wbar, point( 1, ++lines ), _( "%s" ), length_to_string_approx( distance * 24_meter ) );
+        mvwprintw( wbar, point( 1, ++lines ), _( "Objective: %dtiles / %s" ),
+                   distance, length_to_string_approx( distance * 24_meter ) );
 
         const int above_below = target.z() - orig.z();
         std::string msg;
@@ -1149,7 +1148,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
     wattroff( wbar, c_white );
 
-    int y = 6;
+    int y = 7;
 
     const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
         y += fold_and_print( wbar, point( 1, y ), getmaxx( wbar ) - 1, color, string_format( _( "%s - %s" ),
@@ -1170,16 +1169,14 @@ static void draw_om_sidebar( ui_adaptor &ui,
     const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
     const bool is_explored = overmap_buffer.is_explored( cursor_pos );
 
-    print_hint( "LEVEL_UP" );
-    print_hint( "LEVEL_DOWN" );
 	print_hint( "CHOOSE_DESTINATION" );
     print_hint( "CENTER" );
     print_hint( "CENTER_ON_DESTINATION" );
     print_hint( "SEARCH" );
     print_hint( "CREATE_NOTE" );
     print_hint( "DELETE_NOTE" );
-    print_hint( "MARK_DANGER" );
     print_hint( "LIST_NOTES" );
+    print_hint( "MARK_DANGER" );
     print_hint( "MISSIONS" );
     print_hint( "TOGGLE_FAST_SCROLL", uistate.overmap_fast_scroll ? c_pink : c_magenta );
     print_hint( "TOGGLE_FAST_TRAVEL", uistate.overmap_fast_travel ? c_pink : c_magenta );
