@@ -21,9 +21,6 @@
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
-static const float minimum_window_width = 640;
-static const float minimum_window_height = 384;
-
 enum class mission_ui_tab_enum : int {
     ACTIVE = 0,
     COMPLETED,
@@ -74,8 +71,13 @@ class mission_ui_impl : public cataimgui::window
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
 
-        float window_width = std::max( ImGui::GetMainViewport()->Size.x / 2, minimum_window_width );
-        float window_height = std::max( ImGui::GetMainViewport()->Size.y / 2, minimum_window_height );
+        float viewport_width = ImGui::GetMainViewport()->Size.x;
+        float viewport_height = ImGui::GetMainViewport()->Size.y;
+
+        float minimum_window_width = str_width_to_pixels( 80 );
+        float minimum_window_height = str_height_to_pixels( 24 );
+        float window_width = std::clamp( viewport_width / 2, minimum_window_width, viewport_width );
+        float window_height = std::clamp( viewport_height / 2, minimum_window_height, viewport_height );
         float table_column_width = window_width / 2;
 
         cataimgui::scroll s = cataimgui::scroll::none;
