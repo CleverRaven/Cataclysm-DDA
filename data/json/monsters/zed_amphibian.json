@@ -322,7 +322,7 @@
   {
     "id": "mon_zombtreefrog",
     "type": "MONSTER",
-    "name": { "str": "croaked climber" },
+    "name": { "str": "zombie treefrog" },
     "description": "The pale, empty eyes of this large, reanimated treefrog still swivel in their sockets, searching for prey.  Its steps are ungainly but its hind legs look capable of great leaps.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "108500 ml",

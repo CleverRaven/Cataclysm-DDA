@@ -938,7 +938,7 @@
   {
     "id": "mon_zombie_fursuit",
     "type": "MONSTER",
-    "name": { "str": "malicious mane" },
+    "name": { "str": "fursuited zombie" },
     "//": "A pun. 'Mane' being an archaic synonym of zombie, which also refers hair on the back of an animals neck.",
     "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
     "copy-from": "mon_zombie",
