@@ -3047,7 +3047,7 @@
     "main_parts_only": true,
     "part_descs": true,
     "show_in_info": true,
-    "miss_messages": [ [ "Your limbs don't move as smoothly as usual", 1 ] ],
+    "miss_messages": [ [ "Your limbs don't move as smoothly as usual.", 1 ] ],
     "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "RESTRICTED", "CHAOTIC_BAD" ],
     "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -3 ] },

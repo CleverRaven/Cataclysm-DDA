@@ -139,7 +139,7 @@
     "id": "mon_mi_go_void_priest",
     "type": "MONSTER",
     "name": { "str": "mi-go void priest" },
-    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with even more fluidity than what you've seen in other creatures.  There are stylized yawning maws, black holes and chasm designs tattooed across it's body.",
+    "description": "An alien creature of uncertain origin.  Its shapeless pink body bears numerous sets of paired appendages of unknown function, and a pair of ribbed, membranous wings which seem to be quite useless.  Its odd, vaguely pyramid-shaped head bristles with numerous wavering antennae, and it moves with even more fluidity than what you've seen in other creatures.  There are stylized yawning maws, black holes and chasm designs tattooed across its body.",
     "default_faction": "mi-go",
     "bodytype": "migo",
     "species": [ "MIGO" ],
@@ -177,7 +177,7 @@
         "spell_data": { "id": "xe_dispel_magic_monster", "min_level": 8 },
         "cooldown": 30,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s black sparks darker than the darkness coalesce from its antennae and enter %3$s."
+        "monster_message": "%1$s black sparks darker than the darkness coalesce from its antennae and enter %2$s."
       },
       {
         "id": "migo_void_priest_root_maw",
@@ -185,7 +185,7 @@
         "spell_data": { "id": "xe_root_maw", "min_level": 3 },
         "cooldown": 300,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s antennae point at %3$s and you could swear you see a gaping maw overlay %3$s for half a second while you hear a spectral scream."
+        "monster_message": "%1$s antennae point at %2$s and you could swear you see a gaping maw overlay %3$s for half a second while you hear a spectral scream."
       }
     ],
     "flags": [
