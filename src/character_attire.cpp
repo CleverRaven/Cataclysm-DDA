@@ -60,8 +60,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
-static const itype_id itype_shoulder_strap( "shoulder_strap" );
-
 static const material_id material_acidchitin( "acidchitin" );
 static const material_id material_bone( "bone" );
 static const material_id material_chitin( "chitin" );
@@ -2052,7 +2050,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 
-        } else if( clothing.is_gun() && clothing.gunmod_find( itype_shoulder_strap ) ) {
+        } else if( clothing.is_gun() && clothing.gunmod_find_by_flag( flag_BELTED ) ) {
             // wield item currently worn using shoulder strap
             options.push_back( clothing.display_name() );
             actions.emplace_back( [&] { guy.wield( clothing ); } );
