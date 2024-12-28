@@ -378,7 +378,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_plant_fae" ],
+    "consumption_effect_on_conditions": [ "become_plant_fae" ]
   },
   {
     "id": "earth_imbuement",
