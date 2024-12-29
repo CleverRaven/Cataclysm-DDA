@@ -633,6 +633,49 @@ static time_info get_time() noexcept
 }
 #endif
 
+#if defined(_WIN32)
+// Send the DebugLog stream to Windows' debug facility
+struct OutputDebugStreamA : public std::ostream {
+
+    // Use the file buffer from DebugFile
+    OutputDebugStreamA(const std::ostream& fileStream)
+        : std::ostream(&buf), buf(fileStream.rdbuf()) {}
+
+    // Intercept stream operations
+    struct _Buf : public std::streambuf {
+        _Buf(std::streambuf* buf) : buf(buf) {
+            output_string.reserve(max);
+        }
+    protected:
+        virtual int overflow(int c) override {
+            if (EOF != c) {
+                int rc = buf->sputc(c);
+                output_string.push_back(c);
+                OutputDebugString(c);
+            }
+            return c;
+        }
+        virtual std::streamsize xsputn(const char* s, std::streamsize n) override {
+            std::streamsize rc = buf->sputn(s, n);
+            output_string.append(s, n);
+            OutputDebugString();
+            return rc;
+        }
+    private:
+        // If `c` is not EOF then it must have been called by overflow
+        void OutputDebugString(int c = EOF) {
+            if (output_string.size() >= max || c == '\n' || c == '\r') {
+                ::OutputDebugStringA(output_string.c_str());
+                output_string.clear();
+            }
+        }
+        static constexpr std::streamsize max = 1024;
+        std::string output_string;
+        std::streambuf* buf;
+    } buf;
+};
+#endif
+
 struct DebugFile {
     DebugFile();
     ~DebugFile();
@@ -1447,7 +1490,12 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
-        std::ostream &out = debugFile().get_file();
+#if defined(_WIN32)
+        // Additionally send it to Windows' debugger or Dbgview
+        static OutputDebugStreamA out(debugFile().get_file());
+#else
+        std::ostream& out = debugFile().get_file();
+#endif
 
         output_repetitions( out );
 
