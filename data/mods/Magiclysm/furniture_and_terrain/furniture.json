@@ -74,7 +74,7 @@
     "symbol": "&",
     "description": "A machine used for the installation and removal of bionics.  The name 'Autodoc' is something of a misnomer, as safe operation is only guaranteed with a ritual circle of technomancers.  The entire surface is carved with runes so fine that they look like spiraling circuitry from a distance.",
     "color": "light_cyan",
-    "looks_like": "f_robotic_arm",
+    "looks_like": "f_autodoc",
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,

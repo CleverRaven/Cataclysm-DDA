@@ -22,7 +22,7 @@
   },
   {
     "type": "palette",
-    "id": "augmentation_clinic",
+    "id": "magiclysm_augmentation_clinic",
     "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
@@ -100,8 +100,8 @@
         " w====#...#====#..#...# ",
         " #FF=y#^.^#y=FF#r.#..r# ",
         " #######+########+#+### ",
-        "  #<!...........+....^# ",
-        "  #####+#########.....w ",
+        " ##<!...........+....^# ",
+        " ######+#########.....w ",
         "    #h.....CCØC##tooot# ",
         "    #h.....CØ?Ø####w### ",
         "    #......CØ/Ø#        ",
@@ -109,7 +109,7 @@
         "    ############        ",
         "                        "
       ],
-      "palettes": [ "augmentation_clinic" ],
+      "palettes": [ "magiclysm_augmentation_clinic" ],
       "terrain": { "C": "t_magiconc_floor", "Ø": "t_magiconc_floor", "?": "t_magiconc_floor", "/": "t_magiconc_floor" },
       "furniture": {
         "?": "f_autodoc_technomantic",
@@ -163,17 +163,17 @@
         " -_#f..f#.+===ðð=#____- ",
         " -_#f..f#.#kk=ðħ=#____- ",
         " -_#f..f#.########____- ",
-        " -###+###.#kk=ðħ=#A___- ",
+        " -####!##.#kk=ðħ=#A___- ",
         "  #>....+.+===ðð=#A___- ",
         "  ####w##.#ŧ====y#____- ",
-        "  ---__4#######w##____- ",
+        "    -__4#######w##____- ",
         "    -_____&V___-------- ",
         "    -__________-        ",
         "    -__________-        ",
         "    ------------        ",
         "                        "
       ],
-      "palettes": [ "augmentation_clinic" ],
+      "palettes": [ "magiclysm_augmentation_clinic" ],
       "terrain": {
         "V": "t_flat_roof",
         "&": "t_flat_roof",
