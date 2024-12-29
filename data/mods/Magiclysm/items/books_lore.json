@@ -127,7 +127,7 @@
     "id": "magazine_augmentative_review",
     "copy-from": "mag_news",
     "name": { "str": "Augmentative Technomancy Review", "str_pl": "issues of Augmentative Technomancy Review" },
-    "description": "This annual publication covers the latest advances in bionic technomancy, the implanation of metal into flesh.  There are some pretty promising new developments in here that will now never see the light of day.",
+    "description": "This annual publication covers the latest advances in bionic technomancy, the implantation of metal into flesh.  There are some pretty promising new developments in here that will now never see the light of day.",
     "symbol": "?",
     "color": "pink"
   }
