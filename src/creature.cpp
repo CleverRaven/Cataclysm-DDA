@@ -997,19 +997,8 @@ void projectile::apply_effects_nodamage( Creature &target, Creature *source,
             if( on_hit_eff.need_touch_skin && is_liquid && !soaked_through ) {
                 continue;
             }
-            if( on_hit_eff.bp_to_hit ) {
-                if( on_hit_eff.bp_to_hit != dealt_dam.bp_hit ) {
-                    continue;
-                }
-            }
-            if( !on_hit_eff.affected_bps.empty() ) {
-                for( const bodypart_id &bp : on_hit_eff.affected_bps ) {
-                    target.add_effect( on_hit_eff.effect, on_hit_eff.duration, bp, false, on_hit_eff.intensity );
-                }
-            } else {
-                target.add_effect( on_hit_eff.effect, on_hit_eff.duration, false, on_hit_eff.intensity );
-            }
-
+            target.add_effect( on_hit_eff.effect, on_hit_eff.duration, dealt_dam.bp_hit, false,
+                               on_hit_eff.intensity );
         }
     }
 }
