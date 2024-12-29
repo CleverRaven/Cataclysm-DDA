@@ -94,9 +94,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
         JsonArray json_arr = jo.get_array( "on_hit_effects" );
         for( JsonObject joe : json_arr ) {
             on_hit_effect new_effect;
-            optional( joe, was_loaded, "bp_to_hit", new_effect.bp_to_hit, bodypart_str_id::NULL_ID() );
             optional( joe, was_loaded, "need_touch_skin", new_effect.need_touch_skin, false );
-            optional( joe, was_loaded, "affected_bps", new_effect.affected_bps );
             mandatory( joe, was_loaded, "duration", new_effect.duration );
             mandatory( joe, was_loaded, "effect", new_effect.effect );
             mandatory( joe, was_loaded, "intensity", new_effect.intensity );

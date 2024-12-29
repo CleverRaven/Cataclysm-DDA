@@ -20,12 +20,10 @@ template <typename T> class generic_factory;
 generic_factory<ammo_effect> &get_all_ammo_effects();
 
 struct on_hit_effect {
-    bodypart_id bp_to_hit;
     bool need_touch_skin;
     efftype_id effect;
     time_duration duration;
     int intensity;
-    std::vector<bodypart_id> affected_bps;
 };
 
 struct ammo_effect {
