@@ -58,7 +58,7 @@
     "id": "book_mag_interests",
     "type": "item_group",
     "copy-from": "book_mag_interests",
-    "extend": { "items": [ { "group": "magazine_augmentative_review", "prob": 10 } ] }
+    "extend": { "items": [ { "item": "magazine_augmentative_review", "prob": 10 } ] }
   },
   {
     "type": "item_group",
