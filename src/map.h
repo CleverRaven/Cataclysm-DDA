@@ -133,7 +133,7 @@ struct visibility_variables {
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
     std::optional<field_type_id> clairvoyance_field;
-    tripoint last_pos;
+    tripoint_bub_ms last_pos;
 };
 
 struct bash_params {
@@ -304,7 +304,7 @@ struct drawsq_params {
 
 struct tile_render_info {
     struct common {
-        const tripoint pos;
+        const tripoint_bub_ms pos;
         // accumulator for 3d tallness of sprites rendered here so far;
         int height_3d = 0;
 

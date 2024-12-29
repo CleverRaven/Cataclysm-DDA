@@ -83,6 +83,7 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
+static const furn_str_id furn_f_ash( "f_ash" );
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_counter( "f_counter" );
@@ -97,7 +98,6 @@ static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
 static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
-
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
 
@@ -116,6 +116,7 @@ static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
 
+static const itype_id itype_ash( "ash" );
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
 static const itype_id itype_gasoline( "gasoline" );
@@ -1074,6 +1075,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
+    setmap_opmap[ "burn" ] = JMAPGEN_SETMAP_BURN;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
     std::map<std::string, jmapgen_setmap_op>::iterator sm_it;
     jmapgen_setmap_op tmpop;
@@ -1125,8 +1127,9 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
-                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE || tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_BURN ||
+                   tmpop == JMAPGEN_SETMAP_ITEM_REMOVE || tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ||
+                   tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = pjo.get_string( "id" );
@@ -3134,7 +3137,7 @@ class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
             if( is_boring_wall || act_trap == apply_action::act_erase ) {
                 dat.m.remove_trap( p );
             } else if( act_trap == apply_action::act_dismantle ) {
-                dat.m.tr_at( p ).on_disarmed( dat.m, p.raw() );
+                dat.m.tr_at( p ).on_disarmed( dat.m, p );
             }
 
             if( is_boring_wall || act_item == apply_action::act_erase ) {
@@ -4955,6 +4958,7 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
+        case JMAPGEN_SETMAP_BURN:
         case JMAPGEN_SETMAP_VARIABLE:
         case JMAPGEN_SETMAP_LINE_RADIATION:
         case JMAPGEN_SETMAP_SQUARE_RADIATION:
@@ -5047,7 +5051,43 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_BASH: {
-                m.bash( target_pos, 9999 );
+                m.bash( target_pos, 9999, true );
+                break;
+            }
+            case JMAPGEN_SETMAP_BURN: {
+                const furn_str_id &furn = m.furn( target_pos ).id();
+                const ter_str_id &ter = m.ter( target_pos ).id();
+                if( ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE ) ||
+                    ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) ) {
+                    while( m.is_bashable( target_pos ) ) { // one is not enough
+                        m.bash( target_pos, 9999, true );
+                    }
+                    if( one_in( 5 ) && !ter->has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                        // This gives very little *wood* ash because the terrain is not flagged as flammable
+                        m.spawn_item( target_pos, itype_ash, 1, rng( 1, 10 ) );
+                    }
+                } else if( ter_furn_has_flag( *ter, *furn, ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
+                    while( m.is_bashable( target_pos ) ) {
+                        m.bash( target_pos, 9999, true );
+                    }
+                    if( !m.is_open_air( target_pos ) ) {
+                        m.furn_set( target_pos, furn_f_ash );
+                        if( !ter->has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+                            m.spawn_item( target_pos, itype_ash, 1, rng( 10, 1000 ) );
+                        }
+                    }
+                }
+                while( m.flammable_items_at( target_pos ) ) {
+                    map_stack stack = m.i_at( target_pos );
+                    for( auto it = stack.begin(); it != stack.end(); ) {
+                        if( it->flammable() ) {
+                            m.create_burnproducts( target_pos, *it, it->weight() );
+                            it = stack.erase( it );
+                        } else {
+                            it++;
+                        }
+                    }
+                }
             }
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
