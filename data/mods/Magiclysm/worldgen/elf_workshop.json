@@ -75,7 +75,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 13 ],
-    "occurrences": [ 0, 2 ]
+    "occurrences": [ 0, 0 ],
+    "flags": [ "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_terrain",
