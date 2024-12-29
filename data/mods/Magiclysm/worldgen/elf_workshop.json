@@ -76,7 +76,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 13 ],
     "occurrences": [ 0, 0 ],
-    "flags": [ "GLOBALLY_UNIQUE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
