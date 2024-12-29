@@ -23,7 +23,6 @@
   {
     "type": "palette",
     "id": "magiclysm_augmentation_clinic",
-    "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       ".": "t_linoleum_white",
@@ -41,13 +40,7 @@
       "w": "t_window",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "~": "t_sidewalk",
-      "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-      "ð": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-      "ħ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-      "k": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-      "ŧ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
-      "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      "~": "t_sidewalk"
     },
     "furniture": {
       "$": "f_safe_l",
@@ -87,7 +80,7 @@
         "                  ~~    ",
         "                  ~~    ",
         " #######wwwww###w#++#w# ",
-        " #&s#^.A.ooot#^......^# ",
+        " #&s#^tAoooot#^......^# ",
         " #r.#^......o#b.......# ",
         " ##+#^....t.o#b.......w ",
         " #^.....A.t.o#....dddd# ",
@@ -109,8 +102,19 @@
         "    ############        ",
         "                        "
       ],
-      "palettes": [ "magiclysm_augmentation_clinic" ],
-      "terrain": { "C": "t_magiconc_floor", "Ø": "t_magiconc_floor", "?": "t_magiconc_floor", "/": "t_magiconc_floor" },
+      "palettes": [ "magiclysm_augmentation_clinic", "parametrized_walls_palette", "parametrized_carpets_palette" ],
+      "terrain": {
+        "C": "t_magiconc_floor",
+        "Ø": "t_magiconc_floor",
+        "?": "t_magiconc_floor",
+        "/": "t_magiconc_floor",
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ð": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ħ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "k": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ŧ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
+      },
       "furniture": {
         "?": "f_autodoc_technomantic",
         "/": "f_autodoc_couch",
@@ -173,7 +177,7 @@
         "    ------------        ",
         "                        "
       ],
-      "palettes": [ "magiclysm_augmentation_clinic" ],
+      "palettes": [ "magiclysm_augmentation_clinic", "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "V": "t_flat_roof",
         "&": "t_flat_roof",
@@ -181,7 +185,13 @@
         " ": "t_open_air",
         "o": "t_glass_roof",
         "-": "t_gutter",
-        "4": "t_gutter_downspout"
+        "4": "t_gutter_downspout",
+        "F": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ð": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ħ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "k": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "ŧ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "y": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "&": "f_roof_turbine_vent", "V": "f_vent_pipe", "A": "f_air_conditioner" },
       "item": { "f": { "item": "crystallized_mana", "chance": 75, "repeat": [ 1, 2 ] } },
