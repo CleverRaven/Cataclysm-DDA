@@ -1411,7 +1411,7 @@ void Creature::deal_projectile_attack( map *here, Creature *source, dealt_projec
             // as a float between 0 and 1
             // 0 permeability means no liquid touches the skin and the damage is negated
             // 1 permeability means all liquid touches the skin and no damage is negated
-            float permeability = char_target->worn.clothing_wetness_mult( hit_selection.bp_hit );
+            float permeability = char_target->worn.clothing_wetness_mult( hit_selection.bp_hit, true );
             permeability = std::clamp( permeability, 0.0f, 1.0f );
             soaked_through = permeability > 0;
             impact.mult_damage( permeability );
