@@ -486,7 +486,7 @@ void vehicle::smash_security_system()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 ) ) {
+    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol();
     } else {
         g->zones_manager();

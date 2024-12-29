@@ -902,9 +902,9 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             get_event_bus().send<event_type::triggers_alarm>( who.getID() );
-            sounds::sound( who.pos_bub(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true,
-                           "environment",
-                           "alarm" );
+            sounds::sound( who.pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::music, _( "an alarm sound!" ),
+                           true,
+                           "environment", "alarm" );
             break;
         case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
@@ -7242,13 +7242,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     if( stage == INIT ) {
         coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_UNLOAD_ALL, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p );
         }
 
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_STRIP_CORPSES, abspos, MAX_VIEW_DISTANCE, nullptr,
                            fac_id ) ) {
             coord_set.insert( p );
         }
