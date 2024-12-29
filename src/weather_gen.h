@@ -71,7 +71,8 @@ class weather_generator
         units::temperature get_water_temperature() const;
         void test_weather( unsigned seed ) const;
         void sort_weather();
-        units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
+        units::temperature get_weather_temperature( const tripoint_abs_ms &, const time_point &,
+                unsigned ) const;
 
         void load( const JsonObject &jo, bool was_loaded );
 };
