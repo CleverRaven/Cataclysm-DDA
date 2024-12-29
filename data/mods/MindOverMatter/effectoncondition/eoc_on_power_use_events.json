@@ -555,27 +555,39 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] },
+      { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] },
+      { "run_eocs": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS",
+    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') > concentration_calculations()" ] },
     "effect": [
       {
         "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
         "type": "bad"
       },
-      { "u_add_effect": "effect_psi_intense_concentration", "duration": "PERMANENT" },
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] }
+      { "u_add_effect": "effect_psi_intense_concentration", "duration": "PERMANENT" }
     ],
-    "false_effect": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') == concentration_calculations() + 1" ] },
-    "effect": [
-      { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
-      { "u_lose_effect": "effect_psi_intense_concentration" },
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] }
-    ],
-    "false_effect": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] } ]
+    "false_effect": [
+      {
+        "if": { "u_has_effect": "effect_psi_intense_concentration" },
+        "then": [
+          { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
+          { "u_lose_effect": "effect_psi_intense_concentration" }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -615,7 +627,8 @@
           "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
           "EOC_CONCENTRATION_IN_NETHER_AREAS_ATTUNEMENT",
           "EOC_NETHER_ATTUNEMENT_FEEDBACK_CHECK_CONCENTRATION",
-          "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS"
+          "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
+          "EOC_CONCENTRATION_VS_LIMIT_CALCULATIONS"
         ]
       },
       {

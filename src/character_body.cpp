@@ -426,7 +426,7 @@ void Character::update_bodytemp()
     }
     weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const units::temperature player_local_temp = weather_man.get_temperature( pos() );
+    const units::temperature player_local_temp = weather_man.get_temperature( pos_bub() );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -849,7 +849,7 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
     Less than -35F, more than 10 mp
     **/
 
-    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos_bub() ) );
     const units::temperature temp_after = get_part_temp_cur( bp );
 
     if( bp == body_part_mouth || bp == body_part_foot_r ||
@@ -1368,7 +1368,7 @@ void Character::update_heartrate_index()
     // The following code was adapted from the heartrate function, which will now probably need to be rewritten to be based on the heartrate index.
 
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
-    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
+    const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos_bub() ) );
     float temperature_modifier = 0.0f;
     if( has_flag( json_flag_COLDBLOOD ) ) {
         temperature_modifier = 0.002f;

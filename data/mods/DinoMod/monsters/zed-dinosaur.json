@@ -1741,6 +1741,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zona",
+    "name": { "str": "fona zombie" },
+    "copy-from": "mon_zescelosaurus",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_dice": 1,
+    "hp": 60,
+    "description": "A shambling, two-legged dinosaur corpse with claws and a long tail.  Its eyes ooze black, putrid tears.",
+    "burn_into": "mon_zona_scorched",
+    "fungalize_into": "mon_zona_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zona_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zescelosaurus",
     "name": { "str": "thescelosaurus zombie" },
     "copy-from": "mon_zallimimus",

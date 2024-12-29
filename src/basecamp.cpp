@@ -46,20 +46,20 @@
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
-const std::map<point, base_camps::direction_data> base_camps::all_directions = {
+const std::map<point_rel_omt, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
-    { point::north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
-    { point::north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
-    { point::east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
-    { point::south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
-    { point::south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
-    { point::south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
-    { point::west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
-    { point::north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
+    { point_rel_omt::north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
+    { point_rel_omt::north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
+    { point_rel_omt::east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
+    { point_rel_omt::south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
+    { point_rel_omt::south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
+    { point_rel_omt::south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
+    { point_rel_omt::west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
+    { point_rel_omt::north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
 };
 
-point base_camps::direction_from_id( const std::string &id )
+point_rel_omt base_camps::direction_from_id( const std::string &id )
 {
     for( const auto &dir : all_directions ) {
         if( dir.second.id == id ) {
@@ -132,9 +132,9 @@ basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ )
 {
 }
 
-basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    const std::vector<point> &directions_,
-                    const std::map<point, expansion_data> &expansions_ )
+basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
+                    const std::vector<point_rel_omt> &directions_,
+                    const std::map<point_rel_omt, expansion_data> &expansions_ )
     : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -171,14 +171,14 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
         return;
     }
 
-    const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
+    const point_rel_omt dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
 
 void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
-                              const point &dir )
+                              const point_rel_omt &dir )
 {
     expansion_data e;
     e.type = base_camps::faction_decode( bldg );
@@ -270,7 +270,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const point &dir, const int offset ) const
+std::string basecamp::next_upgrade( const point_rel_omt &dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -303,7 +303,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point_rel_omt> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -345,7 +345,7 @@ bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
     return false;
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( const point_rel_omt &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -434,7 +434,7 @@ std::unordered_set<recipe_id> basecamp::recipe_deck_all() const
 }
 
 // recipes and craft support functions
-std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( const point_rel_omt &dir ) const
 {
     std::map<recipe_id, translation> recipes;
 
@@ -492,7 +492,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-void basecamp::update_in_progress( const std::string &bldg, const point &dir )
+void basecamp::update_in_progress( const std::string &bldg, const point_rel_omt &dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -945,7 +945,7 @@ void basecamp::form_crafting_inventory()
 }
 
 // display names
-std::string basecamp::expansion_tab( const point &dir ) const
+std::string basecamp::expansion_tab( const point_rel_omt &dir ) const
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
