@@ -190,6 +190,7 @@
         "k": [ { "item": "SUS_book", "chance": 50, "repeat": [ 2, 8 ] }, { "item": "technomancer_items", "chance": 5 } ],
         "f": [ { "item": "bionics_civilian", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "autodoc_supplies", "chance": 20 } ]
       },
+      "place_traps": [ { "trap": "tr_rune_trap_summon_blades", "x": [ 5, 6 ], "y": [ 12, 14 ], "repeat": [ 0, 2 ] } ],
       "place_monster": [
         { "group": "GROUP_FERAL_TECHNOMANCERS", "x": [ 11, 16 ], "y": [ 15, 17 ], "chance": 10 },
         { "group": "GROUP_FERAL_TECHNOMANCERS", "x": [ 11, 16 ], "y": [ 11, 13 ], "chance": 10 }
