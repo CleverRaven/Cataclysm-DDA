@@ -154,7 +154,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     if( test_mode ) {
         switch( test_mode_spilling_action ) {
             case test_mode_spilling_action_t::spill_all:
-                target.pos = player_character.pos();
+                target.pos = player_character.pos_bub().raw();
                 target.dest_opt = LD_GROUND;
                 return true;
             case test_mode_spilling_action_t::cancel_spill:

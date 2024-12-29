@@ -124,6 +124,10 @@ static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
+static const species_id species_FERAL( "FERAL" );
+static const species_id species_HUMAN( "HUMAN" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
@@ -1213,6 +1217,16 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         }
         if( !corpses.empty() ) {
+            for( item &body : corpses ) {
+                const mtype &corpse = *body.get_mtype();
+                // TODO: Extract this bool into a function
+                const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
+                                      corpse.in_species( species_FERAL ) ) &&
+                                      !corpse.in_species( species_ZOMBIE ) );
+                if( is_human && !you.okay_with_eating_humans() ) {
+                    return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+                }
+            }
             if( big_count > 0 && small_count == 0 ) {
                 if( !b_rack_present ) {
                     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -2734,6 +2748,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
     }
     if( can_do_it ) {
         return requirement_check_result::CAN_DO_LOCATION;
+    }
+    if( reason == do_activity_reason::REFUSES_THIS_WORK ) {
+        you.add_msg_if_player( m_info,
+                               _( "There's a human corpse there.  You wouldn't want to butcher it by accident." ) );
+        if( you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s refuses to butcher a human corpse." ),
+                                    you.disp_name() );
+        }
     }
     if( reason == do_activity_reason::DONT_HAVE_SKILL ||
         reason == do_activity_reason::NO_ZONE ||

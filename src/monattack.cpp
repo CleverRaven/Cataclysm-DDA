@@ -4460,7 +4460,7 @@ bool mattack::kamikaze( monster *z )
     */
     // END HORRIBLE HACK
 
-    add_msg_if_player_sees( z->pos(), m_bad, _( "The %s lights up menacingly." ), z->name() );
+    add_msg_if_player_sees( z->pos_bub(), m_bad, _( "The %s lights up menacingly." ), z->name() );
 
     return true;
 }
