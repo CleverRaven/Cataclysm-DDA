@@ -317,11 +317,15 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 bool enchantment::is_active( const monster &mon ) const
 {
     //This is very limited at the moment. Basically, we can't use any conditions except "ALWAYS"
-    if( active_conditions.second == condition::ALWAYS && !mon.is_fake() ) {
+    if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
-    // Dialogue conditions for monsters seems like overkill.
-    // Definitely not an excuse for not knowing how to add them. Nope! Sure isn't!
+
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        const_dialogue d( get_const_talker_for( mon ), nullptr );
+        return dialog_condition( d );
+    }
+
     return false;
 }
 

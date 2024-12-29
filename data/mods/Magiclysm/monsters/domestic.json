@@ -65,7 +65,7 @@
     "type": "MONSTER",
     "copy-from": "mon_giant_heron_ridable",
     "name": { "//~": "Word is invented and has no inherent meaning", "str": "aenor chick" },
-    "description": "A aenor, already as tall as a human's waist.  It has a long way to go before it can bear a rider.",
+    "description": "An aenor chick, already as tall as a human's waist.  It still has a long way to go before it can bear a rider.",
     "default_faction": "fantasy_beast_domestic",
     "volume": "36 L",
     "weight": "36 kg",

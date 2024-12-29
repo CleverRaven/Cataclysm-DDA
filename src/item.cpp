@@ -226,6 +226,7 @@ static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 // vitamin flags
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
+static const std::string flag_NO_SELL( "NO_SELL" );
 
 // fault flags
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
@@ -7170,6 +7171,15 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         price *= fault->price_mod();
     }
 
+    if( is_food() && get_comestible() ) {
+        const nutrients &nutrients_value = default_character_compute_effective_nutrients( *this );
+        for( const std::pair<const vitamin_id, int> &vit_pair : nutrients_value.vitamins() ) {
+            if( vit_pair.second > 0 && vit_pair.first->has_flag( flag_NO_SELL ) ) {
+                price = 0.0;
+            }
+        }
+    }
+
     return price;
 }
 
@@ -10248,7 +10258,21 @@ bool item::is_funnel_container( units::volume &bigger_than ) const
 
 bool item::is_emissive() const
 {
-    return light.luminance > 0 || type->light_emission > 0;
+    if( light.luminance > 0 || type->light_emission > 0 ) {
+        return true;
+    }
+
+    for( const item_pocket *pkt : get_all_contained_pockets() ) {
+        if( pkt->transparent() ) {
+            for( const item *it : pkt->all_items_top() ) {
+                if( it->is_emissive() ) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 bool item::is_deployable() const
@@ -13068,7 +13092,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
         return false;
     }
 
-    units::temperature temp = get_weather().get_temperature( pos.raw() );
+    units::temperature temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
@@ -13135,7 +13159,7 @@ bool item::process_temperature_rot( float insulation, const tripoint_bub_ms &pos
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
             if( pos.z() >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
-                env_temperature = wgen.get_weather_temperature( pos.raw(), time, seed );
+                env_temperature = wgen.get_weather_temperature( get_map().getglobal( pos ), time, seed );
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
@@ -14008,7 +14032,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
     // Handle links to items in the inventory.
     if( link().source == link_state::solarpack ) {
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %s has come loose from the solar pack." ),
+            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the solar pack." ),
                                     link_name() );
             reset_link( true, carrier );
             return false;
@@ -14019,7 +14043,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
     };
     if( link().source == link_state::ups ) {
         if( carrier == nullptr || !carrier->cache_has_item_with( flag_IS_UPS, used_ups ) ) {
-            add_msg_if_player_sees( pos.raw(), m_bad, _( "The %s has come loose from the UPS." ), link_name() );
+            add_msg_if_player_sees( pos, m_bad, _( "The %s has come loose from the UPS." ), link_name() );
             reset_link( true, carrier );
             return false;
         }
@@ -14049,7 +14073,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
             if( carrier != nullptr ) {
                 carrier->add_msg_if_player( m_bad, _( "Your %s breaks loose!" ), cable_name );
             } else {
-                add_msg_if_player_sees( pos.raw(), m_bad, _( "Your %s breaks loose!" ), cable_name );
+                add_msg_if_player_sees( pos, m_bad, _( "Your %s breaks loose!" ), cable_name );
             }
             return true;
         } else if( link().length + M_SQRT2 >= link().max_length + 1 && carrier != nullptr ) {
@@ -14129,7 +14153,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
     }
 
     if( link().last_processed <= t_veh->part( link_vp_index ).last_disconnected ) {
-        add_msg_if_player_sees( pos.raw(), m_warning, string_format( _( "You detached the %s." ),
+        add_msg_if_player_sees( pos, m_warning, string_format( _( "You detached the %s." ),
                                 type_name() ) );
         return reset_link( true, carrier, -2 );
     }
@@ -14278,7 +14302,7 @@ bool item::reset_link( bool unspool_if_too_long, Character *p, int vpart_index,
         if( p != nullptr ) {
             p->add_msg_if_player( m_warning, _( "Your %s has come loose." ), link_name() );
         } else {
-            add_msg_if_player_sees( cable_position.raw(), m_warning, _( "The %s has come loose." ),
+            add_msg_if_player_sees( cable_position, m_warning, _( "The %s has come loose." ),
                                     link_name() );
         }
     }
