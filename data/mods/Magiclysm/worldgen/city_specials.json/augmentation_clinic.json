@@ -1,0 +1,217 @@
+[
+  {
+    "type": "city_building",
+    "id": "magiclysm_augmentation_clinic",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "magiclysm_augmentation_clinic_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "magiclysm_augmentation_clinic_top_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "magiclysm_augmentation_clinic_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_sizes": [ 12, -1 ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "magiclysm_augmentation_clinic_ground", "magiclysm_augmentation_clinic_top", "magiclysm_augmentation_clinic_roof" ],
+    "vision_levels": "city_building",
+    "copy-from": "generic_city_building",
+    "name": "augmentation clinic",
+    "sym": "A",
+    "color": "cyan",
+    "extend": { "flags": [ "RISK_EXTREME", "SOURCE_MEDICINE", "SOURCE_CHEMISTRY" ] }
+  },
+  {
+    "type": "palette",
+    "id": "aug_clinic",
+    "palettes": [ "parametrized_walls_palette" ],
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      ".": "t_linoleum_white",
+      "_": "t_flat_roof",
+      "!": "t_door_locked_interior",
+      "-": "t_wall_metal",
+      "|": "t_concrete_wall",
+      "+": "t_door_c",
+      "9": "t_window_domestic",
+      ":": "t_door_glass_c",
+      ";": "t_door_locked",
+      "ó": "t_metal_ventilation_shutter",
+      "Y": "t_thconc_floor_olight",
+      "R": "t_railing",
+      "w": "t_window",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "~": "t_sidewalk"
+    },
+    "furniture": {
+      "$": "f_safe_l",
+      "A": "f_armchair",
+      "0": "f_cryo_pod",
+      "&": "f_toilet",
+      "%": "f_console_broken",
+      "5": "f_console",
+      "L": "f_bookcase",
+      "B": "f_bed",
+      "S": "f_sink",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_desk",
+      "h": "f_chair",
+      "H": "f_utility_shelf",
+      "l": "f_locker",
+      "k": "f_bookcase",
+      "r": "f_trashcan",
+      "s": "f_sink",
+      "t": "f_table",
+      "f": "f_filing_cabinet",
+      "^": [ "f_indoor_plant_y", "f_indoor_plant" ]
+    },
+    "toilets": { "&": {  } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "magiclysm_augmentation_clinic_ground" ],
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "                  ~~    ",
+        "                  ~~    ",
+        " #######wwwww###w#++#w# ",
+        " #&s#^RA.ooot#^......^# ",
+        " #r.#^......o#b.......# ",
+        " ##+#^....t.o#b.......w ",
+        " #^.....A.t.o#....dddd# ",
+        " ##+#o..A....#.....%h.# ",
+        " #&.#o..t.............# ",
+        " #rs#o.............fff# ",
+        " #######+############## ",
+        " #....#...#....#Bt#.tB# ",
+        " #hdh.+.Y.+.hdh#B.#..B# ",
+        " w.d..#...#..d.#..#...# ",
+        " #ff.^#^.^#^.ff#r.#..r# ",
+        " #######+########+#+### ",
+        "  #<!...........+....^# ",
+        "  #####+#########.....w ",
+        "    #h......Ø..##tooot# ",
+        "    #h.....Ø?Ø.####w### ",
+        "    #......Ø/Ø.#        ",
+        "    #βββll..Ø..#        ",
+        "    ############        ",
+        "                        "
+      ],
+      "palettes": [ "augmentation_clinic" ],
+      "terrain": { "Ø": "t_magiconc_floor", "?": "t_magiconc_floor", "/": "t_magiconc_floor" },
+      "furniture": {
+        "?": "f_autodoc",
+        "/": "f_autodoc_couch",
+        "o": "f_sofa",
+        "T": "f_table",
+        "Ø": "f_magic_circle",
+        "β": "f_magic_bench"
+      },
+      "items": {
+        "B": { "item": "hospital_bed", "chance": 60 },
+        "R": { "item": "trash", "chance": 50 },
+        "o": { "item": "waitingroom", "chance": 60 },
+        "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
+        "C": { "item": "dresser", "chance": 75 },
+        "f": { "item": "office_paper", "chance": 90 },
+        "d": { "item": "office", "chance": 60 },
+        "l": [
+          { "item": "harddrugs", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 20 },
+          { "item": "autodoc_supplies", "chance": 60 }
+        ],
+        "β": { "item": "crystallized_mana", "prob": 75, "charges": [ 1, 10 ], "repeat": [ 1, 3 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magiclysm_augmentation_clinic_top",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -____________________- ",
+        " -_______oo___________- ",
+        " -______oooo__________- ",
+        " -_______oo___________- ",
+        " -____________________- ",
+        " -____________________- ",
+        " -____________________- ",
+        " -______#w##w##w##____- ",
+        " -_######.#t....^#____- ",
+        " -_#f..f#.+...dd.#____- ",
+        " -_#f..f#.#LL.dh.#____- ",
+        " -_#f..f#.########____- ",
+        " -###+###.#LL.dh.#A___- ",
+        "  #>....+.+...dd.#A___- ",
+        "  ####w##.#t....^#____- ",
+        "  ---__4#######w##____- ",
+        "    -_____&=_5_-------- ",
+        "    -__________-        ",
+        "    -__________-        ",
+        "    ------------        ",
+        "                        "
+      ],
+      "palettes": [ "augmentation_clinic" ],
+      "terrain": {
+        "=": "t_flat_roof",
+        "&": "t_flat_roof",
+        "A": "t_flat_roof",
+        " ": "t_open_air",
+        "o": "t_glass_roof",
+        "-": "t_gutter",
+        "4": "t_gutter_downspout",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "L": "f_locker", "A": "f_air_conditioner" },
+      "items": {
+        "d": { "item": "office", "chance": 60 },
+        "L": [ { "item": "SUS_book", "chance": 50, "repeat": [ 2, 8 ] }, { "item": "technomancer_items", "chance": 5 } ],
+        "f": [ { "item": "bionics_civilian", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "autodoc_supplies", "chance": 20 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "magiclysm_augmentation_clinic_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ----------      ",
+        "   ------........-      ",
+        "   -..........:..-      ",
+        "   -.X...........-      ",
+        "   -.............-      ",
+        "  --.............-      ",
+        "  -........oooo..-      ",
+        "  ------5........-      ",
+        "        ----------      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  }
+]
