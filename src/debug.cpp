@@ -636,14 +636,14 @@ static time_info get_time() noexcept
 struct DebugFile {
     DebugFile();
     ~DebugFile();
-    void init( DebugOutput, const std::string &filename );
+    void init( DebugOutput, const cata_path &filename );
     void deinit();
     std::ostream &get_file();
 
     // Using shared_ptr for the type-erased deleter support, not because
     // it needs to be shared.
     std::shared_ptr<std::ostream> file;
-    std::string filename;
+    cata_path filename;
 };
 
 // DebugFile OStream Wrapper                                        {{{2
@@ -686,7 +686,7 @@ std::ostream &DebugFile::get_file()
     return *file;
 }
 
-void DebugFile::init( DebugOutput output_mode, const std::string &filename )
+void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
 {
     std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
             ( file );
@@ -697,17 +697,16 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
             break;
         case DebugOutput::file: {
             this->filename = filename;
-            const std::string oldfile = filename + ".prev";
+            const cata_path oldfile = filename + ".prev";
             bool rename_failed = false;
-            struct stat buffer;
-            if( stat( filename.c_str(), &buffer ) == 0 ) {
-                // Continue with the old log file if it's smaller than 1 MiB
-                if( buffer.st_size >= 1024 * 1024 ) {
-                    rename_failed = !rename_file( filename, oldfile );
-                }
+            // Continue with the old log file if it's smaller than 1 MiB
+            if (fs::file_size(fs::path(filename)) >= 1024 * 1024) {
+                std::error_code ec;
+                fs::rename(fs::path(filename), fs::path(oldfile), ec);
+                rename_failed = bool(ec);
             }
             file = std::make_shared<std::ofstream>(
-                       std::filesystem::u8path( filename ), std::ios::out | std::ios::app );
+                       filename.generic_u8string(), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
             DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
