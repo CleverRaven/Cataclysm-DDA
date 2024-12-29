@@ -3572,13 +3572,13 @@ static void show_sound()
             player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
         };
         wattron( g->w_terrain, c_yellow );
-        for( const tripoint &sound : sounds_to_draw.first ) {
-            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
+        for( const tripoint_bub_ms &sound : sounds_to_draw.first ) {
+            mvwaddch( g->w_terrain, sound.xy().raw() + offset, '?' );
         }
         wattroff( g->w_terrain, c_yellow );
         wattron( g->w_terrain, c_red );
-        for( const tripoint &sound : sounds_to_draw.second ) {
-            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
+        for( const tripoint_bub_ms &sound : sounds_to_draw.second ) {
+            mvwaddch( g->w_terrain, sound.xy().raw() + offset, '?' );
         }
         wattroff( g->w_terrain, c_red );
     } );

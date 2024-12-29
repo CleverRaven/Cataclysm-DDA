@@ -125,7 +125,8 @@ void timed_event::actualize()
 
             // You could drop the flag, you know.
             if( player_character.has_amount( itype_petrified_eye, 1 ) ) {
-                sounds::sound( player_character.pos_bub(), 60, sounds::sound_t::alert, _( "a tortured scream!" ),
+                sounds::sound( player_character.pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::alert,
+                               _( "a tortured scream!" ),
                                false,
                                "shout",
                                "scream_tortured" );

@@ -1333,6 +1333,7 @@
       [ "pearl_collar", 10 ],
       [ "pocketwatch", 50 ],
       [ "candlestick", 50 ],
+      { "item": "menorah", "prob": 3 },
       [ "ring_signet", 40 ],
       [ "cufflinks_intricate", 50 ],
       [ "boxing_gloves", 25 ],
@@ -2455,5 +2456,12 @@
     "subtype": "collection",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "insecticide", "container-item": "null", "count": 9 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_candles_in_box",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "candle_small", "container-item": "null", "count": [ 20, 45 ] } ]
   }
 ]

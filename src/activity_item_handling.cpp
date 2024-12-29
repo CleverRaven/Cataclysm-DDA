@@ -124,6 +124,10 @@ static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
 
+static const species_id species_FERAL( "FERAL" );
+static const species_id species_HUMAN( "HUMAN" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
+
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
 
@@ -1005,7 +1009,7 @@ static bool are_requirements_nearby(
 }
 
 static activity_reason_info can_do_activity_there( const activity_id &act, Character &you,
-        const tripoint_bub_ms &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
+        const tripoint_bub_ms &src_loc, const int distance = MAX_VIEW_DISTANCE )
 {
     // see activity_handlers.h cant_do_activity_reason enums
     you.invalidate_crafting_inventory();
@@ -1213,6 +1217,16 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         }
         if( !corpses.empty() ) {
+            for( item &body : corpses ) {
+                const mtype &corpse = *body.get_mtype();
+                // TODO: Extract this bool into a function
+                const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
+                                      corpse.in_species( species_FERAL ) ) &&
+                                      !corpse.in_species( species_ZOMBIE ) );
+                if( is_human && !you.okay_with_eating_humans() ) {
+                    return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+                }
+            }
             if( big_count > 0 && small_count == 0 ) {
                 if( !b_rack_present ) {
                     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1443,11 +1457,11 @@ static void add_basecamp_storage_to_loot_zone_list(
     if( npc *const guy = dynamic_cast<npc *>( &you ) ) {
         map &here = get_map();
         if( guy->assigned_camp &&
-            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE,
+            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), MAX_VIEW_DISTANCE,
                           _fac_id( you ) ) ) {
             std::unordered_set<tripoint_abs_ms> bc_storage_set =
                 mgr.get_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ),
-                              ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
+                              MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
             for( const tripoint_abs_ms &elem : bc_storage_set ) {
                 tripoint_bub_ms here_local = here.bub_from_abs( elem );
 
@@ -1465,7 +1479,7 @@ static void add_basecamp_storage_to_loot_zone_list(
 }
 
 static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
-        const int distance = ACTIVITY_SEARCH_DISTANCE )
+        const int distance = MAX_VIEW_DISTANCE )
 {
     std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirement_map;
     if( you.backlog.empty() || you.backlog.front().str_values.empty() ) {
@@ -1807,7 +1821,7 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
 
 static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
                            const activity_id &activity_to_restore,
-                           const int distance = ACTIVITY_SEARCH_DISTANCE )
+                           const int distance = MAX_VIEW_DISTANCE )
 {
     zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -1852,7 +1866,7 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
 
 static bool fetch_activity(
     Character &you, const tripoint_bub_ms &src_loc, const activity_id &activity_to_restore,
-    const int distance = ACTIVITY_SEARCH_DISTANCE )
+    const int distance = MAX_VIEW_DISTANCE )
 {
     map &here = get_map();
     if( !here.can_put_items_ter_furn( here.bub_from_abs( tripoint_abs_ms(
@@ -2020,7 +2034,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         // TODO: fix point types
         act.coord_set.clear();
         for( const tripoint_abs_ms &p :
-             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, MAX_VIEW_DISTANCE, nullptr,
                            _fac_id( you ) ) ) {
             act.coord_set.insert( p.raw() );
         }
@@ -2215,7 +2229,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // Only if it's from a vehicle do we use the vehicle source location information.
             const std::optional<vpart_reference> vpr_src = it->second ? vpr : std::nullopt;
             const zone_type_id id = mgr.get_near_zone_type_for_item( thisitem, abspos,
-                                    ACTIVITY_SEARCH_DISTANCE, _fac_id( you ) );
+                                    MAX_VIEW_DISTANCE, _fac_id( you ) );
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
@@ -2230,7 +2244,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             }
 
             const std::unordered_set<tripoint_abs_ms> dest_set =
-                mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem, _fac_id( you ) );
+                mgr.get_near( id, abspos, MAX_VIEW_DISTANCE, &thisitem, _fac_id( you ) );
 
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
@@ -2549,14 +2563,14 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         dark_capable = true;
         tripoint_bub_ms unsorted_spot;
         std::unordered_set<tripoint_abs_ms> unsorted_set =
-            mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
+            mgr.get_near( zone_type_LOOT_UNSORTED, abspos, MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
         if( !unsorted_set.empty() ) {
             unsorted_spot = here.bub_from_abs( random_entry( unsorted_set ) );
         }
         bool found_one_point = false;
         bool found_route = true;
         for( const tripoint_bub_ms &elem : here.points_in_radius( localpos,
-                ACTIVITY_SEARCH_DISTANCE ) ) {
+                MAX_VIEW_DISTANCE ) ) {
             // There's no point getting the entire list of all items to tidy up now.
             // the activity will run again after pathing to the first tile anyway.
             // tidy up activity has no requirements that will discount a square and
@@ -2599,7 +2613,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         }
     } else if( act_id == ACT_MULTIPLE_READ ) {
         // anywhere well lit
-        for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, MAX_VIEW_DISTANCE ) ) {
             src_set.insert( here.getglobal( elem ) );
         }
     } else if( act_id == ACT_MULTIPLE_CRAFT ) {
@@ -2608,10 +2622,10 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         src_set.insert( here.getglobal( localpos ) );
     } else if( act_id != ACT_FETCH_REQUIRED ) {
         zone_type_id zone_type = get_zone_for_act( tripoint_bub_ms::zero, mgr, act_id, _fac_id( you ) );
-        src_set = mgr.get_near( zone_type, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
+        src_set = mgr.get_near( zone_type, abspos, MAX_VIEW_DISTANCE, nullptr, _fac_id( you ) );
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
-            for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
+            for( const tripoint_bub_ms &elem : here.points_in_radius( localpos, MAX_VIEW_DISTANCE ) ) {
                 partial_con *pc = here.partial_con_at( elem );
                 if( pc ) {
                     src_set.insert( here.getglobal( elem ) );
@@ -2627,7 +2641,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         // we previously checked if the items are nearby before we set the fetch task
         // but we will check again later, to be sure nothings changed.
         std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map =
-                    requirements_map( you, ACTIVITY_SEARCH_DISTANCE );
+                    requirements_map( you, MAX_VIEW_DISTANCE );
         for( const auto &elem : mental_map ) {
             const tripoint_bub_ms &elem_point = std::get<0>( elem );
             src_set.insert( here.getglobal( elem_point ) );
@@ -2735,6 +2749,14 @@ static requirement_check_result generic_multi_activity_check_requirement(
     if( can_do_it ) {
         return requirement_check_result::CAN_DO_LOCATION;
     }
+    if( reason == do_activity_reason::REFUSES_THIS_WORK ) {
+        you.add_msg_if_player( m_info,
+                               _( "There's a human corpse there.  You wouldn't want to butcher it by accident." ) );
+        if( you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s refuses to butcher a human corpse." ),
+                                    you.disp_name() );
+        }
+    }
     if( reason == do_activity_reason::DONT_HAVE_SKILL ||
         reason == do_activity_reason::NO_ZONE ||
         reason == do_activity_reason::ALREADY_DONE ||
@@ -2804,7 +2826,7 @@ static requirement_check_result generic_multi_activity_check_requirement(
         std::vector<tripoint_bub_ms> loot_zone_spots;
         std::vector<tripoint_bub_ms> combined_spots;
         for( const tripoint_bub_ms &elem : mgr.get_point_set_loot(
-                 abspos, ACTIVITY_SEARCH_DISTANCE, you.is_npc(), _fac_id( you ) ) ) {
+                 abspos, MAX_VIEW_DISTANCE, you.is_npc(), _fac_id( you ) ) ) {
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );
         }
@@ -3063,11 +3085,11 @@ static bool generic_multi_activity_do(
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_FETCH && act_id == ACT_TIDY_UP ) {
-        if( !tidy_activity( you, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE ) ) {
+        if( !tidy_activity( you, src_loc, act_id, MAX_VIEW_DISTANCE ) ) {
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_FETCH && act_id == ACT_FETCH_REQUIRED ) {
-        if( fetch_activity( you, src_loc, act_id, ACTIVITY_SEARCH_DISTANCE ) ) {
+        if( fetch_activity( you, src_loc, act_id, MAX_VIEW_DISTANCE ) ) {
             if( !you.is_npc() ) {
                 // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
                 // Because some player activities are necessarily not marked as auto-resume.
@@ -3090,7 +3112,7 @@ static bool generic_multi_activity_do(
         you.activity.targets.emplace_back( you, &best_rod );
         // TODO: fix point types
         you.activity.coord_set =
-            g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
+            g->get_fishable_locations( MAX_VIEW_DISTANCE, src_loc );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
@@ -3229,7 +3251,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
             return false;
         }
         activity_reason_info act_info = can_do_activity_there( activity_to_restore, you,
-                                        src_loc, ACTIVITY_SEARCH_DISTANCE );
+                                        src_loc, MAX_VIEW_DISTANCE );
         // see activity_handlers.h enum for requirement_check_result
         const requirement_check_result req_res = generic_multi_activity_check_requirement(
                     you, activity_to_restore, act_info, src, src_loc, src_set, check_only );
@@ -3554,7 +3576,7 @@ int get_auto_consume_moves( Character &you, const bool food )
     }
     map &here = get_map();
     const std::unordered_set<tripoint_abs_ms> &dest_set =
-        mgr.get_near( consume_type_zone, here.getglobal( pos ), ACTIVITY_SEARCH_DISTANCE, nullptr,
+        mgr.get_near( consume_type_zone, here.getglobal( pos ), MAX_VIEW_DISTANCE, nullptr,
                       _fac_id( you ) );
     if( dest_set.empty() ) {
         return 0;

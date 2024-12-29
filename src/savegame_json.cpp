@@ -4414,7 +4414,7 @@ void basecamp::deserialize( const JsonObject &data )
     for( JsonObject edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;
-        point dir;
+        point_rel_omt dir;
         if( edata.has_string( "dir" ) ) {
             // old save compatibility
             const std::string dir_id = edata.get_string( "dir" );
@@ -5260,7 +5260,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint::zero ) ).first;
+                                                      tripoint_bub_ms::zero ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }
