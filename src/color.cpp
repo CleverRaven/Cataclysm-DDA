@@ -539,6 +539,49 @@ void init_colors()
         {"C", {c_cyan, to_translation( "cyan" )}}, {"c", {c_light_cyan, to_translation( "light cyan" )}},
         {"P", {c_pink, to_translation( "pink" )}}, {"m", {c_magenta, to_translation( "magenta" )}}
     };
+
+    ImGuiStyle &style = ImGui::GetStyle();
+
+    style.Colors[ImGuiCol_Text]                   = c_white;
+    style.Colors[ImGuiCol_TextDisabled]           = c_dark_gray;
+    style.Colors[ImGuiCol_WindowBg]               = c_black;
+    style.Colors[ImGuiCol_ChildBg]                = c_black;
+    style.Colors[ImGuiCol_PopupBg]                = c_black;
+    style.Colors[ImGuiCol_Border]                 = c_white;
+    style.Colors[ImGuiCol_BorderShadow]           = c_blue;
+    style.Colors[ImGuiCol_FrameBg]                = c_dark_gray;
+    style.Colors[ImGuiCol_FrameBgHovered]         = c_black;
+    style.Colors[ImGuiCol_FrameBgActive]          = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBg]                = c_blue;
+    style.Colors[ImGuiCol_TitleBgActive]          = c_dark_gray;
+    style.Colors[ImGuiCol_TitleBgCollapsed]       = c_blue;
+    style.Colors[ImGuiCol_MenuBarBg]              = c_black;
+    style.Colors[ImGuiCol_ScrollbarBg]            = c_black;
+    style.Colors[ImGuiCol_ScrollbarGrab]          = c_dark_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabHovered]   = c_light_gray;
+    style.Colors[ImGuiCol_ScrollbarGrabActive]    = c_white;
+    style.Colors[ImGuiCol_CheckMark]              = c_white;
+    style.Colors[ImGuiCol_SliderGrab]             = c_white;
+    style.Colors[ImGuiCol_SliderGrabActive]       = c_white;
+    style.Colors[ImGuiCol_Button]                 = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonHovered]          = c_dark_gray;
+    style.Colors[ImGuiCol_ButtonActive]           = c_blue;
+    style.Colors[ImGuiCol_Header]                 = c_blue;
+    style.Colors[ImGuiCol_HeaderHovered]          = c_black;
+    style.Colors[ImGuiCol_HeaderActive]           = c_dark_gray;
+    style.Colors[ImGuiCol_Separator]              = c_blue;
+    style.Colors[ImGuiCol_SeparatorHovered]       = c_white;
+    style.Colors[ImGuiCol_SeparatorActive]        = c_white;
+    style.Colors[ImGuiCol_ResizeGrip]             = c_light_gray;
+    style.Colors[ImGuiCol_ResizeGripHovered]      = c_white;
+    style.Colors[ImGuiCol_ResizeGripActive]       = c_white;
+    style.Colors[ImGuiCol_Tab]                    = c_black;
+    style.Colors[ImGuiCol_TabHovered]             = c_blue;
+    style.Colors[ImGuiCol_TabActive]              = c_blue;
+    style.Colors[ImGuiCol_TabUnfocused]           = c_black;
+    style.Colors[ImGuiCol_TabUnfocusedActive]     = c_black;
+    style.Colors[ImGuiCol_TextSelectedBg]         = c_blue;
+    style.Colors[ImGuiCol_NavHighlight]           = c_blue;
 }
 
 nc_color invert_color( const nc_color &c )
