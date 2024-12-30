@@ -447,7 +447,7 @@
     "type": "furniture",
     "id": "f_taxidermy_owlbear",
     "name": "owlbear texidermy",
-    "description": "An aggresive looking stuffed Owlbear stands here,  menacingly.",
+    "description": "An aggresive looking stuffed Owlbear stands here, menacingly.",
     "symbol": "S",
     "color": "dark_gray",
     "move_cost_mod": -1,
