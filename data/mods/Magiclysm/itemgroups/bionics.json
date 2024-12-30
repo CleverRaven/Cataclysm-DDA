@@ -59,7 +59,8 @@
           { "item": "bio_meteorologist", "prob": 5 },
           { "item": "bio_night_vision", "prob": 4 },
           { "item": "bio_ground_sonar", "prob": 2 },
-          { "item": "bio_infrared", "prob": 8 }
+          { "item": "bio_infrared", "prob": 8 },
+          { "item": "bio_see_wizards_eyes", "prob": 4 }
         ],
         "prob": 35
       },
