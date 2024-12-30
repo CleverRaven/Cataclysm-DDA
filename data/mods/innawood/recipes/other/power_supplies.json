@@ -50,8 +50,8 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_elec_circuits" },
-	    { "proficiency": "prof_blacksmithing" },
-    	{ "proficiency": "prof_redsmithing" }
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_redsmithing" }
     ],
     "components": [
       [ [ "2x4", 3 ] ],
