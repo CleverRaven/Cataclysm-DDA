@@ -1177,7 +1177,7 @@
     "name": "Witchsight",
     "description": "Open your senses up to look for the bright corporeal ley lines of those who spent their lives frequently expending their mana.  This also applies to creatures or alien beings that frequently use spells.",
     "valid_targets": [ "self" ],
-    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_LEGS" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
     "max_level": 20,
     "spell_class": "ANIMIST",
     "effect": "attack",

@@ -50,13 +50,13 @@
   {
     "id": "bio_see_wizards_eyes",
     "type": "bionic",
-    "name": { "str": "Witchfinder Eyes CBM" },
+    "name": { "str": "Witchfinder Eyes" },
     "description": "Rune-inscribed metal filaments have been implanted around your eyes, allowing you to detect nearby mages.  Activate to turn it on.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
     "enchantments": [ "ench_bio_see_wizards_eye" ],
     "act_cost": "20 J",
-    "react_cost": "5 J",
+    "react_cost": "6 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ]
   },
