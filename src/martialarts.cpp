@@ -795,14 +795,17 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     return true;
 }
 
-static std::string required_skill_as_string( const skill_id &skill, const int required_skill, const int player_skill ) {
+static std::string required_skill_as_string( const skill_id &skill, const int required_skill,
+        const int player_skill )
+{
     std::string difficulty_tag;
     if( required_skill <= player_skill ) {
         difficulty_tag = "good";
     } else {
         difficulty_tag = "bad";
     }
-    return string_format( "<info>%s</info> <%s>(%d/%d)</%s>", skill->name(), difficulty_tag, player_skill, required_skill, difficulty_tag );
+    return string_format( "<info>%s</info> <%s>(%d/%d)</%s>", skill->name(), difficulty_tag,
+                          player_skill, required_skill, difficulty_tag );
 }
 
 std::string ma_requirements::get_description( bool buff ) const
@@ -2303,7 +2306,7 @@ void ma_details_ui_impl::init_data()
             } else if( ma.arm_block != 99 ) {
                 general_info_text.emplace_back( string_format(
                                                     _( "You can <info>arm block</info> at %s" ),
-                                                    required_skill_as_string( skill_unarmed, ma.arm_block, unarmed_skill) ) );
+                                                    required_skill_as_string( skill_unarmed, ma.arm_block, unarmed_skill ) ) );
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
