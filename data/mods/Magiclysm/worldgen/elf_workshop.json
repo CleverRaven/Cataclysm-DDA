@@ -86,6 +86,6 @@
     "sym": "W",
     "color": "red",
     "see_cost": "high",
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   }
 ]
