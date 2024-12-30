@@ -25,7 +25,7 @@
     "volume": "7 L",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "wood","copper","steel" ],
+    "material": [ "wood", "copper", "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
