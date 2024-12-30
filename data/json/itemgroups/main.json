@@ -21,7 +21,6 @@
       { "item": "can_sealer", "prob": 10 },
       { "item": "hk_g80", "prob": 10 },
       { "item": "hk_g80mag", "prob": 10 },
-      { "item": "stillsuit", "prob": 10 },
       { "item": "hk_g80mag", "prob": 10 },
       { "item": "emp_gun", "prob": 10 },
       { "item": "laser_rifle", "prob": 10 },

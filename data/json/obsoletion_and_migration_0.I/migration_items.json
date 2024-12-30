@@ -2159,5 +2159,15 @@
     "id": "peanutbutter_imitation",
     "type": "MIGRATION",
     "replace": "peanutbutter"
+  },
+  {
+    "id": "dragonskin",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "stillsuit",
+    "type": "MIGRATION",
+    "replace": "h20survivor_jumpsuit"
   }
 ]
