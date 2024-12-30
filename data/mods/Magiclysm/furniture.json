@@ -406,7 +406,7 @@
   {
     "type": "furniture",
     "id": "f_statue_velzain",
-    "name": "statue of Velzain",
+    "name": "statue of Valzain",
     "description": "A massive solid gold statue of the Forge Lord himself.",
     "symbol": "S",
     "color": "dark_gray",
@@ -425,8 +425,8 @@
   },
   {
     "type": "furniture",
-    "id": "f_avatar_of_velzain",
-    "name": "monolithic statue of Velzain",
+    "id": "f_avatar_of_valzain",
+    "name": "monolithic statue of Valzain",
     "description": "A truly monolithic statue of the Forge Lord siting lazily on a golden throne.  Meeting it's gaze sends chills down your spine.",
     "symbol": "S",
     "color": "dark_gray",
@@ -446,8 +446,8 @@
   {
     "type": "furniture",
     "id": "f_taxidermy_owlbear",
-    "name": "owlbear texidermy",
-    "description": "An aggresive looking stuffed Owlbear stands here, menacingly.",
+    "name": "owlbear taxidermy",
+    "description": "An aggressive looking stuffed Owlbear stands here, menacingly.",
     "symbol": "S",
     "color": "dark_gray",
     "move_cost_mod": -1,
