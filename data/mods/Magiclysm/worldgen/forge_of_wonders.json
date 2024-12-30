@@ -187,6 +187,78 @@
           "faction": "forge_lords",
           "x": 53,
           "y": [ 12, 14 ]
+        },
+        { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": 40, "y": 9 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": [ 42, 43 ],
+          "y": 8
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": [ 46, 47 ],
+          "y": 8
+        },
+        { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": 49, "y": 9 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": [ 34, 35 ],
+          "y": 10
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": [ 37, 38 ],
+          "y": 10
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": 34,
+          "y": [ 12, 14 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": 38,
+          "y": [ 12, 14 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": [ 51, 52 ],
+          "y": 10
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": [ 54, 55 ],
+          "y": 10
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": 51,
+          "y": [ 12, 14 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_SHOP",
+          "faction": "forge_lords",
+          "x": 55,
+          "y": [ 12, 14 ]
         }
       ]
     }
@@ -329,9 +401,9 @@
         { "class": "forge_lord_librarian", "x": 37, "y": 57 },
         { "class": "forge_lord_diviner", "x": 51, "y": 50 },
         { "class": "forge_lord_reagents", "x": 48, "y": 88 },
-        { "class": "forge_lord_pirate", "x": 50, "y": 88 },
+        { "class": "forge_lord_pirate", "x": 53, "y": 88 },
         { "class": "forge_lord_pirate", "x": 49, "y": 91 },
-        { "class": "forge_lord_pirate", "x": 50, "y": 91 }
+        { "class": "forge_lord_pirate", "x": 54, "y": 91 }
       ],
       "place_zones": [
         {
@@ -371,9 +443,37 @@
         },
         {
           "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
+          "faction": "forge_lords",
+          "x": [ 35, 37 ],
+          "y": 50
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
+          "faction": "forge_lords",
+          "x": [ 34, 35 ],
+          "y": 63
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
+          "faction": "forge_lords",
+          "x": [ 37, 38 ],
+          "y": 63
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
           "filter": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
           "faction": "forge_lords",
           "x": [ 48, 50 ],
+          "y": [ 89, 90 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
+          "faction": "forge_lords",
+          "x": [ 53, 55 ],
           "y": [ 89, 90 ]
         }
       ]
