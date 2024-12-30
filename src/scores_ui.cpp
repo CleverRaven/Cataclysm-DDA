@@ -81,6 +81,8 @@ class scores_ui_impl : public cataimgui::window
         int npc_kills = 0;
         int total_kills = 0;
 
+        cataimgui::scroll s = cataimgui::scroll::none;
+
     protected:
         void draw_controls() override;
 };
@@ -290,25 +292,25 @@ void scores_ui_impl::draw_controls()
     } else if( last_action == "TOGGLE_NPC_GROUP" ) {
         npc_group_collapsed = !npc_group_collapsed;
     } else if( last_action == "UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_up;
     } else if( last_action == "DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + ImGui::GetTextLineHeightWithSpacing() );
+        s = cataimgui::scroll::line_down;
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
-        ImGui::SetScrollY( 0 );
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
-        ImGui::SetScrollY( 0 );
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         --switch_tab;
     } else if( last_action == "PAGE_UP" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() - window_height );
+        s = cataimgui::scroll::page_up;
     } else if( last_action == "PAGE_DOWN" ) {
-        ImGui::SetScrollY( ImGui::GetScrollY() + window_height );
+        s = cataimgui::scroll::page_down;
     } else if( last_action == "HOME" ) {
-        ImGui::SetScrollY( 0 );
+        s = cataimgui::scroll::begin;
     } else if( last_action == "END" ) {
-        ImGui::SetScrollY( ImGui::GetScrollMaxY() );
+        s = cataimgui::scroll::end;
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -366,6 +368,7 @@ void scores_ui_impl::draw_controls()
         draw_kills_text();
     }
 
+    cataimgui::set_scroll( s );
 }
 
 void show_scores_ui()

@@ -505,6 +505,8 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "flags": [ "TINY" ],
+    "anger_relations": [ [ "WARG", -90 ] ],
+    "spells_learned": [ [ "goblin_tame_warg_spell", 1 ] ],
     "enchantments": [
       {
         "values": [

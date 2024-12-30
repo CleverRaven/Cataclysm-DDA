@@ -10,7 +10,7 @@
 
 #include "coordinates.h"
 #include "point.h"
-#include "units_fwd.h"
+#include "units.h"
 
 template <typename T> struct enum_traits;
 struct rl_vec2d;

@@ -292,8 +292,8 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
         const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
-                fac_id );
+        std::optional<tripoint_abs_ms> retreat_target = mgr.get_nearest( retreat_zone, abs_pos,
+                MAX_VIEW_DISTANCE, fac_id );
         // if there is a retreat zone in range, go there
 
 
@@ -1627,7 +1627,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
             int best_sleepy = evaluate_sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), ACTIVITY_SEARCH_DISTANCE ) ) {
+            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), MAX_VIEW_DISTANCE ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1998,24 +1998,26 @@ void npc::evaluate_best_attack( const Creature *target )
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
     visit_items( [&compare, this]( item * it, item * ) {
-        // you can theoretically melee with anything.
-        compare( std::make_shared<npc_attack_melee>( *it ) );
-        if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
-            compare( std::make_shared<npc_attack_throw>( *it ) );
-        }
-        if( !it->type->use_methods.empty() ) {
-            compare( std::make_shared<npc_attack_activate_item>( *it ) );
-        }
-        if( rules.has_flag( ally_rule::use_guns ) ) {
-            for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
-                if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
-                       !can_use( *mode.second.target ) ||
-                       ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
-                         !mode.second->is_silent() ) ) ) {
-                    if( it->shots_remaining( this ) > 0 || can_reload_current() ) {
-                        compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
-                    } else {
-                        compare( std::make_shared<npc_attack_melee>( *it ) );
+        if( can_wield( *it ).success() ) {
+            // you can theoretically melee with anything.
+            compare( std::make_shared<npc_attack_melee>( *it ) );
+            if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
+                compare( std::make_shared<npc_attack_throw>( *it ) );
+            }
+            if( !it->type->use_methods.empty() ) {
+                compare( std::make_shared<npc_attack_activate_item>( *it ) );
+            }
+            if( rules.has_flag( ally_rule::use_guns ) ) {
+                for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
+                    if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
+                           !can_use( *mode.second.target ) ||
+                           ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
+                             !mode.second->is_silent() ) ) ) {
+                        if( it->shots_remaining( this ) > 0 || can_reload_current() ) {
+                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
+                        } else {
+                            compare( std::make_shared<npc_attack_melee>( *it ) );
+                        }
                     }
                 }
             }
@@ -4081,21 +4083,23 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
-        double weapon_value = 0.0;
-        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
-                                             && node != &weap
-                                             && node->type->get_id() == weap.type->get_id();
+        if( can_wield( *node ).success() ) {
+            double weapon_value = 0.0;
+            bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                                 && node != &weap
+                                                 && node->type->get_id() == weap.type->get_id();
 
-        if( node->is_melee() || node->is_gun() ) {
-            weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
-            if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
-                best = const_cast<item *>( node );
-                best_value = weapon_value;
+            if( node->is_melee() || node->is_gun() ) {
+                weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+                if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
+                    best = const_cast<item *>( node );
+                    best_value = weapon_value;
+                }
+                return VisitResponse::SKIP;
+            } else if( node->get_use( "holster" ) && !node->empty() ) {
+                // we just recur to the next farther down
+                return VisitResponse::NEXT;
             }
-            return VisitResponse::SKIP;
-        } else if( node->get_use( "holster" ) && !node->empty() ) {
-            // we just recur to the next farther down
-            return VisitResponse::NEXT;
         }
         return VisitResponse::NEXT;
     } );
@@ -4790,7 +4794,7 @@ void npc::reach_omt_destination()
             if( rl_dist( player_character.pos_bub(), pos_bub() ) > SEEX * 2 ) {
                 if( player_character.cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
                     cache_has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
-                    add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
+                    add_msg_if_player_sees( pos_bub(), m_info, _( "From your two-way radio you hear %s reporting in, "
                                             "'I've arrived, boss!'" ), disp_name() );
                 }
             }
@@ -5367,7 +5371,7 @@ void npc::do_reload( const item_location &it )
     if( get_player_view().sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), get_name(), it->tname() );
         sfx::play_variant_sound( "reload", it->typeId().str(), sfx::get_heard_volume( pos_bub() ),
-                                 sfx::get_heard_angle( pos() ) );
+                                 sfx::get_heard_angle( pos_bub() ) );
     }
 
     // Otherwise the NPC may not equip the weapon until they see danger

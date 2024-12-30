@@ -759,7 +759,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
 
     item hammer( "hammer" ) ;
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint::zero );
+    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
     d2_copy.set_value( "suppress", "1" );
@@ -783,7 +783,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     monster zombie( mon_zombie );
     item hammer( "hammer" ) ;
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint::zero );
+    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
     dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );

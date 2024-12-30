@@ -15,27 +15,27 @@ std::string talker_furniture_const::disp_name() const
 
 int talker_furniture_const::posx() const
 {
-    return me_comp->loc.x;
+    return me_comp->loc.x();
 }
 
 int talker_furniture_const::posy() const
 {
-    return me_comp->loc.y;
+    return me_comp->loc.y();
 }
 
 int talker_furniture_const::posz() const
 {
-    return me_comp->loc.z;
+    return me_comp->loc.z();
 }
 
 tripoint talker_furniture_const::pos() const
 {
-    return me_comp->loc;
+    return me_comp->loc.raw();
 }
 
 tripoint_bub_ms talker_furniture_const::pos_bub() const
 {
-    return tripoint_bub_ms( me_comp->loc );
+    return me_comp->loc;
 }
 
 tripoint_abs_ms talker_furniture_const::global_pos() const

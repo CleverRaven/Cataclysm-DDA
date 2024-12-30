@@ -2288,7 +2288,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else {
-                add_msg_if_player_sees( part_pos.raw(), m_bad,
+                add_msg_if_player_sees( part_pos, m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }

@@ -872,7 +872,7 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
-bool talker_character_const::can_see_location( const tripoint &pos ) const
+bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
     return me_chr_const->sees( pos );
 }

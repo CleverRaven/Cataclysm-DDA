@@ -1304,7 +1304,7 @@ int Character::sight_range( float light_level ) const
 
 int Character::unimpaired_range() const
 {
-    return std::min( sight_max, 60 );
+    return std::min( sight_max, MAX_VIEW_DISTANCE );
 }
 
 bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) const
@@ -5261,7 +5261,7 @@ needs_rates Character::calc_needs_rates() const
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
         rates.thirst *= ( ( units::to_fahrenheit( get_weather().get_temperature(
-                                pos() ) ) - 32.5f ) / 40.0f );
+                                pos_bub() ) ) - 32.5f ) / 40.0f );
     }
 
     rates.hunger = enchantment_cache->modify_value( enchant_vals::mod::HUNGER, rates.hunger );
@@ -7878,6 +7878,9 @@ void Character::did_hit( Creature &target )
 
 ret_val<void> Character::can_wield( const item &it ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<void>::make_failure( _( "You can't wield a part of your body." ) );
+    }
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<void>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
@@ -12910,7 +12913,7 @@ void Character::search_surroundings()
             continue;
         }
         // Chance to detect traps we haven't yet seen.
-        if( tr.detect_trap( tp.raw(), *this ) ) {
+        if( tr.detect_trap( tp, *this ) ) {
             if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(

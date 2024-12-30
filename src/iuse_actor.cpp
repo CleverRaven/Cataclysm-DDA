@@ -406,7 +406,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos(), 1, &p, true, true );
+    inv.form_from_map( p.pos_bub(), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -3957,7 +3957,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos.raw(), p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }
@@ -5701,7 +5701,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         const tripoint_bub_ms &point ) const
 {
     if( it.type->comestible ) {
-        debugmsg( "Comestibles are not properly consumed via effect_on_conditions and effect_on_conditions should not be used on items of type comestible until/unless this is resolved." );
+        debugmsg( "Comestibles are not properly consumed via effect_on_conditions and effect_on_conditions should not be used on items of type comestible until/unless this is resolved.  Rather than a use_action, use the consumption_effect_on_conditions JSON parameter on the comestible" );
         return 0;
     }
 
