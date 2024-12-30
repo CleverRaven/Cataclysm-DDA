@@ -161,7 +161,7 @@
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 17, "charges": [ 0, -1 ] },
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 5, "charges": [ 0, 150 ] },
       [ "camera_bag", 10 ],
@@ -214,7 +214,7 @@
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] }
+      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" }
     ]
   },
   {
@@ -257,7 +257,7 @@
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] }
+      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" }
     ]
   }
 ]

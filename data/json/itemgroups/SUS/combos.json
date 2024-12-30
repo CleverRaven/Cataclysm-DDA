@@ -23,7 +23,7 @@
       [ "badge_doctor", 2 ],
       [ "lanyard", 15 ],
       { "item": "smart_phone", "prob": 80, "charges": [ 0, 120 ] },
-      [ "memory_card_unread", 30 ],
+      [ "memory_card", 30 ],
       [ "mask_dust", 30 ],
       { "group": "box_of_contact_lens_any", "prob": 16 },
       { "group": "clothing_glasses", "prob": 65 },

@@ -169,7 +169,7 @@
         { "item": "magazines", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "literature", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "novels", "chance": 5, "repeat": [ 0, 1 ] },
-        { "item": "phones", "chance": 5, "repeat": [ 0, 1 ] }
+        { "item": "civilian_phones", "chance": 5, "repeat": [ 0, 1 ] }
       ],
       "Q": [
         { "item": "tools_common", "chance": 20 },
@@ -228,7 +228,7 @@
         { "item": "SUS_dresser_womens", "chance": 60, "repeat": [ 0, 1 ] },
         { "item": "SUS_bathroom_medicine", "chance": 15, "repeat": [ 0, 1 ] },
         { "item": "used_1st_aid", "chance": 5 },
-        { "item": "phones", "chance": 15, "repeat": [ 0, 1 ] },
+        { "item": "civilian_phones", "chance": 15, "repeat": [ 0, 1 ] },
         { "item": "magazines", "chance": 15, "repeat": [ 0, 1 ] },
         { "item": "literature", "chance": 15, "repeat": [ 0, 1 ] },
         { "item": "novels", "chance": 15, "repeat": [ 0, 1 ] },
