@@ -1859,7 +1859,7 @@
   {
     "id": "car_super_v12_dwarf_modded",
     "type": "vehicle",
-    "copy-from": "car_super_abstractv",
+    "copy-from": "car_super_abstract_dwarf_modded",
     "name": "V12 Super Car",
     "parts": [
       { "x": -1, "y": 0, "parts": [ "engine_v12", "alternator_car", "battery_car" ] },
