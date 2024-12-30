@@ -16,6 +16,7 @@
           { "item": "bio_lockpick", "prob": 30 },
           { "item": "bio_tattoo_led", "prob": 40 },
           { "item": "bio_ar", "prob": 25 },
+          { "item": "bio_see_wizards_eyes", "prob": 3 },
           { "item": "bio_soporific", "prob": 20 },
           { "item": "bio_sunglasses", "prob": 25 }
         ],
@@ -60,7 +61,7 @@
           { "item": "bio_night_vision", "prob": 4 },
           { "item": "bio_ground_sonar", "prob": 2 },
           { "item": "bio_infrared", "prob": 8 },
-          { "item": "bio_see_wizards_eyes", "prob": 4 }
+          { "item": "bio_see_wizards_eyes", "prob": 8 }
         ],
         "prob": 35
       },
