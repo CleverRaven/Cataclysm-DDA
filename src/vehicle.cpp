@@ -668,7 +668,7 @@ void vehicle::autopilot_patrol()
     }
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set =
-        mgr.get_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 );
+        mgr.get_near( zone_type_VEHICLE_PATROL, global_square_location(), MAX_VIEW_DISTANCE );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;

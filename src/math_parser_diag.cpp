@@ -765,6 +765,9 @@ bool _filter_character( Character const *beta, Character const &guy, int radius,
     return false;
 }
 
+// TODO: some form of notation or sentinel value for referencing
+// the reality bubble size (since it might change from 60, and
+// hardcoding that is unfortunate)
 diag_eval_dbl_f _characters_nearby_eval( char scope, std::vector<diag_value> const &params,
         diag_kwargs const &kwargs )
 {
@@ -880,6 +883,9 @@ bool _filter_monster( Creature const &critter, std::vector<ID> const &ids, int r
     return false;
 }
 
+// TODO: some form of notation or sentinel value for referencing
+// the reality bubble size (since it might change from 60, and
+// hardcoding that is unfortunate)
 template <class ID>
 diag_eval_dbl_f _monsters_nearby_eval( char scope, std::vector<diag_value> const &params,
                                        diag_kwargs const &kwargs, f_monster_match<ID> f )
