@@ -172,7 +172,7 @@
   {
     "name": "GROUP_MINERS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_zombie_miner", "weight": 100 }, { "monster": "mon_zombie_dwarf", "weight": 40 } ]
+    "monsters": [ { "monster": "mon_zombie_miner", "weight": 100 }, { "monster": "mon_zombie_dwarf_miner", "weight": 40 } ]
   },
   {
     "name": "GROUP_PARK_DOG",
