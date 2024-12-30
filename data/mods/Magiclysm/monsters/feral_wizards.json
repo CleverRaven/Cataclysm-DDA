@@ -17,7 +17,8 @@
       "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
-      "EATS"
+      "EATS",
+      "MAGIC_USER"
     ]
   },
   {

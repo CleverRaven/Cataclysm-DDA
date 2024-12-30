@@ -1158,6 +1158,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_detect_wizards",
+    "name": [ "Witchsight" ],
+    "desc": [ "You can sense nearby magic-wielders." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of the magically-inclined fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+            },
+            "distance": { "math": [ "( u_spell_level('animist_detect_wizards') * 2) + 3" ] },
+            "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You sense a wielder of magic." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_animist_add_evasion",
     "name": [ "Guardian Spirit" ],
     "desc": [ "A protective spirit is looking out for you." ],
