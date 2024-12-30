@@ -65,7 +65,7 @@
     "volume": "750 L",
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
-    "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
+    "upgrades": { "age_grow": 3650, "into": "mon_allosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
@@ -259,7 +259,7 @@
     "volume": "750 L",
     "weight": "750 kg",
     "proportional": { "hp": 0.5, "speed": 1.25 },
-    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
+    "upgrades": { "age_grow": 6570, "into": "mon_tyrannosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "dissect": "dissect_tyrant_sample_small",
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
@@ -671,7 +671,7 @@
     "weight": "400 kg",
     "color": "yellow",
     "hp": 100,
-    "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
+    "upgrades": { "age_grow": 2920, "into": "mon_tenontosaurus" },
     "extend": { "flags": [ "SWIMS", "PET_MOUNTABLE" ] }
   },
   {
@@ -773,7 +773,7 @@
     "type": "MONSTER",
     "name": "hypacrosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_hypacrosaurus" }
+    "upgrades": { "age_grow": 1460, "into": "mon_hypacrosaurus" }
   },
   {
     "id": "mon_pachycephalosaurus_juvenile",
@@ -846,7 +846,7 @@
     "volume": "650 L",
     "weight": "650 kg",
     "hp": 75,
-    "upgrades": { "age_grow": 220, "into": "mon_einiosaurus" },
+    "upgrades": { "age_grow": 1460, "into": "mon_einiosaurus" },
     "extend": { "flags": [ "CANPLAY", "NO_BREED", "PET_MOUNTABLE" ] }
   },
   {
