@@ -80,7 +80,7 @@
     "casting_time_increment": -4,
     "base_energy_cost": 150,
     "final_energy_cost": 50,
-    "energy_increment": 5,
+    "energy_increment": -5,
     "energy_source": "MANA",
     "difficulty": 1,
     "sound_description": "a crackle",
@@ -147,7 +147,7 @@
     "casting_time_increment": -5,
     "base_energy_cost": 240,
     "final_energy_cost": 80,
-    "energy_increment": 8,
+    "energy_increment": -8,
     "field_id": "fd_electricity",
     "min_field_intensity": 1,
     "max_field_intensity": 1,
@@ -192,7 +192,7 @@
     "casting_time_increment": -5,
     "base_energy_cost": 90,
     "final_energy_cost": 20,
-    "energy_increment": 8
+    "energy_increment": -8
   },
   {
     "id": "electrical_field",

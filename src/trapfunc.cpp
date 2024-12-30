@@ -552,7 +552,7 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
 bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
 {
     map &here = get_map();
-    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
+    sounds::sound( p, MAX_VIEW_DISTANCE, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
                    here.tr_at( p ) == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
     int shots = 1;
     if( c != nullptr ) {

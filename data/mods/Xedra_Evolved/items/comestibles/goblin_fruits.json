@@ -62,11 +62,7 @@
     "color": "red_yellow",
     "weight": "210 g",
     "volume": "273 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the sweet goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_HEALING" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_HEALING" ]
   },
   {
     "type": "effect_on_condition",
@@ -84,11 +80,7 @@
     "weight": "155 g",
     "volume": "174 ml",
     "fun": 3,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the iridescent goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ILLNESS" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ILLNESS" ]
   },
   {
     "type": "effect_on_condition",
@@ -105,11 +97,7 @@
     "color": "light_gray",
     "weight": "218 g",
     "volume": "278 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the silvery goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ATTACK_SPEED" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_ATTACK_SPEED" ]
   },
   {
     "type": "effect_on_condition",
@@ -127,11 +115,7 @@
     "weight": "173 g",
     "volume": "209 ml",
     "fun": -2,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the spicy goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_THORNS" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_THORNS" ]
   },
   {
     "type": "effect_on_condition",
@@ -149,11 +133,7 @@
     "weight": "227 g",
     "volume": "290 ml",
     "fun": 2,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the savory goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PAIN" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PAIN" ]
   },
   {
     "type": "effect_on_condition",
@@ -170,11 +150,7 @@
     "color": "red",
     "weight": "136 g",
     "volume": "174 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the rinded goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_WARMTH" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_WARMTH" ]
   },
   {
     "type": "effect_on_condition",
@@ -192,11 +168,7 @@
     "weight": "150 g",
     "volume": "191 ml",
     "fun": 0,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the minty goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_AWAKE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_AWAKE" ]
   },
   {
     "type": "effect_on_condition",
@@ -226,11 +198,7 @@
     "color": "light_red",
     "weight": "182 g",
     "volume": "232 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the smoky goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PURGE_BLOOD" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PURGE_BLOOD" ]
   },
   {
     "type": "effect_on_condition",
@@ -247,11 +215,7 @@
     "color": "black",
     "weight": "273 g",
     "volume": "348 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the inky goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_DODGE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_DODGE" ]
   },
   {
     "type": "effect_on_condition",
@@ -268,11 +232,7 @@
     "color": "yellow",
     "weight": "118 g",
     "volume": "151 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the toroid goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NIGHT_VISION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NIGHT_VISION" ]
   },
   {
     "type": "effect_on_condition",
@@ -292,11 +252,7 @@
     "color": "blue_red",
     "weight": "191 g",
     "volume": "244 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the dolm goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_BLEED" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_BLEED" ]
   },
   {
     "type": "effect_on_condition",
@@ -313,11 +269,7 @@
     "color": "dark_gray",
     "weight": "182 g",
     "volume": "232 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the spikey goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PERCEPTION" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_PERCEPTION" ]
   },
   {
     "type": "effect_on_condition",
@@ -335,11 +287,7 @@
     "weight": "146 g",
     "volume": "186 ml",
     "fun": -3,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the sanguine goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_DRUNK" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_DRUNK" ]
   },
   {
     "type": "effect_on_condition",
@@ -356,11 +304,7 @@
     "color": "white",
     "weight": "209 g",
     "volume": "267 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the translucent goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_ROTTEN_FOOD" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_NO_ROTTEN_FOOD" ]
   },
   {
     "type": "effect_on_condition",
@@ -377,11 +321,7 @@
     "color": "green_yellow",
     "weight": "146 g",
     "volume": "187 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the inconspicuous goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_FEATHERFALL" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_FEATHERFALL" ]
   },
   {
     "type": "effect_on_condition",
@@ -399,11 +339,7 @@
     "weight": "263 g",
     "volume": "300 ml",
     "fun": -3,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the crumbly goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_FEATHERFALL" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SUPER_CLAIRVOYANCE" ]
   },
   {
     "type": "effect_on_condition",
@@ -421,15 +357,11 @@
     "weight": "210 g",
     "volume": "240 ml",
     "fun": -3,
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the star-shaped goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_WATER_BREATHING" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_WATER_BREATHING" ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GOBLIN_WATER_BREATHING",
+    "id": "EOC_GOBLIN_FRUIT_WATER_BREATHING",
     "effect": [ { "u_add_effect": "effect_goblin_fruit_water_breathing", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
@@ -442,11 +374,7 @@
     "color": "dark_gray",
     "weight": "118 g",
     "volume": "151 ml",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the shadowy goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SHADOW" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_SHADOW" ]
   },
   {
     "type": "effect_on_condition",
@@ -464,11 +392,7 @@
     "weight": "199 g",
     "volume": "228 ml",
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "LIGHT_10" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the shiny goblin fruit.",
-      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GIANT_GROWTH" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GIANT_GROWTH" ]
   },
   {
     "type": "effect_on_condition",
