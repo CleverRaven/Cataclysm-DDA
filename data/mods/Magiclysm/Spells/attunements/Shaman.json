@@ -40,7 +40,10 @@
     "description": "Summons a keeper of the glades, a powerful ancient forest spirit, to defend you.  The keeper may be ridden and will unleash its fury on unnatural enemies, but will refuse to fight natural animals or forest spirits.",
     "valid_targets": [ "ground" ],
     "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true }, { "id": "summon_keeper_of_the_glades_petifiy", "hit_self": false } ],
+    "extra_effects": [
+      { "id": "eoc_summon_setup", "hit_self": true },
+      { "id": "summon_keeper_of_the_glades_pet_effect", "hit_self": false }
+    ],
     "effect": "summon",
     "effect_str": "mon_keeper_of_the_glades_shaman",
     "shape": "blast",
@@ -65,5 +68,27 @@
     "min_duration": 14400,
     "max_duration": 144000,
     "duration_increment": 4000
+  },
+  {
+    "id": "summon_keeper_of_the_glades_pet_effect",
+    "type": "SPELL",
+    "name": { "str": "The Guardian of the Forest Apply Pet", "//~": "NO_I18N" },
+    "description": {
+      "str": "Applies the pet effect to the summoned keeper of the glades so you can ride them.  You shouldn't see this.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "ally" ],
+    "flags": [ "CONCENTRATE" ],
+    "effect": "attack",
+    "effect_str": "pet",
+    "shape": "blast",
+    "spell_class": "SHAMAN",
+    "max_level": 35,
+    "min_aoe": 10,
+    "max_aoe": 10,
+    "min_duration": 14400,
+    "max_duration": 154000,
+    "duration_increment": 4500,
+    "targeted_monster_ids": [ "mon_keeper_of_the_glades_shaman" ]
   }
 ]
