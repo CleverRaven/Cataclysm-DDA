@@ -302,7 +302,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    add_msg_if_player_sees( target.raw(), spell_instance.message(), mon.disp_name(),
+    add_msg_if_player_sees( target, spell_instance.message(), mon.disp_name(),
                             spell_instance.name(), target_name );
 
     avatar fake_player;
@@ -723,7 +723,7 @@ bool melee_actor::call( monster &z ) const
     if( uncanny_dodgeable && target->uncanny_dodge() ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
-                                 sfx::get_heard_angle( z.pos() ) );
+                                 sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                        z.name(), body_part_name_accusative( bp_id ) );
@@ -733,7 +733,7 @@ bool melee_actor::call( monster &z ) const
     if( dodgeable ) {
         if( hitspread < 0 ) {
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
-                                     sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_angle( z.pos_bub() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
                                            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                            mon_name, body_part_name_accusative( bp_id ) );
@@ -868,7 +868,7 @@ bool melee_actor::call( monster &z ) const
         on_damage( z, *target, dealt_damage );
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
-                                 sfx::get_heard_angle( z.pos() ) );
+                                 sfx::get_heard_angle( z.pos_bub() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
                                        get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
                                        mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
@@ -934,7 +934,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
 {
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos_bub() ),
-                                 sfx::get_heard_angle( z.pos() ) );
+                                 sfx::get_heard_angle( z.pos_bub() ) );
         sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==

@@ -267,7 +267,7 @@
   {
     "id": "mon_nedcolbertia_juvenile",
     "type": "MONSTER",
-    "name": "greenish yellow two-legged juvenile",
+    "name": "nedcolbertia juvenile",
     "description": "A small two-legged dinosaur juvenile with feathers, it could be from a number of different species.",
     "default_faction": "herbivore_young",
     "categories": [ "DINOSAUR", "WILDLIFE" ],
@@ -307,6 +307,7 @@
   {
     "id": "mon_gallimimus_juvenile",
     "type": "MONSTER",
+    "name": "gallimimus juvenile",
     "copy-from": "mon_nedcolbertia_juvenile",
     "description": "A small bipedal dinosaur juvenile with feathers and a beak, it could be from a number of different species.",
     "volume": "220 L",
@@ -318,6 +319,7 @@
   {
     "id": "mon_struthiomimus_juvenile",
     "type": "MONSTER",
+    "name": "struthiomimus juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "upgrades": { "age_grow": 70, "into": "mon_struthiomimus" },
     "zombify_into": "mon_ztruthiomimus_juvenile"
@@ -325,6 +327,7 @@
   {
     "id": "mon_ornithomimus_juvenile",
     "type": "MONSTER",
+    "name": "ornithomimus juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" },
     "zombify_into": "mon_zornithomimus_juvenile"
@@ -332,8 +335,8 @@
   {
     "id": "mon_falcarius_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta two-legged juvenile",
-    "description": "A small bipedal plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "name": "falcarius juvenile",
+    "description": "A small bipedal plant-eating dinosaur juvenile.",
     "copy-from": "mon_gallimimus_juvenile",
     "volume": "50 L",
     "weight": "50 kg",
@@ -344,6 +347,7 @@
   {
     "id": "mon_therizinosaurus_juvenile",
     "type": "MONSTER",
+    "name": "therizinosaurus juvenile",
     "copy-from": "mon_therizinosaurus",
     "hp": 250,
     "upgrades": { "age_grow": 365, "into": "mon_therizinosaurus" },
@@ -352,6 +356,7 @@
   {
     "id": "mon_nothronychus_juvenile",
     "type": "MONSTER",
+    "name": "nothronychus juvenile",
     "copy-from": "mon_nothronychus",
     "volume": "400 L",
     "weight": "400 kg",
@@ -362,6 +367,7 @@
   {
     "id": "mon_anzu_juvenile",
     "type": "MONSTER",
+    "name": "anzu juvenile",
     "copy-from": "mon_anzu",
     "volume": "250 L",
     "weight": "250 kg",
@@ -374,6 +380,7 @@
   {
     "id": "mon_deinonychus_juvenile",
     "type": "MONSTER",
+    "name": "deinonychus juvenile",
     "default_faction": "deinonychus_juvenile",
     "copy-from": "mon_deinonychus",
     "volume": "50 L",
@@ -385,6 +392,7 @@
   {
     "id": "mon_utahraptor_juvenile",
     "type": "MONSTER",
+    "name": "utahraptor juvenile",
     "default_faction": "utahraptor_juvenile",
     "copy-from": "mon_utahraptor",
     "volume": "250 L",
@@ -396,6 +404,7 @@
   {
     "id": "mon_sarahsaurus_juvenile",
     "type": "MONSTER",
+    "name": "sarahsaurus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "description": "A large, two-legged, plant-eating juvenile sauropod with a long neck and tail.",
     "zombify_into": "mon_zarahsaurus_juvenile",
@@ -414,6 +423,7 @@
   {
     "id": "mon_anchisaurus_juvenile",
     "type": "MONSTER",
+    "name": "anchisaurus juvenile",
     "copy-from": "mon_issi_juvenile",
     "description": "A four-legged, plant-eating juvenile sauropod with a long neck.",
     "zombify_into": "mon_zanchisaurus",
@@ -427,6 +437,7 @@
   {
     "id": "mon_issi_juvenile",
     "type": "MONSTER",
+    "name": "issi juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "description": "A large, two-legged, plant-eating juvenile sauropod with a long neck and tail.",
     "zombify_into": "mon_zissi_juvenile",
@@ -445,6 +456,7 @@
   {
     "id": "mon_haplocanthosaurus_juvenile",
     "type": "MONSTER",
+    "name": "haplocanthosaurus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zaplocanthosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_haplocanthosaurus" }
@@ -452,7 +464,7 @@
   {
     "id": "mon_amargasaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
+    "name": "amargasaurus juvenile",
     "copy-from": "mon_gallimimus_juvenile",
     "looks_like": "mon_apatosaurus",
     "default_faction": "herbivore_dino",
@@ -486,6 +498,7 @@
   {
     "id": "mon_apatosaurus_juvenile",
     "type": "MONSTER",
+    "name": "apatosaurus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zapatosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_apatosaurus" }
@@ -493,6 +506,7 @@
   {
     "id": "mon_brontosaurus_juvenile",
     "type": "MONSTER",
+    "name": "brontosaurus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zrontosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brontosaurus" }
@@ -500,6 +514,7 @@
   {
     "id": "mon_diplodocus_juvenile",
     "type": "MONSTER",
+    "name": "diplodocus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_ziplodocus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_diplodocus" }
@@ -507,6 +522,7 @@
   {
     "id": "mon_barosaurus_juvenile",
     "type": "MONSTER",
+    "name": "barosaurus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zarosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_barosaurus" }
@@ -514,6 +530,7 @@
   {
     "id": "mon_camarasaurus_juvenile",
     "type": "MONSTER",
+    "name": "camarasaurus juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
@@ -526,6 +543,7 @@
   {
     "id": "mon_brachiosaurus_juvenile",
     "type": "MONSTER",
+    "name": "brachiosaurus juvenile",
     "copy-from": "mon_camarasaurus_juvenile",
     "zombify_into": "mon_zrachiosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
@@ -533,6 +551,7 @@
   {
     "id": "mon_astrodon_juvenile",
     "type": "MONSTER",
+    "name": "astrodon juvenile",
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zastrodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_astrodon" }
@@ -540,6 +559,7 @@
   {
     "id": "mon_alamosaurus_juvenile",
     "type": "MONSTER",
+    "name": "alamosaurus juvenile",
     "copy-from": "mon_camarasaurus_juvenile",
     "zombify_into": "mon_zalamosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_alamosaurus" },
@@ -548,8 +568,8 @@
   {
     "id": "mon_stegosaurus_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta four-legged juvenile",
-    "description": "A four-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
+    "name": "stegosaurus juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile larger than a cow.",
     "copy-from": "mon_gallimimus_juvenile",
     "hp": 200,
     "volume": "1000 L",
@@ -561,80 +581,91 @@
   {
     "id": "mon_hesperosaurus_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta four-legged juvenile",
+    "name": "hesperosaurus juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hesperosaurus" }
   },
   {
     "id": "mon_gastonia_juvenile",
     "type": "MONSTER",
+    "name": "gastonia juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 316, "into": "mon_gastonia" }
   },
   {
     "id": "mon_gargoyleosaurus_juvenile",
     "type": "MONSTER",
+    "name": "gargoyleosaurus juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 83, "into": "mon_gargoyleosaurus" }
   },
   {
     "id": "mon_sauropelta_juvenile",
     "type": "MONSTER",
+    "name": "sauropelta juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 333, "into": "mon_sauropelta" }
   },
   {
     "id": "mon_nodosaurus_juvenile",
     "type": "MONSTER",
+    "name": "nodosaurus juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
   },
   {
     "id": "mon_panoplosaurus_juvenile",
     "type": "MONSTER",
+    "name": "panoplosaurus juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 266, "into": "mon_panoplosaurus" }
   },
   {
     "id": "mon_edmontonia_juvenile",
     "type": "MONSTER",
+    "name": "edmontonia juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_edmontonia" }
   },
   {
     "id": "mon_zuul_juvenile",
     "type": "MONSTER",
+    "name": "zuul juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_zuul" }
   },
   {
     "id": "mon_dyoplosaurus_juvenile",
     "type": "MONSTER",
+    "name": "dyoplosaurus juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
   },
   {
     "id": "mon_ankylosaurus_juvenile",
     "type": "MONSTER",
+    "name": "ankylosaurus juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
   },
   {
     "id": "mon_euoplocephalus_juvenile",
     "type": "MONSTER",
+    "name": "euoplocephalus juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 333, "into": "mon_euoplocephalus" }
   },
   {
     "id": "mon_scolosaurus_juvenile",
     "type": "MONSTER",
+    "name": "scolosaurus juvenile",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_scolosaurus" }
   },
   {
     "id": "mon_tenontosaurus_juvenile",
     "type": "MONSTER",
-    "name": "green and yellow four-legged juvenile",
+    "name": "tenontosaurus juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "volume": "400 L",
     "weight": "400 kg",
@@ -646,7 +677,7 @@
   {
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
-    "name": "green and yellow four-legged juvenile",
+    "name": "camptosaurus juvenile",
     "copy-from": "mon_tenontosaurus_juvenile",
     "volume": "425 L",
     "weight": "425 kg",
@@ -656,7 +687,7 @@
   {
     "id": "mon_iguanodon_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta two-legged juvenile",
+    "name": "iguanodon juvenile",
     "copy-from": "mon_camptosaurus_juvenile",
     "volume": "1000 L",
     "weight": "1000 kg",
@@ -670,72 +701,84 @@
   {
     "id": "mon_eolambia_juvenile",
     "type": "MONSTER",
+    "name": "eolambia juvenile",
     "copy-from": "mon_iguanodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_eolambia" }
   },
   {
     "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
+    "name": "hadrosaurus juvenile",
     "copy-from": "mon_iguanodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
     "id": "mon_maiasaura_juvenile",
     "type": "MONSTER",
+    "name": "maiasaura juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
   },
   {
     "id": "mon_gryposaurus_juvenile",
     "type": "MONSTER",
+    "name": "gryposaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_gryposaurus" }
   },
   {
     "id": "mon_prosaurolophus_juvenile",
     "type": "MONSTER",
+    "name": "prosaurolophus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_prosaurolophus" }
   },
   {
     "id": "mon_saurolophus_juvenile",
     "type": "MONSTER",
+    "name": "saurolophus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_saurolophus" }
   },
   {
     "id": "mon_edmontosaurus_juvenile",
     "type": "MONSTER",
+    "name": "edmontosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
   },
   {
     "id": "mon_parasaurolophus_juvenile",
     "type": "MONSTER",
+    "name": "parasaurolophus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
   },
   {
     "id": "mon_lambeosaurus_juvenile",
     "type": "MONSTER",
+    "name": "lambeosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_lambeosaurus" }
   },
   {
     "id": "mon_corythosaurus_juvenile",
     "type": "MONSTER",
+    "name": "corythosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
   },
   {
     "id": "mon_hypacrosaurus_juvenile",
     "type": "MONSTER",
+    "name": "hypacrosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hypacrosaurus" }
   },
   {
     "id": "mon_pachycephalosaurus_juvenile",
     "type": "MONSTER",
+    "name": "pachycephalosaurus juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 70, "into": "mon_pachycephalosaurus" }
   },
@@ -829,6 +872,7 @@
   {
     "id": "mon_chasmosaurus_juvenile",
     "type": "MONSTER",
+    "name": "chasmosaurus juvenile",
     "copy-from": "mon_triceratops_juvenile",
     "hp": 90,
     "upgrades": { "age_grow": 365, "into": "mon_chasmosaurus" }
@@ -836,6 +880,7 @@
   {
     "id": "mon_pentaceratops_juvenile",
     "type": "MONSTER",
+    "name": "pentaceratops juvenile",
     "copy-from": "mon_triceratops_juvenile",
     "hp": 115,
     "upgrades": { "age_grow": 365, "into": "mon_pentaceratops" }
@@ -843,6 +888,7 @@
   {
     "id": "mon_kosmoceratops_juvenile",
     "type": "MONSTER",
+    "name": "kosmoceratops juvenile",
     "copy-from": "mon_kosmoceratops",
     "volume": "600 L",
     "weight": "600 kg",
@@ -853,13 +899,14 @@
   {
     "id": "mon_torosaurus_juvenile",
     "type": "MONSTER",
+    "name": "torosaurus juvenile",
     "copy-from": "mon_triceratops_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_torosaurus" }
   },
   {
     "id": "mon_triceratops_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta ceratopsian juvenile",
+    "name": "triceratops juvenile",
     "description": "A huge four-legged plant-eating dinosaur juvenile with a bony crest, beak, and horns.",
     "copy-from": "mon_triceratops",
     "hp": 200,
@@ -879,7 +926,7 @@
   {
     "id": "mon_pteranodon_juvenile",
     "type": "MONSTER",
-    "name": "winged juvenile",
+    "name": "pteranodon juvenile",
     "description": "A small winged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "pteranodon_young",
     "copy-from": "mon_gallimimus_juvenile",
@@ -902,6 +949,7 @@
   {
     "id": "mon_quetzalcoatlus_juvenile",
     "type": "MONSTER",
+    "name": "quetzalcoatlus juvenile",
     "default_faction": "quetzalcoatlus_juvenile",
     "copy-from": "mon_pteranodon_juvenile",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" }

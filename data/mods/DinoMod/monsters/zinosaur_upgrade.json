@@ -1667,7 +1667,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zasmosaurus_brute",
-    "name": { "str": "Crashing Chasm", "str_pl": "Five Horn Death Punches" },
+    "name": { "str": "Crashing Chasm" },
     "copy-from": "mon_zasmosaurus",
     "description": "A massive, four-legged dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1689,7 +1689,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zentaceratops_brute",
-    "name": { "str": "Five Horn Death Punch", "str_pl": "Five Horn Death Punches" },
+    "name": { "str": "Pentapanic" },
     "copy-from": "mon_zentaceratops",
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1800,7 +1800,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zescelosaurus_brute",
-    "name": { "str_sp": "Godlike Goliath" },
+    "name": { "str": "Godlike Goliath" },
     "copy-from": "mon_zescelosaurus",
     "description": "The shuffling corpse of a beaked bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -2003,7 +2003,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanuqsaurus_shady",
-    "name": { "str_sp": "shady nanuqsaurus zombie" },
+    "name": { "str": "shady nanuqsaurus zombie" },
     "copy-from": "mon_zanuqsaurus",
     "upgrades": { "half_life": 15, "into": "mon_zanuqsaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
@@ -2015,7 +2015,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zaspletosaurus_shady",
-    "name": { "str_sp": "shady daspletosaurus zombie" },
+    "name": { "str": "shady daspletosaurus zombie" },
     "copy-from": "mon_zaspletosaurus",
     "upgrades": { "half_life": 15, "into": "mon_zaspletosaurus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
@@ -2065,7 +2065,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ztruthiomimus_shady",
-    "name": { "str_sp": "shady struthiomimus zombie" },
+    "name": { "str": "shady struthiomimus zombie" },
     "copy-from": "mon_ztruthiomimus",
     "looks_like": "mon_gallimimus",
     "upgrades": { "half_life": 15, "into": "mon_ztruthiomimus_nightstalker" },
@@ -2078,7 +2078,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zornithomimus_shady",
-    "name": { "str_sp": "shady ornithomimus zombie" },
+    "name": { "str": "shady ornithomimus zombie" },
     "copy-from": "mon_zornithomimus",
     "upgrades": { "half_life": 15, "into": "mon_zornithomimus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges and a beak.",
@@ -2138,7 +2138,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_shady",
-    "name": { "str_sp": "shady deinonychus zombie" },
+    "name": { "str": "shady deinonychus zombie" },
     "copy-from": "mon_zeinonychus",
     "upgrades": { "half_life": 15, "into": "mon_zeinonychus_nightstalker" },
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -2198,7 +2198,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus_nightstalker",
-    "name": { "str_sp": "dilophosaurus nightstalker" },
+    "name": { "str": "dilophosaurus nightstalker" },
     "copy-from": "mon_zilophosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with sharp teeth and bulges on the head.",
     "diff": 2,
@@ -2218,7 +2218,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_nightstalker",
-    "name": { "str_sp": "ceratosaurus nightstalker" },
+    "name": { "str": "ceratosaurus nightstalker" },
     "copy-from": "mon_zeratosaurus_shady",
     "looks_like": "mon_zeratosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bulky bipedal dinosaur with horns, spikes, and big sharp teeth.",
@@ -2281,7 +2281,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallosaurus_nightstalker",
-    "name": { "str_sp": "allosaurus nightstalker" },
+    "name": { "str": "allosaurus nightstalker" },
     "copy-from": "mon_zallosaurus_shady",
     "looks_like": "mon_zallosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with big, sharp teeth.",
@@ -2302,7 +2302,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zacrocanthosaurus_nightstalker",
-    "name": { "str_sp": "acrocanthosaurus nightstalker" },
+    "name": { "str": "acrocanthosaurus nightstalker" },
     "copy-from": "mon_zacrocanthosaurus_shady",
     "looks_like": "mon_zacrocanthosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
@@ -2323,7 +2323,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ziganotosaurus_nightstalker",
-    "name": { "str_sp": "giganotosaurus nightstalker" },
+    "name": { "str": "giganotosaurus nightstalker" },
     "copy-from": "mon_ziganotosaurus_shady",
     "looks_like": "mon_ziganotosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with big, sharp teeth.",
@@ -2344,7 +2344,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ziats_nightstalker",
-    "name": { "str_sp": "siats nightstalker" },
+    "name": { "str": "siats nightstalker" },
     "copy-from": "mon_ziats_shady",
     "looks_like": "mon_ziats_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with big, sharp teeth.",
@@ -2365,7 +2365,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zryptosaurus_nightstalker",
-    "name": { "str_sp": "dryptosaurus nightstalker" },
+    "name": { "str": "dryptosaurus nightstalker" },
     "copy-from": "mon_zryptosaurus_shady",
     "looks_like": "mon_zryptosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
@@ -2386,7 +2386,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zappalachiosaurus_nightstalker",
-    "name": { "str_sp": "appalachiosaurus nightstalker" },
+    "name": { "str": "appalachiosaurus nightstalker" },
     "copy-from": "mon_zappalachiosaurus_shady",
     "looks_like": "mon_zappalachiosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
@@ -2407,7 +2407,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zorgosaurus_nightstalker",
-    "name": { "str_sp": "gorgosaurus nightstalker" },
+    "name": { "str": "gorgosaurus nightstalker" },
     "copy-from": "mon_zorgosaurus_shady",
     "looks_like": "mon_zorgosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
@@ -2428,7 +2428,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zalbertosaurus_nightstalker",
-    "name": { "str_sp": "albertosaurus nightstalker" },
+    "name": { "str": "albertosaurus nightstalker" },
     "copy-from": "mon_zalbertosaurus_shady",
     "looks_like": "mon_zalbertosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
@@ -2449,7 +2449,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus_nightstalker",
-    "name": { "str_sp": "qianzhousaurus nightstalker" },
+    "name": { "str": "qianzhousaurus nightstalker" },
     "copy-from": "mon_zianzhousaurus_shady",
     "looks_like": "mon_zianzhousaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
@@ -2470,7 +2470,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanuqsaurus_nightstalker",
-    "name": { "str_sp": "nanuqsaurus nightstalker" },
+    "name": { "str": "nanuqsaurus nightstalker" },
     "copy-from": "mon_zanuqsaurus_shady",
     "looks_like": "mon_zanuqsaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
@@ -2491,7 +2491,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zaspletosaurus_nightstalker",
-    "name": { "str_sp": "daspletosaurus nightstalker" },
+    "name": { "str": "daspletosaurus nightstalker" },
     "copy-from": "mon_zaspletosaurus_shady",
     "looks_like": "mon_zaspletosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
@@ -2512,7 +2512,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_nightstalker",
-    "name": { "str_sp": "tyrannosaurus nightstalker" },
+    "name": { "str": "tyrannosaurus nightstalker" },
     "copy-from": "mon_zyrannosaurus_shady",
     "looks_like": "mon_zyrannosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks large - lots of big teeth would fit in it.",
@@ -2533,7 +2533,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zedcolbertia_nightstalker",
-    "name": { "str_sp": "nedcolbertia nightstalker" },
+    "name": { "str": "nedcolbertia nightstalker" },
     "copy-from": "mon_zedcolbertia_shady",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -2552,7 +2552,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallimimus_nightstalker",
-    "name": { "str_sp": "gallimimus nightstalker" },
+    "name": { "str": "gallimimus nightstalker" },
     "copy-from": "mon_zallimimus_shady",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -2571,7 +2571,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ztruthiomimus_nightstalker",
-    "name": { "str_sp": "struthiomimus nightstalker" },
+    "name": { "str": "struthiomimus nightstalker" },
     "copy-from": "mon_ztruthiomimus_shady",
     "looks_like": "mon_ztruthiomimus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak.",
@@ -2592,7 +2592,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zornithomimus_nightstalker",
-    "name": { "str_sp": "ornithomimus nightstalker" },
+    "name": { "str": "ornithomimus nightstalker" },
     "copy-from": "mon_zornithomimus_shady",
     "looks_like": "mon_zornithomimus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak.",
@@ -2613,7 +2613,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zalcarius_nightstalker",
-    "name": { "str_sp": "falcarius nightstalker" },
+    "name": { "str": "falcarius nightstalker" },
     "copy-from": "mon_zalcarius_shady",
     "looks_like": "mon_zalcarius_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -2634,7 +2634,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zerizinosaurus_nightstalker",
-    "name": { "str_sp": "therizinosaurus nightstalker" },
+    "name": { "str": "therizinosaurus nightstalker" },
     "copy-from": "mon_zerizinosaurus_shady",
     "looks_like": "mon_zerizinosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -2655,7 +2655,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zothronychus_nightstalker",
-    "name": { "str_sp": "nothronychus nightstalker" },
+    "name": { "str": "nothronychus nightstalker" },
     "copy-from": "mon_zothronychus_shady",
     "looks_like": "mon_zothronychus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long curved claws protrude from its hands.",
@@ -2676,7 +2676,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanzu_nightstalker",
-    "name": { "str_sp": "anzu nightstalker" },
+    "name": { "str": "anzu nightstalker" },
     "copy-from": "mon_zanzu_shady",
     "looks_like": "mon_zanzu_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
@@ -2697,7 +2697,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_nightstalker",
-    "name": { "str_sp": "deinonychus nightstalker" },
+    "name": { "str": "deinonychus nightstalker" },
     "copy-from": "mon_zeinonychus_shady",
     "looks_like": "mon_zeinonychus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -2718,7 +2718,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zutahraptor_nightstalker",
-    "name": { "str_sp": "utahraptor nightstalker" },
+    "name": { "str": "utahraptor nightstalker" },
     "copy-from": "mon_zutahraptor_shady",
     "looks_like": "mon_zutahraptor_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bulky bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
@@ -2739,7 +2739,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_nightstalker",
-    "name": { "str_sp": "ankylosaurus nightstalker" },
+    "name": { "str": "ankylosaurus nightstalker" },
     "copy-from": "mon_zankylosaurus_shady",
     "looks_like": "mon_zankylosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
@@ -2782,7 +2782,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zescelosaurus_nightstalker",
-    "name": { "str_sp": "thescelosaurus nightstalker" },
+    "name": { "str": "thescelosaurus nightstalker" },
     "copy-from": "mon_zescelosaurus_shady",
     "looks_like": "mon_zescelosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak.",
@@ -4759,7 +4759,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallosaurus_hulk",
-    "name": { "str_sp": "allosaurus hulk" },
+    "name": { "str": "allosaurus hulk" },
     "copy-from": "mon_zallosaurus_brute",
     "looks_like": "mon_zallosaurus",
     "description": "A hideously swollen zombified allosaurid theropod body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
@@ -4789,7 +4789,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zapatosaurus_hulk",
-    "name": { "str_sp": "sauropod hulk" },
+    "name": { "str": "sauropod hulk" },
     "copy-from": "mon_zapatosaurus_brute",
     "looks_like": "mon_zapatosaurus",
     "description": "A hideously swollen zombified sauropod body towering into the sky even more than usual.  Its massive body bulges with distended muscles and swollen, festering wounds.",
@@ -4804,7 +4804,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus_hulk",
-    "name": { "str_sp": "ankylosaurid hulk" },
+    "name": { "str": "ankylosaurid hulk" },
     "copy-from": "mon_zankylosaurus_brute",
     "looks_like": "mon_ankylosaurus",
     "description": "A hideously swollen zombified ankylosaurid body towering into the sky.  Its massive body bulges with distended muscles and enormous bony armor.",
@@ -4819,7 +4819,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zriceratops_hulk",
-    "name": { "str_sp": "ceratopsian hulk" },
+    "name": { "str": "ceratopsian hulk" },
     "copy-from": "mon_zriceratops_brute",
     "looks_like": "mon_zriceratops",
     "description": "A hideously swollen zombified ceratopsian body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wound.",
@@ -4856,7 +4856,7 @@
   {
     "type": "MONSTER",
     "id": "mon_silophosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_silophosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -4902,7 +4902,7 @@
   {
     "type": "MONSTER",
     "id": "mon_skinosaurus_hulk",
-    "name": { "str_sp": "skeletal spinosaurus juggernaut" },
+    "name": { "str": "skeletal spinosaurus juggernaut" },
     "copy-from": "mon_skinosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The twisted back sail means it must have been a spinosaurus once.",
     "diff": 5,
@@ -4946,7 +4946,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sorvosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sorvosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -4990,7 +4990,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sallosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -5030,7 +5030,7 @@
   {
     "type": "MONSTER",
     "id": "mon_syrannosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_syrannosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
@@ -5073,7 +5073,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallimimus_hulk",
-    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "name": { "str": "skeletal beaked juggernaut" },
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
@@ -5119,7 +5119,7 @@
   {
     "type": "MONSTER",
     "id": "mon_salcarius_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_salcarius_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5165,7 +5165,7 @@
   {
     "type": "MONSTER",
     "id": "mon_serizinosaurus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_serizinosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5211,7 +5211,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sothronychus_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5257,7 +5257,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sanzu_hulk",
-    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "name": { "str": "skeletal beaked juggernaut" },
     "copy-from": "mon_sanzu_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting beak suggest some kind of two legged beaked dinosaur.",
     "diff": 5,
@@ -5303,7 +5303,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sutahraptor_hulk",
-    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "name": { "str": "skeletal theropod juggernaut" },
     "copy-from": "mon_sutahraptor_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting claws and sharp teeth suggest some kind of two legged dinosaur.",
     "diff": 5,
@@ -5371,7 +5371,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sescelosaurus_hulk",
-    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "name": { "str": "skeletal beaked juggernaut" },
     "copy-from": "mon_sescelosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
@@ -5395,7 +5395,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus_acid",
-    "name": { "str": "dilophosaurus acidic zombie" },
+    "name": { "str_sp": "acid dilophosaurus" },
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",
@@ -5446,7 +5446,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_acid",
-    "name": { "str": "ceratosaurus acidic zombie" },
+    "name": { "str_sp": "acid ceratosaurus" },
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",
