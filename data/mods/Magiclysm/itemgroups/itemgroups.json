@@ -36,6 +36,7 @@
     "extend": {
       "items": [
         { "group": "spellbook_tier_0", "prob": 80 },
+        { "item": "magazine_augmentative_review", "prob": 10 },
         { "group": "spellbook_loot_0", "prob": 4 },
         { "item": "history_botanical_enchantment", "prob": 2 }
       ]
@@ -52,6 +53,12 @@
         { "group": "dragon_books", "prob": 4 }
       ]
     }
+  },
+  {
+    "id": "book_mag_interests",
+    "type": "item_group",
+    "copy-from": "book_mag_interests",
+    "extend": { "items": [ { "item": "magazine_augmentative_review", "prob": 10 } ] }
   },
   {
     "type": "item_group",

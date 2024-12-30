@@ -49,7 +49,7 @@
     "copy-from": "spell_wand",
     "price_postapoc": "150 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -58,7 +58,7 @@
     "copy-from": "spell_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -67,7 +67,7 @@
     "copy-from": "spell_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -75,7 +75,7 @@
     "name": { "str": "minor wand of fireball", "str_pl": "minor wands of fireball" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -84,7 +84,7 @@
     "copy-from": "spell_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -93,7 +93,7 @@
     "copy-from": "spell_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts fireball.",
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -101,7 +101,7 @@
     "name": { "str": "minor wand of mana beam", "str_pl": "minor wands of mana beam" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
-    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -110,7 +110,7 @@
     "copy-from": "spell_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
-    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -119,7 +119,7 @@
     "copy-from": "spell_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts mana beam.",
-    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -127,7 +127,7 @@
     "name": { "str": "minor wand of point flare", "str_pl": "minor wands of point flare" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
-    "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -136,7 +136,7 @@
     "copy-from": "spell_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
-    "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -145,7 +145,7 @@
     "copy-from": "spell_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts point flare.",
-    "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -153,7 +153,7 @@
     "name": { "str": "minor wand of hoary blast", "str_pl": "minor wands of hoary blast" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -162,7 +162,7 @@
     "copy-from": "spell_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -171,7 +171,7 @@
     "copy-from": "spell_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -179,7 +179,7 @@
     "name": { "str": "minor wand of cone of cold", "str_pl": "minor wands of cone of cold" },
     "copy-from": "spell_wand",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
-    "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -188,7 +188,7 @@
     "copy-from": "spell_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
-    "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -197,7 +197,7 @@
     "copy-from": "spell_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts cone of cold.",
-    "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -259,7 +259,7 @@
     "name": { "str": "disposable minor wand of magic missile", "str_pl": "disposable minor wands of magic missile" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts magic missile.",
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -268,7 +268,7 @@
     "copy-from": "disp_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts magic missile.",
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -277,7 +277,7 @@
     "copy-from": "disp_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts magic missile.",
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -285,7 +285,7 @@
     "name": { "str": "disposable minor wand of fireball", "str_pl": "disposable minor wands of fireball" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts fireball.",
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -294,7 +294,7 @@
     "copy-from": "disp_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts fireball.",
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -303,7 +303,7 @@
     "copy-from": "disp_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts fireball.",
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "fireball_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -311,7 +311,7 @@
     "name": { "str": "disposable minor wand of mana beam", "str_pl": "disposable minor wands of mana beam" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts mana beam.",
-    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -320,7 +320,7 @@
     "copy-from": "disp_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts mana beam.",
-    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -329,7 +329,7 @@
     "copy-from": "disp_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts mana beam.",
-    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "magus_mana_beam_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -337,7 +337,7 @@
     "name": { "str": "disposable minor wand of point flare", "str_pl": "disposable minor wands of point flare" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts point flare.",
-    "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -346,7 +346,7 @@
     "copy-from": "disp_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts point flare.",
-    "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -355,7 +355,7 @@
     "copy-from": "disp_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts point flare.",
-    "use_action": { "type": "cast_spell", "spell_id": "point_flare", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "point_flare_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -363,7 +363,7 @@
     "name": { "str": "disposable minor wand of hoary blast", "str_pl": "disposable minor wands of hoary blast" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -372,7 +372,7 @@
     "copy-from": "disp_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -381,7 +381,7 @@
     "copy-from": "disp_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -389,7 +389,7 @@
     "name": { "str": "disposable minor wand of cone of cold", "str_pl": "disposable minor wands of cone of cold" },
     "copy-from": "disp_wand",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts cone of cold.",
-    "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 5, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -398,7 +398,7 @@
     "copy-from": "disp_wand",
     "price": "200 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts cone of cold.",
-    "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 10, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
@@ -407,7 +407,7 @@
     "copy-from": "disp_wand",
     "price": "300 USD",
     "description": "A slender wooden wand with an embedded mana crystal at the base that casts a spell when activated.  This wand casts cone of cold.",
-    "use_action": { "type": "cast_spell", "spell_id": "cone_cold", "no_fail": true, "level": 15, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "cone_cold_wand", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",

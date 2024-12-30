@@ -1015,7 +1015,8 @@ construction_id construction_menu( const bool blueprint )
             .description( _( "Filter" ) )
             .max_length( 100 )
             .text( tabindex == tabcount - 1 ? filter : std::string() )
-            .query();
+            .identifier( "construction" )
+            .query_string();
             if( popup.confirmed() ) {
                 filter = popup.text();
                 uistate.construction_filter = filter;

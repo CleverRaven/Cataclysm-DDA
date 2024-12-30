@@ -1304,7 +1304,7 @@ int Character::sight_range( float light_level ) const
 
 int Character::unimpaired_range() const
 {
-    return std::min( sight_max, 60 );
+    return std::min( sight_max, MAX_VIEW_DISTANCE );
 }
 
 bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) const
@@ -7878,6 +7878,9 @@ void Character::did_hit( Creature &target )
 
 ret_val<void> Character::can_wield( const item &it ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<void>::make_failure( _( "You can't wield a part of your body." ) );
+    }
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<void>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
