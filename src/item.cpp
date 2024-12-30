@@ -2502,6 +2502,18 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         insert_separation_line( info );
     }
 
+    if( parts->test( iteminfo_parts::DESCRIPTION_VARIANT_BASETYPE ) ) {
+        if( has_itype_variant() ) {
+            const std::string typ_name = type->get_id().str();
+            const std::string var_name = itype_variant().id;
+            if( var_name != "" && typ_name != var_name ) {
+                insert_separation_line( info );
+                info.emplace_back( "DESCRIPTION", string_format( _( "It is a kind of a %s." ), type->nname( 1 ) ) );
+            }
+            insert_separation_line( info );
+        }
+    }
+
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_REQUIREMENTS ) ) {
