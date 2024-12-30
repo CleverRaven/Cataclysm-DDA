@@ -344,7 +344,12 @@
       { "point": [ 3, 1, 0 ], "overmap": "forge_x3y1z1_north" },
       { "point": [ 0, 2, 0 ], "overmap": "forge_x0y2z1_north" },
       { "point": [ 1, 2, 0 ], "overmap": "forge_x1y2z1_north" },
-      { "point": [ 2, 2, 0 ], "overmap": "forge_x2y2z1_north", "camp": "forge_lords", "camp_name": "Forge of Wonders" },
+      {
+        "point": [ 2, 2, 0 ],
+        "overmap": "forge_x2y2z1_north",
+        "camp": "forge_lords",
+        "camp_name": "Forge of Wonders"
+      },
       { "point": [ 3, 2, 0 ], "overmap": "forge_x3y2z1_north" },
       { "point": [ 0, 3, 0 ], "overmap": "forge_x0y3z1_north" },
       { "point": [ 1, 3, 0 ], "overmap": "forge_x1y3z1_north" },
