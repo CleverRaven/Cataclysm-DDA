@@ -708,66 +708,77 @@
   {
     "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
+    "name": "hadrosaurus juvenile",
     "copy-from": "mon_iguanodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
     "id": "mon_maiasaura_juvenile",
     "type": "MONSTER",
+    "name": "maiasaura juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
   },
   {
     "id": "mon_gryposaurus_juvenile",
     "type": "MONSTER",
+    "name": "gryposaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_gryposaurus" }
   },
   {
     "id": "mon_prosaurolophus_juvenile",
     "type": "MONSTER",
+    "name": "prosaurolophus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_prosaurolophus" }
   },
   {
     "id": "mon_saurolophus_juvenile",
     "type": "MONSTER",
+    "name": "saurolophus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_saurolophus" }
   },
   {
     "id": "mon_edmontosaurus_juvenile",
     "type": "MONSTER",
+    "name": "edmontosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
   },
   {
     "id": "mon_parasaurolophus_juvenile",
     "type": "MONSTER",
+    "name": "parasaurolophus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
   },
   {
     "id": "mon_lambeosaurus_juvenile",
     "type": "MONSTER",
+    "name": "lambeosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_lambeosaurus" }
   },
   {
     "id": "mon_corythosaurus_juvenile",
     "type": "MONSTER",
+    "name": "corythosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
   },
   {
     "id": "mon_hypacrosaurus_juvenile",
     "type": "MONSTER",
+    "name": "hypacrosaurus juvenile",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hypacrosaurus" }
   },
   {
     "id": "mon_pachycephalosaurus_juvenile",
     "type": "MONSTER",
+    "name": "pachycephalosaurus juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 70, "into": "mon_pachycephalosaurus" }
   },
@@ -861,6 +872,7 @@
   {
     "id": "mon_chasmosaurus_juvenile",
     "type": "MONSTER",
+    "name": "chasmosaurus juvenile",
     "copy-from": "mon_triceratops_juvenile",
     "hp": 90,
     "upgrades": { "age_grow": 365, "into": "mon_chasmosaurus" }
@@ -868,6 +880,7 @@
   {
     "id": "mon_pentaceratops_juvenile",
     "type": "MONSTER",
+    "name": "pentaceratops juvenile",
     "copy-from": "mon_triceratops_juvenile",
     "hp": 115,
     "upgrades": { "age_grow": 365, "into": "mon_pentaceratops" }
@@ -875,6 +888,7 @@
   {
     "id": "mon_kosmoceratops_juvenile",
     "type": "MONSTER",
+    "name": "kosmoceratops juvenile",
     "copy-from": "mon_kosmoceratops",
     "volume": "600 L",
     "weight": "600 kg",
@@ -885,13 +899,14 @@
   {
     "id": "mon_torosaurus_juvenile",
     "type": "MONSTER",
+    "name": "torosaurus juvenile",
     "copy-from": "mon_triceratops_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_torosaurus" }
   },
   {
     "id": "mon_triceratops_juvenile",
     "type": "MONSTER",
-    "name": "green and magenta ceratopsian juvenile",
+    "name": "triceratops juvenile",
     "description": "A huge four-legged plant-eating dinosaur juvenile with a bony crest, beak, and horns.",
     "copy-from": "mon_triceratops",
     "hp": 200,
@@ -911,7 +926,7 @@
   {
     "id": "mon_pteranodon_juvenile",
     "type": "MONSTER",
-    "name": "winged juvenile",
+    "name": "pteranodon juvenile",
     "description": "A small winged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "pteranodon_young",
     "copy-from": "mon_gallimimus_juvenile",
@@ -934,6 +949,7 @@
   {
     "id": "mon_quetzalcoatlus_juvenile",
     "type": "MONSTER",
+    "name": "quetzalcoatlus juvenile",
     "default_faction": "quetzalcoatlus_juvenile",
     "copy-from": "mon_pteranodon_juvenile",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" }
