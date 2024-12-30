@@ -634,7 +634,7 @@
     "name": "forge of wonders",
     "sym": "$",
     "color": "red",
-	"entry_eoc": "EOC_FIND_FORGE_GATE",
+    "entry_eoc": "EOC_FIND_FORGE_GATE",
     "see_cost": "full_high"
   }
 ]
