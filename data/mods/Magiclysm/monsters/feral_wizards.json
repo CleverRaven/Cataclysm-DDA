@@ -265,7 +265,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "feral_druid_root_strike_spell",
-        "accurac+y": 7,
+        "accuracy": 7,
         "cooldown": 8,
         "move_cost": 100,
         "range": 8,
