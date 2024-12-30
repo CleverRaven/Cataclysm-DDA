@@ -58,7 +58,7 @@
       {
         "distribution": [
           { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 100 },
-          { "group": "feral_feral_technomancer_CBM_harvest_sensors", "prob": 60 },
+          { "group": "feral_technomancer_CBM_harvest_sensors", "prob": 60 },
           { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
         ],
         "prob": 30
