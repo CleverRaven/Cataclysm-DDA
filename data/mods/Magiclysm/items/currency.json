@@ -25,7 +25,7 @@
           "effect": [
             {
               "u_location_variable": { "context_val": "forge_location" },
-              "target_params": { "om_terrain": "forge_3B", "search_range": 2000, "z": 0 }
+              "target_params": { "om_terrain": "forge_x2y2z1", "search_range": 2000, "z": 0 }
             },
             { "reveal_map": { "context_val": "forge_location" }, "radius": 4 },
             {

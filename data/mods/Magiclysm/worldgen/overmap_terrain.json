@@ -631,9 +631,10 @@
       "forge_x2y3z4",
       "forge_x3y3z4"
     ],
-    "name": "new forge of wonders",
+    "name": "forge of wonders",
     "sym": "$",
     "color": "red",
+	"entry_eoc": "EOC_FIND_FORGE_GATE",
     "see_cost": "full_high"
   }
 ]
