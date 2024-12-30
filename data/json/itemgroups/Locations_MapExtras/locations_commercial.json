@@ -102,6 +102,7 @@
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
+      { "group": "small_candles_in_box", "prob": 10 },
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
       { "item": "lighter", "prob": 25, "charges": [ 0, 100 ] },
