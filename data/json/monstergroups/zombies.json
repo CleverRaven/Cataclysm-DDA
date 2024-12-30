@@ -1012,7 +1012,7 @@
   {
     "name": "GROUP_MINERS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_zombie_miner", "weight": 100 }, { "monster": "mon_zombie_dwarf", "weight": 40 } ]
+    "monsters": [ { "monster": "mon_zombie_miner" } ]
   },
   {
     "type": "monstergroup",
