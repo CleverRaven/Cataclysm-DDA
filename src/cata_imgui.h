@@ -52,6 +52,8 @@ enum class dialog_result {
 
 enum class scroll : int {
     none = 0,
+    begin,
+    end,
     line_up,
     line_down,
     page_up,

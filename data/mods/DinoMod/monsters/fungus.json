@@ -1280,6 +1280,25 @@
     "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE", "BASHES" ]
   },
   {
+    "id": "mon_zona_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal fona zombie" },
+    "description": "This was once a two-legged dinosaur herbivore, with a long tail and claws.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zona",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ] ],
+    "upgrades": false,
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "PET_MOUNTABLE", "BASHES" ]
+  },
+  {
     "id": "mon_zescelosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal thescelosaurus zombie" },

@@ -1318,6 +1318,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zona_scorched",
+    "name": { "str": "scorched fona zombie" },
+    "copy-from": "mon_zescelosaurus_scorched",
+    "looks_like": "mon_zallimimus",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 70,
+    "attack_cost": 70,
+    "hp": 70,
+    "fungalize_into": "mon_zona_fungus",
+    "description": "A heavily-burned, two-legged zombie dinosaur with claws and a long tail; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zescelosaurus_scorched",
     "name": { "str": "scorched thescelosaurus zombie" },
     "copy-from": "mon_zallimimus_scorched",

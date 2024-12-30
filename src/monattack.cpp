@@ -3972,7 +3972,8 @@ bool mattack::flesh_tendril( monster *z )
         if( one_in( 70 ) ) {
             add_msg( _( "The floor trembles underneath your feet." ) );
             z->mod_moves( -to_moves<int>( 2_seconds ) );
-            sounds::sound( z->pos_bub(), 60, sounds::sound_t::alert, _( "a deafening roar!" ), false, "shout",
+            sounds::sound( z->pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::alert, _( "a deafening roar!" ),
+                           false, "shout",
                            "roar" );
         }
         return false;
@@ -4000,7 +4001,8 @@ bool mattack::flesh_tendril( monster *z )
         //it pulls you towards itself and then knocks you away
         bool pulled = z->type->special_attacks.at( "ranged_pull" )->call( *z );
         if( pulled && one_in( 4 ) ) {
-            sounds::sound( z->pos_bub(), 60, sounds::sound_t::alarm, _( "a deafening roar!" ), false, "shout",
+            sounds::sound( z->pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::alarm, _( "a deafening roar!" ),
+                           false, "shout",
                            "roar" );
         }
         return pulled;
@@ -4460,7 +4462,7 @@ bool mattack::kamikaze( monster *z )
     */
     // END HORRIBLE HACK
 
-    add_msg_if_player_sees( z->pos(), m_bad, _( "The %s lights up menacingly." ), z->name() );
+    add_msg_if_player_sees( z->pos_bub(), m_bad, _( "The %s lights up menacingly." ), z->name() );
 
     return true;
 }
@@ -4677,7 +4679,7 @@ bool mattack::doot( monster *z )
 
 bool mattack::speaker( monster *z )
 {
-    sounds::sound( z->pos_bub(), 60, sounds::sound_t::order,
+    sounds::sound( z->pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::order,
                    SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
     return true;
 }

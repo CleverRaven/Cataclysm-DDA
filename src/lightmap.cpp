@@ -68,19 +68,32 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
+void map::add_item_light_recursive( const tripoint_bub_ms &p, const item &it )
+{
+    float ilum = 0.0f; // brightness
+    units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
+    units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
+    if( it.getlight( ilum, iwidth, idir ) ) {
+        if( iwidth > 0_degrees ) {
+            apply_light_arc( p, idir, ilum, iwidth );
+        } else {
+            add_light_source( p, ilum );
+        }
+    }
+
+    for( const item_pocket *pkt : it.get_all_contained_pockets() ) {
+        if( pkt->transparent() ) {
+            for( const item *cont : pkt->all_items_top() ) {
+                add_item_light_recursive( p, *cont );
+            }
+        }
+    }
+}
+
 void map::add_light_from_items( const tripoint_bub_ms &p, const item_stack &items )
 {
     for( const item &it : items ) {
-        float ilum = 0.0f; // brightness
-        units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
-        units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( it.getlight( ilum, iwidth, idir ) ) {
-            if( iwidth > 0_degrees ) {
-                apply_light_arc( p, idir, ilum, iwidth );
-            } else {
-                add_light_source( p, ilum );
-            }
-        }
+        add_item_light_recursive( p, it );
     }
 }
 
@@ -900,7 +913,7 @@ void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
 {
     constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
     float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
+    float radius = static_cast<float>( MAX_VIEW_DISTANCE ) - offsetDistance;
     if( start < end ) {
         return;
     }
@@ -1130,7 +1143,7 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         if( !is_camera ) {
             offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
-            offsetDistance = 60 - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
+            offsetDistance = MAX_VIEW_DISTANCE - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
             mocache = &camera_cache;
             ( *mocache )[mirror_pos.x()][mirror_pos.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }

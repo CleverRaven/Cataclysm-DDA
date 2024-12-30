@@ -180,7 +180,7 @@
     "default_faction": "goblin",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
+    "species": [ "WARG" ],
     "volume": "200000 ml",
     "weight": "200000 g",
     "hp": 175,
@@ -188,9 +188,9 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "mon_wolf",
+    "looks_like": "mon_direwolf",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "aggression": 20,
+    "aggression": 30,
     "morale": 70,
     "melee_skill": 7,
     "melee_dice": 2,
@@ -214,9 +214,26 @@
       [ "SHRIEK", 12 ],
       [ "EAT_FOOD", 60 ]
     ],
+    "petfood": {
+      "food": [ "WARG_FOOD" ],
+      "feed": "The %s approaches you, acknowledging your ancient bond, and eats the meat you offer.",
+      "pet": "The %s happily wags its tail while you pat its head."
+    },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zombie_dog_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PET_MOUNTABLE",
+      "COMBAT_MOUNT",
+      "CANPLAY",
+      "PATH_AVOID_DANGER",
+      "WARM",
+      "KEENNOSE",
+      "EATS"
+    ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {

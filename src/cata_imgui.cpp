@@ -684,12 +684,19 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
  */
 void cataimgui::set_scroll( scroll &s )
 {
+    int scroll_px_begin = ImGui::GetScrollY();
     int scroll_px = 0;
     int line_height = ImGui::GetTextLineHeightWithSpacing();
-    int page_height = ImGui::GetContentRegionAvail().y;
+    int page_height = ImGui::GetWindowSize().y;
 
     switch( s ) {
         case scroll::none:
+            break;
+        case scroll::begin:
+            scroll_px_begin = 0;
+            break;
+        case scroll::end:
+            scroll_px_begin = ImGui::GetScrollMaxY();
             break;
         case scroll::line_up:
             scroll_px = -line_height;
@@ -705,7 +712,7 @@ void cataimgui::set_scroll( scroll &s )
             break;
     }
 
-    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+    ImGui::SetScrollY( scroll_px_begin + scroll_px );
 
     s = scroll::none;
 }

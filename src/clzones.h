@@ -17,6 +17,7 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"
@@ -32,9 +33,6 @@ struct construction;
 using faction_id = string_id<faction>;
 inline const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
-
-//Generic activity: maximum search distance for zones, constructions, etc.
-constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
 
 extern const std::vector<zone_type_id> ignorable_zone_types;
 
@@ -549,7 +547,7 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_data>;
 
     private:
-        static const int MAX_DISTANCE = ACTIVITY_SEARCH_DISTANCE;
+        static const int MAX_DISTANCE = MAX_VIEW_DISTANCE;
         std::vector<zone_data> zones;
         //Containers for Revert functionality for Vehicle Zones
         //Pointer to added zone to be removed
