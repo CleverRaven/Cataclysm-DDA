@@ -114,9 +114,9 @@
         "ö": "t_magiconc_floor",
         "'": "t_wall_glassteel_alarm",
         "÷": "t_strconc_floor_no_roof",
-		"ø": "t_magiconc_floor"
+        "ø": "t_magiconc_floor"
       },
-	  "traps": { "ø": "tr_forge_vault" },
+      "traps": { "ø": "tr_forge_vault" },
       "items": {
         "÷": [
           { "item": "forge_vault_items", "chance": 10, "repeat": [ 1, 2 ] },
@@ -142,7 +142,12 @@
         { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
       "place_npcs": [ { "class": "forge_lord_merchant", "x": 44, "y": 11 } ],
-      "place_monsters": [ { "monster": "GROUP_FORGEDEMONS", "x": [ 42, 47 ], "y": [ 26, 33 ], "density": 0.1, "repeat": [ 3, 6 ] } ],
+      "place_monsters": [
+        { "monster": "GROUP_FORGEDEMONS", "x": [ 42, 47 ], "y": [ 26, 33 ], "density": 0.1, "repeat": [ 3, 6 ] },
+        { "monster": "GROUP_FORGE_DWARVES", "x": [ 29, 31 ], "y": [ 19, 21 ], "density": 0.1 },
+        { "monster": "GROUP_FORGE_DWARVES", "x": [ 58, 60 ], "y": [ 19, 21 ], "density": 0.1 },
+        { "monster": "GROUP_FORGE_AUTOMATA", "x": [ 42, 47 ], "y": [ 9, 14 ], "density": 0.1 }
+      ],
       "monster": { "ö": { "monster": "mon_forgedemons" } },
       "place_zones": [
         { "type": "LOOT_ITEM_GROUP", "filter": "NC_FORGE_LORD_SHOP", "faction": "forge_lords", "x": [ 43, 46 ], "y": 13 },
@@ -314,6 +319,12 @@
         { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 48, 71 ] },
         { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 72, 95 ] }
       ],
+      "place_monsters": [
+        { "monster": "GROUP_FORGE_DWARVES", "x": [ 24, 47 ], "y": [ 3, 13 ], "density": 0.1, "repeat": [ 3, 6 ] },
+        { "monster": "GROUP_FORGE_DWARVES", "x": [ 48, 66 ], "y": [ 3, 13 ], "density": 0.1, "repeat": [ 3, 6 ] },
+        { "monster": "GROUP_FORGE_AUTOMATA", "x": [ 42, 46 ], "y": [ 5, 13 ], "density": 0.1, "repeat": [ 3, 6 ] },
+        { "monster": "GROUP_FORGE_AUTOMATA", "x": [ 76, 93 ], "y": [ 56, 64 ], "density": 0.1, "repeat": [ 3, 6 ] }
+      ],
       "place_npcs": [
         { "class": "forge_lord_librarian", "x": 37, "y": 57 },
         { "class": "forge_lord_diviner", "x": 51, "y": 50 },
@@ -477,7 +488,26 @@
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
-      "palettes": [ "ForgeOfWonders_Palette" ]
+      "palettes": [ "ForgeOfWonders_Palette" ],
+      "faction_owner": [
+        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 24, 47 ] },
+        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 48, 71 ] },
+        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 72, 95 ] },
+        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 24, 47 ] },
+        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 48, 71 ] },
+        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 72, 95 ] },
+        { "id": "forge_lords", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "forge_lords", "x": [ 48, 71 ], "y": [ 48, 71 ] },
+        { "id": "forge_lords", "x": [ 48, 71 ], "y": [ 72, 95 ] },
+        { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 24, 47 ] },
+        { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 48, 71 ] },
+        { "id": "forge_lords", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_FORGE_DWARVES", "x": [ 41, 47 ], "y": [ 6, 13 ], "density": 0.1, "repeat": [ 3, 6 ] } ]
     }
   },
   {
