@@ -294,7 +294,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_everburning_steet_lamp",
+    "id": "f_everburning_street_lamp",
     "name": "everburning street lamp",
     "description": "A street lamp, strangely the candle never seems to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
     "symbol": ".",
