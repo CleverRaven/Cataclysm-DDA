@@ -638,7 +638,7 @@ static time_info get_time() noexcept
 struct OutputDebugStreamA : public std::ostream {
 
         // Use the file buffer from DebugFile
-        OutputDebugStreamA( const std::shared_ptr<std::ostream>& stream )
+        OutputDebugStreamA( const std::shared_ptr<std::ostream> &stream )
             : std::ostream( &buf ), buf( stream->rdbuf() ) {}
 
         // Intercept stream operations
@@ -650,11 +650,11 @@ struct OutputDebugStreamA : public std::ostream {
                 virtual int overflow( int c ) override {
                     if( EOF != c ) {
                         int rc = buf->sputc( c );
-                        if ( std::iscntrl(c) ) {
+                        if( std::iscntrl( c ) ) {
                             send();
                         } else {
                             output_string.push_back( c );
-                            if (output_string.size() >= max) {
+                            if( output_string.size() >= max ) {
                                 send();
                             }
                         }
@@ -665,30 +665,32 @@ struct OutputDebugStreamA : public std::ostream {
                 }
                 virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
                     std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
-                    for(; i < n; ++i) {
-                        if( std::iscntrl(s[i]) ) {
-                            if(i == last+1) { // Skip multiple empty lines
+                    for( ; i < n; ++i ) {
+                        if( std::iscntrl( s[i] ) ) {
+                            if( i == last + 1 ) { // Skip multiple empty lines
                                 last = i;
                                 continue;
                             }
-                            const std::string sv(s + last, i - last);
+                            const std::string sv( s + last, i - last );
                             last = i;
-                            send(sv.c_str());
+                            send( sv.c_str() );
                         }
                     }
                     std::string append( s + last, n - last );
                     // Skip if only made of multiple newlines
-                    if (none_of( append.begin(), append.end(), [](int c) { return std::iscntrl(c); })) {
+                    if( none_of( append.begin(), append.end(), []( int c ) {
+                    return std::iscntrl( c );
+                    } ) ) {
                         output_string.append( s + last, n - last );
                     }
-                    if (output_string.size() >= max) {
+                    if( output_string.size() >= max ) {
                         send();
                     }
                     return rc;
                 }
             private:
-                void send(const char *s = nullptr) {
-                    if (s == nullptr) {
+                void send( const char *s = nullptr ) {
+                    if( s == nullptr ) {
                         ::OutputDebugStringA( output_string.c_str() );
                         output_string.clear();
                     } else {
@@ -707,11 +709,10 @@ struct DebugFile {
     ~DebugFile();
     void init( DebugOutput, const cata_path &filename );
     std::ostream &get_file();
-    static DebugFile& instance() {
+    static DebugFile &instance() {
         static DebugFile instance;
         return instance;
     };
-
     // Using shared_ptr for the type-erased deleter support, not because
     // it needs to be shared.
     std::shared_ptr<std::ostream> file = std::make_shared<std::ostringstream>();
