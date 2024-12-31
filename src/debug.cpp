@@ -800,7 +800,7 @@ void setupDebug( DebugOutput output_mode )
         limitDebugClass( cl );
     }
 
-    debugFile().init( output_mode, PATH_INFO::debug() );
+    DebugFile::instance().init( output_mode, PATH_INFO::debug() );
 }
 
 void deinitDebug()
@@ -1471,11 +1471,11 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
+        std::ostream &out = DebugFile::instance().get_file();
 #if defined(_WIN32)
         // Additionally send it to Windows' debugger or Dbgview
         static OutputDebugStreamA out( debugFile().get_file() );
 #else
-        std::ostream &out = debugFile().get_file();
 #endif
 
         output_repetitions( out );
