@@ -73,6 +73,7 @@ struct dealt_projectile_attack {
     tripoint_bub_ms end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
     double missed_by; // Accuracy of dealt attack
     bool headshot = false; // Headshot or not;
+    bool shrapnel = false; // True if the projectile is generated from an explosive
 };
 
 void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,

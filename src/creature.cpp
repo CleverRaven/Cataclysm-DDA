@@ -1349,7 +1349,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     // Create a copy that records whether the attack is a crit.
     weakpoint_attack wp_attack_copy = wp_attack;
     wp_attack_copy.type = weakpoint_attack::attack_type::PROJECTILE;
-    wp_attack_copy.source = source;
+    wp_attack_copy.source = attack.shrapnel ? nullptr : source;
     wp_attack_copy.target = this;
     wp_attack_copy.accuracy = goodhit;
     wp_attack_copy.compute_wp_skill();
