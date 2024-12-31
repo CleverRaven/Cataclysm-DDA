@@ -37,7 +37,7 @@
     "id": "summon_keeper_of_the_glades",
     "type": "SPELL",
     "name": { "str": "The Guardian of the Forest" },
-    "description": "Summons a keeper of the glades, a powerful ancient forest spirit, to defend you.  The keeper may be ridden and will unleash its fury on unnatural enemies, but will refuse to fight natural animals or forest spirits.",
+    "description": "Summons a keeper of the glades, a powerful ancient forest spirit, to defend you.  The keeper may be ridden and will unleash its fury on unnatural enemies, but is much less powerful in the cities than in the forest.",
     "valid_targets": [ "ground" ],
     "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [
