@@ -650,8 +650,16 @@ struct OutputDebugStreamA : public std::ostream {
                 virtual int overflow( int c ) override {
                     if( EOF != c ) {
                         int rc = buf->sputc( c );
-                        output_string.push_back( c );
-                        OutputDebugString( c );
+                        if ( std::iscntrl(c) ) {
+                            send();
+                        } else {
+                            output_string.push_back( c );
+                            if (output_string.size() >= max) {
+                                send();
+                            }
+                        }
+                    } else {
+                        send();
                     }
                     return c;
                 }
@@ -662,11 +670,12 @@ struct OutputDebugStreamA : public std::ostream {
                     return rc;
                 }
             private:
-                // If `c` is not EOF then it must have been called by overflow
-                void OutputDebugString( int c = EOF ) {
-                    if( output_string.size() >= max || c == '\n' || c == '\r' ) {
+                void send(const char *s = nullptr) {
+                    if (s == nullptr) {
                         ::OutputDebugStringA( output_string.c_str() );
                         output_string.clear();
+                    } else {
+                        ::OutputDebugStringA( s );
                     }
                 }
                 static constexpr std::streamsize max = 4096;
