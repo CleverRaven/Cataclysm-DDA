@@ -682,6 +682,10 @@ struct DebugFile {
     void init( DebugOutput, const cata_path &filename );
     void deinit();
     std::ostream &get_file();
+    static DebugFile& instance() {
+        static DebugFile instance;
+        return instance;
+    };
 
     // Using shared_ptr for the type-erased deleter support, not because
     // it needs to be shared.
@@ -692,16 +696,6 @@ struct DebugFile {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
-// needs to be inside the method to ensure it's initialized (and only once)
-// NOTE: using non-local static variables (defined at top level in cpp file) here is wrong,
-// because DebugLog (that uses them) might be called from the constructor of some non-local static entity
-// during dynamic initialization phase, when non-local static variables here are
-// only zero-initialized
-static DebugFile &debugFile()
-{
-    static DebugFile debugFile;
-    return debugFile;
-}
 
 DebugFile::DebugFile() = default;
 
