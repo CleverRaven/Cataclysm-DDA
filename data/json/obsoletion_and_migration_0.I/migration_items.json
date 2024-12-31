@@ -2159,5 +2159,55 @@
     "id": "peanutbutter_imitation",
     "type": "MIGRATION",
     "replace": "peanutbutter"
+  },
+  {
+    "id": "dragonskin",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
+  },
+  {
+    "id": "stillsuit",
+    "type": "MIGRATION",
+    "replace": "h20survivor_jumpsuit"
+  },
+  {
+    "id": "m1911-460",
+    "type": "MIGRATION",
+    "replace": "m1911"
+  },
+  {
+    "id": "460_rowland",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "bp_460_fmj",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "reloaded_460_fmj",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "460_fmj",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "bp_460_rowland",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "reloaded_460_rowland",
+    "type": "MIGRATION",
+    "replace": "45_super"
+  },
+  {
+    "id": "460_casing",
+    "type": "MIGRATION",
+    "replace": "45_casing"
   }
 ]
