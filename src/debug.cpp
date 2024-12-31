@@ -715,14 +715,14 @@ void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
     std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
             ( file );
 
+    bool rename_failed = false;
+    const cata_path oldfile = filename + ".prev";
     switch( output_mode ) {
         case DebugOutput::std_err:
             file = std::shared_ptr<std::ostream>( &std::cerr, null_deleter() );
             break;
         case DebugOutput::file: {
             this->filename = filename;
-            const cata_path oldfile = filename + ".prev";
-            bool rename_failed = false;
             // Continue with the old log file if it's smaller than 1 MiB
             if( fs::file_size( fs::path( filename ) ) >= 1024 * 1024 ) {
                 std::error_code ec;
@@ -731,16 +731,6 @@ void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
             }
             file = std::make_shared<std::ofstream>(
                        filename.generic_u8string(), std::ios::out | std::ios::app );
-            *file << "\n\n-----------------------------------------\n";
-            *file << get_time() << " : Starting log.";
-            DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
-            if( rename_failed ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
-                                            << oldfile << " failed.\n"
-                                            << "Check the file permissions.  This "
-                                            "program will continue to use the "
-                                            "previous log file.";
-            }
         }
         break;
         default:
@@ -749,6 +739,16 @@ void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
             return;
     }
 
+    *file << "\n\n-----------------------------------------\n";
+    *file << get_time() << " : Starting log.";
+    DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
+    if( rename_failed ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
+                                    << oldfile << " failed.\n"
+                                    << "Check the file permissions.  This "
+                                    "program will continue to use the "
+                                    "previous log file.";
+    }
     if( str_buffer && file ) {
         *file << str_buffer->str();
     }
