@@ -15,8 +15,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "weakpoints": [
-      { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the inside of its mouth", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 15,
@@ -222,8 +222,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 7,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "weakpoint_sets": [  ],
     "bleed_rate": 0,
@@ -432,8 +432,8 @@
     "vision_night": 5,
     "//": "Legs are important to this monster as he needs them to climb and leap.",
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "the leg", "armor_mult": { "physical": 0.75 }, "coverage": 3 }
     ],
     "weakpoint_sets": [  ],
@@ -464,8 +464,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
     "weakpoints": [
-      { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the inside of the mouth", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "weakpoint_sets": [  ],
     "bleed_rate": 0,
@@ -654,8 +654,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "bleed_rate": 0,
     "vision_day": 45,
