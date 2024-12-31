@@ -369,7 +369,7 @@ void catacurses::init_interface()
 #if defined(SDL_SOUND)
     initSDLAudioOnly();
     init_sound();
-    if (sound_init_success) {
+    if( sound_init_success ) {
         load_soundset();
     }
 #endif

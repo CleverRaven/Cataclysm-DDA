@@ -913,8 +913,9 @@ void load_soundset()
 }
 
 // capitalized to mirror cata_tiles::InitSDL()
-void initSDLAudioOnly() {
-    const int ret = SDL_Init(SDL_INIT_AUDIO);
+void initSDLAudioOnly()
+{
+    const int ret = SDL_Init( SDL_INIT_AUDIO );
     throwErrorIf( ret != 0, "SDL_Init failed" );
     if( atexit( SDL_Quit ) ) {
         debugmsg( "atexit failed to register SDL_Quit" );
