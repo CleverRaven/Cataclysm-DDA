@@ -771,14 +771,14 @@ class comestible_inventory_preset : public inventory_selector_preset
                 while( temp.has_parent() ) {
                     item_pocket *pocket = temp.parent_pocket();
                     if( pocket->sealed() ) {
-                        sealed = _( "sealed \u2337" );
+                        sealed = _( "sealed" );
                         break;
                     }
                     temp = temp.parent_item();
                 }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        sealed = get_freshness( loc ) + ( sealed.empty() ? "  " : " \u2337" );
+                        sealed = ( sealed.empty() ? "" : "\u2337 " ) + get_freshness( loc );
                     }
                 } else {
                     sealed = "unsure";
@@ -929,9 +929,9 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else if( rot_progress < 0.7 ) {
                 return _( "rough" );
             } else if( rot_progress < 0.9 ) {
-                return _( "older" );
-            } else if( !it.rotten() ) {
                 return _( "old" );
+            } else if( !it.rotten() ) {
+                return _( "bad" );
             } else {
                 return _( "rotten" );
             }
@@ -1012,7 +1012,7 @@ static std::string get_consume_needs_hint( Character &you )
     }
 
     // add info about vitamins as well
-    if ( TERMX < 105 ) {
+    if ( TERMX < 125 ) {
         hint.append( "\n" );
     }
     hint.append( _( "Vitamin Intake: " ) );
@@ -1041,6 +1041,8 @@ static std::string get_consume_needs_hint( Character &you )
         }
         hint.append( colorize( desc.first, desc.second ) );
     }
+	
+	hint.append( _( "\u2337 = sealed" ) );
     return hint;
 }
 
