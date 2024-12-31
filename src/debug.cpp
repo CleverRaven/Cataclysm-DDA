@@ -669,9 +669,9 @@ struct OutputDebugStreamA : public std::ostream {
                         output_string.clear();
                     }
                 }
-                static constexpr std::streamsize max = 1024;
-                std::string output_string;
-                std::streambuf *buf;
+                static constexpr std::streamsize max = 4096;
+                std::string output_string{};
+                std::streambuf *buf = nullptr;
         } buf;
 };
 #endif
