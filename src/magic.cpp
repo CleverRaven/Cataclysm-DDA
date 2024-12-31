@@ -2554,7 +2554,9 @@ class spellcasting_callback : public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return ( std::max( 80, TERMX * 3 / 8 ) * ImGui::CalcTextSize( "X" ).x ) * 2.0 / 3.0;
+            return std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ),
+                               ImGui::GetMainViewport()->Size.x * 3 / 8,
+                               ImGui::GetMainViewport()->Size.x );
         }
 
         void refresh( uilist *menu ) override {
