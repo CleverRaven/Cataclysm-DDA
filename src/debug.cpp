@@ -738,7 +738,10 @@ void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
                       << std::endl;
             return;
     }
-
+#ifdef _WIN32
+    static auto keep_shared_ptr = file;
+    file = std::make_shared<OutputDebugStreamA>( file );
+#endif
     *file << "\n\n-----------------------------------------\n";
     *file << get_time() << " : Starting log.";
     DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
@@ -1472,11 +1475,6 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     // Messages from D_MAIN come from debugmsg and are equally important.
     if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = DebugFile::instance().get_file();
-#if defined(_WIN32)
-        // Additionally send it to Windows' debugger or Dbgview
-        static OutputDebugStreamA out( debugFile().get_file() );
-#else
-#endif
 
         output_repetitions( out );
 
