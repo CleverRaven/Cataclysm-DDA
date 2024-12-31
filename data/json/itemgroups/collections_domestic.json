@@ -1352,7 +1352,6 @@
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
       [ "bondage_mask", 20 ],
-      [ "dragonskin", 2 ],
       [ "knife_hunting", 25 ],
       [ "throwing_knife", 25 ],
       { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
