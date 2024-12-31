@@ -1803,7 +1803,9 @@
       { "item": "kittel", "prob": 25 },
       { "item": "kippah", "prob": 50 },
       { "item": "tallit_gadol", "prob": 45 },
-      { "item": "tallit_katan", "prob": 20 }
+      { "item": "tallit_katan", "prob": 20 },
+      { "item": "menorah", "prob": 5 },
+      { "group": "small_candles_in_box", "prob": 2 }
     ]
   },
   {

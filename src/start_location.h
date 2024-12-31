@@ -14,6 +14,7 @@
 #include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "map_scale_constants.h"
 #include "translations.h"
 #include "type_id.h"
 

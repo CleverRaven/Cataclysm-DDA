@@ -75,7 +75,9 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 13 ],
-    "occurrences": [ 0, 2 ]
+    "occurrences": [ 0, 0 ],
+    "//": "Currently does not spawn because seasonal locations are not supported.  A global EoC could be used to spawn it in a particular location.",
+    "flags": [ "GLOBALLY_UNIQUE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -84,6 +86,6 @@
     "sym": "W",
     "color": "red",
     "see_cost": "high",
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   }
 ]
