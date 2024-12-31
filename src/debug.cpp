@@ -638,8 +638,8 @@ static time_info get_time() noexcept
 struct OutputDebugStreamA : public std::ostream {
 
         // Use the file buffer from DebugFile
-        OutputDebugStreamA( const std::ostream &fileStream )
-            : std::ostream( &buf ), buf( fileStream.rdbuf() ) {}
+        OutputDebugStreamA( const std::shared_ptr<std::ostream>& stream )
+            : std::ostream( &buf ), buf( stream->rdbuf() ) {}
 
         // Intercept stream operations
         struct _Buf : public std::streambuf {
