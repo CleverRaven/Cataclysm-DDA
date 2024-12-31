@@ -36,7 +36,7 @@ unsigned int font_config::imgui_config() const
     return ret;
 }
 
-std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::string_view hinting )
+static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::string_view hinting )
 {
     if( hinting == "Auto" ) {
         return ImGuiFreeTypeBuilderFlags_ForceAutoHint;
@@ -46,6 +46,9 @@ std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::string_vie
     }
     if( hinting == "Light" ) {
         return ImGuiFreeTypeBuilderFlags_LightHinting;
+    }
+    if( hinting == "None" ) {
+        return ImGuiFreeTypeBuilderFlags_NoHinting;
     }
     if( hinting == "Bitmap" ) {
         return ImGuiFreeTypeBuilderFlags_Bitmap;
@@ -147,7 +150,7 @@ void font_loader::load_throws( const cata_path &path )
 
 // Convenience function for font_loader::save. Assumes that this is a member of
 // an object.
-void write_font_config( JsonOut &json, const std::vector<font_config> &typefaces )
+static void write_font_config( JsonOut &json, const std::vector<font_config> &typefaces )
 {
     json.start_array();
     for( const font_config &config : typefaces ) {
