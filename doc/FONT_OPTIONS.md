@@ -53,9 +53,9 @@ A full object may look like the following:
 
 ## Hinting
 
-Hinting is a process of modifying the shapes of the glyphs so that
+Hinting is the process of modifying the shapes of glyphs so that
 they line up better with the pixels in the display device. This
-improves readability a low resolutions while potentially changing the
+improves readability at low resolutions while potentially changing the
 shape of the glyphs. Six different settings are available:
 
 ### Default
@@ -91,9 +91,8 @@ font doesn’t have any hinting tables.
 ### None
 
 This completely skips the hinting step. This will likely produce
-blurry text on ordinary, but the glyph shapes will always be
-correct. On very high resolution monitors the lack of hinting may not
-be noticable.
+blurry text, but the glyph shapes will always be correct. On very
+high resolution monitors the lack of hinting may not be noticable.
 
 ### Bitmap
 
