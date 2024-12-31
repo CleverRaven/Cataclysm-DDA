@@ -113,7 +113,7 @@
         "ó": "t_door_metal_locked",
         "ö": "t_magiconc_floor",
         "'": "t_wall_glassteel_alarm",
-        "÷": "t_strconc_floor_no_roof",
+        "÷": "t_vault_vent",
         "ø": "t_magiconc_floor"
       },
       "traps": { "ø": "tr_forge_vault" },
