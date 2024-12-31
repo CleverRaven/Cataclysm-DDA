@@ -2555,8 +2555,7 @@ class spellcasting_callback : public uilist_callback
 
         float desired_extra_space_right( ) override {
             return std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ),
-                               ImGui::GetMainViewport()->Size.x * 3 / 8,
-                               ImGui::GetMainViewport()->Size.x );
+                               ImGui::GetMainViewport()->Size.x * 3 / 8, ImGui::GetMainViewport()->Size.x );
         }
 
         void refresh( uilist *menu ) override {
@@ -2565,7 +2564,7 @@ class spellcasting_callback : public uilist_callback
             ImVec2 info_size = ImGui::GetContentRegionAvail();
             info_size.y -= ImGui::GetTextLineHeightWithSpacing();
             if( ImGui::BeginChild( "spell info", info_size, ImGuiChildFlags_None,
-                                   ImGuiWindowFlags_AlwaysVerticalScrollbar ) ) {
+                                   ImGuiWindowFlags_None ) ) {
                 if( menu->previewing >= 0 && static_cast<size_t>( menu->previewing ) < known_spells.size() ) {
                     display_spell_info( menu->previewing );
                 }
@@ -2988,17 +2987,17 @@ spell &known_magic::select_spell( Character &guy )
     } );
 
     uilist spell_menu;
+    float min_y_pixels = EVEN_MINIMUM_TERM_HEIGHT * ImGui::GetTextLineHeight();
     spell_menu.desired_bounds = {
         -1.0,
-        -1.0,
-        std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ),
-                    ImGui::GetMainViewport()->Size.x * 3 / 8,
-                    ImGui::GetMainViewport()->Size.x ),
-        // Only use all vertical space at minimum terminal size
-        std::max( std::min( float( ( known_spells_sorted.size() + 3 ) * ImGui::GetTextLineHeightWithSpacing() ),
-                            ImGui::GetMainViewport()->Size.y * 9 / 10), 
-                  float( EVEN_MINIMUM_TERM_HEIGHT * ImGui::GetTextLineHeight() ) )
-    };
+            -1.0,
+            std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ),
+            ImGui::GetMainViewport()->Size.x * 3 / 8, ImGui::GetMainViewport()->Size.x ),
+            std::max( std::min( float( ( known_spells_sorted.size() + 3 ) * ImGui::GetTextLineHeightWithSpacing() ),
+            ImGui::GetMainViewport()->Size.y * 9 / 10 ),
+            // Limit vertical space at low terminal size; otherwise, give room for descriptions
+            float( ( ImGui::GetMainViewport()->Size.y < min_y_pixels * 1.50 ) ? min_y_pixels : min_y_pixels * 1.50 ) )
+        };
 
     spell_menu.title = _( "Choose a Spell" );
     spell_menu.input_category = "SPELL_MENU";
