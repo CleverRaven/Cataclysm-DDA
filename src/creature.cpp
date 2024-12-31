@@ -1317,7 +1317,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const auto &proj_effects = proj.proj_effects;
 
     viewer &player_view = get_player_view();
-    const bool u_see_this = player_view.sees( *this );
 
     const double goodhit = accuracy_projectile_attack( attack );
     // We only trigger a dodge attempt if it's a relatively slow projectile.
