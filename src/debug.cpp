@@ -664,9 +664,26 @@ struct OutputDebugStreamA : public std::ostream {
                     return c;
                 }
                 virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
-                    std::streamsize rc = buf->sputn( s, n );
-                    output_string.append( s, n );
-                    OutputDebugString();
+                    std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
+                    for(; i < n; ++i) {
+                        if( std::iscntrl(s[i]) ) {
+                            if(i == last+1) { // Skip multiple empty lines
+                                last = i;
+                                continue;
+                            }
+                            const std::string sv(s + last, i - last);
+                            last = i;
+                            send(sv.c_str());
+                        }
+                    }
+                    std::string append( s + last, n - last );
+                    // Skip if only made of multiple newlines
+                    if (none_of( append.begin(), append.end(), [](int c) { return std::iscntrl(c); })) {
+                        output_string.append( s + last, n - last );
+                    }
+                    if (output_string.size() >= max) {
+                        send();
+                    }
                     return rc;
                 }
             private:
