@@ -53,10 +53,10 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvv((((((vvvvvvvvv",
-        "vvvvvvvvv($$$$(vvvvvvvvv",
-        "vvvvvvvvv($$$$(vvvvvvvvv",
-        "vvvvvvvvv($$$$(vvvvvvvvv",
-        "vvvvvvvvv($$$$(vvvvvvvvv",
+        "vvvvvvvvv(◈◈◈◈(vvvvvvvvv",
+        "vvvvvvvvv(◈◈◈◈(vvvvvvvvv",
+        "vvvvvvvvv(◈◈◈◈(vvvvvvvvv",
+        "vvvvvvvvv(◈◈◈◈(vvvvvvvvv",
         "vvvvvvvvv((v(((vvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -69,7 +69,8 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
-      "palettes": [ "bunker_ext" ]
+      "palettes": [ "bunker_ext" ],
+      "terrain": { "◈": "t_rock_floor_no_roof" }
     }
   }
 ]
