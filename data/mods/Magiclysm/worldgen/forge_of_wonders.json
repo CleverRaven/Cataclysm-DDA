@@ -374,7 +374,7 @@
           "filter": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
           "faction": "forge_lords",
           "x": [ 32, 33 ],
-          "y": 53 
+          "y": 53
         },
         {
           "type": "LOOT_ITEM_GROUP",
