@@ -1118,6 +1118,7 @@ struct projectile_attack_results {
     bodypart_id bp_hit;
     std::string wp_hit;
     bool is_crit = false;
+    bool is_headshot = false;
     const weakpoint *wp;
 
     explicit projectile_attack_results( const projectile &proj ) {
@@ -1130,51 +1131,63 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const double missed_by, const weakpoint_attack &attack ) const
 {
     projectile_attack_results ret( proj );
-    const monster *mon = as_monster();
-    if( mon ) {
-        ret.wp = mon->type->weakpoints.select_weakpoint( attack );
-    }
-    double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    if( magic ) {
-        // We want spells to hit all bodyparts randomly, not only torso
-        // It still gonna be torso mainly
-        hit_value = rng_float( -0.5, 1.5 );
-    }
-    // Range is -0.5 to 1.5 -> missed_by will be [1, 0], so the rng addition to it
-    // will push it to at most 1.5 and at least -0.5
-    ret.bp_hit = get_anatomy()->select_body_part_projectile_attack( -0.5, 1.5, hit_value );
-    float crit_mod = get_crit_factor( ret.bp_hit );
-
     const float crit_multiplier = proj.critical_multiplier;
     const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
+    float crit_mod = 1.0f;
+    bool fatal_hit = false;
+    double hit_roll = rng_float( goodhit, 1.0 );
+    bool crit_roll = hit_roll * 0.5 < accuracy_critical; // 40% true when goodhit = 0, 20% true when goodhit = 0.2
+    const monster *mon = as_monster();
+    if( mon ) {
+        fatal_hit = ret.max_damage * crit_multiplier > get_hp_max();
+        ret.wp = mon->type->weakpoints.select_weakpoint( attack );
+        crit_roll &= ret.wp->is_good && !ret.wp->id.empty();
+        ret.is_headshot = !has_flag( mon_flag_NOHEAD ) && ret.wp->is_head;
+    } else {
+        double hit_value = missed_by + rng_float( -0.5, 0.5 );
+        if( magic ) {
+            // We want spells to hit all bodyparts randomly, not only torso
+            // It still gonna be torso mainly
+            hit_value = rng_float( -0.5, 1.5 );
+        }
+        // Range is -0.5 to 1.5 -> missed_by will be [1, 0], so the rng addition to it
+        // will push it to at most 1.5 and at least -0.5
+        ret.bp_hit = get_anatomy()->select_body_part_projectile_attack( -0.5, 1.5, hit_value );
+        crit_mod = get_crit_factor( ret.bp_hit );
+        fatal_hit = ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit );
+        ret.is_headshot = ret.bp_hit.id() == body_part_head;
+    }
+
     if( magic ) {
         // do nothing special, no damage mults, nothing
-    } else if( goodhit < accuracy_headshot &&
-               ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit ) ) {
+    } else if( goodhit < accuracy_headshot && ( ret.is_headshot || fatal_hit ) ) {
         ret.message = _( "Critical!!" );
         ret.gmtSCTcolor = m_headshot;
-        ret.damage_mult *= rng_float( 0.5 + 0.45 * crit_mod, 0.75 + 0.3 * crit_mod ); // ( 0.95, 1.05 )
+        // ( 0.95, 1.05 ) when goodhit = 0, ( 0.95, 1.04 ) when nears 0.1
+        ret.damage_mult *= 0.6 + 0.45 * crit_mod - 0.1 * hit_roll;
         ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
-    } else if( goodhit < accuracy_critical &&
-               ret.max_damage * crit_multiplier > get_hp_max( ret.bp_hit ) ) {
+    } else if( goodhit < accuracy_critical && ( crit_roll || fatal_hit ) ) {
         ret.message = _( "Critical!" );
         ret.gmtSCTcolor = m_critical;
-        ret.damage_mult *= rng_float( 0.5 + 0.25 * crit_mod, 0.75 + 0.25 * crit_mod ); // ( 0.75, 1.0 )
+        // ( 0.75, 1.0 ) when goodhit = 0, ( 0.75, 0.95 ) when nears 0.2
+        ret.damage_mult *= 0.75 + 0.25 * crit_mod - 0.25 * hit_roll;
         ret.damage_mult *= std_hit_mult + ( crit_multiplier - std_hit_mult ) * crit_mod;
         ret.is_crit = true;
     } else if( goodhit < accuracy_goodhit ) {
         ret.message = _( "Good hit!" );
         ret.gmtSCTcolor = m_good;
-        ret.damage_mult *= rng_float( 0.5, 0.75 );
+        // ( 0.5, 1.0 ) when goodhit = 0, ( 0.5, 0.75 ) when nears 0.5
+        ret.damage_mult *= 1.0 - 0.5 * hit_roll;
         ret.damage_mult *= std_hit_mult;
     } else if( goodhit < accuracy_standard ) {
-        ret.damage_mult *= rng_float( 0.5, 1 );
-
+        // ( 0.5, 1.0 ) when goodhit = 0.5, ( 0.5, 0.7 ) when nears 0.8
+        ret.damage_mult *= 1.5 - hit_roll;
     } else if( goodhit < accuracy_grazing ) {
         ret.message = _( "Grazing hit." );
         ret.gmtSCTcolor = m_grazing;
-        ret.damage_mult *= rng_float( 0, .25 );
+        // ( 0.05, 0.25 ) when goodhit = 0.8, 0.05 when nears 1.0
+        ret.damage_mult *= 1.05 - hit_roll;
     }
     add_msg_debug( debugmode::DF_CREATURE, "crit_damage_mult: %f", ret.damage_mult );
     return ret;
@@ -1344,7 +1357,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     projectile_attack_results hit_selection = select_body_part_projectile_attack( proj, goodhit,
             magic, missed_by, wp_attack_copy );
     wp_attack_copy.is_crit = hit_selection.is_crit;
-    attack.missed_by = goodhit;
 
     // copy it, since we're mutating.
     damage_instance impact = proj.impact;
@@ -1376,6 +1388,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     check_dead_state();
     attack.hit_critter = this;
     attack.missed_by = goodhit;
+    attack.headshot = hit_selection.is_headshot;
 }
 
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,

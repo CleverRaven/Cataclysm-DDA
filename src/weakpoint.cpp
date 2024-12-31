@@ -417,6 +417,9 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_bool( "is_good" ) ) {
         assign( jo, "is_good", is_good );
     }
+    if( is_good && jo.has_bool( "is_head" ) ) {
+        assign( jo, "is_head", is_head );
+    }
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_map( jo.get_object( "armor_mult" ) );
     }
@@ -506,9 +509,13 @@ void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
         if( is_crit ) {
             if( crit_mult.count( elem.type ) > 0 ) {
                 elem.damage_multiplier *= crit_mult.at( elem.type );
+                add_msg_debug( debugmode::DF_MONSTER, "%s crit_mult %f",
+                               elem.type.str(), crit_mult.at( elem.type ) );
             }
         } else if( damage_mult.count( elem.type ) > 0 ) {
             elem.damage_multiplier *= damage_mult.at( elem.type );
+            add_msg_debug( debugmode::DF_MONSTER, "%s damage_mult %f",
+                           elem.type.str(), damage_mult.at( elem.type ) );
         }
     }
 }

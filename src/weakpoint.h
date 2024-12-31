@@ -151,6 +151,7 @@ struct weakpoint {
     weakpoint_difficulty coverage_mult;
     // Difficulty gates, varying by the attack type.
     weakpoint_difficulty difficulty;
+    bool is_head = false;
 
     weakpoint();
     // Gets translated name
