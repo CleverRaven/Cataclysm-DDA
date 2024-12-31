@@ -6,7 +6,6 @@
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 2 ] ],
     "time": "3 h 30 m",
     "using": [ [ "cordage", 1 ], [ "clasps", 3 ] ],
