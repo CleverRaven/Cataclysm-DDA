@@ -237,13 +237,13 @@
     "speed": 130,
     "material": [ "veggy" ],
     "symbol": "K",
-    "color": "green_brown",
+    "color": "green",
     "aggression": 5,
     "morale": 120,
     "aggro_character": false,
     "melee_skill": 7,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "special_attacks": [
       { "id": "mutant_antler", "cooldown": 2 },
@@ -258,7 +258,9 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp_monster", "min_level": 10 },
         "cooldown": 35,
-        "condition": { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+        "condition": {
+          "and": [ "npc_is_outside", { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "DIGGABLE" } ]
+        },
         "monster_message": "%1$s rears and roots burst from the ground!"
       },
       {
@@ -266,7 +268,14 @@
         "type": "spell",
         "spell_data": { "id": "natural_spirit_zombie_decay", "min_level": 10 },
         "cooldown": 50,
-        "condition": { "and": [ { "npc_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_has_species": "ZOMBIE" } ] },
+        "condition": {
+          "and": [
+            "npc_is_outside",
+            { "and": [ { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+            { "not": { "u_near_om_location": "road", "range": 2 } },
+            { "npc_has_species": "ZOMBIE" }
+          ]
+        },
         "monster_message": "%1$s's viridian eyes blaze as it stares at the unnatural creatures nearby!"
       },
       {
@@ -276,7 +285,8 @@
         "cooldown": 50,
         "condition": {
           "and": [
-            { "npc_is_on_terrain_with_flag": "DIGGABLE" },
+            "npc_is_outside",
+            { "and": [ { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
             {
               "or": [
                 { "npc_has_species": "NETHER" },
