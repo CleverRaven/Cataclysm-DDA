@@ -43,6 +43,11 @@ struct weakpoint_attack {
     attack_type type;
     // Whether the attack from a thrown object.
     bool is_thrown;
+    /**
+    * How accurate the ranged attack is.
+    * -1.0 means not a ranged attack.
+    */
+    double accuracy = -1.0;
     // Whether the attack a critical hit.
     bool is_crit;
     // The Creature's skill in hitting weak points.

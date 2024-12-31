@@ -8269,7 +8269,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d, const weakpoint_attack &attack )
+        const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
     if( has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();

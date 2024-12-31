@@ -576,10 +576,10 @@ static float reweigh( float base, float rolls )
 const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) const
 {
     add_msg_debug( debugmode::DF_MONSTER,
-                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f",
+                   "Weakpoint Selection: Source: %s, Weapon %s, Skill %.3f, Accuracy %.3f",
                    attack.source == nullptr ? "nullptr" : attack.source->get_name(),
                    attack.weapon == nullptr ? "nullptr" : attack.weapon->type_name(),
-                   attack.wp_skill );
+                   attack.wp_skill, attack.accuracy );
     float rolls = std::max( 1.0f, 1.0f + attack.wp_skill / 2.5f );
     // The base probability of hitting a more preferable weak point.
     float base = 0.0f;
