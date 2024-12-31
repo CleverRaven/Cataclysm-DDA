@@ -1,0 +1,75 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "outcrop" ],
+    "//": "Above ground",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "       S     S         S",
+        "   S       S     S      ",
+        " S     S            S   ",
+        "          S             ",
+        "   S    S SSSSS      S  ",
+        "      SSSSSS$SSSSS      ",
+        "     SS$$$$$$$$$$SS     ",
+        "     S$$$$$$$$$$$$S   S ",
+        "    SS$$$$$$$$$$$$S     ",
+        " S  SS$$$$$$$$$$$$SS    ",
+        "    SS$$$$$$$$$$$$SS    ",
+        "    SS$$$$$$$$$$$$SS    ",
+        "    SS$$$$$$$$$$$$SS   S",
+        "  S  S$$$$$$$$$$$$SS    ",
+        "     S$$$$$$$$$$$$S     ",
+        "     SS$$$$$$$$$$SS  S  ",
+        "      SSS$SSSSSSSS      ",
+        "S      S S   SS S       ",
+        "                 S    S ",
+        "   S   S                ",
+        "            S  S        ",
+        "                       S",
+        "    S      S            ",
+        "                  S     "
+      ],
+      "palettes": [ "bunker_ext" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "outcrop_roof" ],
+    "//": "Above ground",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_barren",
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvv((((((vvvvvvvvv",
+        "vvvvvvvvv($$$$(vvvvvvvvv",
+        "vvvvvvvvv($$$$(vvvvvvvvv",
+        "vvvvvvvvv($$$$(vvvvvvvvv",
+        "vvvvvvvvv($$$$(vvvvvvvvv",
+        "vvvvvvvvv((v(((vvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "bunker_ext" ]
+    }
+  }
+]
