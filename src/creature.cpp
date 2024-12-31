@@ -1136,7 +1136,8 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     float crit_mod = 1.0f;
     bool fatal_hit = false;
     double hit_roll = rng_float( goodhit, 1.0 );
-    bool crit_roll = hit_roll * 0.5 < accuracy_critical; // 40% true when goodhit = 0, 20% true when goodhit = 0.2
+    // 40% true when goodhit = 0, 20% true when goodhit = 0.2
+    bool crit_roll = hit_roll * 0.5 < accuracy_critical;
     const monster *mon = as_monster();
     if( mon ) {
         fatal_hit = ret.max_damage * crit_multiplier > get_hp_max();
