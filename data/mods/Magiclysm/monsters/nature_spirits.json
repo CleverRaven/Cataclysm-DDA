@@ -303,7 +303,7 @@
     "dodge": 1,
     "vision_day": 45,
     "vision_night": 20,
-    "mountable_weight_ratio": 0.25,
+    "mountable_weight_ratio": 0.35,
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a massive pile of splinters." },
