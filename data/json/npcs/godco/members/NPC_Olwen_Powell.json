@@ -3,16 +3,12 @@
     "type": "talk_topic",
     "id": [ "TALK_GODCO_Olwen_2", "TALK_GODCO_Olwen_Mood", "TALK_GODCO_Olwen_Story", "TALK_GODCO_Olwen_Skills" ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Olwen_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Olwen_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Olwen_Mood" },
       {
         "text": "How's your family?",
         "topic": "TALK_GODCO_Olwen_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "I heard you were handy with computers.", "topic": "TALK_GODCO_Olwen_Skills" }
     ]
@@ -21,7 +17,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "What in the world are you still doing around here, come back to screw me over?",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ],
@@ -41,7 +37,7 @@
         "topic": "TALK_GODCO_Olwen_2",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
           ]
         }
@@ -49,23 +45,19 @@
       {
         "text": "Hey, Olwen.  <end_talking_leave>",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", "<", "5" ] }
+        "condition": { "math": [ "n_npc_anger() < 5" ] }
       },
       {
         "text": "What's with the attitude?",
         "topic": "TALK_GODCO_Olwen_Angry",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_olwen" } ] }
           ]
         }
       },
-      {
-        "text": "No, I'll be on my way.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_npc_anger()", ">=", "5" ] }
-      }
+      { "text": "No, I'll be on my way.", "topic": "TALK_DONE", "condition": { "math": [ "n_npc_anger() >= 5" ] } }
     ]
   },
   {

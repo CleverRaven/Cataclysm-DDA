@@ -25,7 +25,7 @@ static tripoint mmr_to_sm_copy( const tripoint &p )
 
 static cata_path find_mm_dir()
 {
-    return PATH_INFO::player_base_save_path_path() + ".mm1";
+    return PATH_INFO::player_base_save_path() + ".mm1";
 }
 
 static cata_path find_region_path( const cata_path &dirname, const tripoint &p )
@@ -263,8 +263,8 @@ bool map_memory::prepare_region( const tripoint_abs_ms &p1, const tripoint_abs_m
     cata_assert( p1.z() == p2.z() );
     cata_assert( p1.x() <= p2.x() && p1.y() <= p2.y() );
 
-    tripoint_abs_sm sm_p1 = coord_pair( p1 ).sm + point_north_west;
-    tripoint_abs_sm sm_p2 = coord_pair( p2 ).sm + point_south_east;
+    tripoint_abs_sm sm_p1 = coord_pair( p1 ).sm + point::north_west;
+    tripoint_abs_sm sm_p2 = coord_pair( p2 ).sm + point::south_east;
 
     tripoint_abs_sm sm_pos = sm_p1;
     point_rel_sm sm_size = sm_p2.xy() - sm_p1.xy();
@@ -389,7 +389,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_po
 
 static mm_submap null_mz_submap;
 static mm_submap invalid_mz_submap{ false };
-static const tripoint_abs_sm invalid_cache_pos( tripoint_min );
+static const tripoint_abs_sm invalid_cache_pos = tripoint_abs_sm::invalid;
 
 const mm_submap &map_memory::get_submap( const tripoint_abs_sm &sm_pos ) const
 {
@@ -507,5 +507,5 @@ void map_memory::clear_cache()
 {
     cached.clear();
     cache_pos = invalid_cache_pos;
-    cache_size = point_zero;
+    cache_size = point::zero;
 }

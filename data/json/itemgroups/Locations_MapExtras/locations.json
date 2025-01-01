@@ -1803,7 +1803,9 @@
       { "item": "kittel", "prob": 25 },
       { "item": "kippah", "prob": 50 },
       { "item": "tallit_gadol", "prob": 45 },
-      { "item": "tallit_katan", "prob": 20 }
+      { "item": "tallit_katan", "prob": 20 },
+      { "item": "menorah", "prob": 5 },
+      { "group": "small_candles_in_box", "prob": 2 }
     ]
   },
   {
@@ -1972,8 +1974,7 @@
       { "prob": 20, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       [ "cola_meth", 1 ],
       [ "picklocks", 10 ],
-      [ "wolfsuit", 4 ],
-      [ "dinosuit", 4 ],
+      [ "fursuit", 4 ],
       [ "jedi_cloak", 4 ],
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       [ "blanket", 10 ],
@@ -2818,7 +2819,11 @@
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
           {
-            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "distribution": [
+              { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] },
+              { "item": "smallweldtank", "prob": 100, "count": [ 1, 3 ] }
+            ],
             "prob": 100
           },
           {
@@ -2832,6 +2837,7 @@
       },
       [ "oxy_torch", 25 ],
       { "item": "weldtank", "prob": 12, "count": [ 1, 2 ] },
+      { "item": "smallweldtank", "prob": 12, "count": [ 1, 3 ] },
       { "item": "tinyweldtank", "prob": 12, "count": [ 1, 3 ] },
       { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },

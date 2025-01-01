@@ -143,7 +143,14 @@
         "s_lot": 6
       }
     },
-    "weather": { "base_temperature": 8.0, "base_humidity": 40.0, "base_pressure": 1015.0 },
+    "weather": {
+      "base_temperature": 8.0,
+      "base_humidity": 40.0,
+      "base_pressure": 1015.0,
+      "base_wind": 0,
+      "base_wind_distrib_peaks": 0,
+      "base_wind_season_variation": 0
+    },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   },
   {
@@ -256,32 +263,5 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
     "examine_action": "flower_cactus"
-  },
-  {
-    "type": "region_settings",
-    "id": "river",
-    "default_oter": [
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "field",
-      "solid_earth",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock"
-    ]
   }
 ]

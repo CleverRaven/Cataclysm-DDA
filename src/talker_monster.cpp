@@ -41,6 +41,11 @@ tripoint talker_monster_const::pos() const
     return me_mon_const->pos();
 }
 
+tripoint_bub_ms talker_monster_const::pos_bub() const
+{
+    return me_mon_const->pos_bub();
+}
+
 tripoint_abs_ms talker_monster_const::global_pos() const
 {
     return me_mon_const->get_location();
@@ -173,6 +178,11 @@ int talker_monster_const::get_size() const
     return me_mon_const->get_size() - 0;
 }
 
+int talker_monster_const::get_speed() const
+{
+    return me_mon_const->get_speed();
+}
+
 int talker_monster_const::get_grab_strength() const
 {
     add_msg_debug( debugmode::DF_TALKER, "Grab strength of monster %s = %d", me_mon_const->name(),
@@ -180,7 +190,7 @@ int talker_monster_const::get_grab_strength() const
     return  me_mon_const->get_grab_strength();
 }
 
-bool talker_monster_const::can_see_location( const tripoint &pos ) const
+bool talker_monster_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
     return me_mon_const->sees( pos );
 }
@@ -193,6 +203,11 @@ int talker_monster_const::get_volume() const
 int talker_monster_const::get_weight() const
 {
     return units::to_milligram( me_mon_const->get_weight() );
+}
+
+bool talker_monster_const::is_warm() const
+{
+    return me_mon_const->is_warm();
 }
 
 void talker_monster::set_friendly( int new_val )

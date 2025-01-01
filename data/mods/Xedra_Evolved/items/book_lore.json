@@ -181,16 +181,16 @@
         "effect_on_conditions": [
           {
             "id": "EOC_DEATHWORM_MAP_ALREADY_TRACKED",
-            "condition": { "math": [ "u_tracked_deathworm", "==", "1" ] },
+            "condition": { "math": [ "u_tracked_deathworm == 1" ] },
             "effect": [ { "u_message": "You already know where this map leads." } ]
           },
           {
             "id": "EOC_DEATHWORM_MAP_TRACK",
-            "condition": { "math": [ "u_tracked_deathworm", "==", "0" ] },
+            "condition": { "math": [ "u_tracked_deathworm == 0" ] },
             "effect": [
               { "u_message": "You reference your map with your location, determining the path to take to find the cryptid." },
               { "assign_mission": "MISSION_DEATHWORM" },
-              { "math": [ "u_tracked_deathworm", "=", "1" ] }
+              { "math": [ "u_tracked_deathworm = 1" ] }
             ]
           }
         ]
@@ -232,16 +232,16 @@
         "effect_on_conditions": [
           {
             "id": "EOC_SEVENOCLOCK_MAP_ALREADY_TRACKED",
-            "condition": { "math": [ "u_tracked_sevenoclock", "==", "1" ] },
+            "condition": { "math": [ "u_tracked_sevenoclock == 1" ] },
             "effect": [ { "u_message": "You already know where this map leads." } ]
           },
           {
             "id": "EOC_SEVENOCLOCK_MAP_TRACK",
-            "condition": { "math": [ "u_tracked_sevenoclock", "==", "0" ] },
+            "condition": { "math": [ "u_tracked_sevenoclock == 0" ] },
             "effect": [
               { "u_message": "You reference your map with your location, determining the path to take to find the cryptid." },
               { "assign_mission": "MISSION_SEVENOCLOCK" },
-              { "math": [ "u_tracked_sevenoclock", "=", "1" ] }
+              { "math": [ "u_tracked_sevenoclock = 1" ] }
             ]
           }
         ]

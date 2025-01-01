@@ -385,7 +385,7 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
             }
         }
         if( direction == -1 ) {
-            const maptile &up = map.maptile_at( loc + tripoint_above );
+            const maptile &up = map.maptile_at( loc + tripoint::above );
             const ter_t &up_ter = up.get_ter_t();
             if( up_ter.id.is_null() ) {
                 return false;

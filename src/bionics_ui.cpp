@@ -111,7 +111,7 @@ struct bionic_sort_less {
                     return lbd_sort_power < rbd_sort_power;
                 }
             }
-            /* fallthrough */
+            [[fallthrough]];
             case bionic_ui_sort_mode::NAME:
                 return localized_compare( lbd.name.translated(), rbd.name.translated() );
         }
@@ -276,7 +276,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     mvwaddch( window, point( pwr_str_pos - 1, 1 ), LINE_XOXO ); // |
     mvwaddch( window, point( pwr_str_pos - 1, 2 ), LINE_XXOO ); // |_
     mvwhline( window, point( pwr_str_pos, 2 ), LINE_OXOX, getmaxx( window ) - pwr_str_pos ); // -
-    mvwhline( window, point_zero, LINE_OXOX, getmaxx( window ) ); // -
+    mvwhline( window, point::zero, LINE_OXOX, getmaxx( window ) ); // -
     mvwaddch( window, point( pwr_str_pos - 1, 0 ), LINE_OXXX ); // ^|^
     wattroff( window, BORDER_COLOR );
     center_print( window, 0, c_light_red, _( "Bionics" ) );
@@ -386,7 +386,7 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
     int width = getmaxx( win );
     int height = getmaxy( win );
     wattron( win, BORDER_COLOR );
-    mvwvline( win, point_zero, LINE_XOXO, height - 1 ); // |
+    mvwvline( win, point::zero, LINE_XOXO, height - 1 ); // |
     mvwvline( win, point( width - 1, 0 ), LINE_XOXO, height - 1 ); // |
     mvwaddch( win, point( 0, height - 1 ), LINE_XXXO ); // |-
     mvwaddch( win, point( width - 1, height - 1 ), LINE_XOXX ); // -|
@@ -401,7 +401,7 @@ static void draw_description( const catacurses::window &win, const bionic &bio,
     werase( win );
     const int width = getmaxx( win );
     const std::string poweronly_string = build_bionic_poweronly_string( bio, p );
-    int ypos = fold_and_print( win, point_zero, width, c_white, "%s", bio.id->name );
+    int ypos = fold_and_print( win, point::zero, width, c_white, "%s", bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
                                 _( "Power usage: %s" ), poweronly_string );
@@ -594,7 +594,7 @@ void avatar::power_bionics()
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         if( hide ) {
-            ui.position( point_zero, point_zero );
+            ui.position( point::zero, point::zero );
             return;
         }
         // Main window
@@ -627,7 +627,7 @@ void avatar::power_bionics()
         // Title window
         const int TITLE_START_Y = START.y + 1;
         const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT;
-        w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, START + point_east );
+        w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, START + point::east );
 
         const int TAB_START_Y = TITLE_START_Y + 3;
         //w_tabs is the tab bar for passive and active bionic groups

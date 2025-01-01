@@ -244,7 +244,7 @@
         "------------------------------------------------------------------------"
       ],
       "palettes": [ "roof_palette", "parametrized_walls_palette" ],
-      "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Я": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
+      "liquids": { "Я": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "terrain": {
         "_": "t_thconc_floor",
         "+": "t_door_metal_c",

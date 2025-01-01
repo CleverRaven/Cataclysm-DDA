@@ -45,8 +45,8 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
-                { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] }
+                { "math": [ "u_spell_level('telekinetic_hammer') >= 1" ] },
+                { "math": [ "u_spell_level('telekinetic_explosion') >= 1" ] }
               ]
             }
           }
@@ -72,8 +72,8 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "5" ] }
+                { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 6" ] },
+                { "math": [ "u_spell_level('vita_sleeping_trance') >= 5" ] }
               ]
             }
           }
@@ -99,9 +99,9 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] },
-                { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "6" ] },
-                { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 5" ] },
+                { "math": [ "u_spell_level('electrokinetic_reduce_pain') >= 6" ] },
+                { "math": [ "u_spell_level('telepathic_morale') >= 8" ] }
               ]
             }
           }
@@ -127,15 +127,15 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "math": [ "u_spell_level_sum('school': 'BIOKINETIC')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'CLAIRSENTIENT')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'PHOTOKINETIC')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'PYROKINETIC')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'TELEKINETIC')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'TELEPORTER')", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'VITAKINETIC')", ">=", "40" ] }
+                { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'CLAIRSENTIENT') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'PHOTOKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEPATH') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEKINETIC') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEPORTER') >= 40" ] },
+                { "math": [ "u_spell_level_sum('school': 'VITAKINETIC') >= 40" ] }
               ]
             }
           }
@@ -159,7 +159,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') + u_spell_level_sum('school': 'VITAKINETIC')", ">=", "100" ] }
+            "condition": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') + u_spell_level_sum('school': 'VITAKINETIC') >= 100" ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -200,7 +200,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_spell_level_sum('school': 'PYROKINETIC')", ">=", "30" ] }
+            "condition": { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 30" ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"

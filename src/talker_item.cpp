@@ -41,6 +41,11 @@ tripoint talker_item_const::pos() const
     return me_it_const->position();
 }
 
+tripoint_bub_ms talker_item_const::pos_bub() const
+{
+    return me_it_const->pos_bub();
+}
+
 tripoint_abs_ms talker_item_const::global_pos() const
 {
     return get_map().getglobal( me_it_const->pos_bub() );
@@ -77,6 +82,11 @@ bool talker_item_const::will_talk_to_u( const Character &you, bool ) const
 int talker_item_const::get_cur_hp( const bodypart_id & ) const
 {
     return me_it_const->get_item()->max_damage() - me_it_const->get_item()->damage();
+}
+
+int talker_item_const::get_degradation() const
+{
+    return me_it_const->get_item()->degradation();
 }
 
 int talker_item_const::get_hp_max( const bodypart_id & ) const
@@ -140,6 +150,11 @@ void talker_item::set_power_cur( units::energy value )
 void talker_item::set_all_parts_hp_cur( int set )
 {
     me_it->get_item()->set_damage( me_it->get_item()->max_damage() - set );
+}
+
+void talker_item::set_degradation( int set )
+{
+    me_it->get_item()->set_degradation( set );
 }
 
 void talker_item::die()

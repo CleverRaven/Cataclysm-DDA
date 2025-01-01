@@ -2,12 +2,29 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "manhole_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ], "terrain": { " ": "t_manhole_cover" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "manhole_open_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_manhole" },
+      "item": { " ": { "item": "manhole_cover" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "ladder_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "rows": [ "^" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "^": "t_ladder_up" }
+      "terrain": { " ": "t_ladder_up" },
+      "place_nested": [ { "chunks": [ [ "manhole_1x1", 11 ], [ "manhole_open_1x1", 1 ] ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

@@ -127,7 +127,7 @@
       "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figurin' one of those choppers that were flyin' round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open 'er at.",
       "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
+      "advice": "Survivors were talkin' 'bout seeing 'em falling out of the sky but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.  Black boxes are housed in the tail to survive the crash so check there when you do find one.  Now get to it!",
       "inquire": "How 'bout that black box?",
       "success": "America, fuck yeah!",
       "success_lie": "What?!  I oughta whip your ass.",
@@ -855,7 +855,7 @@
       "and": [
         { "u_has_item": "duffelbag" },
         { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
-        { "math": [ "u_skill('survival')", ">=", "1" ] }
+        { "math": [ "u_skill('survival') >= 1" ] }
       ]
     },
     "difficulty": 1,
@@ -970,10 +970,7 @@
     "deadline": { "math": [ "time_between_succession" ] },
     "invisible_on_complete": true,
     "start": {
-      "effect": [
-        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
-        { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
-      ]
+      "effect": [ { "math": [ "u_timer_time_of_last_succession = time('now')" ] }, { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" } ]
     }
   },
   {
@@ -981,22 +978,9 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time_between_succession" ] },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession) > time_between_succession" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
     "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "effect": [
-      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      {
-        "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE",
-        "deadline": { "math": [ "time('now') + time_between_succession" ] }
-      }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -1021,15 +1005,8 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMESTART_CHECK",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
-    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession = time(' 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1041,9 +1018,9 @@
       "and": [
         "u_is_avatar",
         { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
-        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] },
-        { "math": [ "u_hp('torso')", "!=", "0" ] },
-        { "math": [ "u_hp('head')", "!=", "0" ] }
+        { "math": [ "time_since(u_timer_time_of_last_succession) < time_between_succession" ] },
+        { "math": [ "u_hp('torso') != 0" ] },
+        { "math": [ "u_hp('head') != 0" ] }
       ]
     },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",

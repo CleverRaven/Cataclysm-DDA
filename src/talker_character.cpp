@@ -67,6 +67,11 @@ tripoint talker_character_const::pos() const
     return me_chr_const->pos();
 }
 
+tripoint_bub_ms talker_character_const::pos_bub() const
+{
+    return me_chr_const->pos_bub();
+}
+
 tripoint_abs_ms talker_character_const::global_pos() const
 {
     return me_chr_const->get_location();
@@ -75,11 +80,6 @@ tripoint_abs_ms talker_character_const::global_pos() const
 tripoint_abs_omt talker_character_const::global_omt_location() const
 {
     return me_chr_const->global_omt_location();
-}
-
-void talker_character::set_pos( tripoint new_pos )
-{
-    me_chr->setpos( new_pos );
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
@@ -124,10 +124,20 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+int talker_character_const::get_speed() const
+{
+    return me_chr_const->get_speed();
+}
+
 dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam ) const
 {
     return source->deal_damage( source, bp, dam );
+}
+
+void talker_character::set_pos( tripoint_bub_ms new_pos )
+{
+    me_chr->setpos( new_pos );
 }
 
 void talker_character::set_str_max( int value )
@@ -862,7 +872,7 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
-bool talker_character_const::can_see_location( const tripoint &pos ) const
+bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
     return me_chr_const->sees( pos );
 }
@@ -875,6 +885,11 @@ void talker_character::set_sleepiness( int amount )
 void talker_character::mod_daily_health( int amount, int cap )
 {
     me_chr->mod_daily_health( amount, cap );
+}
+
+void talker_character::mod_livestyle( int amount )
+{
+    me_chr->mod_livestyle( amount );
 }
 
 int talker_character_const::morale_cur() const
@@ -1298,6 +1313,11 @@ void talker_character::set_all_parts_hp_cur( int set )
 bool talker_character_const::get_is_alive() const
 {
     return !me_chr_const->is_dead_state();
+}
+
+bool talker_character_const::is_warm() const
+{
+    return me_chr_const->is_warm();
 }
 
 void talker_character::die()

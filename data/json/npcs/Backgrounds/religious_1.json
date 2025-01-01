@@ -30,8 +30,8 @@
     "type": "effect_type",
     "id": "player_rude_BGSS_RELIGIOUS_1_FAITH1",
     "//": "Defined here in the conversation section because this should be the only time this very specific effect is referenced.",
-    "name": [ "Religious Offense" ],
-    "desc": [ "AI tag used when you offended an NPC with a specific conversation option.  This is a bug if you have it." ]
+    "//1": "Religious Offense",
+    "//2": "AI tag used when you offended an NPC with a specific conversation option.  This is a bug if you have it."
   },
   {
     "id": "BGSS_RELIGIOUS_1_FAITH1",

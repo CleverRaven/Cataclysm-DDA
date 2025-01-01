@@ -107,5 +107,10 @@
     "id": "TELEPORT_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to forcible teleportation"
+  },
+  {
+    "id": "PHOTOKIN_IRRADIATION_READY",
+    "type": "json_flag",
+    "//": "Used to tag foods to be radiation sterilized"
   }
 ]

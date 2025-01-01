@@ -17,7 +17,7 @@
         "search_range": 1000
       }
     },
-    "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },
+    "end": { "effect": { "math": [ "free_merchants_hub_trade_route = 1" ] } },
     "goal_condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -198,7 +198,7 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 200 },
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 540 },
       "update_mapgen": {
         "place_npcs": [
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
@@ -342,7 +342,7 @@
         "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1++" ] },
           { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],

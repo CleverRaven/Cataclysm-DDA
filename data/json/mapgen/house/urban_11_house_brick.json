@@ -32,6 +32,7 @@
         "................................................"
       ],
       "palettes": [
+        "parametrized_linoleum_palette",
         "domestic_general_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
@@ -48,7 +49,7 @@
         "&": "t_gates_control_brick",
         "q": "t_thconc_floor",
         "N": "t_thconc_floor",
-        "Y": "t_linoleum_gray"
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "place_loot": [ { "item": "television", "x": 12, "y": 11, "chance": 100 }, { "item": "stereo", "x": 12, "y": 12, "chance": 50 } ],
       "place_vehicles": [ { "vehicle": "suburban_home", "x": 35, "y": 13, "chance": 100, "rotation": 270 } ],

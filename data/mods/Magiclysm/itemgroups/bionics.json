@@ -1,0 +1,82 @@
+[
+  {
+    "type": "item_group",
+    "id": "bionics_civilian",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [ { "item": "bio_power_storage", "prob": 90 }, { "item": "bio_power_storage_mkII", "prob": 10 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [
+          { "item": "bio_alarm", "prob": 20 },
+          { "item": "bio_flashlight", "prob": 30 },
+          { "item": "bio_jointservo", "prob": 15 },
+          { "item": "bio_lockpick", "prob": 30 },
+          { "item": "bio_tattoo_led", "prob": 40 },
+          { "item": "bio_ar", "prob": 25 },
+          { "item": "bio_soporific", "prob": 20 },
+          { "item": "bio_sunglasses", "prob": 25 }
+        ],
+        "prob": 90
+      },
+      {
+        "distribution": [
+          { "item": "bio_ethanol", "prob": 50 },
+          { "item": "bio_fuel_cell_gasoline", "prob": 50 },
+          { "item": "bio_torsionratchet", "prob": 200 },
+          { "item": "bio_fuel_cell_blood", "prob": 15 }
+        ],
+        "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "bio_tools", "prob": 15 },
+          { "item": "bio_electrokit", "prob": 15 },
+          { "item": "bio_magnet", "prob": 15 },
+          { "item": "bio_syringe", "prob": 3 }
+        ],
+        "prob": 30
+      },
+      {
+        "distribution": [
+          { "distribution": [ { "item": "bio_speed", "prob": 50 }, { "item": "bio_hydraulics", "prob": 50 } ], "prob": 1 },
+          { "item": "bio_dex_enhancer", "prob": 30 },
+          { "item": "bio_int_enhancer", "prob": 40 },
+          { "item": "bio_memory", "prob": 35 },
+          { "item": "bio_eye_enhancer", "prob": 40 },
+          { "item": "bio_str_enhancer", "prob": 30 }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "bio_blood_anal", "prob": 20 },
+          { "item": "bio_ears", "prob": 20 },
+          { "item": "bio_eye_optic", "prob": 20 },
+          { "item": "bio_membrane", "prob": 15 },
+          { "item": "bio_meteorologist", "prob": 5 },
+          { "item": "bio_night_vision", "prob": 4 },
+          { "item": "bio_ground_sonar", "prob": 2 },
+          { "item": "bio_infrared", "prob": 8 }
+        ],
+        "prob": 35
+      },
+      {
+        "distribution": [
+          { "item": "bio_climate", "prob": 15 },
+          { "item": "bio_geiger", "prob": 10 },
+          { "item": "bio_digestion", "prob": 15 },
+          { "item": "bio_evap", "prob": 20 },
+          { "item": "bio_fingerhack", "prob": 10 },
+          { "item": "bio_gills", "prob": 10 },
+          { "item": "bio_purifier", "prob": 20 },
+          { "item": "bio_recycler", "prob": 8 },
+          { "item": "bio_electrokit", "prob": 10 }
+        ],
+        "prob": 10
+      }
+    ]
+  }
+]

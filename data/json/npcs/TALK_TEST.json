@@ -11,7 +11,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "Never See this.",
         "failure_explanation": "Impossible Test",
         "failure_topic": "TALK_TEST_START",
@@ -659,19 +659,19 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "effect": { "math": [ "u_test_var_time_test_test = time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a npc_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "n_test_var_time_test_test", "=", "time('now')" ] },
+        "effect": { "math": [ "n_test_var_time_test_test = time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
       {
         "text": "This is a u_compare_var time test response for > 3_days.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "time_since(u_test_var_time_test_test)", ">", "time('3 d')" ] }
+        "condition": { "math": [ "time_since(u_test_var_time_test_test) > time('3 d')" ] }
       }
     ]
   },
@@ -794,7 +794,7 @@
       {
         "text": "This is a driving test response.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_skill('driving')", ">=", "7" ] }
+        "condition": { "math": [ "u_skill('driving') >= 7" ] }
       }
     ]
   },
@@ -807,7 +807,7 @@
       {
         "text": "This is a low driving test response.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_skill('driving')", "<", "7" ] }
+        "condition": { "math": [ "u_skill('driving') < 7" ] }
       }
     ]
   },
@@ -829,27 +829,27 @@
     "id": "TALK_TEST_COMPARE_INT_OP",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
-      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "==", "5" ] } },
-      { "text": "Two == five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "==", "5" ] } },
-      { "text": "Two != five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "!=", "5" ] } },
-      { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<=", "5" ] } },
-      { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">=", "5" ] } },
-      { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2", "<", "5" ] } },
-      { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2", ">", "5" ] } },
-      { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "5" ] } },
-      { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "5" ] } },
-      { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "5" ] } },
-      { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "5" ] } },
-      { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "5" ] } },
-      { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "5" ] } },
-      { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "5" ] } },
-      { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "2" ] } },
-      { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "==", "2" ] } },
-      { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "!=", "2" ] } },
-      { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<=", "2" ] } },
-      { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">=", "2" ] } },
-      { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5", "<", "2" ] } },
-      { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5", ">", "2" ] } }
+      { "text": "Two = five.", "topic": "TALK_DONE", "condition": { "math": [ "2 == 5" ] } },
+      { "text": "Two == five.", "topic": "TALK_DONE", "condition": { "math": [ "2 == 5" ] } },
+      { "text": "Two != five.", "topic": "TALK_DONE", "condition": { "math": [ "2 != 5" ] } },
+      { "text": "Two <= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 <= 5" ] } },
+      { "text": "Two >= five.", "topic": "TALK_DONE", "condition": { "math": [ "2 >= 5" ] } },
+      { "text": "Two < five.", "topic": "TALK_DONE", "condition": { "math": [ "2 < 5" ] } },
+      { "text": "Two > five.", "topic": "TALK_DONE", "condition": { "math": [ "2 > 5" ] } },
+      { "text": "Five = five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
+      { "text": "Five == five.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 5" ] } },
+      { "text": "Five != five.", "topic": "TALK_DONE", "condition": { "math": [ "5 != 5" ] } },
+      { "text": "Five <= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 <= 5" ] } },
+      { "text": "Five >= five.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 5" ] } },
+      { "text": "Five < five.", "topic": "TALK_DONE", "condition": { "math": [ "5 < 5" ] } },
+      { "text": "Five > five.", "topic": "TALK_DONE", "condition": { "math": [ "5 > 5" ] } },
+      { "text": "Five = two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
+      { "text": "Five == two.", "topic": "TALK_DONE", "condition": { "math": [ "5 == 2" ] } },
+      { "text": "Five != two.", "topic": "TALK_DONE", "condition": { "math": [ "5 != 2" ] } },
+      { "text": "Five <= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 <= 2" ] } },
+      { "text": "Five >= two.", "topic": "TALK_DONE", "condition": { "math": [ "5 >= 2" ] } },
+      { "text": "Five < two.", "topic": "TALK_DONE", "condition": { "math": [ "5 < 2" ] } },
+      { "text": "Five > two.", "topic": "TALK_DONE", "condition": { "math": [ "5 > 2" ] } }
     ]
   },
   {
@@ -875,7 +875,7 @@
       {
         "text": "This is a math test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_compare_test_test", "++" ] }
+        "effect": { "math": [ "u_test_var_compare_test_test++" ] }
       },
       {
         "text": "This is an math test response that increments by 2.",
@@ -885,58 +885,46 @@
       {
         "text": "This is a u_add_var time test response.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_time_test_test", "=", "time('now')" ] },
+        "effect": { "math": [ "u_test_var_time_test_test = time('now')" ] },
         "condition": { "math": [ "!has_var(u_test_var_time_test_test)" ] }
       },
-      {
-        "text": "PC strength is five.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('strength')", "==", "5" ] }
-      },
-      {
-        "text": "PC dexterity is six.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('dexterity')", "==", "6" ] }
-      },
+      { "text": "PC strength is five.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('strength') == 5" ] } },
+      { "text": "PC dexterity is six.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('dexterity') == 6" ] } },
       {
         "text": "PC intelligence is seven.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('intelligence')", "==", "7" ] }
+        "condition": { "math": [ "u_val('intelligence') == 7" ] }
       },
       {
         "text": "PC perception is eight.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('perception')", "==", "8" ] }
+        "condition": { "math": [ "u_val('perception') == 8" ] }
       },
-      {
-        "text": "NPC strength is nine.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('strength')", "==", "9" ] }
-      },
+      { "text": "NPC strength is nine.", "topic": "TALK_DONE", "condition": { "math": [ "n_val('strength') == 9" ] } },
       {
         "text": "NPC dexterity is ten.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('dexterity')", "==", "10" ] }
+        "condition": { "math": [ "n_val('dexterity') == 10" ] }
       },
       {
         "text": "NPC intelligence is eleven.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('intelligence')", "==", "11" ] }
+        "condition": { "math": [ "n_val('intelligence') == 11" ] }
       },
       {
         "text": "NPC perception is twelve.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('perception')", "==", "12" ] }
+        "condition": { "math": [ "n_val('perception') == 12" ] }
       },
       {
         "text": "PC Custom var is one.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_test_var_compare_test_test", "==", "1" ] }
+        "condition": { "math": [ "u_test_var_compare_test_test == 1" ] }
       },
       {
         "text": "NPC Custom var is two.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "n_test_var_compare_test_test", "==", "2" ] }
+        "condition": { "math": [ "n_test_var_compare_test_test == 2" ] }
       },
       {
         "text": "This is a u_var time test response for > 3_days.",
@@ -958,113 +946,93 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "time_since(u_test_var_time_test_test, 'unit':'days') > 3" ] }
       },
-      { "text": "Allies equals 1", "topic": "TALK_DONE", "condition": { "math": [ "u_val('allies')", "==", "1" ] } },
-      { "text": "Cash equals 13", "topic": "TALK_DONE", "condition": { "math": [ "u_val('cash')", "==", "13" ] } },
-      {
-        "text": "Owed amount equals 14",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "n_val('owed')", "==", "14" ] }
-      },
+      { "text": "Allies equals 1", "topic": "TALK_DONE", "condition": { "math": [ "u_val('allies') == 1" ] } },
+      { "text": "Cash equals 13", "topic": "TALK_DONE", "condition": { "math": [ "u_val('cash') == 13" ] } },
+      { "text": "Owed amount equals 14", "topic": "TALK_DONE", "condition": { "math": [ "n_val('owed') == 14" ] } },
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_skill('driving')", ">=", "5" ] }
+        "condition": { "math": [ "u_skill('driving') >= 5" ] }
       },
       {
         "text": "Temperature is 21.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }
+        "condition": { "math": [ "fahrenheit( weather('temperature') ) == 21" ] }
       },
-      {
-        "text": "Windpower is 15.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "weather('windpower')", "==", "15" ] }
-      },
-      {
-        "text": "Humidity is 16.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "weather('humidity')", "==", "16" ] }
-      },
-      {
-        "text": "Pressure is 17.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "weather('pressure')", "==", "17" ] }
-      },
-      { "text": "Pos_x is -1.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_x')", "==", "-1" ] } },
-      { "text": "Pos_y is -2.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_y')", "==", "-2" ] } },
-      { "text": "Pos_z is -3.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_z')", "==", "-3" ] } },
-      { "text": "Pain level is 21.", "topic": "TALK_DONE", "condition": { "math": [ "u_pain()", "==", "21" ] } },
+      { "text": "Windpower is 15.", "topic": "TALK_DONE", "condition": { "math": [ "weather('windpower') == 15" ] } },
+      { "text": "Humidity is 16.", "topic": "TALK_DONE", "condition": { "math": [ "weather('humidity') == 16" ] } },
+      { "text": "Pressure is 17.", "topic": "TALK_DONE", "condition": { "math": [ "weather('pressure') == 17" ] } },
+      { "text": "Pos_x is -1.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_x') == -1" ] } },
+      { "text": "Pos_y is -2.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_y') == -2" ] } },
+      { "text": "Pos_z is -3.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_z') == -3" ] } },
+      { "text": "Pain level is 21.", "topic": "TALK_DONE", "condition": { "math": [ "u_pain() == 21" ] } },
       { "text": "Bionic power is 22.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('power') == 22" ] } },
       {
         "text": "Bionic power max is 44.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('power_max')", "==", "44" ] }
+        "condition": { "math": [ "u_val('power_max') == 44" ] }
       },
       {
         "text": "Bionic power is at 50%.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('power_percentage')", "==", "50" ] }
+        "condition": { "math": [ "u_val('power_percentage') == 50" ] }
       },
-      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale')", "==", "23" ] } },
-      { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus')", "==", "24" ] } },
-      { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana')", "==", "25" ] } },
-      {
-        "text": "Mana max is 900.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('mana_max')", "==", "900" ] }
-      },
+      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale') == 23" ] } },
+      { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus') == 24" ] } },
+      { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana') == 25" ] } },
+      { "text": "Mana max is 900.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana_max') == 900" ] } },
       {
         "text": "Mana is at 2%.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "round( u_val('mana_percentage') )", "==", "3" ] }
+        "condition": { "math": [ "round( u_val('mana_percentage') ) == 3" ] }
       },
-      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('hunger')", "==", "26" ] } },
-      { "text": "Thirst is 27.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('thirst')", "==", "27" ] } },
+      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('hunger') == 26" ] } },
+      { "text": "Thirst is 27.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('thirst') == 27" ] } },
       {
         "text": "Stored kcal is 118'169.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_calories()", "==", "118169" ] }
+        "condition": { "math": [ "u_calories() == 118169" ] }
       },
       {
         "text": "Has 3 glass bottles.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_item_count('bottle_glass')", "==", "3" ] }
+        "condition": { "math": [ "u_item_count('bottle_glass') == 3" ] }
       },
       {
         "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('exp')", ">=", "35" ] }
+        "condition": { "math": [ "u_val('exp') >= 35" ] }
       },
       {
         "text": "Highest spell level in school test_trait is 1.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_school_level('test_trait')", "==", "1" ] }
+        "condition": { "math": [ "u_school_level('test_trait') == 1" ] }
       },
       {
         "text": "Spell level of Pew, Pew is 4.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_spell_level('test_spell_pew')", "==", "4" ] }
+        "condition": { "math": [ "u_spell_level('test_spell_pew') == 4" ] }
       },
       {
         "text": "Spell level of highest spell is 12.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_spell_level('null')", "==", "12" ] }
+        "condition": { "math": [ "u_spell_level('null') == 12" ] }
       },
       {
         "text": "Exp of Pew, Pew is -1.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_spell_exp('test_spell_pew')", "==", "-1" ] }
+        "condition": { "math": [ "u_spell_exp('test_spell_pew') == -1" ] }
       },
       {
         "text": "Exp of Pew, Pew is 11006.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_spell_exp('test_spell_pew')", "==", "11006" ] }
+        "condition": { "math": [ "u_spell_exp('test_spell_pew') == 11006" ] }
       },
       {
         "text": "Test Proficiency learning is 50% out of 100%.",
         "//": "previously it used the number format '{ u_val: proficiency, proficiency_id: prof_test, format: 10 }', but it is deprecated",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent')", "==", "50" ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent') == 50" ] }
       },
       {
         "text": "Test Proficiency learning done is 12 hours total.",
@@ -1074,12 +1042,12 @@
       {
         "text": "Test Proficiency learning is 50% learnt.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent')", "==", "50" ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'percent') == 50" ] }
       },
       {
         "text": "Test Proficiency learning is 500 permille learnt.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'permille')", "==", "500" ] }
+        "condition": { "math": [ "u_proficiency('prof_test', 'format': 'permille') == 500" ] }
       },
       {
         "text": "Test Proficiency total learning time is 24 hours.",
@@ -1101,112 +1069,96 @@
       {
         "text": "Sets time since cataclysm to 1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "time('now')", "=", "time('cataclysm') + 1" ] }
+        "effect": { "math": [ "time('now') = time('cataclysm') + 1" ] }
       },
       {
         "text": "Sets temperature to 2.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('temperature')", "=", "from_fahrenheit( 2 )" ] }
+        "effect": { "math": [ "weather('temperature') = from_fahrenheit( 2 )" ] }
       },
-      {
-        "text": "Sets windpower to 3.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('windpower')", "=", "3" ] }
-      },
-      {
-        "text": "Sets humidity to 4.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('humidity')", "=", "4" ] }
-      },
-      {
-        "text": "Sets pressure to 5.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "weather('pressure')", "=", "5" ] }
-      },
+      { "text": "Sets windpower to 3.", "topic": "TALK_DONE", "effect": { "math": [ "weather('windpower') = 3" ] } },
+      { "text": "Sets humidity to 4.", "topic": "TALK_DONE", "effect": { "math": [ "weather('humidity') = 4" ] } },
+      { "text": "Sets pressure to 5.", "topic": "TALK_DONE", "effect": { "math": [ "weather('pressure') = 5" ] } },
       {
         "text": "Sets base strength to 6.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('strength_base')", "=", "6" ] }
+        "effect": { "math": [ "u_val('strength_base') = 6" ] }
       },
       {
         "text": "Sets base dexterity to 7.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('dexterity_base')", "=", "7" ] }
+        "effect": { "math": [ "u_val('dexterity_base') = 7" ] }
       },
       {
         "text": "Sets base intelligence to 8.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('intelligence_base')", "=", "8" ] }
+        "effect": { "math": [ "u_val('intelligence_base') = 8" ] }
       },
       {
         "text": "Sets base perception to 9.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('perception_base')", "=", "9" ] }
+        "effect": { "math": [ "u_val('perception_base') = 9" ] }
       },
       {
         "text": "Sets custom var to 10.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_test_var_time_test_test", "=", "10" ] }
+        "effect": { "math": [ "u_test_var_time_test_test = 10" ] }
       },
-      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "n_val('owed')", "=", "12" ] } },
+      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "n_val('owed') = 12" ] } },
       {
         "text": "Sets skill level in driving to 10.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_skill('driving')", "=", "10" ] }
+        "effect": { "math": [ "u_skill('driving') = 10" ] }
       },
-      { "text": "Sets pos_x to -1.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_x')", "=", "-1" ] } },
-      { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y')", "=", "-2" ] } },
-      { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z')", "=", "-3" ] } },
-      { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain()", "=", "17" ] } },
-      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power')", "=", "18" ] } },
+      { "text": "Sets pos_x to -1.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_x') = -1" ] } },
+      { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y') = -2" ] } },
+      { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z') = -3" ] } },
+      { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain() = 17" ] } },
+      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power') = 18" ] } },
       {
         "text": "Sets power to 20%.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('power_percentage')", "=", "20" ] }
+        "effect": { "math": [ "u_val('power_percentage') = 20" ] }
       },
-      { "text": "Sets focus to 19.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('focus')", "=", "19" ] } },
-      { "text": "Sets mana to 21.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana')", "=", "21" ] } },
-      {
-        "text": "Sets mana to 25%.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('mana_percentage')", "=", "25" ] }
-      },
-      { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst')", "=", "22" ] } },
-      { "text": "Sets calories to 23.", "topic": "TALK_DONE", "effect": { "math": [ "u_calories()", "=", "23" ] } },
+      { "text": "Sets focus to 19.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('focus') = 19" ] } },
+      { "text": "Sets mana to 21.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana') = 21" ] } },
+      { "text": "Sets mana to 25%.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('mana_percentage') = 25" ] } },
+      { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst') = 22" ] } },
+      { "text": "Sets calories to 23.", "topic": "TALK_DONE", "effect": { "math": [ "u_calories() = 23" ] } },
       {
         "text": "Sets pew pew's level to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "-1" ] }
+        "effect": { "math": [ "u_spell_level('test_spell_pew') = -1" ] }
       },
       {
         "text": "Sets pew pew's level to 4.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "4" ] }
+        "effect": { "math": [ "u_spell_level('test_spell_pew') = 4" ] }
       },
       {
         "text": "Sets pew pew's exp to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_exp('test_spell_pew')", "=", "-1" ] }
+        "effect": { "math": [ "u_spell_exp('test_spell_pew') = -1" ] }
       },
       {
         "text": "Sets pew pew's exp to 11006.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_spell_exp('test_spell_pew')", "=", "11006" ] }
+        "effect": { "math": [ "u_spell_exp('test_spell_pew') = 11006" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('12h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true) = time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "-1" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true) = -1" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('24h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true) = time('24h')" ] }
       },
       {
         "text": "Learns Test Proficiency for 1h",
@@ -1353,7 +1305,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should see this response but not be able to select it (except in debug mode).",
         "show_always": true,
         "topic": "TALK_DONE"
@@ -1367,7 +1319,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "1", ">", "0" ] },
+        "condition": { "math": [ "1 > 0" ] },
         "text": "You should always see this response and be able to select it.",
         "show_always": true,
         "topic": "TALK_DONE"
@@ -1381,7 +1333,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should see this response but not be able to select it (except in debug mode) because",
         "show_always": true,
         "show_reason": "zero isn't greater than one.",
@@ -1396,10 +1348,10 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should see this response but not be able to select it (except in debug mode) because",
         "topic": "TALK_DONE",
-        "show_condition": { "math": [ "1", ">", "0" ] },
+        "show_condition": { "math": [ "1 > 0" ] },
         "show_reason": "zero isn't greater than one."
       },
       { "text": "All done", "topic": "TALK_DONE" }
@@ -1411,10 +1363,10 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "condition": { "math": [ "0", ">", "1" ] },
+        "condition": { "math": [ "0 > 1" ] },
         "text": "You should not see this response.",
         "topic": "TALK_DONE",
-        "show_condition": { "math": [ "0", ">", "1" ] },
+        "show_condition": { "math": [ "0 > 1" ] },
         "show_reason": "zero isn't greater than one."
       },
       { "text": "All done", "topic": "TALK_DONE" }

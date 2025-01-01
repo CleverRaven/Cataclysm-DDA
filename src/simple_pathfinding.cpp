@@ -135,28 +135,28 @@ const tripoint &direction_to_tripoint( direction dir )
 {
     switch( dir ) {
         case direction::NORTHEAST:
-            return tripoint_north_east;
+            return tripoint::north_east;
         case direction::EAST:
-            return tripoint_east;
+            return tripoint::east;
         case direction::SOUTHEAST:
-            return tripoint_south_east;
+            return tripoint::south_east;
         case direction::SOUTH:
-            return tripoint_south;
+            return tripoint::south;
         case direction::SOUTHWEST:
-            return tripoint_south_west;
+            return tripoint::south_west;
         case direction::WEST:
-            return tripoint_west;
+            return tripoint::west;
         case direction::NORTHWEST:
-            return tripoint_north_west;
+            return tripoint::north_west;
         case direction::NORTH:
-            return tripoint_north;
+            return tripoint::north;
         case direction::ABOVECENTER:
-            return tripoint_above;
+            return tripoint::above;
         case direction::BELOWCENTER:
-            return tripoint_below;
+            return tripoint::below;
         default:
             debugmsg( "Unexpected direction: %d", static_cast<int>( dir ) );
-            return tripoint_zero;
+            return tripoint::zero;
     }
 }
 
@@ -419,7 +419,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     }
     std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;
     std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> open_set;
-    const node_address start( tripoint_zero );
+    const node_address start( tripoint::zero );
     known_nodes.emplace( start, navigation_node{0, static_cast<int16_t>( start_score.node_cost ), static_cast<int8_t>( direction::CENTER ), start_score.allow_z_change} );
     open_set.push( scored_address{ start, 0 } );
     const point_abs_omt source_point = source.xy();
@@ -442,13 +442,27 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
         const navigation_node &cur_node = known_nodes.at( cur_addr );
         if( cur_point == dest ) {
+            ret.dist = omt_cost_to_cross( 24, direction::CENTER, cur_node.get_prev_dir() );
             node_address addr = cur_addr;
+            const navigation_node *next_node = nullptr;
             while( !( addr == start ) ) {
                 const navigation_node &node = known_nodes.at( addr );
+                if( next_node != nullptr ) {
+                    ret.dist += omt_cost_to_cross( 24, node.get_prev_dir(),
+                                                   reverse_direction( next_node->get_prev_dir() ) );
+                }
+                next_node = &node;
                 ret.points.emplace_back( addr.to_tripoint( source ) );
                 addr = addr.displace( node.get_prev_dir() );
             }
             ret.points.emplace_back( addr.to_tripoint( source ) );
+            if( next_node != nullptr ) {
+                ret.dist += omt_cost_to_cross( 24, direction::CENTER,
+                                               next_node->get_prev_dir() ); // this direction is reversed but that doesn't change the result
+            }
+            // total path cost is the cost to reach an edge of the final node plus the cost to reach the center of that node
+            ret.cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost, direction::CENTER,
+                       cur_node.get_prev_dir() );
             return ret;
         }
         for( direction dir : enumerate_directions( cur_node.allow_z_change, allow_diagonal ) ) {

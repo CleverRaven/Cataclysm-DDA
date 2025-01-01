@@ -15,9 +15,7 @@
                 "run_eocs": [
                   {
                     "id": "EOC_forge_blood_check_blood",
-                    "condition": {
-                      "and": [ { "math": [ "u_vitamin('blood')", ">=", "-15000" ] }, { "math": [ "u_vitamin('redcells')", ">=", "-15000" ] } ]
-                    },
+                    "condition": { "and": [ { "math": [ "u_vitamin('blood') >= -15000" ] }, { "math": [ "u_vitamin('redcells') >= -15000" ] } ] },
                     "effect": [
                       { "npc_set_flag": "DURABLE_MELEE" },
                       { "npc_set_flag": "NO_REPAIR" },

@@ -73,7 +73,7 @@
     "id": "EOC_PYROKIN_CALL_FLAME_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_fire_tool" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_call_flames')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -132,7 +132,7 @@
     "id": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_cloak" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_cloak')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -197,7 +197,7 @@
     "id": "EOC_PYROKIN_TORCH_WELD_DRAIN",
     "condition": { "u_has_item": "pyrokinetic_torch_weld" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_lance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -256,7 +256,7 @@
     "id": "EOC_PYROKIN_BLAZING_AURA_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_aura" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
@@ -315,7 +315,7 @@
     "id": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_flame_immunity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },

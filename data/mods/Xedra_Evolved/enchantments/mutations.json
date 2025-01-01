@@ -30,7 +30,15 @@
     "type": "enchantment",
     "id": "EATER_SIXTH_SENSE",
     "condition": "ALWAYS",
-    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "u_spell_count('school': 'EATER')" ] } } ]
+    "special_vision": [
+      {
+        "condition": {
+          "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+        },
+        "distance": { "math": [ "u_spell_count('school': 'EATER')" ] },
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense an otherworldy danger here." } ]
+      }
+    ]
   },
   {
     "type": "enchantment",

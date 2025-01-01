@@ -496,7 +496,8 @@
       "PET_MOUNTABLE",
       "PATH_AVOID_DANGER",
       "WARM",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "STABILIZED_TIMELINE"
     ],
     "armor": {
       "bash": 8,

@@ -45,6 +45,10 @@
     "required_str": 10,
     "flags": [ "TRANSPARENT", "NOITEM" ],
     "bash": {
+      "str_min": 6,
+      "str_max": 10,
+      "sound": "whack!",
+      "sound_fail": "womp!",
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 12 ] },

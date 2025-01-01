@@ -21,10 +21,10 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "cata_bitset.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -292,7 +292,7 @@ struct vehicle_part {
         std::string name( bool with_prefix = true ) const;
 
         struct carried_part_data {
-            tripoint_rel_ms mount; // if value is tripoint_rel_ms_zero this is the pivot
+            tripoint_rel_ms mount; // if value is tripoint_rel_ms::zero this is the pivot
             units::angle face_dir; // direction relative to the carrier vehicle
             std::string veh_name;  // carried vehicle name this part belongs to
 
@@ -519,6 +519,9 @@ struct vehicle_part {
         /** door is locked */
         bool locked = false;
 
+        // If the part's sprite/symbol shouldn't be shown
+        bool hidden = false;
+
         /** direction the part is facing */
         units::angle direction = 0_degrees;
 
@@ -526,7 +529,7 @@ struct vehicle_part {
          * Coordinates for some kind of target; jumper cables and turrets use this
          * Two coordinate pairs are stored: actual target point, and target vehicle center.
          */
-        std::pair<tripoint_abs_ms, tripoint_abs_ms> target = { tripoint_abs_ms_min, tripoint_abs_ms_min };
+        std::pair<tripoint_abs_ms, tripoint_abs_ms> target = { tripoint_abs_ms::invalid, tripoint_abs_ms::invalid };
 
         /** If it's a part with variants, which variant it is */
         std::string variant;
@@ -806,8 +809,6 @@ class vpart_display
 class vehicle
 {
     private:
-        // TODO: Get rid of untyped overload.
-        bool has_structural_part( const point &dp ) const;
         bool has_structural_part( const point_rel_ms &dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( int part_index, bool opening );
@@ -941,11 +942,12 @@ class vehicle
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
-        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status );
+        void init_state( map &placed_on, int init_veh_fuel, int init_veh_status,
+                         bool force_status = false );
 
         // damages all parts of a vehicle by a random amount
         void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point_rel_ms damage_origin = point_rel_ms_zero,
+                    float percent_of_parts_to_affect = 1.0f, point_rel_ms damage_origin = point_rel_ms::zero,
                     float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
@@ -1245,8 +1247,6 @@ class vehicle
         *  @param unbroken if true also requires the part to be !is_broken
         *  @returns part index or -1
         */
-        // TODO: Get rid of untyped overload.
-        int avail_part_with_feature( const point &pt, const std::string &f ) const;
         int avail_part_with_feature( const point_rel_ms &pt, const std::string &f ) const;
         /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
@@ -1267,8 +1267,6 @@ class vehicle
         *  Either way, will also look for APPLIANCE
         *  @returns part index or -1
         */
-        // TODO: Get rid of untyped overload.
-        int avail_linkable_part( const point &pt, bool to_ports ) const;
         int avail_linkable_part( const point_rel_ms &pt, bool to_ports ) const;
 
         /**
@@ -1290,14 +1288,24 @@ class vehicle
         bool has_part( const tripoint_bub_ms &pos, const std::string &flag, bool enabled = false ) const;
 
         /**
+         *  Check if vehicle has at least one unbroken part with each of the specified flags
+         *
+         *  e.g. has_parts({"F1", "F2", "F3"}), the first bit will hold whether the vehicle has
+         *      F1, the second F2, and so on.
+         *
+         *  @param flags Specified flags to search parts for. This should be <= 56 entries long.
+         *  @param enabled if set part must also be enabled to be considered
+         *  @returns true if part is found for each flag. The index of the resultant bitset is the
+         *      same as in flags.
+         */
+        tiny_bitset has_parts( const std::vector<std::string> &flags, bool enabled = false ) const;
+
+        /**
          *  Get all enabled, available, unbroken vehicle parts at specified position
          *  @param pos position to check
          *  @param flag if set only flags with this part will be considered
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
-        // TODO: Get rid of untyped overload.
-        std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
-                part_status_flag condition );
         std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint_bub_ms &pos,
@@ -1368,9 +1376,6 @@ class vehicle
         point_rel_ms coord_translate( const point_rel_ms &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        // TODO: Get rid of untyped overload.
-        void coord_translate( const units::angle &dir, const point &pivot, const point &p,
-                              tripoint &q ) const;
         void coord_translate( const units::angle &dir, const point_rel_ms &pivot, const point_rel_ms &p,
                               tripoint_rel_ms &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
@@ -1387,9 +1392,6 @@ class vehicle
         // TODO: Get rid of untyped overload.
         int part_at( const point &dp ) const;
         int part_at( const point_rel_ms &dp ) const;
-        // TODO: Get rid of untyped overload.
-        int part_displayed_at( const point &dp, bool include_fake = false,
-                               bool below_roof = true, bool roof = true ) const;
         int part_displayed_at( const point_rel_ms &dp, bool include_fake = false,
                                bool below_roof = true, bool roof = true ) const;
         int roof_at_part( int p ) const;
@@ -1404,9 +1406,6 @@ class vehicle
         // @param below_roof if true parts below roof are included
         // @param roof if true roof parts are included
         // @returns filled vpart_display struct or default constructed if no part displayed
-        // TODO: Get rid of untyped overload.
-        vpart_display get_display_of_tile( const point &dp, bool rotate = true, bool include_fake = true,
-                                           bool below_roof = true, bool roof = true ) const;
         vpart_display get_display_of_tile( const point_rel_ms &dp, bool rotate = true,
                                            bool include_fake = true,
                                            bool below_roof = true, bool roof = true ) const;
@@ -1433,8 +1432,6 @@ class vehicle
 
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
-        // TODO: Get rid of untyped overload.
-        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
         void precalc_mounts( int idir, const units::angle &dir, const point_rel_ms &pivot );
 
         // get a list of part indices where is a passenger inside
@@ -1928,8 +1925,6 @@ class vehicle
         void damage_all( int dmg1, int dmg2, const damage_type_id &type, const point_rel_ms &impact );
 
         //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-        // TODO: Get rid of untyped overload.
-        void shift_parts( map &here, const point &delta );
         void shift_parts( map &here, const point_rel_ms &delta );
         bool shift_if_needed( map &here );
 
@@ -1950,9 +1945,6 @@ class vehicle
          * @param unlink_tow_cables If tow cables should be unlinked.
          * @param unlink_power_cords If power grid cables (power_cord) should be unlinked.
          */
-        // TODO: Get rid of untyped overload.
-        void unlink_cables( const point &mount, Character &remover, bool unlink_items = false,
-                            bool unlink_tow_cables = false, bool unlink_power_cords = false );
         void unlink_cables( const point_rel_ms &mount, Character &remover, bool unlink_items = false,
                             bool unlink_tow_cables = false, bool unlink_power_cords = false );
 
@@ -2248,8 +2240,8 @@ class vehicle
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
-        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
-                                              const tripoint &dp, int ramp_offset,
+        std::set<int> advance_precalc_mounts( const point_sm_ms &new_pos, const tripoint_bub_ms &src,
+                                              const tripoint_rel_ms &dp, int ramp_offset,
                                               bool adjust_pos, std::set<int> parts_to_move );
         // make sure the vehicle is supported across z-levels or on the same z-level
         bool level_vehicle();
@@ -2293,14 +2285,14 @@ class vehicle
          */
         vproto_id type;
         // parts_at_relative(dp) is used a lot (to put it mildly)
-        std::map<point, std::vector<int>> relative_parts; // NOLINT(cata-serialize)
+        std::map<point_rel_ms, std::vector<int>> relative_parts; // NOLINT(cata-serialize)
         std::set<label> labels;            // stores labels
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         // The value is negative.
         std::map<itype_id, units::energy> fuel_remainder;
         std::map<itype_id, units::energy> fuel_used_last_turn;
-        std::unordered_multimap<point, zone_data> loot_zones;
+        std::unordered_multimap<point_rel_ms, zone_data> loot_zones;
         active_item_cache active_items; // NOLINT(cata-serialize)
         // a magic vehicle, powered by magic.gif
         bool magic = false;
@@ -2324,12 +2316,12 @@ class vehicle
         /*
          * The co-ordinates of the bounding box of the vehicle's mount points
          */
-        mutable point mount_max; // NOLINT(cata-serialize)
-        mutable point mount_min; // NOLINT(cata-serialize)
+        mutable point_rel_ms mount_max; // NOLINT(cata-serialize)
+        mutable point_rel_ms mount_min; // NOLINT(cata-serialize)
         mutable point_rel_ms mass_center_precalc; // NOLINT(cata-serialize)
         mutable point_rel_ms mass_center_no_precalc; // NOLINT(cata-serialize)
         tripoint_abs_ms autodrive_local_target =
-            tripoint_abs_ms_zero; // current node the autopilot is aiming for
+            tripoint_abs_ms::zero; // current node the autopilot is aiming for
         class autodrive_controller;
         std::shared_ptr<autodrive_controller> active_autodrive_controller; // NOLINT(cata-serialize)
 
@@ -2346,7 +2338,7 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos = tripoint_zero; // NOLINT(cata-serialize)
+        tripoint sm_pos = tripoint::zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)
@@ -2359,7 +2351,7 @@ class vehicle
          * Note that vehicles are "moved" by map::displace_vehicle. You should not
          * set them directly, except when initializing the vehicle or during mapgen.
          */
-        point pos = point_zero;
+        point_sm_ms pos = point_sm_ms::zero;
         // vehicle current velocity, mph * 100
         int velocity = 0;
         /**
@@ -2391,11 +2383,11 @@ class vehicle
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
         bounding_box rail_wheel_bounding_box; // NOLINT(cata-serialize)
-        point front_left; // NOLINT(cata-serialize)
-        point front_right; // NOLINT(cata-serialize)
+        point_rel_ms front_left; // NOLINT(cata-serialize)
+        point_rel_ms front_right; // NOLINT(cata-serialize)
         towing_data tow_data;
         // points used for rotation of mount precalc values
-        std::array<point, 2> pivot_anchor;
+        std::array<point_rel_ms, 2> pivot_anchor;
         // frame direction
         tileray face;
         // direction we are moving
@@ -2465,13 +2457,11 @@ class vehicle
         std::pair<int, double> get_exhaust_part() const;
 
         // destination for exhaust emissions
-        // TODO: Get rid of untyped "overload".
-        tripoint exhaust_dest( int part ) const;
-        tripoint_bub_ms exhaust_dest_bub( int part ) const;
+        tripoint_bub_ms exhaust_dest( int part ) const;
 
         // Returns debug data to overlay on the screen, a vector of {map tile position
         // relative to vehicle pos, color and text}.
-        std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
+        std::vector<std::tuple<point_rel_ms, int, std::string>> get_debug_overlay_data() const;
 };
 
 // For reference what each function is supposed to do, see their implementation in
@@ -2482,12 +2472,12 @@ class RemovePartHandler
     public:
         virtual ~RemovePartHandler() = default;
 
-        virtual void unboard( const tripoint &loc ) = 0;
-        virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
+        virtual void unboard( const tripoint_bub_ms &loc ) = 0;
+        virtual void add_item_or_charges( const tripoint_bub_ms &loc, item it, bool permit_oob ) = 0;
         virtual void set_transparency_cache_dirty( int z ) = 0;
         virtual void set_floor_cache_dirty( int z ) = 0;
         virtual void removed( vehicle &veh, int part ) = 0;
-        virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
+        virtual void spawn_animal_from_part( item &base, const tripoint_bub_ms &loc ) = 0;
         virtual map &get_map_ref() = 0;
 };
 
@@ -2496,22 +2486,22 @@ class DefaultRemovePartHandler : public RemovePartHandler
     public:
         ~DefaultRemovePartHandler() override = default;
 
-        void unboard( const tripoint &loc ) override {
-            get_map().unboard_vehicle( tripoint_bub_ms( loc ) );
+        void unboard( const tripoint_bub_ms &loc ) override {
+            get_map().unboard_vehicle( loc );
         }
-        void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
+        void add_item_or_charges( const tripoint_bub_ms &loc, item it, bool /*permit_oob*/ ) override {
             get_map().add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );
         }
         void removed( vehicle &veh, int part ) override;
-        void spawn_animal_from_part( item &base, const tripoint &loc ) override {
+        void spawn_animal_from_part( item &base, const tripoint_bub_ms &loc ) override {
             base.release_monster( loc, 1 );
         }
         map &get_map_ref() override {
@@ -2529,12 +2519,12 @@ class MapgenRemovePartHandler : public RemovePartHandler
 
         ~MapgenRemovePartHandler() override = default;
 
-        void unboard( const tripoint &/*loc*/ ) override {
+        void unboard( const tripoint_bub_ms &/*loc*/ ) override {
             debugmsg( "Tried to unboard during mapgen!" );
             // Ignored. Will almost certainly not be called anyway, because
             // there are no creatures that could have been mounted during mapgen.
         }
-        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override;
+        void add_item_or_charges( const tripoint_bub_ms &loc, item it, bool permit_oob ) override;
         void set_transparency_cache_dirty( const int /*z*/ ) override {
             // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
         }
@@ -2545,7 +2535,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // TODO: check if this is necessary, it probably isn't during mapgen
             m.dirty_vehicle_list.insert( &veh );
         }
-        void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
+        void spawn_animal_from_part( item &/*base*/, const tripoint_bub_ms &/*loc*/ ) override {
             debugmsg( "Tried to spawn animal from vehicle part during mapgen!" );
             // Ignored. The base item will not be changed and will spawn as is:
             // still containing the animal.

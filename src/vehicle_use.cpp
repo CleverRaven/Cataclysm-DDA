@@ -291,7 +291,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         .on_submit( [this] { control_doors(); } );
     }
 
-    if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+    if( camera_on || has_parts( {"CAMERA", "CAMERA_CONTROL"} ).all() ) {
         menu.add( camera_on
                   ? colorize( _( "Turn off camera system" ), c_pink )
                   : _( "Turn on camera system" ) )
@@ -372,7 +372,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_zero ); } );
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_bub_ms::zero ); } );
             break;
         }
     }
@@ -486,7 +486,7 @@ void vehicle::smash_security_system()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), 60 ) ) {
+    if( mgr.has_near( zone_type_VEHICLE_PATROL, global_square_location(), MAX_VIEW_DISTANCE ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -524,7 +524,7 @@ void vehicle::toggle_autopilot()
         autopilot_on = false;
         is_patrolling = false;
         is_following = false;
-        autodrive_local_target = tripoint_abs_ms_zero;
+        autodrive_local_target = tripoint_abs_ms::zero;
         add_msg( _( "You turn the engine off." ) );
         stop_engines();
     } );
@@ -580,7 +580,7 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
     }
 
     const tripoint_bub_ms pos = bub_part_pos( vp );
-    double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos.raw() ) );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos ) );
     if( !vp.has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20.0 );
     }
@@ -830,7 +830,7 @@ void vehicle::enable_patrol()
 {
     is_patrolling = true;
     autopilot_on = true;
-    autodrive_local_target = tripoint_abs_ms_zero;
+    autodrive_local_target = tripoint_abs_ms::zero;
     if( !engine_on ) {
         start_engines();
     }
@@ -852,7 +852,7 @@ void vehicle::honk_horn() const
             honked = true;
         }
         //Get global position of horn
-        const tripoint horn_pos = vp.pos();
+        const tripoint_bub_ms horn_pos = vp.pos_bub();
         //Determine sound
         if( horn_type.bonus >= 110 ) {
             //~ Loud horn sound
@@ -928,7 +928,8 @@ void vehicle::beeper_sound() const
         }
 
         //~ Beeper sound
-        sounds::sound( vp.pos(), vp.info().bonus, sounds::sound_t::alarm, _( "beep!" ), false, "vehicle",
+        sounds::sound( vp.pos_bub(), vp.info().bonus, sounds::sound_t::alarm, _( "beep!" ), false,
+                       "vehicle",
                        "rear_beeper" );
     }
 }
@@ -937,7 +938,7 @@ void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( &player_character, vp.pos(), 15, 30 );
+        iuse::play_music( &player_character, vp.pos_bub(), 15, 30 );
     }
 }
 
@@ -948,7 +949,7 @@ void vehicle::play_chimes() const
     }
 
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
-        sounds::sound( vp.pos(), 40, sounds::sound_t::music,
+        sounds::sound( vp.pos_bub(), 40, sounds::sound_t::music,
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
     }
 }
@@ -1583,7 +1584,8 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
         return;
     }
     creature_tracker &creatures = get_creature_tracker();
-    const std::function<bool( const tripoint & )> f = [&creatures]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint_bub_ms & )> f = [&creatures](
+    const tripoint_bub_ms & pnt ) {
         monster *mon_ptr = creatures.creature_at<monster>( pnt );
         if( mon_ptr == nullptr ) {
             return false;
@@ -1593,14 +1595,14 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
                                     f.has_flag( mon_flag_PET_HARNESSABLE ) );
     };
 
-    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
-            false );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
+                _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+                false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );
         return;
     }
-    const tripoint &target = *pnt_;
+    const tripoint_bub_ms &target = *pnt_;
     monster *mon_ptr = creatures.creature_at<monster>( target );
     if( mon_ptr == nullptr ) {
         add_msg( m_info, _( "No creature there." ) );
@@ -1843,7 +1845,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
     const bool remote = g->remoteveh() == this;
     const bool has_electronic_controls = remote
-                                         ? has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" )
+                                         ? has_parts( {"CTRL_ELECTRONIC", "REMOTE_CONTROL"} ).any()
                                          : has_part_here( "CTRL_ELECTRONIC" );
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
@@ -1866,7 +1868,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "EXAMINE_VEHICLE" )
         .on_submit( [this, vp] {
             const vpart_position non_fake( *this, get_non_fake_part( vp.part_index() ) );
-            const point start_pos = non_fake.mount().rotate( 2 );
+            const point_rel_ms start_pos = non_fake.mount_pos().rotate( 2 );
             g->exam_vehicle( *this, start_pos );
         } );
 
@@ -2085,7 +2087,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
-            unlink_cables( vp.mount(), get_player_character(), true, true, true );
+            unlink_cables( vp.mount_pos(), get_player_character(), true, true, true );
             get_player_character().pause();
         } );
     }
@@ -2096,7 +2098,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
-            unlink_cables( vp.mount(), get_player_character(), true, true, false );
+            unlink_cables( vp.mount_pos(), get_player_character(), true, true, false );
             get_player_character().pause();
         } );
     }

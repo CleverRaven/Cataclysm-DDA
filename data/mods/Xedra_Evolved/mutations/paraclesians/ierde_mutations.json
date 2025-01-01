@@ -359,7 +359,7 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -391,7 +391,7 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -489,6 +489,25 @@
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "prereqs2": [ "IERDE_STR_BONUS_1", "IERDE_STR_BONUS_2", "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "KNOCKBACK_RESIST", "add": 100 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_ROOTED_IN_PLACE",
+    "name": { "str": "The Root of the Mountain" },
+    "points": 8,
+    "description": "When standing on the living earth or underground, the Ierde can root themselves in place.  While doing so, they cannot move, but they are immune to being stunned, dazed, or downed, and gain additional armor.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "activation_msg": "You ",
+    "activated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_activated" ],
+    "deactivated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_deactivated" ]
   },
   {
     "type": "mutation",

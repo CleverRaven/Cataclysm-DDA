@@ -11,6 +11,8 @@
 #include <vector>
 
 #include "color.h"
+#include "coords_fwd.h"
+#include "effect_on_condition.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "translations.h"
@@ -30,43 +32,41 @@ namespace trapfunc
 // creature is the creature that triggered the trap,
 // item is the item that triggered the trap,
 // creature and item can be nullptr.
-bool none( const tripoint &, Creature *, item * );
-bool bubble( const tripoint &p, Creature *c, item *i );
-bool glass( const tripoint &p, Creature *c, item *i );
-bool cot( const tripoint &p, Creature *c, item *i );
-bool beartrap( const tripoint &p, Creature *c, item *i );
-bool snare_light( const tripoint &p, Creature *c, item *i );
-bool snare_heavy( const tripoint &p, Creature *c, item *i );
-bool snare_species( const tripoint &p, Creature *critter, item *trap_item );
-bool board( const tripoint &p, Creature *c, item *i );
-bool caltrops( const tripoint &p, Creature *c, item *i );
-bool caltrops_glass( const tripoint &p, Creature *c, item *i );
-bool tripwire( const tripoint &p, Creature *c, item *i );
-bool crossbow( const tripoint &p, Creature *c, item *i );
-bool shotgun( const tripoint &p, Creature *c, item *i );
-bool blade( const tripoint &p, Creature *c, item *i );
-bool landmine( const tripoint &p, Creature *c, item *i );
-bool telepad( const tripoint &p, Creature *c, item *i );
-bool goo( const tripoint &p, Creature *c, item *i );
-bool dissector( const tripoint &p, Creature *c, item *i );
-bool sinkhole( const tripoint &p, Creature *c, item *i );
-bool pit( const tripoint &p, Creature *c, item *i );
-bool pit_spikes( const tripoint &p, Creature *c, item *i );
-bool pit_glass( const tripoint &p, Creature *c, item *i );
-bool lava( const tripoint &p, Creature *c, item *i );
-bool portal( const tripoint &p, Creature *c, item *i );
-bool ledge( const tripoint &p, Creature *c, item *i );
-bool boobytrap( const tripoint &p, Creature *c, item *i );
-bool temple_flood( const tripoint &p, Creature *c, item *i );
-bool temple_toggle( const tripoint &p, Creature *c, item *i );
-bool glow( const tripoint &p, Creature *c, item *i );
-bool hum( const tripoint &p, Creature *c, item *i );
-bool shadow( const tripoint &p, Creature *c, item *i );
-bool map_regen( const tripoint &p, Creature *c, item *i );
-bool drain( const tripoint &p, Creature *c, item *i );
-bool snake( const tripoint &p, Creature *c, item *i );
-bool cast_spell( const tripoint &p, Creature *critter, item * );
-bool dummy_trap( const tripoint &p, Creature *critter, item * );
+bool none( const tripoint_bub_ms &, Creature *, item * );
+bool bubble( const tripoint_bub_ms &p, Creature *c, item *i );
+bool glass( const tripoint_bub_ms &p, Creature *c, item *i );
+bool cot( const tripoint_bub_ms &p, Creature *c, item *i );
+bool beartrap( const tripoint_bub_ms &p, Creature *c, item *i );
+bool snare_light( const tripoint_bub_ms &p, Creature *c, item *i );
+bool snare_heavy( const tripoint_bub_ms &p, Creature *c, item *i );
+bool snare_species( const tripoint_bub_ms &p, Creature *critter, item *trap_item );
+bool board( const tripoint_bub_ms &p, Creature *c, item *i );
+bool caltrops( const tripoint_bub_ms &p, Creature *c, item *i );
+bool caltrops_glass( const tripoint_bub_ms &p, Creature *c, item *i );
+bool eocs( const tripoint_bub_ms &p, Creature *critter, item * );
+bool tripwire( const tripoint_bub_ms &p, Creature *c, item *i );
+bool crossbow( const tripoint_bub_ms &p, Creature *c, item *i );
+bool shotgun( const tripoint_bub_ms &p, Creature *c, item *i );
+bool blade( const tripoint_bub_ms &p, Creature *c, item *i );
+bool landmine( const tripoint_bub_ms &p, Creature *c, item *i );
+bool goo( const tripoint_bub_ms &p, Creature *c, item *i );
+bool dissector( const tripoint_bub_ms &p, Creature *c, item *i );
+bool sinkhole( const tripoint_bub_ms &p, Creature *c, item *i );
+bool pit( const tripoint_bub_ms &p, Creature *c, item *i );
+bool pit_spikes( const tripoint_bub_ms &p, Creature *c, item *i );
+bool pit_glass( const tripoint_bub_ms &p, Creature *c, item *i );
+bool lava( const tripoint_bub_ms &p, Creature *c, item *i );
+bool boobytrap( const tripoint_bub_ms &p, Creature *c, item *i );
+bool temple_flood( const tripoint_bub_ms &p, Creature *c, item *i );
+bool temple_toggle( const tripoint_bub_ms &p, Creature *c, item *i );
+bool glow( const tripoint_bub_ms &p, Creature *c, item *i );
+bool hum( const tripoint_bub_ms &p, Creature *c, item *i );
+bool shadow( const tripoint_bub_ms &p, Creature *c, item *i );
+bool map_regen( const tripoint_bub_ms &p, Creature *c, item *i );
+bool drain( const tripoint_bub_ms &p, Creature *c, item *i );
+bool snake( const tripoint_bub_ms &p, Creature *c, item *i );
+bool cast_spell( const tripoint_bub_ms &p, Creature *critter, item * );
+bool dummy_trap( const tripoint_bub_ms &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -85,7 +85,7 @@ struct vehicle_handle_trap_data {
     trap_str_id set_trap = trap_str_id::NULL_ID();
 };
 
-using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
+using trap_function = std::function<bool( const tripoint_bub_ms &, Creature *, item * )>;
 
 /**
  * Some traps aren't actually traps in the usual sense of the word. We use traps to implement
@@ -164,6 +164,7 @@ struct trap {
         std::optional<itype_id> trap_item_type;
         // data required for trapfunc::spell()
         fake_spell spell_data;
+        std::vector<effect_on_condition_id> eocs;
         int comfort = 0;
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         vehicle_handle_trap_data vehicle_data;
@@ -204,8 +205,6 @@ struct trap {
          * called on the null trap.
          */
         // Implemented for historical reasons in iexamine.cpp
-        // TODO: Get rid of untyped overload.
-        void examine( const tripoint &examp ) const;
         void examine( const tripoint_bub_ms &examp ) const;
 
         update_mapgen_id map_regen_target() const;
@@ -250,13 +249,11 @@ struct trap {
         bool detected_by_echolocation() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
-        bool detect_trap( const tripoint &pos, const Character &p ) const;
+        bool detect_trap( const tripoint_bub_ms &pos, const Character &p ) const;
         /**
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
-        // TODO: Get rid of untyped overload.
-        bool can_see( const tripoint &pos, const Character &p ) const;
         bool can_see( const tripoint_bub_ms &pos, const Character &p ) const;
 
         bool has_trigger_msg() const {
@@ -285,7 +282,7 @@ struct trap {
          * @param item The item that triggered the trap
          */
         // Don't call from outside this class. Add a wrapper like the ones below instead.
-        void trigger( const tripoint &pos, Creature *creature, item *item ) const;
+        void trigger( const tripoint_bub_ms &pos, Creature *creature, item *item ) const;
     public:
         /*@{*/
         /**
@@ -296,11 +293,11 @@ struct trap {
          * caller has already checked whether the trap should be activated
          * (e.g. the creature has had a chance to avoid the trap, but it failed).
          */
-        void trigger( const tripoint &pos, Creature &creature ) const;
-        void trigger( const tripoint &pos, item &item ) const;
+        void trigger( const tripoint_bub_ms &pos, Creature &creature ) const;
+        void trigger( const tripoint_bub_ms &pos, item &item ) const;
         /*@}*/
 
-        void trigger( const tripoint &pos ) const;
+        void trigger( const tripoint_bub_ms &pos ) const;
 
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
@@ -312,7 +309,7 @@ struct trap {
          * It should spawn trap items (if any) and remove the trap from the map via
          * @ref map::remove_trap.
          */
-        void on_disarmed( map &m, const tripoint &p ) const;
+        void on_disarmed( map &m, const tripoint_bub_ms &p ) const;
         /**
          * This is used when defining area this trap occupies. A value of 0 means trap occupies exactly 1 tile.
          */

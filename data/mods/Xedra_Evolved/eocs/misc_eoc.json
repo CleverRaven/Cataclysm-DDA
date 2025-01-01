@@ -142,24 +142,24 @@
       }
     },
     "effect": [
-      { "math": [ "u_stormwrought_blood_charge", "++" ] },
+      { "math": [ "u_stormwrought_blood_charge++" ] },
       {
         "run_eocs": [
           {
             "id": "STORMWROUGHT_BLOOD_FULL_CHARGE",
-            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "25" ] },
+            "condition": { "math": [ "u_stormwrought_blood_charge >= 25" ] },
             "effect": [
               { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
               { "u_remove_item_with": "stormwrought_blood_itert" },
               { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
-              { "math": [ "u_stormwrought_blood_charge", "=", "0" ] }
+              { "math": [ "u_stormwrought_blood_charge = 0" ] }
             ],
             "false_effect": [
               {
                 "run_eocs": [
                   {
                     "id": "STORMWROUGHT_BLOOD_HIGH_CHARGE",
-                    "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "10" ] },
+                    "condition": { "math": [ "u_stormwrought_blood_charge >= 10" ] },
                     "effect": [
                       {
                         "u_message": "The stormwrought blood boils intensely for a moment before returning to its inert state.",
@@ -171,7 +171,7 @@
                         "run_eocs": [
                           {
                             "id": "STORMWROUGHT_BLOOD_LOW_CHARGE",
-                            "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "1" ] },
+                            "condition": { "math": [ "u_stormwrought_blood_charge >= 1" ] },
                             "effect": [ { "u_message": "The stormwrought blood boils a little, then becomes inert again.", "type": "info" } ]
                           }
                         ]
@@ -289,13 +289,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_MINIMUM_TIME_ASLEEP",
-    "condition": { "math": [ "u_val('sleepiness')", "<=", "100" ] },
-    "effect": [ { "math": [ "u_val('sleepiness')", "=", "100" ] } ]
+    "condition": { "math": [ "u_val('sleepiness') <= 100" ] },
+    "effect": [ { "math": [ "u_val('sleepiness') = 100" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP_SHIELD_SEVENOCLOCK",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "10" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == 10" ] } },
     "effect": [
       {
         "run_eocs": {

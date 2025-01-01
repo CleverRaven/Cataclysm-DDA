@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "barber_shop" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         ".....#:::::+:::::#......",
         ".....#@$       $@#......",
@@ -31,7 +31,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ":": "t_wall_glass",
         "+": "t_door_glass_c",

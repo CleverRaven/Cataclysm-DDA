@@ -17,6 +17,7 @@
 #include "flat_set.h"
 #include "imgui/imgui.h"
 #include "input.h"
+#include "input_popup.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -32,7 +33,6 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -306,11 +306,9 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         whitelist = false;
         return true;
     } else if( action == "FAV_PRIORITY" ) {
-        string_input_popup popup;
-        popup.title( string_format( _( "Enter Priority (current priority %d)" ),
-                                    selected_pocket->settings.priority() ) );
-        const int ret = popup.query_int();
-        if( popup.confirmed() ) {
+        number_input_popup<int> popup( 34, selected_pocket->settings.priority(), _( "Enter Priority" ) );
+        const int ret = popup.query();
+        if( !popup.cancelled() ) {
             selected_pocket->settings.set_priority( ret );
             selected_pocket->settings.set_was_edited();
         }
@@ -434,16 +432,10 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         }
         return true;
     } else if( action == "FAV_SAVE_PRESET" ) {
-        string_input_popup custom_preset_popup;
-        custom_preset_popup
-        .title( _( "Enter a preset name:" ) )
-        .width( 25 );
-        if( selected_pocket->settings.get_preset_name().has_value() ) {
-            custom_preset_popup.text( selected_pocket->settings.get_preset_name().value() );
-        }
-        custom_preset_popup.query_string();
-        if( !custom_preset_popup.canceled() ) {
-            const std::string &rval = custom_preset_popup.text();
+        string_input_popup_imgui popup( 34, selected_pocket->settings.get_preset_name().value_or( "" ),
+                                        _( "Enter a preset name:" ) );
+        const std::string &rval = popup.query();
+        if( !popup.cancelled() ) {
             // Check if already exists
             item_pocket::load_presets();
             if( item_pocket::has_preset( rval ) ) {
@@ -1256,6 +1248,11 @@ void item_contents::heat_up()
 
 int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_efficiency )
 {
+    return item_contents::ammo_consume( qty, tripoint_bub_ms( pos ), fuel_efficiency );
+}
+
+int item_contents::ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency )
+{
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
@@ -1746,6 +1743,7 @@ content_newness item_contents::get_content_newness( const std::set<itype_id> &re
                     return content_newness::NEW;
                 case content_newness::MIGHT_BE_HIDDEN:
                     ret = content_newness::MIGHT_BE_HIDDEN;
+                    break;
                 case content_newness::SEEN:
                     break;
             }

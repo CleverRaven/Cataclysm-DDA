@@ -10,6 +10,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "*": "t_null",
       " ": "t_open_air",
@@ -38,8 +39,6 @@
       "s": "t_sidewalk",
       "V": "t_reinforced_glass",
       "w": "t_window",
-      "-": "t_brick_wall",
-      "|": "t_brick_wall",
       "¥": "t_card_science"
     },
     "furniture": {

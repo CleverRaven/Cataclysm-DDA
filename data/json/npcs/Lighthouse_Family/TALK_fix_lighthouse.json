@@ -44,7 +44,7 @@
       {
         "text": "Start working.",
         "topic": "TALK_DONE",
-        "effect": [ { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" }, { "math": [ "n_time_lighthouse_wait", "=", "time('now')" ] } ]
+        "effect": [ { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" }, { "math": [ "n_time_lighthouse_wait = time('now')" ] } ]
       }
     ]
   },
@@ -52,7 +52,7 @@
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE_WORKING",
     "dynamic_line": {
-      "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ],
+      "math": [ "time_since(n_time_lighthouse_wait) > time('2 d')" ],
       "yes": {
         "npc_has_trait": "Exp_Eng_Electrical1Fake2",
         "yes": {
@@ -74,7 +74,7 @@
       "sentinel": "done",
       "condition": {
         "and": [
-          { "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ] },
+          { "math": [ "time_since(n_time_lighthouse_wait) > time('2 d')" ] },
           { "not": { "npc_has_any_trait": [ "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] } }
         ]
       },
@@ -90,7 +90,7 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ] },
+            { "math": [ "time_since(n_time_lighthouse_wait) > time('2 d')" ] },
             {
               "or": [
                 { "not": { "u_has_mission": "MISSION_lighthouse_man_5" } },

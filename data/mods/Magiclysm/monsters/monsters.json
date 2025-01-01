@@ -336,7 +336,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_troll_regenerate_limb_spell", "hit_self": true },
         "cooldown": 15,
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", ">", "200" ] }, { "u_has_effect": "maimed_arm" } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') > 200" ] }, { "u_has_effect": "maimed_arm" } ] }
       }
     ],
     "regenerates": 12,
@@ -366,7 +366,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 18 } ],
     "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
     "extend": { "flags": [ "SUNDEATH" ] },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
+    "death_function": { "eoc": "EOC_ROCK_TROLL_TURN_TO_STONE", "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
   },
   {
     "id": "mon_troll_water",
@@ -859,7 +859,7 @@
         "spell_data": { "id": "ankheg_acid_spit", "min_level": 3 },
         "cooldown": 1,
         "monster_message": "The ankheg spits a stream of acid at %3$s!",
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') < 60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
       },
       [ "EAT_FOOD", 60 ],
       [ "EAT_CARRION", 60 ]

@@ -7,6 +7,7 @@
 
 class nc_color;
 struct input_event;
+using ImGuiInputTextFlags = int;
 
 #if defined(IMTUI) || !(defined(WIN32) || defined(TILES))
 #   define TUI
@@ -51,6 +52,8 @@ enum class dialog_result {
 
 enum class scroll : int {
     none = 0,
+    begin,
+    end,
     line_up,
     line_down,
     page_up,
@@ -98,13 +101,13 @@ ImVec4 imvec4_from_color( nc_color &color );
 
 void set_scroll( scroll &s );
 
-void draw_colored_text( std::string const &text, const nc_color &color,
+void draw_colored_text( const std::string &original_text, const nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
-void draw_colored_text( std::string const &text, nc_color &color,
+void draw_colored_text( const std::string &original_text, nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
-void draw_colored_text( std::string const &text,
+void draw_colored_text( const std::string &original_text,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
 
@@ -150,12 +153,18 @@ void init_pair( int p, int f, int b );
 void load_colors();
 #endif
 
+// drops the ImGuiInputTextFlags_CharsScientific flag from regular imgui InputFloat because it doesn't allow commas
+bool InputFloat( const char *label, float *v, float step = 0.0f, float step_fast = 0.0f,
+                 const char *format = "%.3f", ImGuiInputTextFlags flags = 0 );
+
 void PushGuiFont();
 void PushMonoFont();
 
 bool BeginRightAlign( const char *str_id );
 void EndRightAlign();
 
-// Set ImGui theme colors to match colors loaded by the player.
+// Set ImGui theme colors to those chosen by the player.
+// This loads the settings from `config/imgui_style.json` and - optionally - falls back to base colors
+// for elements not explicitly specified.
 void init_colors();
 } // namespace cataimgui

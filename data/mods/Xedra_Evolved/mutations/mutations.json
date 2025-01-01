@@ -227,11 +227,11 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.05 },
-          { "value": "ARMOR_CUT", "multiply": -0.03 },
-          { "value": "ARMOR_STAB", "multiply": -0.02 },
-          { "value": "ARMOR_BULLET", "multiply": -0.08 }
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.05 },
+          { "type": "stab", "multiply": -0.02 },
+          { "type": "cut", "multiply": -0.03 },
+          { "type": "bullet", "multiply": -0.08 }
         ]
       }
     ]
@@ -419,7 +419,7 @@
     "valid": false,
     "name": { "str": "Crimson Vision" },
     "description": "Your vision has improved and now you can see flowing blood in the vein, like bright trails in the dark.",
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -517,15 +517,12 @@
         ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "0" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] },
         "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ]
       },
       {
         "condition": {
-          "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] }
-          ]
+          "and": [ { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] }, { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] } ]
         },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "5 + (u_vitamin('human_blood_vitamin') / 300)" ] } },
@@ -536,8 +533,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "4400" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 4400" ] }
           ]
         },
         "values": [
@@ -547,7 +544,7 @@
         ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "4400" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 4400" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
@@ -688,7 +685,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -703,15 +699,6 @@
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "HEARING_MULT", "multiply": 0.75 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 4 }
-        ]
-      },
-      {
         "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -722,9 +709,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_wolf", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -952,6 +938,16 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_ARVORE_HATRED",
+    "name": { "str": "False Arvore" },
+    "points": -4,
+    "description": "The arvore can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "ARVORE", 100 ] ]
   },
   {
     "type": "mutation",

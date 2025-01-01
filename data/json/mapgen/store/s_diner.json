@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "s_diner" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "%%%%```%%%%!!%````!%....",
         "%`````````%%%%````!%.[..",
@@ -31,19 +31,18 @@
         ".######c###############.",
         "......```..............."
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "%": [ "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
-        "#": "t_brick_wall",
-        "|": "t_wall_w",
         "b": "t_window",
         "c": "t_door_c",
-        ";": "t_linoleum_gray",
-        "G": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "H": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "~": "t_thconc_floor",
         "s": "t_thconc_floor",
         "I": "t_thconc_floor",
@@ -128,7 +127,7 @@
     "method": "json",
     "om_terrain": [ "s_diner_2ndfloor" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "                        ",
         "                        ",
@@ -155,14 +154,13 @@
         " 5--------------------5 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "roof_palette", "parametrized_walls_palette" ],
       "terrain": {
-        "#": "t_brick_wall",
         "o": "t_wall_glass",
         "+": "t_door_c",
         "R": "t_glass_railing",
         ";": "t_open_air_rooved",
-        ",": "t_linoleum_white",
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "&": "t_flat_roof"
       },
       "furniture": { "j": "f_trashcan", "h": "f_chair" },

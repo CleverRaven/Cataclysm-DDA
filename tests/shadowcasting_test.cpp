@@ -53,7 +53,7 @@ static void oldCastLight(
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist( tripoint_zero, delta ) <= radius ) {
+            if( rl_dist( tripoint::zero, delta ) <= radius ) {
                 output_cache[current.x][current.y] = VISIBILITY_FULL;
             }
 

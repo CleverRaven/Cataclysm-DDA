@@ -67,7 +67,8 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | Use computer                                     | player (Avatar)             | computer (Furniture)        |
 | furniture: "examine_action"                      | player (Avatar)             | NONE                        |
 | SPELL: "effect": "effect_on_condition"           | target (Character, Monster) | spell caster (Character, Monster) | `spell_location`, location variable, location of target for use primarily when the target isn't a creature
-| monster_attack: "eoc"                          | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
+| trap: "action": "eocs"                           | triggerer (Creature, item not supported yet) | NONE | `trap_location`, location variable, location of the trap to use primarily with ranged traps
+| monster_attack: "eoc"                            | attacker ( Monster)         | victim (Creature)           | `damage`, int, damage dealt by attack
 | use_action: "type": "effect_on_conditions"       | user (Character)            | item (item)                 | `id`, string, stores item id
 | tick_action: "type": "effect_on_conditions"      | carrier (Character)         | item (item)                 |
 | countdown_action: "type": "effect_on_conditions" | carrier (Character)         | item (item)                 |
@@ -93,7 +94,7 @@ Some actions sent additional context variables, that can be used in EoC, in form
 ```
 
 ```json
-{ "math": [ "_act_cost", "==", "2000" ] }
+{ "math": [ "_act_cost == 2000" ] }
 ```
 
 ## Value types
@@ -515,28 +516,6 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 { "u_bodytype": "migo" }, { "npc_bodytype": "human" }
 ```
 
-### `u_has_var`, `npc_has_var`
-
-**DEPRECATED**, use `compare_string` in format `{ "compare_string": [ "yes", { "npc_val": "name_of_the_variable" } ] }`
-
-- type: string
-- checks do alpha or beta talker has specific variables, that was added `u_add_var` or `npc_add_var`
-- `type`, `context` and `value` of the variable is also required
-
-Note: Not to be confused with the global `has_var` **(no prefix)**, used as [dialogue function](NPCs.md#dialogue-functions) to check if the variable is defined.  In other words, if it exists.
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-#### Examples
-Checks do alpha talker has `u_met_sadie` variable
-```json
-{ "compare_string": [ "yes", { "u_val": "general_meeting_u_met_sadie" } ] }
-```
-
 ### `expects_vars`
 - type: array of strings and/or [variable object](#variable-object)
 - return true if each provided variable exist
@@ -555,8 +534,8 @@ checks this var exists
 ```
 
 ### `compare_string`
-- type: pair of strings or [variable objects](#variable-object)
-- Compare two strings, and return true if strings are equal
+- type: array of strings or [variable objects](#variable-object)
+- Compare all strings, and return true if at least two of them match
 
 #### Examples
 checks if `victim_type` is `mon_zombie_phase_shrike`
@@ -567,6 +546,42 @@ checks if `victim_type` is `mon_zombie_phase_shrike`
 checks is `victim_type` has `zombie` faction
 ```json
 { "compare_string": [ "zombie", { "mutator": "mon_faction", "mtype_id": { "context_val": "victim_type" } } ] }
+```
+
+Check if victim_type is any in the list
+```json
+"compare_string": [
+  { "context_val": "victim_type" },
+  "mon_hound_tindalos",
+  "mon_darkman",
+  "mon_zombie_phase_shrike",
+  "mon_swarm_structure",
+  "mon_better_half",
+  "mon_hallucinator",
+  "mon_archunk_strong",
+  "mon_void_spider",
+  "mon_XEDRA_officer",
+  "mon_eigenspectre_3",
+  "mon_eigenspectre_4",
+  "mon_living_vector"
+]
+```
+
+Check if `map_cache` contain value `has`, `lack` or `read`
+```json
+{ "compare_string": [ { "npc_val": "map_cache" }, "has", "lack", "read" ] }
+```
+
+### `compare_string_match_all`
+- type: array of strings or [variable objects](#variable-object)
+- Compare all strings, and return true if all of them match
+- For two strings the check is same as compare_string
+
+#### Examples
+
+Check if two variables are `yes`
+```json
+"compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
 ```
 
 ### `u_profession`
@@ -1078,6 +1093,23 @@ NPC is dead
 ```json
 { "not": "npc_is_alive" }
 ```
+
+### `u_is_warm`, `npc_is_warm`
+- type: simple string
+- return true if alpha or beta talker is warm-blooded (does it have WARM flag)
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"npc_is_warm"
+```
+
 ### `u_exists`, `npc_exists`
 - type: simple string
 - return true if alpha or beta talker is not null
@@ -1317,6 +1349,78 @@ You can see selected location.
 }
 ```
 
+### `u_see_npc`, `npc_see_you`
+- type: simple string
+- return true if alpha talker can see beta talker, or vice versa
+- require both talkers to be presented
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_see_npc"
+```
+
+```json
+{ "not": "npc_see_you" }
+```
+
+### `u_see_npc_loc`, `npc_see_you_loc`
+- type: simple string
+- return true if beta talker' position is visible from the alpha talker position, and vice versa
+- doesn't check vision condition, can return true even if one or other is blind or it is a night
+- require both talkers to be presented
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+#### Examples
+
+```json
+"u_see_npc_loc"
+```
+
+```json
+{ "not": "npc_see_you_loc" }
+```
+
+### `line_of_sight`
+- Checks if two points are visible to each other
+- Works at night
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "line_of_sight" | **mandatory** | int,  or [variable object](#variable-object) | Distance that would be checked |
+| "loc_1" | **mandatory** | [variable object](#variable-object) | One of two points of the line |
+| "loc_2" | **mandatory** | [variable object](#variable-object) | Second of two points of the line |
+| "with_fields" | optional | bool | If false, ignores opaque fields. Default true |
+
+#### Examples
+
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_line_check",
+  "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_1" } },
+      { "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "loc_2" } },
+      {
+        "if": { "line_of_sight": 60, "loc_1": { "context_val": "loc_1" }, "loc_2": { "context_val": "loc_2" } },
+        "then": { "u_message": "Can see each other" },
+        "else": { "u_message": "Cannot see each other" }
+      }
+  ]
+}
+```
+
 ### `has_ammo`
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
@@ -1358,7 +1462,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | activates_mininuke | Triggers when any character arms a mininuke | { "character", `character_id` } | character / NONE |
 | administers_mutagen |  | { "character", `character_id` },<br/> { "technique", `mutagen_technique` }, | character / NONE |
 | angers_amigara_horrors | Triggers when amigara horrors are spawned as part of a mine finale | NONE | avatar / NONE |
-| avatar_enters_omt |  | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
+| avatar_enters_omt | Triggers when player crosses the overmap boundary, including when player spawns | { "pos", `tripoint` },<br/> { "oter_id", `oter_id` }, | avatar / NONE |
 | avatar_moves |  | { "mount", `mtype_id` },<br/> { "terrain", `ter_id` },<br/> { "movement_mode", `move_mode_id` },<br/> { "underwater", `bool` },<br/> { "z", `int` }, | avatar / NONE |
 | avatar_dies |  | NONE | avatar / NONE |
 | awakes_dark_wyrms | Triggers when `pedestal_wyrm` examine action is used | NONE | avatar / NONE |
@@ -1375,7 +1479,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_eats_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_finished_activity | Triggered when character finished or canceled activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "canceled", `bool` } | character / NONE |
 | character_forgets_spell |  | { "character", `character_id` },<br/> { "spell", `spell_id` } | character / NONE |
-| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
+| character_gains_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` }, { "intensity", `int` }</br> | character / NONE |
 | character_gets_headshot |  | { "character", `character_id` } | character / NONE |
 | character_heals_damage |  | { "character", `character_id` },<br/> { "damage", `int` }, | character / NONE |
 | character_kills_character |  | { "killer", `character_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character / NONE |
@@ -1389,7 +1493,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
-| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` }, | character / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
+| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` },<br/> { "bodypart", `bodypart_id` },<br/> { "pain", `int` }, | character / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | monster_takes_damage | triggers when monster gets any damage from any creature. Includes damages from effects like bleeding | { "damage", `int` },<br/> { "dies", `bool` }, | monster / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
 | character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
@@ -1731,7 +1835,7 @@ Run inline `are_you_strong` EoC
 ```json
 "run_eocs": {
   "id": "are_you_strong",
-  "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+  "condition": { "math": [ "u_val('strength') > 8" ] },
   "effect": [ { "u_message": "You are strong" } ],
   "false_effect": [ { "u_message": "You are normal" } ]
 }
@@ -1747,17 +1851,17 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
   "id": "are_you_weak",
   "//": "there is a variety of ways you can do the exact same effect that would work better",
   "//2": "but for the sake of example, let's ignore it",
-  "condition": { "math": [ "u_val('strength')", ">", "4" ] },
+  "condition": { "math": [ "u_val('strength') > 4" ] },
   "false_effect": [ { "u_message": "You are weak" } ],
   "effect": {
     "run_eocs": {
       "id": "are_you_strong",
-      "condition": { "math": [ "u_val('strength')", ">", "8" ] },
+      "condition": { "math": [ "u_val('strength') > 8" ] },
       "false_effect": [ { "u_message": "You are normal" } ],
       "effect": {
         "run_eocs": {
           "id": "are_you_super_strong",
-          "condition": { "math": [ "u_val('strength')", ">", "12" ] },
+          "condition": { "math": [ "u_val('strength') > 12" ] },
           "effect": [ { "u_message": "You are super strong" } ],
           "false_effect": [ { "u_message": "You are strong" } ]
         }
@@ -1940,7 +2044,7 @@ In three hours, you will be given five AR-15
     "type": "effect_on_condition",
     "id": "EOC_run_until",
     "effect": [
-      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable", "<", "10" ] } }
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable < 10" ] } }
     ]
   },
   {
@@ -2213,7 +2317,7 @@ Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
     "eoc_type": "ACTIVATION",
     "effect": [
       {
-        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1) == 0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
         "monster_range": 36
       }
     ]
@@ -3117,7 +3221,7 @@ Setting and checking monster vars via `math`.  The first spell targets a monster
   {
     "id": "spell_check_eoc",
     "type": "effect_on_condition",
-    "condition": { "math": [ "u_var_tagged", ">", "0" ] },
+    "condition": { "math": [ "u_var_tagged > 0" ] },
     "effect": [ { "u_cast_spell": { "id": "spell_heal" } } ],
     "false_effect": [ { "u_cast_spell": { "id": "spell_hurt" } } ]
   }
@@ -3566,28 +3670,6 @@ Would pick a random swear from `<swear>` snippet, and always would be the same (
 { "u_make_sound": "<swear>", "snippet": true, "same_snippet": true }
 ```
 
-
-#### `u_mod_healthy`, `npc_mod_healthy`
-Increases or decreases your healthiness (respond for disease immunity and regeneration).
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int, float or [variable object](#variable-object) | Amount of health to be added |
-| "cap" | optional | int, float or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-Your health is decreased by 1, but not smaller than -200
-```json
-{ "u_mod_healthy": -1, "cap": -200 }
-```
-
-
 #### `u_add_morale`, `npc_add_morale`
 Your character or the NPC will gain a morale bonus
 
@@ -3794,6 +3876,7 @@ Display a text message in the log. `u_message` and `npc_message` display a mess
 | "sound" | optional | boolean | default false; if true, shows message only if player is not deaf | 
 | "outdoor_only" | optional | boolean | default false; if true, and `sound` is true, the message is harder to hear if you are underground | 
 | "snippet" | optional | boolean | default false; if true, the effect instead display a random snippet from `u_message` | 
+| "store_in_lore" | optional | boolean | default false; if true, and message is snippet, the snippet would be stored in lore tab | 
 | "same_snippet" | optional | boolean | default false; if true, and `snippet` is true, it will connect the talker and snippet, and will always provide the same snippet, if used by this talker; require snippets to have id's set | 
 | "popup" | optional | boolean | default false; if true, the message would generate a popup with `u_message` | 
 | "popup_flag" | optional | string | default PF_NONE; if specified, the popup is modified by the specified flag, for allowed values see below | 
@@ -3819,7 +3902,7 @@ Send a red-colored `Bad json! Bad!` message in the log
 
 Print a snippet from `local_files_simple`, and popup it. The snippet is always the same
 ```json
- { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true }
+ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true }
 ```
 
 Print `uninvasive text` as a centre aligned popup at the top of the screen.
@@ -3910,6 +3993,23 @@ NPC or character will start an activity
 You assign activity `ACT_GAME` for 45 minutes
 ```json
 { "u_assign_activity": "ACT_GAME", "duration": "45 minutes" }
+```
+
+#### `u_cancel_activity`, `npc_cancel_activity`
+
+NPC or character will stop their current activity
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+You cancel activity `ACT_GAME` for 45 minutes
+```json
+{ "u_cancel_activity" }
 ```
 
 
