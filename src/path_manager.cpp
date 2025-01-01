@@ -507,6 +507,8 @@ void path_manager_ui::enabled_active_button( const std::string action, bool enab
 
 void path_manager_ui::draw_controls()
 {
+    // make buttons unselectable with arrows
+    ImGui::PushItemFlag( ImGuiItemFlags_NoNav, true );
     // walk buttons
     cataimgui::draw_colored_text( _( "Walk:" ) );
     ImGui::SameLine();
@@ -542,19 +544,23 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "RENAME_END", pimpl->selected_id != -1 );
     ImGui::SameLine();
     enabled_active_button( "SWAP_START_END", pimpl->selected_id != -1 );
+    ImGui::PopItemFlag();  // ImGuiItemFlags_NoNav
 
     ImGui::BeginChild( "table" );
     if( ! ImGui::BeginTable( "PATH_MANAGER", 6, ImGuiTableFlags_Resizable ) ) {
         return;
     }
     // TODO invlet
+    ImGui::TableSetupScrollFreeze( 0, 1 );
     ImGui::TableSetupColumn( _( "start name" ) );
     ImGui::TableSetupColumn( _( "start distance" ) );
     ImGui::TableSetupColumn( _( "end name" ) );
     ImGui::TableSetupColumn( _( "end distance" ) );
     ImGui::TableSetupColumn( _( "closest tile" ) );
     ImGui::TableSetupColumn( _( "total length" ) );
+    ImGui::PushItemFlag( ImGuiItemFlags_NoNav, true );
     ImGui::TableHeadersRow();
+    ImGui::PopItemFlag();  // ImGuiItemFlags_NoNav
 
     ImGuiListClipper clipper;
     clipper.Begin( pimpl->paths.size() );
