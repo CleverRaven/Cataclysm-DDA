@@ -417,6 +417,8 @@ Some houses are under construction
 Adds car crashes into existing buildings. Initial implementation includes three houses that can spawn with this variant.
 fungalize stages for rest of zombies
 Basic beach decorations
+Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
+Add the menorah and small candles to put in it
 
 
 ## Interface:
@@ -552,6 +554,7 @@ Add sorting by price to weight ratio
 Filter items by can_contain `L:`, `V:`, `M:` (longest_side, volume, mass); affects AIM, inventory…
 Migrate compare item menu to imgui
 Various misc improvements to camp crafting flow and feedback
+Add history to Construction Search
 
 
 ## Mods:
@@ -914,6 +917,15 @@ Aftershock: Shield bionics deploy Riemman shields
 [Xedra Evolved] Add time magic class / scenario
 [Magiclysm] Spells cost 1/5 of their normal cost on spell failure
 [Magiclysm] The Great Damage Randomization and Normalization
+[MoM] Sitting at high Nether Attunement costs additional calories/additional weariness when maintaining powers 
+[Magiclysm] Freshen Up removes skunk spray
+[DinoMod] fona
+[MoM] Add hitting Nether Attunement 5 and Nether Attunement 11 to the list of things that call for concentration checks
+[MoM] High Nether Attunement (level 5 and level 11) reduce your ability to concentrate on powers
+[No Hope] Fixes worse than intended weather
+[DinoMod] fix zombie evolution pluralization
+[Magiclysm] Goblins and wargs are best friends
+[Magiclysm/MoM/Xedra Evolved] Update potion fruit / matrix elixirs / goblin fruit to use consumption EoCs
 
 
 ## Balance:
@@ -1418,6 +1430,18 @@ Fixes displaying of stats for ablative armor
 Fixes SegFault w/ flashlights & attached power
 Peeking out of elevated windows no longer causes you to fall
 Heat radiance now can spread through gas-permeable tiles like chain link fence
+Prevent segfault from EOC_random_mutate
+Fixes infinite sleeping pill/chamomile tea bug
+Fix enchantment
+Fixes imgui assertion triggered when reading scrolls in Magiclysm
+Eggplants can now be smoked via the smoking rack
+Fixes jsout.end_array() missing in enchant_cache serialization
+fix duplicate integrated armor
+Correct recipe for water purifying to use correct quantity of water
+Items in transparent pockets on the map illuminate surroundings
+Mark some specific furnitures/terrains examine as always allowed in faction territory
+[Magiclysm] Fix wands
+NPC should not wield integrated armor
 
 
 ## Performance:
@@ -1577,6 +1601,7 @@ Improve test coverage of mod combinations with mod_interactions
 Tests now run in a guaranteed order (lexicographic) by default (can be overriden with cli argument)
 Streamline Vertical Movement While Levitating and Flying
 Make enchantment mutations work again
+migrate map-size related constants to new file, unmagic related constants
 
 ## Build:
 Support Mac arm64 build
@@ -1607,6 +1632,7 @@ Fix mac builds post freetype dependency addition
 Add imgui_stdlib to CMake
 Fixes potential artifact poisoning route in CI
 Update vcpkg commit to new mainline, remove portfile override
+Improve ccache performance with age based eviction instead of coarse size limits.
 
 
 ## I18N and A11Y:
