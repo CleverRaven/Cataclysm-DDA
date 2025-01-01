@@ -85,7 +85,7 @@ static void load_font_from_config( const JsonObject &config, const std::string &
         if( path.find( "Terminus.ttf" ) != std::string::npos ) {
             typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_Bitmap );
         }  else if( path.find( "Roboto-Medium.ttf" ) != std::string::npos ) {
-            typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_ForceAutoHint );
+            typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_LightHinting );
         } else {
             typefaces.emplace_back( path );
         }
@@ -106,7 +106,7 @@ static void load_font_from_config( const JsonObject &config, const std::string &
                 if( path.find( "Terminus.ttf" ) != std::string::npos ) {
                     typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_Bitmap );
                 } else if( path.find( "Roboto-Medium.ttf" ) != std::string::npos ) {
-                    typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_ForceAutoHint );
+                    typefaces.emplace_back( path, ImGuiFreeTypeBuilderFlags_LightHinting );
                 } else {
                     typefaces.emplace_back( path );
                 }
