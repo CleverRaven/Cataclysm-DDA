@@ -90,8 +90,7 @@ static void load_font_from_config( const JsonObject &config, const std::string &
             typefaces.emplace_back( path );
         }
     } else if( config.has_object( key ) ) {
-        // TODO: This should be doable without having to instantiate a fake path.
-        font_config conf = font_config( "dummy" );
+        font_config conf;
         if( !config.read( key, conf, false ) ) {
             debugmsg( "Key '%s' should contain a path entry.", key );
         } else {
@@ -111,7 +110,7 @@ static void load_font_from_config( const JsonObject &config, const std::string &
                     typefaces.emplace_back( path );
                 }
             } else if( value.test_object() ) {
-                font_config conf = font_config( "dummy" );
+                font_config conf;
                 if( !value.read( conf, false ) ) {
                     debugmsg( "Key '%s' has an invalid array entry in the font config file.", key );
                 } else {

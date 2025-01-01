@@ -28,6 +28,8 @@ struct font_config {
     // In practice, antialiasing will be ignored when hinting is set to FontHint::Bitmap.
     bool antialiasing = true;
 
+    font_config() = default;
+
     explicit font_config( std::string path ) : path( std::move( path ) ) {}
     font_config( std::string path,
                  const std::optional<ImGuiFreeTypeBuilderFlags> hinting ) : path( std::move( path ) ),
