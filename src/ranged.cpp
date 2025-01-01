@@ -321,9 +321,10 @@ class target_ui
 
         // Compact layout
         bool compact = false;
-        // Tiny layout - when extremely short on height
+        // Tiny layout - when extremely short on space
         bool tiny = false;
-        // Narrow layout - when short on width
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
         bool narrow = false;
 
         // Create window and set up input context
@@ -1850,7 +1851,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         aim_type_prediction prediction = {};
         prediction.name = aim_type.has_threshold ? aim_type.name : _( "Current" );
         prediction.is_default = aim_type.action.empty(); // default mode defaults to FIRE hotkey
-        prediction.hotkey = ( keys.empty() ? input_event() : keys.front(), 1 );
+        prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
 
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             prediction.moves = throw_moves;
@@ -1950,20 +1951,14 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     int width = getmaxx( w ) - 2; // window width minus borders
     const int bars_pad = 3;
     bool display_numbers = get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers";
-    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     nc_color col = c_light_gray;
 
-
-    const auto &current_steadiness_it = std::find_if( sorted.begin(),
-    sorted.end(), []( const aim_type_prediction & atp ) {
-        return atp.is_default;
-    } );
-    if( current_steadiness_it != sorted.end() ) {
-        line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
-    }
-
-    // Start printing by available width of aim window
-    if( narrow ) {
+    // Start printing by panel type, inside each branch whether to output numbers or "bars"
+    if( panel_type == "legacy_labels_narrow_sidebar" || panel_type == "legacy_compact_sidebar" ) {
+        bool narrow = panel_type == "legacy_labels_narrow_sidebar";
+        // TODO: who uses this? this is broken likely since work started
+        // on sidebar widgets and yet nobody complains...
         std::vector<std::string> t_aims( 4 );
         std::vector<std::string> t_confidence( 20 );
         int aim_iter = 0;
@@ -2025,10 +2020,19 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
             line_number = line_number + 4; // 4 to account for the tables
         }
         return line_number;
-    } else { // print normally
+    } else { // print the "legacy classic" one
+        // there's more legacy sidebars but appear to not be used
+
+        const auto &current_steadiness_it = std::find_if( sorted.begin(),
+        sorted.end(), []( const aim_type_prediction & atp ) {
+            return atp.is_default;
+        } );
+        if( current_steadiness_it != sorted.end() ) {
+            line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
+        }
 
         int column_number = 1;
-        if( !narrow ) {
+        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
             std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
@@ -2876,14 +2880,16 @@ target_handler::trajectory target_ui::run()
 
 void target_ui::init_window_and_input()
 {
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
+
     int top = 0;
-    int width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
+    int width;
     int height;
-    narrow = width <= 42;
     if( narrow ) {
-        if( width < 34 ) {
-            width = 34;
-        }
+        // Narrow layout removes the list of controls. This allows us
+        // to have small window size and not suffer from it.
+        width = 34;
         height = 24;
         compact = true;
     } else {
@@ -3795,9 +3801,6 @@ void target_ui::draw_ui_window()
         }
     }
 
-    // Narrow layout removes the list of controls. This allows us
-    // to have small window size and not suffer from it.
-    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     if( !narrow ) {
         draw_controls_list( text_y );
     }
@@ -3873,6 +3876,11 @@ void target_ui::draw_controls_list( int text_y )
     nc_color col_move = ( status != Status::OutOfAmmo ? col_enabled : col_disabled );
     nc_color col_fire = ( status == Status::Good ? col_enabled : col_disabled );
 
+    // Get first key bound to given action OR ' ' if there are none.
+    const auto bound_key = [this]( const std::string & s ) {
+        const std::vector<input_event> keys = this->ctxt.keys_bound_to( s, /*maximum_modifier_count=*/1 );
+        return keys.empty() ? input_event() : keys.front();
+    };
     const auto colored = [col_enabled]( nc_color color, const std::string & s ) {
         if( color == col_enabled ) {
             // col_enabled is the default one when printing
@@ -3889,31 +3897,42 @@ void target_ui::draw_controls_list( int text_y )
     std::vector<line> lines;
 
     // Compile full list
+    if( shifting_view ) {
+        lines.push_back( {8, colored( col_move, _( "Shift view with directional keys" ) )} );
+    } else {
+        lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
+    }
+    if( is_mouse_enabled() ) {
+        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
+        std::string fire = _( "RMB: Fire" );
+        lines.push_back( {7, colored( col_move, move ) + " " + colored( col_fire, fire )} );
+    }
     {
         std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-        std::string fire = string_format( _( "[%s] %s." ), ctxt.get_desc( "FIRE", 1 ), uitext_fire() );
+        std::string fire = string_format( _( "[%s] %s." ), bound_key( "FIRE" ).short_description(),
+                                          uitext_fire() );
         lines.push_back( {0, colored( col_move, cycle ) + " " + colored( col_fire, fire )} );
     }
     {
         std::string text = string_format( _( "[%s] target self; [%s] toggle snap-to-target" ),
-                                          ctxt.get_desc( "CENTER", 1 ),
-                                          ctxt.get_desc( "TOGGLE_SNAP_TO_TARGET", 1 ) );
+                                          bound_key( "CENTER" ).short_description(),
+                                          bound_key( "TOGGLE_SNAP_TO_TARGET" ).short_description() );
         lines.push_back( {3, colored( col_enabled, text )} );
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
         for( const aim_type &e : aim_types ) {
             if( e.has_threshold ) {
-                aim_and_fire += string_format( "[%s] ", ctxt.get_desc( e.action, 1 ) );
+                aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
             }
         }
         aim_and_fire += _( "to aim and fire." );
 
         std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
-                                         ctxt.get_desc( "AIM", 1 ) );
+                                         bound_key( "AIM" ).short_description() );
 
         std::string dropaim = string_format( _( "[%s] to stop aiming." ),
-                                             ctxt.get_desc( "STOPAIM", 1 ) );
+                                             bound_key( "STOPAIM" ).short_description() );
 
         lines.push_back( {2, colored( col_fire, aim )} );
         lines.push_back( { 2, colored( col_fire, dropaim ) } );
@@ -3922,22 +3941,22 @@ void target_ui::draw_controls_list( int text_y )
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
             relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      ctxt.get_desc( "SWITCH_MODE", 1 ) ) )
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )
                          } );
         if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) &&
             ( !relevant->ammo_remaining() || !relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) ) {
             lines.push_back( { 6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                           ctxt.get_desc( "SWITCH_AMMO", 1 ) ) )
+                                           bound_key( "SWITCH_AMMO" ).short_description() ) )
                              } );
         } else {
             if( !unload_RAS_weapon ) {
                 std::string unload = string_format( _( "[%s] Unload the %s after quitting." ),
-                                                    ctxt.get_desc( "TOGGLE_UNLOAD_RAS_WEAPON", 1 ),
+                                                    bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_disabled, unload )} );
             } else {
                 std::string unload = string_format( _( "[%s] Keep the %s loaded after quitting." ),
-                                                    ctxt.get_desc( "TOGGLE_UNLOAD_RAS_WEAPON", 1 ),
+                                                    bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
                                                     relevant->tname() );
                 lines.push_back( {3, colored( col_enabled, unload )} );
             }
@@ -3947,7 +3966,7 @@ void target_ui::draw_controls_list( int text_y )
         const std::string label = draw_turret_lines
                                   ? _( "[%s] Hide lines of fire" )
                                   : _( "[%s] Show lines of fire" );
-        lines.push_back( {1, colored( col_enabled, string_format( label, ctxt.get_desc( "TOGGLE_TURRET_LINES", 1 ) ) )} );
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ).short_description() ) )} );
     }
 
     // Shrink the list until it fits

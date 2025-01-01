@@ -65,8 +65,10 @@ void follower_rules_ui::draw_follower_rules_ui( npc *guy )
     ctxt.register_navigate_ui_list();
     ctxt.register_leftright();
     ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "CONFIRM", to_translation( "Set, toggle, or reset selected rule" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "ANY_INPUT" );
     // This is still bizarrely necessary for imgui
     ctxt.set_timeout( 10 );
 
@@ -280,7 +282,7 @@ void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
                                        input_event &assigned_hotkey, const input_event &pressed_key )
 {
     ImGui::PushID( rule_number );
-    //print_hotkey( assigned_hotkey );
+    print_hotkey( assigned_hotkey );
     bool rule_enabled = guy->rules.has_flag( this_rule.rule );
     std::string rules_text;
     if( rule_enabled ) {
@@ -320,7 +322,7 @@ void follower_rules_ui_impl::radio_group( const std::string header_id, const cha
     ImGui::NewLine();
     multi_rule_header( header_id, * &*rule, values,
                        pressed_key == assigned_hotkey );
-    //print_hotkey( assigned_hotkey );
+    print_hotkey( assigned_hotkey );
     ImGui::SameLine();
     float x = ImGui::GetCursorPosX();
     cataimgui::draw_colored_text( title, c_white );
@@ -356,6 +358,8 @@ void follower_rules_ui_impl::draw_controls()
     } else if( last_action == "RIGHT" ) {
         ImGui::NavMoveRequestSubmit( ImGuiDir_Right, ImGuiDir_Right, ImGuiNavMoveFlags_None,
                                      ImGuiScrollFlags_None );
+    } else if( last_action == "CONFIRM" ) {
+        ImGui::ActivateItemByID( ImGui::GetFocusID() );
     }
 
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
@@ -388,11 +392,11 @@ void follower_rules_ui_impl::draw_controls()
         return;
     }
 
-    //cataimgui::draw_colored_text( _( "Hotkey:" ) );
-    //ImGui::NewLine();
+    cataimgui::draw_colored_text( _( "Hotkey:" ) );
+    ImGui::NewLine();
 
 
-    //print_hotkey( assigned_hotkey );
+    print_hotkey( assigned_hotkey );
     if( ImGui::Button( _( "Default ALL" ) ) || pressed_key == assigned_hotkey ) {
         ImGui::SetKeyboardFocusHere( -1 );
         // TODO: use query_yn here as a safeguard against fatfingering. Can't use it right now,
@@ -405,18 +409,18 @@ void follower_rules_ui_impl::draw_controls()
     int rule_number = 0;
     /* Handle all of our regular, boolean rules */
     for( const std::pair<const std::string, ally_rule_data> &rule_data : ally_rule_strs ) {
-        //assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
+        assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
         checkbox( rule_number, rule_data.second, assigned_hotkey, pressed_key );
         rule_number += 1;
     }
 
     // Engagement rules require their own set of buttons, each instruction is unique
-    //assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
+    assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
     radio_group( "ENGAGEMENT_RULES", _( "Engagement rules:" ), &guy->rules.engagement, engagement_rules,
                  assigned_hotkey, pressed_key );
 
     // Aiming rule also has a non-boolean set of values
-    //assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
+    assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
     radio_group( "AIMING_RULES", _( "Aiming rules:" ), &guy->rules.aim, aim_rule_map, assigned_hotkey,
                  pressed_key );
 
@@ -424,11 +428,11 @@ void follower_rules_ui_impl::draw_controls()
     only appear sometimes and we don't want hotkeys to be different depending on whether
     the character has bionics. That's bad for muscle memory! */
     if( !guy->get_bionics().empty() ) {
-        //assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
+        assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
         radio_group( "RECHARGE_RULES", _( "CBM recharging rules:" ), &guy->rules.cbm_recharge, recharge_map,
                      assigned_hotkey, pressed_key );
 
-        //assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
+        assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
         radio_group( "RESERVE_RULES", _( "CBM reserve rules" ), &guy->rules.cbm_reserve, reserve_map,
                      assigned_hotkey, pressed_key );
     }

@@ -659,7 +659,6 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             _indent_entries = false;
             _collate_entries = true;
-            Character &player_character = get_player_character();
 
             append_cell( [&you]( const item_location & loc ) {
                 const nutrients nutr = you.compute_effective_nutrients( *loc );
@@ -670,25 +669,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return good_bad_none( loc->is_comestible() ? loc->get_comestible()->quench : 0 );
             }, _( "QUENCH" ) );
 
-            std::string joy_header = "JOY/MAX";
-            std::string health_header = "HEALTH";
-            std::string fresh_header = "FRESHNESS";
-            std::string shelf_header = "SHELF LIFE";
-            if( player_character.can_estimate_rot() ) {
-                shelf_header = "SPOILS IN";
-            }
-            if( TERMX <= 80 ) {
-                joy_header = "JOY";
-                health_header = "\u2695";
-                if( player_character.can_estimate_rot() ) {
-                    fresh_header = "FRESH";
-                    shelf_header = "SPOILS";
-                }
-                else {
-                    fresh_header = "FRESH";
-                    shelf_header = "SHELF";
-                }
-            }
             append_cell( [&you]( const item_location & loc ) {
                 int joy = you.fun_for( *loc ).first;
                 std::string joy_str;
@@ -704,68 +684,62 @@ class comestible_inventory_preset : public inventory_selector_preset
                     // this will not be an empty string when food's joy can go below 0 by consumption (very rare)
                     return joy_str;
                 } else if( max_joy == joy ) {
-                    if ( TERMX <= 80 ) {
-                        return joy_str + std::string( joy > 0 ? "<good></good>" : "<bad></bad>" );
-                    } else {
-                        return joy_str + std::string( joy > 0 ? "<good>/  =</good>" : "<bad>/  =</bad>" );
-                    }
+                    return joy_str + std::string( joy > 0 ? "<good>/  =</good>" : "<bad>/  =</bad>" );
                 } else {
-                    if ( TERMX <= 80 ) {
-                        return string_format( max_joy > 0 ? "%s<good></good>" : "%s<bad></bad>", joy_str);
-                    } else {
-                        return string_format( max_joy > 0 ? "%s/<good>%+3d</good>" : "%s/<bad>%3d</bad>",
-                                              joy_str, max_joy );
-                    }
+                    return string_format( max_joy > 0 ? "%s/<good>%+3d</good>" : "%s/<bad>%3d</bad>",
+                                          joy_str, max_joy );
                 }
-            }, _( joy_header ) );
+            }, _( "JOY/MAX" ) );
 
             append_cell( []( const item_location & loc ) {
                 const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
                 return healthy_bar( healthy );
-            }, _( health_header ) );
+            }, _( "HEALTH" ) );
 
-            if ( TERMX >= 120 ) {
-                append_cell( []( const item_location & loc ) {
-                    const item &it = *loc;
-
-                    int converted_volume_scale = 0;
-                    const int charges = std::max( it.charges, 1 );
-                    const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
-                                                    &converted_volume_scale ), 2 );
-
-                    //~ Eat menu Volume: <num><unit>
-                    return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
-                }, _( "VOLUME" ) );
-            }
-
-            if ( TERMX >= 90 ) {
-                append_cell( [&you]( const item_location & loc ) {
-                    const item &it = *loc;
-                    // Quit prematurely if the item is not food.
-                    if( !it.type->comestible ) {
-                        return std::string();
-                    }
-                    const int calories_per_effective_volume = you.compute_calories_per_effective_volume( it );
-                    // Show empty cell instead of 0.
-                    if( calories_per_effective_volume == 0 ) {
-                        return std::string();
-                    }
-                    return satiety_bar( calories_per_effective_volume );
-                }, _( "SATIETY" ) );
-            }
-            
-            if ( TERMX >= 110 ) {
-                append_cell( [&player_character]( const item_location & loc ) {
-                    time_duration time = player_character.get_consume_time( *loc );
-                    return string_format( "%s", to_string( time, true ) );
-                }, _( "CONSUME TIME" ) );
-            }
-
-            append_cell( [this, &player_character]( const item_location & loc ) {
+            append_cell( []( const item_location & loc ) {
                 const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
                                              calendar::INDEFINITELY_LONG_DURATION;
-                // Merge in FRESHNESS status
-                std::string sealed = "";
+                if( spoils > 0_turns ) {
+                    return to_string_clipped( spoils );
+                }
+                //~ Used for permafood shelf life in the Eat menu
+                return std::string( _( "indefinite" ) );
+            }, _( "SHELF LIFE" ) );
+
+            append_cell( []( const item_location & loc ) {
+                const item &it = *loc;
+
+                int converted_volume_scale = 0;
+                const int charges = std::max( it.charges, 1 );
+                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
+                                                &converted_volume_scale ), 2 );
+
+                //~ Eat menu Volume: <num><unit>
+                return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
+            }, _( "VOLUME" ) );
+
+            append_cell( [&you]( const item_location & loc ) {
+                const item &it = *loc;
+                // Quit prematurely if the item is not food.
+                if( !it.type->comestible ) {
+                    return std::string();
+                }
+                const int calories_per_effective_volume = you.compute_calories_per_effective_volume( it );
+                // Show empty cell instead of 0.
+                if( calories_per_effective_volume == 0 ) {
+                    return std::string();
+                }
+                return satiety_bar( calories_per_effective_volume );
+            }, _( "SATIETY" ) );
+
+            Character &player_character = get_player_character();
+            append_cell( [&player_character]( const item_location & loc ) {
+                time_duration time = player_character.get_consume_time( *loc );
+                return string_format( "%s", to_string( time, true ) );
+            }, _( "CONSUME TIME" ) );
+
+            append_cell( [this, &player_character]( const item_location & loc ) {
+                std::string sealed;
                 item_location temp = loc;
                 // check if at least one parent container is sealed
                 while( temp.has_parent() ) {
@@ -778,40 +752,25 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        sealed = ( sealed.empty() ? "" : "\u2337 " ) + get_freshness( loc );
+                        return sealed + ( sealed.empty() ? "" : " " ) + get_freshness( loc );
                     }
-                } else {
-                    sealed = "unsure";
+                    return std::string( "---" );
                 }
+                return sealed;
+            }, _( "FRESHNESS" ) );
 
-                if( spoils > 0_turns ) {
-                    return string_format( ( "%s" ), sealed );
-                }
-                //~ Used for permafood shelf life in the Eat menu
-                return std::string( _( "-----" ) );
-            }, _( fresh_header ) );
-
-            append_cell( [this, &player_character]( const item_location & loc ) {
-                const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
-                                             calendar::INDEFINITELY_LONG_DURATION;
-                                             
-                if( spoils > 0_turns ) {
-                    std::string shelf_life = to_string_clipped( spoils );
-                    if( player_character.can_estimate_rot() ) {
-                        if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                            if( !loc->rotten() ) {
-                                shelf_life = get_time_left_rounded( loc );
-                            }
-                        }
-                        if( shelf_life == "forever" ) {
-                            return std::string( _( "never" ) );
+            append_cell( [ this, &player_character ]( const item_location & loc ) {
+                if( player_character.can_estimate_rot() ) {
+                    if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
+                        if( !loc->rotten() ) {
+                            return get_time_left_rounded( loc );
                         }
                     }
-                    return string_format( ( "%s" ), shelf_life );
+                    return std::string( "---" );
                 }
-                //~ Used for permafood shelf life in the Eat menu
-                return std::string( _( "-----" ) );
-            }, _( shelf_header ) );
+                return std::string();
+            }, _( "SPOILS IN" ) );
+
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -923,15 +882,15 @@ class comestible_inventory_preset : public inventory_selector_preset
             if( it.is_fresh() ) {
                 return _( "fresh" );
             } else if( rot_progress < 0.3 ) {
-                return _( "good" );
+                return _( "quite fresh" );
             } else if( rot_progress < 0.5 ) {
-                return _( "decent" );
+                return _( "near midlife" );
             } else if( rot_progress < 0.7 ) {
-                return _( "rough" );
+                return _( "past midlife" );
             } else if( rot_progress < 0.9 ) {
-                return _( "old" );
+                return _( "getting older" );
             } else if( !it.rotten() ) {
-                return _( "bad" );
+                return _( "old" );
             } else {
                 return _( "rotten" );
             }
@@ -1012,9 +971,6 @@ static std::string get_consume_needs_hint( Character &you )
     }
 
     // add info about vitamins as well
-    if ( TERMX < 125 ) {
-        hint.append( "\n" );
-    }
     hint.append( _( "Vitamin Intake: " ) );
 
     for( const auto &v : vitamin::all() ) {
@@ -1041,8 +997,6 @@ static std::string get_consume_needs_hint( Character &you )
         }
         hint.append( colorize( desc.first, desc.second ) );
     }
-	
-	hint.append( _( "\u2337 = sealed" ) );
     return hint;
 }
 

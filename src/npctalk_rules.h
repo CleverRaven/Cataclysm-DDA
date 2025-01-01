@@ -48,12 +48,8 @@ class follower_rules_ui_impl : public cataimgui::window
         bool setup_button( int &button_num, std::string &label, bool should_color );
         bool setup_table_button( int &button_num, std::string &label, bool should_color );
 
-        float window_width = std::clamp( ImGui::GetMainViewport()->Size.x / 2,
-                                         float( str_width_to_pixels( 80 ) ),
-                                         ImGui::GetMainViewport()->Size.x );
-        float window_height = std::clamp( ImGui::GetMainViewport()->Size.y / 2,
-                                          float( str_height_to_pixels( 24 ) ),
-                                          ImGui::GetMainViewport()->Size.y );
+        size_t window_width = str_width_to_pixels( TERMX ) / 2;
+        size_t window_height = str_height_to_pixels( TERMY ) / 2;
 
         // makes a checkbox for the rule
         template<typename T>

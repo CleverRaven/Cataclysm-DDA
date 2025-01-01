@@ -471,7 +471,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
         const input_context ctxt( nmenu.input_category, keyboard_mode::keycode );
         nmenu.text = string_format(
-                         _( "%s-center on note, %s-edit note, %s-mark danger, %s-delete note, %s-close window" ),
+                         _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( ctxt.get_desc( "CONFIRM", 1 ), c_yellow ),
                          colorize( ctxt.get_desc( "EDIT_NOTE", 1 ), c_yellow ),
                          colorize( ctxt.get_desc( "MARK_DANGER", 1 ), c_red ),
@@ -1124,9 +1124,10 @@ static void draw_om_sidebar( ui_adaptor &ui,
     wattron( wbar, c_white );
     if( has_target ) {
         const int distance = rl_dist( cursor_pos, target );
+        mvwprintw( wbar, point( 1, ++lines ), _( "Distance to current objective:" ) );
+        mvwprintw( wbar, point( 1, ++lines ), _( "%d tiles" ), distance );
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        mvwprintw( wbar, point( 1, ++lines ), _( "Objective: %dtiles / %s" ),
-                   distance, length_to_string_approx( distance * 24_meter ) );
+        mvwprintw( wbar, point( 1, ++lines ), _( "%s" ), length_to_string_approx( distance * 24_meter ) );
 
         const int above_below = target.z() - orig.z();
         std::string msg;
@@ -1148,7 +1149,13 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
     wattroff( wbar, c_white );
 
-    int y = 7;
+    wattron( wbar, c_magenta );
+    mvwprintw( wbar, point( 1, 12 ), _( "Use movement keys to pan." ) );
+    mvwprintw( wbar, point( 1, 13 ), _( string_format( "Press %s to preview route.",
+                                        inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
+    mvwprintw( wbar, point( 1, 14 ), _( "Press again to confirm." ) );
+    wattroff( wbar, c_magenta );
+    int y = 16;
 
     const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
         y += fold_and_print( wbar, point( 1, y ), getmaxx( wbar ) - 1, color, string_format( _( "%s - %s" ),
@@ -1169,30 +1176,34 @@ static void draw_om_sidebar( ui_adaptor &ui,
     const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
     const bool is_explored = overmap_buffer.is_explored( cursor_pos );
 
-	print_hint( "CHOOSE_DESTINATION" );
+    print_hint( "LEVEL_UP" );
+    print_hint( "LEVEL_DOWN" );
+    print_hint( "look" );
     print_hint( "CENTER" );
     print_hint( "CENTER_ON_DESTINATION" );
+    print_hint( "GO_TO_DESTINATION" );
     print_hint( "SEARCH" );
     print_hint( "CREATE_NOTE" );
     print_hint( "DELETE_NOTE" );
-    print_hint( "LIST_NOTES" );
     print_hint( "MARK_DANGER" );
+    print_hint( "LIST_NOTES" );
     print_hint( "MISSIONS" );
-    print_hint( "TOGGLE_FAST_SCROLL", uistate.overmap_fast_scroll ? c_pink : c_magenta );
-    print_hint( "TOGGLE_FAST_TRAVEL", uistate.overmap_fast_travel ? c_pink : c_magenta );
     print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
     print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
     print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
-    print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
     print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
     print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
+    print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
     print_hint( "TOGGLE_MAP_REVEALS", uistate.overmap_show_revealed_omts ? c_pink : c_magenta );
     print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
+    print_hint( "TOGGLE_FAST_SCROLL", uistate.overmap_fast_scroll ? c_pink : c_magenta );
+    print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
+    print_hint( "TOGGLE_FAST_TRAVEL", uistate.overmap_fast_travel ? c_pink : c_magenta );
     print_hint( "TOGGLE_OVERMAP_WEATHER",
                 !get_map().is_outside( get_player_character().pos_bub() ) ? c_dark_gray :
                 uistate.overmap_visible_weather ? c_pink : c_magenta );
-    print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
     print_hint( "HELP_KEYBINDINGS" );
+    print_hint( "QUIT" );
 
     const std::string coords = display::overmap_position_text( cursor_pos );
     mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red, coords );
@@ -1323,7 +1334,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
                        .title( _( "Search term:" ) )
                        .description( string_format( "%s\n%s",
                                      _( "Multiple entries separated with comma (,). Excludes starting with hyphen (-)." ),
-                                     colorize( _( "\u2191: History, B: Abort, A: Save" ), c_green ) ) )
+                                     colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green ) ) )
                        .desc_color( c_white )
                        .identifier( "overmap_search" )
                        .query_string();

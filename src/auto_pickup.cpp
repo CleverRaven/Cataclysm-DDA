@@ -345,19 +345,21 @@ void user_interface::show()
 
         // Redraw the header
         int tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R1>-Add" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<\u23F8>-Remove" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<\u23F5>-Copy" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<X>-Enable" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Y>-Disable" ) ) + 1;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<C>opy" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
         if( !player_character.name.empty() ) {
-            shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R3>-Test" ) );
+            shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
         }
         tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<A>-Edit" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<R\u2B89/\u2B8B> Move Up/Down" ) ) + 1;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<L\u2B8A>-Move" ) ) + 1;
-        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<R\u2B8A>-Page" ) );
+        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                                _( "<+-> Move up/down" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                                _( "<Enter>-Edit" ) ) + 2;
+        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
         wattron( w_header, c_light_gray );
         mvwhline( w_header, point( 0,  2 ), LINE_OXOX, 78 );
@@ -385,7 +387,7 @@ void user_interface::show()
                                 get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red, c_white,
                                 get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) );
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<R2>-Switch" ) );
+        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
         shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
         wnoutrefresh( w_header );

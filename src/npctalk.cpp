@@ -43,7 +43,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
-#include "gpkey.h"
 #include "help.h"
 #include "input_context.h"
 #include "item.h"
@@ -2478,7 +2477,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
                 }
             } else {
                 keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                    return colorize( '\'' + convert_to_gamepad ( k.long_description() ) + '\'', c_yellow );
+                    return colorize( '\'' + k.long_description() + '\'', c_yellow );
                 }, enumeration_conjunction::or_ );
             }
 

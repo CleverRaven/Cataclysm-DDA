@@ -1592,7 +1592,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
         res += 2;
     }
     if( allows_selecting() && activatable() && multiselect ) {
-        //res += 2;
+        res += 2;
     }
     if( entry.is_item() ) {
         if( collate_entries() && entry.is_collation_entry() ) {
@@ -1658,7 +1658,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const inventory_entry::entry_cell_cache_t &entry_cell_cache = entry.get_entry_cell_cache( preset );
 
         int x1 = p.x + get_entry_indent( entry );
-        int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 ) - 2;
+        int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
         int yy = p.y + line;
 
         const bool selected = active && is_highlighted( entry );
@@ -1773,7 +1773,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             if( entry.get_invlet() != '\0' ) {
                 mvwputch( win, point( p.x, yy ), entry.get_invlet_color(), entry.get_invlet() );
             }
-            //xx += 2;
+            xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
                 const nc_color color = entry.any_item()->color();
                 mvwputch( win, point( xx, yy ), color, entry.any_item()->symbol() );
@@ -2367,17 +2367,14 @@ void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
         bool use_num_invlet = uistate.numpad_navigation ? false : use_invlet;
-        //int min_invlet = static_cast<uint8_t>( use_num_invlet ? '0' : '\0' );
-		int min_invlet = static_cast<uint8_t>( use_num_invlet ? ' ' : ' ' );
+        int min_invlet = static_cast<uint8_t>( use_num_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
-            //min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? '9' : '\0' );
-			min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? ' ' : ' ' );
+            min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_num_invlet ? '9' : '\0' );
         }
     } else if( invlet_type_ == SELECTOR_INVLET_ALPHA ) {
         const std::string all_pickup_chars = use_invlet ?
-                                             //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
-											 "" : "";
+                                             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;" : "";
         std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
         int cur_idx = 0;
         auto elemfilter = []( const inventory_entry & e ) {

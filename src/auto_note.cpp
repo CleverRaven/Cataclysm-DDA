@@ -364,10 +364,9 @@ void auto_note_manager_gui::show()
 
         // == Draw header
         int tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<X>-Enable" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Y>-Disable" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<A>-Toggle" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R\u2B8A>-Page" ) );
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
+        shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter> - Toggle" ) );
 
         // Draw horizontal line and corner pieces of the table
         wattron( w_header, c_light_gray );
@@ -408,10 +407,12 @@ void auto_note_manager_gui::show()
                                     enabled_auto_notes_ME ? _( "True" ) : _( "False" ) );
 
         currentX += shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, "  " );
-        shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, _( "<R2>-Switch " ) );
+        shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, _( "<S>witch " ) );
         currentX = 39;
         mvwprintz( w_header, point( currentX, 0 ), c_white, std::string( FULL_SCREEN_WIDTH - 2 - currentX,
                    ' ' ) );
+        shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
+                        _( "<Tab> to change pages." ) );
 
         // Clear table
         mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
