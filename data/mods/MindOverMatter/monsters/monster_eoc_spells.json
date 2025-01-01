@@ -450,5 +450,103 @@
       { "u_add_effect": "telepathic_ignorance", "duration": { "math": [ "n_power_obscurity_duration" ] } },
       { "npc_add_effect": "telepathic_ignorance_self", "duration": { "math": [ "n_power_obscurity_duration" ] } }
     ]
+  },
+  {
+    "id": "silent_one_drain_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Draining attack", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DRAINING_POWER",
+    "shape": "blast",
+    "min_range": 10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DRAINING_POWER",
+    "condition": "u_is_character",
+    "effect": [
+      { "math": [ "u_val('focus')", "-=", "2" ] },
+      {
+        "u_add_morale": "morale_silent_one_drain",
+        "bonus": -5,
+        "max_bonus": -200,
+        "duration": "24 hours",
+        "decay_start": "12 hours"
+      },
+      { "u_add_effect": "effect_nether_attunement_health_penalty", "duration": "10 seconds" },
+      { "math": [ "u_calories()", "-=", "125" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "125" ] },
+      { "u_message": "You feel a sudden wave of fatigue!", "type": "bad" },
+      { "math": [ "n_val('anger')", "-=", "rand(3) + 1" ] }
+    ],
+    "false_effect": [
+      { "math": [ "u_val('anger')", "-=", "rand(5) + 3" ] },
+      { "math": [ "u_val('morale')", "-=", "rand(10) + 5" ] },
+      { "u_add_effect": "effect_silent_one_monster_drain", "duration": 1800 },
+      { "math": [ "n_val('anger')", "-=", "rand(3) + 1" ] }
+    ]
+  },
+  {
+    "id": "silent_one_apply_buffs",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Applying Buffs attack", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's applying buffs to itself.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_BUFF_SELF",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_BUFF_SELF",
+    "effect": [
+      { "u_add_effect": "eff_mind_seeing_bonus_5", "duration": "PERMANENT" },
+      { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": "PERMANENT" },
+      { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_nether_silent_one_resistances", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "id": "silent_one_detect_psionic_activity",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Silent One Detect Psi", "//~": "NO_I18N" },
+    "description": { "str": "Silent One's detecting of psionic activity.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
+    "shape": "blast",
+    "min_aoe": 45,
+    "max_aoe": 45
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DETECT_PSIONIC_ACTIVITY",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
+        "then": [
+          { "math": [ "n_val('anger')", "+=", "rand(5) + 1" ] },
+          {
+            "u_message": "The hairs rise on the back of your neck as you feel a sudden sense of menace.",
+            "type": "bad"
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "if": { "test_eoc": "EOC_CONDITION_MONSTER_MAINTAINING_PSI_POWER" },
+        "then": { "math": [ "n_val('anger')", "+=", "rand(5) + 1" ] }
+      }
+    ]
   }
 ]
