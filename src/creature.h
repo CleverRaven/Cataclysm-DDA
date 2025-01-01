@@ -1346,7 +1346,7 @@ class Creature : public viewer
         double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
         // what bodypart does the projectile hit
         projectile_attack_results select_body_part_projectile_attack( const projectile &proj,
-                double goodhit, const bool magic, double missed_by,
+                double goodhit, bool magic, double missed_by,
                 const weakpoint_attack &attack ) const;
         // do messaging and SCT for projectile hit
         void messaging_projectile_attack( const Creature *source,
