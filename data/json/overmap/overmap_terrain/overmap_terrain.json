@@ -843,15 +843,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outcrop_roof",
-    "vision_levels": "natural_outcropping",
-    "name": "outcrop top",
-    "sym": "O",
-    "color": "brown",
-    "see_cost": "none"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",
