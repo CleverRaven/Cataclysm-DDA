@@ -33,5 +33,12 @@
       "NO_BREATHE",
       "NOGIB"
     ]
+  },
+  {
+    "id": "mon_keeper_of_the_glades_shaman",
+    "copy-from": "mon_keeper_of_the_glades",
+    "type": "MONSTER",
+    "name": { "str_sp": "keeper of the glades" },
+    "extend": { "special_attacks": [  ] }
   }
 ]

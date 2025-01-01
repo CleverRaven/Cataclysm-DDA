@@ -224,6 +224,105 @@
     "effect": [ { "npc_transform_radius": 0, "ter_furn_transform": "ter_druid_tree_guardian_turn_back" } ]
   },
   {
+    "id": "mon_keeper_of_the_glades",
+    "type": "MONSTER",
+    "name": { "str_sp": "keeper of the glades" },
+    "description": "An enormous stag with a body made of wood and vines, this is the king of the forest.  Its ivy-wreathed horns bloom with flowers and grass grows with every step that it takes.  Two luminous green eyes gaze at its surroundings.",
+    "default_faction": "forest_spirit_faction",
+    "species": [ "FOREST_SPIRIT" ],
+    "bodytype": "horse",
+    "volume": "675 L",
+    "weight": "675 kg",
+    "hp": 590,
+    "speed": 130,
+    "material": [ "veggy" ],
+    "symbol": "K",
+    "color": "green",
+    "aggression": 5,
+    "morale": 120,
+    "aggro_character": false,
+    "melee_skill": 7,
+    "melee_dice": 2,
+    "melee_dice_sides": 8,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "special_attacks": [
+      { "id": "mutant_antler", "cooldown": 2 },
+      {
+        "id": "mutant_hoof",
+        "effects_require_dmg": false,
+        "cooldown": 2,
+        "effects": [ { "id": "entangled_monster", "duration": 15 } ]
+      },
+      {
+        "id": "keeper_of_the_glades_veggrasp_spell",
+        "type": "spell",
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 10 },
+        "cooldown": 35,
+        "condition": {
+          "and": [ "npc_is_outside", { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "DIGGABLE" } ]
+        },
+        "monster_message": "%1$s rears and roots burst from the ground!"
+      },
+      {
+        "id": "keeper_of_the_glades_zombie_rot_spell",
+        "type": "spell",
+        "spell_data": { "id": "natural_spirit_zombie_decay", "min_level": 10 },
+        "cooldown": 50,
+        "condition": {
+          "and": [
+            "npc_is_outside",
+            { "and": [ { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+            { "not": { "u_near_om_location": "road", "range": 2 } },
+            { "npc_has_species": "ZOMBIE" }
+          ]
+        },
+        "monster_message": "%1$s's viridian eyes blaze as it stares at the unnatural creatures nearby!"
+      },
+      {
+        "id": "keeper_of_the_glades_banish_nether",
+        "type": "spell",
+        "spell_data": { "id": "banishment_greater", "min_level": 30 },
+        "cooldown": 50,
+        "condition": {
+          "and": [
+            "npc_is_outside",
+            { "and": [ { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "npc_is_on_terrain_with_flag": "DIGGABLE" } ] },
+            {
+              "or": [
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "NETHER_EMANATION" },
+                { "npc_has_species": "NETHER_BURROWING" }
+              ]
+            }
+          ]
+        },
+        "monster_message": "%1$s's viridian eyes blaze and grasping roots drag the unnatural creature down beneath the soil!"
+      }
+    ],
+    "regenerates": 5,
+    "dodge": 1,
+    "vision_day": 45,
+    "vision_night": 20,
+    "mountable_weight_ratio": 0.35,
+    "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s collapses into a massive pile of splinters." },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "PATH_AVOID_DANGER",
+      "DESTROYS",
+      "NO_BREATHE",
+      "BASHES",
+      "PATH_AVOID_FIRE",
+      "PET_MOUNTABLE",
+      "COMBAT_MOUNT",
+      "STUN_IMMUNE"
+    ],
+    "armor": { "bash": 30, "stab": 50, "cut": 10, "bullet": 75, "electric": 50, "necrotic": -25, "heat": -40 }
+  },
+  {
     "id": "mon_earth_gnome",
     "type": "MONSTER",
     "name": "gnome",
