@@ -16,7 +16,8 @@ multiline_list_entry talk_data::get_entry() const
 {
     multiline_list_entry entry;
     entry.entry_text = colorize( text, color );
-    entry.prefix = formatted_hotkey( hotkey_desc, color );
+    //entry.prefix = formatted_hotkey( hotkey_desc, color );
+	entry.prefix = " - ";
     return entry;
 }
 

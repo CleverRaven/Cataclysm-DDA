@@ -247,11 +247,11 @@ int sokoban_game::start_game()
 
         std::vector<std::string> shortcuts;
         shortcuts.reserve( 5 );
-        shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
-        shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
-        shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset
-        shortcuts.emplace_back( _( "<q>uit" ) ); // 'q': quit
-        shortcuts.emplace_back( _( "<u>ndo move" ) ); // 'u': undo move
+        shortcuts.emplace_back( _( "<R\u2B8A>-Next" ) ); // '+': next
+        shortcuts.emplace_back( _( "<R\u2B88>-Prev" ) ); // '-': prev
+        shortcuts.emplace_back( _( "<\u23F8>-Reset" ) ); // 'r': reset
+        shortcuts.emplace_back( _( "<B>-Quit" ) ); // 'q': quit
+        shortcuts.emplace_back( _( "<X>-Undo" ) ); // 'u': undo move
 
         int indent = 10;
         for( auto &shortcut : shortcuts ) {

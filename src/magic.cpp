@@ -2572,12 +2572,8 @@ class spellcasting_callback : public uilist_callback
             ImGui::EndChild();
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
-            ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[I]", ignore_string.c_str() );
+            ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[L1+L\u2B88]", ignore_string.c_str() );
             ImGui::SameLine();
-            if( cataimgui::BeginRightAlign( "hotkeys" ) ) {
-                ImGui::TextColored( c_yellow, "%s", _( "Assign Hotkey [=]" ) );
-                cataimgui::EndRightAlign();
-            }
         }
 };
 
@@ -2994,10 +2990,14 @@ spell &known_magic::select_spell( Character &guy )
     uilist spell_menu;
     spell_menu.desired_bounds = {
         -1.0,
-            -1.0,
-            std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ), ImGui::GetMainViewport()->Size.x * 3 / 8, ImGui::GetMainViewport()->Size.x ),
-            spell_menu_height
-        };
+        -1.0,
+        std::clamp( float( EVEN_MINIMUM_TERM_WIDTH * ImGui::CalcTextSize( "X" ).x ),
+                    ImGui::GetMainViewport()->Size.x * 3 / 8,
+                    ImGui::GetMainViewport()->Size.x ),
+        std::clamp( float( EVEN_MINIMUM_TERM_HEIGHT * ImGui::GetTextLineHeightWithSpacing() ),
+                    float( ( known_spells_sorted.size() + 3 ) * ImGui::GetTextLineHeightWithSpacing() ),
+                    ImGui::GetMainViewport()->Size.y )
+    };
 
     spell_menu.title = _( "Choose a Spell" );
     spell_menu.input_category = "SPELL_MENU";

@@ -2,7 +2,7 @@
   {
     "id": "env_temp_desc",
     "type": "widget",
-    "label": "Temperature",
+    "label": "Temp.",
     "style": "text",
     "var": "env_temp_text",
     "//": "Uses display::get_temp"

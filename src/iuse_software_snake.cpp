@@ -28,7 +28,7 @@ void snake_game::print_header( const catacurses::window &w_snake, bool show_shor
 {
     draw_border( w_snake, BORDER_COLOR, _( "S N A K E" ), c_white );
     if( show_shortcut ) {
-        std::string shortcut = _( "<q>uit" );
+        std::string shortcut = _( "<B>-Quit" );
         shortcut_print( w_snake, point( FULL_SCREEN_WIDTH - utf8_width( shortcut ) - 2, 0 ),
                         c_white, c_light_green, shortcut );
     }
