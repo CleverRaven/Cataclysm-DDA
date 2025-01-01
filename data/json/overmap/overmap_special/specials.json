@@ -4173,7 +4173,7 @@
   {
     "type": "overmap_special",
     "id": "outcrop",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outcrop_north" }, { "point": [ 0, 0, 1 ], "overmap": "outcrop_roof_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outcrop_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 10, 100 ],
