@@ -104,7 +104,7 @@
     "subtype": "hobby",
     "id": "dabbler_animist_summon_watcher",
     "name": "Dabbler (Summon Watcher Spirit)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Witchsight.  People asked you why you would bother learning a spell that only let you know if other people were mages, but every bit of information helped.  A gun you can see, an expensive suit, the size and strength of a person or the way they carry themselves, but a mage's talent is all hidden until they a cast spell.  Unless, of course, you knew how to look, and you did.",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Summon Watcher Spirit.  You initially learned it to keep an eye on your cat while you were doing chores around the house, but it ended up being even more valuable than you thought once the world ended.",
     "points": 4,
     "spells": [ { "id": "animist_summon_watcher", "level": 5 } ],
     "traits": [ "ANIMIST" ]
@@ -114,7 +114,7 @@
     "subtype": "hobby",
     "id": "dabbler_animist_detect_wizards",
     "name": "Dabbler (Witchsight)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Summon Watcher Spirit.  You initially learned it to keep an eye on your cat while you were doing chores around the house, but it ended up being even more valuable than you thought once the world ended.",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Witchsight.  People asked you why you would bother learning a spell that only let you know if other people were mages, but every bit of information helped.  A gun you can see, an expensive suit, the size and strength of a person or the way they carry themselves, but a mage's talent is all hidden until they a cast spell.  Unless, of course, you knew how to look, and you did.",
     "points": 4,
     "spells": [ { "id": "animist_detect_wizards", "level": 5 } ],
     "traits": [ "ANIMIST" ]
