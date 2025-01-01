@@ -839,8 +839,7 @@
     "vision_levels": "natural_outcropping",
     "sym": "O",
     "color": "brown",
-    "see_cost": "spaced_high",
-    "flags": [ "REQUIRES_PREDECESSOR" ]
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
