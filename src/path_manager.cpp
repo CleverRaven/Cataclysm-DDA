@@ -546,8 +546,11 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "SWAP_START_END", pimpl->selected_id != -1 );
     ImGui::PopItemFlag();  // ImGuiItemFlags_NoNav
 
+    // Use NavFlattened to select the first entry in the table instead of the table itself.
     ImGui::BeginChild( "table", ImVec2( 0, 0 ), ImGuiChildFlags_NavFlattened );
-    if( ! ImGui::BeginTable( "PATH_MANAGER", 6, ImGuiTableFlags_Resizable ) ) {
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 6,
+                             ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY ) ) {
+        ImGui::EndChild();
         return;
     }
     // TODO invlet
