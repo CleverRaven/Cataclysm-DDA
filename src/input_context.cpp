@@ -554,6 +554,7 @@ static void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
+// TODO template these
 std::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
     static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
