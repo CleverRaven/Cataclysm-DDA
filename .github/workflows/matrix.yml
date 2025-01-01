@@ -110,7 +110,7 @@ jobs:
             ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -141,7 +141,7 @@ jobs:
             ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 0
             tiles: 0
             sound: 0
@@ -154,7 +154,7 @@ jobs:
             ccache_key: linux-gcc-11-asan
 
           - compiler: g++-9
-            os: ubuntu-latest
+            os: ubuntu-22.04
             cmake: 1
             tiles: 1
             sound: 1
