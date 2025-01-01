@@ -203,6 +203,14 @@ Paragraph *Paragraph::separated()
     return this;
 }
 
+/**
+ * Split @str to fit within @wrap_width.
+ *
+ * @wrap_width is the window width.
+ *
+ * Internaly figure out remaining width by reading the cursor position.
+ * Dedicate drawing of @str segments to TextUnformatted.
+ */
 static void TextEx( const std::string_view str, float wrap_width, uint32_t color )
 {
     if( str.empty() ) {
@@ -284,6 +292,11 @@ void TextParagraph( nc_color color, const std::string_view para, float wrap_widt
     TextEx( para, wrap_width, u32_from_color( color ) );
 }
 
+/**
+ * Draw text with color tags and newlines. Insert newline at end.
+ *
+ * Process color tags and dedicate text drawing to Text*Ex functions.
+ */
 void TextColoredParagraph( nc_color default_color, const std::string_view str,
                            std::optional<Segment> value, float wrap_width )
 {

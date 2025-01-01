@@ -546,8 +546,7 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "SWAP_START_END", pimpl->selected_id != -1 );
     ImGui::PopItemFlag();  // ImGuiItemFlags_NoNav
 
-    ImGui::BeginChild( "table" );
-    if( ! ImGui::BeginTable( "PATH_MANAGER", 6, ImGuiTableFlags_Resizable ) ) {
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 6, ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY ) ) {
         return;
     }
     // TODO invlet
@@ -594,7 +593,6 @@ void path_manager_ui::draw_controls()
         }
     }
     ImGui::EndTable();
-    ImGui::EndChild();
 }
 
 void path_manager_ui::run()
