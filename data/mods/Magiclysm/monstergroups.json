@@ -186,6 +186,11 @@
     ]
   },
   {
+    "name": "GROUP_MINERS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_miner", "weight": 100 }, { "monster": "mon_zombie_dwarf_miner", "weight": 40 } ]
+  },
+  {
     "name": "GROUP_PARK_DOG",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 125 } ]

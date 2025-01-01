@@ -168,7 +168,7 @@ static void ClearScreen()
 static void InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
-#if defined(SOUND)
+#if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
     int ret;
