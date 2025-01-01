@@ -42,6 +42,7 @@ cmake \
 
 if [ "$CATA_CLANG_TIDY" = "plugin" ]
 then
+    echo "Compiling clang-tidy plugin"
     make -j$num_jobs CataAnalyzerPlugin
     export PATH=$PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin:$PATH
     if ! which FileCheck
@@ -90,6 +91,7 @@ then
     tidyable_cpp_files=$all_cpp_files
 else
     make \
+        --silent \
         -j $num_jobs \
         ${COMPILER:+COMPILER=$COMPILER} \
         TILES=${TILES:-0} \
@@ -122,11 +124,14 @@ printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
 # formats are matched. Exit code 1 from grep (meaning no match) is ignored in
 # case one subset contains no file to analyze.
 case "$CATA_CLANG_TIDY_SUBSET" in
-    ( src )
-        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -E '(^|/)src/' || [[ $? == 1 ]])
+    ( directly-changed )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -f ./files_changed || [[ $? == 1 ]])
         ;;
-    ( other )
-        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' || [[ $? == 1 ]])
+    ( indirectly-changed-src )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -E '(^|/)src/' | grep -vf ./files_changed || [[ $? == 1 ]])
+        ;;
+    ( indirectly-changed-other )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' | grep -vf ./files_changed || [[ $? == 1 ]])
         ;;
 esac
 

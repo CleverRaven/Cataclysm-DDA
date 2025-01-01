@@ -36,7 +36,11 @@ jobs:
       matrix:
         # To make the run finish in the run time limit, we split it up into two
         # parts: the src directory and everything else
-        subset: [ 'src', 'other' ]
+        subset: [
+            'directly-changed',
+            'indirectly-changed-src',
+            'indirectly-changed-other'
+        ]
 
     runs-on: ubuntu-22.04
     env:
@@ -90,7 +94,7 @@ jobs:
           for (const path of files) {
             console.log(path);
           }
-          fs.writeFileSync("files_changed", files.join('\n'));
+          fs.writeFileSync("files_changed", files.join('\n') + '\n');
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
