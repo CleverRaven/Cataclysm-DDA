@@ -657,7 +657,7 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         explicit comestible_inventory_preset( const Character &you ) : you( you ) {
 
-            _indent_entries = true;
+            _indent_entries = false;
             _collate_entries = true;
             Character &player_character = get_player_character();
 

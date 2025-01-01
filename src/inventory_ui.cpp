@@ -1587,17 +1587,17 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
         return 0;
     }
 
-    size_t res = 1;
-    //if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-    //    res += 2;
-    //}
-    //if( allows_selecting() && activatable() && multiselect ) {
-    //    res += 2;
-    //}
+    size_t res = 2;
+    if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
+        res += 2;
+    }
+    if( allows_selecting() && activatable() && multiselect ) {
+        //res += 2;
+    }
     if( entry.is_item() ) {
-        //if( collate_entries() && entry.is_collation_entry() ) {
-        //    res += 2;
-        //}
+        if( collate_entries() && entry.is_collation_entry() ) {
+            res += 2;
+        }
         if( indent_entries() ) {
             res += entry.indent;
         }
@@ -1658,7 +1658,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const inventory_entry::entry_cell_cache_t &entry_cell_cache = entry.get_entry_cell_cache( preset );
 
         int x1 = p.x + get_entry_indent( entry );
-        int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
+        int x2 = p.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 ) - 2;
         int yy = p.y + line;
 
         const bool selected = active && is_highlighted( entry );
@@ -1773,7 +1773,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             if( entry.get_invlet() != '\0' ) {
                 mvwputch( win, point( p.x, yy ), entry.get_invlet_color(), entry.get_invlet() );
             }
-            xx += 2;
+            //xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
                 const nc_color color = entry.any_item()->color();
                 mvwputch( win, point( xx, yy ), color, entry.any_item()->symbol() );
