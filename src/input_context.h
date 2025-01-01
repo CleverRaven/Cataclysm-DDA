@@ -20,7 +20,9 @@
 enum class kb_menu_status;
 
 class hotkey_queue;
+#if defined(IMGUI)
 class keybindings_ui;
+#endif
 namespace catacurses
 {
 class window;

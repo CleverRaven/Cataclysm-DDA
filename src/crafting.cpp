@@ -2673,7 +2673,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                 const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
                                           obj.type_name( 1 ), obj.charges );
                 popup_input.title( title ).edit( num_dis );
-                if( popup_input.canceled() || num_dis <= 0 ) {
+                if( popup_input.cancelled() || num_dis <= 0 ) {
                     add_msg( _( "Never mind." ) );
                     return false;
                 }
@@ -2785,7 +2785,7 @@ void Character::complete_disassemble( item_location target )
             const std::string title = string_format( _( "Disassemble how many %s [MAX: %d]: " ),
                                       obj.type_name( 1 ), obj.charges );
             popup_input.title( title ).edit( num_dis );
-            if( popup_input.canceled() || num_dis <= 0 ) {
+            if( popup_input.cancelled() || num_dis <= 0 ) {
                 add_msg( _( "Never mind." ) );
                 activity.set_to_null();
                 return;

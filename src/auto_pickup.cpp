@@ -21,7 +21,9 @@
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
+#if defined(IMGUI)
 #include "input_popup.h"
+#endif
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -36,6 +38,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -517,8 +520,10 @@ void user_interface::show()
             ui_manager::redraw();
 
             if( bLeftColumn || action == "ADD_RULE" ) {
+#if defined(IMGUI)
                 string_input_popup_imgui popup( 60, cur_rules[iLine].sRule );
                 popup.set_label( _( "Pickup Rule:" ) );
+#endif
                 std::string description = _(
                                               "* is used as a Wildcard.  A few Examples:\n"
                                               "\n"
@@ -533,8 +538,37 @@ void user_interface::show()
                                               "M:copper        matches items made purely of copper\n"
                                               "M:steel,iron    multiple materials allowed (OR search)"
                                           );
+#if defined(IMGUI)
                 popup.set_description( description, c_white, true );
                 const std::string r = popup.query();
+#endif
+#if !defined(IMGUI)
+				ui_adaptor help_ui;
+				catacurses::window w_help;
+				const auto init_help_window = [&]( ui_adaptor & help_ui ) {
+					const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+							TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+					w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
+							FULL_SCREEN_WIDTH * 3 / 4,
+							iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+					help_ui.position_from_window( w_help );
+				};
+				init_help_window( help_ui );
+				help_ui.on_screen_resize( init_help_window );
+
+				help_ui.on_redraw( [&]( const ui_adaptor & ) {
+						// NOLINTNEXTLINE(cata-use-named-point-constants)
+						fold_and_print( w_help, point( 1, 1 ), 999, c_white, description);
+
+						draw_border( w_help );
+						wnoutrefresh( w_help );
+						} );
+				const std::string r = string_input_popup()
+									  .title( _( "Pickup Rule:" ) )
+									  .width( 30 )
+									  .text( cur_rules[iLine].sRule )
+									  .query_string();
+#endif
                 // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
                 // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
                 // to include/exclude everything

@@ -253,7 +253,7 @@ class string_input_popup // NOLINT(cata-xy)
          * If the input was finished via the ENTER key (or similar), this will
          * return `false`.
          */
-        bool canceled() const {
+        bool cancelled() const {
             return _canceled;
         }
         /**

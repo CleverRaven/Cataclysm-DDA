@@ -577,7 +577,7 @@ std::optional<std::string> zone_manager::query_name( const std::string &default_
     .width( 55 )
     .text( default_name )
     .query();
-    if( popup.canceled() ) {
+    if( popup.cancelled() ) {
         return {};
     } else {
         return popup.text();

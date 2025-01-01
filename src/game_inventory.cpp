@@ -243,9 +243,15 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     return inv_s.execute();
 }
 
+#if defined(IMGUI)
 void game_menus::inv::common()
+#else
+void game_menus::inv::common( avatar &you )
+#endif
 {
+#if defined(IMGUI)
     avatar &you = get_avatar();
+#endif
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
@@ -283,9 +289,14 @@ void game_menus::inv::common()
     } while( loop_options.count( res ) != 0 );
 }
 
+#if !defined(IMGUI)
+void game_menus::inv::common( item_location &loc, avatar &you )
+{
+#else
 void game_menus::inv::common( item_location &loc )
 {
     avatar &you = get_avatar();
+#endif
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
@@ -2296,6 +2307,7 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     return smoke_s.execute();
 }
 
+#if defined(IMGUI)
 game_menus::inv::compare_item_menu::compare_item_menu( const item &first, const item &second,
         const std::string &confirm_message ) :
     cataimgui::window( "compare", ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
@@ -2499,6 +2511,207 @@ void game_menus::inv::swap_letters()
         reassign_letter( *loc );
     }
 }
+#else
+bool game_menus::inv::compare_items( const item &first, const item &second,
+                                     const std::string &confirm_message )
+{
+    std::string action;
+    input_context ctxt;
+    ui_adaptor ui;
+    item_info_data item_info_first;
+    item_info_data item_info_second;
+    int page_size = 0;
+    int scroll_pos_first = 0;
+    int scroll_pos_second = 0;
+    bool first_execution = true;
+    static int lang_version = detail::get_current_language_version();
+    do {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( first_execution || lang_version != detail::get_current_language_version() ) {
+            std::vector<iteminfo> v_item_first;
+            std::vector<iteminfo> v_item_second;
+
+            first.info( true, v_item_first );
+            second.info( true, v_item_second );
+
+            item_info_first = item_info_data( first.tname(), first.type_name(),
+                                              v_item_first, v_item_second, scroll_pos_first );
+
+            item_info_second = item_info_data( second.tname(), second.type_name(),
+                                               v_item_second, v_item_first, scroll_pos_second );
+
+            item_info_first.without_getch = true;
+            item_info_second.without_getch = true;
+
+            ctxt.register_action( "HELP_KEYBINDINGS" );
+            if( !confirm_message.empty() ) {
+                ctxt.register_action( "CONFIRM" );
+            }
+            ctxt.register_action( "QUIT" );
+            ctxt.register_action( "UP" );
+            ctxt.register_action( "DOWN" );
+            ctxt.register_action( "PAGE_UP" );
+            ctxt.register_action( "PAGE_DOWN" );
+
+            catacurses::window wnd_first;
+            catacurses::window wnd_second;
+            catacurses::window wnd_message;
+
+            ui.reset();
+            ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+                const int half_width = TERMX / 2;
+                const int height = TERMY;
+                const int offset_y = confirm_message.empty() ? 0 : 3;
+                page_size = TERMY - offset_y - 2;
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point::zero );
+                wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
+
+                if( !confirm_message.empty() ) {
+                    wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
+                }
+
+                ui.position( point::zero, point( half_width * 2, height ) );
+            } );
+            ui.mark_resize();
+            ui.on_redraw( [&]( const ui_adaptor & ) {
+                if( !confirm_message.empty() ) {
+                    draw_border( wnd_message );
+                    nc_color col = c_white;
+                    print_colored_text(
+                        wnd_message, point( 3, 1 ), col, col,
+                        confirm_message + " " +
+                        ctxt.describe_key_and_name( "CONFIRM" ) + " " +
+                        ctxt.describe_key_and_name( "QUIT" ) );
+                    wnoutrefresh( wnd_message );
+                }
+
+                draw_item_info( wnd_first, item_info_first );
+                draw_item_info( wnd_second, item_info_second );
+            } );
+            lang_version = detail::get_current_language_version();
+            first_execution = false;
+        }
+
+        ui_manager::redraw();
+
+        action = ctxt.handle_input();
+
+        if( action == "UP" ) {
+            scroll_pos_first--;
+            scroll_pos_second--;
+        } else if( action == "DOWN" ) {
+            scroll_pos_first++;
+            scroll_pos_second++;
+        } else if( action == "PAGE_UP" ) {
+            scroll_pos_first  -= page_size;
+            scroll_pos_second -= page_size;
+        } else if( action == "PAGE_DOWN" ) {
+            scroll_pos_first += page_size;
+            scroll_pos_second += page_size;
+        }
+    } while( action != "QUIT" && action != "CONFIRM" );
+
+    return action == "CONFIRM";
+}
+
+void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
+{
+    you.inv->restack( you );
+
+    inventory_compare_selector inv_s( you );
+
+    inv_s.add_character_items( you );
+    inv_s.set_title( _( "Compare" ) );
+    inv_s.set_hint( _( "Select two items to compare them." ) );
+
+    if( offset ) {
+        inv_s.add_map_items( you.pos() + *offset );
+        inv_s.add_vehicle_items( you.pos() + *offset );
+    } else {
+        inv_s.add_nearby_items();
+    }
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
+        return;
+    }
+
+    do {
+        const auto to_compare = inv_s.execute();
+
+        if( to_compare.first == nullptr || to_compare.second == nullptr ) {
+            break;
+        }
+
+        compare_items( *to_compare.first, *to_compare.second );
+    } while( true );
+}
+
+void game_menus::inv::reassign_letter( avatar &you, item &it )
+{
+    while( true ) {
+        const int invlet = popup_getkey(
+                               _( "Enter new letter.  Press SPACE to clear a manually-assigned letter, ESCAPE to cancel." ) );
+
+        if( invlet == KEY_ESCAPE ) {
+            break;
+        } else if( invlet == ' ' ) {
+            you.reassign_item( it, 0 );
+            const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+            if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
+                popup_getkey(
+                    _( "Note: The Auto Inventory Letters setting might still reassign a letter to this item.\n"
+                       "If this is undesired, you may wish to change the setting in Options." ) );
+            }
+            break;
+        } else if( inv_chars.valid( invlet ) ) {
+            you.reassign_item( it, invlet );
+            break;
+        }
+    }
+}
+
+void game_menus::inv::swap_letters( avatar &you )
+{
+    you.inv->restack( you );
+
+    inventory_pick_selector inv_s( you );
+
+    inv_s.add_character_items( you );
+    inv_s.set_title( _( "Swap Inventory Letters" ) );
+    inv_s.set_display_stats( false );
+
+    if( inv_s.empty() ) {
+        popup( std::string( _( "Your inventory is empty." ) ), PF_GET_KEY );
+        return;
+    }
+
+    while( true ) {
+        const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
+        [ &you ]( const std::string::value_type & elem ) {
+            if( you.inv->assigned_invlet.count( elem ) ) {
+                return c_yellow;
+            } else if( you.invlet_to_item( elem ) != nullptr ) {
+                return c_white;
+            } else {
+                return c_dark_gray;
+            }
+        } );
+
+        inv_s.set_hint( invlets );
+
+        item_location loc = inv_s.execute();
+
+        if( !loc ) {
+            break;
+        }
+
+        reassign_letter( you, *loc );
+    }
+}
+
+
+#endif
 
 static item_location autodoc_internal( Character &you, Character &patient,
                                        const inventory_selector_preset &preset, int radius, bool surgeon = false )

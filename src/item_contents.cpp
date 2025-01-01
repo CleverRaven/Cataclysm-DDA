@@ -7,7 +7,9 @@
 #include <type_traits>
 
 #include "avatar.h"
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -15,9 +17,13 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
+#if defined(IMGUI)
 #include "imgui/imgui.h"
+#endif
 #include "input.h"
+#if defined(IMGUI)
 #include "input_popup.h"
+#endif
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -33,6 +39,9 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
+#if !defined(IMGUI)
+#include "string_input_popup.h"
+#endif
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -64,10 +73,12 @@ class pocket_favorite_callback : public uilist_callback
                                            const std::vector<item *> &to_organize,
                                            uilist &pocket_selector );
         void refresh( uilist *menu ) override;
+#if defined(IMGUI)
         float desired_extra_space_right( ) override {
             return std::max( ImGui::GetMainViewport()->Size.x / 2,
                              ImGui::GetMainViewport()->Size.x - ( 50 * ImGui::CalcTextSize( "X" ).x ) );
         }
+#endif
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
 
@@ -100,6 +111,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
     if( selected_pocket != nullptr && !selected_pocket->is_forbidden() ) {
         std::vector<iteminfo> info;
 
+#if defined(IMGUI)
         ImGui::TableSetColumnIndex( 2 );
         ImGui::PushStyleColor( ImGuiCol_Text, c_light_gray );
         ImGui::TextWrapped( "%s", _( "Currently modifying " ) );
@@ -122,6 +134,33 @@ void pocket_favorite_callback::refresh( uilist *menu )
         selected_pocket->contents_info( info, pocket_num, true );
         cataimgui::draw_colored_text( format_item_info( info, {} ) );
     }
+#else
+		int starty = 5;
+        const int startx = menu->w_width - menu->pad_right;
+        const int width = menu->pad_right - 1;
+
+        fold_and_print( menu->window, point( 2, 2 ), width,
+                        c_light_gray, string_format( _( "Currently modifying %s" ),
+                                colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
+
+        selected_pocket->general_info( info, pocket_num, true );
+        starty += fold_and_print( menu->window, point( startx, starty ), width,
+                                  c_light_gray, format_item_info( info, {} ) ) + 1;
+
+        info.clear();
+        selected_pocket->favorite_info( info );
+        starty += fold_and_print( menu->window, point( startx, starty ), width,
+                                  c_light_gray, format_item_info( info, {} ) ) + 1;
+
+        info.clear();
+        selected_pocket->contents_info( info, pocket_num, true );
+        fold_and_print( menu->window, point( startx, starty ), width,
+                        c_light_gray, format_item_info( info, {} ) );
+    }
+
+    wnoutrefresh( menu->window );
+
+#endif
 }
 
 pocket_favorite_callback::pocket_favorite_callback( const std::string &uilist_text,
@@ -306,9 +345,17 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         whitelist = false;
         return true;
     } else if( action == "FAV_PRIORITY" ) {
+#if defined(IMGUI)
         number_input_popup<int> popup( 34, selected_pocket->settings.priority(), _( "Enter Priority" ) );
         const int ret = popup.query();
         if( !popup.cancelled() ) {
+#else
+        string_input_popup popup;
+        popup.title( string_format( _( "Enter Priority (current priority %d)" ),
+                                    selected_pocket->settings.priority() ) );
+        const int ret = popup.query_int();
+        if( popup.confirmed() ) {
+#endif
             selected_pocket->settings.set_priority( ret );
             selected_pocket->settings.set_was_edited();
         }
@@ -432,10 +479,23 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         }
         return true;
     } else if( action == "FAV_SAVE_PRESET" ) {
+#if defined(IMGUI)
         string_input_popup_imgui popup( 34, selected_pocket->settings.get_preset_name().value_or( "" ),
                                         _( "Enter a preset name:" ) );
         const std::string &rval = popup.query();
         if( !popup.cancelled() ) {
+#else
+        string_input_popup custom_preset_popup;
+        custom_preset_popup
+        .title( _( "Enter a preset name:" ) )
+        .width( 25 );
+        if( selected_pocket->settings.get_preset_name().has_value() ) {
+            custom_preset_popup.text( selected_pocket->settings.get_preset_name().value() );
+        }
+        custom_preset_popup.query_string();
+        if( !custom_preset_popup.cancelled() ) {
+			const std::string &rval = custom_preset_popup.text();
+#endif
             // Check if already exists
             item_pocket::load_presets();
             if( item_pocket::has_preset( rval ) ) {
@@ -2745,7 +2805,21 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
     pocket_selector.title = title;
     pocket_selector.text = uilist_text;
     pocket_selector.callback = &cb;
+#if defined(IMGUI)
     pocket_selector.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+#else
+	pocket_selector.w_x_setup = 0;
+    pocket_selector.w_width_setup = []() {
+        return TERMX;
+    };
+    pocket_selector.pad_right_setup = []() {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
+    pocket_selector.w_y_setup = 0;
+    pocket_selector.w_height_setup = []() {
+        return TERMY;
+    };
+#endif
     pocket_selector.input_category = input_category;
     pocket_selector.additional_actions = {
         { "FAV_PRIORITY", translation() },

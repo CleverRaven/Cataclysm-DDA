@@ -13,7 +13,9 @@
 #include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
@@ -359,9 +361,11 @@ void ui_adaptor::redraw_invalidated( )
         return;
     }
     // This boolean is needed when a debug error is thrown inside redraw_invalidated
+#if defined(IMGUI)
     if( !imgui_frame_started ) {
         imclient->new_frame();
     }
+#endif
     imgui_frame_started = true;
 
     restore_on_out_of_scope prev_redraw_in_progress( redraw_in_progress );
@@ -468,7 +472,9 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
+#if defined(IMGUI)
     imclient->end_frame();
+#endif
     imgui_frame_started = false;
 
     // if any ImGui window needed to calculate the size of its contents,

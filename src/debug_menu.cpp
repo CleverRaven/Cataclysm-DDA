@@ -3225,7 +3225,7 @@ static void debug_menu_force_temperature()
                       .text( current ? std::to_string( static_cast<int>( std::round( *current ) ) ) : "" )
                       .query_int();
 
-            return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
+            return pop.cancelled() ? current : std::optional<float>( static_cast<float>( ret ) );
         };
 
         std::optional<float> current;
@@ -3693,7 +3693,7 @@ static void vehicle_battery_charge()
     .title( _( "By how much?  (in kJ, negative to discharge)" ) )
     .width( 30 )
     .edit( amount );
-    if( !popup.canceled() ) {
+    if( !popup.cancelled() ) {
         vehicle &veh = v_part_pos->vehicle();
         if( amount >= 0 ) {
             veh.charge_battery( amount, false );

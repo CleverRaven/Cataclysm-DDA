@@ -332,7 +332,7 @@ T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
 {
     do {
         ret_val<T> result = try_parse_integer<T>( p.query_string( loop, draw_only ), true );
-        if( p.canceled() ) {
+        if( p.cancelled() ) {
             return 0;
         }
         if( result.success() ) {
@@ -613,7 +613,7 @@ void string_input_popup::edit( std::string &value )
     only_digits( false );
     text( value );
     query();
-    if( !canceled() ) {
+    if( !cancelled() ) {
         value = text();
     }
 }
@@ -625,7 +625,7 @@ static void edit_integer( string_input_popup &p, T &value )
     while( true ) {
         p.text( std::to_string( value ) );
         p.query();
-        if( p.canceled() ) {
+        if( p.cancelled() ) {
             break;
         }
         ret_val<T> parsed_val = try_parse_integer<T>( p.text(), true );

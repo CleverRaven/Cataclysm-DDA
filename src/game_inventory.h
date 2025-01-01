@@ -6,7 +6,9 @@
 #include <list>
 #include <utility>
 
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
@@ -15,6 +17,9 @@
 class Character;
 struct tripoint;
 
+#if !defined(IMGUI)
+class avatar;
+#endif
 class repair_item_actor;
 class salvage_actor;
 
@@ -60,11 +65,19 @@ drop_locations titled_multi_filter_menu( const item_location_filter &filter, Cha
 */
 /*@{*/
 
+#if defined(IMGUI)
 void common();
 void common( item_location &loc );
 void compare( const std::optional<tripoint> &offset );
 void reassign_letter( item &it );
 void swap_letters();
+#else
+void common( avatar &you );
+void common( item_location &loc, avatar &you );
+void compare( avatar &you, const std::optional<tripoint> &offset );
+void reassign_letter( avatar &you, item &it );
+void swap_letters( avatar &you );
+#endif
 
 /**
 * Compares two items, if confirm_message isn't empty then it will be printed
@@ -72,6 +85,7 @@ void swap_letters();
 * pressed, false for "quit" input.
 * @return False if confirm_message is empty or QUIT input was pressed.
 */
+#if defined(IMGUI)
 class compare_item_menu : public cataimgui::window
 {
     public:
@@ -91,6 +105,7 @@ class compare_item_menu : public cataimgui::window
         std::vector<iteminfo> second_info;
         cataimgui::scroll s = cataimgui::scroll::none;
 };
+#endif
 bool compare_items( const item &first, const item &second,
                     const std::string &confirm_message = "" );
 

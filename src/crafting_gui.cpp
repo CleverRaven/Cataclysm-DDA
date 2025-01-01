@@ -58,7 +58,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#if defined(IMGUI)
 #include "ui_iteminfo.h"
+#endif
 #include "ui_manager.h"
 #include "uistate.h"
 
@@ -1907,11 +1909,19 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                   w_iteminfo );
             data.handle_scrolling = true;
             data.arrow_scrolling = true;
+#if defined(IMGUI)
             const int info_width = std::min( TERMX, FULL_SCREEN_WIDTH );
             const int info_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
             iteminfo_window info_window( data, point( ( TERMX - info_width ) / 2, ( TERMY - info_height ) / 2 ),
                                          info_width, info_height );
             info_window.execute();
+#else
+			draw_item_info( []() -> catacurses::window {
+				const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
+				const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+				return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+			}, data );
+#endif
         } else if( action == "FILTER" ) {
             int max_example_length = 0;
             for( const auto &prefix : prefixes ) {
@@ -2309,8 +2319,12 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
         if( !to_compare ) {
             break;
         }
+#if defined(IMGUI)
         game_menus::inv::compare_item_menu menu( recipe_item, *to_compare );
         menu.show();
+#else
+		game_menus::inv::compare_items( recipe_item, *to_compare );
+#endif
     } while( true );
 }
 

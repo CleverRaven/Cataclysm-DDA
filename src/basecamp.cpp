@@ -669,7 +669,7 @@ void basecamp::query_new_name( bool force )
         .width( 40 )
         .max_length( 25 )
         .query();
-        if( input_popup.canceled() || input_popup.text().empty() ) {
+        if( input_popup.cancelled() || input_popup.text().empty() ) {
             if( name.empty() || force ) {
                 popup( _( "You need to input the base camp name." ) );
             } else {

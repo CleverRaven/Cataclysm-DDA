@@ -13,13 +13,17 @@
 #include <vector>
 
 #include "cata_assert.h"
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#if defined(IMGUI)
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #undef IMGUI_DEFINE_MATH_OPERATORS
+#endif
 #include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -41,7 +45,11 @@ const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
 const int MENU_AUTOASSIGN = -1;
 
+#if defined(IMGUI)
 class string_input_popup_imgui;
+#else
+class string_input_popup;
+#endif
 class uilist_impl;
 
 catacurses::window new_centered_win( int nlines, int ncols );
@@ -430,7 +438,25 @@ class uilist // NOLINT(cata-xy)
 
         uilist_callback *callback;
 
+#if defined(IMGUI)
         std::optional<cataimgui::bounds> desired_bounds;
+#else
+        pos_scalar w_x_setup;
+        pos_scalar w_y_setup;
+        size_scalar w_width_setup;
+        size_scalar w_height_setup;
+
+        int textwidth = 0;
+
+        size_scalar pad_left_setup;
+        size_scalar pad_right_setup;
+
+        // Maximum number of lines to be allocated for displaying descriptions.
+        // This only serves as a hint, not a hard limit, so the number of lines
+        // may still exceed this value when for example the description text is
+        // long enough.
+        int desc_lines_hint = 0;
+#endif
         bool desc_enabled = false;
 
         bool filtering = false;
@@ -459,10 +485,21 @@ class uilist // NOLINT(cata-xy)
         // TODO make private
         catacurses::window window;
 
+#if !defined(IMGUI)
+        int w_x = 0;
+        int w_y = 0;
+        int w_width = 0;
+        int w_height = 0;
+
+        int pad_left = 0;
+        int pad_right = 0;
+#endif
+
         int vshift = 0;
         int fselected = 0; // -1 as sentinel value for no filtered entries to select from
 
     private:
+#if defined(IMGUI)
         ImVec2 calculated_menu_size;
         cataimgui::bounds calculated_bounds;
         float calculated_hotkey_width;
@@ -470,19 +507,27 @@ class uilist // NOLINT(cata-xy)
         float calculated_secondary_width;
         float extra_space_left;
         float extra_space_right;
+#endif
         std::vector<int> fentries;
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };
 
         weak_ptr_fast<uilist_impl> ui;
 
+#if defined(IMGUI)
         std::unique_ptr<string_input_popup_imgui> filter_popup;
+#endif
         std::string filter;
 
         int max_entry_len = 0;
         int max_column_len = 0;
 
         int vmax = 0;
+
+#if !defined(IMGUI)
+        int desc_lines = 0;
+        int category_lines = 0;
+#endif
 
         bool started = false;
         bool recalc_start = false;

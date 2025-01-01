@@ -28,7 +28,7 @@ time_point calendar_ui::select_time_point( time_point initial_value, std::string
                         .text( std::to_string( initial ) )
                         .only_digits( true )
                         .query_int();
-            if( pop.canceled() ) {
+            if( pop.cancelled() ) {
                 return;
             }
         }

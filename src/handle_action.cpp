@@ -2545,15 +2545,15 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_INVENTORY:
-            game_menus::inv::common();
+            game_menus::inv::common( player_character );
             break;
 
         case ACTION_COMPARE:
-            game_menus::inv::compare( std::nullopt );
+            game_menus::inv::compare( player_character, std::nullopt );
             break;
 
         case ACTION_ORGANIZE:
-            game_menus::inv::swap_letters();
+            game_menus::inv::swap_letters( player_character );
             break;
 
         case ACTION_USE:
