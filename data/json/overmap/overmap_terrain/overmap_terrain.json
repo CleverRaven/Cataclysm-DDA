@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "type": "overmap_terrain",
@@ -844,6 +849,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "outcrop_roof",
+    "vision_levels": "natural_outcropping",
+    "name": "outcrop top",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": "none"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",
@@ -1202,3 +1216,4 @@
     "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]
+
