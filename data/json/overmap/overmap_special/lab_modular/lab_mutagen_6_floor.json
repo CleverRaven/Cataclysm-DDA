@@ -20,6 +20,16 @@
       { "point": [ -1, 0, 1 ], "overmap": "full_basic_lab_roof_north" },
       { "point": [ -1, 1, 1 ], "overmap": "lab_security_z0S_roof_north" },
       { "point": [ -1, 2, 1 ], "overmap": "lab_surface_parking_blockA2_roof_west" },
+      {
+        "point": [ -2, -2, 1 ],
+        "overmap": "special_air",
+        "//": "Filler omts for the barbed fence on top of the border wall"
+      },
+      { "point": [ -3, -2, 1 ], "overmap": "special_air" },
+      { "point": [ -3, -1, 1 ], "overmap": "special_air" },
+      { "point": [ -3, 0, 1 ], "overmap": "special_air" },
+      { "point": [ -3, 1, 1 ], "overmap": "special_air" },
+      { "point": [ -3, 2, 1 ], "overmap": "special_air" },
       { "point": [ 1, -2, 0 ], "overmap": "lab_res_8_SWU_ground_south" },
       { "point": [ 0, -2, 0 ], "overmap": "lab_res_8_SEU_ground_south" },
       { "point": [ 0, 2, 0 ], "overmap": "lab_res_8_SWD_ground_north" },
