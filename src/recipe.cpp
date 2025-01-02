@@ -1225,7 +1225,7 @@ std::string recipe::result_name( const bool decorated ) const
         // As of 2025-01-01 there's no better way around this.
         item temp_item( result_ );
         // Use generic item name by default.
-        tname::segment_bitset segs = tname::base_item_name;         
+        tname::segment_bitset segs = tname::base_item_name;
         if( !variant().empty() ) {
             // ..but if the recipe calls for a specific varaint - then use that variant.
             // Note that `temp_item` is likely to already have a random variant set at the time of creation.
