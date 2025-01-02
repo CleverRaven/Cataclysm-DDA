@@ -438,6 +438,7 @@
       { "id": "teleport_blink", "level": 11 },
       { "id": "teleport_slow", "level": 12 },
       { "id": "teleport_displacement", "level": 10 },
+      { "id": "teleport_reactive_displacement", "level": 5 },
       { "id": "teleport_stride", "level": 12 },
       { "id": "teleport_phase", "level": 12 },
       { "id": "teleport_ephemeral_walk", "level": 4 },

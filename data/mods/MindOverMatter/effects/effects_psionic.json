@@ -2141,6 +2141,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_reactive_displacement",
+    "name": [ "Reactive Displacement" ],
+    "desc": [ "You will automatically teleport enemies that strike you away from yourself." ],
+    "remove_message": "The surrounding matter feels real again.",
+    "rating": "good",
+    "enchantments": [
+      { "hit_me_effect": [ { "id": "teleport_reactive_displacement_teleport" } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_slow",
     "name": [ "Stutterstepping" ],
     "desc": [ "Your steps aren't taking you as far as your eyes tell you they should." ],
