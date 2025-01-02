@@ -643,64 +643,62 @@ struct OutputDebugStreamA : public std::ostream {
 
         // Intercept stream operations
         struct _Buf : public std::streambuf {
-                _Buf( std::streambuf *buf ) : buf( buf ) {
-                    output_string.reserve( max );
-                }
-            protected:
-                virtual int overflow( int c ) override {
-                    if( EOF != c ) {
-                        buf->sputc( c );
-                        if( std::iscntrl( c ) ) {
+            _Buf( std::streambuf *buf ) : buf( buf ) {
+                output_string.reserve( max );
+            }
+            virtual int overflow( int c ) override {
+                if( EOF != c ) {
+                    buf->sputc( c );
+                    if( std::iscntrl( c ) ) {
+                        send();
+                    } else {
+                        output_string.push_back( c );
+                        if( output_string.size() >= max ) {
                             send();
-                        } else {
-                            output_string.push_back( c );
-                            if( output_string.size() >= max ) {
-                                send();
-                            }
                         }
-                    } else {
-                        send();
                     }
-                    return c;
+                } else {
+                    send();
                 }
-                virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
-                    std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
-                    for( ; i < n; ++i ) {
-                        if( std::iscntrl( s[i] ) ) {
-                            if( i == last + 1 ) { // Skip multiple empty lines
-                                last = i;
-                                continue;
-                            }
-                            const std::string sv( s + last, i - last );
+                return c;
+            }
+            virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
+                std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
+                for( ; i < n; ++i ) {
+                    if( std::iscntrl( s[i] ) ) {
+                        if( i == last + 1 ) { // Skip multiple empty lines
                             last = i;
-                            send( sv.c_str() );
+                            continue;
                         }
+                        const std::string sv( s + last, i - last );
+                        last = i;
+                        send( sv.c_str() );
                     }
-                    std::string append( s + last, n - last );
-                    // Skip if only made of multiple newlines
-                    if( none_of( append.begin(), append.end(), []( int c ) {
-                    return std::iscntrl( c );
-                    } ) ) {
-                        output_string.append( s + last, n - last );
-                    }
-                    if( output_string.size() >= max ) {
-                        send();
-                    }
-                    return rc;
                 }
-            private:
-                void send( const char *s = nullptr ) {
-                    if( s == nullptr ) {
-                        ::OutputDebugStringA( output_string.c_str() );
-                        output_string.clear();
-                    } else {
-                        ::OutputDebugStringA( s );
-                    }
-                    buf->pubsync();
+                std::string append( s + last, n - last );
+                // Skip if only made of multiple newlines
+                if( none_of( append.begin(), append.end(), []( int c ) {
+                return std::iscntrl( c );
+                } ) ) {
+                    output_string.append( s + last, n - last );
                 }
-                static constexpr std::streamsize max = 4096;
-                std::string output_string{};
-                std::streambuf *buf = nullptr;
+                if( output_string.size() >= max ) {
+                    send();
+                }
+                return rc;
+            }
+            void send( const char *s = nullptr ) {
+                if( s == nullptr ) {
+                    ::OutputDebugStringA( output_string.c_str() );
+                    output_string.clear();
+                } else {
+                    ::OutputDebugStringA( s );
+                }
+                buf->pubsync();
+            }
+            static constexpr std::streamsize max = 4096;
+            std::string output_string{};
+            std::streambuf *buf = nullptr;
         } buf;
 };
 #endif
