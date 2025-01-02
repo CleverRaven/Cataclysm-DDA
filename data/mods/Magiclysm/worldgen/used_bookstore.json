@@ -14,8 +14,8 @@
         ",#N     NNN NNN N#******",
         ",#NNN NNNN    N N#******",
         ",#NNN NN$$$$D$#W##******",
-        ",W      $Mz  $#d*G******",
-        ",W   NNN$MOz $#d********",
+        ",W      $MO z$#d*G******",
+        ",W   NNN$M O $#d********",
         ",#N  ###$MMMM$#d********",
         ",#N  +s&$$$$$$#*********",
         ",##############********,",
@@ -54,8 +54,15 @@
         "d": "f_dumpster",
         "C": "f_counter"
       },
-      "monster": { "O": { "monster": "mon_krabgek", "chance": 100 }, "z": { "monster": "mon_krabgek", "chance": 33 } },
+      "traps": {
+        "z": [ [ "tr_null", 1 ], [ "tr_rune_trap_summon_krabgek", 4 ] ],
+        "O": [ [ "tr_null", 2 ], [ "tr_rune_trap_summon_krabgek", 1 ] ]
+      },
       "toilets": { "&": {  } },
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 2, 8 ], "y": [ 2, 12 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_VANILLA", "x": [ 9, 15 ], "y": [ 2, 5 ], "repeat": [ 1, 2 ] }
+      ],
       "items": { "M": { "item": "spellbook_loot_1", "chance": 60 }, "N": { "item": "novels", "chance": 60, "repeat": [ 1, 3 ] } }
     }
   },
