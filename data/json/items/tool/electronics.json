@@ -605,9 +605,15 @@
       "EBOOKREAD",
       {
         "type": "effect_on_conditions",
-        "menu_text": "Check the system",
+        "menu_text": "Dig into local files and logs",
         "description": "Check another applications and files.",
-        "effect_on_conditions": [ "EOC_SMARTPHONE_EOCS" ]
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Check map application",
+        "description": "You can check is there any map cache on this smartphone.",
+        "effect_on_conditions": [ "EOC_CHECK_MAP_CACHE" ]
       },
       {
         "target": "smart_phone_flashlight",
