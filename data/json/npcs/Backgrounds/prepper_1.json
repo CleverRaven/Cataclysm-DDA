@@ -12,22 +12,22 @@
       {
         "text": "You said you could tell me more about the shelter if I wanted.  How did these things get built?",
         "topic": "BGSS_PREPPER_1_LMOE2",
-        "condition": { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_finished_quest" } ] }
       },
       {
         "text": "What do you think happened?  You must have some interesting theories on why everything went to shit.",
         "//": "If the player already confronted the Prepper about their shelter and is gated out of that part of the conversation, this allows the player to still have a fun chat about apocalypse theories with them.",
         "topic": "BGSS_PREPPER_1_FOUND_LMOE7",
-        "condition": { "u_has_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_asked_about_shelter" } ] }
       },
       {
         "text": "Hey, uh…  I noticed you left a computer down in your shelter.  I didn't intend to pry, but you said I could go through everything.  So, I read a little of what you wrote.  You wanna talk about it?",
         "topic": "BGSS_PREPPER_1_FOUND_LMOE6",
         "condition": {
           "and": [
-            { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" },
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" } },
-            { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_found_computer" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_asked_about_shelter" } ] } },
+            { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_finished_quest" } ] }
           ]
         }
       },
@@ -53,7 +53,7 @@
     "id": "BGSS_PREPPER_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
+      "gendered_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [
@@ -66,8 +66,7 @@
     "id": "BGSS_PREPPER_1_LMOE",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_BGSS_prepper_1_started_quest",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_started_quest" } ],
       "no": {
         "gendered_line": "I never made it there and can't imagine I ever will.  Every time I've tried I've been headed off by the <zombies>.",
         "relevant_genders": [ "npc" ]
@@ -82,13 +81,13 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "directions_prepper_1_SHELTER" } },
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" } },
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_found_computer" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_finished_quest" } ] } },
             {
               "not": {
                 "and": [
-                  { "u_has_var": "general_BGSS_prepper_1_asked_about_quest", "value": "yes" },
-                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest)", "<", "time('8 h')" ] }
+                  { "compare_string": [ "yes", { "u_val": "general_BGSS_prepper_1_asked_about_quest" } ] },
+                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest) < time('8 h')" ] }
                 ]
               }
             }
@@ -110,7 +109,7 @@
           "topic": "BGSS_PREPPER_1_SHELTERFAILURE",
           "opinion": { "trust": -2 },
           "effect": [
-            { "math": [ "u_timer_timers_prepper_1_asked_about_quest", "=", "time('now')" ] },
+            { "math": [ "u_timer_timers_prepper_1_asked_about_quest = time('now')" ] },
             { "u_add_var": "general_BGSS_prepper_1_asked_about_quest", "value": "yes" }
           ]
         }
@@ -120,9 +119,9 @@
         "topic": "BGSS_PREPPER_1_FOUND_LMOE1",
         "condition": {
           "and": [
-            { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" },
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" } },
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_found_computer" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_asked_about_shelter" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_finished_quest" } ] } }
           ]
         },
         "effect": { "u_add_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" }
@@ -148,8 +147,8 @@
         "text": "You wouldn't keep ALL your tricks and secrets from me, though, would you?  After everything we've been through?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_asked_about_secrets", "value": "yes" } },
-            { "not": { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_asked_about_secrets" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_BGSS_prepper_1_found_computer" } ] } }
           ]
         },
         "//": "Even though material possessions have been made trivially easy to obtain in the apocalypse, the prepper still values their stash, hence the difficult trial here.",
@@ -578,7 +577,7 @@
       {
         "text": "I met this woman who was… uh… obsessed with bones?  She said that since <the_cataclysm>, the bones of living things 'hum' with some kind of special power and that she wants to collect lots of them to either end the world or save the world.  I'm honestly still not entirely clear how or what's supposed to happen…  How about that idea?  Did THAT ever cross your mind?",
         "//": "This option only shows if you've asked Brigitte LaCroix, the Boneseer, about her theory on the Cataclysm.",
-        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_song_asked_about_song" } ] },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_BONE_SEER"
       },
       {
@@ -598,12 +597,7 @@
       "gendered_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet I could completely fuck up reality, too.",
       "relevant_genders": [ "npc" ]
     },
-    "responses": [
-      {
-        "text": "Well, let's get going.  I'm trying to stick it to 'The Man' while we've still got a chance.",
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "<lets_go>  I'm trying to stick it to 'The Man' while we've still got a chance.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOD",
@@ -679,7 +673,7 @@
     },
     "responses": [
       { "text": "So… are you down to kick some alien ass with me?", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS" },
-      { "text": "Let's not dwell on it.  I'm ready to get a move on…", "topic": "TALK_DONE" }
+      { "text": "Let's not dwell on it.  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -704,7 +698,7 @@
       "gendered_line": "You're right, but I still think there's something bigger out there.  Something evil.  It doesn't matter whether science can explain it because we damn sure don't seem capable of defeating it.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "Yeah, it does seem a little grim…  Let's keep moving for now.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Yeah, it does seem a little grim…  <lets_go>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_TAKE_BAIT",
@@ -713,7 +707,7 @@
       "gendered_line": "I'm sorry, 'officer'.  I didn't write the book of cop jokes, you know.",
       "relevant_genders": [ "npc" ]
     },
-    "responses": [ { "text": "Let's just keep moving.  We don't have time for this nonsense…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<lets_go>  We don't have time for this nonsense…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_IGNORE_BAIT",
@@ -732,7 +726,7 @@
     },
     "responses": [
       {
-        "text": "Let's get moving.  I feel like it's useless worrying who they are when they're some of the only friends we've got…",
+        "text": "<lets_go>  I feel like it's useless worrying who they are when they're some of the only friends we've got…",
         "topic": "TALK_DONE"
       }
     ]
@@ -747,7 +741,7 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS",
     "type": "talk_topic",
     "dynamic_line": "Honestly, it doesn't matter who opened up what portal to wherever.  Extraterrestrial monster?  Engineered bio-weapon?  Three children standing on each others' shoulders in an alien Halloween costume?  I'll blast 'em either way.",
-    "responses": [ { "text": "'War of the Worlds', baby!  That's what I like to hear!  Let's get moving…", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "'War of the Worlds', baby!  That's what I like to hear!  <lets_go>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS",

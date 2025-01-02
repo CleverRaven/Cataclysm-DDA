@@ -20,12 +20,6 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
-    "//": "Remove after 0.G.",
-    "type": "item_action",
-    "id": "HAMMER",
-    "name": { "str": "Pry crate, window, door or nails" }
-  },
-  {
     "type": "item_action",
     "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
@@ -73,7 +67,7 @@
   {
     "type": "item_action",
     "id": "GEIGER",
-    "name": { "str": "Use geiger counter" }
+    "name": { "str": "Use Geiger counter" }
   },
   {
     "type": "item_action",
@@ -613,7 +607,7 @@
   {
     "type": "item_action",
     "id": "GASMASK_ACTIVATE",
-    "name": { "str": "Prepare to use" }
+    "name": { "str": "Pressurise and suction test" }
   },
   {
     "type": "item_action",
@@ -697,6 +691,11 @@
   },
   {
     "type": "item_action",
+    "id": "POST_UP",
+    "name": { "str": "Put up" }
+  },
+  {
+    "type": "item_action",
     "id": "PROZAC",
     "name": { "str": "Take" }
   },
@@ -743,7 +742,7 @@
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": { "str": "scan" }
+    "name": { "str": "Scan" }
   },
   {
     "type": "item_action",
@@ -858,6 +857,11 @@
   {
     "type": "item_action",
     "id": "WATER_PURIFIER",
+    "name": { "str": "Purify some water" }
+  },
+  {
+    "type": "item_action",
+    "id": "WATER_TABLETS",
     "name": { "str": "Purify some water" }
   },
   {

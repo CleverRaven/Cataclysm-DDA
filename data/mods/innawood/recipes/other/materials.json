@@ -61,7 +61,14 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [
+        [ "sheet_metal", -1 ],
+        [ "fire_brick", -1 ],
+        [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
+        [ "anvil_bronze", -1 ],
+        [ "casting_mold", -1 ]
+      ],
       [ [ "forge", 26 ] ]
     ],
     "components": [
@@ -91,7 +98,14 @@
     "//": "Forest glass, as cited: https://etheses.whiterose.ac.uk/3464/1/287681.pdf",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
+      [
+        [ "sheet_metal", -1 ],
+        [ "fire_brick", -1 ],
+        [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
+        [ "anvil_bronze", -1 ],
+        [ "casting_mold", -1 ]
+      ],
       [ [ "forge", 26 ] ]
     ],
     "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]

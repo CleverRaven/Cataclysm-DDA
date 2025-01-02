@@ -198,6 +198,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "campsite_cabin_incomplete_roof" ],
+    "weight": 500,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "               ------   ",
+        "               .....-   ",
+        "                 ...-   ",
+        "                  ..-   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "campsite_field_biker" ],
     "weight": 500,
     "object": {

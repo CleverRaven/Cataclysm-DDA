@@ -3,8 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "dialogue_first_meeting_knows_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ],
       "yes": "<greet>",
       "no": "Freeze you <swear> <zombies>!"
     },
@@ -13,21 +12,21 @@
       {
         "text": "&Hold up your hands.  \"Don't worry, I'm not going to hurt you\"",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_CALM",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] } }
       },
       {
         "text": "<greet>",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
       },
-      { "text": "Bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -39,7 +38,7 @@
     },
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" },
-      { "text": "I'll be back later.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -52,7 +51,10 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+          "and": [
+            { "math": [ "n_npc_trust() >= 2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
+          ]
         }
       },
       {
@@ -72,7 +74,7 @@
         "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -91,6 +93,12 @@
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR_STAY",
     "dynamic_line": "Well, I guess you could borrow one of the spare beds, just don't hog it.  I kept a few in case someone else joined me, but no one I knew came here.",
-    "responses": [ { "text": "Thanks.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" } ]
+    "responses": [
+      {
+        "text": "Thanks.",
+        "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
+        "effect": { "u_set_fac_relation": "share public goods" }
+      }
+    ]
   }
 ]

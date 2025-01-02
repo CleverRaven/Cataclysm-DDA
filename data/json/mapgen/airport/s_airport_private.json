@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "s_air_parking", "s_air_term", "s_air_atc", "s_air_hangars" ] ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "ssssssssssssssssssssssssc_d____________________ssssssssss.....____111_________________________ss",
         "s______________________s##e#++##:::##:::##______________s######^.|||||....____________________..",
@@ -12,7 +12,7 @@
         "s______________________s#~d~~~+ ;;;E;;E; ##++##ss_______s+;;<;#s|QQQQQ|...____________________..",
         "s______________________s#~d~~~# d;;h;;h; #   l#.s_______s#I;;j#s|QQQQQ|..a&_______a..a&_______a.",
         "sbbbbbb__________bbbbbbs#~e~~m# d;;h;;h;p# ;; o.s_______s#I;;j#s|QQQQQ|..aa======aa..aa======aa.",
-        "s______________________s#~e~~m# d;;h;;h;p# ;; #.sqq_____s###+##s||QQQ||..a&~~~~~~~a^.a&~~~~~~~a^",
+        "s______________________s#~e~~m# d;;h;;h;P# ;; #.sqq_____s###+##s||QQQ||..a&~~~~~~~a^.a&~~~~~~~a^",
         "s______________________s#~d~mm# d;;h;;h;   ;; #.sqq_____s^#;;;#s3|||||...a~~~~~~~fa..a~~~~~~~~a.",
         "s______________________s#~ddddedd;;h;;h;;;;;; #.sqq_____s.#jjj#s3........a~~~~~~~fa..a~~~~~~~~a.",
         "s______________________s#~~~~~# ;;;;;;;;;;;;; o.sss_____s.#####s3..|||...a~~~~~~~~a..a~~~~~~~~a.",
@@ -31,22 +31,22 @@
         ".......s_______________ssssssssssssssssssssssssssss_____s................aaaaaaaaaa..aaaaaaaaaa.",
         ".......sssssssssssssssss..........................s_____s........................^....^........."
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_highrise_walls_palette" ],
       "terrain": {
-        "#": "t_brick_wall",
         ".": "t_region_groundcover_urban",
         "_": "t_pavement",
         "b": "t_pavement_y",
         "s": "t_sidewalk",
         "~": "t_thconc_floor",
         "m": "t_thconc_floor",
-        "t": "t_linoleum_white",
-        ";": "t_linoleum_white",
-        "k": "t_linoleum_white",
-        "I": "t_linoleum_white",
-        "h": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "E": "t_linoleum_white",
-        " ": "t_linoleum_gray",
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "k": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "I": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "h": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "E": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "o": "t_window",
         ":": "t_wall_glass",
         "+": "t_door_c",
@@ -85,11 +85,11 @@
         "l": "f_trashcan",
         "E": "f_trashcan",
         "m": "f_crate_c",
-        "p": "f_vending_c",
         "t": "f_locker",
         "u": "f_indoor_plant"
       },
       "gaspumps": { "1": {  } },
+      "vendingmachines": { "p": { "item_group": "vending_drink", "lootable": true }, "P": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [
         { "group": "road", "chance": 50, "repeat": 4, "x": [ 1, 22 ], "y": [ 1, 19 ] },
         { "group": "allclothes", "chance": 80, "repeat": [ 10 ], "x": 29, "y": [ 5, 6 ] },
@@ -108,8 +108,6 @@
         { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 35, "y": 3 },
         { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 39, "y": 11 },
         { "group": "office", "chance": 50, "repeat": 5, "x": 33, "y": [ 10, 14 ] },
-        { "group": "vending_food", "chance": 80, "repeat": 1, "x": 40, "y": 5 },
-        { "group": "vending_drink", "chance": 80, "repeat": 1, "x": 40, "y": 6 },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 75, 80 ], "y": [ 7, 20 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 87, 92 ], "y": [ 7, 20 ] },
         { "group": "avgas_barrel", "chance": 50, "repeat": 5, "x": [ 75, 80 ], "y": [ 7, 20 ] },
@@ -243,8 +241,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_brick_wall", "`": "t_linoleum_white", ";": "t_metal_flat_roof", "<": "t_stairs_up" }
+      "palettes": [ "parametrized_linoleum_palette", "roof_palette", "parametrized_highrise_walls_palette" ],
+      "terrain": { "`": { "param": "linoleum_color", "fallback": "t_linoleum_white" }, ";": "t_metal_flat_roof", "<": "t_stairs_up" }
     }
   },
   {
@@ -252,15 +250,15 @@
     "method": "json",
     "om_terrain": [ "s_air_atc_3" ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "        hhhhhhhh        ",
-        "        habbgbah        ",
+        "        h#bbgb#h        ",
         "        hb....bh        ",
         "        hbfd..bh        ",
         "        hbf.Eebh        ",
         "        hb..eebh        ",
-        "        habbbbah        ",
+        "        h#bbbb#h        ",
         "        hhhhhhhh        ",
         "                        ",
         "                        ",
@@ -279,12 +277,12 @@
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_highrise_walls_palette" ],
       "terrain": {
-        "a": "t_brick_wall",
         "b": "t_wall_glass",
         " ": "t_open_air",
         "d": "t_stairs_down",
-        ".": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "g": "t_door_glass_c",
         "h": "t_metal_floor"
       },

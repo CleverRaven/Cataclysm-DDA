@@ -19,6 +19,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
@@ -28,6 +29,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
@@ -44,20 +46,20 @@
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
-const std::map<point, base_camps::direction_data> base_camps::all_directions = {
+const std::map<point_rel_omt, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
-    { point_north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
-    { point_north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
-    { point_east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
-    { point_south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
-    { point_south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
-    { point_south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
-    { point_west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
-    { point_north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
+    { point_rel_omt::north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
+    { point_rel_omt::north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
+    { point_rel_omt::east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
+    { point_rel_omt::south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
+    { point_rel_omt::south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
+    { point_rel_omt::south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
+    { point_rel_omt::west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
+    { point_rel_omt::north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
 };
 
-point base_camps::direction_from_id( const std::string &id )
+point_rel_omt base_camps::direction_from_id( const std::string &id )
 {
     for( const auto &dir : all_directions ) {
         if( dir.second.id == id ) {
@@ -91,6 +93,7 @@ static const time_duration work_day_hours_time = work_day_hours * 1_hours;
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
+    // logic here is duplicated in reverse in basecamp::time_to_food
     if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }
@@ -129,9 +132,9 @@ basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ )
 {
 }
 
-basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    const std::vector<point> &directions_,
-                    const std::map<point, expansion_data> &expansions_ )
+basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
+                    const std::vector<point_rel_omt> &directions_,
+                    const std::map<point_rel_omt, expansion_data> &expansions_ )
     : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -168,14 +171,14 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
         return;
     }
 
-    const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
+    const point_rel_omt dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
 
 void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
-                              const point &dir )
+                              const point_rel_omt &dir )
 {
     expansion_data e;
     e.type = base_camps::faction_decode( bldg );
@@ -267,7 +270,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const point &dir, const int offset ) const
+std::string basecamp::next_upgrade( const point_rel_omt &dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -300,7 +303,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point_rel_omt> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -331,18 +334,18 @@ bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
         return true;
     }
     // Sharing stuff also means sharing access.
-    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_my_stuff ) ) {
         return true;
     }
     // Some factions will share access to infinite water sources, but not food
     if( water_request &&
-        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_public_goods ) ) {
         return true;
     }
     return false;
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( const point_rel_omt &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -407,10 +410,34 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
     return ret_data;
 }
 
+std::unordered_set<recipe_id> basecamp::recipe_deck_all() const
+{
+    std::unordered_set<recipe_id> known_recipes;
+    for( const npc_ptr &guy : assigned_npcs ) {
+        if( guy.get() ) {
+            for( const recipe *rec : guy->get_learned_recipes() ) {
+                known_recipes.insert( rec->ident() );
+            }
+        }
+    }
+
+    for( const auto &exp_data_pair : expansions ) {
+        for( const auto &provides : exp_data_pair.second.provides ) {
+            const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
+            for( const std::pair<const recipe_id, translation> &rec_list : test_s ) {
+                known_recipes.insert( rec_list.first );
+            }
+        }
+    }
+
+    return known_recipes;
+}
+
 // recipes and craft support functions
-std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( const point_rel_omt &dir ) const
 {
     std::map<recipe_id, translation> recipes;
+
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return recipes;
@@ -465,7 +492,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-void basecamp::update_in_progress( const std::string &bldg, const point &dir )
+void basecamp::update_in_progress( const std::string &bldg, const point_rel_omt &dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -693,32 +720,31 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
-    tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    // NPC camps may never have had bb_pos registered
+    validate_bb_pos( project_to<coords::ms>( omt_pos ) );
+    tripoint_bub_ms src_loc = here.bub_from_abs( bb_pos ) + point::north;
     std::vector<tripoint_abs_ms> possible_liquid_dumps;
-    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, MAX_VIEW_DISTANCE ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
-                60 );
+                MAX_VIEW_DISTANCE, get_owner() );
         // Find the nearest unsorted zone to dump objects at
         if( !zones.empty() ) {
-            if( zones != storage_zones ) {
-                std::unordered_set<tripoint_abs_ms> src_set;
-                for( const zone_data *zone : zones ) {
-                    for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
-                             zone->get_start_point(), zone->get_end_point() ) ) {
-                        src_set.emplace( p );
-                    }
+            std::unordered_set<tripoint_abs_ms> src_set;
+            for( const zone_data *zone : zones ) {
+                for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
+                         zone->get_start_point(), zone->get_end_point() ) ) {
+                    src_set.emplace( p );
                 }
-                set_storage_tiles( src_set );
             }
-            src_loc = here.getlocal( zones.front()->get_center_point() );
-            set_storage_zone( zones );
+            set_storage_tiles( src_set );
+            src_loc = here.bub_from_abs( zones.front()->get_center_point() );
         }
         map &here = get_map();
-        for( const zone_data *zone : storage_zones ) {
+        for( const zone_data *zone : zones ) {
             if( zone->get_type() == zone_type_CAMP_STORAGE ) {
                 for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
                          zone->get_start_point(), zone->get_end_point() ) ) {
-                    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, here.getlocal( p ) ) ) {
+                    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, here.bub_from_abs( p ) ) ) {
                         possible_liquid_dumps.emplace_back( p );
                     }
                 }
@@ -757,7 +783,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     // find available fuel
 
     for( const tripoint_abs_ms &abs_ms_pt : src_set ) {
-        const tripoint &pt = target_map.getlocal( abs_ms_pt );
+        const tripoint_bub_ms &pt = target_map.bub_from_abs( abs_ms_pt );
         if( target_map.accessible_items( pt ) ) {
             for( const item &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
@@ -841,6 +867,76 @@ faction_id basecamp::get_owner()
     return owner;
 }
 
+void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
+{
+    get_event_bus().send<event_type::camp_taken_over>( get_owner(), new_owner, name, violent_takeover );
+
+    // If anyone was somehow assigned here, they aren't any longer.
+    assigned_npcs.clear();
+    camp_workers.clear();
+
+    add_msg_debug( debugmode::DF_CAMPS, "Camp %s owned by %s is being taken over by %s!",
+                   name, fac()->name, new_owner->name );
+
+    if( !violent_takeover ) {
+        set_owner( new_owner );
+        return;
+    }
+
+    // Since it was violent, the old owner is going to be upset.
+    // Currently only handles player faction, and very bluntly.
+    if( new_owner == get_player_character().get_faction()->id ) {
+        fac()->likes_u -= 100;
+        fac()->trusts_u -= 100;
+    }
+
+    int num_of_owned_camps = 0;
+    // Go over all camps in existence and count the ones belonging to current owner
+    // TODO: Remove this when camps stop being stored on the player
+    for( tripoint_abs_omt camp_loc : get_player_character().camps ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+        if( !bcp ) {
+            continue;
+        }
+        basecamp *checked_camp = *bcp;
+        // Note: Will count current basecamp object as well
+        if( checked_camp->get_owner() == get_owner() ) {
+            add_msg_debug( debugmode::DF_CAMPS,
+                           "Camp %s at %s is owned by %s, adding it to plunder calculations.",
+                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+            num_of_owned_camps++;
+        }
+    }
+
+    if( num_of_owned_camps < 1 ) {
+        debugmsg( "Tried to take over a camp owned by %s, but they somehow own no camps!  Is the owner's faction id no longer valid?",
+                  get_owner().c_str() );
+        // Also abort the rest
+        set_owner( new_owner );
+        return;
+    }
+
+    // The faction taking over also seizes resources proportional to the number of camps the previous owner had
+    // e.g. a single-camp faction has its entire stockpile plundered, a 10-camp faction has 10% transferred
+    nutrients captured_with_camp = fac()->food_supply / num_of_owned_camps;
+    nutrients taken_from_camp = -captured_with_camp;
+    camp_food_supply( taken_from_camp );
+    add_msg_debug( debugmode::DF_CAMPS,
+                   "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
+                   fac()->name, captured_with_camp.kcal(), fac()->food_supply.kcal(),
+                   1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
+    set_owner( new_owner );
+    int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
+    camp_food_supply( captured_with_camp );
+    add_msg_debug( debugmode::DF_CAMPS,
+                   "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
+                   fac()->name, new_owner->food_supply.kcal(), name );
+    if( new_owner == get_player_character().get_faction()->id ) {
+        popup( _( "Through your looting of %s you found %d days worth of food and other resources." ),
+               name, camp_food_supply_days( MODERATE_EXERCISE ) - previous_days_of_food );
+    }
+}
+
 void basecamp::form_crafting_inventory()
 {
     map &here = get_camp_map();
@@ -849,7 +945,7 @@ void basecamp::form_crafting_inventory()
 }
 
 // display names
-std::string basecamp::expansion_tab( const point &dir ) const
+std::string basecamp::expansion_tab( const point_rel_omt &dir ) const
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
@@ -943,10 +1039,10 @@ void basecamp_action_components::consume_components()
 {
     map &target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
-    std::vector<tripoint> src;
-    src.resize( base_.src_set.size() );
+    std::vector<tripoint_bub_ms> src;
+    src.reserve( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
-        src.emplace_back( target_map.getlocal( p ) );
+        src.emplace_back( target_map.bub_from_abs( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,

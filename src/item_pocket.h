@@ -278,8 +278,7 @@ class item_pocket
 
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, map &here, Character *carrier, const tripoint &pos,
-                      float insulation, temperature_flag flag );
+
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
 
@@ -304,7 +303,8 @@ class item_pocket
          * NOTE: this destroys the items that get processed
          */
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool watertight_container = false );
 
         void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 

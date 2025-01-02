@@ -22,14 +22,34 @@ A barebones `modinfo.json` file looks like this:
   {
     "type": "MOD_INFO",
     "id": "Mod_ID",
-    "name": "Mod's Display Name",
-    "authors": [ "Your name here", "Your friend's name if you want" ],
-    "description": "Your description here",
-    "category": "content",
-    "dependencies": [ "dda" ]
+    "name": "Mod's Display Name"
   }
 ]
 ````
+
+This is the absolute bare minimum, but you may want to add `authors`(You!), a `description` and a `category`. See below for more possibilities.
+
+### All MOD_INFO fields
+Here is a full list of supported values for MOD_INFO:
+````json
+[
+  {
+    "type": "MOD_INFO",                             // Mandatory, you're making one of these!
+    "id": "Mod_ID",                                 // Mandatory, unique id for your mod. You should not use the same id as any other mod.  Cannot contain the '#' character.  Mod ids must also be valid folder pathing in order to support compatibility with other mods.
+    "name": "Mod's Display Name",                   // Mandatory.
+    "authors": [ "Me", "A really cool friend" ],    // Optional, but you probably want to put your name here. More than one entry can be added, as shown.
+    "description": "The best mod ever!",            // Optional
+    "category": "graphical",                        // Optional, see below for a full list of supported values. The category is just for information purposes, so don't worry if your mod might fit more than one category.
+    "dependencies": [ "dda" ],                      // Optional. What other mods are required for this mod to function? If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
+    "loading_images": [ "cool.png", "cool2.png" ],  // Optional. Filenames for any loading screen images the mod may have. Loading screens are only present on the graphical/"tiles" version. Only supports .png files. Actual loading screen image will be picked randomly from among all mod loading screens, including other loaded mods that have loading screens.
+    "version": "1.3.bacon",                         // Optional. For informational purposes only. No versioning system is provided, so whatever you put here is up to you. Feel free to name your versions after ice cream.
+    "core": false,                                  // Optional, default false. Core mods will be loaded before anything else. Used for DDA, third-party use will not be supported.
+    "obsolete": false,                              // Optional, default false. Obsolete mods are loaded for legacy saves but cannot be used when starting new worlds
+    "path": "my_mod_files/"                         // Optional, this directory relative to modinfo.json's location will be considered the mod's actual directory. e.g. if modinfo.json is located at C:\CDDA\my_mod\modinfo.json, then the mod files would be considered to be at C:\CDDA\my_mod\my_mod_files\. A file such as C:\CDDA\my_mod\some_other_file.json would be ignored, it isn't located inside the specified directory.
+  }
+]
+````
+
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
  - `content` - A mod that adds a lot of stuff. Typically reserved for large mods (eg: Core game files, Aftershock)
  - `total_conversion` - A mod that fundamentally changes the game.  In particular, the assumption is that a player should not use two total conversion mods at the same time, and so they will not be tested together.  However, nothing prevents players from using more than one if they wish. (eg: Dark Skies Above)
@@ -43,8 +63,6 @@ The `category` attribute denotes where the mod will appear in the mod selection 
  - `item_exclude` - A mod that stops items from spawning in the world (eg: No survivor armor, No drugs)
  - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No monsters)
  - `graphical` - A mod that adjusts game graphics in some way (eg: Graphical overmap)
-
-The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
 ## Actually adding things to your mod
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
@@ -311,6 +329,16 @@ Using this syntax allows modification of the following things:
 
 Currently, adjusting multiple stats or flags requires separate `monster_adjustment` entries.
 
+## External options
+
+External options control a variety of global settings not appropriate for region settings, from `SHOW_MUTATION_SELECTOR` that lets the
+player choose mutations you get on mutation, to `ETERNAL_WEATHER` which let's you pick a type of weather to always be active.
+All the external options available are located in `/core/external_options.json` along with comments explaining their purpose and their DDA values.
+To change the values in a mod you just define an identical object to the dda one with the value changed.
+
+You can also override any source defined option with an external option of the same name in the same way (Eg if the player has `AUTO_FEATURES` set to false
+but you make an external option `AUTO_FEATURES` set to true when the player loads the mod their value will be changed to true).
+**However currently on save this overrides the user's config so shouldn't be used unless necessary to make the mod work.**
 
 ## Important note on json files
 

@@ -1,22 +1,15 @@
-#include <memory>
+#include "talker_monster.h"
+
 #include "character.h"
 #include "effect.h"
 #include "item.h"
 #include "magic.h"
 #include "monster.h"
 #include "mtype.h"
-#include "pimpl.h"
 #include "point.h"
-#include "talker_monster.h"
 #include "vehicle.h"
 
 class time_duration;
-
-talker_monster::talker_monster( monster *new_me )
-{
-    me_mon = new_me;
-    me_mon_const = new_me;
-}
 
 std::string talker_monster_const::disp_name() const
 {
@@ -46,6 +39,11 @@ int talker_monster_const::posz() const
 tripoint talker_monster_const::pos() const
 {
     return me_mon_const->pos();
+}
+
+tripoint_bub_ms talker_monster_const::pos_bub() const
+{
+    return me_mon_const->pos_bub();
 }
 
 tripoint_abs_ms talker_monster_const::global_pos() const
@@ -168,11 +166,21 @@ int talker_monster_const::get_friendly() const
     return me_mon_const->friendly;
 }
 
+int talker_monster_const::get_difficulty() const
+{
+    return me_mon_const->type->difficulty;
+}
+
 int talker_monster_const::get_size() const
 {
     add_msg_debug( debugmode::DF_TALKER, "Size category of monster %s = %d", me_mon_const->name(),
                    me_mon_const->get_size() - 0 );
     return me_mon_const->get_size() - 0;
+}
+
+int talker_monster_const::get_speed() const
+{
+    return me_mon_const->get_speed();
 }
 
 int talker_monster_const::get_grab_strength() const
@@ -182,7 +190,7 @@ int talker_monster_const::get_grab_strength() const
     return  me_mon_const->get_grab_strength();
 }
 
-bool talker_monster_const::can_see_location( const tripoint &pos ) const
+bool talker_monster_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
     return me_mon_const->sees( pos );
 }
@@ -195,6 +203,11 @@ int talker_monster_const::get_volume() const
 int talker_monster_const::get_weight() const
 {
     return units::to_milligram( me_mon_const->get_weight() );
+}
+
+bool talker_monster_const::is_warm() const
+{
+    return me_mon_const->is_warm();
 }
 
 void talker_monster::set_friendly( int new_val )
@@ -212,12 +225,18 @@ void talker_monster::die()
     me_mon->die( nullptr );
 }
 
-void talker_monster::set_all_parts_hp_cur( int set ) const
+void talker_monster::set_all_parts_hp_cur( int set )
 {
     me_mon->set_hp( set );
 }
 
-std::vector<std::string> talker_monster_const::get_topics( bool )
+dealt_damage_instance talker_monster::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam ) const
+{
+    return source->deal_damage( source, bp, dam );
+}
+
+std::vector<std::string> talker_monster_const::get_topics( bool ) const
 {
     return me_mon_const->type->chat_topics;
 }
@@ -237,7 +256,7 @@ double talker_monster_const::armor_at( damage_type_id &dt, bodypart_id &bp ) con
     return me_mon_const->get_armor_type( dt, bp );
 }
 
-bool talker_monster_const::will_talk_to_u( const Character &you, bool )
+bool talker_monster_const::will_talk_to_u( const Character &you, bool ) const
 {
     return !you.is_dead_state();
 }

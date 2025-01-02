@@ -2,7 +2,7 @@
   {
     "abstract": "mod_battery",
     "type": "TOOLMOD",
-    "name": { "str": "base toolmod" },
+    "name": { "str": "base toolmod", "//~": "NO_I18N" },
     "weight": "142 g",
     "volume": "250 ml",
     "material": [ "plastic", "ceramic" ],
@@ -48,8 +48,8 @@
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
-    "name": { "str": "pseudo magazine mod" },
-    "description": "For containing pseudo magazines, obviously.",
+    "name": { "str": "pseudo magazine mod", "//~": "NO_I18N" },
+    "description": { "str": "For containing pseudo magazines, obviously.", "//~": "NO_I18N" },
     "color": "light_green",
     "flags": [ "PSEUDO", "DEBUG_ONLY" ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_magazine", "item_restriction": [ "pseudo_magazine" ] } ]
@@ -89,8 +89,8 @@
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
-    "name": { "str": "heavy battery mod" },
-    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
+    "name": { "str": "tool battery mod" },
+    "description": "A battery compartment mod that allows the use of tool batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [

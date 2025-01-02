@@ -1,0 +1,81 @@
+[
+  {
+    "//": "Easy access to Earth Plants, Trees, and Bushes. For indoor Garden type areas.",
+    "type": "palette",
+    "id": "afs_terra",
+    "terrain": {
+      "±": [
+        [ "t_tree", 10 ],
+        [ "t_tree_young", 3 ],
+        [ "t_tree_blackjack", 3 ],
+        [ "t_tree_alder", 3 ],
+        [ "t_tree_basswood", 3 ],
+        [ "t_tree_cottonwood", 3 ],
+        [ "t_tree_elm", 3 ],
+        [ "t_tree_pine", 3 ],
+        [ "t_tree_birch", 3 ],
+        [ "t_tree_willow", 3 ],
+        [ "t_tree_walnut", 1 ],
+        [ "t_tree_butternut", 1 ],
+        [ "t_tree_chestnut", 1 ],
+        [ "t_tree_beech", 1 ],
+        [ "t_tree_hazelnut", 1 ],
+        [ "t_tree_apple", 1 ],
+        [ "t_tree_crabapple", 1 ],
+        [ "t_tree_pear", 1 ],
+        [ "t_tree_coffee", 1 ],
+        [ "t_tree_cherry", 1 ],
+        [ "t_tree_juniper", 1 ],
+        [ "t_tree_peach", 1 ],
+        [ "t_tree_apricot", 1 ],
+        [ "t_tree_plum", 1 ],
+        [ "t_tree_mulberry", 1 ],
+        [ "t_tree_elderberry", 1 ],
+        [ "t_tree_maple", 1 ],
+        [ "t_tree_hickory", 1 ],
+        [ "t_tree_pistachio", 1 ],
+        [ "t_tree_almond", 1 ],
+        [ "t_tree_pecan", 1 ],
+        [ "t_tree_sassafras", 1 ]
+      ],
+      "†": [
+        [ "t_underbrush", 7 ],
+        [ "t_shrub", 7 ],
+        [ "t_fern", 7 ],
+        [ "t_shrub_rose", 5 ],
+        [ "t_shrub_hydrangea", 5 ],
+        [ "t_shrub_lilac", 5 ],
+        [ "t_shrub_peanut", 1 ],
+        [ "t_shrub_blueberry", 1 ],
+        [ "t_shrub_strawberry", 1 ],
+        [ "t_shrub_blackberry", 1 ],
+        [ "t_shrub_huckleberry", 1 ],
+        [ "t_shrub_raspberry", 1 ],
+        [ "t_shrub_grape", 1 ]
+      ],
+      "‡": "t_grass"
+    },
+    "furniture": {
+      "‡": [
+        [ "f_dandelion", 1 ],
+        [ "f_maianthemum_stellatum", 1 ],
+        [ "f_salsify", 1 ],
+        [ "f_chamomile", 1 ],
+        [ "f_flower_tulip", 1 ],
+        [ "f_flower_spurge", 1 ],
+        [ "f_sunflower", 1 ],
+        [ "f_jerusalem_artichoke", 1 ],
+        [ "f_lily", 1 ],
+        [ "f_bluebell", 1 ],
+        [ "f_dahlia", 1 ],
+        [ "f_chicory", 1 ],
+        [ "f_datura", 1 ],
+        [ "f_mustard", 1 ],
+        [ "f_wild_sarsaparilla", 1 ],
+        [ "f_fireweed", 1 ],
+        [ "f_selfheal", 1 ],
+        [ "f_purple_loosestrife", 1 ]
+      ]
+    }
+  }
+]

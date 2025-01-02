@@ -51,7 +51,8 @@
       [
         [ "chem_black_powder", 90 ],
         [ "gunpowder", 90 ],
-        [ "red_phosphorous", 100 ],
+        [ "red_phosphorous_small", 100 ],
+        [ "red_phosphorous", 1 ],
         [ "gunpowder_pistol", 90 ],
         [ "gunpowder_shotgun", 90 ],
         [ "gunpowder_magnum_pistol", 80 ],

@@ -14,5 +14,22 @@
       { "x": 1, "y": 0, "parts": [ "xlframe#horizontal", "carbonfiber_boat_hull" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe#horizontal", "carbonfiber_boat_hull", "battery_motorbike" ] }
     ]
+  },
+  {
+    "type": "vehicle",
+    "id": "arvore_floral_boat",
+    "name": "viridescent vessel",
+    "blueprint": [ [ "<O>" ] ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "floralframe", "floral_engine", "floral_boat_hull", "floral_controls" ] },
+      { "x": 0, "y": 1, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": 0, "y": -1, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": 1, "y": 0, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": 1, "y": 1, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": 1, "y": -1, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": -1, "y": 0, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": -1, "y": 1, "parts": [ "floralframe", "floral_boat_hull" ] },
+      { "x": -1, "y": -1, "parts": [ "floralframe", "floral_boat_hull" ] }
+    ]
   }
 ]

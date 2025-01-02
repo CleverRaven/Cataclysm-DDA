@@ -81,7 +81,7 @@
   {
     "id": "mon_eyebot_heater",
     "type": "MONSTER",
-    "copy-from": "mon_eyebot",
+    "copy-from": "mon_afs_eyebot",
     "name": "floating heater",
     "color": "pink",
     "luminance": 8,

@@ -2,6 +2,8 @@ files:
   'data/mods/Aftershock/**':
     - Maleclypse
     - John-Candlebury
+  'data/mods/Backrooms/**':
+    - onura46
   'data/mods/DinoMod/**':
     - LyleSY
   'data/mods/BombasticPerks/**':
@@ -38,6 +40,8 @@ files:
     - Venera3
   'tools/json_tools/gun_variant_validator.py':
     - anothersimulacrum
+  'data/changelog.txt':
+    - Procyonae
 
   '**/.clang-tidy':
     - jbytheway

@@ -111,12 +111,12 @@ TEST_CASE( "effect_duration", "[effect][duration]" )
     //
     // "id": "drunk",
     // "name": [ "Tipsy", "Drunk", "Trashed", "Wasted" ],
-    // "max_intensity": 4,
+    // "max_intensity": 3,
     // "apply_message": "You feel lightheaded.",
     // "int_dur_factor": 1000,
     //
     // It has "int_dur_factor": 1000, meaning that its intensity will always be equal to its duration /
-    // 1000 rounded up, and it has "max_intensity": 4 meaning the highest its intensity will go is 4 at
+    // 1000 rounded up, and it has "max_intensity": 3 meaning the highest its intensity will go is 3 at
     // a duration of 3000 or higher.
     SECTION( "set_duration modifies intensity if effect is duration-based" ) {
         effect eff_intense( effect_source::empty(), &effect_intensified.obj(), 1_turns, body_part_bp_null,
@@ -127,16 +127,24 @@ TEST_CASE( "effect_duration", "[effect][duration]" )
         eff_intense.set_duration( 0_seconds );
         CHECK( eff_intense.get_intensity() == 1 );
 
-        // At duration == int_dur_factor, intensity is 2
+        // At duration == int_dur_factor, intensity is 1
         eff_intense.set_duration( 1_minutes );
+        CHECK( eff_intense.get_intensity() == 1 );
+
+        // At duration == 2 * int_dur_factor, intensity is 2
+        eff_intense.set_duration( 2_minutes );
         CHECK( eff_intense.get_intensity() == 2 );
 
-        // At duration == 2 * int_dur_factor, intensity is 3
-        eff_intense.set_duration( 2_minutes );
+        // At duration == (2m1s) * int_dur_factor, intensity is 3 (rounds up)
+        eff_intense.set_duration( 2_minutes + 1_seconds );
         CHECK( eff_intense.get_intensity() == 3 );
 
         // At duration == 3 * int_dur_factor, intensity is still 3
         eff_intense.set_duration( 3_minutes );
+        CHECK( eff_intense.get_intensity() == 3 );
+
+        // At duration == 4 * int_dur_factor, intensity is still 3
+        eff_intense.set_duration( 4_minutes );
         CHECK( eff_intense.get_intensity() == 3 );
     }
 }
@@ -599,7 +607,7 @@ TEST_CASE( "effect_modifiers", "[effect][modifier]" )
 
 TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
 {
-    const auto spawn_npc = [&]( const point & p, const std::string & npc_class ) {
+    const auto spawn_npc = [&]( const point_bub_ms & p, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
         const character_id model_id = get_map().place_npc( p, test_guy );
         g->load_npcs();
@@ -610,7 +618,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         return guy;
     };
 
-    static const tripoint target_location{ 5, 0, 0 };
+    static const tripoint_bub_ms target_location{ 5, 0, 0 };
     clear_npcs();
     clear_vehicles();
     clear_map();
@@ -635,7 +643,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
         WHEN( "when player cuts npc" ) {
 
-            npc &test_npc = *spawn_npc( player.pos().xy() + point_south_west, "thug" );
+            npc &test_npc = *spawn_npc( player.pos_bub().xy() + point::south_west, "thug" );
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
                 test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );
@@ -648,8 +656,8 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
     }
     GIVEN( "two npcs" ) {
-        npc &npc_src = *spawn_npc( player.pos().xy() + point_south, "thug" );
-        npc &npc_dst = *spawn_npc( player.pos().xy() + point_south_east, "thug" );
+        npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "thug" );
+        npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
             THEN( "bleed effect gets attributed to npc_src" ) {
@@ -734,7 +742,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
     // Place a hundred debug monsters, our subjects
     for( int i = 0; i < 10; ++i ) {
         for( int j = 0; j < 10; ++j ) {
-            tripoint cursor( i + 20, j + 20, 0 );
+            tripoint_bub_ms cursor( i + 20, j + 20, 0 );
 
             mons.push_back( g->place_critter_at( pseudo_debug_mon, cursor ) );
             // make sure they're there!

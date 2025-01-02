@@ -93,7 +93,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "barry_mi-go_scout_tower_3", "mi-go_scout_tower_3" ],
+    "om_terrain": [ "mi-go_scout_tower_3" ],
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [
@@ -127,6 +127,55 @@
         { "chunks": [ "mi-go_scout_tower_cells" ], "x": 4, "y": 3 },
         { "chunks": [ "mi-go_encampment1_room17" ], "x": 1, "y": 14 }
       ],
+      "place_monster": [
+        {
+          "group": "GROUP_MI-GO_SCOUT_TOWER",
+          "x": 12,
+          "y": 12,
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 8, 16 ], "y": [ 8, 16 ] } ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "barry_mi-go_scout_tower_3",
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvv||vvvvvvvvvv",
+        "vvvvvvvvvv||||||vvvvvvvv",
+        "vvvvvvvv|||    |||vvvvvv",
+        "vvvvvv|||        |||vvvv",
+        "vvvv|||            ||vvv",
+        "vvv||<              |vvv",
+        "vvv||>       6      ||vv",
+        "vvvv||               |vv",
+        "vvvvv|               |vv",
+        "vvvvv|              ||vv",
+        "vvvv||              |vvv",
+        "vv|||               |vvv",
+        "||| +              ||vvv",
+        "||  |||          |||vvvv",
+        "|| 14 ||||||||  ||vvvvvv",
+        "v|   ||vvvvvv||||vvvvvvv",
+        "v|||||vvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "place_nested": [
+        { "chunks": [ "mi-go_scout_tower_cells" ], "x": 4, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room17" ], "x": 1, "y": 14 }
+      ],
+      "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "unique_id": "BARRY_MISSION" } ],
       "place_monster": [
         {
           "group": "GROUP_MI-GO_SCOUT_TOWER",

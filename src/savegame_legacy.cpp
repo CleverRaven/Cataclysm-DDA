@@ -9,7 +9,6 @@
 #include "npc.h"
 #include "player_activity.h"
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -233,7 +232,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_STASH is an actor now
         ACT_PICKUP,
         ACT_MOVE_ITEMS,
-        ACT_ADV_INVENTORY,
+        activity_id::NULL_ID(), // ACT_ADV_INVENTORY is uistate.open_menu now
         ACT_ARMOR_LAYERS,
         ACT_START_FIRE,
         ACT_OPEN_GATE,

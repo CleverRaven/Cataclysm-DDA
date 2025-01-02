@@ -42,6 +42,7 @@
 #include "mutation.h"
 #include "omdata.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
@@ -125,9 +126,11 @@ void memorial_logger::add( const std::string_view male_msg,
         return;
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+    const oter_id &cur_ter = overmap_buffer.get_overmap_count() == 0 ?
+                             oter_id() :
+                             overmap_buffer.ter( player_character.global_omt_location() );
     const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
-    const std::string &oter_name = cur_ter->get_name();
+    const std::string &oter_name = cur_ter->get_name( om_vision_level::full );
 
     log.emplace_back( calendar::turn, cur_oter_type, oter_name, msg );
 }
@@ -325,10 +328,10 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Traits
     file << _( "Traits:" ) << eol;
-    for( const trait_id &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.get_functioning_mutations() ) {
         file << indent << u.mutation_name( mut ) << eol;
     }
-    if( u.get_mutations().empty() ) {
+    if( u.get_functioning_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
     }
     file << eol;
@@ -1113,6 +1116,7 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::camp_taken_over:
         case event_type::character_consumes_item:
         case event_type::character_dies:
         case event_type::character_eats_item:
@@ -1126,11 +1130,14 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_smashes_tile:
         case event_type::character_starts_activity:
         case event_type::character_takes_damage:
+        case event_type::monster_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_attempt_to_fall_asleep:
         case event_type::character_falls_asleep:
+        case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::character_armor_destroyed:
         case event_type::character_casts_spell:
         case event_type::cuts_tree:
         case event_type::opens_spellbook:

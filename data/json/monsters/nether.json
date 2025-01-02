@@ -23,14 +23,14 @@
     "dodge": 2,
     "vision_day": 5,
     "vision_night": 5,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
     "weakpoint_sets": [ "wps_bird_body" ],
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ],
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS", "SUNDEATH" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
@@ -58,7 +58,7 @@
     "dodge": 2,
     "bleed_rate": 50,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
     "death_function": { "effect": { "id": "death_amigara" } },
@@ -92,7 +92,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
-    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
   {
     "id": "mon_blood_sacrifice",
@@ -114,8 +114,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
-    "harvest": "zombie",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
+    "harvest": "zombie_humanoid",
     "special_attacks": [
       { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" },
       { "type": "bite", "cooldown": 5 }
@@ -282,7 +282,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "HARDTOSHOOT"
     ]
   },
@@ -421,7 +421,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "zombie_leather",
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -449,16 +449,12 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 3,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
-    "petfood": {
-      "food": [ "DOGFOOD" ],
-      "feed": "If you're seeing this message it's a bug.",
-      "pet": "If you're seeing this message it's a bug."
-    },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "petfood": { "food": [ "DOGFOOD" ], "feed": ".", "pet": "." },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_flaming_eye",
@@ -665,7 +661,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "eoc": [ "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10 } ],
         "cooldown": 1,
         "move_cost": 100,
@@ -727,6 +723,31 @@
       "NOGIB"
     ],
     "armor": { "bash": 8, "electric": 3 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD",
+    "effect": [
+      { "math": [ "u_star_vampire_amount_drained", "=", "rng(250,650)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "mon_star_vampire_coiling",
@@ -835,7 +856,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "eoc": [ "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 5 } ],
         "cooldown": 1,
         "move_cost": 100,
@@ -872,6 +893,31 @@
         "allow_no_target": true,
         "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
         "monster_message": ""
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD",
+    "effect": [
+      { "math": [ "u_star_vampire_amount_drained", "=", "rng(125,325)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+          ]
+        }
       }
     ]
   },
@@ -923,7 +969,7 @@
       "CAMOUFLAGE",
       "FIREPROOF",
       "NIGHT_INVISIBILITY",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "HARDTOSHOOT",
       "HIT_AND_RUN"
     ],
@@ -955,10 +1001,10 @@
     "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "gozu",
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "", "cooldown": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_gracke",
@@ -985,9 +1031,9 @@
     "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "HAS_MIND", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SMELLS", "HEARS", "WARM", "HAS_MIND", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "electric": 1 }
   },
   {
@@ -1020,6 +1066,56 @@
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ],
     "armor": { "electric": 1 }
+  },
+  {
+    "id": "mon_tindalos",
+    "type": "MONSTER",
+    "name": { "str_sp": "star-crowned hound" },
+    "description": "Isometry is torn from the fine structure of space, and the emptiness between disgorges its terrible brood upon the world.  Its form is both incomprehensibly vast and infinitely narrow, with splayed limbs that could fold into the paper-thinness of edges.",
+    "default_faction": "nether",
+    "looks_like": "mon_hound_tindalos",
+    "bodytype": "dog",
+    "species": [ "NETHER" ],
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 1200,
+    "speed": 65,
+    "material": [ "flesh" ],
+    "symbol": "h",
+    "color": "red",
+    "aggression": 100,
+    "morale": 100,
+    "regenerates": 25,
+    "melee_skill": 8,
+    "melee_dice": 4,
+    "melee_dice_sides": 12,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 5,
+    "bleed_rate": 20,
+    "vision_day": 50,
+    "vision_night": 50,
+    "families": [ "prof_wp_netherium_abomination" ],
+    "weakpoint_sets": [ "wps_netherium_abomination" ],
+    "harvest": "exempt",
+    "special_attacks": [ [ "TINDALOS_TELEPORT", 7 ] ],
+    "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
+    "path_settings": { "max_dist": 10 },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "GOODHEARING",
+      "HAS_MIND",
+      "PRIORITIZE_TARGETS",
+      "KEENNOSE",
+      "WARM",
+      "BASHES",
+      "ARTHROPOD_BLOOD",
+      "ALWAYS_SEES_YOU",
+      "NO_BREATHE",
+      "HARDTOSHOOT"
+    ],
+    "armor": { "cut": 50, "bullet": 40, "electric": 1 }
   },
   {
     "id": "mon_hound_tindalos",
@@ -1137,7 +1233,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "demihuman_snail",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
@@ -1397,7 +1493,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },
@@ -1408,10 +1504,10 @@
     "description": "A huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.",
     "default_faction": "nether",
     "bodytype": "snake",
-    "species": [ "NETHER" ],
+    "species": [ "NETHER_BURROWING" ],
     "diff": 10,
-    "volume": "875000 ml",
-    "weight": "200 kg",
+    "volume": "600 L",
+    "weight": "800 kg",
     "hp": 320,
     "speed": 80,
     "material": [ "flesh" ],
@@ -1423,13 +1519,38 @@
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "dodge": 1,
     "bleed_rate": 50,
+    "starting_ammo": { "gene_sting_barb": 100 },
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
-    "harvest": "meatslug",
-    "special_attacks": [ [ "GENE_STING", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
+    "harvest": "exempt",
+    "death_function": { "corpse_type": "NO_CORPSE", "eoc": "EOC_YUGG_DEATH" },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "gun_type": "gene_sting_gun",
+        "ammo_type": "gene_sting_barb",
+        "no_ammo_sound": "SCREEE!!!!",
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 18, "DEFAULT" ] ],
+        "description": "The yugg launches a viscous barb!"
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "HAS_MIND",
+      "BASHES",
+      "DESTROYS",
+      "POISON",
+      "VENOM",
+      "NO_BREATHE",
+      "DIGS",
+      "PUSH_VEH",
+      "RANGED_ATTACKER"
+    ],
     "armor": { "bash": 6, "electric": 3 }
   },
   {
@@ -1799,10 +1920,20 @@
     "type": "MONSTER",
     "description": "A figure in a high-tech suit, their outline contorted as though you were viewing them through a prism.  Their movements are strained but determined, pushing through apparent pain with feverish resolve, dead-set on reaching their target.",
     "name": { "str": "mercenary officer" },
-    "copy-from": "mon_zombie_bio_op",
+    "copy-from": "mon_zombie_base",
+    "diff": 5,
+    "speed": 95,
+    "color": "red_cyan",
+    "melee_skill": 7,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "luminance": 4,
+    "special_when_hit": [ "ZAPBACK", 75 ],
     "hp": 150,
     "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
     "death_drops": "xedra_officer_set",
+    "upgrades": false,
     "bleed_rate": 0,
     "vision_night": 40,
     "special_attacks": [
@@ -1811,10 +1942,15 @@
         "spell_data": { "id": "spell_conjure_memories" },
         "cooldown": 30,
         "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
-      }
+      },
+      { "id": "bio_op_takedown", "cooldown": 20 }
     ],
     "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } },
-    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 }
+    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 },
+    "extend": {
+      "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+      "families": [ "prof_wp_syn_armored" ]
+    }
   },
   {
     "id": "mon_XEDRA_soldier",
@@ -1953,7 +2089,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "mutant_mammal_leather",
-    "reproduction": { "baby_monster": "mon_carrion_grub", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_carrion_grub" }, "baby_count": 1, "baby_timer": 330 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "IMMOBILE", "ANIMAL" ]
   },
@@ -2039,7 +2175,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "mutant_animal_large_noskin",
-    "reproduction": { "baby_monster": "mon_nether_leech", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_nether_leech" }, "baby_count": 1, "baby_timer": 330 },
     "flags": [ "SMELLS" ]
   },
   {
@@ -2071,53 +2207,6 @@
     "looks_like": "mon_fish_brown_trout",
     "fear_triggers": [ "FIRE" ],
     "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
-  },
-  {
-    "id": "mon_nuckalavee",
-    "type": "MONSTER",
-    "name": { "str": "nuckalavee" },
-    "description": "A giant grotesque centaur-like beast, with a skinless human torso grafted to an equally skinless horse.  Thick toxic smoke leeches from its two mouths as it affixes you with a gaze of pure malevolence.",
-    "default_faction": "nether",
-    "bodytype": "blob",
-    "species": [ "NETHER" ],
-    "volume": "108500 ml",
-    "weight": "250 kg",
-    "hp": 300,
-    "speed": 200,
-    "material": [ "flesh" ],
-    "symbol": "N",
-    "color": "dark_gray",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 8,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "dodge": 2,
-    "bleed_rate": 20,
-    "families": [ "prof_wp_netherium_abomination" ],
-    "weakpoint_sets": [ "wps_netherium_abomination" ],
-    "emit_fields": [ { "emit_id": "emit_toxic_stream", "delay": "1 s" } ],
-    "harvest": "exempt",
-    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "HAS_MIND",
-      "BASHES",
-      "GROUP_BASH",
-      "SWIMS",
-      "ATTACKMON",
-      "PLASTIC",
-      "ACIDPROOF",
-      "NOGIB",
-      "NO_BREATHE"
-    ],
-    "vision_day": 50,
-    "vision_night": 8,
-    "armor": { "bash": 8 }
   },
   {
     "id": "mon_nether_unviable_butterfly",

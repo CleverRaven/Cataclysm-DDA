@@ -17,7 +17,7 @@
         "item": "test_nuclear_carafe",
         "markup": 2.0,
         "fixed_adj": 0.1,
-        "condition": { "npc_has_var": "bool_allnighter_thirsty", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "bool_allnighter_thirsty" } ] }
       },
       { "item": "test_multitool", "premium": 25, "markup": 1.1 },
       { "item": "log", "price": 10000000 },

@@ -1729,7 +1729,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
 
 TEST_CASE( "guns_and_gunmods", "[pocket][gunmod]" )
 {
-    item m4a1( "modular_m4_carbine" );
+    item m4a1( "debug_modular_m4_carbine" );
     item strap( "shoulder_strap" );
     // Guns cannot "contain" gunmods, but gunmods can be inserted into guns
     CHECK_FALSE( m4a1.can_contain( strap ).success() );
@@ -1755,12 +1755,12 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
     }
     if( count_by_charges ) {
         size_t charges_on_ground = 0;
-        for( item &it : m.i_at( u.pos() ) ) {
+        for( item &it : m.i_at( u.pos_bub() ) ) {
             charges_on_ground += it.charges;
         }
         CHECK( charges_on_ground == on_ground );
     } else {
-        CHECK( m.i_at( u.pos() ).size() == on_ground );
+        CHECK( m.i_at( u.pos_bub() ).size() == on_ground );
     }
     if( !wear ) {
         CHECK( !!u.get_wielded_item() );
@@ -1829,11 +1829,14 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     Character &u = get_player_character();
     clear_map();
     clear_character( u, true );
-    item_location cont1( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(),
+    item_location cont1( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
                          cont_nest_rigid ) );
-    item_location cont2( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), cont_nest_soft ) );
-    item_location obj1( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
-    item_location obj2( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
+    item_location cont2( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                         cont_nest_soft ) );
+    item_location obj1( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                        rigid_obj ) );
+    item_location obj2( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                        soft_obj ) );
     pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos_bub(), autopickup );
     u.assign_activity( act_actor );
 
@@ -1842,7 +1845,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         u.wear_item( cont_top_soft, false );
         pack = item_location( u.top_items_loc().front() );
         REQUIRE( pack.get_item() != nullptr );
-        REQUIRE( m.i_at( u.pos() ).size() == 4 );
+        REQUIRE( m.i_at( u.pos_bub() ).size() == 4 );
         REQUIRE( !u.get_wielded_item() );
         REQUIRE( u.top_items_loc().size() == 1 );
         REQUIRE( u.top_items_loc().front()->all_items_top().empty() );
@@ -1850,7 +1853,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         u.wield( cont_top_soft );
         pack = u.get_wielded_item();
         REQUIRE( pack.get_item() != nullptr );
-        REQUIRE( m.i_at( u.pos() ).size() == 4 );
+        REQUIRE( m.i_at( u.pos_bub() ).size() == 4 );
         REQUIRE( !!u.get_wielded_item() );
         REQUIRE( u.get_wielded_item()->all_items_top().empty() );
         REQUIRE( u.top_items_loc().empty() );
@@ -2060,7 +2063,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
@@ -2091,7 +2094,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
+            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
@@ -2123,7 +2126,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         obj2.remove_item();
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
+            item_location obj3( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
@@ -2255,7 +2258,8 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet
-    item_location jug_w_water( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), cont_jug ) );
+    item_location jug_w_water( map_cursor( u.get_location() ), &m.add_item_or_charges( u.pos_bub(),
+                               cont_jug ) );
 
     GIVEN( "character wearing a multipocket liquid container" ) {
         item_location suit( u, & **u.wear_item( cont_suit, false ) );
@@ -2620,7 +2624,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     REQUIRE( !backpack.is_container_empty() );
     REQUIRE( backpack.only_item().typeId() == bottle.typeId() );
 
-    const tripoint ipos = get_player_character().pos();
+    const tripoint_bub_ms ipos = get_player_character().pos_bub();
     map &m = get_map();
     clear_map();
 
@@ -2766,15 +2770,15 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
         project_to<coords::omt>( get_avatar().get_location() );
     tripoint_bub_ms const this_bub = get_map().bub_from_abs( project_to<coords::ms>( this_omt ) );
     manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
-    REQUIRE( !get_map().i_at( this_bub + tripoint_zero ).empty() );
-    REQUIRE( !get_map().i_at( this_bub + tripoint_east ).empty() );
-    REQUIRE( !get_map().i_at( this_bub + tripoint_south ).empty() );
-    item_location spawned_in_def_container( map_cursor{ this_bub + tripoint_zero },
-                                            &get_map().i_at( this_bub + tripoint_zero ).only_item() );
-    item_location spawned_w_modifier( map_cursor{ this_bub + tripoint_east },
-                                      &get_map().i_at( this_bub + tripoint_east ).only_item() );
-    item_location spawned_w_custom_container( map_cursor{ this_bub + tripoint_south },
-            &get_map().i_at( this_bub + tripoint_south ).only_item() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint::zero ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint::east ).empty() );
+    REQUIRE( !get_map().i_at( this_bub + tripoint::south ).empty() );
+    item_location spawned_in_def_container( map_cursor{ this_bub + tripoint::zero },
+                                            &get_map().i_at( this_bub + tripoint::zero ).only_item() );
+    item_location spawned_w_modifier( map_cursor{ this_bub + tripoint::east },
+                                      &get_map().i_at( this_bub + tripoint::east ).only_item() );
+    item_location spawned_w_custom_container( map_cursor{ this_bub + tripoint::south },
+            &get_map().i_at( this_bub + tripoint::south ).only_item() );
     check_whitelist( *spawned_in_def_container, true,
                      spawned_in_def_container->get_contents().first_item().typeId() );
     check_whitelist( *spawned_w_modifier, true,
@@ -2800,10 +2804,10 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
 
     SECTION( "container emptied by processing" ) {
         itype_id const id = spawned_w_modifier->get_contents().first_item().typeId();
-        get_map().i_clear( spawned_w_custom_container.position() );
-        get_map().i_clear( spawned_in_def_container.position() );
-        restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                    get_weather().forced_temperature );
+        get_map().i_clear( spawned_w_custom_container.pos_bub() );
+        get_map().i_clear( spawned_in_def_container.pos_bub() );
+        restore_on_out_of_scope restore_temp(
+            get_weather().forced_temperature );
         get_weather().forced_temperature = units::from_celsius( 21 );
         spawned_w_modifier->only_item().set_relative_rot( 10 );
         REQUIRE( spawned_w_modifier->only_item().has_rotten_away() );
@@ -2867,6 +2871,59 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
                     return mod_it.type == it.type;
                 } );
                 compare_pockets( base_it, pocket_mod_data.second, false );
+            }
+        }
+    }
+}
+
+// Reproduce previous segfault from https://github.com/CleverRaven/Cataclysm-DDA/issues/75156
+TEST_CASE( "unload_from_spillable_container", "[item][pocket]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    item pill( "tums" ); // "antacid pill"
+    REQUIRE( u.wear_item( item( "backpack" ) ) );
+    item_location backpack_loc = u.top_items_loc().front();
+    item *backpack = backpack_loc.get_item();
+    GIVEN( "spillable container contains two pillbottles, one with 4 pills and one with 1 pill" ) {
+        // Starting inventory looks like:
+        //   backpack >
+        //     steel_pan >
+        //       bottle_plastic_small > antacid tablet (1)
+        //       bottle_plastic_small > antacid tablet (4)
+        // It's a bit odd that we managed to put bottles into the frying
+        // pan in the first place, since the pan would normally reject that
+        // with a message stating that it would spill.
+        REQUIRE( backpack->put_in( item( "steel_pan" ), pocket_type::CONTAINER ).success() );
+        item *steelpan = backpack->all_items_top().front();
+        REQUIRE( steelpan->put_in( pill.in_its_container( 1 ), pocket_type::CONTAINER ).success() );
+        REQUIRE( steelpan->put_in( pill.in_its_container( 4 ), pocket_type::CONTAINER ).success() );
+        WHEN( "unload the pillbottle that only has one pill" ) {
+            item *bottle1 = steelpan->all_items_top().front();
+            item_location steelpan_loc( backpack_loc, steelpan );
+            item_location bottle1_loc( steelpan_loc, bottle1 );
+            unload_activity_actor::unload( u, bottle1_loc );
+            THEN( "pill is unloaded into bottle that previously had 4 pills, remaining empty bottle is kept" ) {
+                // Expected inventory after unloading should be:
+                //   backpack >
+                //     steel_pan
+                //     bottle_plastic_small
+                //     bottle_plastic_small > antacid tablet (5)
+                CHECK( here.i_at( u.pos_bub() ).empty() ); // no items spilled to ground
+                CHECK( u.top_items_loc().size() == 1 ); // backpack is still only inventory item
+                const std::list<item *> backpack_items_list = backpack->all_items_top();
+                const std::vector<item *> backpack_items_vec( backpack_items_list.begin(),
+                        backpack_items_list.end() );
+                CHECK( backpack_items_vec.size() == 3 );
+                CHECK( backpack_items_vec[0]->typeId().str() == "steel_pan" );
+                CHECK( backpack_items_vec[0]->empty() );
+                CHECK( backpack_items_vec[1]->typeId().str() == "bottle_plastic_small" );
+                CHECK( backpack_items_vec[1]->empty() );
+                CHECK( backpack_items_vec[2]->typeId().str() == "bottle_plastic_small" );
+                CHECK( backpack_items_vec[2]->all_items_top().size() == 5 );
+                CHECK_FALSE( static_cast<bool>( bottle1_loc ) );
             }
         }
     }

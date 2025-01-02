@@ -95,6 +95,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_arc_furnace",
+    "name": { "str": "arc furnace" },
+    "looks_like": "f_arc_furnace",
+    "color": "blue",
+    "categories": [ "utility" ],
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Plugged in and ready to go.",
+    "broken_color": "yellow_red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_arc_furnace" } ],
+    "item": "arc_furnace",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "pipe", "count": [ 0, 4 ] }
+    ],
+    "variants": [ { "symbols": "U", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_forge",
     "copy-from": "veh_forge",
     "name": { "str": "electric forge" },
@@ -796,11 +818,55 @@
     "description": "A car battery wired into a static power grid.",
     "item": "battery_car",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 9 ] },
-      { "item": "steel_chunk", "count": [ 6, 9 ] },
-      { "item": "scrap", "count": [ 6, 9 ] }
+      { "item": "lead", "charges": [ 1680, 2380 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 5, 8 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 14, 20 ] },
+      { "item": "scrap", "charges": [ 2, 3 ] },
+      { "item": "shredded_rubber", "charges": [ 10, 14 ] }
     ],
     "durability": 120,
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_motorbike",
+    "name": { "str": "motorbike grid battery" },
+    "categories": [ "energy" ],
+    "looks_like": "battery_motorbike",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "description": "A motorbike battery wired into a static power grid.",
+    "item": "battery_motorbike",
+    "breaks_into": [
+      { "item": "lead", "charges": [ 252, 357 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk", "count": [ 2, 3 ] },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 1, 2 ] }
+    ],
+    "durability": 100,
+    "requirements": { "removal": { "time": "6 m" } },
+    "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_motorbike_small",
+    "name": { "str": "small motorbike grid battery" },
+    "categories": [ "energy" ],
+    "looks_like": "battery_motorbike_small",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "description": "A small motorbike battery wired into a static power grid.",
+    "item": "battery_motorbike_small",
+    "breaks_into": [
+      { "item": "lead", "charges": [ 126, 178 ] },
+      { "item": "chem_sulphuric_acid", "count": [ 0, 1 ], "container-item": "null" },
+      { "item": "plastic_chunk" },
+      { "item": "scrap", "charges": [ 0, 1 ] },
+      { "item": "shredded_rubber", "charges": [ 0, 1 ] }
+    ],
+    "durability": 30,
     "requirements": { "removal": { "time": "6 m" } },
     "variants": [ { "symbols": "B", "symbols_broken": "#" } ]
   },
@@ -1037,5 +1103,28 @@
     ],
     "damage_reduction": { "all": 50 },
     "variants": [ { "symbols": "&", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_glassblowers_crucible",
+    "name": { "str": "glassblower's crucible" },
+    "color": "brown",
+    "categories": [ "utility" ],
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
+    "broken_color": "yellow_red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "glassblowers_crucible_tool" } ],
+    "item": "glassblowers_crucible",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "ceramic_shard", "count": [ 21, 42 ] },
+      { "item": "rock", "count": [ 6, 12 ] }
+    ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   }
 ]

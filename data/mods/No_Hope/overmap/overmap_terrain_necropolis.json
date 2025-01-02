@@ -4,7 +4,7 @@
     "abstract": "generic_necropolis_surface_building",
     "name": "city building",
     "sym": "^",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK", "SHOULD_NOT_SPAWN" ]
   },
@@ -318,7 +318,7 @@
     "abstract": "generic_necropolis_underground",
     "name": "underground",
     "color": "yellow",
-    "see_cost": 999,
+    "see_cost": "opaque",
     "mondensity": 2,
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },

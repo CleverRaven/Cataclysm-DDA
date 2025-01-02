@@ -64,6 +64,33 @@
   },
   {
     "type": "mutation",
+    "id": "DEMON_HUGE",
+    "//": "Identical to HUGE_OK but uses the flag for temporary sizeshifting.",
+    "//2": "I am not using the biomancer version, as it has more bonuses than HUGE_OK and I want to keep the spell's balance identical while fixing the bug.",
+    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "name": { "str": "Huge" },
+    "points": 2,
+    "visibility": 4,
+    "ugliness": 3,
+    "valid": false,
+    "starting_trait": false,
+    "mixed_effect": true,
+    "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
+    "types": [ "SIZE" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "destroys_gear": true
+  },
+  {
+    "type": "mutation",
     "id": "DEMON_CLAWS",
     "name": { "str": "Demon Claws" },
     "points": 2,

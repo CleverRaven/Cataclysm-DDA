@@ -17,8 +17,9 @@
     "subtype": "mutable",
     "locations": [ "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "ANT", "UNIQUE", "WILDERNESS" ],
+    "occurrences": [ 3, 5 ],
+    "//": "If additional ant mutables like ant labs are added, change this value as well",
+    "flags": [ "ANT", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land", "agricultural" ] ],
@@ -90,8 +91,9 @@
     "subtype": "mutable",
     "locations": [ "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "ANT", "UNIQUE", "WILDERNESS" ],
+    "occurrences": [ 2, 5 ],
+    "//": "If additional ant mutables like ant labs are added, change this value as well",
+    "flags": [ "ANT", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_ACID_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land", "agricultural" ] ],

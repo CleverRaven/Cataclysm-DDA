@@ -22,6 +22,7 @@ class font_loader
     public:
         bool fontblending = false;
         std::vector<std::string> typeface;
+        std::vector<std::string> gui_typeface;
         std::vector<std::string> map_typeface;
         std::vector<std::string> overmap_typeface;
         int fontwidth = 8;

@@ -58,13 +58,62 @@
     "move_cost_mod": 8,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB" ],
     "bash": {
       "str_min": 30,
       "str_max": 80,
       "sound": "smash",
       "sound_fail": "whump.",
       "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autodoc_technomantic",
+    "name": "Autodoc, Delta Class",
+    "symbol": "&",
+    "description": "A machine used for the installation and removal of bionics.  The name 'Autodoc' is something of a misnomer, as safe operation is only guaranteed with a ritual circle of technomancers.  The entire surface is carved with runes so fine that they look like spiraling circuitry from a distance.",
+    "color": "light_cyan",
+    "looks_like": "f_autodoc",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
+    "examine_action": "autodoc",
+    "surgery_skill_multiplier": 1,
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] },
+        { "item": "crystallized_mana", "count": [ 20, 50 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "crystallized_mana", "count": [ 5, 15 ] }
+      ]
     }
   }
 ]

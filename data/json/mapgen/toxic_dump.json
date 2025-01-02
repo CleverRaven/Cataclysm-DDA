@@ -69,5 +69,40 @@
         { "item": "id_military", "x": 3, "y": [ 19, 21 ], "chance": 10 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "toxic_dump_roof" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  --------              ",
+        "  -......-              ",
+        "  -......-              ",
+        "  -......-              ",
+        "  --------              ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

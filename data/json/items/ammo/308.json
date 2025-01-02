@@ -117,7 +117,6 @@
     "copy-from": "308",
     "type": "AMMO",
     "name": { "str_sp": ".308 Winchester, black powder" },
-    "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -132,7 +131,6 @@
     "copy-from": "762_51",
     "type": "AMMO",
     "name": { "str_sp": "7.62x51mm, black powder" },
-    "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -147,7 +145,6 @@
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
     "name": { "str_sp": "7.62x51mm tracer, black powder" },
-    "description": "An M62 tracer round.  Traditional practice is to load one of these for every four normal rounds to help keep the weapon they are fired from on target.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -162,7 +159,6 @@
     "copy-from": "308",
     "type": "AMMO",
     "name": { "str_sp": ".308 Winchester, reloaded" },
-    "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -172,7 +168,6 @@
     "copy-from": "762_51",
     "type": "AMMO",
     "name": { "str_sp": "7.62x51mm, reloaded" },
-    "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -182,7 +177,6 @@
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
     "name": { "str_sp": "7.62x51mm tracer, reloaded" },
-    "description": "An M62 tracer round.  Traditional practice is to load one of these for every four normal rounds to help keep the weapon they are fired from on target.  It's been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

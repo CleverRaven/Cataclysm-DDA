@@ -385,5 +385,47 @@
     "starting_trait": false,
     "category": [ "CHIMERA" ],
     "flags": [ "UNCANNY_DODGE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MAGIC_EMPTY",
+    "name": { "str": "Empty" },
+    "//": "This is intended to prevent magical spellcasting.  Psionics don't need mana, so they can be used even as an Empty.",
+    "points": -10,
+    "description": "You are one of the Empty, the rare few unable to cast even the simplest spells.  Your complete lack of mana prevents you from ever casting any magic, no matter how well you know it.  At least it doesn't prevent the use of magical items and potions.",
+    "purifiable": false,
+    "valid": false,
+    "starting_trait": true,
+    "types": [ "MANA_ADD", "MANA_REGEN", "MANA_MULT" ],
+    "flags": [ "NO_SPELLCASTING" ],
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -1 }, { "value": "MAX_MANA", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "WEARING_MANA_LEECH",
+    "name": { "str": "Mana-Shackled" },
+    "//": "This trait does nothing by itself.  An EOC detects if you're starting the game with this trait and makes you wear a mana-leech shackle if it's the case.  It's not a scenario because of the long list of reasons that could make someone have to wear one.",
+    "//2": "Said EOC removes the trait without a message.  This is why the trait isn't visible.",
+    "points": -10,
+    "description": "For a reason or another you are wearing a mana-leech shackle, leaving you constantly empty of mana.  Should you get rid of it you will regain the ability to use your mana, but this is much easier said than done.  You know that these shackles are often used in prisons, so maybe you could find a way to remove it in there?",
+    "purifiable": false,
+    "valid": false,
+    "starting_trait": true,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "MANA_LEECH_EFFECT",
+    "name": { "str": "Mana-Shackled effect" },
+    "points": -1,
+    "description": {
+      "str": "The trait that allows mana-leech shackles to prevent spellcasting.  You're not supposed to see this.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "NO_SPELLCASTING" ],
+    "purifiable": false,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": false
   }
 ]

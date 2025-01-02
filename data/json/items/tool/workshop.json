@@ -4,12 +4,11 @@
     "type": "TOOL",
     "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
-    "weight": "35000 g",
-    "volume": "12500 ml",
+    "weight": "39 kg",
+    "volume": "53750 ml",
     "longest_side": "122 cm",
     "price": "1 USD",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "soil", "wood" ],
     "symbol": "#",
     "color": "brown",
@@ -31,12 +30,11 @@
     "category": "tools",
     "name": { "str": "pallet of dry adobe bricks", "str_pl": "pallets of dry adobe bricks" },
     "description": "A pallet of humble mud bricks that have dried for a week while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
-    "weight": "30000 g",
-    "volume": "12500 ml",
+    "weight": "34 kg",
+    "volume": "53750 ml",
     "longest_side": "122 cm",
     "price": "400 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "ceramic", "wood" ],
     "symbol": "#",
     "color": "brown_yellow",
@@ -50,11 +48,11 @@
     "symbol": "&",
     "color": "light_gray",
     "description": "A bulky device that turns water and calcium carbide into unpressurized acetylene.",
-    "weight": "8000 g",
+    "weight": "8 kg",
     "volume": "3 L",
     "price": "32 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "melee_damage": { "bash": 12 }
   },
@@ -67,7 +65,7 @@
     "volume": "1750 ml",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -78,12 +76,7 @@
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 30, "charge_rate": "800 W" },
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 2, "cut": 2 }
   },
@@ -100,7 +93,8 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "type": "GENERIC",
@@ -115,7 +109,8 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "brick_kiln",
@@ -126,7 +121,7 @@
     "volume": "30 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -146,30 +141,30 @@
     "longest_side": "265 mm",
     "price": "30 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "makeshift_vacuum_mold",
     "type": "TOOL",
     "name": { "str": "makeshift vacuum mold" },
     "description": "A homemade vacuum-forming machine with an air pump.  It's used for creating plastic molds.",
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "5 L",
     "longest_side": "35 cm",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "wood" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "vac_mold",
@@ -181,14 +176,14 @@
     "longest_side": "35 cm",
     "price": "25 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "chipper",
@@ -200,12 +195,12 @@
     "longest_side": "5 cm",
     "price": "70 USD",
     "price_postapoc": "15 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "cut": 2 }
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "clamp",
@@ -216,12 +211,12 @@
     "volume": "300 ml",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "VISE", 1 ] ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "claw_bar",
@@ -253,7 +248,7 @@
     "weight": "40823 g",
     "volume": "250 L",
     "longest_side": "118 cm",
-    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artifically as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
+    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artificially as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
     "price": "400 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -289,7 +284,6 @@
     "longest_side": "22 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -299,13 +293,9 @@
     "qualities": [ [ "SCREW", 1 ] ],
     "charged_qualities": [ [ "DRILL", 3 ] ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
@@ -318,7 +308,6 @@
     "longest_side": "22 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -328,6 +317,7 @@
     "charges_per_use": 5,
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "2200 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
@@ -342,7 +332,6 @@
     "longest_side": "22 cm",
     "price": "200 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -352,13 +341,9 @@
     "qualities": [ [ "WRENCH", 1 ] ],
     "charged_qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
   },
   {
@@ -372,24 +357,24 @@
     "longest_side": "61 cm",
     "price": "70 USD",
     "price_postapoc": "15 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
     "name": { "str": "electric jackhammer" },
     "description": "A construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with a UPS.  Use it to blast a hole in adjacent solid terrain.",
-    "weight": "40000 g",
+    "weight": "40 kg",
     "volume": "12 L",
     "longest_side": "81 cm",
     "price": "400 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -8,
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -410,13 +395,13 @@
     "longest_side": "30 cm",
     "price": "25 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
     "id": "tin_snips",
@@ -436,7 +421,7 @@
     "qualities": [ [ "SAW_M", 1 ], [ "SAW_M_FINE", 2 ] ],
     "use_action": [ "BOLTCUTTERS" ],
     "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
     "id": "hammer",
@@ -449,7 +434,7 @@
     "volume": "320 ml",
     "price": "7 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -487,6 +472,7 @@
     "price_postapoc": "50 cent",
     "material": [ "bronze" ],
     "qualities": [ [ "PRYING_NAIL", 1 ], [ "HAMMER", 1 ], [ "PRY", 1 ] ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -502,7 +488,8 @@
     "price_postapoc": "50 cent",
     "material": [ "bronze" ],
     "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ] ],
-    "melee_damage": { "bash": 2 }
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "hand_drill",
@@ -514,7 +501,7 @@
     "longest_side": "25 cm",
     "price": "5 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -531,12 +518,10 @@
     "longest_side": "24 cm",
     "price": "2 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE", 1 ] ],
-    "melee_damage": { "bash": 2 }
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "jack",
@@ -546,13 +531,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "weight": "5000 g",
+    "weight": "5 kg",
     "volume": "1500 ml",
     "longest_side": "25 cm",
     "price": "180 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -2,
     "qualities": [ [ "JACK", 16 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -568,8 +553,8 @@
     "longest_side": "18 cm",
     "price": "8 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "qualities": [ [ "JACK", 3 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -580,13 +565,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "weight": "3000 g",
+    "weight": "3 kg",
     "volume": "750 ml",
     "longest_side": "14 cm",
     "price": "50 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -2,
     "qualities": [ [ "JACK", 4 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
   {
@@ -599,7 +584,7 @@
     "longest_side": "92 cm",
     "price": "400 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -8,
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -616,11 +601,11 @@
     "type": "TOOL",
     "name": { "str": "electric kiln" },
     "description": "An electric kiln, powered by your electric grid.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
-    "weight": "12000 g",
+    "weight": "12 kg",
     "volume": "7500 ml",
     "price": "500 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -639,7 +624,6 @@
     "longest_side": "36 cm",
     "price": "50 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -2,
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -676,12 +660,7 @@
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 8 }
   },
@@ -695,7 +674,7 @@
     "longest_side": "30 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -720,12 +699,10 @@
     "longest_side": "13 cm",
     "price": "3 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "qualities": [ [ "FILE", 2 ], [ "GRIND", 2 ] ]
   },
   {
     "id": "metal_smoother",
@@ -741,7 +718,8 @@
     "symbol": ",",
     "color": "light_gray",
     "qualities": [ [ "SMOOTH", 2 ] ],
-    "melee_damage": { "bash": 4 }
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "misc_repairkit",
@@ -753,7 +731,6 @@
     "longest_side": "46 cm",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -771,8 +748,7 @@
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE", "USES_NEARBY_AMMO" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "ALLOWS_REMOTE_USE", "USES_NEARBY_AMMO" ]
   },
   {
     "id": "multitool",
@@ -784,8 +760,8 @@
     "volume": "70 ml",
     "longest_side": "12 cm",
     "price": "30 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "price_postapoc": "3 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -806,7 +782,7 @@
     "longest_side": "12 cm",
     "price": "40 USD",
     "price_postapoc": "7 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -859,7 +835,9 @@
     "use_action": [ "OXYTORCH" ],
     "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "smallweldtank", "tinyweldtank" ] } ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "paint_brush",
@@ -871,7 +849,6 @@
     "longest_side": "21 cm",
     "price": "70 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -887,13 +864,13 @@
     "longest_side": "91 cm",
     "price": "160 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "uneven" },
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE", "NO_SALVAGE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 30, "stab": 15 }
   },
@@ -907,7 +884,7 @@
     "longest_side": "91 cm",
     "price": "160 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "uneven" },
     "material": [ "wood", "bronze" ],
     "symbol": "/",
     "color": "yellow",
@@ -927,12 +904,12 @@
     "longest_side": "13 cm",
     "price": "3 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "REAM", 2 ] ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "pliers",
@@ -950,7 +927,8 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ] ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 3 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "big_pliers",
@@ -968,7 +946,8 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ] ],
     "flags": [ "BELT_CLIP" ],
-    "melee_damage": { "bash": 8 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "pliers_locking",
@@ -986,6 +965,7 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "VISE", 1 ] ],
     "flags": [ "BELT_CLIP" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
   {
@@ -993,11 +973,10 @@
     "type": "TOOL",
     "name": { "str": "electric polisher" },
     "description": "An electric polisher, used to buff metal surfaces until they are reflective like a mirror.",
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "3500 ml",
     "price": "350 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1007,14 +986,10 @@
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 5, "charge_rate": "1600 W" } ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 6, "cut": 2 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "primitive_hammer",
@@ -1026,7 +1001,7 @@
     "longest_side": "30 cm",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -1043,7 +1018,7 @@
     "volume": "3 L",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -1054,12 +1029,7 @@
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 2, "cut": 2 }
   },
@@ -1073,7 +1043,6 @@
     "longest_side": "60 cm",
     "price": "15 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "nylon", "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1087,14 +1056,15 @@
         "item_restriction": [
           "robofac_gun_ar",
           "robofac_gun_smg",
+          "robofac_gun_57",
+          "robofac_gun_46",
           "robofac_gun_dmr",
           "robofac_gun_shotgun",
           "robofac_gun_shotgun_breach",
           "robofac_gun_exodii"
         ]
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "screwdriver",
@@ -1107,14 +1077,14 @@
     "longest_side": "12 cm",
     "price": "4 USD 50 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
     "id": "screwdriver_set",
@@ -1127,13 +1097,13 @@
     "longest_side": "28 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
     "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 2, "cut": 6 }
+    "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
     "id": "socket_screwdriver_set",
@@ -1146,13 +1116,13 @@
     "longest_side": "28 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ], [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 2, "cut": 6 }
+    "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
     "id": "socket_wrench_set",
@@ -1166,13 +1136,13 @@
     "longest_side": "25 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "small_repairkit",
@@ -1184,7 +1154,6 @@
     "longest_side": "32 cm",
     "price": "15 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1224,11 +1193,10 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "soldering_iron",
@@ -1256,8 +1224,9 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 2 }
   },
   {
     "id": "soldering_iron_portable",
@@ -1278,14 +1247,10 @@
       }
     ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 2 }
   },
   {
     "id": "lug_wrench",
@@ -1312,15 +1277,15 @@
     "name": { "str": "toolbox", "str_pl": "toolboxes" },
     "description": "A stout metal box for holding tools.  It has a handle on the top and a latch on the front.",
     "weight": "4377 g",
-    "volume": "8000 ml",
+    "volume": "8 L",
     "longest_side": "42 cm",
     "price": "17 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "pocket_data": [ { "max_contains_volume": "7800 ml", "max_contains_weight": "15 kg", "max_item_length": "40 cm", "rigid": true } ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1335,11 +1300,11 @@
     "longest_side": "66 cm",
     "price": "140 USD 99 cent",
     "price_postapoc": "4 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
     "pocket_data": [ { "max_contains_volume": "34000 ml", "max_contains_weight": "34 kg", "max_item_length": "65 cm", "rigid": true } ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1351,7 +1316,7 @@
     "volume": "2500 ml",
     "price": "90 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
@@ -1402,7 +1367,7 @@
     "volume": "3500 ml",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_red",
@@ -1453,7 +1418,7 @@
     "volume": "12500 ml",
     "price": "90 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "steel", "asbestos" ],
     "symbol": ";",
     "color": "red",
@@ -1502,33 +1467,17 @@
     "type": "TOOL",
     "name": { "str": "wooden smoother" },
     "description": "A large makeshift tool used in smoothing concrete or mortar in construction projects.  You could also use it as an improvised head-basher.",
-    "weight": "2000 g",
+    "weight": "2 kg",
     "volume": "3500 ml",
     "longest_side": "61 cm",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "SMOOTH", 1 ] ],
     "melee_damage": { "bash": 12 }
-  },
-  {
-    "id": "wool_staple",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "wool staple" },
-    "description": "A natural cluster of wool fibers.  Could be processed into felt patches or yarn.",
-    "weight": "200 g",
-    "volume": "500 ml",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "to_hit": -4,
-    "material": [ "wool" ],
-    "symbol": ",",
-    "color": "white",
-    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "xacto",
@@ -1540,7 +1489,7 @@
     "longest_side": "10 cm",
     "price": "4 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1566,6 +1515,7 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 1 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1586,7 +1536,7 @@
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "//": "Based on: https://www.amazon.com/Crescent-AC210VS-Tools-Wrenches-Adjustable/dp/B00002N5L1/ref=sr_1_5?crid=2979KVN9DXDUH&keywords=10+inch+crescent+wrench+adjustable&qid=1680859779&sprefix=10+inch+crescent+wrench+adjustable%2Caps%2C555&sr=8-5",
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "wrench_large",
@@ -1605,6 +1555,7 @@
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 12 }
   },
   {
@@ -1632,7 +1583,7 @@
     "longest_side": "42 cm",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -1649,20 +1600,12 @@
     "volume": "20 L",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {
@@ -1684,7 +1627,9 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "small_propane_tank", "medium_propane_tank", "large_propane_tank", "xl_propane_tank" ]
       }
-    ]
+    ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "block_and_tackle",
@@ -1698,7 +1643,9 @@
     "price_postapoc": "50 cent",
     "material": [ "steel" ],
     "symbol": "&",
-    "color": "light_gray"
+    "color": "light_gray",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "block_and_tackle_wood",
@@ -1750,7 +1697,6 @@
     "longest_side": "40 cm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel" ],
     "qualities": [ [ "THREAD_TAP", 2 ], [ "THREAD_CUT", 2 ] ],
     "symbol": "p",
@@ -1761,15 +1707,33 @@
     "type": "TOOL",
     "name": { "str": "fanning mill" },
     "description": "A machine for separating seed from chaff.  It mechanized the winnowing process, in which the grain was separated from the lighter chaff and straw by blowing a leather bellows.",
-    "weight": "15000 g",
+    "weight": "15 kg",
     "volume": "75 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "WINNOW", 2 ] ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "bench_vise",
+    "type": "TOOL",
+    "name": { "str": "bench vise" },
+    "description": "A heavy, metal vise bolted down to a work surface.  With its jaws and screw, it can tightly hold items, useful for a wide array of handiwork such as soldering, woodworking, welding, anything that can be aided by a firm grip.  Also has a small, flat metal surface, useful for light metalworking if needed.",
+    "//": "Based on https://www.homedepot.ca/product/wen-3-in-heavy-duty-cast-iron-bench-vise-with-swivel-base/1001661026",
+    "weight": "5443 g",
+    "volume": "746 ml",
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "longest_side": "427 mm",
+    "material": [ "iron" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "VISE", 3 ], [ "ANVIL", 1 ] ],
+    "melee_damage": { "bash": 14 }
   }
 ]

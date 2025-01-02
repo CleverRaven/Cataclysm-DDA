@@ -8,7 +8,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
@@ -23,7 +22,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
@@ -47,12 +45,13 @@ static const item_category_id item_category_manual( "manual" );
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
-static const itype_id itype_knife_butcher( "knife_butcher" );
+static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_manual_speech( "manual_speech" );
 
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+static const morale_type morale_haircut( "morale_haircut" );
 
-static const npc_class_id NC_NONE( "NC_NONE" );
+static const mtype_id mon_zombie( "mon_zombie" );
+
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
 static const proficiency_id proficiency_prof_test( "prof_test" );
@@ -75,7 +74,7 @@ static const trait_id trait_test_trait( "test_trait" );
 static npc &create_test_talker( bool shopkeep = false )
 {
     const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
-    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
+    const character_id model_id = get_map().place_npc( point_bub_ms( 25, 25 ), test_talker );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
@@ -119,9 +118,8 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    // TODO: fix point types
-    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getabs(
-                                        get_player_character().pos() ) ) );
+    const tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( get_map().getglobal(
+                                        get_player_character().pos_bub() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
@@ -131,7 +129,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
-    player_character.set_value( "npctalk_var_test_var", "It's avatar" );
+    player_character.set_value( "test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
@@ -141,7 +139,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
-    beta.set_value( "npctalk_var_test_var", "It's npc" );
+    beta.set_value( "test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -338,6 +336,7 @@ TEST_CASE( "npc_talk_location", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
+    REQUIRE( !overmap_buffer.find_camp( get_avatar().global_omt_location().xy() ) );
     change_om_type( "pond_field_north" );
     d.add_topic( "TALK_TEST_LOCATION" );
     d.gen_responses( d.topic_stack.back() );
@@ -378,7 +377,7 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
-    talker_npc.myclass = NC_NONE;
+    talker_npc.myclass = npc_class_id::NULL_ID();
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.myclass = NC_TEST_CLASS;
@@ -405,25 +404,6 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
-}
-
-TEST_CASE( "npc_talk_rules", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
-
-    d.add_topic( "TALK_TEST_NPC_RULES" );
-    gen_response_lines( d, 1 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = combat_engagement::ALL;
-    talker_npc.rules.aim = aim_rule::SPRAY;
-    talker_npc.rules.set_flag( ally_rule::avoid_doors );
-    gen_response_lines( d, 4 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
-    CHECK( d.responses[2].text == "This is a npc aim rule test response." );
-    CHECK( d.responses[3].text == "This is a npc rule test response." );
-    talker_npc.rules.clear_flag( ally_rule::avoid_doors );
 }
 
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
@@ -784,7 +764,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     d.add_topic( "TALK_TEST_ITEM_WIELDED" );
-    item_location loc = player_character.i_add( item( itype_knife_butcher ) );
+    item_location loc = player_character.i_add( item( itype_knife_huge ) );
     CHECK( player_character.wield( *loc ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -821,25 +801,6 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK_FALSE( has_item( player_character, "beer", 1 ) );
 }
 
-TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules…" );
-    CHECK( d.responses[1].text == "Change your aiming rules…" );
-    CHECK( d.responses[2].text == "Move freely as you need to." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_2_text>" );
-    CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[5].text == "Don't worry about noise." );
-    CHECK( d.responses[6].text == "You can use grenades." );
-    CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
-    CHECK( d.responses[9].text == "Never mind." );
-}
-
 TEST_CASE( "npc_talk_vars", "[npc_talk]" )
 {
     dialogue d;
@@ -856,8 +817,8 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     effects.apply( d );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a u_has_var, u_remove_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_has_var, npc_remove_var test response." );
+    CHECK( d.responses[1].text == "This is a compare_string, u_remove_var test response." );
+    CHECK( d.responses[2].text == "This is a compare_string, npc_remove_var test response." );
     effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;
@@ -1010,7 +971,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     gen_response_lines( d, 19 );
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
-    CHECK( talker_npc.myclass == NC_NONE );
+    CHECK( talker_npc.myclass == npc_class_id::NULL_ID() );
 }
 
 TEST_CASE( "npc_change_topic", "[npc_talk]" )
@@ -1053,10 +1014,10 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     prep_test( d );
 
     global_variables &globvars = get_globals();
-    globvars.set_global_value( "npctalk_var_test_var", "It's global" );
+    globvars.set_global_value( "test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    d.set_value( "npctalk_var_test_var", "It's context" );
+    d.set_value( "test_var", "It's context" );
     gen_response_lines( d, 8 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
@@ -1118,7 +1079,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
                it.get_category_shallow().get_id() == item_category_food ||
                it.typeId() == itype_bottle_glass;
     } );
-    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    player_character.remove_value( "test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
     int expected_answers = 7;
@@ -1166,7 +1127,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
-    player_character.add_morale( MORALE_HAIRCUT, 23 );
+    player_character.add_morale( morale_haircut, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );
@@ -1175,7 +1136,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
-                        get_player_character().getID(), mon_zombie_bio_op, 0 );
+                        get_player_character().getID(), mon_zombie, 0 );
     get_event_bus().send( e );
     player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
     player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait
@@ -1255,7 +1216,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
     // Teardown
-    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    player_character.remove_value( "test_var_time_test_test" );
 }
 
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
@@ -1267,6 +1228,9 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     d.add_topic( "TALK_TEST_ARITHMETIC" );
     gen_response_lines( d, 31 );
 
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
@@ -1327,7 +1291,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.per_max == 9 );
 
-    std::string var_name = "npctalk_var_test_var_time_test_test";
+    std::string var_name = "test_var_time_test_test";
     player_character.set_value( var_name, std::to_string( 1 ) );
     // "Sets custom var to 10."
     effects = d.responses[ 9 ].success;
@@ -1559,5 +1523,5 @@ TEST_CASE( "test_topic_item_mutator", "[npc_talk]" )
     gen_response_lines( d, 1 );
     chosen = d.responses[0];
     chosen.success.apply( d );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "bottle_glass" );
+    CHECK( globvars.get_global_value( "key1" ) == "bottle_glass" );
 }

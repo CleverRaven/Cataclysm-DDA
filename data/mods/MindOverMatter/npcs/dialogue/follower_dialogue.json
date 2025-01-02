@@ -240,7 +240,7 @@
         "effect": [
           { "npc_lose_effect": "pre_common_cold" },
           { "u_add_effect": "pre_common_cold", "duration": "36 hours" },
-          { "queue_eocs": "EOC_MINDOVERMATTER_PRE_COLD_TO_COLD", "time_in_future": [ "18 hours", "36 hours" ] },
+          { "run_eocs": "EOC_MINDOVERMATTER_PRE_COLD_TO_COLD", "time_in_future": [ "18 hours", "36 hours" ] },
           {
             "u_message": "You touch <npc_name> and reach out with your powers, looking for the illness within them.  You soon find it, a shadow over their lungs, and draw it into yourself.",
             "popup": true
@@ -269,7 +269,7 @@
         "effect": [
           { "npc_lose_effect": "pre_flu" },
           { "u_add_effect": "pre_flu", "duration": "36 hours" },
-          { "queue_eocs": "EOC_MINDOVERMATTER_PRE_FLU_TO_FLU", "time_in_future": [ "18 hours", "36 hours" ] },
+          { "run_eocs": "EOC_MINDOVERMATTER_PRE_FLU_TO_FLU", "time_in_future": [ "18 hours", "36 hours" ] },
           {
             "u_message": "You touch <npc_name> and reach out with your powers, looking for the illness within them.  You soon find it, a shadow over their lungs, and draw it into yourself.",
             "popup": true
@@ -299,7 +299,7 @@
           { "npc_lose_effect": "pre_conjunctivitis_viral" },
           { "u_add_effect": "pre_conjunctivitis_viral", "duration": "72 hours" },
           {
-            "queue_eocs": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_VIRAL_TO_CONJUNCTIVITIS_VIRAL",
+            "run_eocs": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_VIRAL_TO_CONJUNCTIVITIS_VIRAL",
             "time_in_future": [ "24 hours", "72 hours" ]
           },
           {
@@ -331,7 +331,7 @@
           { "npc_lose_effect": "pre_conjunctivitis_bacterial" },
           { "u_add_effect": "pre_conjunctivitis_bacterial", "duration": "72 hours" },
           {
-            "queue_eocs": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_BACTERIAL_TO_CONJUNCTIVITIS_BACTERIAL",
+            "run_eocs": "EOC_MINDOVERMATTER_PRE_CONJUNCTIVITIS_BACTERIAL_TO_CONJUNCTIVITIS_BACTERIAL",
             "time_in_future": [ "24 hours", "72 hours" ]
           },
           {

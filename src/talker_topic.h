@@ -2,46 +2,50 @@
 #ifndef CATA_SRC_TALKER_TOPIC_H
 #define CATA_SRC_TALKER_TOPIC_H
 
-#include <functional>
-#include <iosfwd>
-#include <list>
+#include <utility>
 #include <vector>
 
-#include "coords_fwd.h"
 #include "talker.h"
-#include "type_id.h"
 
 struct tripoint;
 
 /*
  * Talker wrapper class for an empty talker thats just topics
  */
-class talker_topic: public talker_cloner<talker_topic>
+class talker_topic_const: public const_talker_cloner<talker_topic_const>
 {
     public:
-        explicit talker_topic( std::vector<std::string> new_topics ) {
-            topics = std::move( new_topics );
+        explicit talker_topic_const( std::vector<std::string> new_topics )
+            : topics( std::move( new_topics ) ) {}
+        talker_topic_const() = default;
+        talker_topic_const( const talker_topic_const & ) = default;
+        talker_topic_const( talker_topic_const && ) = delete;
+        talker_topic_const &operator=( const talker_topic_const & ) = default;
+        talker_topic_const &operator=( talker_topic_const && ) = delete;
+        ~talker_topic_const() override = default;
+
+        std::vector<std::string> get_topics( bool radio_contact ) const override;
+        bool will_talk_to_u( const Character &/* you */, bool /* force */ ) const override {
+            return true;
         }
-        ~talker_topic() override = default;
 
-        // identity and location
-        std::string disp_name() const override;
-        int posx() const override;
-        int posy() const override;
-        int posz() const override;
-        tripoint pos() const override;
-        tripoint_abs_ms global_pos() const override;
-        tripoint_abs_omt global_omt_location() const override;
-
-        void set_value( const std::string &var_name, const std::string &value ) override;
-        void remove_value( const std::string & ) override;
-
-        std::vector<std::string> get_topics( bool radio_contact ) override;
-        bool will_talk_to_u( const Character &you, bool force ) override;
-
-    protected:
-        talker_topic() = default;
+    private:
         std::vector<std::string> topics;
 };
+
+class talker_topic: virtual public talker_topic_const, public talker_cloner<talker_topic>
+{
+    public:
+        explicit talker_topic( std::vector<std::string> new_topics )
+            : talker_topic_const( std::move( new_topics ) ) {}
+        talker_topic() = default;
+        talker_topic( const talker_topic & ) = default;
+        talker_topic( talker_topic && ) = delete;
+        talker_topic &operator=( const talker_topic & ) = default;
+        talker_topic &operator=( talker_topic && ) = delete;
+        ~talker_topic() override = default;
+};
+
 std::unique_ptr<talker> get_talker_for( const std::vector<std::string> &topics );
+
 #endif // CATA_SRC_TALKER_TOPIC_H

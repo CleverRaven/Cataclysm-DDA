@@ -11,7 +11,7 @@
     "id": "t_label",
     "width": 1,
     "style": "symbol",
-    "string": " ",
+    "string": { "str": " ", "//~": "NO_I18N" },
     "colors": [ "c_dark_gray" ],
     "type": "widget"
   },
@@ -19,77 +19,83 @@
     "id": "l_space",
     "width": 1,
     "copy-from": "t_label",
-    "string": " ",
+    "string": { "str": " ", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_sw",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╰",
+    "string": { "str": "╰", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_nw",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╭",
+    "string": { "str": "╭", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_se",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╯",
+    "string": { "str": "╯", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_ne",
     "width": 1,
     "copy-from": "t_border",
-    "string": "╮",
+    "string": { "str": "╮", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_sc_cl",
     "width": 1,
     "copy-from": "t_border",
-    "string": "┴",
+    "string": { "str": "┴", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_nc_cl",
     "width": 1,
     "copy-from": "t_border",
-    "string": "┬",
+    "string": { "str": "┬", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_hc",
     "width": 1,
     "copy-from": "t_border",
-    "string": "─",
+    "string": { "str": "─", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_vc",
     "width": 1,
     "copy-from": "t_border",
-    "string": "│",
+    "string": { "str": "│", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_div1",
     "width": 41,
     "copy-from": "t_border",
-    "string": "═══════╧═══════════════════════╧═════════",
+    "string": {
+      "str": "═══════╧═══════════════════════╧═════════",
+      "//~": "NO_I18N"
+    },
     "type": "widget"
   },
   {
     "id": "l_div2",
     "width": 41,
     "copy-from": "t_border",
-    "string": "═════════════════════════════════════════",
+    "string": {
+      "str": "═════════════════════════════════════════",
+      "//~": "NO_I18N"
+    },
     "type": "widget"
   },
   {
@@ -231,7 +237,7 @@
     "id": "i_splinted_sym",
     "width": 1,
     "style": "symbol",
-    "string": "‡",
+    "string": { "str": "‡", "//~": "NO_I18N" },
     "colors": [ "h_white" ],
     "type": "widget"
   },
@@ -429,7 +435,7 @@
     "width": 7,
     "style": "symbol",
     "colors": [ "c_white_red" ],
-    "string": "══╾⠡╼══",
+    "string": { "str": "══╾⠡╼══", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
@@ -540,10 +546,7 @@
         "sym": "│",
         "color": "h_light_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
-          ]
+          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
         }
       },
       {
@@ -553,7 +556,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 21" ] }
           ]
         }
       },
@@ -926,14 +929,14 @@
     "id": "l_moon_phase_left",
     "width": 1,
     "copy-from": "t_label",
-    "string": "[",
+    "string": { "str": "[", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
     "id": "l_moon_phase_right",
     "width": 1,
     "copy-from": "t_label",
-    "string": "]",
+    "string": { "str": "]", "//~": "NO_I18N" },
     "type": "widget"
   },
   {
@@ -1115,33 +1118,33 @@
     "clauses": [
       {
         "id": "bright",
-        "text": "☼☼☼☼☼",
+        "text": { "str": "☼☼☼☼☼", "//~": "NO_I18N" },
         "color": "c_white",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "<=", "1" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') <= 1" ] }
       },
       {
         "id": "cloudy",
-        "text": "☼☼☼☼",
+        "text": { "str": "☼☼☼☼", "//~": "NO_I18N" },
         "color": "c_yellow",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "2" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 2" ] }
       },
       {
         "id": "shady",
-        "text": "☼☼☼",
+        "text": { "str": "☼☼☼", "//~": "NO_I18N" },
         "color": "c_light_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "3" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 3" ] }
       },
       {
         "id": "dark",
-        "text": "☼☼",
+        "text": { "str": "☼☼", "//~": "NO_I18N" },
         "color": "c_dark_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "4" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') == 4" ] }
       },
       {
         "id": "very dark",
-        "text": "☼",
+        "text": { "str": "☼", "//~": "NO_I18N" },
         "color": "c_dark_gray",
-        "condition": { "math": [ "u_val('fine_detail_vision_mod')", ">=", "5" ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod') >= 5" ] }
       }
     ],
     "type": "widget"
@@ -1239,21 +1242,21 @@
     "id": "l_dex",
     "width": 2,
     "copy-from": "t_label",
-    "string": "D:",
+    "string": { "ctxt": "label_dexterity", "str": "D:" },
     "type": "widget"
   },
   {
     "id": "l_int",
     "width": 2,
     "copy-from": "t_label",
-    "string": "I:",
+    "string": { "ctxt": "label_intelligence", "str": "I:" },
     "type": "widget"
   },
   {
     "id": "l_per",
     "width": 2,
     "copy-from": "t_label",
-    "string": "P:",
+    "string": { "ctxt": "label_perception", "str": "P:" },
     "type": "widget"
   },
   {
@@ -1302,33 +1305,13 @@
     "style": "text",
     "colors": [ "h_yellow" ],
     "clauses": [
-      { "id": "20%", "color": "h_yellow", "sym": "1", "condition": { "math": [ "u_val('power_percentage')", ">", "19" ] } },
-      {
-        "id": "40%",
-        "color": "h_yellow",
-        "sym": "2",
-        "condition": { "math": [ "u_val('power_percentage')", ">", "39" ] }
-      },
-      {
-        "id": "60%",
-        "color": "h_yellow",
-        "sym": "3",
-        "condition": { "math": [ "u_val('power_percentage')", ">", "59" ] }
-      },
-      {
-        "id": "80%",
-        "color": "h_yellow",
-        "sym": "4",
-        "condition": { "math": [ "u_val('power_percentage')", ">", "79" ] }
-      },
-      {
-        "id": "99%",
-        "color": "h_yellow",
-        "sym": "5",
-        "condition": { "math": [ "u_val('power_percentage')", ">", "99" ] }
-      }
+      { "id": "20%", "color": "h_yellow", "sym": "1", "condition": { "math": [ "u_val('power_percentage') > 19" ] } },
+      { "id": "40%", "color": "h_yellow", "sym": "2", "condition": { "math": [ "u_val('power_percentage') > 39" ] } },
+      { "id": "60%", "color": "h_yellow", "sym": "3", "condition": { "math": [ "u_val('power_percentage') > 59" ] } },
+      { "id": "80%", "color": "h_yellow", "sym": "4", "condition": { "math": [ "u_val('power_percentage') > 79" ] } },
+      { "id": "99%", "color": "h_yellow", "sym": "5", "condition": { "math": [ "u_val('power_percentage') > 99" ] } }
     ],
-    "default_clause": { "text": "     " },
+    "default_clause": { "text": { "str": "     ", "//~": "NO_I18N" } },
     "type": "widget"
   },
   {
@@ -1415,38 +1398,58 @@
     "clauses": [
       {
         "id": "engorged",
-        "text": "o⁰ₒ○",
+        "text": { "str": "o⁰ₒ○", "//~": "NO_I18N" },
         "color": "c_light_green_green",
         "condition": { "u_has_effect": "hunger_engorged" }
       },
-      { "id": "full", "text": "████", "color": "h_green", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "full",
+        "text": { "str": "████", "//~": "NO_I18N" },
+        "color": "h_green",
+        "condition": { "u_has_effect": "hunger_full" }
+      },
       {
         "id": "satisfied",
-        "text": "  ██",
+        "text": { "str": "  ██", "//~": "NO_I18N" },
         "color": "h_green",
         "condition": { "u_has_effect": "hunger_satisfied" }
       },
-      { "id": "blank", "text": "    ", "color": "h_green", "condition": { "u_has_effect": "hunger_blank" } },
-      { "id": "hungry", "text": "█   ", "color": "c_light_gray", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "blank",
+        "text": { "str": "    ", "//~": "NO_I18N" },
+        "color": "h_green",
+        "condition": { "u_has_effect": "hunger_blank" }
+      },
+      {
+        "id": "hungry",
+        "text": { "str": "█   ", "//~": "NO_I18N" },
+        "color": "c_light_gray",
+        "condition": { "u_has_effect": "hunger_hungry" }
+      },
       {
         "id": "very_hungry",
-        "text": "██  ",
+        "text": { "str": "██  ", "//~": "NO_I18N" },
         "color": "h_yellow",
         "condition": { "u_has_effect": "hunger_very_hungry" }
       },
       {
         "id": "near_starving",
-        "text": "███ ",
+        "text": { "str": "███ ", "//~": "NO_I18N" },
         "color": "h_red",
         "condition": { "u_has_effect": "hunger_near_starving" }
       },
       {
         "id": "starving",
-        "text": "████",
+        "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_red",
         "condition": { "u_has_effect": "hunger_starving" }
       },
-      { "id": "famished", "text": "XXXX", "color": "i_red", "condition": { "u_has_effect": "hunger_famished" } }
+      {
+        "id": "famished",
+        "text": { "str": "XXXX", "//~": "NO_I18N" },
+        "color": "i_red",
+        "condition": { "u_has_effect": "hunger_famished" }
+      }
     ],
     "type": "widget"
   },
@@ -1464,71 +1467,57 @@
     "clauses": [
       {
         "id": "turgid",
-        "text": "o⁰ₒ○",
+        "text": { "str": "o⁰ₒ○", "//~": "NO_I18N" },
         "color": "c_light_green_green",
-        "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
+        "condition": { "math": [ "u_val('instant_thirst') < -60" ] }
       },
       {
         "id": "hydrated",
-        "text": "████",
+        "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_green",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') >= -60" ] }, { "math": [ "u_val('instant_thirst') < -20" ] } ] }
       },
       {
         "id": "slaked",
-        "text": "  ██",
+        "text": { "str": "  ██", "//~": "NO_I18N" },
         "color": "h_green",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') >= -20" ] }, { "math": [ "u_val('instant_thirst') < 0" ] } ] }
       },
       {
         "id": "neutral",
-        "text": "    ",
+        "text": { "str": "    ", "//~": "NO_I18N" },
         "color": "h_green",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') >= 0" ] }, { "math": [ "u_val('instant_thirst') <= 40" ] } ] }
       },
       {
         "id": "thirsty",
-        "text": "█   ",
+        "text": { "str": "█   ", "//~": "NO_I18N" },
         "color": "h_yellow",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst')", "<=", "80" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 40" ] }, { "math": [ "u_val('instant_thirst') <= 80" ] } ] }
       },
       {
         "id": "very_thirsty",
-        "text": "██  ",
+        "text": { "str": "██  ", "//~": "NO_I18N" },
         "color": "h_yellow",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst')", "<=", "240" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 80" ] }, { "math": [ "u_val('instant_thirst') <= 240" ] } ] }
       },
       {
         "id": "dehydrated",
-        "text": "███ ",
+        "text": { "str": "███ ", "//~": "NO_I18N" },
         "color": "h_red",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst')", "<=", "450" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 240" ] }, { "math": [ "u_val('instant_thirst') <= 450" ] } ] }
       },
       {
         "id": "dehydrated2",
-        "text": "████",
+        "text": { "str": "████", "//~": "NO_I18N" },
         "color": "h_red",
-        "condition": {
-          "and": [ { "math": [ "u_val('instant_thirst')", ">", "450" ] }, { "math": [ "u_val('instant_thirst')", "<=", "520" ] } ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('instant_thirst') > 450" ] }, { "math": [ "u_val('instant_thirst') <= 520" ] } ] }
       },
       {
         "id": "parched",
-        "text": "XXXX",
+        "text": { "str": "XXXX", "//~": "NO_I18N" },
         "color": "i_red",
-        "condition": { "math": [ "u_val('instant_thirst')", ">", "520" ] }
+        "condition": { "math": [ "u_val('instant_thirst') > 520" ] }
       }
     ],
     "type": "widget"
@@ -1546,49 +1535,44 @@
     "width": 1,
     "style": "symbol",
     "clauses": [
-      { "id": "sk", "sym": "ₒ", "color": "c_red", "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] } },
+      { "id": "sk", "sym": "ₒ", "color": "c_red", "condition": { "math": [ "u_val('bmi_permil') <= 1000" ] } },
       {
         "id": "e",
         "sym": "ₒ",
         "color": "c_light_red",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 1000" ] }, { "math": [ "u_val('bmi_permil') <= 2000" ] } ] }
       },
       {
         "id": "u_w",
         "sym": "ₒ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 2000" ] }, { "math": [ "u_val('bmi_permil') <= 3000" ] } ] }
       },
       {
         "id": "n",
         "sym": "ₒ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 3000" ] }, { "math": [ "u_val('bmi_permil') <= 5000" ] } ] }
       },
       {
         "id": "o_w",
         "sym": "ₒ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 5000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
       },
       {
         "id": "o",
         "sym": "ₒ",
         "color": "c_light_red",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 10000" ] }, { "math": [ "u_val('bmi_permil') <= 15000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "ₒ",
         "color": "c_red",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 15000" ] }, { "math": [ "u_val('bmi_permil') <= 20000" ] } ] }
       },
-      {
-        "id": "m_o",
-        "sym": "ₒ",
-        "color": "c_white",
-        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
-      }
+      { "id": "m_o", "sym": "ₒ", "color": "c_white", "condition": { "math": [ "u_val('bmi_permil') > 20000" ] } }
     ],
     "type": "widget"
   },
@@ -1597,145 +1581,120 @@
     "width": 5,
     "style": "symbol",
     "clauses": [
-      { "id": "sk", "sym": "⎻⎺", "color": "c_brown", "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] } },
-      {
-        "id": "sk",
-        "sym": "ₗ",
-        "color": "c_yellow",
-        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
-      },
-      {
-        "id": "sk",
-        "sym": "  ",
-        "color": "c_brown",
-        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
-      },
+      { "id": "sk", "sym": "⎻⎺", "color": "c_brown", "condition": { "math": [ "u_val('bmi_permil') <= 1000" ] } },
+      { "id": "sk", "sym": "ₗ", "color": "c_yellow", "condition": { "math": [ "u_val('bmi_permil') <= 1000" ] } },
+      { "id": "sk", "sym": "  ", "color": "c_brown", "condition": { "math": [ "u_val('bmi_permil') <= 1000" ] } },
       {
         "id": "e",
         "sym": "∕ʻ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 1000" ] }, { "math": [ "u_val('bmi_permil') <= 2000" ] } ] }
       },
       {
         "id": "e",
         "sym": " ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 1000" ] }, { "math": [ "u_val('bmi_permil') <= 2000" ] } ] }
       },
       {
         "id": "e",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 1000" ] }, { "math": [ "u_val('bmi_permil') <= 2000" ] } ] }
       },
       {
         "id": "unw",
         "sym": " ╱",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 2000" ] }, { "math": [ "u_val('bmi_permil') <= 3000" ] } ] }
       },
       {
         "id": "unw",
         "sym": " ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 2000" ] }, { "math": [ "u_val('bmi_permil') <= 3000" ] } ] }
       },
       {
         "id": "unw",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 2000" ] }, { "math": [ "u_val('bmi_permil') <= 3000" ] } ] }
       },
       {
         "id": "nrm",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 3000" ] }, { "math": [ "u_val('bmi_permil') <= 5000" ] } ] }
       },
       {
         "id": "nrm",
         "sym": "╿",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 3000" ] }, { "math": [ "u_val('bmi_permil') <= 5000" ] } ] }
       },
       {
         "id": "nrm",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 3000" ] }, { "math": [ "u_val('bmi_permil') <= 5000" ] } ] }
       },
       {
         "id": "ovw",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 5000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
       },
       {
         "id": "ovw",
         "sym": " ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 5000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
       },
       {
         "id": "ovw",
         "sym": "╲ ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 5000" ] }, { "math": [ "u_val('bmi_permil') <= 10000" ] } ] }
       },
       {
         "id": "o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 10000" ] }, { "math": [ "u_val('bmi_permil') <= 15000" ] } ] }
       },
       {
         "id": "o",
         "sym": " ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 10000" ] }, { "math": [ "u_val('bmi_permil') <= 15000" ] } ] }
       },
       {
         "id": "o",
         "sym": "ʽ∖",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 10000" ] }, { "math": [ "u_val('bmi_permil') <= 15000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 15000" ] }, { "math": [ "u_val('bmi_permil') <= 20000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "ₕ",
         "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 15000" ] }, { "math": [ "u_val('bmi_permil') <= 20000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "⎺⎻",
         "color": "c_brown",
-        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil') > 15000" ] }, { "math": [ "u_val('bmi_permil') <= 20000" ] } ] }
       },
-      {
-        "id": "m_o",
-        "sym": "  ",
-        "color": "c_brown",
-        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
-      },
-      {
-        "id": "m_o",
-        "sym": "ₕ",
-        "color": "c_red",
-        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
-      },
-      {
-        "id": "m_o",
-        "sym": " ⎺",
-        "color": "c_brown",
-        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
-      }
+      { "id": "m_o", "sym": "  ", "color": "c_brown", "condition": { "math": [ "u_val('bmi_permil') > 20000" ] } },
+      { "id": "m_o", "sym": "ₕ", "color": "c_red", "condition": { "math": [ "u_val('bmi_permil') > 20000" ] } },
+      { "id": "m_o", "sym": " ⎺", "color": "c_brown", "condition": { "math": [ "u_val('bmi_permil') > 20000" ] } }
     ],
     "type": "widget"
   },
@@ -1932,37 +1891,37 @@
         "id": "none",
         "text": "None       ",
         "color": "light_gray",
-        "condition": { "math": [ "u_val('activity_level')", "==", "0" ] }
+        "condition": { "math": [ "u_val('activity_level') == 0" ] }
       },
       {
         "id": "light",
         "text": "Light      ",
         "color": "yellow",
-        "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
+        "condition": { "math": [ "u_val('activity_level') == 1" ] }
       },
       {
         "id": "moderate",
         "text": "Moderate   ",
         "color": "yellow",
-        "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
+        "condition": { "math": [ "u_val('activity_level') == 2" ] }
       },
       {
         "id": "brisk",
         "text": "Brisk      ",
         "color": "light_red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
+        "condition": { "math": [ "u_val('activity_level') == 3" ] }
       },
       {
         "id": "active",
         "text": "Active     ",
         "color": "light_red",
-        "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
+        "condition": { "math": [ "u_val('activity_level') == 4" ] }
       },
       {
         "id": "extreme",
         "text": "Extreme    ",
         "color": "red",
-        "condition": { "math": [ "u_val('activity_level')", ">=", "5" ] }
+        "condition": { "math": [ "u_val('activity_level') >= 5" ] }
       }
     ],
     "type": "widget"
@@ -2024,7 +1983,7 @@
     "id": "l_wtrns",
     "width": 2,
     "copy-from": "t_label",
-    "string": { "ctxt": "label_weary_transition_level", "str": "W:" },
+    "string": { "ctxt": "label_weary", "str": "W:" },
     "type": "widget"
   },
   {

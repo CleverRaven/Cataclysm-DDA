@@ -10,7 +10,7 @@
       "+": "t_door_metal_c",
       "x": "t_door_metal_locked",
       "*": "t_wall_glass",
-      "R": "t_reinforced_glass_h",
+      "R": "t_reinforced_glass",
       "v": "t_chainfence",
       ",": "t_pavement_y",
       "-": "t_sidewalk",
@@ -67,8 +67,6 @@
       "w": "f_water_purifier",
       "U": "f_home_furnace",
       "f": "f_fridge",
-      "D": "f_vending_c",
-      "V": "f_vending_c",
       "7": "f_filing_cabinet"
     },
     "items": {

@@ -90,6 +90,7 @@
         "ignore_dest_danger": true,
         "message": "The zombie strider takes a long step!"
       }
-    ]
+    ],
+    "upgrades": false
   }
 ]

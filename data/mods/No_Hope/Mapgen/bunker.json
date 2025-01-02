@@ -56,7 +56,7 @@
         "g": "f_glass_fridge",
         "{": "f_bookcase",
         "}": "f_pinball_machine",
-        "%": "f_floor_canvas",
+        "%": "f_punching_bag",
         "2": "f_air_conditioner",
         "3": "f_speaker_cabinet"
       },
@@ -154,7 +154,7 @@
         "g": "f_glass_fridge",
         "{": "f_bookcase",
         "}": "f_pinball_machine",
-        "%": "f_floor_canvas",
+        "%": "f_punching_bag",
         "2": "f_air_conditioner",
         "3": "f_speaker_cabinet"
       },

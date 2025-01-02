@@ -191,7 +191,7 @@
     "//": "Gothic Church",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "ssssssssssssssssssssssss",
         "s WWWWW    ss    WWWWW s",
@@ -220,7 +220,7 @@
       ],
       "palettes": [ "church" ],
       "terrain": {
-        ",": "t_rock_floor",
+        ",": "t_thconc_floor",
         "B": "t_window_stained_blue",
         "G": "t_window_stained_green",
         "V": "t_window_stained_red",
@@ -245,16 +245,16 @@
       "fill_ter": "t_floor",
       "rows": [
         "                        ",
-        "  wGGGw          wGGGw  ",
-        "  wdddwwwww  wwwwwdddw  ",
-        "  B.h...wywBBwywf..h.B  ",
-        "  w...c.+......+.....w  ",
-        "  wHHHHywy....ywyff<>w  ",
-        "  wwwwwDwww++wwwDwwwww  ",
-        "     x___wb..bw___x     ",
+        "  |GGG|          |GGG|  ",
+        "  |ddd|||||  |||||ddd|  ",
+        "  B.h...|y|BB|y|f..h.B  ",
+        "  |...c.+......+.....|  ",
+        "  |HHHHy|y....y|yff<>|  ",
+        "  |||||D|||++|||D|||||  ",
+        "     x___|b..b|___x     ",
         "    xx___Bb..bB___xx    ",
         "    xx___Gy..yG___xx    ",
-        "     x___ww++ww___x     ",
+        "     x___||++||___x     ",
         "     x____________x     ",
         "    xx____________xx    ",
         "    xx____________xx    ",
@@ -274,12 +274,12 @@
         ".": "t_floor",
         "f": "t_floor",
         "x": "t_rock_wall_half",
-        "w": "t_rock_wall",
+        "|": "t_rock_wall",
         "+": "t_door_locked",
         "D": "t_window_domestic",
         "B": "t_window_stained_blue",
-        "_": "t_rock_floor_no_roof",
-        "U": "t_rock_floor_no_roof",
+        "_": "t_concrete",
+        "U": "t_concrete",
         "<": "t_stairs_up",
         "G": "t_window_stained_green"
       },
@@ -309,12 +309,12 @@
       "fill_ter": "t_floor",
       "rows": [
         "                        ",
-        "  wBGBw          wBGBw  ",
-        "  wjt.wwwwwGGwwwwwFe1w  ",
-        "  Bj..HHwtsssstwth..SB  ",
-        "  w.....+......+....6w  ",
-        "  wK.ytmw.mttm.w.y.>7w  ",
-        "  wwwDwwwwwDDwwwwwDwww  ",
+        "  |BGB|          |BGB|  ",
+        "  |jt.|||||GG|||||Fe0|  ",
+        "  Bj..HH|tsssst|th..SB  ",
+        "  |.....+......+....d|  ",
+        "  |K.ytm|.mttm.|.y.>E|  ",
+        "  |||D|||||DD|||||D|||  ",
         "         x____x         ",
         "         x____x         ",
         "         x____x         ",
@@ -337,7 +337,7 @@
       "terrain": {
         ".": "t_floor",
         "x": "t_rock_wall_half",
-        "w": "t_rock_wall",
+        "|": "t_rock_wall",
         "+": "t_door_locked",
         "D": "t_window_domestic",
         "B": "t_window_stained_blue",
@@ -350,12 +350,11 @@
         "m": "f_armchair",
         "j": "f_bed",
         "h": "f_chair",
-        "1": "f_cupboard",
-        "6": "f_cupboard",
-        "7": "f_cupboard"
+        "0": "f_cupboard",
+        "d": "f_cupboard",
+        "E": "f_cupboard"
       },
       "items": {
-        "d": { "item": "SUS_office_desk", "chance": 50 },
         "H": { "item": "novels", "chance": 80, "repeat": [ 2, 10 ] },
         "K": [
           { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
@@ -365,9 +364,9 @@
         "j": { "item": "bed", "chance": 70, "repeat": [ 2, 4 ] },
         "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] },
         "F": { "item": "SUS_fridge", "chance": 60, "repeat": [ 2, 4 ] },
-        "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
-        "6": { "item": "SUS_cookware", "chance": 100 },
-        "7": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "0": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+        "d": { "item": "SUS_cookware", "chance": 100 },
+        "E": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "S": { "item": "SUS_kitchen_sink", "chance": 100 }
       }
     }
@@ -377,7 +376,7 @@
     "method": "json",
     "om_terrain": "church_roof_1",
     "object": {
-      "fill_ter": "t_rock_floor_no_roof",
+      "fill_ter": "t_concrete",
       "rows": [
         "                        ",
         "  xxxxx          xxxxx  ",
@@ -405,7 +404,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "x": "t_rock_wall_half", ".": "t_rock_floor_no_roof" }
+      "terrain": { "x": "t_rock_wall_half", ".": "t_concrete" }
     }
   }
 ]

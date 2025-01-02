@@ -23,6 +23,7 @@
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
     "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_REAGENT_SHOP", "rigid": true } ],
+    "shopkeeper_price_rules": [ { "category": "guns", "premium": 1 }, { "category": "ammo", "premium": 1 } ],
     "worn_override": "NC_FORGE_REAGENT_clothes",
     "weapon_override": "NC_FORGE_REAGENT_wield",
     "skills": [
@@ -129,6 +130,6 @@
       ],
       "no": "Well you obviously aren't an officer so here's the deal.  There's a mighty fine galleon making land in <interval>, I'm certain to have something good by then."
     },
-    "responses": [ { "text": "May the seas be ever in your favor", "topic": "TALK_FORGE_LORD_REAGENT" } ]
+    "responses": [ { "text": "May the seas be ever in your favor.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
   }
 ]

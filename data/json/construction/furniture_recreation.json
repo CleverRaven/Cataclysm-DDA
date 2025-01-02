@@ -89,6 +89,7 @@
     "difficulty": 1,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
+    "pre_note": "Needs diggable terrain to secure it.",
     "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
     "pre_special": "check_down_OK",
     "post_terrain": "f_training_dummy_heavy"
@@ -103,6 +104,7 @@
     "difficulty": 1,
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "training_dummy_light", 1 ] ] ],
+    "pre_note": "Needs diggable terrain to secure it.",
     "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
     "pre_special": "check_down_OK",
     "post_terrain": "f_training_dummy_light"

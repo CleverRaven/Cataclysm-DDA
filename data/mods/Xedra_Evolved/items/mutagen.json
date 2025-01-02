@@ -8,7 +8,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Ierde draught.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_earthkin", 550 ], [ "mutagen", 550 ] ]
     }
   },
@@ -21,7 +21,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Arvore draught.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_plantkin", 550 ], [ "mutagen", 550 ] ]
     }
   },
@@ -34,7 +34,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Undine draught.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_waterkin", 550 ], [ "mutagen", 550 ] ]
     }
   },
@@ -47,7 +47,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Salamander draught.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_flamekin", 550 ], [ "mutagen", 550 ] ]
     }
   },
@@ -60,7 +60,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Homullus draught.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_dollkin", 550 ], [ "mutagen", 550 ] ]
     }
   },
@@ -73,7 +73,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the Sylph draught.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_airkin", 550 ], [ "mutagen", 550 ] ]
     }
   }

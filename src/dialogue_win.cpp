@@ -52,34 +52,42 @@ void dialogue_window::draw( const std::string &npc_name )
     int ycurrent = getmaxy( d_win ) - 1 - RESPONSES_LINES + 1;
     const int xmid = getmaxx( d_win ) / 2;
     // Actions go on the right column; they're unaffected by scrolling.
+    const int actions_xoffset = xmid + 2;
+    nc_color cur_color = c_magenta;
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
-    if( !is_computer && !is_not_conversation ) {
-        const int actions_xoffset = xmid + 2;
-        nc_color cur_color = c_magenta;
-        std::string formatted_text = formatted_hotkey( ctxt.get_desc( "LOOK_AT", 1 ),
-                                     cur_color ).append( _( "Look at" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
-        ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "SIZE_UP_STATS", 1 ),
-                                           cur_color ).append( _( "Size up stats" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
-        ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "ASSESS_PERSONALITY", 1 ),
-                                           cur_color ).append( _( "Assess personality" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
-        ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "YELL", 1 ), cur_color ).append( _( "Yell" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
-        ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "CHECK_OPINION", 1 ),
-                                           cur_color ).append( _( "Check opinion" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
+    if( debug_mode ) {
+        for( const std::string &line : responses_debug ) {
+            ycurrent += fold_and_print( d_win, point( actions_xoffset, ycurrent - 1 ), xmid - 4, c_yellow,
+                                        line );
+        }
+    } else {
+        if( !is_computer && !is_not_conversation ) {
+            std::string formatted_text = formatted_hotkey( ctxt.get_desc( "LOOK_AT", 1 ),
+                                         cur_color ).append( _( "Look at" ) );
+            print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
+                                formatted_text );
+            ++ycurrent;
+            formatted_text = formatted_hotkey( ctxt.get_desc( "SIZE_UP_STATS", 1 ),
+                                               cur_color ).append( _( "Size up stats" ) );
+            print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
+                                formatted_text );
+            ++ycurrent;
+            formatted_text = formatted_hotkey( ctxt.get_desc( "ASSESS_PERSONALITY", 1 ),
+                                               cur_color ).append( _( "Assess personality" ) );
+            print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
+                                formatted_text );
+            ++ycurrent;
+            formatted_text = formatted_hotkey( ctxt.get_desc( "YELL", 1 ), cur_color ).append( _( "Yell" ) );
+            print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
+                                formatted_text );
+            ++ycurrent;
+            formatted_text = formatted_hotkey( ctxt.get_desc( "CHECK_OPINION", 1 ),
+                                               cur_color ).append( _( "Check opinion" ) );
+            print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
+                                formatted_text );
+        }
     }
+
     wnoutrefresh( d_win );
 
     responses_list->print_entries();
@@ -163,19 +171,32 @@ void dialogue_window::print_header( const std::string &name ) const
         mvwprintz( d_win, point( 2, 1 ), default_color(), _( "Dialogue: %s" ), name );
     }
     const int xmax = getmaxx( d_win );
+    int x_debug = 15 + utf8_width( name );
     const int ymax = getmaxy( d_win );
     const int ybar = ymax - 1 - RESPONSES_LINES - 1;
+    const int flag_count = 5;
+    std::array<bool, flag_count> debug_flags = { show_dynamic_line_conditionals, show_response_conditionals, show_dynamic_line_effects, show_response_effects, show_all_responses };
+    std::array<std::string, flag_count> debug_show_toggle = { "DL_COND", "RESP_COND", "DL_EFF", "RESP_EFF", "ALL_RESP" };
+    if( debug_mode ) {
+        for( int i = 0; i < flag_count; i++ ) {
+            mvwprintz( d_win, point( x_debug, 1 ), debug_flags[i] ? c_yellow : c_brown, debug_show_toggle[i] );
+            x_debug += utf8_width( debug_show_toggle[i] ) + 1;
+        }
+        x_debug += 2;
+        mvwprintz( d_win, point( x_debug, 1 ), default_color(), "talk_topic: " + debug_topic_name );
+    }
+
     // Horizontal bar dividing history and responses
-    mvwputch( d_win, point( 0, ybar ), BORDER_COLOR, LINE_XXXO );
+    wattron( d_win, BORDER_COLOR );
+    mvwaddch( d_win, point( 0, ybar ), LINE_XXXO );
     mvwhline( d_win, point( 1, ybar ), LINE_OXOX, xmax - 1 );
-    mvwputch( d_win, point( xmax - 1, ybar ), BORDER_COLOR, LINE_XOXX );
+    mvwaddch( d_win, point( xmax - 1, ybar ), LINE_XOXX );
+    wattroff( d_win, BORDER_COLOR );
     if( is_computer ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "Your input:" ) );
     } else if( is_not_conversation ) {
         mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "What do you do?" ) );
     } else {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( d_win, point( 2, ybar + 1 ), default_color(), _( "Your response:" ) );
     }
 }
@@ -183,4 +204,9 @@ void dialogue_window::print_header( const std::string &name ) const
 void dialogue_window::set_responses( const std::vector<talk_data> &responses )
 {
     responses_list->create_entries( responses );
+}
+
+void dialogue_window::set_responses_debug( const std::vector<std::string> &responses )
+{
+    responses_debug = responses;
 }

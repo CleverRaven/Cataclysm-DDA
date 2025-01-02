@@ -247,6 +247,7 @@ enum debug_filter : int {
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic
     DF_BALLISTIC, // ballistic generic
+    DF_CAMPS, // Everything to do with camps, player-owned or otherwise
     DF_CHARACTER, // character generic
     DF_CHAR_CALORIES, // character stomach and calories
     DF_CHAR_HEALTH, // character health related
@@ -283,6 +284,7 @@ enum debug_filter : int {
 extern std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value );
 } // namespace debugmode
+
 
 // From catch.hpp:
 // Returns true if the current process is being debugged (either

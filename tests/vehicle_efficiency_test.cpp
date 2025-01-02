@@ -49,7 +49,7 @@ static void clear_game( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( tripoint::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 
@@ -174,7 +174,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int max_dist = target_distance * 1.01;
     clear_game( terrain );
 
-    const tripoint map_starting_point( 60, 60, 0 );
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
@@ -188,7 +188,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
+        vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos_bub() );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
         veh.close( vp.part_index() );
@@ -208,7 +208,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float starting_fuel_per = fuel_percentage_left( veh, starting_fuel );
     REQUIRE( std::abs( starting_fuel_per - 1.0f ) < 0.001f );
 
-    const tripoint starting_point = veh.global_pos3();
+    const tripoint_bub_ms starting_point = veh.pos_bub();
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
@@ -231,13 +231,13 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint &pos : veh.get_points() ) {
+        for( const tripoint_bub_ms &pos : veh.get_points() ) {
             REQUIRE( here.ter( pos ) );
         }
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.global_pos3() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint displacement = starting_point - veh.global_pos3();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
         here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;

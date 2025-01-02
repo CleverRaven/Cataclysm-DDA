@@ -37,7 +37,7 @@
     "id": "MILITIA_MERCHANT_misc",
     "subtype": "collection",
     "items": [
-      { "item": "jerky", "count-min": 3, "count-max": 8, "prob": 30 },
+      { "item": "jerky", "count": [ 3, 8 ], "prob": 30 },
       { "group": "tools_general", "prob": 80, "count": [ 1, 3 ] },
       { "group": "tools_home", "prob": 80, "count": [ 1, 3 ] },
       { "group": "tools_carpentry", "prob": 30, "count": [ 1, 3 ] },
@@ -130,68 +130,39 @@
       [ "crowbar", 25 ],
       [ "machete", 25 ],
       [ "ax", 25 ],
-      [ "spear_knife", 30 ],
-      [ "22_lr", 25 ],
-      [ "22_fmj", 1 ],
-      [ "223", 15 ],
-      [ "308", 10 ],
-      [ "3006", 10 ],
-      [ "45_acp", 10 ],
-      [ "45_jhp", 1 ],
-      [ "rifle_9mm", 20 ],
-      [ "rifle_22", 20 ],
-      [ "crossbow", 15 ],
-      [ "sig_mosquito", 15 ],
-      [ "sw_22", 15 ],
-      [ "glock_19", 15 ],
-      [ "usp_9mm", 10 ],
-      [ "m9", 35 ],
-      [ "remington_700", 5 ],
-      [ "ruger_1022", 10 ],
-      [ "marlin_9a", 10 ],
-      [ "remington_870", 10 ],
-      [ "mossberg_500", 5 ],
-      [ "shotgun_d", 5 ],
-      [ "molotov", 10 ],
-      [ "recurbow", 15 ],
-      [ "arrow_metal", 25 ],
-      [ "bolt_steel", 10 ],
-      [ "ashot", 5 ]
+      [ "spear_knife", 30 ]
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_MAIN",
     "dynamic_line": {
-      "u_has_var": "talked_to_MILITIAMAIN",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ],
       "yes": "Hello again.",
       "no": "Welcome to our camp.  Behave yourself while you are here.  What can I do for you?"
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_MILITIAMAIN", "value": "yes" } },
     "responses": [
       {
         "text": "What do you do here?",
         "topic": "TALK_MILITIA_INTRODUCTION",
-        "condition": { "not": { "u_has_var": "talked_to_MILITIAEMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] } }
       },
       {
         "text": "What's the story behind this place?",
         "topic": "TALK_MILITIA_BACKGROUND",
-        "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       },
       {
         "text": "Is there something I can do for you?",
         "topic": "TALK_MILITIA_HELP",
-        "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       },
       { "text": "Do you have anything to trade?", "topic": "TALK_MILITIA_TRADE" },
       {
         "text": "Time for me to leave",
         "topic": "TALK_MILITIA_BYE",
-        "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_MILITIAMAIN" } ] }
       }
     ]
   },
@@ -204,13 +175,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_BACKGROUND",
-    "dynamic_line": "Well, that's a long story.  We are whats left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.",
+    "dynamic_line": "Well, that's a long story.  We are what's left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_HELP",
-    "dynamic_line": "I can't say I can think of anything at the moment.  Our remoteness is our defense.  We want to keep a low profile and try to keep out of any trouble in this isolated location.  We are willing to buy weapons and ammo though.  Keeping the nearby area clear and hunting is always eating away at our supplies.",
+    "dynamic_line": "I can't say I can think of anything at the moment.  Our remoteness is our defense.  We want to keep a low profile and try to keep out of any trouble in this isolated location.  We are willing to trade for weapons and ammo though.  Keeping the nearby area clear and hunting is always eating away at our supplies.",
     "responses": [ { "text": "Keeping a low profile is good.", "topic": "TALK_NONE" } ]
   },
   {

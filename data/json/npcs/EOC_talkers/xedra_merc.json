@@ -23,7 +23,7 @@
       {
         "text": "You can hear the rushing of boots all around you, and the chattering of radios.  It must still be close and you are their target.",
         "effect": [
-          { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "20 seconds", "30 seconds" ] },
+          { "run_eocs": "EOC_HAUNTING", "time_in_future": [ "20 seconds", "30 seconds" ] },
           { "run_eocs": "EOC_HAUNTING_SPAWN" },
           { "u_transform_radius": 5, "ter_furn_transform": "merc_spike_transform" }
         ],

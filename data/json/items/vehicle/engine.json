@@ -3,7 +3,7 @@
     "abstract": "engine_combustion",
     "type": "ENGINE",
     "category": "veh_parts",
-    "name": { "str": "internal combustion engine" },
+    "name": { "str": "internal combustion engine", "//~": "NO_I18N" },
     "material": [ "iron" ],
     "symbol": ":",
     "color": "light_cyan"
@@ -12,7 +12,7 @@
     "abstract": "engine_diesel",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
-    "name": { "str": "base diesel engine" },
+    "name": { "str": "base diesel engine", "//~": "NO_I18N" },
     "faults": [
       "fault_engine_belt_drive",
       "fault_engine_filter_air",
@@ -27,7 +27,7 @@
     "abstract": "engine_gasoline",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
-    "name": { "str": "base gasoline engine" },
+    "name": { "str": "base gasoline engine", "//~": "NO_I18N" },
     "faults": [
       "fault_engine_belt_drive",
       "fault_engine_filter_air",
@@ -41,7 +41,7 @@
     "abstract": "engine_steam",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
-    "name": { "str": "base steam engine" },
+    "name": { "str": "base steam engine", "//~": "NO_I18N" },
     "looks_like": "v12_diesel",
     "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_starter" ]
   },

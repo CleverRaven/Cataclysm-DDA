@@ -41,5 +41,164 @@
     "type": "ter_furn_transform",
     "id": "test_dirt_transform",
     "terrain": [ { "result": [ "t_grass" ], "valid_terrain": [ "t_dirt" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_1",
+    "//": "run_eocs_1 should be 2",
+    "effect": [ { "run_eocs": [ "EOC_A", "EOC_B" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_A",
+    "effect": [ { "math": [ "run_eocs_1++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_B",
+    "effect": [ { "math": [ "run_eocs_1++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_2",
+    "//": "run_eocs_2 should be 20",
+    "effect": [ { "run_eocs": [ "EOC_C", "EOC_D" ], "iterations": 10 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_C",
+    "effect": [ { "math": [ "run_eocs_2++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_D",
+    "effect": [ { "math": [ "run_eocs_2++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_3",
+    "//": "in 5 seconds, run_eocs_3 should be 2 - 2 eocs would be fired in 2 seconds",
+    "effect": [ { "run_eocs": [ "EOC_E", "EOC_F" ], "time_in_future": "2 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_E",
+    "effect": [ { "math": [ "run_eocs_3++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_F",
+    "effect": [ { "math": [ "run_eocs_3++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_5",
+    "//": "run_eocs_5 should be 4 - we run eocs until run_eocs_5 would be 4",
+    "effect": [ { "run_eocs": [ "EOC_I", "EOC_J" ], "condition": { "math": [ "run_eocs_5 <= 3" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_I",
+    "effect": [ { "math": [ "run_eocs_5++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_J",
+    "effect": [ { "math": [ "run_eocs_5++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_7",
+    "//": "in 10 seconds, 'test_global_key_M' should contain 'test_context_value_M', and 'test_global_key_N' should contain 'test_context_value_N'",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_M", "EOC_N" ],
+        "time_in_future": [ "0 seconds", "10 seconds" ],
+        "randomize_time_in_future": true,
+        "variables": { "test_context_key_M": "test_context_value_M", "test_context_key_N": "test_context_value_N" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_M",
+    "effect": [ { "set_string_var": { "context_val": "test_context_key_M" }, "target_var": { "global_val": "test_global_key_M" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_N",
+    "effect": [ { "set_string_var": { "context_val": "test_context_key_N" }, "target_var": { "global_val": "test_global_key_N" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_talker_mixes",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_mixins_save_name" ],
+        "alpha_talker": { "context_val": "alpha_var" },
+        "beta_talker": { "context_val": "beta_var" },
+        "false_eocs": "EOC_mixes_fail"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_talker_mixes_loc",
+    "effect": [
+      { "run_eocs": [ "EOC_mixins_save_name" ], "alpha_loc": { "context_val": "alpha_var" }, "false_eocs": "EOC_mixes_fail" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mixins_save_name",
+    "effect": [
+      { "set_string_var": "<u_name>", "target_var": { "global_val": "alpha_name" }, "parse_tags": true },
+      { "set_string_var": "<npc_name>", "target_var": { "global_val": "beta_name" }, "parse_tags": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mixes_fail",
+    "effect": [
+      { "set_string_var": "mixin fail alpha", "target_var": { "global_val": "alpha_name" } },
+      { "set_string_var": "mixin fail beta", "target_var": { "global_val": "beta_name" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_compare_string_test",
+    "effect": [
+      { "if": { "compare_string": [ "yes", "yes" ] }, "then": { "math": [ "eoc_compare_string_test_1++" ] } },
+      { "if": { "compare_string": [ "yes", "no" ] }, "else": { "math": [ "eoc_compare_string_test_2++" ] } },
+      { "if": { "compare_string": [ "yes", "yes", "yes" ] }, "then": { "math": [ "eoc_compare_string_test_3++" ] } },
+      { "if": { "compare_string": [ "yes", "yes", "no" ] }, "then": { "math": [ "eoc_compare_string_test_4++" ] } },
+      { "if": { "compare_string": [ "yes", "no", "eh" ] }, "else": { "math": [ "eoc_compare_string_test_5++" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_compare_string_match_all_test",
+    "effect": [
+      {
+        "if": { "compare_string_match_all": [ "yes", "yes" ] },
+        "then": { "math": [ "eoc_compare_string_match_all_test_1++" ] }
+      },
+      {
+        "if": { "compare_string_match_all": [ "yes", "no" ] },
+        "else": { "math": [ "eoc_compare_string_match_all_test_2++" ] }
+      },
+      {
+        "if": { "compare_string_match_all": [ "yes", "yes", "yes" ] },
+        "then": { "math": [ "eoc_compare_string_match_all_test_3++" ] }
+      },
+      {
+        "if": { "compare_string_match_all": [ "yes", "yes", "no" ] },
+        "else": { "math": [ "eoc_compare_string_match_all_test_4++" ] }
+      },
+      {
+        "if": { "compare_string_match_all": [ "yes", "no", "eh" ] },
+        "else": { "math": [ "eoc_compare_string_match_all_test_5++" ] }
+      }
+    ]
   }
 ]

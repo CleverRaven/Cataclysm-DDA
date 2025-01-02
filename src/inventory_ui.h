@@ -21,6 +21,7 @@
 #include "input_context.h"
 #include "item_category.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "pocket_type.h"
 #include "pimpl.h"
 #include "translations.h"
@@ -615,6 +616,7 @@ class inventory_selector
         void add_contained_gunmods( Character &you, item &gun );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
+        void add_character_ebooks( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
@@ -1056,7 +1058,7 @@ class pickup_selector : public inventory_multiselector
         bool wield( int &count );
         bool wear();
         void remove_from_to_use( item_location &it );
-        void add_reopen_activity();
+        void reopen_menu();
         const std::optional<tripoint> where;
 };
 

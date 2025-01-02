@@ -69,7 +69,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "water_clean", "prob": 90 },
-      { "item": "knife_butcher", "prob": 100 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 100 },
       { "item": "joint", "prob": 50 },
       { "prob": 5, "group": "coke_bag_zipper_8" },
       { "prob": 60, "group": "cig_box_cigarette_20" },

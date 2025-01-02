@@ -106,7 +106,7 @@
     "id": "f_xedra_antenna",
     "name": "mobile antenna",
     "symbol": "1",
-    "looks_like": "f_small_satelitte_dish",
+    "looks_like": "f_small_satellite_dish",
     "description": "A stark black directional antenna, seemingly part of a monitoring setup.  An LED mounted on its back lights up with a lazy and irregular rhythm.",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -132,7 +132,10 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 40 },
         { "item": "cu_pipe", "prob": 40 },
@@ -150,7 +153,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "count": 2, "prob": 40 },
         { "item": "chain", "prob": 20 },
         { "item": "cu_pipe", "prob": 10 },
@@ -176,7 +182,10 @@
     "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 60 },
         { "item": "cu_pipe", "prob": 20 },
@@ -198,7 +207,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "count": 1 },
         { "item": "chain", "prob": 20 },
         { "item": "steel_lump", "count": 1 },
@@ -227,7 +239,10 @@
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 40 },
         { "item": "cu_pipe", "prob": 60 },
@@ -249,7 +264,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "chain", "prob": 20 },
         { "item": "cu_pipe", "prob": 10 },
@@ -277,7 +295,10 @@
     "deconstruct": {
       "skill": { "skill": "electronics", "min": 1, "max": 8 },
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 16 ], "prob": 80 },
+        { "item": "mc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "hc_wire", "count": [ 1, 8 ], "prob": 15 },
+        { "item": "qt_wire", "count": [ 1, 8 ], "prob": 15 },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "bearing", "charges": [ 2, 6 ] },
@@ -300,7 +321,10 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "prob": 40 },
+        { "item": "lc_wire", "count": [ 1, 8 ], "prob": 60 },
+        { "item": "mc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "hc_wire", "count": [ 1, 4 ], "prob": 5 },
+        { "item": "qt_wire", "count": [ 1, 4 ], "prob": 5 },
         { "item": "pipe", "prob": 40 },
         { "item": "steel_chunk", "prob": 40 },
         { "item": "bearing", "charges": [ 2, 4 ] },
@@ -456,7 +480,7 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
-        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "lc_wire", "count": [ 1, 3 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "processor", "count": 1 },
@@ -477,7 +501,7 @@
       "sound": "clang!",
       "sound_fail": "ting.",
       "items": [
-        { "item": "wire", "prob": 40 },
+        { "item": "lc_wire", "prob": 40 },
         { "item": "pipe", "prob": 40 },
         { "item": "steel_chunk", "prob": 40 },
         { "item": "processor", "prob": 40 },

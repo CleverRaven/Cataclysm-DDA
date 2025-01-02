@@ -179,13 +179,14 @@
     "type": "mutation",
     "id": "BORN_ARTISAN",
     "name": { "str": "Earthborn Artisan" },
-    "description": "Born from the living earth, your people are naturally adept at the manipulation of the physical world.",
+    "description": "Born from the living earth, your people are naturally adept at the manipulation of the physical world.  Your crafting speed is 10% faster, and you can even craft in darkness.",
     "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "mutation",
@@ -195,7 +196,7 @@
     "points": 5,
     "starting_trait": false,
     "purifiable": false,
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_DWARF", "THRESH_SPECIES_GOBLIN" ]
   },
@@ -331,6 +332,17 @@
   },
   {
     "type": "mutation",
+    "id": "ELVEN_SIGHT",
+    "name": { "str": "Elvensight" },
+    "points": 2,
+    "description": "Like a cat, elven eyes are well-attuned to low levels of light, able to pick up even the slightest glimmer.  You have greatly-enhanced night vision.",
+    "types": [ "EYES" ],
+    "category": [ "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_SPECIES_ELF" ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 5 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "ELVEN_HEARING",
     "name": { "str": "Elven Hearing" },
     "purifiable": false,
@@ -340,7 +352,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SAFECRACK_NO_TOOL" ],
-    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -415,12 +427,6 @@
   },
   {
     "type": "mutation",
-    "id": "ELFA_NV",
-    "copy-from": "ELFA_NV",
-    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
-  },
-  {
-    "type": "mutation",
     "id": "ANIMALEMPATH",
     "copy-from": "ANIMALEMPATH",
     "extend": { "category": [ "SPECIES_ELF" ] }
@@ -429,7 +435,7 @@
     "type": "mutation",
     "id": "ANIMALEMPATH2",
     "copy-from": "ANIMALEMPATH2",
-    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
+    "extend": { "category": [ "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
@@ -499,6 +505,8 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "flags": [ "TINY" ],
+    "anger_relations": [ [ "WARG", -90 ] ],
+    "spells_learned": [ [ "goblin_tame_warg_spell", 1 ] ],
     "enchantments": [
       {
         "values": [
@@ -558,9 +566,11 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
-    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human.",
+    "types": [ "EYES" ],
+    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human, even being able to craft in the dark.",
     "category": [ "SPECIES_GOBLIN" ],
-    "enchantments": [ "ench_goblin_eyes" ]
+    "enchantments": [ "ench_goblin_eyes" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "mutation",
@@ -742,11 +752,34 @@
     "id": "RAVENFOLK_LEGS",
     "copy-from": "BIRD_LEGS",
     "name": { "str": "Ravenfolk Legs" },
-    "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
+    "description": "Your legs and feet are those of a raven, with three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement, and you could use them as part of a leaping attack.",
     "category": [ "SPECIES_RAVENFOLK" ],
+    "purifiable": false,
     "extend": { "prereqs": [ "RAVEN_BONES" ] },
     "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
-    "flags": [ "TOUGH_FEET" ]
+    "activation_msg": ""
+  },
+  {
+    "type": "mutation",
+    "id": "RAVENFOLK_WINGS",
+    "name": { "str": "Ravenfolk Wings" },
+    "points": 0,
+    "visibility": 6,
+    "ugliness": 2,
+    "purifiable": false,
+    "mixed_effect": true,
+    "description": "You have a pair of large raven wings projecting from your shoulderblades.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "types": [ "WINGS" ],
+    "strict_threshreq": true,
+    "restricts_gear": [ "torso" ],
+    "allow_soft_gear": true,
+    "flags": [ "WINGS_2", "WING_GLIDE" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activation_msg": "",
+    "activated_eocs": [ "EOC_RAVENFOLK_LEAP" ]
   },
   {
     "type": "mutation",
@@ -755,11 +788,10 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 5,
-    "description": "Your large beak allows you to imitate nearly every sound humans can make.  And also rip into flesh, if it comes to that.",
+    "description": "Your large beak allows you to imitate nearly every sound humans can make, as well as let out very loud screeches.  And also rip into flesh, if it comes to that.",
     "purifiable": false,
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
-    "prereqs": [ "BEAK" ],
     "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
     "category": [ "SPECIES_RAVENFOLK" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
@@ -773,7 +805,11 @@
         "chance": 15,
         "base_damage": { "damage_type": "stab", "amount": 12 }
       }
-    ]
+    ],
+    "active": true,
+    "activated_is_setup": false,
+    "activation_msg": "",
+    "activated_eocs": [ "EOC_RAVENFOLK_SCREECH" ]
   },
   {
     "type": "mutation",
@@ -781,12 +817,6 @@
     "copy-from": "HOLLOW_BONES",
     "description": "Your bones are nearly hollow, a remnant of your people's past as creatures of the air.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
     "category": [ "SPECIES_RAVENFOLK" ]
-  },
-  {
-    "type": "mutation",
-    "id": "BEAK",
-    "copy-from": "BEAK",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
@@ -817,12 +847,6 @@
     "id": "EAGLEEYED",
     "copy-from": "EAGLEEYED",
     "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "WINGS_BIRD",
-    "copy-from": "WINGS_BIRD",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",

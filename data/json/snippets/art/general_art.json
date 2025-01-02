@@ -59,23 +59,6 @@
   },
   {
     "type": "snippet",
-    "category": "<random_color>",
-    "//": "There can potentially be hundreds of these if so desired, with how many different colors there are.  A list can be found here: https://en.wikipedia.org/wiki/List_of_colors:_A%E2%80%93F",
-    "text": [
-      { "id": "random_color_0001", "text": { "ctxt": "random_color", "str": "red" } },
-      { "id": "random_color_0002", "text": { "ctxt": "random_color", "str": "white" } },
-      { "id": "random_color_0003", "text": { "ctxt": "random_color", "str": "blue" } },
-      { "id": "random_color_0004", "text": { "ctxt": "random_color", "str": "green" } },
-      { "id": "random_color_0005", "text": { "ctxt": "random_color", "str": "orange" } },
-      { "id": "random_color_0006", "text": { "ctxt": "random_color", "str": "brown" } },
-      { "id": "random_color_0007", "text": { "ctxt": "random_color", "str": "pink" } },
-      { "id": "random_color_0008", "text": { "ctxt": "random_color", "str": "purple" } },
-      { "id": "random_color_0009", "text": { "ctxt": "random_color", "str": "gray" } },
-      { "id": "random_color_0010", "text": { "ctxt": "random_color", "str": "black" } }
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "<random_shape_any>",
     "text": [
       { "id": "random_shape_any_0001", "text": "<random_shape_2d>" },

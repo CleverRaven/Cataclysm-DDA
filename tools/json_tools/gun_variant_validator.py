@@ -91,71 +91,30 @@ IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
     "bigun",
     "american_180",
-    "sig_mosquito",
-    "fn_p90",
-    "p50",
-    "fn_ps90",
     "fn_fal_semi",
     "m1a",
-    "m110a1",
-    "ak308",
     "rfb_308",
     "steyr_scout",
-    "tac338",
-    "smg_45",
-    "hptjhp",
-    "cx4",
-    "hk_mp5_semi_pistol",
-    "hk_g3",
-    "briefcase_smg",
-    "mauser_m714",
-    "ksub2000",
-    "smg_9mm",
-    "colt_ro635",
-    "arx160",
-    "draco",
-    "mk47",
-    "ak556",
-    "minidraco556",
     "mdrx",
-    "sapra",
     "STI_DS_10",
     "hpt3895",
     "m2carbine",
-    "smg_40",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "1895sbl",
-    "bfr",
-    "sharps",
-    "m107a1",
-    "as50",
-    "tac50",
-    "bfg50",
     "fn_p90",
     "hk_mp7",
     "obrez",
     "pressin",
-    "m1911-460",
     "m2010",
     "weatherby_5",
     "win70",
-    "2_shot_special",
-    "cop_38",
-    "model_10_revolver",
     "mr73",
-    "ruger_lcr_38",
-    "sw_619",
-    "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
-    "bond_410",
-    "colt_saa",
     "p226_357sig",
     "glock_31",
     "p320_357sig",
-    "fs2000",
     "scar_l",
     "brogyaga",
     "raging_bull",
@@ -164,7 +123,6 @@ NAME_CHECK_BLACKLIST = {
     "shotgun_410",
     "mgl",
     "pseudo_m203",
-    "colt_army",
     "atgm_launcher",
     "xedra_gun",
     "90two40",
@@ -177,10 +135,8 @@ NAME_CHECK_BLACKLIST = {
     "AT4",
     "af2011a1_38super",
     "m1911a1_38super",
-    "colt_navy",
     "plasma_gun",
     "bbgun",
-    "LAW",
 }
 BAD_IDENTIFIERS = [
     "10mm",
@@ -208,6 +164,7 @@ TYPE_DESCRIPTORS = [
     "coilgun",
     # Not great, but weird can get a pass
     "combination gun",
+    "derringer",
     "flamethrower",
     "flintlock",
     # Special faction-specific invented weapons get a pass
@@ -335,11 +292,10 @@ def simplify_object(jo):
         return False
 
     req_keys = {"weight", "volume", "ammo", "id"}
-    extra_keys = {"longest_side", "pocket_data", "ranged_damage", "modes",
-                  "recoil", "dispersion", "name"}
+    all_keys = req_keys | set(INHERITED_KEYS)
+
     # Drop all the other keys
-    removed = list(filter(lambda key: key not in req_keys | extra_keys,
-                          jo.keys()))
+    removed = list(filter(lambda key: key not in all_keys, jo.keys()))
     # Need to iterate over removed because we can't delete from dict in for
     for key in removed:
         del jo[key]

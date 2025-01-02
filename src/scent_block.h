@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <array>
 
-#include "coordinate_conversions.h"
+#include "coords_fwd.h"
 #include "point.h"
 #include "scent_map.h"
 
@@ -38,7 +38,7 @@ struct scent_block {
     }
 
     // We should be working entirely within the range, so don't range check here
-    void apply_gas( const tripoint &p, int nintensity = 0 );
+    void apply_gas( const tripoint_bub_ms &p, int nintensity = 0 );
     void apply_slime( const tripoint &p, int intensity );
 };
 

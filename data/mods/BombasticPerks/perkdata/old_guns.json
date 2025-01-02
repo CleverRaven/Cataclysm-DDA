@@ -70,13 +70,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "fn1910",
-    "type": "GUN",
-    "copy-from": "fn1910",
-    "name": { "str": "FN 1910 .380" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "hi_power_40",
     "type": "GUN",
     "copy-from": "hi_power_40",
@@ -221,13 +214,6 @@
     "type": "GUN",
     "copy-from": "winchester_1897",
     "name": { "str": "6-round trenchgun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "ppsh",
-    "type": "GUN",
-    "copy-from": "ppsh",
-    "name": { "str": "PPSh-41 submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {

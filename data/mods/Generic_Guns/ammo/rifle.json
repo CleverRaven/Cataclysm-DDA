@@ -97,5 +97,13 @@
     "name": { "str_sp": "railgun rifle ammo" },
     "description": "Projectile used for a railgun.  It's made of a ferromagnetic metal, probably cobalt.",
     "ammo_type": "ammo_railgun"
+  },
+  {
+    "id": "rifle_ball_cannon",
+    "copy-from": "33naval_ball",
+    "type": "AMMO",
+    "name": { "str_sp": "foreign cannon rifle ammo, ball" },
+    "description": "Foreign cannon rifle ammo brought by the Exodii, capable to destroy lightly armored vehicles, as well as highly armored mutants.",
+    "ammo_type": "ammo_rifle_cannon"
   }
 ]

@@ -163,7 +163,7 @@
     "name": { "str": "Prepare for your next show" },
     "description": "Become the best clown, make sure that your next show will make everyone laugh by training your social skills to perfection.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "math": [ "u_skill('speech')", ">=", "6" ] },
+    "goal_condition": { "math": [ "u_skill('speech') >= 6" ] },
     "difficulty": 3,
     "value": 0,
     "end": {
@@ -209,8 +209,8 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
-        { "math": [ "u_skill('melee')", ">=", "5" ] },
-        { "math": [ "u_skill('dodge')", ">=", "5" ] },
+        { "math": [ "u_skill('melee') >= 5" ] },
+        { "math": [ "u_skill('dodge') >= 5" ] },
         { "u_has_item": "judo_belt_black" }
       ]
     },
@@ -472,13 +472,9 @@
         { "u_has_item": "jumpsuit_skeleton" },
         { "u_has_item": "mummy_jumpsuit" },
         { "u_has_item": "bodysuit_lycra" },
-        { "u_has_item": "wolfsuit" },
-        { "u_has_item": "dragonsuit" },
-        { "u_has_item": "felinesuit" },
-        { "u_has_item": "dinosuit" },
+        { "u_has_item": "fursuit" },
         { "u_has_item": "bondage_suit" },
         { "u_has_item": "clown_suit" },
-        { "u_has_item": "sharksuit" },
         { "u_has_item": "jumpsuit_skeleton_zipped" },
         { "u_has_item": "maid_dress" },
         { "u_has_item": "mummy_dress" },
@@ -635,11 +631,11 @@
     "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
     "type": "mission_definition",
     "name": { "str": "Find Antibiotics Before You Die!" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "strong_antibiotic" }, { "u_has_item": "antibiotic" }, { "u_has_item": "weak_antibiotic" } ] },
     "difficulty": 1,
     "value": 0,
-    "origins": [ "ORIGIN_GAME_START" ],
-    "item": "antibiotics"
+    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_HELICOPTER_REFUEL",

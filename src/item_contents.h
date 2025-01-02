@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "enums.h"
 #include "item_pocket.h"
 #include "ret_val.h"
@@ -312,7 +313,9 @@ class item_contents
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
+        // TODO: Get rid of untyped overload.
         int ammo_consume( int qty, const tripoint &pos, float fuel_efficiency = -1.0 );
+        int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
@@ -352,7 +355,8 @@ class item_contents
          * NOTE: this destroys the items that get processed
          */
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool watertight_container = false );
 
         void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 

@@ -184,7 +184,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning ability.",
     "category": [ "HOMULLUS" ],
-    "prereqs": [ "INT_UP_2" ],
+    "prereqs": [ "INT_UP_2", "INT_ALPHA" ],
     "spells_learned": [ [ "homullus_add_learning_focus_spell", 1 ] ]
   },
   {
@@ -319,7 +319,7 @@
     "ugliness": 0,
     "description": "You are capable of storing power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
     "category": [ "HOMULLUS" ],
-    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "enchantments": [
       {
         "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "paraclesian_homullus_total_mutations(1) * 50000000" ] } } ]
@@ -385,7 +385,7 @@
     "ugliness": 0,
     "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power.",
     "changes_to": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
-    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1", "HOMULLUS_CBM_MANA_2" ],
     "prereqs2": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
     "category": [ "HOMULLUS" ]
   },
@@ -420,16 +420,6 @@
       {
         "condition": {
           "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
             { "u_near_om_location": "road", "range": 3 },
             { "u_near_om_location": "dirt_road", "range": 3 },
             { "u_near_om_location": "subway", "range": 3 },
@@ -474,7 +464,7 @@
             "value": "REGEN_STAMINA",
             "multiply": {
               "math": [
-                "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_archaeologist', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both')) * (0.05 * paraclesian_post_threshold_doubler(1))"
+                "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_mon_species_nearby('FERAL', 'radius': 30, 'attitude': 'both')) * (0.05 * paraclesian_post_threshold_doubler(1))"
               ]
             }
           }
@@ -487,7 +477,7 @@
     "id": "HOMULLUS_EAT_DEMIHUMANS",
     "name": { "str": "The Top of the Food Chain" },
     "points": 5,
-    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.",
+    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.  However, the food that pre-Cataclysm humanity would slowly poison themselves with is anathema to you, and you will eat only good-tasting food unless you are starving.",
     "types": [ "DIET" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
@@ -607,7 +597,7 @@
     "visibility": 0,
     "ugliness": 0,
     "purifiable": false,
-    "description": "As a spirit of humanity, you lack the natural biology required for mutagens to function.  However, your powers have grown far enough to allow you to use even the most abstract of human tools, allowing you to consume mutagens to change your body.  Unlike humans, however, there are thresholds you will never be able to reach.",
+    "description": "As a spirit of humanity, you lack the natural biology required for mutagens to function.  However, your powers have grown far enough to allow you to use even the most abstract of human tools, allowing you to consume mutagens to change your body.  Unlike humans, however, there are thresholds you will never be able to reach, and should you choose this route, further development of your native spirit powers will be closed off to you.",
     "threshreq": [ "THRESH_HOMULLUS" ],
     "prereqs": [ "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
@@ -627,6 +617,48 @@
     "allowed_category": [ "HOMULLUS" ],
     "changes_to": [ "HOMULLUS_EXPANDED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_NO_DOLL_MUTATIONS",
+    "name": "Homullus No Doll Mutations",
+    "//": "For Homullus who choose to consume mutagen, prevent them from mutating any more homullus traits.",
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have chosen the path of human mutation and further Homullus mutation is closed off to you.  You should not see this in-game.",
+    "vitamin_rates": [ [ "mutagen_dollkin", 1 ] ],
+    "allowed_category": [
+      "ALPHA",
+      "BATRACHIAN",
+      "BEAST",
+      "BIRD",
+      "CATTLE",
+      "CEPHALOPOD",
+      "CHIMERA",
+      "CHIROPTERAN",
+      "CRUSTACEAN",
+      "ELFA",
+      "FELINE",
+      "FISH",
+      "GASTROPOD",
+      "INSECT",
+      "LIZARD",
+      "LUPINE",
+      "MEDICAL",
+      "MOUSE",
+      "PLANT",
+      "RABBIT",
+      "RAPTOR",
+      "RAT",
+      "SLIME",
+      "SPIDER",
+      "TROGLOBITE",
+      "URSINE"
+    ]
   },
   {
     "type": "mutation",
@@ -749,37 +781,43 @@
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
     "copy-from": "BEAUTIFUL",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE", "LILIN" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL2",
     "copy-from": "BEAUTIFUL2",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "STR_UP",
     "copy-from": "STR_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_2",
     "copy-from": "STR_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
@@ -791,13 +829,13 @@
     "type": "mutation",
     "id": "DEX_UP",
     "copy-from": "DEX_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
     "id": "DEX_UP_2",
     "copy-from": "DEX_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
@@ -827,13 +865,13 @@
     "type": "mutation",
     "id": "PER_UP",
     "copy-from": "PER_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",
     "id": "PER_UP_2",
     "copy-from": "PER_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",

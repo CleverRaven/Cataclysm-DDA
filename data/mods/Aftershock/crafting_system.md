@@ -59,7 +59,7 @@ This tier of scrap is properly uncommon, it spawns should be limited to the 'bos
 
 ### Tier 5
 
-Very rare loot occasionally dropped by endgame threats and dungeons, extracting it requires very high skills and specialized tools. Thematically linked to the dimensional technology that caused the cataclysm. Might be used to craft items that severely and permanently alter the combat aspects of gameplay. For example:
+Very rare loot occasionally dropped by endgame threats and dungeons, extracting it requires very high skills and specialized tools. Thematically linked to the dimensional technology that caused the Discontinuity. Might be used to craft items that severely and permanently alter the combat aspects of gameplay. For example:
 
 - Hologram Cloak Mk. II
 - Rechargeable Spell Casters

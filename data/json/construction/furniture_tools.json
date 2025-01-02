@@ -90,7 +90,7 @@
     "time": "60m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "lc_wire", 8 ] ] ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "f_bellows"
   },
@@ -104,7 +104,7 @@
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
       [ [ "stick_long", 6 ] ],
-      [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "wire", 8 ] ],
+      [ [ "rope_natural_short", 1, "LIST" ], [ "cordage", 2, "LIST" ], [ "lc_wire", 8 ] ],
       [ [ "pointy_stick", 2 ], [ "spike", 2 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.",
@@ -489,7 +489,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "//1": "5cm of weld to join the faucet to the pipe",
-    "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
+    "components": [ [ [ "metal_tank", 5 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
   },

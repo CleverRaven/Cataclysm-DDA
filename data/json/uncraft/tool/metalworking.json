@@ -45,6 +45,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "50 m",
     "tools": [ [ [ "angle_grinder", 45 ] ] ],
-    "components": [ [ [ "steel_lump", 27 ] ] ]
+    "components": [ [ [ "steel_lump", 14 ] ] ]
   }
 ]

@@ -58,7 +58,13 @@
     "power_draw": "8170 mW",
     "warmth": 150,
     "revert_to": "afs_magellan_suit_helmet",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit_helmet" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_magellan_suit_helmet"
+    },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ] },
     "environmental_protection": 15
   },
@@ -115,6 +121,12 @@
     "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryomask",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryomask" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_frontier_cryomask"
+    }
   }
 ]

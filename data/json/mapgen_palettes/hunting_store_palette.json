@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "hunting_store_palette",
     "toilets": { "&": {  } },
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       ".": "t_region_groundcover",
       " ": "t_floor",
@@ -18,14 +19,12 @@
       "`": "t_pavement_y",
       "+": "t_door_c",
       "*": "t_door_metal_pickable",
-      "|": "t_wall_w",
-      "-": "t_wall_w",
       "~": "t_window_bars_alarm",
       "4": "t_gutter_downspout"
     },
     "furniture": {
-      "#": "f_counter",
-      "C": "f_counter_gate_c",
+      "C": "f_counter",
+      "-": "f_counter_gate_c",
       "%": "f_sink",
       "R": "f_rack",
       "r": "f_warehouse_shelf",

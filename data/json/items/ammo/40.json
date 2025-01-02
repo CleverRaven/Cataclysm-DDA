@@ -3,7 +3,7 @@
     "id": "40fmj",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W FMJ" },
-    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular amongst law enforcement before the FBI switched to 9mm.",
+    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular among law enforcement before the FBI switched to 9mm.",
     "ascii_picture": "40sw",
     "weight": "15 g",
     "volume": "106 ml",
@@ -55,7 +55,7 @@
     "copy-from": "40fmj",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W JHP" },
-    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular amongst law enforcement before the FBI switched to 9mm.",
+    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular among law enforcement before the FBI switched to 9mm.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
   },
   {
@@ -63,7 +63,6 @@
     "copy-from": "40fmj",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W FMJ, black powder" },
-    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -78,7 +77,6 @@
     "copy-from": "40sw",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W JHP, black powder" },
-    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -93,7 +91,6 @@
     "copy-from": "40fmj",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W FMJ, reloaded" },
-    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -103,7 +100,6 @@
     "copy-from": "40sw",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W JHP, reloaded" },
-    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -114,7 +110,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".40 S&W FMJ, matchhead powder" },
-    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_40fmj",
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -125,7 +120,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".40 S&W JHP, matchhead powder" },
-    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_40sw",
     "extend": { "effects": [ "MATCHHEAD" ] }

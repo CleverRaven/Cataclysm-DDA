@@ -36,7 +36,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "grip",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher", "bow" ],
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 2 ] ]
   },

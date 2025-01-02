@@ -7,8 +7,9 @@
       { "group": "GROUP_WILDERNESS_FOREST_DINO", "weight": 250 },
       { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 150 },
       { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 150 },
-      { "group": "GROUP_DINOSAUR_PREDATOR_RIVER", "weight": 150 },
-      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 150 }
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 150 },
+      { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 150 },
+      { "group": "GROUP_DINOSAUR_CAVE", "weight": 150 }
     ]
   },
   {
@@ -42,6 +43,7 @@
     "name": "GROUP_DINOSAUR_HARMLESS",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nedcolbertia", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus", "weight": 50, "pack_size": [ 1, 2 ] },
@@ -55,12 +57,14 @@
       { "monster": "mon_tenontosaurus", "weight": 100, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dryosaurus", "weight": 100, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camptosaurus", "weight": 100, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_eolambia", "weight": 100, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegoceras", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pachycephalosaurus", "weight": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_aquilops", "weight": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nanosaurus", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_leptoceratops", "weight": 3, "pack_size": [ 4, 8 ] },
       { "monster": "mon_zuniceratops", "weight": 3, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_fona", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_oryctodromeus", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_thescelosaurus", "weight": 20, "pack_size": [ 1, 2 ] }
     ]
@@ -89,6 +93,7 @@
     "name": "GROUP_DINOSAUR_HARMLESS_HATCHLING",
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nedcolbertia_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -107,6 +112,7 @@
       { "monster": "mon_barosaurus_hatchling", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camarasaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brachiosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_astrodon_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_alamosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus_hatchling", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -125,6 +131,7 @@
       { "monster": "mon_tenontosaurus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dryosaurus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camptosaurus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_eolambia_hatchling", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_hadrosaurus_hatchling", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_maiasaura_hatchling", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gryposaurus_hatchling", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -140,6 +147,7 @@
       { "monster": "mon_aquilops_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_leptoceratops_hatchling", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zuniceratops_hatchling", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_lokiceratops_hatchling", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_styracosaurus_hatchling", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_centrosaurus_hatchling", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_einiosaurus_hatchling", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -151,6 +159,7 @@
       { "monster": "mon_torosaurus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_triceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nanosaurus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_fona_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_oryctodromeus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_thescelosaurus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
@@ -188,6 +197,7 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
     "monsters": [
+      { "monster": "mon_nedcolbertia_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_struthiomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -208,6 +218,7 @@
       { "monster": "mon_scolosaurus_juvenile", "weight": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_tenontosaurus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camptosaurus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_eolambia_juvenile", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_hadrosaurus_juvenile", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_maiasaura_juvenile", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gryposaurus_juvenile", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -252,6 +263,7 @@
       { "monster": "mon_barosaurus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camarasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brachiosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_astrodon", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_alamosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_hesperosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -274,6 +286,7 @@
       { "monster": "mon_lambeosaurus", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_corythosaurus", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_hypacrosaurus", "weight": 20, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_lokiceratops", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_styracosaurus", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_centrosaurus", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_einiosaurus", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -321,7 +334,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_PREDATOR_RIVER",
+    "name": "GROUP_DINOSAUR_PREDATOR_STREAM",
     "monsters": [
       { "monster": "mon_tawa", "pack_size": [ 4, 8 ] },
       { "monster": "mon_coelophysis", "pack_size": [ 4, 8 ] },
@@ -354,7 +367,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZREDATOR_RIVER",
+    "name": "GROUP_DINOSAUR_ZREDATOR_STREAM",
     "monsters": [
       { "monster": "mon_zeratosaurus", "cost_multiplier": 35 },
       { "monster": "mon_zorvosaurus", "cost_multiplier": 35 },
@@ -395,6 +408,7 @@
       { "monster": "mon_barosaurus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_camarasaurus", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brachiosaurus", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_astrodon", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_alamosaurus", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] }
     ]
   },
@@ -422,6 +436,7 @@
       { "monster": "mon_tenontosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_dryosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_camptosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_eolambia", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_hadrosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_maiasaura", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gryposaurus", "weight": 20, "pack_size": [ 4, 12 ] },
@@ -439,6 +454,7 @@
     "name": "GROUP_DINOSAUR_ZADROSAURS_WILDERNESS",
     "monsters": [
       { "monster": "mon_zamptosaurus", "weight": 5, "cost_multiplier": 10, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_zeolambia", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zadrosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zaiasaura", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zryposaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
@@ -449,6 +465,25 @@
       { "monster": "mon_zambeosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zorythosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_zypacrosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 4, 12 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_CAVE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_compsognathus", "weight": 400, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_albertonykus", "weight": 200, "pack_size": [ 1, 2 ], "conditions": [ "WINTER" ] },
+      { "monster": "mon_saurornitholestes", "weight": 150, "pack_size": [ 2, 4 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_stenonychosaurus", "weight": 150, "pack_size": [ 1, 2 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_fona", "weight": 150, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus", "weight": 150, "pack_size": [ 1, 2 ] },
+      {
+        "monster": "mon_dimorphodon",
+        "weight": 500,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      }
     ]
   }
 ]

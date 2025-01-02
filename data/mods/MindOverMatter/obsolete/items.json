@@ -9,7 +9,13 @@
       "biokin_enhance_mobility_item_4",
       "biokin_enhance_mobility_item_5",
       "biokin_enhance_mobility_item_6",
-      "telepath_mind_shield_item"
+      "telepath_mind_shield_item",
+      "electrokinetic_ups_1",
+      "electrokinetic_ups_2",
+      "electrokinetic_ups_3",
+      "electrokinetic_ups_4",
+      "electrokinetic_ups_5",
+      "electrokinetic_ups_6"
     ],
     "replace": "manual_swimming"
   }

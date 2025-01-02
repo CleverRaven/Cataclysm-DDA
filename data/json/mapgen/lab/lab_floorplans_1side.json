@@ -157,13 +157,7 @@
       "palettes": [ "lab_palette" ],
       "place_monsters": [ { "monster": "GROUP_MAYBE_MIL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 } ],
       "place_monster": [
-        {
-          "monster": [ "mon_zombie_bio_op", "mon_dispatch" ],
-          "x": [ 10, 16 ],
-          "y": [ 5, 12 ],
-          "pack_size": [ 1, 2 ],
-          "chance": 40
-        },
+        { "monster": [ "mon_dispatch" ], "x": [ 10, 16 ], "y": [ 5, 12 ], "pack_size": [ 1, 2 ], "chance": 40 },
         { "monster": [ "mon_zombie_soldier" ], "x": [ 1, 21 ], "y": [ 1, 16 ], "pack_size": [ 1, 4 ], "chance": 40 }
       ],
       "furniture": { "7": "f_console" },

@@ -18,7 +18,7 @@
 #include <clocale>
 
 // Needed for screen scraping
-#if (defined(TILES) || defined(_WIN32))
+#if defined(TILES)
 #include "cursesport.h"
 #endif
 
@@ -43,6 +43,9 @@ const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
+
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
@@ -82,6 +85,8 @@ static const widget_id widget_test_compass_N_nowidth( "test_compass_N_nowidth" )
 static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
 static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
+static const widget_id widget_test_custom_var_dynamic_range( "test_custom_var_dynamic_range" );
+static const widget_id widget_test_custom_var_static_range( "test_custom_var_static_range" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
@@ -131,7 +136,7 @@ static const widget_id widget_test_weight_clauses_normal( "test_weight_clauses_n
 
 // dseguin 2022 - Ugly hack to scrape content from the window object.
 // Scrapes the window w at origin, reading the number of cols and rows.
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
 static std::vector<std::string> scrape_win_at(
     catacurses::window &w, const point &origin, int cols, int rows )
 {
@@ -697,11 +702,11 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
 
         ava.clear_morale();
         CHECK( morale_w.layout( ava ) == "MORALE: 0" );
-        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        ava.add_morale( morale_food_good, 20 );
         CHECK( morale_w.layout( ava ) == "MORALE: 20" );
 
         ava.clear_morale();
-        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        ava.add_morale( morale_killed_innocent, -100 );
         CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
 
@@ -1671,8 +1676,8 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint northeast = ava.pos() + tripoint( 10, -10, 0 );
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms northeast = ava.pos_bub() + tripoint( 10, -10, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters" ) {
         clear_map();
@@ -1937,7 +1942,7 @@ TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
         }
 
         SECTION( "cannot see weather when underground" ) {
-            ava.setpos( tripoint_below );
+            ava.setpos( tripoint::below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
@@ -1951,7 +1956,7 @@ static void fill_overmap_area( const avatar &ava, const oter_id &oter )
         for( int y = -1; y <= 1; ++y ) {
             const tripoint offset( x, y, 0 );
             overmap_buffer.ter_set( ava_pos + offset, oter );
-            overmap_buffer.set_seen( ava_pos + offset, true );
+            overmap_buffer.set_seen( ava_pos + offset, om_vision_level::full );
         }
     }
 }
@@ -2037,17 +2042,17 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Single-line layout" ) {
             std::string layout1 = "abcd efgh ijkl mnop qrst";
             CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2059,7 +2064,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         SECTION( "Single-line layout" ) {
             std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
             CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " abcd                           " );
             CHECK( lines[1] == " efgh                           " );
             CHECK( lines[2] == " ijkl                           " );
@@ -2089,7 +2094,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    const tripoint north = ava.pos() + tripoint( 0, -15, 0 );
+    const tripoint_bub_ms north = ava.pos_bub() + tripoint( 0, -15, 0 );
 
     SECTION( "No monsters (0 lines, bumped to 1 line when drawing)" ) {
         clear_map();
@@ -2615,19 +2620,19 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         CHECK( wgt.layout( ava ).empty() );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "test widget rendering when disabled" ) {
         const int cols = 32;
         const int rows = 5;
 
-        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point::zero );
 
         werase( w );
         SECTION( "Not empty" ) {
             // Show widget text when character is not blind
             REQUIRE( !ava.is_blind() );
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == " NOT EMPTY: Text exists         " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2642,7 +2647,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
             REQUIRE( ava.is_blind() );
             // Shouldn't be called (height should be decremented), but check it just in case
             CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            std::vector<std::string> lines = scrape_win_at( w, point::zero, cols, rows );
             CHECK( lines[0] == "                                " );
             CHECK( lines[1] == "                                " );
             CHECK( lines[2] == "                                " );
@@ -2901,6 +2906,49 @@ TEST_CASE( "W_NO_PADDING_widget_flag", "[widget]" )
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
             test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
+        }
+    }
+}
+
+TEST_CASE( "widgets_using_custom_vars", "[widget]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    SECTION( "static range" ) {
+        widget static_range_w = widget_test_custom_var_static_range.obj();
+
+        ava.set_focus( 75 );
+        CHECK( static_range_w.layout( ava ) == "FOCUS: 75" );
+        ava.set_focus( 120 );
+        CHECK( static_range_w.layout( ava ) == "FOCUS: 120" );
+    }
+
+    SECTION( "dynamic range" ) {
+        widget dynamic_range_w = widget_test_custom_var_dynamic_range.obj();
+        ava.str_max = 8;
+
+        GIVEN( "value within normal range" ) {
+            ava.set_str_bonus( 0 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_white>8</color>" );
+        }
+
+        GIVEN( "value below normal range" ) {
+            ava.set_str_bonus( -1 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_yellow>7</color>" );
+            ava.set_str_bonus( -2 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_red>6</color>" );
+            ava.set_str_bonus( -3 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_red>5</color>" );
+        }
+
+        GIVEN( "value above normal range" ) {
+            ava.set_str_bonus( 1 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_cyan>9</color>" );
+            ava.set_str_bonus( 2 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_light_green>10</color>" );
+            ava.set_str_bonus( 3 );
+            CHECK( dynamic_range_w.layout( ava ) == "STR: <color_c_green>11</color>" );
         }
     }
 }

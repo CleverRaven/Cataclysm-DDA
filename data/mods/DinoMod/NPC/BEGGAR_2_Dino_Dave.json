@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_REACH_FAKE_DAVE" } },
-            { "not": { "u_has_var": "found_fake_dave", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "found_fake_dave" } ] } }
           ]
         }
       },

@@ -1,0 +1,227 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTUNEMENT_ARTIFICER_BATTERY_RECHARGING",
+    "condition": { "u_has_trait": "ARTIFICER" },
+    "recurrence": "1 minutes",
+    "deactivate_condition": { "not": { "u_has_trait": "ARTIFICER" } },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "flags": [ "BATTERY_ULTRA_LIGHT" ] },
+          { "flags": [ "BATTERY_LIGHT" ] },
+          { "flags": [ "BATTERY_MEDIUM" ] },
+          { "flags": [ "BATTERY_HEAVY" ] }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_ATTUNEMENT_ARTIFICER_BATTERY_RECHARGING_CHARGER",
+            "condition": { "math": [ "n_val('power') < n_val('power_max')" ] },
+            "effect": [ { "math": [ "n_val('power')", "+=", "u_spell_level('spy_wasp') + u_spell_level('artificer_toolkit')" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_COLD_AURA_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BOREAL_MAGE" },
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_boreal_mage_attunement" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "BOREAL_MAGE" } },
+    "effect": [
+      { "u_add_trait": "COLD_AURA_OFF" },
+      { "u_add_var": "attunement_attunement_u_got_boreal_mage_attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DUST_REBORN_INITIAL",
+    "effect": [
+      { "u_location_variable": { "u_val": "dust_reborn_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "u_add_effect": "effect_dust_reborn", "duration": "30 days" },
+      { "u_add_trait": "DUST_REBORN" },
+      { "u_message": "Part of your body and soul were divorced.", "type": "neutral" }
+    ]
+  },
+  {
+    "id": "EOC_DUST_REBORN",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_trait": "DUST_REBORN" },
+    "effect": [
+      { "u_add_effect": "incorporeal", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1 },
+      { "math": [ "u_hp('ALL') = 999" ] },
+      { "math": [ "u_calories() = 70000" ] },
+      { "u_spawn_item": "corpse_painful" },
+      { "run_eocs": "EOC_DUST_REBORN_2", "time_in_future": "1 seconds" },
+      {
+        "u_message": "You feel an insane pain, as your soul is pulled off, out of your body.  Second later, your mind were pulled somewhere else, in the place you visit before."
+      }
+    ]
+  },
+  {
+    "id": "EOC_DUST_REBORN_2",
+    "type": "effect_on_condition",
+    "//": "This is two step EoC to make incorporeal effect trigger properly - without it you do not drop your items properly. Also remove all mutagen from your body, empty your fat (because its a backup body, contain not much of calories.)",
+    "condition": { "u_has_trait": "DUST_REBORN" },
+    "effect": [
+      { "u_teleport": { "u_val": "dust_reborn_teleport" } },
+      { "u_lose_trait": "DUST_REBORN" },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('thirst') = 0" ] },
+      { "math": [ "u_val('rad') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_vitamin('calcium') = 0" ] },
+      { "math": [ "u_vitamin('instability') = 0" ] },
+      { "math": [ "u_vitamin('iron') = 0" ] },
+      { "math": [ "u_vitamin('mutagen') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_alpha') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_batrachian') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_beast') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_bird') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_cattle') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_cephalopod') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_chelator') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_chimera') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_elfa') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_feline') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_fish') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_gastropod') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_human') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_insect') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_lizard') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_lupine') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_medical') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_mouse') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_plant') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_rabbit') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_raptor') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_rat') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_slime') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_spider') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_troglobite') = 0" ] },
+      { "math": [ "u_vitamin('mutagen_ursine') = 0" ] },
+      { "math": [ "u_vitamin('mutagenic_slurry') = 0" ] },
+      { "math": [ "u_vitamin('mutant_toxin') = 0" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('vitC') = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_FROZEN_PRESSURE_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "GLACIER_MAGE" },
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_glacier_mage_attunement" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "GLACIER_MAGE" } },
+    "effect": [
+      { "u_add_trait": "FROZEN_PRESSURE_OFF" },
+      { "u_add_var": "attunement_attunement_u_got_glacier_mage_attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_CLAIRVOYANCE_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "RADIATION_MAGE" },
+        {
+          "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_radiation_mage_attunement" } ] }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "RADIATION_MAGE" } },
+    "effect": [
+      { "u_add_trait": "CLAIRVOYANCE_OFF" },
+      { "u_add_var": "attunement_attunement_u_got_radiation_mage_attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_MIND_READ",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SHAMAN" },
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_shaman_attunement" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SHAMAN" } },
+    "effect": [ { "u_add_trait": "MIND_READ_OFF" }, { "u_add_var": "attunement_attunement_u_got_shaman_attunement", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SOULFIRE" },
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_soulfire_attunement" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
+    "effect": [
+      { "u_add_trait": "SOUL_PRESSURE_OFF" },
+      { "u_add_var": "attunement_attunement_u_got_soulfire_attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "SUN_MAGE_BUFF",
+    "recurrence": [ "5 m", "10 m" ],
+    "condition": {
+      "or": [
+        { "and": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] },
+        { "u_has_items": { "item": "pocket_sun", "count": 1 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SUN_MAGE" } },
+    "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "10 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_FREEZING_AURA_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TUNDRA_MAGE" },
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_tundra_mage_attunement" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "TUNDRA_MAGE" } },
+    "effect": [
+      { "u_add_trait": "FREEZING_AURA_OFF" },
+      { "u_add_var": "attunement_attunement_u_got_tundra_mage_attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_TOXIC_AURA_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "WITHER_MAGE" },
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_wither_mage_attunement" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "WITHER_MAGE" } },
+    "effect": [
+      { "u_add_trait": "TOXIC_AURA_OFF" },
+      { "u_add_var": "attunement_attunement_u_got_wither_mage_attunement", "value": "yes" }
+    ]
+  }
+]

@@ -138,7 +138,7 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "FILTHY",
       "PARALYZEVENOM"
     ]
@@ -243,7 +243,7 @@
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 21, "into": "mon_hulk_thorns" },
     "flags": [
       "SEES",

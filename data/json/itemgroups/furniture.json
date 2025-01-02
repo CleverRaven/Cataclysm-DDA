@@ -4,8 +4,8 @@
     "id": "knifeblock",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_steak", "prob": 85 },
-      { "item": "knife_butcher", "prob": 10 },
+      { "item": "knife_small", "variant": "knife_steak", "prob": 85 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       { "item": "kukri", "prob": 1 },
       { "item": "tongs", "prob": 28 },
       { "item": "meat", "prob": 1 }

@@ -41,7 +41,7 @@
         "#": "t_dirtmound"
       },
       "furniture": {
-        "R": "f_reactor_meltdown",
+        "R": "f_afs_reactor_meltdown",
         "#": [ [ "f_wreckage", 1 ], [ "f_null", 15 ] ],
         "I": "f_afs_shuttle_fusion_engine",
         "0": "f_afs_shuttle_manuevering_thruster"
@@ -94,7 +94,7 @@
         "#": "t_dirtmound"
       },
       "furniture": {
-        "R": "f_reactor_meltdown",
+        "R": "f_afs_reactor_meltdown",
         "#": [ [ "f_wreckage", 1 ], [ "f_null", 15 ] ],
         "I": "f_afs_shuttle_fusion_engine",
         "0": "f_afs_shuttle_manuevering_thruster"
