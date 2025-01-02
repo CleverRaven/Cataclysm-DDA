@@ -1,0 +1,50 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_thaumic",
+    "name": { "str": "thaumic zombie" },
+    "copy-from": "mon_zombie_base",
+    "description": "A human body, swaying as it moves, an unstoppable rage visible in its oily black eyes.  Faint blue lines are visible beneath parts of its exposed skin, letting off an eldritch glow.",
+    "symbol": "Z",
+    "color": "cyan",
+    "luminance": 4,
+    "extend": { "armor": { "poison": 14, "nether": 10, "psionic": 14 } },
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab", "eoc": [ "EOC_THAUMIC_ZOMBIE_MANA_DRAIN" ] },
+      { "id": "bite_humanoid", "cooldown": 5, "eoc": [ "EOC_THAUMIC_ZOMBIE_MANA_DRAIN_BITE" ] },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "thaumic_zombie_drain_hit",
+        "cooldown": 0,
+        "move_cost": 100,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 6 } ],
+        "dodgeable": true,
+        "blockable": true,
+        "eoc": [ "EOC_THAUMIC_ZOMBIE_MANA_DRAIN" ],
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_arm" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s!",
+        "hit_dmg_npc": "%1$s hits <npcname>!",
+        "miss_msg_u": "%1$s misses you.",
+        "miss_msg_npc": "%1$s misses <npcname>.",
+        "no_dmg_msg_u": "%1$s hits your %2$s, but your armor protects you.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>, but their armor protects them."
+      }
+    ],
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_THAUMIC" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN",
+    "condition": "npc_is_character",
+    "effect": [ { "math": [ "n_val('mana')", "-=", "5" ] }, { "npc_message": "The EoC is firing." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THAUMIC_ZOMBIE_MANA_DRAIN_BITE",
+    "condition": "npc_is_character",
+    "effect": [ { "math": [ "n_val('mana')", "-=", "15" ] }, { "npc_message": "The EoC is firing." } ]
+  }
+]
