@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "input.h"
 #include "input_context.h"
 #include "input_popup.h"
 #include "json.h"
@@ -27,6 +28,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "popup.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -34,6 +36,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "zzip.h"
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
@@ -2051,6 +2054,73 @@ void load_external_option( const JsonObject &jo )
         jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
     }
     options_manager::update_options_cache();
+}
+
+bool WORLD::has_compression_enabled() const
+{
+    return fs::exists( ( folder_path() / "maps.dict" ).get_unrelative_path() ) ||
+           fs::exists( ( folder_path() / "mmr.dict" ).get_unrelative_path() );
+}
+
+bool WORLD::set_compression_enabled( bool enabled ) const
+{
+    // If enabled and has_compression_enabled are both true or both false,
+    // we just return immediately. That's computed by inverting the xor.
+    if( !( enabled ^ has_compression_enabled() ) ) {
+        return true;
+    }
+    static_popup popup;
+    if( enabled ) {
+        fs::path maps_dict = PATH_INFO::maps_compression_dictionary_path().get_unrelative_path();
+        std::vector<cata_path> maps_folders = get_directories( folder_path() / "maps" );
+        size_t done = 0;
+        for( const cata_path &map_folder : maps_folders ) {
+            popup.message( _( "Compressing maps [%d/%d]" ), done++, maps_folders.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            if( !zzip::create_from_folder( ( map_folder + ".zzip" ).get_unrelative_path(),
+                                           map_folder.get_unrelative_path(), maps_dict ) ) {
+                return false;
+            }
+        }
+        copy_file( PATH_INFO::maps_compression_dictionary_path(), folder_path() / "maps.dict" );
+        done = 0;
+        for( const cata_path &map_folder : maps_folders ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, maps_folders.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            fs::remove_all( map_folder.get_unrelative_path(), ec );
+        }
+    } else {
+        fs::path maps_dict = ( folder_path() / "maps.dict" ).get_unrelative_path();
+        std::vector<cata_path> zzips = get_files_from_path( "zzip", folder_path() / "maps", false, true );
+        size_t done = 0;
+        for( const cata_path &map_zzip : zzips ) {
+            popup.message( _( "Decompressing maps [%d/%d]" ), done++, zzips.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            fs::path zzip_path = map_zzip.get_unrelative_path();
+            fs::path dest_folder_name = zzip_path.parent_path() / zzip_path.stem();
+            if( !zzip::extract_to_folder( zzip_path, dest_folder_name, maps_dict ) ) {
+                return false;
+            }
+        }
+        remove_file( maps_dict );
+        done = 0;
+        for( const cata_path &map_zzip : zzips ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, zzips.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            fs::remove( map_zzip.get_unrelative_path(), ec );
+        }
+    }
+    return true;
 }
 
 mod_manager &worldfactory::get_mod_manager()
