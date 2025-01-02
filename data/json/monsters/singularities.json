@@ -157,7 +157,7 @@
         "min_radius": 5,
         "max_radius": 10
       },
-      { "math": [ "ltnt_transform_radius", "=", "10" ] },
+      { "math": [ "ltnt_transform_radius = 10" ] },
       {
         "u_transform_radius": { "global_val": "ltnt_transform_radius", "default": 10 },
         "ter_furn_transform": "ltnt_grass_drain",
@@ -325,12 +325,10 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": {
-      "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active", "<", "1" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] }, { "math": [ "Lieutenants_active < 1" ] } ] },
     "//2": "Integer value instead of bool, so more can be added later and use math for conditions",
-    "effect": [ { "math": [ "Lieutenants_active", "=", "1" ] }, { "math": [ "Shadow_Lurking", "=", "1" ] } ],
-    "deactivate_condition": { "math": [ "Lieutenants_active", ">=", "1" ] }
+    "effect": [ { "math": [ "Lieutenants_active = 1" ] }, { "math": [ "Shadow_Lurking = 1" ] } ],
+    "deactivate_condition": { "math": [ "Lieutenants_active >= 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -345,9 +343,9 @@
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "Lieutenants_active", ">", "0" ] },
-        { "math": [ "Shadow_Lurking", ">", "0" ] },
-        { "math": [ "Shadow_Warnings", ">=", "1" ] },
+        { "math": [ "Lieutenants_active > 0" ] },
+        { "math": [ "Shadow_Lurking > 0" ] },
+        { "math": [ "Shadow_Warnings >= 1" ] },
         "u_is_outside",
         {
           "or": [
@@ -363,7 +361,7 @@
       { "math": [ "Shadow_Lurking", "-=", "1" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
-      { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
+      { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
     ],
     "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
   },
@@ -378,10 +376,10 @@
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
         {
-          "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
+          "or": [ { "math": [ "Shadow_Lurking > 0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
         {
-          "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
+          "or": [ { "math": [ "Shadow_Warnings < 1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
         },
         "u_is_outside",
         {
@@ -394,12 +392,12 @@
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         "then": {
-          "if": { "math": [ "Shadow_Warnings", "<", "2" ] },
+          "if": { "math": [ "Shadow_Warnings < 2" ] },
           "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
           "else": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": false }
         },
         "else": {
-          "if": { "math": [ "Shadow_Warnings", "<", "2" ] },
+          "if": { "math": [ "Shadow_Warnings < 2" ] },
           "then": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true },
           "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": false }
         }
@@ -455,16 +453,16 @@
             { "u_at_om_location": "FACTION_CAMP_ANY" },
             { "not": "u_is_outside" },
             "is_day",
-            { "math": [ "distance('u', shadow_encounter_XYZ_pos)", ">=", "180" ] }
+            { "math": [ "distance('u', shadow_encounter_XYZ_pos) >= 180" ] }
           ]
         },
-        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
+        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60) > 0" ] }
       ]
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
     "effect": [
-      { "math": [ "Shadow_Lurking", "=", "1" ] },
+      { "math": [ "Shadow_Lurking = 1" ] },
       { "u_add_effect": "blind_no_msg", "duration": "0 second" },
       { "u_message": "The wind laughs through the night", "type": "bad" },
       {
@@ -473,7 +471,7 @@
         "target_min_radius": 0,
         "target_max_radius": 60
       },
-      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
+      { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
       { "u_message": "…but it grows more distant for now.", "type": "good" }
     ]
   },
@@ -483,7 +481,7 @@
     "recurrence": "1 second",
     "global": true,
     "run_for_npcs": false,
-    "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60) > 0" ] },
     "effect": [
       {
         "u_location_variable": { "global_val": "Shadow_monster" },
@@ -491,14 +489,14 @@
         "target_min_radius": 0,
         "target_max_radius": 60
       },
-      { "run_eoc_with": "EOC_LIEUTENANT_SHADOW_CATCHUP", "beta_loc": { "global_val": "Shadow_monster" } }
+      { "run_eocs": "EOC_LIEUTENANT_SHADOW_CATCHUP", "beta_loc": { "global_val": "Shadow_monster" } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_CATCHUP",
     "eoc_type": "ACTIVATION",
-    "condition": { "math": [ "distance('u', Shadow_monster)", ">=", "30" ] },
+    "condition": { "math": [ "distance('u', Shadow_monster) >= 30" ] },
     "effect": [
       { "u_location_variable": { "global_val": "Shadow_Catchup_Pos" }, "min_radius": 3, "max_radius": 10 },
       {

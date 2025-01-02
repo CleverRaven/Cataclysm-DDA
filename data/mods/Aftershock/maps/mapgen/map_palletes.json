@@ -19,13 +19,11 @@
       "g": "t_bridge",
       "_": "t_pavement",
       "y": "t_pavement_y",
-      "`": "t_hole",
+      "`": "t_open_air",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "0": "t_window_empty",
       ":": "t_window_domestic",
-      "u": "t_chainfence_h",
-      "U": "t_chainfence_v",
       "#": "t_shrub"
     },
     "furniture": {

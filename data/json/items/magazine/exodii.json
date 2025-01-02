@@ -56,5 +56,55 @@
     "reload_time": 110,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "273x44": 5 } } ]
+  },
+  {
+    "id": "ree_33_4_mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "3.3 naval 4-round magazine" },
+    "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if the gun itself can be named portable.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ree_33_4_mag",
+        "name": { "str": "3.3 naval 4-round magazine" },
+        "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if the gun itself can be named portable."
+      }
+    ],
+    "weight": "340 g",
+    "volume": "1200 ml",
+    "longest_side": "245 mm",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "33naval" ],
+    "reload_time": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "33naval": 4 } } ]
+  },
+  {
+    "id": "ree_33_53_mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "3.3 naval 53-round box magazine" },
+    "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii naval rifle.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ree_33_53_mag",
+        "name": { "str": "3.3 naval 53-round box magazine" },
+        "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii Ree 3.3 rifle."
+      }
+    ],
+    "weight": "4600 g",
+    "volume": "14000 ml",
+    "longest_side": "245 mm",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "33naval" ],
+    "reload_time": 400,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "33naval": 53 } } ]
   }
 ]

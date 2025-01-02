@@ -144,7 +144,7 @@ static void foamcrete_build( const tripoint_bub_ms &p )
     }
 }
 
-void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
+void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
                          const std::set<ammo_effect_str_id> &effects, const int dealt_damage )
 {
     map &here = get_map();
@@ -179,13 +179,13 @@ void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
                 }
             }
             if( ae.aoe_explosion_data.power > 0 ) {
-                explosion_handler::explosion( source, p.raw(), ae.aoe_explosion_data );
+                explosion_handler::explosion( source, p, ae.aoe_explosion_data );
             }
             if( ae.do_flashbang ) {
-                explosion_handler::flashbang( p.raw() );
+                explosion_handler::flashbang( p );
             }
             if( ae.do_emp_blast ) {
-                explosion_handler::emp_blast( p.raw() );
+                explosion_handler::emp_blast( p );
             }
             if( ae.foamcrete_build ) {
                 foamcrete_build( p );
@@ -197,8 +197,8 @@ void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
                 dialogue d( get_talker_for( *source ), critter == nullptr ? nullptr : get_talker_for( critter ) );
                 // `p` is tripoint relative to the upper left corner of currently loaded overmap
                 // not very useful for player's purposes methinks, but much appreciated
-                // write_var_value( var_type::context, "npctalk_var_proj_target_tripoint", &d, p.abs().to_string());
-                write_var_value( var_type::context, "npctalk_var_proj_damage", &d, dealt_damage );
+                // write_var_value( var_type::context, "proj_target_tripoint", &d, p.abs().to_string());
+                write_var_value( var_type::context, "proj_damage", &d, dealt_damage );
                 eoc->activate( d );
             }
             //cast ammo effect spells

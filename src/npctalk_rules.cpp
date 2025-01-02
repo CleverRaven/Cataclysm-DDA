@@ -359,7 +359,7 @@ void follower_rules_ui_impl::draw_controls()
         ImGui::NavMoveRequestSubmit( ImGuiDir_Right, ImGuiDir_Right, ImGuiNavMoveFlags_None,
                                      ImGuiScrollFlags_None );
     } else if( last_action == "CONFIRM" ) {
-        ImGui::ActivateItem( ImGui::GetFocusID() );
+        ImGui::ActivateItemByID( ImGui::GetFocusID() );
     }
 
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );

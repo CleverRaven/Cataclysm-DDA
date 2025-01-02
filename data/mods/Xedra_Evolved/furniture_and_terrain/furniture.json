@@ -254,8 +254,21 @@
     "id": "f_sylph_translocator_location",
     "name": "open to the sky",
     "symbol": "+",
-    "description": "The rock of the living earth.  You could travel here in moments as long as you are high above the earth or surrounded by the blowing wind.",
+    "description": "Above the base earth and beneath the firmament.  You could travel here in moments as long as you are high above the earth or surrounded by the blowing wind.",
     "color": "white",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "xedra_chronomancer_memorized_terrain",
+    "name": "memorized location",
+    "symbol": "+",
+    "description": "You remember the exact moment of time your were at this spot.",
+    "color": "light_gray",
     "required_str": -1,
     "move_cost_mod": 0,
     "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
@@ -274,5 +287,79 @@
     "coverage": 85,
     "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "BLOCKSDOOR", "PERMEABLE" ],
     "bash": { "str_min": 20, "str_max": 50, "sound_fail": "smash!", "items": [ { "item": "rock", "count": [ 20, 100 ] } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sevenoclock_track",
+    "name": "Bloody footsteps",
+    "description": "A trail of old footsteps, still visible despite the blood and rain.  Examine it to track its source.",
+    "symbol": "l",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "color": "brown",
+    "coverage": 0,
+    "flags": [ "NOITEM", "TRANSPARENT", "PERMEABLE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_SEVENOCLOCK_ALREADY_TRACKED",
+          "condition": { "math": [ "u_tracked_sevenoclock == 1" ] },
+          "effect": [ { "u_message": "You already know where these footprints lead." } ]
+        },
+        {
+          "id": "EOC_SEVENOCLOCK_TRACK",
+          "condition": { "math": [ "u_tracked_sevenoclock == 0" ] },
+          "effect": [
+            { "u_message": "You carefully examine the footprints, determining where they lead." },
+            { "assign_mission": "MISSION_SEVENOCLOCK" },
+            { "math": [ "u_tracked_sevenoclock = 1" ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_deathworm_track",
+    "name": "Suspicious hole",
+    "description": "A hole in the ground, bearing acid burns.  Examine it to track its source.",
+    "symbol": "o",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "color": "brown",
+    "coverage": 0,
+    "flags": [ "NOITEM", "TRANSPARENT", "PERMEABLE" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_DEATHWORM_ALREADY_TRACKED",
+          "condition": { "math": [ "u_tracked_deathworm == 1" ] },
+          "effect": [ { "u_message": "You already know where this hole leads." } ]
+        },
+        {
+          "id": "EOC_DEATHWORM_TRACK",
+          "condition": { "math": [ "u_tracked_deathworm == 0" ] },
+          "effect": [
+            { "u_message": "You carefully examine the hole, determining where it leads." },
+            { "assign_mission": "MISSION_DEATHWORM" },
+            { "math": [ "u_tracked_deathworm = 1" ] }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xedra_frozen_person_dead",
+    "name": "unmoving figure",
+    "looks_like": "f_statue",
+    "description": "A person stands before you, completely motionless in spite of the horrific wound marring their body.  Every part of their figure is leeched of color, and you are completely incapable of affecting them in any way.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1
   }
 ]

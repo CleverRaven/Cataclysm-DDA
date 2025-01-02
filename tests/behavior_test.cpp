@@ -29,6 +29,8 @@ static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" )
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water( "water" );
 
+static const nested_mapgen_id nested_mapgen_test_seedling( "test_seedling" );
+
 static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
 namespace behavior
@@ -166,7 +168,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather_manager &weather = get_weather();
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
-        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos() ) ) == Approx( 0 ) );
+        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos_bub() ) ) == Approx( 0 ) );
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
@@ -228,7 +230,18 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
     SECTION( "Special Attack EAT_CROP" ) {
         test_monster.set_special( "EAT_CROP", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        here.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
+
+        // Gross but I couldn't figure out how to place a sealed item without manual mapgen and the mapgen helper version doesn't let you specify rel_ms and adding that as a defaulted arg breaks the templated manual_mapgen()...
+        const tripoint_abs_ms abs_pos = here.getglobal( monster_location );
+        tripoint_abs_omt pos;
+        point_omt_ms pos_rel;
+        std::tie( pos, pos_rel ) = project_remain<coords::omt>( abs_pos );
+        tinymap tm;
+        tm.load( pos, true );
+        mapgendata md( pos, *tm.cast_to_map(), 0.0f, calendar::turn, nullptr );
+        const auto &ptr = nested_mapgens[nested_mapgen_test_seedling].funcs().pick();
+        ( *ptr )->nest( md, tripoint_rel_ms( rebase_rel( pos_rel ), 0 ), "test" );
+
         CHECK( monster_goals.tick( &oracle ) == "EAT_CROP" );
         test_monster.set_special( "EAT_CROP", 1 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );

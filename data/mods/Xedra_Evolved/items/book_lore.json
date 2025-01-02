@@ -161,5 +161,106 @@
       { "u_roll_remainder": [ "bait_abyssal_hunger" ], "type": "recipe" },
       { "u_add_var": "you_know_vampire_mentor_recipes", "value": "yes" }
     ]
+  },
+  {
+    "id": "deathworm_map",
+    "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "map to the cryptid",
+    "description": "The map on which you wrote the cryptid's location.",
+    "symbol": ",",
+    "color": "white",
+    "weight": "30 g",
+    "volume": "10 ml",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Read",
+        "description": "Read the map.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_DEATHWORM_MAP_ALREADY_TRACKED",
+            "condition": { "math": [ "u_tracked_deathworm == 1" ] },
+            "effect": [ { "u_message": "You already know where this map leads." } ]
+          },
+          {
+            "id": "EOC_DEATHWORM_MAP_TRACK",
+            "condition": { "math": [ "u_tracked_deathworm == 0" ] },
+            "effect": [
+              { "u_message": "You reference your map with your location, determining the path to take to find the cryptid." },
+              { "assign_mission": "MISSION_DEATHWORM" },
+              { "math": [ "u_tracked_deathworm = 1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "deathworm_note",
+    "//": "The notes are intended to be basic but telling some info, as they are the closest to a consensus reached on creatures defined by being nigh-impossible to find.",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "notes about the cryptid" },
+    "description": "The notes you have taken about the cryptid you're hunting.\nAlso known as the mongolian death worm, the Olgoi-khorkhoi is a massive acid-spewing burrowing worm.  Finding acid-resistant gear will prove useful to survive the encounter.  According to most of the credible stories you've read, the lethal poison covering its skin is nothing but exaggerations.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "30 g",
+    "volume": "10 ml"
+  },
+  {
+    "id": "sevenoclock_map",
+    "//": "The maps and notes are intended to share the same name, so the player won't know what they'll hunt before the game starts.",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "map to the cryptid",
+    "description": "The map on which you wrote the cryptid's location.",
+    "symbol": ",",
+    "color": "white",
+    "weight": "30 g",
+    "volume": "10 ml",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Read",
+        "description": "Read the map.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_SEVENOCLOCK_MAP_ALREADY_TRACKED",
+            "condition": { "math": [ "u_tracked_sevenoclock == 1" ] },
+            "effect": [ { "u_message": "You already know where this map leads." } ]
+          },
+          {
+            "id": "EOC_SEVENOCLOCK_MAP_TRACK",
+            "condition": { "math": [ "u_tracked_sevenoclock == 0" ] },
+            "effect": [
+              { "u_message": "You reference your map with your location, determining the path to take to find the cryptid." },
+              { "assign_mission": "MISSION_SEVENOCLOCK" },
+              { "math": [ "u_tracked_sevenoclock = 1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sevenoclock_note",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "notes about the cryptid" },
+    "description": "The notes you have taken about the cryptid you're hunting.\nThe man of the Nineteenth Hour is peaceful for most of the day but becomes incredibly violent against those who are still awake when he enters his active phase.  Some stories tell that his presence shields those who are sleeping against everything that could disturb their sleep.",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "30 g",
+    "volume": "10 ml"
   }
 ]

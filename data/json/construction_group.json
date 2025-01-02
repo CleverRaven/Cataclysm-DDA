@@ -1317,6 +1317,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_glassblowers_crucible",
+    "name": "Place Glassblower's Crucible"
+  },
+  {
+    "type": "construction_group",
     "id": "place_drill_press",
     "name": "Place Drill Press"
   },
@@ -1459,6 +1464,16 @@
     "type": "construction_group",
     "id": "place_car_battery",
     "name": "Place Car Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_motorbike_battery",
+    "name": "Place Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_motorbike_small_battery",
+    "name": "Place Small Motorbike Battery"
   },
   {
     "type": "construction_group",
@@ -2064,5 +2079,10 @@
     "type": "construction_group",
     "id": "build_vent_pipe",
     "name": "Build Vent Pipe"
+  },
+  {
+    "type": "construction_group",
+    "id": "cover_windowframe_with_sheet",
+    "name": "Cover Empty Window With Sheet"
   }
 ]

@@ -119,6 +119,7 @@
     "item": "aspirin",
     "count": 100,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_2",
     "dialogue": {
       "describe": "We need help…",
@@ -161,6 +162,7 @@
     "item": "hotplate",
     "count": 3,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_3",
     "dialogue": {
       "describe": "We need help…",
@@ -200,6 +202,7 @@
     "item": "vitamins",
     "count": 200,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_4",
     "dialogue": {
       "describe": "We need help…",
@@ -243,6 +246,7 @@
     "item": "char_purifier",
     "count": 4,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_5",
     "dialogue": {
       "describe": "We need help…",
@@ -275,6 +279,7 @@
     "value": 50000,
     "item": "chemistry_set",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_6",
     "dialogue": {
       "describe": "We need help…",
@@ -318,6 +323,7 @@
     "item": "mask_filter",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_7",
     "dialogue": {
       "describe": "We need help…",
@@ -369,6 +375,7 @@
     "item": "gloves_rubber",
     "count": 4,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_8",
     "dialogue": {
       "describe": "We need help…",
@@ -418,6 +425,7 @@
     "item": "scalpel",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_9",
     "dialogue": {
       "describe": "We need help…",
@@ -474,6 +482,7 @@
     "value": 50000,
     "item": "emergency_book",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_NURSE_11",
     "dialogue": {
       "describe": "We need help…",
@@ -519,6 +528,7 @@
     "item": "syringe",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",

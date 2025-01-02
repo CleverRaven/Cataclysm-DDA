@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_DINOS",
-    "condition": { "math": [ "dinos_allowed", "==", "1" ] },
+    "condition": { "math": [ "dinos_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "GROUP_DINOSAUR_DANGEROUS",

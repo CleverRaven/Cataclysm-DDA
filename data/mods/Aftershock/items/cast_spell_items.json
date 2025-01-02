@@ -2,8 +2,8 @@
   {
     "abstract": "afs_caster",
     "type": "TOOL_ARMOR",
-    "name": { "str": "caster" },
-    "description": "A generic techno doodad used to cast spells.",
+    "name": { "str": "caster", "//~": "NO_I18N" },
+    "description": { "str": "A generic techno doodad used to cast spells.", "//~": "NO_I18N" },
     "weight": "100 g",
     "volume": "250 ml",
     "price": "50 USD",

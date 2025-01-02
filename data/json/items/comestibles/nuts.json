@@ -208,7 +208,7 @@
   {
     "type": "COMESTIBLE",
     "id": "beech_nuts",
-    "name": { "str_sp": "beech nuts" },
+    "name": { "str_sp": "beechnuts" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -246,6 +246,26 @@
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "walnut_pulp",
+    "name": { "str_sp": "walnut pulp" },
+    "looks_like": "granola",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 259,
+    "description": "Pulp left over after making walnut milk.  It's gritty and incredibly bland.",
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -8
   },
   {
     "type": "COMESTIBLE",
@@ -397,6 +417,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "hazelnut_pulp",
+    "name": { "str_sp": "hazelnut pulp" },
+    "looks_like": "granola",
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 316,
+    "description": "Pulp left over after making hazelnut milk.  It's gritty and incredibly bland.",
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -8
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "hickory_nut_shelled",
     "name": { "str_sp": "shelled hickory nuts" },
     "weight": "30 g",
@@ -460,8 +500,33 @@
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
-    "name": { "str_sp": "peanut butter" },
+    "name": { "str_sp": "nut butter" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "peanut", "name": { "str_sp": "peanut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pine", "name": { "str_sp": "pine nut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pecan", "name": { "str_sp": "pecan butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "cashew", "name": { "str_sp": "cashew butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "pistachio", "name": { "str_sp": "pistachio butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "almond", "name": { "str_sp": "almond butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "beech", "name": { "str_sp": "beechnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "hickory", "name": { "str_sp": "hickory nut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "chestnut", "name": { "str_sp": "chestnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "hazelnut", "name": { "str_sp": "hazelnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "walnut", "name": { "str_sp": "walnut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "butternut", "name": { "str_sp": "butternut butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "acorn", "name": { "str_sp": "acorn butter" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "soy", "name": { "str_sp": "soy nut butter" } }
+    ],
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "peanutbutter_preapoc",
+        "name": { "str_sp": "peanut butter" },
+        "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+        "weight": 1
+      }
+    ],
     "price": "1 USD 95 cent",
     "price_postapoc": "10 USD",
     "//": "Two tablespoons per charge.",
@@ -478,14 +543,6 @@
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
-  },
-  {
-    "id": "peanutbutter_imitation",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "imitation peanutbutter" },
-    "description": "A thick, nutty brown paste so that the peanut-allergic can enjoy PB&Js too.",
-    "copy-from": "peanutbutter",
-    "calories": 400
   },
   {
     "id": "spread_peanutbutter",

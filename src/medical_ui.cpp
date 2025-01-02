@@ -110,7 +110,7 @@ class medical_column
                           const int BORDER_END ) const {
             mvwvline( window, point( COLUMN_START.x, BORDER_START ), LINE_XOXO,
                       BORDER_END - 4 ); // |
-            mvwputch( window, point( COLUMN_START.x, BORDER_END - 1 ), BORDER_COLOR,
+            mvwaddch( window, point( COLUMN_START.x, BORDER_END - 1 ),
                       LINE_XXOX ); // _|_
         }
 
@@ -232,16 +232,14 @@ static void draw_medical_titlebar( const catacurses::window &window, Character &
 
     int width = getmaxx( window );
     int height = getmaxy( window );
-    for( int i = 1; i < height - 1; ++i ) {
-        // |
-        mvwputch( window, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-        // |
-        mvwputch( window, point( width - 1, i ), BORDER_COLOR, LINE_XOXO );
-    }
-    // |-
-    mvwputch( window, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO );
-    // -|
-    mvwputch( window, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX );
+    wattron( window, BORDER_COLOR );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwvline( window, point( 0,          1 ), LINE_XOXO, height - 2 ); // |
+    mvwvline( window, point( width - 1, 1 ), LINE_XOXO, height - 2 );  // |
+
+    mvwaddch( window, point( 0,         height - 1 ), LINE_XXXO ); // |-
+    mvwaddch( window, point( width - 1, height - 1 ), LINE_XOXX ); // -|
+    wattroff( window, BORDER_COLOR );
 
     int right_indent = 2;
     int cur_str_pos = 0;
@@ -254,11 +252,11 @@ static void draw_medical_titlebar( const catacurses::window &window, Character &
         cur_str_pos = right_print( window, 1, right_indent, pain_descriptor.second, pain_str );
 
         // Borders
-        for( int i = 1; i < getmaxy( window ) - 1; i++ ) {
-            mvwputch( window, point( cur_str_pos - 2, i ), BORDER_COLOR, LINE_XOXO ); // |
-        }
-        mvwputch( window, point( cur_str_pos - 2, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
-        mvwputch( window, point( cur_str_pos - 2, 2 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        wattron( window, BORDER_COLOR );
+        mvwvline( window, point( cur_str_pos - 2, 1 ), LINE_XOXO, getmaxy( window ) - 2 );
+        mvwaddch( window, point( cur_str_pos - 2, 0 ), LINE_OXXX ); // ^|^
+        mvwaddch( window, point( cur_str_pos - 2, 2 ), LINE_XXOX ); // _|_
+        wattroff( window, BORDER_COLOR );
         right_indent += utf8_width( remove_color_tags( pain_str ) ) + 3;
     }
 
@@ -271,11 +269,11 @@ static void draw_medical_titlebar( const catacurses::window &window, Character &
         cur_str_pos = right_print( window, 1, right_indent, hunger_pair.second, hunger_pair.first );
 
         // Borders
-        for( int i = 1; i < getmaxy( window ) - 1; i++ ) {
-            mvwputch( window, point( cur_str_pos - 2, i ), BORDER_COLOR, LINE_XOXO ); // |
-        }
-        mvwputch( window, point( cur_str_pos - 2, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
-        mvwputch( window, point( cur_str_pos - 2, 2 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        wattron( window, BORDER_COLOR );
+        mvwvline( window, point( cur_str_pos - 2, 1 ), LINE_XOXO, getmaxy( window ) - 2 ); // |
+        mvwaddch( window, point( cur_str_pos - 2, 0 ), LINE_OXXX ); // ^|^
+        mvwaddch( window, point( cur_str_pos - 2, 2 ), LINE_XXOX ); // _|_
+        wattroff( window, BORDER_COLOR );
 
         right_indent += utf8_width( hunger_pair.first ) + 3;
     }
@@ -285,11 +283,11 @@ static void draw_medical_titlebar( const catacurses::window &window, Character &
         cur_str_pos = right_print( window, 1, right_indent, thirst_pair.second, thirst_pair.first );
 
         // Borders
-        for( int i = 1; i < getmaxy( window ) - 1; i++ ) {
-            mvwputch( window, point( cur_str_pos - 2, i ), BORDER_COLOR, LINE_XOXO ); // |
-        }
-        mvwputch( window, point( cur_str_pos - 2, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
-        mvwputch( window, point( cur_str_pos - 2, 2 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        wattron( window, BORDER_COLOR );
+        mvwvline( window, point( cur_str_pos - 2, 1 ), LINE_XOXO, getmaxy( window ) - 2 ); // |
+        mvwaddch( window, point( cur_str_pos - 2, 0 ), LINE_OXXX ); // ^|^
+        mvwaddch( window, point( cur_str_pos - 2, 2 ), LINE_XXOX ); // _|_
+        wattroff( window, BORDER_COLOR );
 
         right_indent += utf8_width( thirst_pair.first ) + 3;
     }
@@ -299,11 +297,11 @@ static void draw_medical_titlebar( const catacurses::window &window, Character &
         cur_str_pos = right_print( window, 1, right_indent, sleepiness_pair.second, sleepiness_pair.first );
 
         // Borders
-        for( int i = 1; i < getmaxy( window ) - 1; i++ ) {
-            mvwputch( window, point( cur_str_pos - 2, i ), BORDER_COLOR, LINE_XOXO ); // |
-        }
-        mvwputch( window, point( cur_str_pos - 2, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
-        mvwputch( window, point( cur_str_pos - 2, 2 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        wattron( window, BORDER_COLOR );
+        mvwvline( window, point( cur_str_pos - 2, 1 ), LINE_XOXO, getmaxy( window ) - 2 ); // |
+        mvwaddch( window, point( cur_str_pos - 2, 0 ), LINE_OXXX ); // ^|^
+        mvwaddch( window, point( cur_str_pos - 2, 2 ), LINE_XXOX ); // _|_
+        wattroff( window, BORDER_COLOR );
 
         right_indent += utf8_width( sleepiness_pair.first ) + 3;
     }
@@ -539,15 +537,15 @@ static medical_column draw_effects_summary( const int column_count, Character &y
         effects_column.add_column_line( selection_line( starvation_name, starvation_text, max_width ) );
     }
 
-    if( you.has_trait( trait_TROGLO3 ) && g->is_in_sunlight( you.pos() ) ) {
+    if( you.has_trait( trait_TROGLO3 ) && g->is_in_sunlight( you.pos_bub() ) ) {
         effects_column.add_column_line( selection_line( "In Sunlight",
                                         "The sunlight irritates you terribly.\n", max_width ) );
-    } else if( you.has_trait( trait_TROGLO2 ) && g->is_in_sunlight( you.pos() ) &&
+    } else if( you.has_trait( trait_TROGLO2 ) && g->is_in_sunlight( you.pos_bub() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
         effects_column.add_column_line( selection_line( "In Sunlight",
                                         "The sunlight irritates you badly.\n", max_width ) );
     } else if( ( you.has_trait( trait_TROGLO ) || you.has_trait( trait_TROGLO2 ) ) &&
-               g->is_in_sunlight( you.pos() ) &&
+               g->is_in_sunlight( you.pos_bub() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
                                         max_width ) );
@@ -628,7 +626,7 @@ static medical_column draw_stats_summary( const int column_count, Character &you
                             "Starving" : "Underfed" );
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );
     }
-    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos() ) ) {
+    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos_bub() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         pge_str = pgettext( "speed penalty", "Out of Sunlight " );
         speed_detail_str += colorize( string_format( _( "%s     -%2d%%\n" ), pge_str, pen ), c_red );
@@ -814,10 +812,13 @@ void Character::disp_medical()
                                            static_cast<int>( textformatted.size() ) );
 
             DESCRIPTION_WIN_OFFSET = DESC_W_BEGIN + DESCRIPTION_TEXT_Y;
-            mvwputch( wMedical, point( 0, DESCRIPTION_WIN_OFFSET - 1 ), BORDER_COLOR, LINE_XXXO );
-            mvwhline( wMedical, point( 1, DESCRIPTION_WIN_OFFSET - 1 ), LINE_OXOX, getmaxx( wMedical ) - 2 );
-            mvwputch( wMedical, point( getmaxx( wMedical ) - 1, DESCRIPTION_WIN_OFFSET - 1 ), BORDER_COLOR,
+            wattron( wMedical, BORDER_COLOR );
+            mvwaddch( wMedical, point( 0, DESCRIPTION_WIN_OFFSET - 1 ), LINE_XXXO );
+            mvwhline( wMedical, point( 1, DESCRIPTION_WIN_OFFSET - 1 ), LINE_OXOX,
+                      getmaxx( wMedical ) - 2 );
+            mvwaddch( wMedical, point( getmaxx( wMedical ) - 1, DESCRIPTION_WIN_OFFSET - 1 ),
                       LINE_XOXX );
+            wattroff( wMedical, BORDER_COLOR );
             fold_and_print( w_description, point( 1, DESCRIPTION_TEXT_Y ), WIDTH - 2, c_light_gray,
                             desc_str );
         } else {
@@ -835,11 +836,13 @@ void Character::disp_medical()
             mvwprintz( wMedical, point( third_column_x + 2, INFO_START_Y + 1 ), c_light_blue,
                        detail_str.first );
 
-            mvwputch( wMedical, point( third_column_x, INFO_START_Y ), BORDER_COLOR, LINE_XXXO ); // |-
+            wattron( wMedical, BORDER_COLOR );
+            mvwaddch( wMedical, point( third_column_x, INFO_START_Y ), LINE_XXXO ); // |-
             mvwhline( wMedical, point( third_column_x + 1, INFO_START_Y ), LINE_OXOX,
                       getmaxx( wMedical ) - 2 ); // -
-            mvwputch( wMedical, point( getmaxx( wMedical ) - 1, INFO_START_Y ), BORDER_COLOR, // -|
+            mvwaddch( wMedical, point( getmaxx( wMedical ) - 1, INFO_START_Y ), // -|
                       LINE_XOXX );
+            wattroff( wMedical, BORDER_COLOR );
 
             const int info_width = WIDTH - third_column_x - 3;
             std::vector<std::string> textformatted = foldstring( detail_str.second, info_width,
@@ -878,8 +881,10 @@ void Character::disp_medical()
 
         // Draw Column Borders
 
+        wattron( wMedical, BORDER_COLOR );
         effects_column.draw_column( wMedical, HEADER_Y, DESCRIPTION_WIN_OFFSET );
         stats_column.draw_column( wMedical, HEADER_Y, DESCRIPTION_WIN_OFFSET );
+        wattroff( wMedical, BORDER_COLOR );
 
         // Draw Scrollbars
 
@@ -890,7 +895,7 @@ void Character::disp_medical()
         .offset_y( HEADER_Y )
         .content_size( content_size )
         .viewport_pos( cursor.y * 2 )
-        .viewport_size( DESC_W_BEGIN - 3 )
+        .viewport_size( DESCRIPTION_WIN_OFFSET - 4 )
         .scroll_to_last( true )
         .apply( wMedical );
 

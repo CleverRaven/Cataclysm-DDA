@@ -9,7 +9,7 @@
         "topic": "BOSS_Brigitte_LaCroix_Story2",
         "condition": {
           "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "math": [ "npc_randomize_dialogue_direction == 1" ] },
             { "npc_has_trait": "BOSS_Brigitte_LaCroix_01" },
             { "not": { "compare_string": [ "Brigitte_LaCroix", { "u_val": "BOSS_mission_directions" } ] } }
           ]

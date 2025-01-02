@@ -99,8 +99,7 @@
       { "group": "nested_m17", "prob": 100 },
       { "group": "nested_m18", "prob": 100 },
       { "group": "nested_usp_45_mk23", "prob": 5 },
-      { "group": "nested_m1911_MEU", "prob": 5 },
-      { "group": "nested_rm103a_pistol", "prob": 1 }
+      { "group": "nested_m1911_MEU", "prob": 5 }
     ]
   },
   {
@@ -164,7 +163,6 @@
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
       { "group": "nested_hk_mp7", "prob": 5 },
-      { "group": "nested_rm2000_smg", "prob": 1 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
       { "group": "nested_hk_mp5sd", "prob": 5 }
@@ -194,6 +192,7 @@
       { "group": "guns_rifle_common_762", "prob": 230 },
       { "group": "guns_rifle_common_9mm", "prob": 180 },
       { "group": "guns_rifle_common_3006", "prob": 149 },
+      { "group": "guns_rifle_common_357", "prob": 108 },
       { "group": "guns_rifle_common_44", "prob": 81 },
       { "group": "guns_rifle_common_762R", "prob": 70 },
       { "group": "guns_rifle_common_270win", "prob": 57 },
@@ -231,6 +230,7 @@
       { "group": "guns_rifle_common_display_762", "prob": 230 },
       { "group": "guns_rifle_common_display_9mm", "prob": 180 },
       { "group": "guns_rifle_common_display_3006", "prob": 149 },
+      { "group": "guns_rifle_common_display_357", "prob": 108 },
       { "group": "guns_rifle_common_display_44", "prob": 81 },
       { "group": "guns_rifle_common_display_762R", "prob": 70 },
       { "group": "guns_rifle_common_display_270win", "prob": 57 },
@@ -320,8 +320,6 @@
       { "group": "nested_m249", "prob": 25 },
       { "group": "nested_m27iar", "prob": 50 },
       { "group": "nested_m60", "prob": 15 },
-      { "group": "nested_rm11b_sniper_rifle", "prob": 1 },
-      { "group": "nested_rm51_assault_rifle", "prob": 1 },
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },

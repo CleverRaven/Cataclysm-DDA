@@ -285,7 +285,6 @@
       { "group": "antifungal_dr_group", "prob": 10 },
       { "group": "antiparasitic_dr_group", "prob": 10 },
       { "group": "diazepam_dr_group", "prob": 10 },
-      { "group": "calcium_dr_group", "prob": 10 },
       { "group": "iron_dr_group", "prob": 10 },
       { "group": "prozac_dr_group", "prob": 10 },
       { "group": "thorazine_dr_group", "prob": 10 },
@@ -336,6 +335,7 @@
       { "prob": 75, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "item": "gummy_vitamins", "prob": 25, "count": [ 1, 10 ] },
       { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
+      { "prob": 40, "group": "vitc_tablet_bottle_plastic_pill_supplement_1_20" },
       { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
@@ -603,6 +603,21 @@
   },
   {
     "type": "item_group",
+    "id": "vitc_tablet_bottle_plastic_pill_supplement_1_20",
+    "subtype": "collection",
+    "//": "This group was not created automatically but may still contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "vitc_tablet", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitc_tablet_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "vitc_tablet", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
     "id": "caffeine_bottle_plastic_pill_supplement_1_10",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
@@ -626,25 +641,11 @@
   },
   {
     "type": "item_group",
-    "id": "homeopathic_pills_bottle_full",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_supplement",
-    "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": 20 } ]
-  },
-  {
-    "type": "item_group",
     "id": "thorazine_bottle_plastic_pill_prescription_1_10",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "thorazine", "container-item": "null", "count": [ 1, 10 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "thorazine_bottle_full",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "thorazine", "container-item": "null", "count": 10 } ]
   },
   {
     "type": "item_group",
@@ -656,25 +657,11 @@
   },
   {
     "type": "item_group",
-    "id": "prozac_bottle_full",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "prozac", "container-item": "null", "count": 20 } ]
-  },
-  {
-    "type": "item_group",
     "id": "strong_antibiotic_bottle_plastic_pill_prescription_1_5",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "strong_antibiotic_bottle_full",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
   },
   {
     "type": "item_group",

@@ -5,8 +5,9 @@
     "name": "Essence Drain",
     "description": "Touch your victim and drain away a part of their ruach to fuel you.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC", "NON_MAGICAL" ],
     "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
@@ -26,8 +27,9 @@
     "name": "Ruach Drinker",
     "description": "Drain the ruach from a target at range.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "SILENT", "NO_FAIL", "SOMATIC" ],
+    "flags": [ "SILENT", "NO_FAIL", "SOMATIC", "NON_MAGICAL" ],
     "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
@@ -38,7 +40,7 @@
     "max_range": 3,
     "energy_source": "STAMINA",
     "base_energy_cost": 2000,
-    "base_casting_time": 150
+    "base_casting_time": 350
   },
   {
     "id": "lilin_drain_ruach_long_ranged_spell",
@@ -46,8 +48,9 @@
     "name": "Ruach Drinker",
     "description": "Drain the ruach from a target at range.  It only works on living creatures, and animals provide barely any ruach compared to humans.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "SILENT", "NO_FAIL", "SOMATIC" ],
+    "flags": [ "SILENT", "NO_FAIL", "SOMATIC", "NON_MAGICAL" ],
     "spell_class": "LILIN_TRAITS",
     "max_level": 1,
     "skill": "deduction",
@@ -58,7 +61,254 @@
     "max_range": 10,
     "energy_source": "STAMINA",
     "base_energy_cost": 2000,
-    "base_casting_time": 150
+    "base_casting_time": 350
+  },
+  {
+    "id": "lilin_evil_eye_spell",
+    "type": "SPELL",
+    "name": "The Evil Eye",
+    "description": "Curse a single nearby target with misfortune.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_EVIL_EYE",
+    "shape": "blast",
+    "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 4" ] },
+    "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 4" ] },
+    "min_duration": {
+      "math": [
+        "1000 + ( (u_vitamin('lilin_ruach_vitamin') * 8) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "5000 + ( (u_vitamin('lilin_ruach_vitamin') * 19) * ((u_has_trait('LILIN_LIMB_SCORE_BONUSES_AT_NIGHT') * 0.5) + 1) * ((u_has_trait('LILIN_NIGHT_VISION') * 0.3) + 1) )"
+      ]
+    },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 25,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_aoe_daze_spell",
+    "type": "SPELL",
+    "name": "Cry of the Night-bird",
+    "description": "Let out a piercing cry, disorienting all nearby enemies and allies.  Of necessity, this is a very loud course of action.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_FAIL" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_AOE_DAZE",
+    "shape": "blast",
+    "min_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
+    "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 500) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 1200) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 50
+  },
+  {
+    "id": "lilin_aoe_daze_spell_real",
+    "type": "SPELL",
+    "name": { "str": "Cry of the Night-bird Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual Cry of the Night-bird that applies the effect.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_lilin_aoe_daze",
+    "shape": "blast",
+    "min_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
+    "max_aoe": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 500) + 6" ] },
+    "min_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 500) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "max_duration": { "math": [ "(u_vitamin('lilin_ruach_vitamin') * 1200) * (u_has_trait('THRESH_LILIN') + 1)" ] },
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_blinding_target_spell",
+    "type": "SPELL",
+    "name": "Dwelling in Deep Darkness",
+    "description": "Cut a single target off from the light.  It works only at night, and only either indoors or outside away from the cities.",
+    "//": "Logic for the restrictions is that lilit are supposd to be found in the wilderness or in abandoned buildings",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_BLINDING_TARGET",
+    "shape": "blast",
+    "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 5" ] },
+    "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 600) + 5" ] },
+    "min_duration": {
+      "math": [
+        "(u_vitamin('lilin_ruach_vitamin') * 800) * (u_vitamin('lilin_ruach_vitamin') * 3) * (u_has_trait('THRESH_LILIN') + 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(u_vitamin('lilin_ruach_vitamin') * 2400) * (u_vitamin('lilin_ruach_vitamin') * 7.5) * (u_has_trait('THRESH_LILIN') + 1)"
+      ]
+    },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 85,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_mesmerize_target_spell",
+    "type": "SPELL",
+    "name": "Senseless and Without Knowledge",
+    "description": "Beguile a single human, fey, or avian target, causing them to stand in a stupor or wander aimlessly.  Any damage taken will break the effect.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_MESMERIZE_TARGET",
+    "shape": "blast",
+    "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 750) + 3" ] },
+    "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 750) + 3" ] },
+    "energy_source": "NONE",
+    "base_casting_time": 50,
+    "ignored_monster_species": [
+      "ZOMBIE",
+      "ROBOT",
+      "ROBOT_FLYING",
+      "NETHER_EMANATION",
+      "LEECH_PLANT",
+      "WORM",
+      "FUNGUS",
+      "SLIME",
+      "MAMMAL",
+      "FISH",
+      "KRAKEN",
+      "INSECT",
+      "INSECT_FLYING",
+      "AMPHIBIAN",
+      "REPTILE",
+      "CENTIPEDE",
+      "SPIDER",
+      "MIGO",
+      "PLANT",
+      "NETHER"
+    ]
+  },
+  {
+    "id": "lilin_aoe_line_disease_spell",
+    "type": "SPELL",
+    "name": "Unleash the Night-Wind",
+    "description": "Summon a miasma filled with pestilence to infect your enemies.  This supernatural disease can even strike zombies or stranger creatures.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_AOE_LINE_DISEASE",
+    "shape": "line",
+    "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 400) + 6" ] },
+    "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 400) + 6" ] },
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": {
+      "math": [
+        "100 + ( (u_vitamin('lilin_ruach_vitamin') * 9) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "1500 + ( (u_vitamin('lilin_ruach_vitamin') * 24) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+      ]
+    },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 75,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_disease_enhancement_damage_spell",
+    "type": "SPELL",
+    "name": "Devoured by Pestilence",
+    "description": "Enhance the power of the miasma from Unleash the Night-Wind, doing serious damage and crippling your target.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "NO_FAIL", "RANDOM_DURATION", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_DISEASE_ENHANCEMENT_DAMAGE",
+    "damage_type": "biological",
+    "shape": "blast",
+    "min_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 350) + 7" ] },
+    "max_range": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 350) + 7" ] },
+    "min_dot": {
+      "math": [
+        "min( ( ( (u_vitamin('lilin_ruach_vitamin') / 12000) * (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) ), 0.2)"
+      ]
+    },
+    "max_dot": {
+      "math": [
+        "min( ( ( (u_vitamin('lilin_ruach_vitamin') / 9000) * (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) ), 0.5)"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "100 + ( (u_vitamin('lilin_ruach_vitamin') * 3) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "1500 + ( (u_vitamin('lilin_ruach_vitamin') * 9) * ( (u_has_trait('INFIMMUNE') * 0.25) + 1) * ( (u_has_trait('DISIMMUNE') * 0.25) + 1) * ( (u_has_trait('LILIN_DISEASE_DAMAGE_STRIKES') * 0.35) + 1))"
+      ]
+    },
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 25,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "SLIME" ]
+  },
+  {
+    "id": "lilin_avoid_sleep_spell",
+    "type": "SPELL",
+    "name": "Neither Sleep Nor Slumber",
+    "description": "Spend ruach to alleviate your sleepiness.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_FAIL" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_AVOID_SLEEP",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 1500
   },
   {
     "id": "lilin_change_weather_fog_spell",
@@ -66,6 +316,7 @@
     "name": "Thick Clouds A Covering",
     "description": "Manipulate the weather, pulling the water from the air and cause a thick fog to form and blanket the countryside.  Activate again to release your hold on the weather.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "RANDOM_DURATION", "NO_FAIL" ],
     "spell_class": "LILIN_TRAITS",
@@ -94,6 +345,7 @@
     "name": "Reaping the Whirlwind",
     "description": "Spend some ruach to greatly enhance your speed for a short period of time.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
     "spell_class": "LILIN_TRAITS",
@@ -105,5 +357,43 @@
     "energy_source": "NONE",
     "base_energy_cost": 0,
     "base_casting_time": 75
+  },
+  {
+    "type": "SPELL",
+    "id": "lilin_strix_leap_spell",
+    "name": "Strix Leap",
+    "description": "You squat down, build up tension in your legs, then with a mighty beat of your wings, you leap.",
+    "message": "",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_SFX" ],
+    "teachable": false,
+    "skill": "deduction",
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_increment": 0,
+    "damage_type": "bash",
+    "min_range": 5,
+    "max_range": 5
+  },
+  {
+    "type": "SPELL",
+    "id": "lilin_instant_heal_spell",
+    "name": "The Moon to Rule the Night",
+    "description": "At night under the moon, you can greatly speed your healing, knitting together grievous wounds in moments.  This requires direct moonlight; clouds, rain, or being indoors will prevent this power from working.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
+    "spell_class": "LILIN_TRAITS",
+    "max_level": 1,
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_LILIN_INSTANT_HEAL",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "base_energy_cost": 0,
+    "base_casting_time": 125
   }
 ]

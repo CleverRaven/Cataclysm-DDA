@@ -16,6 +16,7 @@
       "PADDED",
       "WATERPROOF",
       "RAINPROOF",
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "ELECTRIC_IMMUNE",
       "SUN_GLASSES",
@@ -28,7 +29,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "volume_encumber_modifier": 0,
-        "description": "Compartment for a heavy battery.",
+        "description": "Compartment for a tool battery.",
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "2000 g",
@@ -481,7 +482,17 @@
     "warmth": 0,
     "environmental_protection": 0,
     "delete": {
-      "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ]
+      "flags": [
+        "STURDY",
+        "PADDED",
+        "WATERPROOF",
+        "RAINPROOF",
+        "IRRITANT_IMMUNE",
+        "RAD_PROOF",
+        "ELECTRIC_IMMUNE",
+        "SUN_GLASSES",
+        "COMBAT_TOGGLEABLE"
+      ]
     },
     "armor": [
       {

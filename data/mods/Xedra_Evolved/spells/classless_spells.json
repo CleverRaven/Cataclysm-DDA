@@ -99,8 +99,8 @@
   {
     "id": "damage_transfer_heal",
     "type": "SPELL",
-    "name": "Damage Transfer Heal",
-    "description": "A spell that will heal you for a bit.  You can see it only in debug mode.",
+    "name": { "str": "Damage Transfer Heal", "//~": "NO_I18N" },
+    "description": { "str": "A spell that will heal you for a bit.  You can see it only in debug mode.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT" ],
     "effect": "attack",
@@ -138,8 +138,8 @@
   {
     "id": "fire_teleport_explosion",
     "type": "SPELL",
-    "name": "Pyroportation Explosion",
-    "description": "Makes a pretty big fire explosion around you.",
+    "name": { "str": "Pyroportation Explosion", "//~": "NO_I18N" },
+    "description": { "str": "Makes a pretty big fire explosion around you.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
@@ -168,8 +168,8 @@
   {
     "id": "call_daffodil_real",
     "type": "SPELL",
-    "name": "Call Daffodil",
-    "description": "Hidden spell that spawns the daffodil",
+    "name": { "str": "Call Daffodil", "//~": "NO_I18N" },
+    "description": { "str": "Hidden spell that spawns the daffodil", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "min_damage": 5,
     "max_damage": 5,

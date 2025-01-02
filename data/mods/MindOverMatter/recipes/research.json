@@ -74,9 +74,9 @@
           "and": [
             { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
             { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
-            { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "6" ] },
-            { "math": [ "u_spell_level('clair_danger_sense')", ">=", "8" ] },
-            { "math": [ "u_spell_level('clair_voyance')", ">=", "5" ] }
+            { "math": [ "u_spell_level('clair_spot_weakness') >= 6" ] },
+            { "math": [ "u_spell_level('clair_danger_sense') >= 8" ] },
+            { "math": [ "u_spell_level('clair_voyance') >= 5" ] }
           ]
         },
         "effect": [
@@ -142,9 +142,9 @@
           "and": [
             { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
             { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
-            { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "8" ] },
-            { "math": [ "u_spell_level('vita_stop_infection')", ">=", "6" ] },
-            { "math": [ "u_spell_level('vita_healing_trance')", ">=", "2" ] }
+            { "math": [ "u_spell_level('vita_concentrated_healing') >= 8" ] },
+            { "math": [ "u_spell_level('vita_stop_infection') >= 6" ] },
+            { "math": [ "u_spell_level('vita_healing_trance') >= 2" ] }
           ]
         },
         "effect": [

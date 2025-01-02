@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "debug.h"
 #include "global_vars.h"
+#include "math_parser_type.h"
 #include "translation.h"
 
 class JsonArray;
@@ -22,6 +23,7 @@ class JsonObject;
 class math_exp;
 class npc;
 struct dialogue;
+struct const_dialogue;
 
 using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
@@ -52,8 +54,8 @@ struct abstract_str_or_var {
     std::optional<T> str_val;
     std::optional<abstract_var_info<T>> var_val;
     std::optional<T> default_val;
-    std::optional<std::function<T( const dialogue & )>> function;
-    std::string evaluate( dialogue const & ) const;
+    std::optional<std::function<T( const_dialogue const & )>> function;
+    std::string evaluate( const_dialogue const & ) const;
 };
 
 using str_or_var = abstract_str_or_var<std::string>;
@@ -61,7 +63,7 @@ using translation_or_var = abstract_str_or_var<translation>;
 
 struct str_translation_or_var {
     std::variant<str_or_var, translation_or_var> val;
-    std::string evaluate( dialogue const & ) const;
+    std::string evaluate( const_dialogue const & ) const;
 };
 
 struct talk_effect_fun_t {
@@ -91,49 +93,20 @@ struct talk_effect_fun_t {
 };
 
 template<class T>
-std::string read_var_value( const abstract_var_info<T> &info, const dialogue &d );
+std::string read_var_value( const abstract_var_info<T> &info, const_dialogue const &d );
 template<class T>
 std::optional<std::string> maybe_read_var_value(
-    const abstract_var_info<T> &info, const dialogue &d, int call_depth = 0 );
+    const abstract_var_info<T> &info, const_dialogue const &d, int call_depth = 0 );
 
 var_info process_variable( const std::string &type );
 
 struct eoc_math {
-    enum class oper : int {
-        ret = 0,
-        assign,
+    std::shared_ptr<math_exp> exp;
 
-        // these need mhs
-        plus_assign,
-        minus_assign,
-        mult_assign,
-        div_assign,
-        mod_assign,
-        increase,
-        decrease,
+    void from_json( const JsonObject &jo, std::string_view member, math_type_t type_ );
 
-        equal,
-        not_equal,
-        less,
-        equal_or_less,
-        greater,
-        equal_or_greater,
-
-        invalid,
-    };
-    enum class type_t : int {
-        ret = 0,
-        compare,
-        assign,
-    };
-    std::shared_ptr<math_exp> lhs;
-    std::shared_ptr<math_exp> mhs;
-    std::shared_ptr<math_exp> rhs;
-    eoc_math::oper action = oper::invalid;
-
-    void from_json( const JsonObject &jo, std::string_view member, type_t type_ );
-    double act( dialogue &d ) const;
-    void _validate_type( JsonArray const &objects, type_t type_ ) const;
+    template<typename D>
+    double act( D &d ) const;
 };
 
 struct dbl_or_var_part {
@@ -141,7 +114,7 @@ struct dbl_or_var_part {
     std::optional<var_info> var_val;
     std::optional<double> default_val;
     std::optional<eoc_math> math_val;
-    double evaluate( dialogue &d ) const;
+    double evaluate( const_dialogue const &d ) const;
 
     bool is_constant() const {
         return dbl_val.has_value();
@@ -169,7 +142,7 @@ struct dbl_or_var {
     bool pair = false;
     dbl_or_var_part min;
     dbl_or_var_part max;
-    double evaluate( dialogue &d ) const;
+    double evaluate( const_dialogue const &d ) const;
 
     bool is_constant() const {
         return !max && min.is_constant();
@@ -194,14 +167,14 @@ struct duration_or_var_part {
     std::optional<var_info> var_val;
     std::optional<time_duration> default_val;
     std::optional<eoc_math> math_val;
-    time_duration evaluate( dialogue &d ) const;
+    time_duration evaluate( const_dialogue const &d ) const;
 };
 
 struct duration_or_var {
     bool pair = false;
     duration_or_var_part min;
     duration_or_var_part max;
-    time_duration evaluate( dialogue &d ) const;
+    time_duration evaluate( const_dialogue const &d ) const;
 };
 
 #endif // CATA_SRC_DIALOGUE_HELPERS_H

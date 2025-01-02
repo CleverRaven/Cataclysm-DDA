@@ -279,6 +279,9 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
 {
     const int upgrade_attempts = 100;
     clear_avatar();
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
 
     for( int i = 0; i < upgrade_attempts; i++ ) {
         clear_map();

@@ -580,8 +580,8 @@
     "type": "snippet",
     "category": "<bug_harvest_wasp_chitin>",
     "text": [
-      "<bug_harvest_flying_chitin>",
-      "<bug_harvest_general_chitin>",
+      { "text": { "str": "<bug_harvest_flying_chitin>", "//~": "NO_I18N" } },
+      { "text": { "str": "<bug_harvest_general_chitin>", "//~": "NO_I18N" } },
       "Its chitin is sturdier than usual for the flying insects, and marked by the struggles of its previous victims",
       "The stripes on the back of its abdomen are warped into a nauseating spiral you can't tear your eyes away from",
       "Upon closer inspection, the uniform black stripes reveal themselves to be rows upon rows of glistening eyes",
@@ -593,8 +593,8 @@
     "type": "snippet",
     "category": "<bug_harvest_wasp_deeper>",
     "text": [
-      "<bug_harvest_flying_deeper>",
-      "<bug_harvest_general_deeper>",
+      { "text": { "str": "<bug_harvest_flying_deeper>", "//~": "NO_I18N" } },
+      { "text": { "str": "<bug_harvest_general_deeper>", "//~": "NO_I18N" } },
       "The chaotic bundle of organs in its torso look much like those of other mutated insects, but as you near the abdomen there's order to the madness: comparatively neat rows of venom-filled glands, each feeding into a reservoir at the base of the stinger",
       "You open a stomach, releasing a gush of sweet-smelling gray fluid",
       "For its apparent hunger for meat, its intestines seem almost atrophied",
@@ -616,7 +616,7 @@
     "type": "snippet",
     "category": "<bug_harvest_spider_chitin>",
     "text": [
-      "<bug_harvest_general_chitin>",
+      { "text": { "str": "<bug_harvest_general_chitin>", "//~": "NO_I18N" } },
       "The fangs spray a sickly green liquid to the ground when you touch them",
       "One of its eyes falls to the ground and shatters into a dozen jagged splinters",
       "The stiff hairs of its chitin seem to shift slightly, points reaching for your skin",
@@ -628,7 +628,7 @@
     "type": "snippet",
     "category": "<bug_harvest_spider_deeper>",
     "text": [
-      "<bug_harvest_general_deeper>",
+      { "text": { "str": "<bug_harvest_general_deeper>", "//~": "NO_I18N" } },
       "The fangs are connected to fist-sized venom glands, still churning with life",
       "The imposing mandibles give way to a surprisingly thin tube and atrophied digestive track.  It must have done most of its digesting outside",
       "A huge reddish lump reveals itself to be a sort of lung with a deflating noise.  You're blasted with hot air and droplets of hemolymph",
@@ -639,7 +639,7 @@
     "type": "snippet",
     "category": "<bug_harvest_acid_chitin>",
     "text": [
-      "<bug_harvest_general_chitin>",
+      { "text": { "str": "<bug_harvest_general_chitin>", "//~": "NO_I18N" } },
       "Steaming puddles of acid spill from its outer shell as you pull it back",
       "Steaming acid burbles from the creature's chitin as you peel it back",
       "Several acid glands rupture as you peel back the carapace, sending streams of steaming caustic fluids spraying around"
@@ -649,7 +649,7 @@
     "type": "snippet",
     "category": "<bug_harvest_acid_deeper>",
     "text": [
-      "<bug_harvest_general_deeper>",
+      { "text": { "str": "<bug_harvest_general_deeper>", "//~": "NO_I18N" } },
       "The organs themselves have an acrid odor, but don't seem as caustically acidic as the outer shell",
       "You carefully avoid breaking through pockets of what you think may be acid-secreting glands",
       "Thick, ropey cords of tissue beneath its chitin protect an inner layer of strange organs, resembling those of a bird more than anything"
@@ -659,7 +659,7 @@
     "type": "snippet",
     "category": "<bug_harvest_acid_descriptive>",
     "text": [
-      "<bug_harvest_general_descriptive>",
+      { "text": { "str": "<bug_harvest_general_descriptive>", "//~": "NO_I18N" } },
       "The powerfully acidic vapors coming from the carcass make it hard to work",
       "The tissues of the creature are full of half-formed organs, their purpose unclear",
       "Several times, you nearly burn yourself piercing a concealed gland full of acid"
@@ -703,7 +703,7 @@
     "type": "snippet",
     "category": "<zombie_amalgamation_acid_outer>",
     "text": [
-      "<zombie_amalgamation_outer>",
+      { "text": { "str": "<zombie_amalgamation_outer>", "//~": "NO_I18N" } },
       "The caustic buboes connect to a web of sickly green veins running down the creature's limbs.  You take care not to nick them",
       "You slip and tear into an acid gland and can't help but pause and watch as the substance inside dissolves a good chunk of flesh before growing inert",
       "Its skin feels less flexible than usual, and coated in a greasy film on the outside",
@@ -714,7 +714,7 @@
     "type": "snippet",
     "category": "<zombie_amalgamation_acid_inner>",
     "text": [
-      "<zombie_amalgamation_inner>",
+      { "text": { "str": "<zombie_amalgamation_inner>", "//~": "NO_I18N" } },
       "No organs beyond various sizes of the acid glands in neat rows, as if they were replacement parts ready to deploy",
       "Your tool takes on a rainbow sheen from working in the creature's innards, and seems to give off a thin smoke.  You might want to hurry",
       "The green veins stand out before the stark white background and there is a hair-thin space surrounding each, as if the flesh was hesitant to touch whatever is carried inside"
@@ -724,7 +724,7 @@
     "type": "snippet",
     "category": "<zombie_amalgamation_electric_outer>",
     "text": [
-      "<zombie_amalgamation_outer>",
+      { "text": { "str": "<zombie_amalgamation_outer>", "//~": "NO_I18N" } },
       "Sparks still dance around its limbs, and you're hesitant to start cutting",
       "There is no movement from the body, but you can still hear a faint crackling from inside",
       "Sparks dance between your tool and its skin, but disappear without any harm",
@@ -735,7 +735,7 @@
     "type": "snippet",
     "category": "<zombie_amalgamation_electric_inner>",
     "text": [
-      "<zombie_amalgamation_inner>",
+      { "text": { "str": "<zombie_amalgamation_inner>", "//~": "NO_I18N" } },
       "Your smell ozone and burned hair as you hack the crackling corpse to pieces",
       "Most of its insides are taken up by the warped organ still humming with electricity.  Cutting into it proves harder than expected, not the least because of the sparks",
       "Finger-thick strands connect the glowing organ to the base of a limb, and the normally white flesh is blackened along its path"
@@ -744,123 +744,138 @@
   {
     "type": "snippet",
     "category": "<arachnid_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_general_chitin>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+      "<bug_harvest_general_chitin><punc.>",
+      "<bug_harvest_general_chitin><punc.>  <bug_harvest_general_deeper><punc.>",
+      "<bug_harvest_general_chitin><punc.>  <bug_harvest_general_deeper><punc.>  <bug_harvest_general_descriptive><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<centipede_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_centipede_chitin>.",
-      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
-      "<bug_harvest_centipede_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_centipede_descriptive>."
+      "<bug_harvest_general_chitin><punc.>  <bug_harvest_general_deeper><punc.>",
+      "<bug_harvest_centipede_chitin><punc.>",
+      "<bug_harvest_centipede_chitin><punc.>  <bug_harvest_general_deeper><punc.>  <bug_harvest_centipede_descriptive><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<centipede_mom_harvest>",
-    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mom>." ]
+    "//": "NO_I18N",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mom><punc.>" ]
   },
   {
     "type": "snippet",
     "category": "<centipede_mega_harvest>",
-    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega>." ]
+    "//": "NO_I18N",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega><punc.>" ]
   },
   {
     "type": "snippet",
     "category": "<ground_beetle_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_ground_beetle_exterior>.",
-      "<bug_harvest_ground_beetle_exterior>.  <bug_harvest_ground_beetle_interior>."
+      "<bug_harvest_ground_beetle_exterior><punc.>",
+      "<bug_harvest_ground_beetle_exterior><punc.>  <bug_harvest_ground_beetle_interior><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<ground_beetle_mega_harvest>",
-    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_ground_beetle_mega>." ]
+    "//": "NO_I18N",
+    "text": [ "<ground_beetle_harvest>", "<ground_beetle_harvest>  <bug_harvest_ground_beetle_mega><punc.>" ]
   },
   {
     "type": "snippet",
     "category": "<arachnid_flying_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_flying_chitin>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>."
+      "<bug_harvest_flying_chitin><punc.>",
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_general_descriptive><punc.>",
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_flying_deeper><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<spider_harvest>",
+    "//": "NO_I18N",
     "text": [
       "<bug_harvest_spider_chitin>",
-      "<bug_harvest_spider_chitin>. <bug_harvest_general_descriptive>.",
-      "<bug_harvest_spider_chitin>. <bug_harvest_general_descriptive>.  <bug_harvest_spider_deeper>."
+      "<bug_harvest_spider_chitin><punc.>  <bug_harvest_general_descriptive><punc.>",
+      "<bug_harvest_spider_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_spider_deeper><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<wasp_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<arachnid_flying_harvest> <bug_harvest_wasp_deeper>.",
-      "<bug_harvest_wasp_chitin>.",
-      "<bug_harvest_wasp_chitin>. <bug_harvest_general_descriptive>. ",
-      "<bug_harvest_wasp_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_wasp_deeper>."
+      "<arachnid_flying_harvest>  <bug_harvest_wasp_deeper><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_general_descriptive><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_wasp_deeper><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<wasp_queen_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_wasp_chitin>. <bug_harvest_wasp_queen>.",
-      "<bug_harvest_flying_chitin>. <bug_harvest_wasp_queen>.",
-      "<bug_harvest_wasp_chitin>. <bug_harvest_wasp_deeper>. <bug_harvest_wasp_queen>."
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_wasp_queen><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_wasp_queen><punc.>",
+      "<bug_harvest_wasp_chitin><punc.>  <bug_harvest_wasp_deeper><punc.>  <bug_harvest_wasp_queen><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<firefly_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_flying_chitin>.",
-      "<bug_harvest_flying_chitin>.  <bug_harvest_general_descriptive>.  <bug_harvest_firefly>."
+      "<bug_harvest_flying_chitin><punc.>",
+      "<bug_harvest_flying_chitin><punc.>  <bug_harvest_general_descriptive><punc.>  <bug_harvest_firefly><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<acidant_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<bug_harvest_acid_chitin>.",
-      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.",
-      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.  <bug_harvest_acid_descriptive>."
+      "<bug_harvest_acid_chitin><punc.>",
+      "<bug_harvest_acid_chitin><punc.>  <bug_harvest_acid_deeper><punc.>",
+      "<bug_harvest_acid_chitin><punc.>  <bug_harvest_acid_deeper><punc.>  <bug_harvest_acid_descriptive><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_amalgamation_harvest>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_amalgamation_outer>.",
-      "<zombie_amalgamation_inner>.",
-      "<zombie_amalgamation_outer>.  <zombie_amalgamation_inner>."
+      "<zombie_amalgamation_outer><punc.>",
+      "<zombie_amalgamation_inner><punc.>",
+      "<zombie_amalgamation_outer><punc.>  <zombie_amalgamation_inner><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_amalgamation_harvest_acid>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_amalgamation_acid_outer>.",
-      "<zombie_amalgamation_acid_inner>.",
-      "<zombie_amalgamation_acid_outer>.  <zombie_amalgamation_acid_inner>."
+      "<zombie_amalgamation_acid_outer><punc.>",
+      "<zombie_amalgamation_acid_inner><punc.>",
+      "<zombie_amalgamation_acid_outer><punc.>  <zombie_amalgamation_acid_inner><punc.>"
     ]
   },
   {
     "type": "snippet",
     "category": "<zombie_amalgamation_harvest_electric>",
+    "//": "NO_I18N",
     "text": [
-      "<zombie_amalgamation_electric_outer>.",
-      "<zombie_amalgamation_electric_inner>.",
-      "<zombie_amalgamation_electric_outer>.  <zombie_amalgamation_electric_inner>."
+      "<zombie_amalgamation_electric_outer><punc.>",
+      "<zombie_amalgamation_electric_inner><punc.>",
+      "<zombie_amalgamation_electric_outer><punc.>  <zombie_amalgamation_electric_inner><punc.>"
     ]
   }
 ]

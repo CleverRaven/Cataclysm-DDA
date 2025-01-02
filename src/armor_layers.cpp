@@ -293,7 +293,7 @@ std::vector<std::string> clothing_properties(
     add_folded_name_and_value( props, _( "Encumbrance:" ), string_format( "%3d", encumbrance ),
                                width );
     add_folded_name_and_value( props, _( "Warmth:" ), string_format( "%3d",
-                               worn_item.get_warmth() ), width );
+                               worn_item.get_warmth( used_bp ) ), width );
     return props;
 }
 
@@ -333,6 +333,7 @@ std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const bool display_median, const damage_type_id &type )
 {
     std::vector<std::pair<std::string, std::string>> subvalues;
+    subvalues.reserve( 2 + ( display_median ? 1 : 0 ) );
     subvalues.emplace_back( _( "Worst:" ), string_format( "%.2f",
                             worst_res.type_resist( type ) ) );
     if( display_median ) {
@@ -583,21 +584,23 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     const int win_h = getmaxy( w );
 
     draw_border( w );
+
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
     mvwhline( w, point( left_pane_w + 2, encumb_top - 1 ), 0, mid_pane_w );
     mvwvline( w, point( left_pane_w + 1, 3 ), 0, win_h - 4 );
     mvwvline( w, point( left_pane_w + mid_pane_w + 2, 3 ), 0, win_h - 4 );
 
     // intersections
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_XXXO ); // '|-'
-    mvwputch( w, point( win_w - 1, 2 ), BORDER_COLOR, LINE_XOXX ); // '-|'
-    mvwputch( w, point( left_pane_w + 1, encumb_top - 1 ), BORDER_COLOR, LINE_XXXO ); // '|-'
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, encumb_top - 1 ), BORDER_COLOR,
-              LINE_XOXX ); // '-|'
-    mvwputch( w, point( left_pane_w + 1, 2 ), BORDER_COLOR, LINE_OXXX ); // '^|^'
-    mvwputch( w, point( left_pane_w + 1, win_h - 1 ), BORDER_COLOR, LINE_XXOX ); // '_|_'
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // '^|^'
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), BORDER_COLOR, LINE_XXOX ); // '_|_'
+    mvwaddch( w, point( 0, 2 ), LINE_XXXO ); // '|-'
+    mvwaddch( w, point( win_w - 1, 2 ), LINE_XOXX ); // '-|'
+    mvwaddch( w, point( left_pane_w + 1, encumb_top - 1 ), LINE_XXXO ); // '|-'
+    mvwaddch( w, point( left_pane_w + mid_pane_w + 2, encumb_top - 1 ), LINE_XOXX ); // '-|'
+    mvwaddch( w, point( left_pane_w + 1, 2 ), LINE_OXXX ); // '^|^'
+    mvwaddch( w, point( left_pane_w + 1, win_h - 1 ), LINE_XXOX ); // '_|_'
+    mvwaddch( w, point( left_pane_w + mid_pane_w + 2, 2 ), LINE_OXXX ); // '^|^'
+    mvwaddch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), LINE_XXOX ); // '_|_'
+    wattroff( w, BORDER_COLOR );
 
     wnoutrefresh( w );
 }
@@ -767,7 +770,7 @@ void outfit::sort_armor( Character &guy )
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
-        trim_and_print( w_sort_left, point_zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
+        trim_and_print( w_sort_left, point::zero, left_w - utf8_width( storage_header ) - 1, c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_left, 0, 0, c_light_gray, storage_header );
         // Left list
@@ -840,13 +843,13 @@ void outfit::sort_armor( Character &guy )
                             _( "Nothing to see here!" ) );
         }
 
-        mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
+        mvwprintz( w_encumb, point::east, c_white, _( "Encumbrance and Warmth" ) );
         guy.print_encumbrance( ui, w_encumb, -1,
                                ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         std::string encumbrance_header = _( "Encumbrance" );
-        trim_and_print( w_sort_right, point_zero, right_w - utf8_width( encumbrance_header ) - 1,
+        trim_and_print( w_sort_right, point::zero, right_w - utf8_width( encumbrance_header ) - 1,
                         c_light_gray,
                         _( "(Innermost)" ) );
         right_print( w_sort_right, 0, 0, c_light_gray, encumbrance_header );
@@ -935,7 +938,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else {
             // Player is sorting NPC's armor here
-            if( rl_dist( player_character.pos(), guy.pos() ) > 1 ) {
+            if( rl_dist( player_character.pos_bub(), guy.pos_bub() ) > 1 ) {
                 guy.add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), guy.get_name() );
                 return;
             }

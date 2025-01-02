@@ -404,12 +404,12 @@ TEST_CASE( "Specific_energy", "[temperature]" )
 TEST_CASE( "energy_display", "[units][nogame]" )
 {
     CHECK( units::display( units::from_millijoule( 1 ) ) == "1 mJ" );
-    CHECK( units::display( units::from_millijoule( 1'000 ) ) == "1 J" );
-    CHECK( units::display( units::from_millijoule( 1'001 ) ) == "1001 mJ" );
-    CHECK( units::display( units::from_millijoule( 1'000'000 ) ) == "1 kJ" );
-    CHECK( units::display( units::from_millijoule( 1'000'001 ) ) == "1 kJ" );
-    CHECK( units::display( units::from_millijoule( 1'001'000 ) ) == "1001 J" );
-    CHECK( units::display( units::from_millijoule( 1'001'001 ) ) == "1001001 mJ" );
-    CHECK( units::display( units::from_millijoule( 2'147'483'648LL ) ) == "2147483648 mJ" );
-    CHECK( units::display( units::from_millijoule( 4'294'967'296LL ) ) == "4294967296 mJ" );
+    CHECK( units::display( units::from_millijoule( 1000 ) ) == "1 J" );
+    CHECK( units::display( units::from_millijoule( 1001 ) ) == "1001 mJ" );
+    CHECK( units::display( units::from_millijoule( 1000000 ) ) == "1 kJ" );
+    CHECK( units::display( units::from_millijoule( 1000001 ) ) == "1 kJ" );
+    CHECK( units::display( units::from_millijoule( 1001000 ) ) == "1001 J" );
+    CHECK( units::display( units::from_millijoule( 1001001 ) ) == "1001001 mJ" );
+    CHECK( units::display( units::from_millijoule( 2147483648LL ) ) == "2147483648 mJ" );
+    CHECK( units::display( units::from_millijoule( 4294967296LL ) ) == "4294967296 mJ" );
 }

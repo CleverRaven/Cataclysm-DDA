@@ -93,7 +93,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     CAPTURE( target_location );
     CHECK( test_monster.sees( target_location ) == expect_vision );
     if( special_attack == nullptr ) {
-        CHECK( test_monster.attack_at( target_location.raw() ) == expect_attack );
+        CHECK( test_monster.attack_at( target_location ) == expect_attack );
     } else {
         CHECK( special_attack( &test_monster ) == expect_attack );
     }
@@ -144,7 +144,7 @@ static void monster_attack_zlevel( const std::string &title, const tripoint &off
 TEST_CASE( "monster_attack", "[vision][reachability]" )
 {
     clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     SECTION( "attacking on open ground" ) {
@@ -172,18 +172,18 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
         test_monster_attack( { -2, -2, 0 }, false, true );
     }
 
-    monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down",
+    monster_attack_zlevel( "attack_up_stairs", tripoint::above, "t_stairs_up", "t_stairs_down",
                            false, true, true );
-    monster_attack_zlevel( "attack_down_stairs", tripoint_below, "t_stairs_down", "t_stairs_up",
+    monster_attack_zlevel( "attack_down_stairs", tripoint::below, "t_stairs_down", "t_stairs_up",
                            false, true, true );
-    monster_attack_zlevel( "attack through ceiling", tripoint_above, "t_floor", "t_floor",
+    monster_attack_zlevel( "attack through ceiling", tripoint::above, "t_floor", "t_floor",
                            false, false, false );
-    monster_attack_zlevel( "attack through floor", tripoint_below, "t_floor", "t_floor",
+    monster_attack_zlevel( "attack through floor", tripoint::below, "t_floor", "t_floor",
                            false, false, false );
 
-    monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor",
+    monster_attack_zlevel( "attack up ledge", tripoint::above, "t_floor", "t_floor",
                            true, false, true );
-    monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor",
+    monster_attack_zlevel( "attack down ledge", tripoint::below, "t_floor", "t_floor",
                            true, false, true );
 }
 
@@ -192,7 +192,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map();
     map &here = get_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = sunrise( calendar::turn );
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     const tripoint_bub_ms target_location = { 65, 65, 0 };
@@ -210,7 +210,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     for( int distance = 2; distance <= 5; ++distance ) {
         float expected_damage = expected_average_damage_at_range[ distance ];
         // and you got a monster
-        const tripoint_bub_ms attacker_location = target_location + tripoint_east * distance;
+        const tripoint_bub_ms attacker_location = target_location + tripoint::east * distance;
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
         test_monster.set_dest( you.get_location() );
         const mtype_special_attack &attack = test_monster.type->special_attacks.at( "gun" );
@@ -219,7 +219,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         Creature *target = test_monster.attack_target();
         REQUIRE( target );
         REQUIRE( test_monster.sees( *target ) );
-        REQUIRE( rl_dist( test_monster.pos(), target->pos() ) <= 5 );
+        REQUIRE( rl_dist( test_monster.pos_bub(), target->pos_bub() ) <= 5 );
         statistics<int> damage_dealt;
         statistics<bool> hits;
         epsilon_threshold threshold{ expected_damage, 2.5 };
@@ -254,7 +254,7 @@ TEST_CASE( "Mattack_dialog_condition_test", "[mattack]" )
 {
     clear_map();
     clear_creatures();
-    const tripoint_bub_ms target_location = attacker_location + tripoint_east;
+    const tripoint_bub_ms target_location = attacker_location + tripoint::east;
     Character &you = get_player_character();
     clear_avatar();
     you.setpos( target_location );
@@ -296,8 +296,8 @@ TEST_CASE( "Targeted_grab_removal_test", "[mattack][grab]" )
 
     const std::string grabber_left = "mon_debug_grabber_left";
     const std::string grabber_right = "mon_debug_grabber_right";
-    const tripoint_bub_ms target_location = attacker_location + tripoint_east;
-    const tripoint_bub_ms attacker_location_e = target_location + tripoint_east;
+    const tripoint_bub_ms target_location = attacker_location + tripoint::east;
+    const tripoint_bub_ms attacker_location_e = target_location + tripoint::east;
 
     clear_map();
     clear_creatures();
@@ -337,7 +337,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
     // Set up further from the target
     const tripoint_bub_ms target_location = attacker_location + tripoint{ 4, 0, 0 };
     clear_map();
-    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    restore_on_out_of_scope restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_creatures();
@@ -362,7 +362,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
         REQUIRE( units::to_gram<int>( you.get_weight() ) < 50000 );
         // Attack succeeds
         REQUIRE( attack.call( test_monster ) );
-        REQUIRE( you.pos_bub() == attacker_location + tripoint_east );
+        REQUIRE( you.pos_bub() == attacker_location + tripoint::east );
     }
     SECTION( "Strong puller" ) {
         const std::string monster_type = "mon_debug_puller_strong";
@@ -373,7 +373,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
         REQUIRE( units::to_gram<int>( test_monster.get_weight() ) == 100000 );
         // Pull on the first try
         REQUIRE( attack.call( test_monster ) );
-        REQUIRE( you.pos_bub() == attacker_location + tripoint_east );
+        REQUIRE( you.pos_bub() == attacker_location + tripoint::east );
     }
     SECTION( "Incompetent puller" ) {
         const std::string monster_type = "mon_debug_puller_incompetent";
@@ -389,7 +389,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
         const std::string monster_type = "mon_debug_puller_strong";
         const std::string grabber_type = "mon_debug_grabber_strong";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-        monster &test_grabber = spawn_test_monster( grabber_type, target_location + tripoint_south );
+        monster &test_grabber = spawn_test_monster( grabber_type, target_location + tripoint::south );
         const mattack_actor &pull = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
         const mattack_actor &grab = test_grabber.type->special_attacks.at( "grab" ).operator * ();
         test_monster.set_dest( you.get_location() );
@@ -408,7 +408,7 @@ TEST_CASE( "Ranged_pull_tests", "[mattack][grab]" )
 
 TEST_CASE( "Grab_drag_tests", "[mattack][grab][drag]" )
 {
-    const tripoint_bub_ms target_location = attacker_location + tripoint_east;
+    const tripoint_bub_ms target_location = attacker_location + tripoint::east;
     clear_map();
     clear_creatures();
     Character &you = get_player_character();
@@ -440,9 +440,9 @@ TEST_CASE( "Grab_drag_tests", "[mattack][grab][drag]" )
 
 TEST_CASE( "Unified_grab_break_test", "[mattack][grab]" )
 {
-    const tripoint_bub_ms target_location = attacker_location + tripoint_east;
-    const tripoint_bub_ms attacker_location_2 = target_location + tripoint_north;
-    const tripoint_bub_ms attacker_location_3 = target_location + tripoint_east;
+    const tripoint_bub_ms target_location = attacker_location + tripoint::east;
+    const tripoint_bub_ms attacker_location_2 = target_location + tripoint::north;
+    const tripoint_bub_ms attacker_location_3 = target_location + tripoint::east;
     std::string monster_type;
     std::string message = "You should not see this.";
 

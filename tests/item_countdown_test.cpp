@@ -11,19 +11,19 @@ TEST_CASE( "countdown_action_triggering", "[item]" )
     SECTION( "countdown_point is in future" ) {
         grenade.countdown_point = calendar::turn + 10_seconds;
         // Grenade does not explode
-        CHECK( grenade.process( get_map(), nullptr, tripoint_zero ) == false );
+        CHECK( grenade.process( get_map(), nullptr, tripoint_bub_ms::zero ) == false );
     }
 
     SECTION( "countdown_point is in past" ) {
         grenade.countdown_point = calendar::turn - 10_seconds;
         // Grenade explodes and is to be removed
-        CHECK( grenade.process( get_map(), nullptr, tripoint_zero ) == true );
+        CHECK( grenade.process( get_map(), nullptr, tripoint_bub_ms::zero ) == true );
     }
 
     SECTION( "countdown_point is now" ) {
         grenade.countdown_point = calendar::turn;
         // Grenade explodes and is to be removed
-        CHECK( grenade.process( get_map(), nullptr, tripoint_zero ) == true );
+        CHECK( grenade.process( get_map(), nullptr, tripoint_bub_ms::zero ) == true );
     }
 }
 
@@ -35,7 +35,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
         test_item.countdown_point = calendar::turn;
 
         // Is not deleted after coundown action
-        CHECK( test_item.process( get_map(), nullptr, tripoint_zero ) == false );
+        CHECK( test_item.process( get_map(), nullptr, tripoint_bub_ms::zero ) == false );
 
         // Turns into normal arrow
         CHECK( test_item.typeId().str() == "arrow_field_point_fletched" );
@@ -53,7 +53,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
         test_item.countdown_point = calendar::turn;
 
         // Is not deleted after coundown action
-        CHECK( test_item.process( get_map(), nullptr, tripoint_zero ) == false );
+        CHECK( test_item.process( get_map(), nullptr, tripoint_bub_ms::zero ) == false );
 
         // Turns into new armor type
         CHECK( test_item.typeId().str() == "migo_plate" );
@@ -71,7 +71,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
         test_item.countdown_point = calendar::turn;
 
         // Is not deleted after coundown action
-        CHECK( test_item.process( get_map(), nullptr, tripoint_zero ) == false );
+        CHECK( test_item.process( get_map(), nullptr, tripoint_bub_ms::zero ) == false );
 
         // Turns into cheese
         CHECK( test_item.typeId().str() == "cheese_hard" );

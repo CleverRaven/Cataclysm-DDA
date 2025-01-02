@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "commercial_restaurant_palette",
     "//": "Intended as a palette for commercial food places.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "t": {  } },
     "terrain": {
       "`": "t_concrete",
@@ -17,8 +18,6 @@
       ".": "t_region_groundcover_urban",
       "}": "t_ladder_up",
       "^": "t_gutter_downspout",
-      "|": "t_wall_w",
-      "#": "t_brick_wall",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "-": "t_sidewalk",
       "0": "t_ponywall",

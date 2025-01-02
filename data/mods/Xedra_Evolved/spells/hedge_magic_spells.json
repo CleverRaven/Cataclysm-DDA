@@ -180,8 +180,8 @@
   {
     "id": "hedge_stunning_spell_real",
     "type": "SPELL",
-    "name": "To Befuddle As the Thunderstrike Real",
-    "description": "The actual spell that causes the effect.  It's a bug if you have it.",
+    "name": { "str": "To Befuddle As the Thunderstrike Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that causes the effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground", "ally" ],
     "teachable": false,
     "effect": "flashbang",
@@ -277,8 +277,11 @@
   {
     "id": "hedge_clairvoyance_cone_real",
     "type": "SPELL",
-    "name": "To See Beyond the Barriers Real",
-    "description": "The actual spell that causes the effect for To See Beyond the Barriers.  It's a bug if you have it.",
+    "name": { "str": "To See Beyond the Barriers Real", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell that causes the effect for To See Beyond the Barriers.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "IGNORE_WALLS" ],
@@ -434,8 +437,11 @@
   {
     "id": "hedge_blessed_weapon_nether_damage",
     "type": "SPELL",
-    "name": "Blessed Weapon Nether Damage",
-    "description": "This is the extra damage a blessed weapon does to Nether creatures.  It's a bug if you have it directly.",
+    "name": { "str": "Blessed Weapon Nether Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the extra damage a blessed weapon does to Nether creatures.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "valid_targets": [ "hostile" ],
@@ -511,8 +517,11 @@
   {
     "id": "hedge_bash_terrain_magic_square_real",
     "type": "SPELL",
-    "name": "To Demolish Buildings and Strongholds Real",
-    "description": "The actual spell for To Demolish Buildings and Strongholds.  It's a bug if you have it directly.",
+    "name": { "str": "To Demolish Buildings and Strongholds Real", "//~": "NO_I18N" },
+    "description": {
+      "str": "The actual spell for To Demolish Buildings and Strongholds.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],

@@ -29,16 +29,16 @@
         "text": "We've got him, let's get out of here.",
         "condition": {
           "and": [
-            { "math": [ "isherwood_family_coming", "==", "1" ] },
+            { "math": [ "isherwood_family_coming == 1" ] },
             { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] }
           ]
         },
         "effect": [
-          { "u_lose_var": "barry_following", "type": "general", "context": "meeting" },
-          { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+          { "u_lose_var": "general_meeting_barry_following" },
+          { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
           { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
           { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
-          { "math": [ "barry_travelling_home", "=", "1" ] },
+          { "math": [ "barry_travelling_home = 1" ] },
           {
             "u_run_npc_eocs": [
               {

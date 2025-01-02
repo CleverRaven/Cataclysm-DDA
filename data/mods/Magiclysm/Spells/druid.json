@@ -3,11 +3,11 @@
     "id": "druid_veggrasp",
     "type": "SPELL",
     "name": "Vegetative Grasp",
-    "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
+    "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.\n\nLarger targets will be <color_yellow>less affected</color> by the spell, and it has <color_red>no effect</color> on targets not on natural ground.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
-    "effect": "attack",
-    "effect_str": "entangled",
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "RANDOM_DAMAGE", "NO_LEGS", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_VEGGRASP_ENTANGLED",
     "shape": "blast",
     "spell_class": "DRUID",
     "base_casting_time": 100,
@@ -15,12 +15,11 @@
     "energy_source": "MANA",
     "difficulty": 2,
     "max_level": 20,
-    "min_damage": 1,
-    "max_damage": 10,
-    "damage_increment": 0.5,
-    "min_aoe": 4,
-    "max_aoe": 15,
-    "aoe_increment": 1.0,
+    "min_damage": { "math": [ "(u_spell_level('druid_veggrasp') * 0.1) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('druid_veggrasp') * 0.4) + 2" ] },
+    "min_aoe": 2,
+    "max_aoe": 8,
+    "aoe_increment": 0.5,
     "min_range": 3,
     "max_range": 10,
     "range_increment": 1.0,
@@ -30,8 +29,25 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.25,
+    "min_dot": 0.1,
+    "max_dot": 0.3,
+    "dot_increment": 0.01,
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_VEGGRASP_ENTANGLED",
+    "condition": "has_alpha",
+    "effect": [
+      { "math": [ "u_vegetative_grasp_affected_level = n_spell_level('druid_veggrasp')" ] },
+      {
+        "math": [
+          "u_evocation_spell_affected_proficiency = (1 + (n_has_proficiency('prof_magic_evocation_beginner') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_apprentice') * 0.1 ) + (n_has_proficiency('prof_magic_evocation_master') * 0.1 ) )"
+        ]
+      },
+      { "u_add_effect": "entangled", "duration": { "math": [ "10 + (u_vegetative_grasp_affected_level * 5)" ] } }
+    ]
   },
   {
     "id": "druid_rootstrike",
@@ -39,7 +55,7 @@
     "name": "Root Strike",
     "description": "This spell causes roots to spear out of the ground in a cone and stab into your foes, impaling them.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "SPLIT_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "effect_str": "root_impale",
     "shape": "cone",
@@ -49,9 +65,8 @@
     "energy_source": "MANA",
     "difficulty": 4,
     "max_level": 20,
-    "min_damage": 15,
-    "max_damage": 60,
-    "damage_increment": 2.5,
+    "min_damage": { "math": [ "(u_spell_level('druid_rootstrike') * 0.8) + 8" ] },
+    "max_damage": { "math": [ "(u_spell_level('druid_rootstrike') * 1.5) + 14" ] },
     "min_aoe": 25,
     "max_aoe": 45,
     "aoe_increment": 1.0,
@@ -76,7 +91,7 @@
     "name": "Wooden Shaft",
     "description": "This spell creates a projectile of hardwood that shoots forth from the caster's hand at high speed to stab into an enemy.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "attack",
     "shape": "blast",
     "spell_class": "DRUID",
@@ -85,9 +100,8 @@
     "energy_source": "MANA",
     "difficulty": 1,
     "max_level": 20,
-    "min_damage": 1,
-    "max_damage": 25,
-    "damage_increment": 1.5,
+    "min_damage": { "math": [ "(u_spell_level('druid_woodshaft') * 0.333) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('druid_woodshaft') * 0.9) + 3" ] },
     "min_range": 5,
     "max_range": 15,
     "range_increment": 0.75,
@@ -124,8 +138,11 @@
   {
     "id": "druid_naturequiver1",
     "type": "SPELL",
-    "name": "Nature's Quiver",
-    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Quiver", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": 1,
@@ -139,8 +156,11 @@
   {
     "id": "druid_naturearrows1",
     "type": "SPELL",
-    "name": "Nature's Arrows",
-    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Arrows", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1') * 3) + 15) * (summoning_proficiency_modifier())" ] },
@@ -185,8 +205,11 @@
   {
     "id": "druid_naturequiver1_plus",
     "type": "SPELL",
-    "name": "Nature's Quiver",
-    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Quiver", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": 1,
@@ -200,8 +223,11 @@
   {
     "id": "druid_naturearrows1_plus",
     "type": "SPELL",
-    "name": "Nature's Arrows",
-    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "name": { "str": "Nature's Arrows", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "flags": [ "CONJURATION_SPELL", "SILENT" ],
     "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 4) + 30) * (summoning_proficiency_modifier())" ] },
@@ -218,16 +244,15 @@
     "name": "Nature's Trance",
     "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
     "valid_targets": [ "self" ],
-    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SILENT", "NO_HANDS" ],
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "SILENT", "NO_HANDS" ],
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "effect": "recover_energy",
     "effect_str": "SLEEPINESS",
     "shape": "blast",
     "base_casting_time": 10000,
-    "min_damage": 50,
-    "damage_increment": 10.0,
-    "max_damage": 300,
+    "min_damage": { "math": [ "(u_spell_level('recover_sleepiness') * 4) + 10" ] },
+    "max_damage": { "math": [ "(u_spell_level('recover_sleepiness') * 8) + 25" ] },
     "max_level": 25,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 500,
@@ -369,12 +394,14 @@
     "effect": "ter_transform",
     "effect_str": "druidic_renewal",
     "shape": "blast",
-    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "IGNORE_WALLS", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
     "spell_class": "DRUID",
     "energy_source": "HP",
     "difficulty": 6,
     "base_casting_time": 600,
     "base_energy_cost": 25,
+    "final_energy_cost": 10,
+    "energy_increment": -1,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 20,
     "min_aoe": 1,
@@ -392,19 +419,19 @@
     "valid_targets": [ "ally" ],
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
     "spell_class": "DRUID",
     "energy_source": "HP",
     "difficulty": 5,
     "base_casting_time": 400,
     "base_energy_cost": 35,
-    "final_energy_cost": 20,
-    "energy_increment": -1.5,
+    "final_energy_cost": 15,
+    "energy_increment": -2,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 10,
-    "min_damage": -4,
-    "max_damage": -12,
-    "damage_increment": -0.8,
+    "min_damage": { "math": [ "(u_spell_level('druidic_healing') * -1) - 2" ] },
+    "max_damage": { "math": [ "(u_spell_level('druidic_healing') * -2) - 5" ] },
+    "damage_increment": -1.6,
     "min_aoe": 0,
     "max_aoe": 2,
     "aoe_increment": 0.2,
@@ -418,7 +445,7 @@
     "name": "Tornskin",
     "description": "This spell, which resembles Thornskin through the sap & needles covering the page, seemed to involve thorns and bleeding wounds.  The marred words may have altered the function.",
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "tornskin_pain",
     "shape": "blast",
@@ -435,7 +462,6 @@
     "max_level": 10,
     "min_damage": 1,
     "max_damage": 4,
-    "damage_increment": 0.3,
     "min_aoe": 1,
     "max_aoe": 2,
     "aoe_increment": 0.1,
@@ -651,8 +677,8 @@
   {
     "id": "druid_cause_rot_terrain",
     "type": "SPELL",
-    "name": "Cause Rot Terrain Rot",
-    "description": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.",
+    "name": { "str": "Cause Rot Terrain Rot", "//~": "NO_I18N" },
+    "description": { "str": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "effect": "ter_transform",
     "effect_str": "ter_druid_cause_rot_terrain",
     "shape": "blast",
@@ -723,12 +749,11 @@
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "energy_source": "MANA",
     "spell_class": "DRUID",
-    "min_damage": -5,
-    "max_damage": -20,
-    "damage_increment": -1,
+    "min_damage": { "math": [ "(u_spell_level('druid_healing_herb') * -0.7) - 2" ] },
+    "max_damage": { "math": [ "(u_spell_level('druid_healing_herb') * -1.5) - 5" ] },
     "difficulty": 5,
     "base_casting_time": 800,
     "base_energy_cost": 400,
@@ -792,7 +817,7 @@
     "effect": [
       { "u_add_trait": "TREE_COMMUNION" },
       { "u_activate_trait": "TREE_COMMUNION" },
-      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ],
     "false_effect": [
       {
@@ -812,7 +837,7 @@
     "name": "Harvest of the Hunter",
     "description": "This spell creates a grouping of odd-looking but functional arrows out of forest detritus.",
     "valid_targets": [ "none" ],
-    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "NO_HANDS", "VERBAL", "NO_LEGS" ],
+    "flags": [ "TRANSFORMATION_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "NO_HANDS", "VERBAL", "NO_LEGS" ],
     "spell_class": "DRUID",
     "difficulty": 4,
     "max_level": 15,
@@ -820,9 +845,8 @@
     "effect_str": "arrow_druid",
     "components": "spell_components_druid_arrow",
     "shape": "blast",
-    "min_damage": 5,
-    "max_damage": 40,
-    "damage_increment": 2.5,
+    "min_damage": { "math": [ "(u_spell_level('druid_harvest_hunter') * 1) + 2" ] },
+    "max_damage": { "math": [ "(u_spell_level('druid_harvest_hunter') * 3) + 6" ] },
     "base_casting_time": 6000,
     "final_casting_time": 600,
     "casting_time_increment": -360,
@@ -1040,7 +1064,7 @@
     "id": "druid_renew_forest_spell",
     "type": "SPELL",
     "name": "Renewing the Forest",
-    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.\n\nIn <color_yellow>addition to</color> mana, this spell also requires <color_red>hit points</color> to cast and <color_yellow>will fail</color> if you are too injured.",
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
     "max_level": 25,
@@ -1050,7 +1074,7 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_DRUID_RENEW_FOREST_SPELL",
     "energy_source": "MANA",
-    "base_energy_cost": 1500,
+    "base_energy_cost": 150,
     "base_casting_time": 6000,
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
@@ -1062,8 +1086,37 @@
       "run_eocs": [
         {
           "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
-          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
-          "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
+          "condition": { "math": [ "u_val('pos_z') == 0" ] },
+          "effect": [
+            { "math": [ "u_renew_forest_hp_cost = max( (25 - (u_spell_level('druid_renew_forest_spell') / 2 ) ), 15 )" ] },
+            {
+              "if": {
+                "and": [
+                  { "math": [ "u_hp('arm_l') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('arm_r') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('leg_l') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('leg_r') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('torso') > u_renew_forest_hp_cost" ] },
+                  { "math": [ "u_hp('head') > u_renew_forest_hp_cost" ] }
+                ]
+              },
+              "then": [
+                {
+                  "u_transform_radius": {
+                    "math": [ "( (u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+                  },
+                  "ter_furn_transform": "ter_druid_renew_forest"
+                },
+                { "math": [ "u_hp('arm_l') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('arm_r') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('leg_l') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('leg_r') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('torso') -= u_renew_forest_hp_cost" ] },
+                { "math": [ "u_hp('head') -= u_renew_forest_hp_cost" ] }
+              ],
+              "else": [ { "u_message": "You do not have enough life force to donate it to renew the forest!", "type": "bad" } ]
+            }
+          ],
           "false_effect": {
             "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
             "type": "bad"
@@ -1072,23 +1125,6 @@
       ]
     },
     "false_effect": [ { "u_message": "You must be outside to cast Renewing the Forest!", "type": "bad" } ]
-  },
-  {
-    "id": "druid_renew_forest_spell_real",
-    "type": "SPELL",
-    "name": "Renewing the Forest Real",
-    "description": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.",
-    "flags": [ "CHANNELING_SPELL", "SILENT", "VERBAL", "IGNORE_WALLS" ],
-    "valid_targets": [ "ground" ],
-    "shape": "blast",
-    "effect": "ter_transform",
-    "effect_str": "ter_druid_renew_forest",
-    "min_aoe": {
-      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
-    },
-    "max_aoe": {
-      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
-    }
   },
   {
     "id": "druid_wood_living_tree_spell",
@@ -1115,11 +1151,11 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "druid_treeshape_location" },
+          "target_var": { "global_val": "druid_treeshape_location" },
           "message": "Select nearby tree"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_treeshape_location" } },
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "druid_treeshape_location" } },
           "then": [
             {
               "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
@@ -1208,7 +1244,7 @@
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
       },
-      { "queue_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
+      { "run_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {
@@ -1360,5 +1396,116 @@
     "//": "EoC to summon because summoned comestibles don't have timers",
     "id": "EOC_DRUID_GOODBERRY",
     "effect": [ { "u_spawn_item": "item_druid_goodberry", "count": 1, "suppress_message": true } ]
+  },
+  {
+    "id": "druid_create_temporary_spring",
+    "type": "SPELL",
+    "name": "Fountain of the Depths",
+    "description": "Call to the waters beneath the earth and bring them to the surface, creating a natural spring.  The waters will subside when the spell's duration ends.",
+    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 9,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_TEMPORARY_SPRING",
+    "shape": "blast",
+    "min_duration": 30000,
+    "max_duration": 255000,
+    "duration_increment": 15000,
+    "energy_source": "MANA",
+    "base_casting_time": 9000,
+    "base_energy_cost": 750,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_TEMPORARY_SPRING",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "global_val": "druid_temporary_spring_location" },
+          "message": "Select natural earth:"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "global_val": "druid_temporary_spring_location" } },
+          "then": [
+            {
+              "u_transform_radius": 0,
+              "ter_furn_transform": "ter_druid_create_spring",
+              "target_var": { "global_val": "druid_temporary_spring_location" }
+            },
+            {
+              "u_transform_radius": 60,
+              "ter_furn_transform": "ter_druid_remove_spring",
+              "target_var": { "global_val": "druid_temporary_spring_location" },
+              "time_in_future": {
+                "math": [ "( (u_spell_level('druid_create_temporary_spring') * 150) + 300 ) * ( channeling_proficiency_modifier() )" ]
+              }
+            }
+          ],
+          "else": { "u_message": "You can only call up a spring on natural earth." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "id": "druid_turn_tree_into_treant",
+    "type": "SPELL",
+    "name": "Awakening of the Forest Guardian",
+    "description": "Grant a nearby tree awareness and mobility, letting it shake free from the soil and rise up to crush your enemies.  It will root itself again when the spell expires.\n\nYou must be <color_yellow>standing next to a tree</color> for the spell to take effect.",
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 12,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_TREE_AWAKENING",
+    "shape": "blast",
+    "min_duration": 15000,
+    "max_duration": 155000,
+    "duration_increment": 7000,
+    "energy_source": "MANA",
+    "base_casting_time": 500,
+    "base_energy_cost": 850,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_TREE_AWAKENING",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_DRUID_TREE_AWAKENING_ACTION",
+            "effect": [
+              {
+                "u_transform_radius": 0,
+                "ter_furn_transform": "ter_druid_tree_guardian_turn",
+                "target_var": { "context_val": "druid_tree_awakening_check" }
+              },
+              {
+                "u_spawn_monster": "mon_treant_druid",
+                "real_count": 1,
+                "min_radius": 0,
+                "max_radius": 0,
+                "temporary_drop_items": true,
+                "lifespan": {
+                  "math": [ "( (u_spell_level('druid_turn_tree_into_treant') * 70) + 150 ) * ( transformation_proficiency_modifier() )" ]
+                },
+                "target_var": { "context_val": "druid_tree_awakening_check" }
+              }
+            ],
+            "false_effect": { "u_message": "You need to be standing next to a tree to awaken it.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "druid_tree_awakening_check" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_tree_awakening_check" } }
+      }
+    ]
   }
 ]

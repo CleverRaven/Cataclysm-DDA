@@ -13,5 +13,25 @@
     "copy-from": "jerky",
     "name": { "str_sp": "meat flakes" },
     "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "flesh_golem_heart",
+    "name": { "str": "seeping heart" },
+    "weight": "2035 g",
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 200,
+    "quench": 10,
+    "description": "A thick mass of flesh superficially resembling a mammalian heart.  It's the size of your fist and covered in dimpled grooves.",
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "flesh" ],
+    "volume": "500 ml",
+    "fun": -25,
+    "vitamins": [ [ "mutagen_beast", 250 ], [ "meat_allergen", 1 ] ],
+    "flags": [ "PREDATOR_FUN", "MISSION_ITEM" ]
   }
 ]

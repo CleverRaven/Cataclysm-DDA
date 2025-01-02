@@ -338,6 +338,7 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     const bool print_tests = false;
     avatar &dummy = get_avatar();
     reset_time();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
     if( print_tests ) {

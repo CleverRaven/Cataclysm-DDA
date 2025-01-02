@@ -79,7 +79,7 @@ const mood_face_id &avatar::character_mood_face( bool clear_cache ) const
 
     mood_face_horizontal = option_horizontal;
     std::string face_type;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         if( !mut->threshold ) {
             continue;
         }

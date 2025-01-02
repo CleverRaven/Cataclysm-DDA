@@ -130,5 +130,17 @@
     "ammo_type": "glamour_charge",
     "color": "magenta",
     "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "xedra_time_charge",
+    "type": "AMMO",
+    "name": { "str_sp": "collected time" },
+    "description": "Stored time.",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "=",
+    "ammo_type": "xedra_time_charge",
+    "color": "light_gray",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

@@ -21,7 +21,7 @@ TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
     map &here = get_map();
     clear_map();
 
-    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 
     WHEN( "the door is unlocked" ) {
         // create closed door on tile next to player
@@ -53,7 +53,7 @@ TEST_CASE( "windows_should_be_able_to_open_and_close", "[gates]" )
     map &here = get_map();
     clear_map();
 
-    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 
     // create closed window on tile next to player
     REQUIRE( here.ter_set( pos, ter_t_window_no_curtains ) );
@@ -83,7 +83,7 @@ TEST_CASE( "doors_and_windows_should_make_whoosh_sound", "[gates]" )
     clear_avatar();
     sounds::reset_sounds();
 
-    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 
     WHEN( "the door is opened" ) {
         REQUIRE( here.ter_set( pos, ter_t_door_c ) );
@@ -151,7 +151,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
     clear_avatar();
     clear_map();
 
-    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point::east;
 
     // the movement cost for opening and closing gates
     // remember to update this if changing value in code
@@ -165,7 +165,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE( here.ter_set( pos, ter_t_door_c ) );
         REQUIRE( here.ter( pos ).obj().id == ter_t_door_c->id );
 
-        REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+        REQUIRE( avatar_action::move( they, here, tripoint_rel_ms::east ) );
 
         THEN( "avatar should spend move points" ) {
             CHECK( they.get_moves() == -open_move_cost );
@@ -175,7 +175,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE( here.ter_set( pos, ter_t_door_locked ) );
         REQUIRE( here.ter( pos ).obj().id == ter_t_door_locked->id );
 
-        REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+        REQUIRE_FALSE( avatar_action::move( they, here, tripoint_rel_ms::east ) );
 
         THEN( "avatar should not spend move points" ) {
             CHECK( they.get_moves() == 0 );
@@ -188,7 +188,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             REQUIRE( here.ter_set( pos, ter_t_window_no_curtains ) );
             REQUIRE( here.ter( pos ).obj().id == ter_t_window_no_curtains->id );
 
-            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_rel_ms::east ) );
 
             THEN( "avatar should spend move points" ) {
                 CHECK( they.get_moves() == 0 );
@@ -203,19 +203,19 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         // enclose the player in single tile room surrounded with
         // concrete floor and roof to test opening windows from indoors
         const std::vector<tripoint_bub_ms> room_walls{
-            pos + point_south_east,
-            pos + point_south,
-            pos + point_south_west,
-            pos + point_west,
-            pos + point_north_west,
-            pos + point_north,
-            pos + point_north_east
+            pos + point::south_east,
+            pos + point::south,
+            pos + point::south_west,
+            pos + point::west,
+            pos + point::north_west,
+            pos + point::north,
+            pos + point::north_east
         };
         for( tripoint_bub_ms point : room_walls ) {
             REQUIRE( here.ter_set( point, ter_concrete_wall ) );
         }
         REQUIRE( here.ter_set( pos, ter_concrete_floor ) );
-        REQUIRE( here.ter_set( pos + tripoint_above, ter_flat_roof ) );
+        REQUIRE( here.ter_set( pos + tripoint::above, ter_flat_roof ) );
 
         // mark map cache as dirty and rebuild it so that map starts
         // recognizing that tile player is standing on is indoors
@@ -227,7 +227,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             REQUIRE( here.ter_set( pos, ter_t_window_no_curtains ) );
             REQUIRE( here.ter( pos ).obj().id == ter_t_window_no_curtains->id );
 
-            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+            REQUIRE( avatar_action::move( they, here, tripoint_rel_ms::east ) );
 
             THEN( "avatar should spend move points" ) {
                 CHECK( they.get_moves() == -open_move_cost );

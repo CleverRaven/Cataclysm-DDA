@@ -100,7 +100,7 @@
         "........................"
       ],
       "terrain": {
-        ",": "t_railing_v",
+        ",": "t_railing",
         "`": "t_floor_noroof",
         "G": "t_floor_noroof",
         "K": "t_floor_noroof",

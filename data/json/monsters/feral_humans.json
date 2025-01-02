@@ -569,31 +569,5 @@
     "speed": 85,
     "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
-  },
-  {
-    "id": "mon_feral_human_archaeologist",
-    "type": "MONSTER",
-    "name": "feral archaeologist",
-    "description": "Judging by looks, this poor individual was probably an archaeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
-    "copy-from": "mon_feral_human_pipe",
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 5,
-        "move_cost": 150,
-        "gun_type": "feral_human_thrown_rock",
-        "ammo_type": "rock",
-        "no_ammo_sound": "",
-        "fake_skills": [ [ "throw", 3 ] ],
-        "fake_str": 8,
-        "condition": { "not": { "u_has_effect": "maimed_arm" } },
-        "require_targeting_player": false,
-        "ranges": [ [ 2, 5, "DEFAULT" ] ],
-        "description": "The feral human throws a rock!"
-      },
-      { "id": "feral_weapon_shovel" }
-    ],
-    "looks_like": "mon_feral_human_tool",
-    "death_drops": "feral_archaelogist_death_drops"
   }
 ]

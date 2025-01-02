@@ -25,10 +25,10 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
     clear_avatar();
     clear_map();
     map &m = get_map();
-    const tripoint_abs_ms zone_loc = m.getglobal( tripoint{ 5, 5, 0 } );
-    mapgen_place_zone( zone_loc.raw(), zone_loc.raw(), zone_type_CAMP_FOOD, your_fac, {},
+    const tripoint_abs_ms zone_loc = m.getglobal( tripoint_bub_ms{ 5, 5, 0 } );
+    mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_FOOD, your_fac, {},
                        "food" );
-    mapgen_place_zone( zone_loc.raw(), zone_loc.raw(), zone_type_CAMP_STORAGE, your_fac, {},
+    mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_STORAGE, your_fac, {},
                        "storage" );
     faction *camp_faction = get_player_character().get_faction();
     const tripoint_abs_omt this_omt = project_to<coords::omt>( zone_loc );
@@ -41,7 +41,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
         food_supply *= 0;
         item test_100_kcal( "test_100_kcal" );
         tripoint_bub_ms zone_local = m.bub_from_abs( zone_loc );
-        m.i_clear( zone_local.raw() );
+        m.i_clear( zone_local );
         m.add_item_or_charges( zone_local, test_100_kcal );
         REQUIRE( m.has_items( zone_local ) );
         test_camp->distribute_food();
@@ -58,7 +58,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
         // Setting the actual components. This will return 185 unless it's actually made up of two 100kcal components!
         test_200_kcal.components = made_of;
         tripoint_bub_ms zone_local = m.bub_from_abs( zone_loc );
-        m.i_clear( zone_local.raw() );
+        m.i_clear( zone_local );
         m.add_item_or_charges( zone_local, test_200_kcal );
         test_camp->distribute_food();
         CHECK( food_supply.kcal() == 200 );
@@ -68,7 +68,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
         food_supply *= 0;
         item test_500_kcal( "test_500_kcal" );
         tripoint_bub_ms zone_local = m.bub_from_abs( zone_loc );
-        m.i_clear( zone_local.raw() );
+        m.i_clear( zone_local );
         m.add_item_or_charges( zone_local, test_500_kcal );
         test_camp->distribute_food();
         REQUIRE( food_supply.kcal() == 500 );

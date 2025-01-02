@@ -852,7 +852,7 @@
     "ammo": [ "223" ],
     "dispersion": 140,
     "durability": 8,
-    "min_cycle_recoil": 1700,
+    "min_cycle_recoil": 1350,
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],

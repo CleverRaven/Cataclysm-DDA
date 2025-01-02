@@ -1222,9 +1222,9 @@
     "//": "1-3 rifles of one type",
     "subtype": "collection",
     "entries": [
-      { "group": "m4_cqbr", "contents-item": [ "red_dot_sight", "suppressor" ] },
-      { "group": "m4_cqbr", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 50 },
-      { "group": "m4_cqbr", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 25 }
+      { "group": "m4_cqbr", "contents-item": "red_dot_sight" },
+      { "group": "m4_cqbr", "contents-item": "red_dot_sight", "prob": 50 },
+      { "group": "m4_cqbr", "contents-item": "red_dot_sight", "prob": 25 }
     ]
   },
   {

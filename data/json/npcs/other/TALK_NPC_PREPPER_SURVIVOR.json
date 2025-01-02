@@ -52,7 +52,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
@@ -93,6 +93,12 @@
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR_STAY",
     "dynamic_line": "Well, I guess you could borrow one of the spare beds, just don't hog it.  I kept a few in case someone else joined me, but no one I knew came here.",
-    "responses": [ { "text": "Thanks.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" } ]
+    "responses": [
+      {
+        "text": "Thanks.",
+        "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
+        "effect": { "u_set_fac_relation": "share public goods" }
+      }
+    ]
   }
 ]

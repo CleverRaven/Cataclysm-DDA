@@ -11,8 +11,8 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_ELEVATOR",
     "effect": [
-      { "math": [ "ISO_CURRENT_LEVEL", "++" ] },
-      { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "=", "0" ] },
+      { "math": [ "ISO_CURRENT_LEVEL++" ] },
+      { "math": [ "u_ISO_CURRENT_LEVEL_DANGER = 0" ] },
       { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
       { "run_eocs": [ "EOC_ISO_DECIDE_LEVEL" ] }
     ]
@@ -20,7 +20,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ISO_DECIDE_LEVEL",
-    "condition": { "math": [ "ISO_CURRENT_LEVEL % SAFEPOINT_INTERVAL", "==", "0" ] },
+    "condition": { "math": [ "ISO_CURRENT_LEVEL % SAFEPOINT_INTERVAL == 0" ] },
     "effect": [ { "run_eocs": [ "EOC_ISO_MICROLAB_SAFE_TP", "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE" ] } ],
     "false_effect": [
       {

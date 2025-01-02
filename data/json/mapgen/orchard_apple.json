@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
-        "QQQQQQQQQQQQQQQQQQQQQQQQ",
+        "qqqqqqqqqqqqqqqqqqqqqqqq",
         "q                      q",
         "q                      q",
         "q                      q",
@@ -86,7 +86,7 @@
         "q  ****btb  WXO,,,,,gW q",
         "q7 ****btb 7WWW=====WW q",
         "q *********   g*****dd q",
-        "QQQQ***QQQQQQQQ*****QQQQ"
+        "qqqq***qqqqqqqq*****qqqq"
       ],
       "palettes": [ "orchard_buildings" ],
       "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],
@@ -167,7 +167,7 @@
         "   -................-   ",
         "   -.:...........7..-   ",
         "   -................-   ",
-        "   -..6......###....-   ",
+        "   -..9......###....-   ",
         "   -.........#v#....-   ",
         "   -.........###....-   ",
         "   -................-   ",
@@ -184,11 +184,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof" },
-      "nested": {
-        "6": { "chunks": [ [ "null", 20 ], [ "roof_6x6_garden_3", 80 ] ] },
-        "7": { "chunks": [ [ "null", 20 ], [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 40 ] ] }
-      }
+      "terrain": { ".": "t_tile_flat_roof" }
     }
   },
   {
@@ -214,9 +210,9 @@
         "                        ",
         "            -5--------- ",
         "            -.........- ",
-        "            -.......6.- ",
+        "            -.......3.- ",
         "            -.........- ",
-        "            -.......6.- ",
+        "            -.......3.- ",
         "            -.........- ",
         "            -.........- ",
         "            -.........- ",
@@ -225,8 +221,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof" },
-      "nested": { "6": { "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities", 30 ], [ "roof_2x2_utilities_c", 40 ] ] } }
+      "terrain": { ".": "t_tile_flat_roof" }
     }
   }
 ]

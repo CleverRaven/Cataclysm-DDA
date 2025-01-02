@@ -4,6 +4,7 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>
@@ -146,21 +147,21 @@ advanced_inventory::advanced_inventory()
     , squares( {
     {
         //               pos in window
-        { AIM_INVENTORY, point( 25, 2 ), tripoint_zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
-        { AIM_SOUTHWEST, point( 30, 3 ), tripoint_south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
-        { AIM_SOUTH,     point( 33, 3 ), tripoint_south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
-        { AIM_SOUTHEAST, point( 36, 3 ), tripoint_south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
-        { AIM_WEST,      point( 30, 2 ), tripoint_west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
-        { AIM_CENTER,    point( 33, 2 ), tripoint_zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
-        { AIM_EAST,      point( 36, 2 ), tripoint_east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
-        { AIM_NORTHWEST, point( 30, 1 ), tripoint_north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
-        { AIM_NORTH,     point( 33, 1 ), tripoint_north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
-        { AIM_NORTHEAST, point( 36, 1 ), tripoint_north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
-        { AIM_DRAGGED,   point( 22, 3 ), tripoint_zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
-        { AIM_ALL,       point( 25, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
-        { AIM_CONTAINER, point( 25, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
-        { AIM_PARENT,    point( 22, 1 ), tripoint_zero,       "",                        "",         "X", "ITEMS_PARENT",    AIM_PARENT},
-        { AIM_WORN,      point( 22, 2 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
+        { AIM_INVENTORY, point( 25, 2 ), tripoint::zero,       _( "Inventory" ),          _( "IN" ),  "I", "ITEMS_INVENTORY", AIM_INVENTORY},
+        { AIM_SOUTHWEST, point( 30, 3 ), tripoint::south_west, _( "South West" ),         _( "SW" ),  "1", "ITEMS_SW",        AIM_WEST},
+        { AIM_SOUTH,     point( 33, 3 ), tripoint::south,      _( "South" ),              _( "S" ),   "2", "ITEMS_S",         AIM_SOUTHWEST},
+        { AIM_SOUTHEAST, point( 36, 3 ), tripoint::south_east, _( "South East" ),         _( "SE" ),  "3", "ITEMS_SE",        AIM_SOUTH},
+        { AIM_WEST,      point( 30, 2 ), tripoint::west,       _( "West" ),               _( "W" ),   "4", "ITEMS_W",         AIM_NORTHWEST},
+        { AIM_CENTER,    point( 33, 2 ), tripoint::zero,       _( "Directly below you" ), _( "DN" ),  "5", "ITEMS_CE",        AIM_CENTER},
+        { AIM_EAST,      point( 36, 2 ), tripoint::east,       _( "East" ),               _( "E" ),   "6", "ITEMS_E",         AIM_SOUTHEAST},
+        { AIM_NORTHWEST, point( 30, 1 ), tripoint::north_west, _( "North West" ),         _( "NW" ),  "7", "ITEMS_NW",        AIM_NORTH},
+        { AIM_NORTH,     point( 33, 1 ), tripoint::north,      _( "North" ),              _( "N" ),   "8", "ITEMS_N",         AIM_NORTHEAST},
+        { AIM_NORTHEAST, point( 36, 1 ), tripoint::north_east, _( "North East" ),         _( "NE" ),  "9", "ITEMS_NE",        AIM_EAST},
+        { AIM_DRAGGED,   point( 22, 3 ), tripoint::zero,       _( "Grabbed Vehicle" ),    _( "GR" ),  "D", "ITEMS_DRAGGED_CONTAINER", AIM_DRAGGED},
+        { AIM_ALL,       point( 25, 3 ), tripoint::zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
+        { AIM_CONTAINER, point( 25, 1 ), tripoint::zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
+        { AIM_PARENT,    point( 22, 1 ), tripoint::zero,       "",                        "",         "X", "ITEMS_PARENT",    AIM_PARENT},
+        { AIM_WORN,      point( 22, 2 ), tripoint::zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN}
     }
 } )
 {
@@ -234,6 +235,8 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "barter value" );
         case SORTBY_PRICEPERVOLUME:
             return _( "barter value / volume" );
+        case SORTBY_PRICEPERWEIGHT:
+            return _( "barter value / weight" );
         case SORTBY_STACKS:
             return _( "amount" );
     }
@@ -655,9 +658,19 @@ struct advanced_inv_sorter {
                 break;
             case SORTBY_PRICEPERVOLUME: {
                 const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d1.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d1.items.front()->volume().value() ) );
                 const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d2.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d2.items.front()->volume().value() ) );
+                if( price_density1 != price_density2 ) {
+                    return price_density1 > price_density2;
+                }
+                break;
+            }
+            case SORTBY_PRICEPERWEIGHT: {
+                const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max<std::int64_t>( 1, d1.items.front()->weight().value() ) );
+                const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max<std::int64_t>( 1, d2.items.front()->weight().value() ) );
                 if( price_density1 != price_density2 ) {
                     return price_density1 > price_density2;
                 }
@@ -739,7 +752,7 @@ void advanced_inventory::recalc_pane( side p )
 
         // If container is no longer adjacent or on the player's z-level, nullify it.
         if( std::abs( offset.x() ) > 1 || std::abs( offset.y() ) > 1 ||
-            player_character.pos_bub().z() != pane.container.pos_bub().z() ) {
+            player_character.posz() != pane.container.pos_bub().z() ) {
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;
@@ -866,9 +879,10 @@ void advanced_inventory::redraw_pane( side p )
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    const std::string &filter = pane.get_filter();
     if( !filter_edit ) {
-        if( !pane.filter.empty() ) {
-            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
+        if( !filter.empty() ) {
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, filter );
         } else {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
         }
@@ -876,10 +890,9 @@ void advanced_inventory::redraw_pane( side p )
     if( active ) {
         wattroff( w, c_white );
     }
-    if( !filter_edit && !pane.filter.empty() ) {
+    if( !filter_edit && !filter.empty() ) {
         std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
-        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
-                   pane.filter );
+        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white, filter );
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
@@ -1189,6 +1202,8 @@ bool advanced_inventory::move_all_items()
     } else if( dpane.get_area() == AIM_INVENTORY ) {
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1207,6 +1222,8 @@ bool advanced_inventory::move_all_items()
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
+        target_items.reserve( pane_items.size() );
+        quantities.reserve( pane_items.size() );
         for( const drop_or_stash_item_info &drop : pane_items ) {
             target_items.emplace_back( drop.loc() );
             // quantity of 0 means move all
@@ -1239,6 +1256,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_SPOILAGE,       true, 's', get_sortname( SORTBY_SPOILAGE ) );
     sm.addentry( SORTBY_PRICE,          true, 'b', get_sortname( SORTBY_PRICE ) );
     sm.addentry( SORTBY_PRICEPERVOLUME, true, 'r', get_sortname( SORTBY_PRICEPERVOLUME ) );
+    sm.addentry( SORTBY_PRICEPERWEIGHT, true, 'g', get_sortname( SORTBY_PRICEPERWEIGHT ) );
     sm.addentry( SORTBY_STACKS,         true, 't', get_sortname( SORTBY_STACKS ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
@@ -1952,7 +1970,7 @@ void advanced_inventory::display()
                 recalc = true;
             }
         } else if( action == "FILTER" ) {
-            std::string filter = spane.filter;
+            const std::string &filter = spane.get_filter();
             filter_edit = true;
             if( ui ) {
                 spopup = std::make_unique<string_input_popup>();
@@ -2067,7 +2085,10 @@ class query_destination_callback : public uilist_callback
             draw_squares( menu );
         }
         float desired_extra_space_left( ) override {
-            return ImGui::CalcTextSize( "[1] [2] [3]" ).x;
+            cataimgui::PushMonoFont();
+            float rv = ImGui::CalcTextSize( "[1][2][3]" ).x + ( 3.0 * ImGui::GetStyle().ItemSpacing.x );
+            ImGui::PopFont();
+            return rv;
         }
 };
 
@@ -2083,30 +2104,33 @@ void query_destination_callback::draw_squares( const uilist *menu )
         sel = _adv_inv.screen_relative_location(
                   static_cast <aim_location>( menu->previewing + 1 ) );
     }
-    for( int i = 1; i < 10; i++ ) {
-        aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
-        std::string key = _adv_inv.get_location_key( loc );
-        advanced_inv_area &square = _adv_inv.get_one_square( loc );
-        bool in_vehicle = square.can_store_in_vehicle();
-        const char *bracket = in_vehicle ? "<>" : "[]";
-        // always show storage option for vehicle storage, if applicable
-        bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
-        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-        // TODO(db48x): maybe make these clickable buttons or something
-        ImGui::PushID( i );
-        ImGui::BeginGroup();
-        ImGui::TextColored( bcolor, "%c", bracket[0] );
-        ImGui::SameLine( 0.0, 0.0 );
-        ImGui::TextColored( kcolor, "%s", key.c_str() );
-        ImGui::SameLine( 0.0, 0.0 );
-        ImGui::TextColored( bcolor, "%c", bracket[1] );
-        ImGui::EndGroup();
-        ImGui::PopID();
-        if( i % 3 != 0 ) {
+    cataimgui::PushMonoFont();
+    for( int i = 7; i >= 1; i -= 3 ) { // 7,4,1
+        for( int ii = 0; ii <= 2; ii++ ) { // +0,1,2
+            aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i + ii ) );
+            std::string key = _adv_inv.get_location_key( loc );
+            advanced_inv_area &square = _adv_inv.get_one_square( loc );
+            bool in_vehicle = square.can_store_in_vehicle();
+            const char *bracket = in_vehicle ? "<>" : "[]";
+            // always show storage option for vehicle storage, if applicable
+            bool canputitems = menu->entries[i + ii - 1].enabled && square.canputitems();
+            nc_color bcolor = canputitems ? ( sel == loc ? h_white : c_light_gray ) : c_red;
+            nc_color kcolor = canputitems ? ( sel == loc ? h_white : c_dark_gray ) : c_red;
+            // TODO(db48x): maybe make these clickable buttons or something
+            ImGui::PushID( i + ii );
+            ImGui::BeginGroup();
+            ImGui::TextColored( bcolor, "%c", bracket[0] );
+            ImGui::SameLine( 0.0, 0.0 );
+            ImGui::TextColored( kcolor, "%s", key.c_str() );
+            ImGui::SameLine( 0.0, 0.0 );
+            ImGui::TextColored( bcolor, "%c", bracket[1] );
+            ImGui::EndGroup();
+            ImGui::PopID();
             ImGui::SameLine();
         }
+        ImGui::NewLine();
     }
+    ImGui::PopFont();
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -2138,10 +2162,18 @@ bool advanced_inventory::query_destination( aim_location &def )
             if( size >= MAX_ITEM_IN_SQUARE ) {
                 prefix += _( " (FULL)" );
             }
-            menu.addentry( ordered_loc,
-                           s.canputitems() && s.id != panes[src].get_area(),
-                           get_location_key( ordered_loc )[0],
-                           prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
+            if( s.veh != nullptr ) {
+                menu.addentry_col( ordered_loc,
+                                   s.canputitems() && s.id != panes[src].get_area(),
+                                   get_location_key( ordered_loc )[0],
+                                   prefix + " " + s.name,
+                                   s.veh->name );
+            } else {
+                menu.addentry( ordered_loc,
+                               s.canputitems() && s.id != panes[src].get_area(),
+                               get_location_key( ordered_loc )[0],
+                               prefix + " " + s.name );
+            }
         }
     }
     // Selected keyed to uilist.entries, which starts at 0.
@@ -2332,7 +2364,7 @@ void advanced_inventory::draw_minimap()
     }
 
     if( !invert_left || !invert_right ) {
-        player_character.draw( minimap, player_character.pos(), invert_left || invert_right );
+        player_character.draw( minimap, player_character.pos_bub(), invert_left || invert_right );
     }
 }
 

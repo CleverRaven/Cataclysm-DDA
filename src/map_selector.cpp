@@ -5,7 +5,6 @@
 #include <optional>
 #include <vector>
 
-#include "coordinate_constants.h"
 #include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -115,10 +114,10 @@ std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_m
 }
 
 map_cursor::map_cursor( const tripoint_bub_ms &pos ) : pos_abs_( g ? get_map().getglobal(
-                pos ) : tripoint_abs_ms( tripoint_zero ) ), pos_bub_( g ? tripoint_bub_ms_zero : pos ) { }
+                pos ) : tripoint_abs_ms::zero ), pos_bub_( g ? tripoint_bub_ms::zero : pos ) { }
 
 map_cursor::map_cursor( const tripoint_abs_ms &pos ) : pos_abs_( pos ),
-    pos_bub_( tripoint_bub_ms_zero ) { }
+    pos_bub_( tripoint_bub_ms::zero ) { }
 
 tripoint_bub_ms map_cursor::pos() const
 {

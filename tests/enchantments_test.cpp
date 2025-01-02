@@ -233,9 +233,9 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint_south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
     creature_tracker &creatures = get_creature_tracker();
-    Creature &mon = *creatures.creature_at<Creature>( tripoint_south );
+    Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
     int moves_spent_on_attacks = 0;
 
 
@@ -292,9 +292,9 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( pseudo_debug_mon, tripoint_south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
     creature_tracker &creatures = get_creature_tracker();
-    Creature &mon = *creatures.creature_at<Creature>( tripoint_south );
+    Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
     int stamina_init = 0;
     int stamina_current = 0;
     int stamina_spent = 0;
@@ -330,6 +330,53 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     stamina_current = test_melee_attack_attack_stamina( guy, mon );
     stamina_spent = stamina_init - stamina_current;
     REQUIRE( stamina_spent == 3300 );
+    clear_avatar();
+}
+
+static double test_melee_attack_hit_rate( Character &guy, Creature &mon )
+{
+    int attempted_hits = 0;
+    int successful_hits = 0;
+    int last_hp = mon.get_hp();
+    guy.set_skill_level( skill_melee, 0 );
+    guy.add_effect( effect_debug_no_staggered, 100_seconds );
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    while( attempted_hits != 10 ) {
+        guy.melee_attack_abstract( mon, false, matec_id( "" ) );
+        if( mon.get_hp() != last_hp ) {
+            last_hp = mon.get_hp();
+            successful_hits++;
+        }
+        guy.set_sleepiness( 0 );
+        attempted_hits++;
+    }
+
+    return successful_hits / static_cast<double>( attempted_hits );
+}
+
+TEST_CASE( "Enchantment_MELEE_TO_HIT_test", "[magic][enchantments]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_avatar();
+    g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms( tripoint::south ) );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature &mon = *creatures.creature_at<Creature>( tripoint::south );
+    double hit_rate = 0;
+
+    INFO( "Character attacks with +100 to hit enchantment" );
+    guy.i_add( item( "test_MELEE_TO_HIT_ench_item_1" ) );
+    hit_rate = test_melee_attack_hit_rate( guy, mon );
+    REQUIRE( hit_rate >= 0.8 );
+    clear_avatar();
+
+
+    INFO( "Character attacks with -100 to hit enchantment" );
+    guy.i_add( item( "test_MELEE_TO_HIT_ench_item_2" ) );
+    hit_rate = test_melee_attack_hit_rate( guy, mon );
+    REQUIRE( hit_rate <= 0.2 );
     clear_avatar();
 }
 

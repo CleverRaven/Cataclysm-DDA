@@ -2,8 +2,8 @@
   {
     "id": "gracken_arm_push_spell",
     "type": "SPELL",
-    "name": "Gracken Long Arms Spell",
-    "description": "Push a target away from you.",
+    "name": { "str": "Gracken Long Arms Spell", "//~": "NO_I18N" },
+    "description": { "str": "Push a target away from you.", "//~": "NO_I18N" },
     "message": "You extend your arms and push the %s away from you!",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],

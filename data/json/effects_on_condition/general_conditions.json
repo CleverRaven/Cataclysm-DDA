@@ -1,0 +1,15 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IS_ELECTRIC",
+    "condition": {
+      "or": [
+        { "npc_has_species": "ROBOT" },
+        { "npc_has_species": "CYBORG" },
+        { "npc_has_species": "ROBOT_FLYING" },
+        { "npc_has_flag": "ELECTRIC" },
+        { "npc_has_any_trait": [ "EXODII_BODY_1", "EXODII_BODY_2", "EXODII_BODY_9" ] }
+      ]
+    }
+  }
+]

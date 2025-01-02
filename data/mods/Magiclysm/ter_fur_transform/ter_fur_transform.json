@@ -3,7 +3,7 @@
     "type": "ter_furn_transform",
     "id": "move_earth",
     "terrain": [
-      { "result": "t_hole", "valid_terrain": [ "t_pit", "t_slope_down" ], "message": "The pit has deepened further." },
+      { "result": "t_open_air", "valid_terrain": [ "t_pit", "t_slope_down" ], "message": "The pit has deepened further." },
       {
         "result": "t_pit",
         "valid_terrain": [
@@ -71,7 +71,7 @@
       },
       { "result": "t_rock_floor", "valid_terrain": [ "t_rock" ], "message": "The rock crumbles to dust." },
       {
-        "result": "t_hole",
+        "result": "t_open_air",
         "valid_terrain": [ "t_null" ],
         "message": "All the dust in the air here falls to the ground.",
         "message_good": false
@@ -340,6 +340,8 @@
           "t_bamboo_harvested",
           "t_shrub",
           "t_shrub_rose",
+          "t_shrub_hobblebush",
+          "t_shrub_spicebush",
           "t_shrub_lilac",
           "t_shrub_grape",
           "t_shrub_peanut",
@@ -350,6 +352,8 @@
           "t_shrub_blackberry",
           "t_shrub_huckleberry",
           "t_shrub_rose_harvested",
+          "t_shrub_hobblebush_harvested",
+          "t_shrub_spicebush_harvested",
           "t_shrub_grape_harvested",
           "t_shrub_lilac_harvested",
           "t_shrub_peanut_harvested",
@@ -464,6 +468,9 @@
           [ "t_tree_willow", 64 ],
           [ "t_tree_hickory_harvested", 32 ],
           [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_nannyberry_harvested", 16 ],
+          [ "t_tree_tupelo_harvested", 16 ],
+          [ "t_tree_tupelo_harvested", 16 ],
           [ "t_tree_butternut", 4 ],
           [ "t_tree_chestnut_harvested", 8 ],
           [ "t_tree_hazelnut_harvested", 2 ],
@@ -484,11 +491,14 @@
       },
       {
         "result": [
-          [ "t_grass", 75 ],
-          [ "t_grass_long", 30 ],
-          [ "t_grass_tall", 5 ],
-          [ "t_shrub", 15 ],
-          [ "t_underbrush", 35 ],
+          [ "t_grass", 150 ],
+          [ "t_grass_long", 50 ],
+          [ "t_grass_tall", 20 ],
+          [ "t_shrub", 30 ],
+          [ "t_underbrush", 65 ],
+          [ "t_shrub_spicebush_harvested", 10 ],
+          [ "t_shrub_chokeberry_harvested", 10 ],
+          [ "t_shrub_autumn_olive_harvested", 10 ],
           [ "t_shrub_rose", 5 ],
           [ "t_shrub_blackberry_harvested", 5 ],
           [ "t_shrub_grape_harvested", 5 ],
@@ -604,6 +614,78 @@
           "f_dirtmound_shallow_seedling"
         ],
         "message": ""
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_magus_permanent_light",
+    "furniture": [
+      { "result": "f_magus_permanent_light", "valid_furniture": [ "f_null" ], "message": "The air begins glowing softly." },
+      {
+        "result": "f_null",
+        "valid_furniture": [ "f_magus_permanent_light" ],
+        "message": "The imperishable light winks out."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_create_spring",
+    "terrain": [
+      { "result": "t_water_moving_sh_druid", "valid_flags": [ "DIGGABLE" ], "message": "Water bubbles forth from the earth." }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_remove_spring",
+    "terrain": [ { "result": "t_dirt", "valid_terrain": [ "t_water_moving_sh_druid" ], "message": "The flow of water subsides." } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_",
+    "terrain": [
+      { "result": "t_water_moving_sh_druid", "valid_flags": [ "DIGGABLE" ], "message": "Water bubbles forth from the earth." }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_tree_guardian_turn",
+    "terrain": [ { "result": "t_grass", "valid_flags": [ "TREE" ], "message": "The tree shakes free of the soil." } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_tree_guardian_turn_back",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory", 32 ],
+          [ "t_tree_walnut", 16 ],
+          [ "t_tree_tupelo", 16 ],
+          [ "t_tree_nannyberry", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut", 8 ],
+          [ "t_tree_hazelnut", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple", 2 ],
+          [ "t_tree_cherry", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear", 2 ],
+          [ "t_tree_plum", 2 ],
+          [ "t_tree_elderberry", 2 ],
+          [ "t_tree_mulberry", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_flags": [ "BURROWABLE", "DIGGABLE", "COLLAPSES", "DOOR", "FLAT_SURF", "FUNGUS", "PLANTABLE", "ROAD", "ROUGH", "SHALLOW_WATER" ]
       }
     ]
   }

@@ -234,9 +234,11 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
 
         if( !_title.empty() ) {
             int pos_y = 0;
+            wattron( w_title_and_entry, _title_color );
             for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-                mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+                mvwprintw( w_title_and_entry, point( i, pos_y++ ), title_split[i] );
             }
+            wattroff( w_title_and_entry, _title_color );
             trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
         }
     }

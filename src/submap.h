@@ -20,7 +20,6 @@
 #include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
-#include "coordinate_constants.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
@@ -47,7 +46,7 @@ struct spawn_point {
     std::optional<std::string> name;
     spawn_data data;
     explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0,
-                          point_sm_ms P = point_sm_ms_zero,
+                          point_sm_ms P = point_sm_ms::zero,
                           int FAC = -1, int MIS = -1, bool F = false,
                           const std::optional<std::string> &N = std::nullopt, const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),

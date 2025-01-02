@@ -12,7 +12,6 @@
     "material": [ "cotton", "stone" ],
     "symbol": ";",
     "color": "blue",
-    "to_hit": -1,
     "ammo_type": "thrown",
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
@@ -44,9 +43,7 @@
     "description": "A plastic frisbee made for outdoor games.",
     "material": [ "plastic" ],
     "volume": "500 ml",
-    "weight": "175 g",
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
-    "melee_damage": { "bash": 1 }
+    "weight": "175 g"
   },
   {
     "id": "net",
@@ -78,9 +75,9 @@
     "volume": "500 ml",
     "weight": "175 g",
     "longest_side": "30 cm",
-    "to_hit": -1,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
-    "melee_damage": { "cut": 8 }
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "thrown_damage": [ { "damage_type": "stab", "amount": 12 } ],
+    "melee_damage": { "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -97,7 +94,7 @@
     "volume": "500 ml",
     "weight": "300 g",
     "longest_side": "30 cm",
-    "to_hit": -1,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "thrown_damage": [ { "damage_type": "stab", "amount": 18 }, { "damage_type": "bash", "amount": 4 } ],
     "melee_damage": { "cut": 8 }
   },
@@ -112,9 +109,10 @@
     "color": "light_gray",
     "description": "A lightweight hatchet made for throwing.  Its ineffective cutting edge and light weight make it unsuitable for use as a tool.",
     "material": [ "steel", "wood" ],
-    "volume": "750 ml",
-    "weight": "792 g",
-    "to_hit": -1,
+    "volume": "3058 ml",
+    "weight": "1000 g",
+    "longest_side": "43 cm",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
     "weapon_category": [ "HAND_AXES" ],
     "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
     "melee_damage": { "bash": 10, "cut": 17 }
@@ -125,18 +123,19 @@
     "category": "weapons",
     "price": "52 USD",
     "price_postapoc": "5 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "name": { "str": "throwing knife", "str_pl": "throwing knives" },
     "symbol": ";",
     "color": "light_gray",
     "description": "A thin, flat knife made for throwing.  Its ineffective cutting edge and odd shape make it unsuitable for use as a tool.",
     "material": [ "steel" ],
-    "volume": "100 ml",
-    "weight": "460 g",
+    "volume": "56 ml",
+    "weight": "200 g",
+    "longest_side": "35 cm",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "melee_damage": { "bash": 1, "stab": 10 }
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "throwing_stick",

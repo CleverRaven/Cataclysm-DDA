@@ -22,27 +22,27 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `66444e13a86da7087ee24c342f91801cc6eb9877` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `3b57fb2e1ff55613db14d2aaf0a30529289c7050` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
-***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
+***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace or special symbols. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` and `C:/C++Projects/vcpkg` is not.***
 
 In a `cmd.exe` shell:
 ```cmd
 REM cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
+git checkout 3b57fb2e1ff55613db14d2aaf0a30529289c7050
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
-git checkout 66444e13a86da7087ee24c342f91801cc6eb9877
 ```
 In a Git Bash shell, the commands are almost the same except the filesystem path separator is `/` instead of `\`.
 ```cmd
 # cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
+git checkout 3b57fb2e1ff55613db14d2aaf0a30529289c7050
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg.exe integrate install
-git checkout 66444e13a86da7087ee24c342f91801cc6eb9877
 ```
 
 ## Cloning and compilation:

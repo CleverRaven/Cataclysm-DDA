@@ -566,7 +566,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -701,7 +700,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small squeeze tube" },
-    "description": "A small squeeze tube, holds 3 mL of liquid.  It cannot be refilled after it's empty.",
+    "description": "A small squeeze tube, holds 4 mL of liquid.  It cannot be refilled after it's empty.",
     "ascii_picture": "bottle_plastic_small",
     "weight": "2 g",
     "volume": "11 ml",
@@ -798,7 +797,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -860,7 +858,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -900,7 +897,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "airtight": true,
         "watertight": true,
         "rigid": true,
         "transparent": true,
@@ -2032,7 +2028,7 @@
     "category": "container",
     "name": { "str": "clay canister" },
     "looks_like": "bowl_clay",
-    "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
+    "description": "A fragile clay vessel with a waterproofed hide lid.  It can be used to make crude impact grenades or to store liquid.",
     "ascii_picture": "clay_canister",
     "weight": "268 g",
     "volume": "295 ml",
@@ -2088,7 +2084,7 @@
     "category": "container",
     "name": { "str": "clay hydria" },
     "looks_like": "bowl_clay",
-    "description": "A 15-liter clay pot with three handles for carrying and pouring.",
+    "description": "A 15-liter clay pot with three handles for carrying and pouring.  It also has a waterproofed hide lid.",
     "ascii_picture": "clay_hydria",
     "weight": "1955 g",
     "volume": "17700 ml",
@@ -2141,6 +2137,23 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "clay_watercont_no_lid",
+    "type": "GENERIC",
+    "name": { "str": "large clay pot (no lid)", "str_pl": "large clay pots (no lid)" },
+    "description": "A bulky and heavy clay pot, meant to store water, but can carry other liquids in a pinch.",
+    "copy-from": "clay_watercont",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "open_container": true,
+        "watertight": true,
+        "max_contains_volume": "37500 ml",
+        "max_contains_weight": "50 kg"
+      }
+    ]
   },
   {
     "id": "cup_plastic",
@@ -2557,7 +2570,7 @@
     "category": "container",
     "name": { "str": "clay jug" },
     "looks_like": "bowl_clay",
-    "description": "A clay container with a lid, used to hold and pour liquids.",
+    "description": "A clay container with a waterproofed hide lid, used to hold and pour liquids.",
     "ascii_picture": "jug_clay",
     "weight": "400 g",
     "volume": "1180 ml",
@@ -4220,7 +4233,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4247,7 +4259,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "510 ml",
         "max_contains_weight": "3 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4274,7 +4285,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1625 ml",
         "max_contains_weight": "4 kg",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4302,7 +4312,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "125 ml",
         "max_contains_weight": "750 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4329,7 +4338,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "31 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4356,7 +4364,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "32 ml",
         "max_contains_weight": "180 g",
-        "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
@@ -4384,7 +4391,6 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "1500 g",
-        "airtight": true,
         "transparent": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
@@ -4600,6 +4606,34 @@
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     },
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "pressurized_canister",
+    "type": "TOOL",
+    "category": "tool_magazine",
+    "name": { "str": "pressurized canister" },
+    "description": "A small tank for containing pressurized gases.",
+    "weight": "25 g",
+    "volume": "350 ml",
+    "longest_side": "12 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "50 g"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "small_propane_tank",

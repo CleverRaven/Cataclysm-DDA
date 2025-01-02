@@ -122,7 +122,7 @@
             {
               "not": { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
             },
-            { "math": [ "u_portal_storm_recordings_sold", ">", "2" ] }
+            { "math": [ "u_portal_storm_recordings_sold > 2" ] }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
@@ -246,7 +246,7 @@
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
-    "end": { "effect": { "math": [ "u_hub01_completed_missions", "++" ] } },
+    "end": { "effect": { "math": [ "u_hub01_completed_missions++" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -367,7 +367,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -464,7 +464,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -708,7 +708,7 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "fail": { "effect": [ { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" } ] },
@@ -768,7 +768,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a heavy battery, a sheaf of papers in a binder, and a UPS.  \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact* - battered salvage is of no use to us.  To safely perform the task of deactivation, please review the provided documentation, and pay special attention to the procedures detailed in subsections IV and VII."
+    "dynamic_line": "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a tool battery, a sheaf of papers in a binder, and a UPS.  \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact* - battered salvage is of no use to us.  To safely perform the task of deactivation, please review the provided documentation, and pay special attention to the procedures detailed in subsections IV and VII."
   },
   {
     "id": [
@@ -819,7 +819,7 @@
     "end": {
       "effect": [
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -919,7 +919,7 @@
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 5 },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
-        { "math": [ "u_hub01_completed_missions", "++" ] }
+        { "math": [ "u_hub01_completed_missions++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1087,8 +1087,7 @@
     "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
-    "deadline_low": 20,
-    "deadline_high": 20,
+    "deadline": [ "20 days", "20 days" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {
       "describe": ".",
@@ -1110,7 +1109,7 @@
       {
         "text": "I appreciate the credit.  I've got your payment now.",
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_consume_item": "RobofacCoin", "count": 8, "popup": true },
           { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"

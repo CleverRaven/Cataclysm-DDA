@@ -1,0 +1,8 @@
+[
+  {
+    "id": "effect_si_lilin_no_ruach_upgrades",
+    "type": "effect_type",
+    "name": [ "Fragile Spirit" ],
+    "desc": [ "Your ruach is too fragile to spend it frivolously." ]
+  }
+]

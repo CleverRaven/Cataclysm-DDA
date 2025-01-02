@@ -327,7 +327,7 @@
       }
     },
     "terrain": {
-      "│": "t_hole",
+      "│": "t_open_air",
       ".": "t_region_groundcover",
       "V": "t_region_groundcover",
       "$": "t_region_groundcover",

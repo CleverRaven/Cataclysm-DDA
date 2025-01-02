@@ -22,8 +22,8 @@
     "required_char_flags_all": [ "MELEE_PERK_STAGGER_STRIKE" ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo')", ">", "2" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 2" ] },
         { "not": { "npc_has_effect": "stunned" } }
       ]
     },
@@ -75,8 +75,8 @@
     "unarmed_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
-        { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum')", ">", "2" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 2" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -144,7 +144,7 @@
     "weapon_categories_allowed": [ "QUARTERSTAVES", "SPEARS", "POLEARMS" ],
     "melee_allowed": true,
     "weighting": 2,
-    "condition": { "and": [ { "math": [ "u_monsters_nearby('radius': 1)", ">", "1" ] } ] },
+    "condition": { "and": [ { "math": [ "u_monsters_nearby('radius': 1) > 1" ] } ] },
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.25 },
@@ -169,7 +169,7 @@
     "melee_allowed": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -193,7 +193,7 @@
     "melee_allowed": true,
     "weighting": 10,
     "weapon_categories_allowed": [ "QUARTERSTAVES", "LONG_SWORDS", "MEDIUM-SWORDS", "LONG_THRUSTING_SWORDS", "FENCING_WEAPONRY" ],
-    "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum')", "==", "1" ] } ] },
+    "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') == 1" ] } ] },
     "condition_desc": "* Requires <info>momentum(1)</info> to trigger.",
     "mult_bonuses": [ { "stat": "damage", "type": "stab", "scale": 1.1 }, { "stat": "movecost", "scale": 0.5 } ],
     "attack_vectors": [ "vector_null" ]
@@ -227,7 +227,7 @@
     "melee_allowed": true,
     "crit_ok": true,
     "weighting": 1,
-    "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo')", ">", "2" ] } ] },
+    "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 2" ] } ] },
     "condition_desc": "* Requires <info>tempo(3)</info> to trigger.",
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
     "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s!" ],

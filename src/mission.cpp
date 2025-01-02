@@ -16,6 +16,7 @@
 #include "colony.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
@@ -59,8 +60,11 @@ mission mission_type::create( const character_id &npc_id ) const
     ret.monster_type = monster_type;
     ret.monster_kill_goal = monster_kill_goal;
 
-    if( deadline_low != 0_turns || deadline_high != 0_turns ) {
-        ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
+    struct dialogue d( get_talker_for( get_player_character() ),
+                       get_talker_for( g->find_npc( npc_id ) ) );
+    time_duration deadline_as_var = deadline.evaluate( d );
+    if( deadline_as_var != 0_turns ) {
+        ret.deadline = calendar::turn + deadline_as_var;
     } else {
         ret.deadline = calendar::turn_zero;
     }
@@ -255,6 +259,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         return false;
     }
     bool mission_transfered = false;
+    std::vector<int> mission_ids_to_remove;
     for( const int mission_id : mon_fused->mission_ids ) {
         const mission *const found_mission = mission::find( mission_id );
         if( !found_mission ) {
@@ -265,9 +270,12 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
         if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
-            mon_fused->mission_ids.erase( mission_id );
+            mission_ids_to_remove.push_back( mission_id );
             mission_transfered = true;
         }
+    }
+    for( const int mission_id : mission_ids_to_remove ) {
+        mon_fused->mission_ids.erase( mission_id );
     }
     return mission_transfered;
 }
@@ -317,8 +325,10 @@ void mission::assign( avatar &u )
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
-        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
-            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        dialogue d( get_talker_for( u ), get_talker_for( g->find_npc( npc_id ) ) );
+        time_duration deadline_as_var = type->deadline.evaluate( d );
+        if( deadline_as_var != 0_turns ) {
+            deadline = calendar::turn + deadline_as_var;
         } else {
             deadline = calendar::turn_zero;
         }
@@ -346,7 +356,7 @@ void mission::set_target_to_mission_giver()
     if( giver != nullptr ) {
         target = giver->global_omt_location();
     } else {
-        target = overmap::invalid_tripoint;
+        target = tripoint_abs_omt::invalid;
     }
 }
 
@@ -400,6 +410,7 @@ void mission::wrap_up()
                 items, grp_type, matches,
                 container, itype_null, specific_container_required );
 
+            comps.reserve( matches.size() );
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.emplace_back( cnt.first, cnt.second );
 
@@ -457,6 +468,7 @@ void mission::wrap_up()
                 }
             }
         }
+        break;
         default:
             //Suppress warnings
             break;
@@ -707,7 +719,7 @@ std::string mission::get_description() const
 
 bool mission::has_target() const
 {
-    return target != overmap::invalid_tripoint;
+    return !target.is_invalid();
 }
 
 const tripoint_abs_omt &mission::get_target() const
@@ -786,6 +798,11 @@ const talk_effect_fun_t::likely_rewards_t &mission::get_likely_rewards() const
 bool mission::has_generic_rewards() const
 {
     return type->has_generic_rewards;
+}
+
+void mission::set_deadline( time_point new_deadline )
+{
+    deadline = new_deadline;
 }
 
 void mission::set_target( const tripoint_abs_omt &p )
@@ -878,7 +895,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint_abs_omt( tripoint_min );
+    target = tripoint_abs_omt::invalid;
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

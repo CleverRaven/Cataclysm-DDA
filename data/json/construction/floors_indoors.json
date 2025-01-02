@@ -465,9 +465,9 @@
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "180 m",
+    "time": "580 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "field_stone", 500 ] ] ],
     "pre_terrain": "t_drystone_wall_half",
     "post_terrain": "t_drystone_wall"
   },
@@ -478,9 +478,9 @@
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "components": [ [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "field_stone", 500 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_drystone_wall_half"
   },
@@ -682,9 +682,13 @@
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
+    "components": [
+      [ [ "rock_large", 83 ], [ "field_stone", 500 ] ],
+      [ [ "rock", 50 ] ],
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ]
+    ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
   },
@@ -695,9 +699,13 @@
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
-    "time": "180 m",
+    "time": "280 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
+    "components": [
+      [ [ "rock_large", 83 ], [ "field_stone", 500 ] ],
+      [ [ "rock", 50 ] ],
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ]
+    ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },

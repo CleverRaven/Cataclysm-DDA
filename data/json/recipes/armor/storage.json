@@ -1578,6 +1578,19 @@
     "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "duct_tape", 30 ] ], [ [ "pipe", 3 ] ] ]
   },
   {
+    "result": "quiver_simple_cloth",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "45 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_patchwork_simple", 1 ], [ "strap_small", 2 ] ]
+  },
+  {
     "result": "ragpouch",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

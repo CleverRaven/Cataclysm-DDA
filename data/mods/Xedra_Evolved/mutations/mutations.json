@@ -2,24 +2,24 @@
   {
     "type": "mutation",
     "id": "EGGSAC_SURVIVABLE",
-    "name": { "str": "Spider egg host" },
+    "name": { "str": "Spider egg host", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "You don't feel very well.  On an existential level."
+    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
   },
   {
     "type": "mutation",
     "id": "EGGSAC_FATAL",
-    "name": { "str": "Spider egg host" },
+    "name": { "str": "Spider egg host", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "You don't feel very well.  On an existential level."
+    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
   },
   {
     "type": "mutation",
@@ -28,18 +28,19 @@
     "points": -1,
     "starting_trait": true,
     "valid": false,
-    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
+    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)",
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
-    "name": { "str": "Transforming into Goblin" },
+    "name": { "str": "Transforming into Goblin", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "You don't feel very well.  On an existential level."
+    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
   },
   {
     "type": "mutation",
@@ -54,13 +55,13 @@
   {
     "type": "mutation",
     "id": "MANIFEST_DESTINY_SPIDER",
-    "name": { "str": "Transforming into Spider" },
+    "name": { "str": "Transforming into Spider", "//~": "NO_I18N" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "You don't feel very well.  On an existential level."
+    "description": { "str": "You don't feel very well.  On an existential level.", "//~": "NO_I18N" }
   },
   {
     "type": "mutation",
@@ -96,34 +97,68 @@
   {
     "type": "mutation",
     "id": "EXTEND_LIFE",
+    "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
     "name": { "str": "Extended Life" },
     "points": 0,
     "description": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
-    "valid": false
+    "valid": false,
+    "flags": [ "MEND_ALL" ]
   },
   {
     "type": "mutation",
     "id": "NIGHTMARE_CHIMERAS",
-    "name": { "str": "Haunted by your dreams made flesh" },
+    "name": { "str": "Haunted by your dreams made flesh", "//~": "NO_I18N" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality.",
+    "description": { "str": "Your dreams can change reality.", "//~": "NO_I18N" },
     "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
     "id": "FRIENDLY_CHIMERAS",
-    "name": { "str": "Accompanied by your dreams made flesh" },
+    "name": { "str": "Accompanied by your dreams made flesh", "//~": "NO_I18N" },
     "points": 0,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality.",
+    "description": { "str": "Your dreams can change reality.", "//~": "NO_I18N" },
     "vitamin_rates": [ [ "dream", -8640000 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "INFRESIST",
+    "copy-from": "INFRESIST",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INFIMMUNE",
+    "copy-from": "INFIMMUNE",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "LILIN" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GENERIC_UNCANNY_DODGE_TRAIT",
+    "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
+    "description": {
+      "str": "The Uncanny Dodge flag only works on traits or bionics, so this is a trait for powers that grant it.",
+      "//~": "NO_I18N"
+    },
+    "points": 1,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "flags": [ "UNCANNY_DODGE" ]
   },
   {
     "type": "mutation",
@@ -135,7 +170,8 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL", "HEMOVORE" ]
+    "flags": [ "CANNIBAL", "HEMOVORE" ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
   },
   {
     "type": "mutation",
@@ -191,11 +227,11 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.05 },
-          { "value": "ARMOR_CUT", "multiply": -0.03 },
-          { "value": "ARMOR_STAB", "multiply": -0.02 },
-          { "value": "ARMOR_BULLET", "multiply": -0.08 }
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.05 },
+          { "type": "stab", "multiply": -0.02 },
+          { "type": "cut", "multiply": -0.03 },
+          { "type": "bullet", "multiply": -0.08 }
         ]
       }
     ]
@@ -359,11 +395,14 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BEAST_CLAWS_active",
-    "name": { "str": "Claws of the Beast Extended" },
+    "name": { "str": "Claws of the Beast Extended", "//~": "NO_I18N" },
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
-    "description": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
+    "description": {
+      "str": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
+      "//~": "NO_I18N"
+    },
     "types": [ "CLAWS" ],
     "cost": 0,
     "player_display": false,
@@ -380,7 +419,7 @@
     "valid": false,
     "name": { "str": "Crimson Vision" },
     "description": "Your vision has improved and now you can see flowing blood in the vein, like bright trails in the dark.",
-    "flags": [ "INFRARED" ]
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ]
   },
   {
     "type": "mutation",
@@ -478,15 +517,12 @@
         ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "0" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] },
         "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ]
       },
       {
         "condition": {
-          "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] }
-          ]
+          "and": [ { "math": [ "u_vitamin('human_blood_vitamin') > 0" ] }, { "math": [ "u_vitamin('human_blood_vitamin') < 1800" ] } ]
         },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "5 + (u_vitamin('human_blood_vitamin') / 300)" ] } },
@@ -497,8 +533,8 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "4400" ] }
+            { "math": [ "u_vitamin('human_blood_vitamin') >= 1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin') < 4400" ] }
           ]
         },
         "values": [
@@ -508,7 +544,7 @@
         ]
       },
       {
-        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "4400" ] },
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 4400" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
@@ -590,9 +626,12 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_BAT_FORM_TRAITS",
-    "name": { "str": "Bat Form" },
+    "name": { "str": "Bat Form", "//~": "NO_I18N" },
     "points": 0,
-    "description": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
+    "description": {
+      "str": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -636,14 +675,16 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_WOLF_FORM_TRAITS",
-    "name": { "str": "Wolf Form" },
+    "name": { "str": "Wolf Form", "//~": "NO_I18N" },
     "points": 0,
-    "description": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
+    "description": {
+      "str": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -658,15 +699,6 @@
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "HEARING_MULT", "multiply": 0.75 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 4 }
-        ]
-      },
-      {
         "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -677,9 +709,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_wolf", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -698,9 +729,9 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_MIST_FORM_TRAITS",
-    "name": { "str": "Mist form traits" },
+    "name": { "str": "Mist form traits", "//~": "NO_I18N" },
     "points": 1,
-    "description": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.",
+    "description": { "str": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.", "//~": "NO_I18N" },
     "valid": false,
     "player_display": false,
     "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_mist_form", "intensity": 1 } ] } ],
@@ -769,9 +800,12 @@
   {
     "type": "mutation",
     "id": "VAMPIRE_SHADOW_FORM_TRAITS",
-    "name": { "str": "Shadow Form" },
+    "name": { "str": "Shadow Form", "//~": "NO_I18N" },
     "points": 0,
-    "description": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
+    "description": {
+      "str": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
@@ -845,9 +879,9 @@
   {
     "type": "mutation",
     "id": "MENTOR_PEACE",
-    "name": { "str": "Mentor's peace" },
+    "name": { "str": "Mentor's peace", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.",
+    "description": { "str": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.", "//~": "NO_I18N" },
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
@@ -904,6 +938,16 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_ARVORE_HATRED",
+    "name": { "str": "False Arvore" },
+    "points": -4,
+    "description": "The arvore can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "ARVORE", 100 ] ]
   },
   {
     "type": "mutation",

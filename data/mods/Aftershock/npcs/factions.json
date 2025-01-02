@@ -96,6 +96,7 @@
     "fac_food_supply": { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } },
     "wealth": 75000,
     "relations": {
+      "your_followers": { "share public goods": true, "lets you in": true, "knows your voice": true },
       "free_merchants": {
         "kill on sight": false,
         "watch your back": false,

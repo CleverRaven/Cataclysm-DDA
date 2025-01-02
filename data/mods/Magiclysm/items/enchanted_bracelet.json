@@ -2,8 +2,8 @@
   {
     "abstract": "platinum_bracelet_magic",
     "type": "TOOL_ARMOR",
-    "name": { "str": "platinum bracelet" },
-    "description": "A bracelet, completely covered with a large amount of runes from both sides.",
+    "name": { "str": "platinum bracelet", "//~": "NO_I18N" },
+    "description": { "str": "A bracelet, completely covered with a large amount of runes from both sides.", "//~": "NO_I18N" },
     "weight": "50 g",
     "volume": "25 ml",
     "material": [ "platinum", "crystallized_mana" ],
@@ -77,5 +77,44 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "7 d", "regenerate_ammo": true } },
     "use_action": { "type": "cast_spell", "spell_id": "super_hot_spell", "no_fail": true, "level": 0, "need_worn": true }
+  },
+  {
+    "id": "mana_leech_shackle_unlocked",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "inert mana-leech shackle" },
+    "description": {
+      "str": "A platinum bracelet covered in runes.  If it was active, it would keep its wearer from casting spells.  Now it's just another useless trinket as you do not know the spells it requires to be activated again."
+    },
+    "weight": "50 g",
+    "volume": "25 ml",
+    "material": [ "platinum" ],
+    "symbol": "[",
+    "color": "white",
+    "sided": true,
+    "flags": [ "STURDY", "ONE_PER_LAYER", "WATER_FRIENDLY", "TRADER_AVOID", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+  },
+  {
+    "copy-from": "mana_leech_shackle_unlocked",
+    "id": "mana_leech_shackle",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "mana-leech shackle" },
+    "description": {
+      "str": "A platinum bracelet covered in runes.  It cannot be removed without the appropriate spell and it constantly drains the wearer's mana, preventing them from casting any spell until they get rid of it."
+    },
+    "weight": "50 g",
+    "volume": "25 ml",
+    "material": [ "platinum" ],
+    "symbol": "[",
+    "color": "white",
+    "sided": true,
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": -100 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "MANA_LEECH_EFFECT" ] }
+      ]
+    },
+    "flags": [ "MORPHIC", "NO_TAKEOFF", "STURDY", "ONE_PER_LAYER", "WATER_FRIENDLY", "TRADER_AVOID", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   }
 ]

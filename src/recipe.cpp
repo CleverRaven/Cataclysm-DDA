@@ -1322,12 +1322,12 @@ bool recipe::npc_can_craft( std::string &reason ) const
         return false;
     }
     if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+        reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
         return false;
     }
     for( const auto& [bp, _] : get_byproducts() ) {
         if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
+            reason = _( "Ordering NPC to craft non-solid item is currently only implemented for camps." );
             return false;
         }
     }

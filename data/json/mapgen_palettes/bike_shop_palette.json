@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "bike_shop",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "*": "t_region_tree_shade",
@@ -12,7 +13,6 @@
       "+": "t_door_c",
       ";": "t_door_locked",
       "-": "t_wall_glass",
-      "#": "t_wall_w",
       "<": "t_ladder_up",
       "4": "t_gutter_downspout"
     },

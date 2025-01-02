@@ -25,6 +25,8 @@
 
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
+static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
+
 static std::vector<const vpart_info *> all_turret_types()
 {
     std::vector<const vpart_info *> res;
@@ -42,16 +44,18 @@ static std::vector<const vpart_info *> all_turret_types()
 TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
 {
     clear_map();
+    clear_avatar();
     map &here = get_map();
     Character &player_character = get_player_character();
+    const tripoint_bub_ms veh_pos( 65, 65, 0 );
+
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
-            vehicle *veh = here.add_vehicle( STATIC( vproto_id( "test_turret_rig" ) ),
-                                             tripoint_bub_ms( 65, 65, here.get_abs_sub().z() ), 270_degrees, 0, 0, false );
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_turret_rig, veh_pos, 270_degrees, 0, 2,
+                                             false, true );
             REQUIRE( veh );
-            veh->unlock();
 
-            const int turr_idx = veh->install_part( point_zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );
@@ -96,7 +100,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( veh->global_part_pos3( vp ) );
+            player_character.setpos( veh->bub_part_pos( vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {

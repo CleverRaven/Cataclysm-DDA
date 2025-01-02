@@ -13,7 +13,7 @@
     "type": "overmap_special",
     "id": "landing_pad",
     "locations": [ "land", "swamp" ],
-    "city_distance": [ -1, -1 ],
+    "city_distance": [ 0, -1 ],
     "city_sizes": [ 0, -1 ],
     "occurrences": [ 1, 1 ],
     "overmaps": [

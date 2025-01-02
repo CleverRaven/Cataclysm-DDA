@@ -13,6 +13,7 @@
     "name": "GROUP_WILDERNESS_FOREST_DINO",
     "is_animal": true,
     "monsters": [
+      { "monster": "mon_nedcolbertia", "weight": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_gallimimus", "weight": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_struthiomimus", "weight": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_ornithomimus", "weight": 5, "pack_size": [ 4, 8 ] },
@@ -37,6 +38,7 @@
       { "monster": "mon_aquilops", "weight": 3, "pack_size": [ 4, 8 ] },
       { "monster": "mon_leptoceratops", "weight": 3, "pack_size": [ 4, 8 ] },
       { "monster": "mon_zuniceratops", "weight": 3, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_lokiceratops", "weight": 3, "pack_size": [ 4, 8 ] },
       { "monster": "mon_styracosaurus", "weight": 3, "cost_multiplier": 20, "pack_size": [ 4, 8 ] },
       { "monster": "mon_centrosaurus", "weight": 3, "cost_multiplier": 20, "pack_size": [ 4, 8 ] },
       { "monster": "mon_einiosaurus", "weight": 3, "cost_multiplier": 20, "pack_size": [ 4, 8 ] },
@@ -48,6 +50,7 @@
       { "monster": "mon_torosaurus", "weight": 3, "cost_multiplier": 25, "pack_size": [ 4, 8 ] },
       { "monster": "mon_triceratops", "weight": 3, "cost_multiplier": 30, "pack_size": [ 4, 8 ] },
       { "monster": "mon_nanosaurus", "weight": 5, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_fona", "weight": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_thescelosaurus", "weight": 10, "pack_size": [ 2, 4 ] }
     ]
   },

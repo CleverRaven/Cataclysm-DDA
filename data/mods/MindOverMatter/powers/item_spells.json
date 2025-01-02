@@ -2,8 +2,11 @@
   {
     "id": "grenade_inferno_explosion",
     "type": "SPELL",
-    "name": "[Ψ]Inferno Grenade Explosion",
-    "description": "The explosion created by an inferno grenade.  If you cast this yourself you're 100% going to die.",
+    "name": { "str": "[Ψ]Inferno Grenade Explosion", "//~": "NO_I18N" },
+    "description": {
+      "str": "The explosion created by an inferno grenade.  If you cast this yourself you're 100% going to die.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile", "ground" ],
     "skill": "metaphysics",
     "flags": [ "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "RANDOM_AOE", "NO_LEGS" ],
@@ -21,8 +24,8 @@
   {
     "id": "pure_translocate_power",
     "type": "SPELL",
-    "name": "Item Translocate",
-    "description": "A translocate power for items.  It's a bug if you have it directly.",
+    "name": { "str": "Item Translocate", "//~": "NO_I18N" },
+    "description": { "str": "A translocate power for items.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],

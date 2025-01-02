@@ -9,16 +9,15 @@
     "damage_type": "electric",
     "spell_class": "STORM_ELEMENTAL",
     "max_level": 35,
-    "min_damage": 0,
-    "max_damage": 70,
-    "damage_increment": 2,
+    "min_damage": { "math": [ "(u_spell_level('storm_chain_master') * 0.5) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('storm_chain_master') * 1.4) + 6" ] },
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "base_casting_time": 100,
     "difficulty": 4,
-    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crackle",
     "valid_targets": [ "hostile" ],
     "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
@@ -26,8 +25,8 @@
   {
     "type": "SPELL",
     "id": "storm_chain_1",
-    "name": "Storm Chain 1",
-    "description": "#1 in the storm chain series of effects.",
+    "name": { "str": "Storm Chain 1", "//~": "NO_I18N" },
+    "description": { "str": "#1 in the storm chain series of effects.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -36,9 +35,8 @@
     "max_field_intensity": 2,
     "field_chance": 1,
     "max_level": 35,
-    "min_damage": 0,
-    "max_damage": 70,
-    "damage_increment": 2,
+    "min_damage": { "math": [ "(u_spell_level('storm_chain_master') * 0.5) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('storm_chain_master') * 1.4) + 6" ] },
     "min_range": 13,
     "range_increment": 0.2,
     "max_range": 20,
@@ -46,14 +44,14 @@
     "max_aoe": 1,
     "sound_description": "a crackle",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
     "extra_effects": [ { "id": "storm_chain_2" }, { "id": "storm_chain_2" } ]
   },
   {
     "type": "SPELL",
     "id": "storm_chain_2",
-    "name": "Storm Chain 2",
-    "description": "#2 in the storm chain series of effects.",
+    "name": { "str": "Storm Chain 2", "//~": "NO_I18N" },
+    "description": { "str": "#2 in the storm chain series of effects.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -62,9 +60,8 @@
     "max_field_intensity": 2,
     "field_chance": 1,
     "max_level": 35,
-    "min_damage": 0,
-    "max_damage": 70,
-    "damage_increment": 2,
+    "min_damage": { "math": [ "(u_spell_level('storm_chain_master') * 0.5) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('storm_chain_master') * 1.4) + 6" ] },
     "min_range": 7,
     "range_increment": 0.2,
     "max_range": 14,
@@ -72,14 +69,14 @@
     "max_aoe": 1,
     "sound_description": "a crackle",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ],
     "extra_effects": [ { "id": "storm_chain_3" }, { "id": "storm_chain_3" } ]
   },
   {
     "type": "SPELL",
     "id": "storm_chain_3",
-    "name": "Storm Chain 3",
-    "description": "#3 in the storm chain series of effects.",
+    "name": { "str": "Storm Chain 3", "//~": "NO_I18N" },
+    "description": { "str": "#3 in the storm chain series of effects.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "line",
     "damage_type": "electric",
@@ -88,9 +85,8 @@
     "max_field_intensity": 2,
     "field_chance": 1,
     "max_level": 35,
-    "min_damage": 0,
-    "max_damage": 70,
-    "damage_increment": 2,
+    "min_damage": { "math": [ "(u_spell_level('storm_chain_master') * 0.5) + 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('storm_chain_master') * 1.4) + 6" ] },
     "min_range": 0,
     "range_increment": 0.2,
     "max_range": 7,
@@ -98,7 +94,7 @@
     "max_aoe": 1,
     "sound_description": "a crackle",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ]
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "RANDOM_TARGET", "RANDOM_CRITTER" ]
   },
   {
     "id": "storm_elemental_electric_melee",
@@ -134,6 +130,13 @@
     "remove_message": "Your hands turn back to normal condition.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 35 }, { "value": "MELEE_DAMAGE", "multiply": 0.4 } ] } ]
+    "enchantments": [
+      {
+        "melee_damage_bonus": [
+          { "type": "electric", "add": { "math": [ "(u_spell_level('storm_elemental_electric_melee') * 0.9) * rng(0.5,1.4)" ] } }
+        ]
+      },
+      { "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.4 } ] }
+    ]
   }
 ]

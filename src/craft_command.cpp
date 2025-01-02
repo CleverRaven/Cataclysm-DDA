@@ -115,7 +115,13 @@ template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
 void craft_command::execute( const std::optional<tripoint> &new_loc )
 {
-    loc = new_loc;
+    // TODO: Get rid of this when operation typified.
+    std::optional<tripoint_bub_ms> temp;
+    if( new_loc.has_value() ) {
+        temp = tripoint_bub_ms( new_loc.value() );
+    }
+
+    loc = temp;
 
     execute();
 }
@@ -137,7 +143,7 @@ void craft_command::execute( bool only_cache_comps )
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
@@ -449,7 +455,7 @@ item craft_command::create_in_progress_craft()
     }
 
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );

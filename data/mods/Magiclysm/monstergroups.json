@@ -11,6 +11,13 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 860 },
+      {
+        "monster": "mon_giant_heron_ridable",
+        "weight": 15,
+        "cost_multiplier": 2,
+        "pack_size": [ 2, 3 ],
+        "starts": "21 days"
+      },
       { "monster": "mon_owlbear", "weight": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_troll", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
@@ -47,7 +54,8 @@
       },
       { "monster": "mon_irongolem", "weight": 2, "cost_multiplier": 8 },
       { "monster": "mon_demon_spiderling", "weight": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] },
-      { "monster": "mon_owlbear_zombie", "weight": 7, "cost_multiplier": 10, "starts": "15 days" },
+      { "monster": "mon_giant_heron_ridable_zombie", "weight": 7, "cost_multiplier": 10, "starts": "15 days" },
+      { "monster": "mon_owlbear_zombie", "weight": 15, "starts": "7 days" },
       { "monster": "mon_owlbear_zombie_brute", "weight": 1, "cost_multiplier": 15, "starts": "30 days" },
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12, "event": "christmas" },
@@ -80,7 +88,17 @@
       { "monster": "mon_feral_magus", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_feral_magus_enhanced", "weight": 5, "cost_multiplier": 4 },
       { "monster": "mon_feral_stormshaper", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_feral_stormshaper_enhanced", "weight": 5, "cost_multiplier": 4 }
+      { "monster": "mon_feral_stormshaper_enhanced", "weight": 5, "cost_multiplier": 4 },
+      { "monster": "mon_feral_technomancer", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 5, "cost_multiplier": 4 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FERAL_TECHNOMANCERS",
+    "monsters": [
+      { "monster": "mon_feral_technomancer", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 5, "cost_multiplier": 4 }
     ]
   },
   {
@@ -168,6 +186,11 @@
     ]
   },
   {
+    "name": "GROUP_MINERS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_miner", "weight": 100 }, { "monster": "mon_zombie_dwarf_miner", "weight": 40 } ]
+  },
+  {
     "name": "GROUP_PARK_DOG",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 125 } ]
@@ -200,26 +223,38 @@
   {
     "type": "monstergroup",
     "name": "GROUP_LAB",
-    "monsters": [ { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_SURFACE",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_feral_radiation_mage", "weight": 2, "cost_multiplier": 10 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MICROLAB",
-    "monsters": [ { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 } ]
+    "monsters": [
+      { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 2, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 1, "cost_multiplier": 50 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_RESEARCHERS",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 20, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_feral_radiation_mage", "weight": 1, "cost_multiplier": 10 }
     ]
   },
@@ -457,11 +492,13 @@
     "type": "monstergroup",
     "name": "GROUP_FOREST_SPIRIT",
     "monsters": [
-      { "monster": "mon_mossling", "weight": 24, "cost_multiplier": 1 },
-      { "monster": "mon_mossling", "weight": 8, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_dryad", "weight": 8, "cost_multiplier": 2 },
-      { "monster": "mon_dryad", "weight": 3, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_brackenwight", "weight": 5, "cost_multiplier": 5 }
+      { "monster": "mon_mossling", "weight": 48, "cost_multiplier": 1 },
+      { "monster": "mon_mossling", "weight": 16, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_dryad", "weight": 16, "cost_multiplier": 2 },
+      { "monster": "mon_dryad", "weight": 6, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_brackenwight", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_treant", "weight": 4, "cost_multiplier": 10 },
+      { "monster": "mon_keeper_of_the_glades", "weight": 1, "cost_multiplier": 20 }
     ]
   },
   {
@@ -602,6 +639,7 @@
       { "monster": "mon_zeer", "weight": 150 },
       { "monster": "mon_zeer", "weight": 25, "pack_size": [ 2, 5 ] },
       { "monster": "mon_zougar", "weight": 100 },
+      { "monster": "mon_giant_heron_ridable_zombie", "weight": 75 },
       { "monster": "mon_zombear", "weight": 75 },
       { "monster": "mon_zoose", "weight": 50 },
       { "monster": "mon_owlbear_zombie", "weight": 25 }

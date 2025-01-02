@@ -175,6 +175,11 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "glass_door_wall_2_floor",
+    "terrain": [ { "result": "t_floor", "valid_terrain": [ "t_wall_glass", "t_door_glass_c" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "destroyed_window",
     "//": "Should include the bash result for every standard_domestic_palette window",
     "terrain": [
@@ -375,6 +380,18 @@
     "//": "A nested map bash damage.",
     "nested_mapgen_id": "1x1_bash",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_burn",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "burn", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_bash_burn",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 }, { "point": "burn", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",

@@ -149,7 +149,7 @@
   {
     "abstract": "AID_XE_abstract",
     "type": "GENERIC",
-    "name": { "str_sp": "abstract Autodoc installation data" },
+    "name": { "str_sp": "abstract Autodoc installation data", "//~": "NO_I18N" },
     "material": [ "plastic" ],
     "symbol": "#",
     "weight": "35 g",

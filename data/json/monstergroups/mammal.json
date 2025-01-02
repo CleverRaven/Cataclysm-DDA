@@ -167,7 +167,7 @@
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_MOOSE_NORMAL", "weight": 19 },
-      { "group": "GROUP_TUSKED_MOOSE", "weight": 1, "starts": "732 days" }
+      { "group": "GROUP_TUSKED_MOOSE", "weight": 1, "starts": "958 days" }
     ]
   },
   {
@@ -195,8 +195,17 @@
     "//": "Not doing the whole weird thing with timers and weight halving for babies as the groups above me did. I have no idea what's that hoping to accomplish and nobody else seems to either.",
     "monsters": [
       { "monster": "mon_coyote", "weight": 38 },
-      { "monster": "mon_coyote_mutant_shark", "weight": 1, "starts": "272 days" },
-      { "monster": "mon_coyote_mutant_venom", "weight": 1, "starts": "272 days" }
+      { "monster": "mon_coyote_mutant_shark", "weight": 1, "starts": "270 days" },
+      { "monster": "mon_coyote_mutant_venom", "weight": 1, "starts": "270 days" }
+    ]
+  },
+  {
+    "name": "GROUP_BEAVER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_beaver", "weight": 38 },
+      { "monster": "mon_beaver_mutant_avian", "weight": 1, "starts": "730 days" },
+      { "monster": "mon_beaver_mutant_huge", "weight": 1, "starts": "730 days" }
     ]
   },
   {

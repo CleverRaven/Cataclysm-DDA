@@ -261,8 +261,8 @@
         "topic": "TALK_TACOMA_Pablo_Bakery-RootCellar1",
         "condition": {
           "and": [
-            { "math": [ "u_skill('survival')", ">=", "4" ] },
-            { "math": [ "u_skill('fabrication')", ">=", "4" ] },
+            { "math": [ "u_skill('survival') >= 4" ] },
+            { "math": [ "u_skill('fabrication') >= 4" ] },
             { "compare_string": [ "known", { "u_val": "rootcellar_tacoma_bakery" } ] },
             { "not": { "compare_string": [ "helped", { "npc_val": "rootcellar_tacoma_bakery" } ] } }
           ]
@@ -278,6 +278,7 @@
     "difficulty": 2,
     "value": 1000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "item": "fire_brick",
     "count": 20,
     "dialogue": {
@@ -300,6 +301,7 @@
     "difficulty": 2,
     "value": 1000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Ask Jenny Forcette if she can help Pablo Nunez with his mill designs.",
       "offer": "n/a",

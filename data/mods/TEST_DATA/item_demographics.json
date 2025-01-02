@@ -567,18 +567,6 @@
             "reloaded_4570_sp": 1
           }
         },
-        {
-          "type": "460",
-          "weight": 1,
-          "items": {
-            "460_fmj": 1,
-            "460_rowland": 1,
-            "bp_460_fmj": 1,
-            "bp_460_rowland": 1,
-            "reloaded_460_fmj": 1,
-            "reloaded_460_rowland": 1
-          }
-        },
         { "type": "46", "weight": 1, "items": { "46mm": 1, "bp_46mm": 1, "reloaded_46mm": 1 } },
         { "type": "500", "weight": 1, "items": { "500_Magnum": 1, "bp_500_Magnum": 1, "reloaded_500_Magnum": 1 } },
         {
@@ -671,6 +659,7 @@
           "weight": 204,
           "items": {
             "1911-22": 1,
+            "henry_golden_boy": 1,
             "marlin_9a": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
@@ -678,6 +667,7 @@
             "sig_mosquito": 1,
             "walther_p22": 1,
             "cp33": 1,
+            "rio_bravo": 1,
             "ruger_charger": 1,
             "ruger_charger_auto": 1,
             "ruger_1022_auto": 1,
@@ -765,7 +755,11 @@
             "bren2_762": 1
           }
         },
-        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1 } },
+        {
+          "type": "357mag",
+          "weight": 34,
+          "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1, "uberti_1873": 1, "rossi_r92_357_16": 1, "rossi_r92_357_20": 1 }
+        },
         {
           "type": "shot",
           "weight": 26,
@@ -828,7 +822,15 @@
         {
           "type": "44",
           "weight": 15,
-          "items": { "deagle_44": 1, "henry_big_boy": 1, "rifle_44": 1, "ruger_redhawk": 1, "sw629": 1 }
+          "items": {
+            "deagle_44": 1,
+            "henry_big_boy": 1,
+            "rossi_r92_44_16": 1,
+            "rossi_r92_44_20": 1,
+            "rifle_44": 1,
+            "ruger_redhawk": 1,
+            "sw629": 1
+          }
         },
         {
           "type": "3006",
@@ -887,7 +889,6 @@
             "bfr": 1,
             "sharps": 1,
             "hk_mp7": 1,
-            "m1911-460": 1,
             "m107a1": 1,
             "m2browning": 1,
             "as50": 1,
@@ -964,7 +965,6 @@
             "m18": 1,
             "m1911": 1,
             "m1911_10": 1,
-            "m1911-460": 1,
             "m1911a1_38super": 1,
             "m9": 1,
             "makarov": 1,
@@ -1063,6 +1063,7 @@
             "fn_ps90": 1,
             "garand": 1,
             "henry_big_boy": 1,
+            "henry_golden_boy": 1,
             "hk417_13": 1,
             "hk_g3": 1,
             "hk_g80": 1,
@@ -1135,9 +1136,14 @@
             "rifle_9mm": 1,
             "rifle_9x18": 1,
             "rifle_flintlock": 1,
+            "rio_bravo": 1,
             "rm11b_sniper_rifle": 1,
             "rm298": 1,
             "rm51_assault_rifle": 1,
+            "rossi_r92_357_16": 1,
+            "rossi_r92_357_20": 1,
+            "rossi_r92_44_16": 1,
+            "rossi_r92_44_20": 1,
             "rossi_gallery": 1,
             "ruger_1022": 1,
             "ruger_1022_auto": 1,
@@ -1159,6 +1165,7 @@
             "tac338": 1,
             "tac50": 1,
             "trex_gun": 1,
+            "uberti_1873": 1,
             "vz58_p": 1,
             "vz58ts": 1,
             "weatherby_5": 1,

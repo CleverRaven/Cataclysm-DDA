@@ -8,14 +8,14 @@
       "and": [
         { "not": { "u_has_effect": "effect_hedge_no_nightmares" } },
         { "u_has_effect": "nightmares" },
-        { "math": [ "dream_counter", "==", "0" ] }
+        { "math": [ "dream_counter == 0" ] }
       ]
     },
     "effect": [
       { "u_message": "nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "dream_counter", "=", "1" ] },
-      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+      { "math": [ "dream_counter = 1" ] },
+      { "run_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
     ]
   },
   {
@@ -31,9 +31,9 @@
         { "one_in_chance": 6 },
         { "not": "is_day" },
         { "not": { "u_has_effect": "sleep" } },
-        { "math": [ "Lieutenants_active", ">", "0" ] },
-        { "math": [ "Shadow_Lurking", ">", "0" ] },
-        { "math": [ "Shadow_Warnings", ">=", "1" ] },
+        { "math": [ "Lieutenants_active > 0" ] },
+        { "math": [ "Shadow_Lurking > 0" ] },
+        { "math": [ "Shadow_Warnings >= 1" ] },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -45,7 +45,7 @@
       { "assign_mission": "MISSION_KILL_SHADOW" },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
       { "u_location_variable": { "global_val": "shadow_encounter_XYZ_pos" }, "min_radius": 1, "max_radius": 1 },
-      { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
+      { "run_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
     ],
     "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN" ] } ]
   },
@@ -65,16 +65,16 @@
             { "u_at_om_location": "FACTION_CAMP_ANY" },
             { "not": "u_is_outside" },
             "is_day",
-            { "math": [ "distance('u', shadow_encounter_XYZ_pos)", ">=", "180" ] }
+            { "math": [ "distance('u', shadow_encounter_XYZ_pos) >= 180" ] }
           ]
         },
-        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60)", ">", "0" ] }
+        { "math": [ "u_monsters_nearby('mon_lieutenant_shadow', 'radius': 60) > 0" ] }
       ]
     },
     "//2": "Despawn shadow, adjust var for later to bring him back",
     "//3": "Make player blind for zero turns(yes, zero!) so they can't see the thing 'die'/don't get a log message about it dying (stupid hack but it works)",
     "effect": [
-      { "math": [ "Shadow_Lurking", "=", "1" ] },
+      { "math": [ "Shadow_Lurking = 1" ] },
       { "u_add_effect": "blind_no_msg", "duration": "0 second" },
       { "remove_active_mission": "MISSION_KILL_SHADOW" },
       { "u_message": "The wind laughs through the night", "type": "bad" },
@@ -84,7 +84,7 @@
         "target_min_radius": 0,
         "target_max_radius": 60
       },
-      { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
+      { "run_eocs": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
       { "u_message": "…but it grows more distant for now.", "type": "good" }
     ]
   },

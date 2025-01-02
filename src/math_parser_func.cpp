@@ -1,6 +1,5 @@
 #include "math_parser_func.h"
 
-#include <exception>
 #include <string_view>
 #include <vector>
 
@@ -23,19 +22,28 @@ std::vector<std::string_view> tokenize( std::string_view str, std::string_view s
                     ts.substr( unpad, unpad_e - unpad + 1 ) );
             }
         }
+        if( !ret.empty() ) {
+            last = ret.back();
+        }
         if( pos != std::string_view::npos && include_seps ) {
             if( str[pos] == '=' && start > 0 &&
-                ( last == "=" || last == ">" || last == "<" || last == "!" ) ) {
+                ( last == "=" || last == ">" || last == "<" || last == "!" || last == "+" ||
+                  last == "-" || last == "*" || last == "/" || last == "%" ) ) {
                 ret.pop_back();
                 ret.emplace_back( str.substr( pos - 1, 2 ) );
             } else {
                 ret.emplace_back( &str[pos], 1 );
             }
         }
-        if( !ret.empty() ) {
-            last = ret.back();
-        }
         start = pos + 1;
+    }
+    // FIXME: shameful handling for increment/decrement operators
+    if( ret.size() >= 3 &&
+        ( ( ret.at( ret.size() - 1 ) == "+" && ret.at( ret.size() - 2 ) == "+" ) ||
+          ( ret.at( ret.size() - 1 ) == "-" && ret.at( ret.size() - 2 ) == "-" ) ) ) {
+        ret.pop_back();
+        ret.pop_back();
+        ret.emplace_back( str.substr( str.size() - 2 ) );
     }
     return ret;
 }

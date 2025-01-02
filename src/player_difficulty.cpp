@@ -39,7 +39,7 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
     dummy.hobbies = u.hobbies;
 
     // set mutations
-    for( const trait_id &t : u.get_mutations( true ) ) {
+    for( const trait_id &t : u.get_functioning_mutations( true ) ) {
         dummy.set_mutation( t );
     }
 

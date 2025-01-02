@@ -351,5 +351,137 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "uberti_1873",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "reproduction .357 lever-action rifle" },
+    "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "uberti_1873",
+        "name": { "str": "Uberti 1873" },
+        "description": "The 1873 is a rifle platform developed all the way in, unsurprisingly, 1873.  This one is a fairly faithful Uberti reproduction, although the original 1873s pre-dated .357 Magnum, and even .38 Special.  This one has a case-hardened finish, wood furniture, and octagonal barrel."
+      }
+    ],
+    "//": "Stats from the .357 Short Rifle https://www.uberti-usa.com/cartridge-rifles/1873-rifle-and-carbine",
+    "weight": "3719 g",
+    "volume": "2718 ml",
+    "longest_side": "1117 mm",
+    "barrel_length": "508 mm",
+    "price": "1429 USD",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "range": 7,
+    "ammo": [ "357mag", "38" ],
+    "dispersion": 140,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 10,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "rossi_r92_357_20",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": ".357 lever-action rifle" },
+    "description": "This lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rossi_r92_357_20",
+        "name": { "str": "Rossi R92 20\"", "str_pl": "Rossi R92s 20\"" },
+        "description": "The R92 is a widely successful line of lever-action rifles from Rossi, featuring a wide array of different calibers and barrel lengths.  These aim to be less reproductions of old rifles, but rather modern takes on the lever-action formula.  This particular one features wooden furniture, a 20\" barrel, and 10 rounds of .357 Magnum or .38 Special."
+      }
+    ],
+    "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/373-r92-traditional-hardwood-stock-black-357-mag-38-special-p-20-in",
+    "weight": "2804 g",
+    "volume": "1986 ml",
+    "longest_side": "946 mm",
+    "barrel_length": "508 mm",
+    "price": "840 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "range": 7,
+    "ammo": [ "357mag", "38" ],
+    "dispersion": 140,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 10,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "rossi_r92_357_16",
+    "copy-from": "rifle_manual",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": ".357 lever-action rifle" },
+    "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rossi_r92_357_16",
+        "name": { "str": "Rossi R92 16\"", "str_pl": "Rossi R92s 16\"" },
+        "description": "The R92 is a widely successful line of lever-action rifles from Rossi, featuring a wide array of different calibers and barrel lengths.  These aim to be less reproductions of old rifles, but rather modern takes on the lever-action formula.  This particular one features wooden furniture, a 16\" barrel, and 8 rounds of .357 Magnum or .38 Special."
+      }
+    ],
+    "//": "Stats from https://rossiusa.com/rifles/lever-action-rifles/372-r92-hardwood-357-mag-38-special-p-polished-black-oxide-16-in",
+    "weight": "2662 g",
+    "volume": "1909 ml",
+    "longest_side": "843 mm",
+    "barrel_length": "406 mm",
+    "price": "833 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
+    "material": [ "steel", "wood" ],
+    "color": "dark_gray",
+    "range": 5,
+    "ammo": [ "357mag", "38" ],
+    "dispersion": 140,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 8,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 8, "38": 8 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

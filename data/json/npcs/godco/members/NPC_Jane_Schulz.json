@@ -9,16 +9,12 @@
       "TALK_GODCO_Jane_Kostas_Personal"
     ],
     "responses": [
-      {
-        "text": "How did you get here?",
-        "topic": "TALK_GODCO_Jane_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "How did you get here?", "topic": "TALK_GODCO_Jane_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
       {
         "text": "Are the non-joinees treating you fairly?",
         "topic": "TALK_GODCO_Jane_Community",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Need any help?", "topic": "TALK_GODCO_Jane_Help" },
       { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" }
@@ -35,30 +31,30 @@
       {
         "text": "Are you taking care of Arturo?",
         "topic": "TALK_GODCO_Jane_Arturo",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "How did you get here?",
         "topic": "TALK_GODCO_Jane_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things, living here?", "topic": "TALK_GODCO_Jane_Mood" },
       {
         "text": "Are the non-joinees treating you fairly?",
         "topic": "TALK_GODCO_Jane_Community",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Do you want to come with me?", "topic": "TALK_GODCO_Jane_Follow" },
       { "text": "Could you provide any medical services?", "topic": "TALK_GODCO_Jane_Heal_You" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_1",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "&Jane glaces at you, scowls, and ignores your presence.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ],
@@ -77,7 +73,7 @@
         "text": "Hi, Jane.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] }
           ]
         },
@@ -87,34 +83,34 @@
         "text": "Hi, Jane.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_jane" } ] }
           ]
         },
         "topic": "TALK_GODCO_Jane_Angry"
       },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Firstmeet",
     "dynamic_line": { "gendered_line": "Always nice to meet a fellow outsider.  How can I help you?", "relevant_genders": [ "u" ] },
-    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_2",
     "dynamic_line": "Sure, I don't see why not.  I've gotta keep my mind off stuff anyway.",
-    "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Mood",
     "dynamic_line": "I'm doing somewhat well, thanks to my occupation.  The other joinees, well, they're barely scraping by.  It's been tense, and I'm not seeing it change for the better.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -123,8 +119,8 @@
     "dynamic_line": "I was a physician, one of the more unfortunate people who didn't call in sick during the riots.  I remember it all so clearly, the cuts, bruises, deep bites, then those oily black eyes, caustic yellow blood, spastic fungal growths… it was <swear> gnarly.  Then things descended into all-new levels of fucked up, and some of my coworkers were preparing to just get the hell out.  I followed them.",
     "responses": [
       { "text": "Were you evaced'?", "topic": "TALK_GODCO_Jane_Story1" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -132,8 +128,8 @@
     "id": "TALK_GODCO_Jane_Story1",
     "dynamic_line": "No, not by the government.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -141,8 +137,8 @@
     "id": "TALK_GODCO_Jane_Community",
     "dynamic_line": "No, not really.  I came here after I was split from my friends by a horde of <zombies>.  They let me in after I gave away some food I found.  The church distrusts my profession; I get by helping Kostas.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -190,7 +186,7 @@
         "effect": [ { "u_sell_item": "icon", "count": 3 }, "give_aid" ],
         "topic": "TALK_DONE"
       },
-      { "text": "I've changed my mind.  Let's talk about something else.", "topic": "TALK_GODCO_Jane_2" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_GODCO_Jane_2" }
     ]
   },
   {
@@ -208,7 +204,7 @@
         "topic": "TALK_GODCO_Jane_2"
       },
       {
-        "text": "Let's go.",
+        "text": "<lets_go>",
         "condition": { "compare_string": [ "yes", { "npc_val": "mission_meeting_jane_willing_to_follow" } ] },
         "effect": "follow",
         "topic": "TALK_DONE"
@@ -224,7 +220,7 @@
       "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "I don't have anything right now.  Lets talk about something else.", "topic": "TALK_GODCO_Jane_2" },
+      { "text": "I don't have anything right now.  <done_conversation_section>", "topic": "TALK_GODCO_Jane_2" },
       { "text": "I don't have anything right now.  I'll come back with something later.", "topic": "TALK_DONE" }
     ]
   },

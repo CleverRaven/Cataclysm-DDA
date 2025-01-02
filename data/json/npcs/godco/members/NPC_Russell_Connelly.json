@@ -46,7 +46,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Get away from me <name_b>.  I'm not interested in whatever <swear> thing you have to say right now.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ],
@@ -71,7 +71,7 @@
         "text": "Hi, Russell.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -79,10 +79,10 @@
         "topic": "TALK_GODCO_Russell_2"
       },
       {
-        "text": "Hey, Russell.  I can't stay to talk.",
+        "text": "Hey, Russell.  <end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -92,7 +92,7 @@
         "text": "Chill out man, I'll leave you alone.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -115,7 +115,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
         "topic": "TALK_GODCO_Russell_Story"
       },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_GODCO_Russell_StoryB" }
+      { "text": "<end_talking_leave>", "topic": "TALK_GODCO_Russell_StoryB" }
     ]
   },
   {
@@ -155,7 +155,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Russell_2",
     "dynamic_line": "I've been better.  Having a hellish time keeping up with strange wildlife that suddenly want us dead… hey, let's forget the world while we're talking.  How's life treatin' ya?",
-    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -166,7 +166,7 @@
       "no": "Look, I'm just a regular God-fearing fella like you.  You gotta have something to keep your mind off stuff.  You'd get mad otherwise.  My passion happens to be collecting trophies."
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Your life, your escape mechanism…", "topic": "TALK_DONE" }
     ]
   },
@@ -177,8 +177,8 @@
     "responses": [
       { "text": "What do you do now?", "topic": "TALK_GODCO_Russell_Mood1" },
       { "text": "Could you tell me more about Betsey?", "topic": "TALK_GODCO_Russell_Betsey" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -186,8 +186,8 @@
     "id": "TALK_GODCO_Russell_Mood1",
     "dynamic_line": "I hunt with most of my time these days.  Whatever game I spot, I bag and donate.  Thing is, it's getting harder and harder.  Have you also noticed how corruption is slowly overtaking the natural wildlife in this God-given planet?  They think the flesh is just rotten.  No, it's mutated, become something else.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -196,7 +196,7 @@
     "dynamic_line": "&Russel's expression becomes somber, and he briefly stares at the wall.  \"She was my dog, had her for seventeen years.  We used to go duck-hunting, she'd swim out and get anything I shot.  She helped me track many a deer through the woods…   When <the_cataclysm> hit, she saved me from some <zombies> when we were skippin' town, but she died…  Then she came back, wasn't herself…  I had to put her down.\"",
     "responses": [
       { "text": "I'm sorry for your loss.  Let's change the subject.", "topic": "TALK_GODCO_Russell_2" },
-      { "text": "I'm sorry for your loss.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "I'm sorry for your loss.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -209,8 +209,8 @@
         "topic": "TALK_GODCO_Russell_Joinee",
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'm humbled by your words.  Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'm humbled by your words.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -218,8 +218,8 @@
     "id": "TALK_GODCO_Russell_Joinee",
     "dynamic_line": "And I hate to break it to you, but my point still stands.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'm humbled by your words.  See ya later.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'm humbled by your words.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -233,8 +233,8 @@
         "condition": { "and": [ { "npc_has_effect": "hunt_godco_russell" }, { "not": { "npc_has_effect": "trade_godco_russell" } } ] }
       },
       { "text": "Let's make a deal.", "effect": "start_trade", "topic": "TALK_GODCO_Russell_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -245,7 +245,7 @@
       "effect": [ { "u_spawn_item": "meat_smoked", "count": 3 }, { "npc_add_effect": "trade_godco_russell", "duration": "PERMANENT" } ]
     },
     "responses": [
-      { "text": "Thank you.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thank you.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Thank you.  I'll see you around, Russell.", "topic": "TALK_DONE" }
     ]
   }

@@ -1,0 +1,256 @@
+[
+  {
+    "type": "palette",
+    "id": "struc_damage",
+    "parameters": { "crashvariant": { "type": "string", "scope": "omt", "default": { "distribution": [ "fromleft", "fromright" ] } } },
+    "ter_furn_transforms": {
+      "c": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "struc_carcrash_dirt", "fromright": "tft_null" } }
+      },
+      "v": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "tft_null", "fromright": "struc_carcrash_dirt" } }
+      },
+      "w": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "struc_carcrash_rubble", "fromright": "tft_null" } }
+      },
+      "j": {
+        "transform": { "switch": { "param": "crashvariant" }, "cases": { "fromleft": "tft_null", "fromright": "struc_carcrash_rubble" } }
+      },
+      "r": { "transform": "struc_carcrash_rubble" },
+      "x": { "transform": "struc_carcrash_clear" },
+      "d": { "transform": "struc_carcrash_dirt" }
+    },
+    "fields": {
+      "m": { "field": "fd_blood", "intensity": 2 },
+      "h": { "field": "fd_blood", "intensity": 3 },
+      "k": { "field": "fd_blood", "intensity": 3 }
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "tft_null",
+    "//": "transform won't accept null in a switch statement, so for now this is the solution. Does nothing.",
+    "terrain": [ { "result": "t_null", "valid_terrain": [ "t_null" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "struc_carcrash_rubble",
+    "terrain": [
+      {
+        "result": "t_floor",
+        "valid_terrain": [
+          "t_door_white_frame",
+          "t_door_frame",
+          "t_door_lab_frame",
+          "t_door_red_frame",
+          "t_door_green_frame",
+          "t_door_gray_frame",
+          "t_mdoor_lab_frame",
+          "t_mdoor_frame"
+        ],
+        "valid_flags": [ "DOOR", "WALL", "WINDOW", "BARRICADABLE_DOOR", "BARRICADABLE_DOOR_DAMAGED" ]
+      },
+      {
+        "result": "t_dirtmoundfloor",
+        "valid_terrain": [ "t_gutter_downspout" ],
+        "valid_flags": [ "DIGGABLE", "TREE", "SHRUB", "FLOWER" ]
+      }
+    ],
+    "furniture": [ { "result": "f_rubble", "valid_furniture": [ "f_null" ], "valid_flags": [ "BLOCKSDOOR", "TRANSPARENT" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "struc_carcrash_dirt",
+    "terrain": [ { "result": "t_dirtmoundfloor", "valid_flags": [ "DIGGABLE", "TREE", "SHRUB", "FLOWER" ] } ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "BLOCKSDOOR", "TRANSPARENT" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "struc_carcrash_clear",
+    "terrain": [
+      {
+        "result": "t_floor",
+        "valid_terrain": [
+          "t_door_white_frame",
+          "t_door_frame",
+          "t_door_lab_frame",
+          "t_door_red_frame",
+          "t_door_green_frame",
+          "t_door_gray_frame",
+          "t_mdoor_lab_frame",
+          "t_mdoor_frame"
+        ],
+        "valid_flags": [ "DOOR", "WINDOW", "WALL", "BARRICADABLE_DOOR", "BARRICADABLE_DOOR_DAMAGED" ]
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "BLOCKSDOOR", "TRANSPARENT" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_10x10_rand",
+    "//": "Randomizes between the three car crash variants. The walls for the structure being damaged start at y:3.",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "palettes": [ "struc_damage" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "carcrash_10x10_straight", 33 ], [ "carcrash_10x10_diag_fromleft", 33 ], [ "carcrash_10x10_diag_fromright", 33 ] ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_10x10_straight",
+    "//": "Same as 8x8, but made to distribute with the diagonal variants of the same size.",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "palettes": [ "struc_damage" ],
+      "place_nested": [ { "chunks": [ "carcrash_8x8_straight" ], "x": [ 0, 2 ], "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_8x8_straight",
+    "//": "The walls for the structure being damaged start at y:3.",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        " cccdvvv",
+        " ccdddvv",
+        " ccdddv ",
+        " jxxxxw ",
+        " jxxxxw ",
+        "jjxxxxww",
+        "jjxxxxww",
+        "jjrrrrww"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "struc_damage" ],
+      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 90, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_8x8_straight_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_10x10_diag_fromleft",
+    "//": "The walls for the structure being damaged start at y:3.",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "dddd      ",
+        "ddddd     ",
+        "dddddddd  ",
+        "rrrrxrrrw ",
+        "rrrxxxxrrw",
+        "jrxxxxxrrw",
+        "jjrrxxxrr ",
+        "  jjjrrrw ",
+        "          ",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "struc_damage" ],
+      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 35, "status": 1, "vehicle": "cars_only", "x": 5, "y": 3 } ],
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_10x10_diag_fromleft_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_10x10_diag_fromright",
+    "//": "The walls for the structure being damaged start at y:3.",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "      dddd",
+        "     ddddd",
+        "  dddddddd",
+        " wrrrxrrrr",
+        "wrrxxxxrrr",
+        "wrrxxxxxrj",
+        " rrxxxrrjj",
+        " wrrrjjj  ",
+        "          ",
+        "          "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "struc_damage" ],
+      "place_vehicles": [ { "chance": 100, "fuel": 10, "rotation": 145, "status": 1, "vehicle": "cars_only", "x": 4, "y": 4 } ],
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "carcrash_10x10_diag_fromright_bloodcorpse", 50 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_8x8_straight_bloodcorpse",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "    m   ",
+        "    mmmm",
+        "    mhhm",
+        "    mmm ",
+        "     m  ",
+        "     m  ",
+        "    mm  ",
+        "    mm  "
+      ],
+      "place_items": [ { "item": "corpses_verydead", "x": [ 6, 7 ], "y": [ 1, 2 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_gibs_flesh", "x": [ 6, 7 ], "y": [ 1, 2 ], "intensity": [ 1, 2 ], "repeat": [ 1, 3 ] } ],
+      "palettes": [ "struc_damage" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_10x10_diag_fromleft_bloodcorpse",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "mm        ",
+        "hhmm      ",
+        "mmmmmmmmm ",
+        "       mm ",
+        "       mm ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          "
+      ],
+      "place_items": [ { "item": "corpses_verydead", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_gibs_flesh", "x": [ 0, 1 ], "y": [ 0, 1 ], "intensity": [ 1, 2 ], "repeat": [ 1, 3 ] } ],
+      "palettes": [ "struc_damage" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "carcrash_10x10_diag_fromright_bloodcorpse",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "        mm",
+        "      mhhm",
+        " mmmmmmmhm",
+        " mm       ",
+        " mm       ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          "
+      ],
+      "place_items": [ { "item": "corpses_verydead", "x": [ 8, 9 ], "y": [ 0, 1 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_gibs_flesh", "x": [ 8, 9 ], "y": [ 0, 1 ], "intensity": [ 1, 2 ], "repeat": [ 1, 3 ] } ],
+      "palettes": [ "struc_damage" ]
+    }
+  }
+]

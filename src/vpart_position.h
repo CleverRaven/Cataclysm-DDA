@@ -104,15 +104,13 @@ class vpart_position
          * `g->m.veh_at( this->pos() )` (there is a vehicle there)
          * `g->m.veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
          */
-        // Name chosen to match Creature::pos
         tripoint_bub_ms pos_bub() const;
-        tripoint pos() const; // TODO: Get rid if this untyped operation
         /**
          * Returns the mount point: the point in the vehicles own coordinate system.
          * This system is independent of movement / rotation.
          */
         // TODO: change to return tripoint.
-        point mount() const;
+        point_rel_ms mount_pos() const;
 
         // implementation required for using as std::map key
         bool operator<( const vpart_position &other ) const;

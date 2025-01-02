@@ -1,6 +1,5 @@
 #include "cata_catch.h"
 #include "clzones.h"
-#include "coordinate_constants.h"
 #include "map.h"
 #include "map_helpers.h"
 
@@ -15,11 +14,11 @@ TEST_CASE( "zones_custom", "[zones]" )
         clear_map();
         map &m = get_map();
         tripoint_abs_ms const zone_loc = m.getglobal( tripoint_bub_ms{ 5, 5, 0 } );
-        tripoint_abs_ms const zone_hammer_end = zone_loc + tripoint_north;
-        tripoint_abs_ms const zone_bowsaw_end = zone_loc + tripoint_south;
-        tripoint_abs_ms const zone_testgroup_end = zone_loc + tripoint_east;
-        tripoint_abs_ms const zone_groupbatt_end = zone_loc + tripoint_west;
-        tripoint_abs_ms const where = m.getglobal( tripoint_bub_ms_zero );
+        tripoint_abs_ms const zone_hammer_end = zone_loc + tripoint::north;
+        tripoint_abs_ms const zone_bowsaw_end = zone_loc + tripoint::south;
+        tripoint_abs_ms const zone_testgroup_end = zone_loc + tripoint::east;
+        tripoint_abs_ms const zone_groupbatt_end = zone_loc + tripoint::west;
+        tripoint_abs_ms const where = m.getglobal( tripoint_bub_ms::zero );
         item hammer( "hammer" );
         item bow_saw( "bow_saw" );
         item pants_fur( "test_pants_fur" );
@@ -32,18 +31,18 @@ TEST_CASE( "zones_custom", "[zones]" )
         }
         CAPTURE( num, bag_plastic.display_name() );
 
-        mapgen_place_zone( zone_loc.raw() + tripoint_north_west, zone_loc.raw() + tripoint_south_east,
+        mapgen_place_zone( zone_loc + tripoint::north_west, zone_loc + tripoint::south_east,
                            zone_type_LOOT_CUSTOM, your_fac, {}, "completely unrelated overlap" );
-        mapgen_place_zone( zone_loc.raw(), zone_hammer_end.raw(), zone_type_LOOT_CUSTOM, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_hammer_end, zone_type_LOOT_CUSTOM, your_fac, {},
                            "hammer" );
-        mapgen_place_zone( zone_loc.raw(), zone_bowsaw_end.raw(), zone_type_LOOT_CUSTOM, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_bowsaw_end, zone_type_LOOT_CUSTOM, your_fac, {},
                            "c:tools,-hammer" );
-        mapgen_place_zone( zone_loc.raw(), zone_testgroup_end.raw(), zone_type_LOOT_ITEM_GROUP, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_testgroup_end, zone_type_LOOT_ITEM_GROUP, your_fac, {},
                            "test_event_item_spawn" );
-        mapgen_place_zone( zone_loc.raw(), zone_groupbatt_end.raw(), zone_type_LOOT_ITEM_GROUP, your_fac, {},
+        mapgen_place_zone( zone_loc, zone_groupbatt_end, zone_type_LOOT_ITEM_GROUP, your_fac, {},
                            "test_group_disp" );
         tripoint_abs_ms const m_zone_loc = m.getglobal( tripoint_bub_ms{-5, -5, 0 } );
-        mapgen_place_zone( m_zone_loc.raw(), m_zone_loc.raw(), zone_type_LOOT_CUSTOM, your_fac, {},
+        mapgen_place_zone( m_zone_loc, m_zone_loc, zone_type_LOOT_CUSTOM, your_fac, {},
                            "plastic bag" );
 
         zone_manager &zmgr = zone_manager::get_manager();
@@ -57,42 +56,42 @@ TEST_CASE( "zones_custom", "[zones]" )
         REQUIRE( zmgr.get_near_zone_type_for_item( bag_plastic, where ) == zone_type_LOOT_CUSTOM );
 
         pset const hammerpoints =
-            zmgr.get_near( zone_type_LOOT_CUSTOM, where, ACTIVITY_SEARCH_DISTANCE, &hammer );
+            zmgr.get_near( zone_type_LOOT_CUSTOM, where, MAX_VIEW_DISTANCE, &hammer );
         REQUIRE( hammerpoints.count( tripoint_abs_ms( zone_loc ) ) == 1 );
         REQUIRE( hammerpoints.count( tripoint_abs_ms( zone_hammer_end ) ) == 1 );
         REQUIRE( hammerpoints.count( tripoint_abs_ms( zone_bowsaw_end ) ) == 0 );
         REQUIRE( hammerpoints.count( tripoint_abs_ms( zone_testgroup_end ) ) == 0 );
         REQUIRE( hammerpoints.count( tripoint_abs_ms( zone_groupbatt_end ) ) == 0 );
         pset const bowsawpoints =
-            zmgr.get_near( zone_type_LOOT_CUSTOM, where, ACTIVITY_SEARCH_DISTANCE, &bow_saw );
+            zmgr.get_near( zone_type_LOOT_CUSTOM, where, MAX_VIEW_DISTANCE, &bow_saw );
         REQUIRE( bowsawpoints.count( tripoint_abs_ms( zone_loc ) ) == 1 );
         REQUIRE( bowsawpoints.count( tripoint_abs_ms( zone_hammer_end ) ) == 0 );
         REQUIRE( bowsawpoints.count( tripoint_abs_ms( zone_bowsaw_end ) ) == 1 );
         REQUIRE( bowsawpoints.count( tripoint_abs_ms( zone_testgroup_end ) ) == 0 );
         REQUIRE( bowsawpoints.count( tripoint_abs_ms( zone_groupbatt_end ) ) == 0 );
         pset const testgrouppoints =
-            zmgr.get_near( zone_type_LOOT_ITEM_GROUP, where, ACTIVITY_SEARCH_DISTANCE, &pants_fur );
+            zmgr.get_near( zone_type_LOOT_ITEM_GROUP, where, MAX_VIEW_DISTANCE, &pants_fur );
         REQUIRE( testgrouppoints.count( tripoint_abs_ms( zone_loc ) ) == 1 );
         REQUIRE( testgrouppoints.count( tripoint_abs_ms( zone_hammer_end ) ) == 0 );
         REQUIRE( testgrouppoints.count( tripoint_abs_ms( zone_bowsaw_end ) ) == 0 );
         REQUIRE( testgrouppoints.count( tripoint_abs_ms( zone_testgroup_end ) ) == 1 );
         REQUIRE( testgrouppoints.count( tripoint_abs_ms( zone_groupbatt_end ) ) == 0 );
         pset const groupbattpoints =
-            zmgr.get_near( zone_type_LOOT_ITEM_GROUP, where, ACTIVITY_SEARCH_DISTANCE, &batt );
+            zmgr.get_near( zone_type_LOOT_ITEM_GROUP, where, MAX_VIEW_DISTANCE, &batt );
         REQUIRE( groupbattpoints.count( tripoint_abs_ms( zone_loc ) ) == 1 );
         REQUIRE( groupbattpoints.count( tripoint_abs_ms( zone_hammer_end ) ) == 0 );
         REQUIRE( groupbattpoints.count( tripoint_abs_ms( zone_bowsaw_end ) ) == 0 );
         REQUIRE( groupbattpoints.count( tripoint_abs_ms( zone_testgroup_end ) ) == 0 );
         REQUIRE( groupbattpoints.count( tripoint_abs_ms( zone_groupbatt_end ) ) == 1 );
         pset const nestedbattpoints =
-            zmgr.get_near( zone_type_LOOT_ITEM_GROUP, where, ACTIVITY_SEARCH_DISTANCE, &bag_plastic );
+            zmgr.get_near( zone_type_LOOT_ITEM_GROUP, where, MAX_VIEW_DISTANCE, &bag_plastic );
         REQUIRE( nestedbattpoints.count( tripoint_abs_ms( zone_loc ) ) == 1 );
         REQUIRE( nestedbattpoints.count( tripoint_abs_ms( zone_hammer_end ) ) == 0 );
         REQUIRE( nestedbattpoints.count( tripoint_abs_ms( zone_bowsaw_end ) ) == 0 );
         REQUIRE( nestedbattpoints.count( tripoint_abs_ms( zone_testgroup_end ) ) == 0 );
         REQUIRE( nestedbattpoints.count( tripoint_abs_ms( zone_groupbatt_end ) ) == 1 );
         pset const nbp2 =
-            zmgr.get_near( zone_type_LOOT_CUSTOM, where, ACTIVITY_SEARCH_DISTANCE, &bag_plastic );
+            zmgr.get_near( zone_type_LOOT_CUSTOM, where, MAX_VIEW_DISTANCE, &bag_plastic );
         REQUIRE( nbp2.count( tripoint_abs_ms( zone_loc ) ) == 0 );
         REQUIRE( nbp2.count( tripoint_abs_ms( zone_hammer_end ) ) == 0 );
         REQUIRE( nbp2.count( tripoint_abs_ms( zone_bowsaw_end ) ) == 0 );

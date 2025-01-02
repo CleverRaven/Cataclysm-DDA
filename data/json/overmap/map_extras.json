@@ -60,6 +60,18 @@
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
+    "id": "mx_mayhem_crash_start",
+    "type": "map_extra",
+    "name": { "str": "Car Crash" },
+    "description": "Car crash is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_mayhem_crash_start" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "M",
+    "color": "light_red",
+    "autonote": true,
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
     "id": "mx_roadblock",
     "type": "map_extra",
     "name": { "str": "Roadblock (Police)" },
@@ -284,7 +296,7 @@
     "type": "map_extra",
     "name": { "str": "Jabberwock" },
     "description": "Jabberwock is nearby.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_jabberwock" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_jabberwock" },
     "min_max_zlevel": [ -2, 5 ],
     "sym": "J",
     "color": "red",
@@ -336,7 +348,7 @@
     "sym": "p",
     "color": "blue",
     "autonote": true,
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_forest",
@@ -345,7 +357,7 @@
     "description": "Small basin is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_forest_2",
@@ -353,7 +365,7 @@
     "copy-from": "mx_pond_forest",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_forest_2" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_swamp",
@@ -362,7 +374,7 @@
     "description": "Small bog is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_pond_swamp_2",
@@ -370,7 +382,7 @@
     "copy-from": "mx_pond_swamp",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_pond_swamp_2" },
     "min_max_zlevel": [ 0, 0 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "WATER" ]
   },
   {
     "id": "mx_trees",
@@ -439,7 +451,7 @@
     "type": "map_extra",
     "name": { "str": "Clay Deposit" },
     "description": "Small clay deposit is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_clay_deposit" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_clay_deposit" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": "c",
     "color": "brown",
@@ -487,7 +499,7 @@
     "type": "map_extra",
     "name": { "str": "Burned Ground" },
     "description": "Burned ground is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_burned_ground" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "light_gray",
@@ -499,7 +511,7 @@
     "type": "map_extra",
     "name": { "str": "Burned Ground (Point)" },
     "description": "Burned ground is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_point_burned_ground" },
     "min_max_zlevel": [ 0, 5 ],
     "sym": ".",
     "color": "light_gray",
@@ -703,5 +715,16 @@
     "sym": "o",
     "color": "red",
     "autonote": true
+  },
+  {
+    "id": "mx_sandy_beach",
+    "type": "map_extra",
+    "name": { "str": "Sandy beach" },
+    "description": "A sandy beach.",
+    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_sandy_beach" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "~",
+    "color": "yellow",
+    "flags": [ "CLASSIC" ]
   }
 ]

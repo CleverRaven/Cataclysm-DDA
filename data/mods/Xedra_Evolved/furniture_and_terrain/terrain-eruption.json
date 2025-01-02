@@ -5,7 +5,7 @@
     "name": "wall of fog",
     "looks_like": "fd_fog",
     "description": "A wall of swirling fog.  Despite its constant movement, it never spreads out or escapes the rough wall-shape it's in.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
@@ -19,7 +19,7 @@
     "name": "obsidian rock",
     "looks_like": "t_rock",
     "description": "A rough wall of igneous stone.  It does not look like polished obsidian but you can see some resemblance.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "//": "use pillars, 't_column_obsidian', as a compliment.",
     "color": "white",
     "move_cost": 0,
@@ -83,7 +83,14 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": { "str_min": 100, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+    "bash": {
+      "str_min": 100,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_open_air",
+      "bash_below": false
+    }
   },
   {
     "type": "terrain",

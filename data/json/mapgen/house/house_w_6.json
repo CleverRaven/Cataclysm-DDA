@@ -32,7 +32,7 @@
         "........................"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_brick_wall", "F": "t_thconc_floor" },
+      "terrain": { "F": "t_thconc_floor" },
       "nested": {
         "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
         "3": {
@@ -107,7 +107,7 @@
         "------------------------"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_brick_wall", ".": "t_open_air", "%": "t_shingle_flat_roof" },
+      "terrain": { ".": "t_open_air", "%": "t_shingle_flat_roof" },
       "nested": {
         "1": {
           "chunks": [

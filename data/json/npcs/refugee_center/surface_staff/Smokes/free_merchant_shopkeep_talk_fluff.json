@@ -174,7 +174,7 @@
     "dynamic_line": "Other than those people with the hard drive, none that I know of.  Scavengers share some odd things, but we can't exactly go check for ourselves.  The teamster in the back bay might have some pointers, though, if you really want to know."
   },
   {
-    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Plans", "TALK_FREE_MERCHANTS_MERCHANT_Plans2" ],
+    "id": [ "TALK_FREE_MERCHANTS_MERCHANT_Plans" ],
     "type": "talk_topic",
     "dynamic_line": "Things were rough at first, and our policy of taking everyone we could caused a lot of strife later on.  Right now, we just want to get enough trade going keep ourselves afloat.  We might have to turn people away, but we've found that they're usually willing to trade with us, which is our only real source of food right now.  We're trying to turn that into a business model.  Doesn't matter who you are, we'll trade with you as long as you don't bring trouble.",
     "responses": [
@@ -188,7 +188,8 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Plans2",
     "type": "talk_topic",
-    "dynamic_line": "Right now, it's the best way we have to make sure that everyone gets what they need.  Long-term viability of business models is what people in suits used to do back before all this, and we see where that got them.  Barter is the only thing keeping us from starving, so we're going to keep doing it as long as it works or until we can start producing our own food."
+    "dynamic_line": "Right now, it's the best way we have to make sure that everyone gets what they need.  Long-term viability of business models is what people in suits used to do back before all this, and we see where that got them.  Barter is the only thing keeping us from starving, so we're going to keep doing it as long as it works or until we can start producing our own food.",
+    "responses": [ { "text": "Here's hoping it works out.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge",

@@ -103,7 +103,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet" },
-      { "text": "Hi Mangalpreet, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Mangalpreet, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -114,7 +114,7 @@
     },
     "responses": [
       { "text": "Hi, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
-      { "text": "Hi Mangalpreet.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Mangalpreet.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -123,22 +123,22 @@
     "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
     "responses": [
       { "text": "I'm a traveler actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_2",
     "dynamic_line": "Is there anything you'd like to talk about?",
-    "responses": [ { "text": "Not really.  I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Not really.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_Background",
     "dynamic_line": "Before the end of the world, I was the vice principal of an elementary school.  Now, I'm not sure what I am.  A person without a purpose.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -148,7 +148,7 @@
       "concatenate": [
         "I have my family.  I have the Guru Granth Sahib",
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 7" ],
           "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope",
           "no": ".  I have these things, but I do not have peace.  No one here does"
         },
@@ -160,8 +160,8 @@
       ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

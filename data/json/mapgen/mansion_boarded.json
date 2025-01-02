@@ -76,15 +76,14 @@
         " c    |    aa   T|    c ",
         "###++##############++###"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "|": "t_wall_r",
-        "-": "t_carpet_red",
-        "H": "t_carpet_red",
-        "E": "t_carpet_red",
-        "l": "t_carpet_red",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "o": "t_window_enhanced"
       },
       "furniture": { "&": "f_sofa" },
@@ -179,24 +178,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "N": "t_carpet_concrete_green",
-        "-": "t_carpet_concrete_green",
-        "r": "t_carpet_concrete_green",
-        "I": "t_carpet_concrete_green",
-        "T": "t_carpet_concrete_green",
-        "h": "t_carpet_concrete_green",
-        "&": "t_carpet_concrete_green",
-        "?": "t_carpet_concrete_green",
-        "A": "t_carpet_concrete_green",
-        "@": "t_carpet_concrete_green",
+        "N": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "I": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "T": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "&": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "?": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "A": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "@": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
         "/": "t_door_metal_c",
-        "%": "t_carpet_concrete_green"
+        "%": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" }
       },
       "furniture": {
         "%": "f_rack_wood",
@@ -281,8 +280,18 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "i": "t_carpet_red", "-": "t_carpet_red", ")": "t_carpet_red", "o": "t_window_enhanced" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "i": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "o": "t_window_enhanced"
+      },
       "furniture": { ")": "f_bed" },
       "place_loot": [ { "item": "television", "x": 4, "y": 16, "chance": 100 } ],
       "items": {
@@ -332,8 +341,18 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { ")": "t_carpet_red", ",": "t_carpet_red", "&": "t_door_metal_c", "o": "t_window_enhanced" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "&": "t_door_metal_c",
+        "o": "t_window_enhanced"
+      },
       "furniture": { ")": "f_bed" },
       "items": {
         "v": { "item": "mansion_safe", "chance": 100 },
@@ -392,16 +411,15 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "-": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "h": "t_carpet_purple",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof",
-        "|": "t_wall_r",
         "o": "t_window_enhanced"
       },
       "furniture": { "&": "f_bed" },
@@ -453,16 +471,15 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
-        "-": "t_carpet_yellow",
-        "&": "t_carpet_yellow",
-        "R": "t_carpet_yellow",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof",
-        "|": "t_wall_r",
         "o": "t_window_enhanced"
       },
       "furniture": { "&": "f_armchair" },
@@ -508,11 +525,16 @@
         "............[...........",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
-        "-": "t_carpet_purple",
-        "f": "t_carpet_purple",
-        "h": "t_carpet_purple",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "o": "t_window_enhanced"
       },
@@ -564,7 +586,6 @@
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "|": "t_wall_g",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof",
         "o": "t_window_enhanced",
@@ -584,7 +605,7 @@
     "om_terrain": [ "mansion_boarded_c1" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "........................",
         "........................",
@@ -611,7 +632,12 @@
         ".......#S,,,+,9|      T|",
         ".......########||++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "~": "t_water_pool",
@@ -662,12 +688,12 @@
         "~~~~~~~#TE  &xx&       #",
         "~~~~~~~##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_red",
-        "e": "t_carpet_red",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "`": "t_shingle_flat_roof",
         "%": "t_railing",
         "³": "t_floor_waxed_y",
@@ -726,10 +752,15 @@
         ".......# b |8S,t|  |UUw#",
         "....[..##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
-        "-": "t_carpet_red",
-        "e": "t_carpet_red",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "o": "t_window_enhanced"
@@ -788,14 +819,13 @@
         "~~~~~~~#T@@@I bD|   iiT#",
         "~~~~~~~##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_yellow",
-        "&": "t_carpet_yellow",
-        "?": "t_carpet_yellow",
-        "|": "t_wall_b",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof",
         ")": "t_glass_roof",
@@ -850,13 +880,18 @@
         ".......#T      R|  |Y~S|",
         ".......##########++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "&": "t_carpet_yellow",
-        "E": "t_carpet_yellow",
-        "l": "t_carpet_yellow",
-        "r": "t_carpet_yellow",
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "o": "t_window_enhanced"
       },
       "furniture": { ")": "f_table" },
@@ -903,17 +938,16 @@
         "~~~~~~~#   MMTMMy  yMMT#",
         "~~~~~~~##########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "parametrized_carpets_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_open_air_rooved",
-        "-": "t_carpet_green",
-        "A": "t_carpet_green",
-        "e": "t_carpet_green",
-        "H": "t_carpet_green",
-        "i": "t_carpet_green",
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "A": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "e": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "i": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "%": "t_railing",
-        "|": "t_wall_y",
         ")": "t_glass_roof",
         "_": "t_floor_waxed_y",
         ";": "t_floor_waxed",
@@ -965,8 +999,18 @@
         "......#Ts@@@@s T|  yi|<#",
         "......###########++#####"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "-": "t_carpet_purple", "E": "t_carpet_purple", ")": "t_carpet_purple", "o": "t_window_enhanced" },
+      "palettes": [
+        "parametrized_carpets_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        "-": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "o": "t_window_enhanced"
+      },
       "furniture": { ")": "f_bed" },
       "items": {
         ".": { "item": "clutter_yard", "chance": 1 },
@@ -1018,7 +1062,6 @@
         "=": "t_open_air_rooved",
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_shingle_flat_roof",
-        "|": "t_wall_b",
         "o": "t_window_enhanced"
       },
       "furniture": { "?": "f_dresser" },

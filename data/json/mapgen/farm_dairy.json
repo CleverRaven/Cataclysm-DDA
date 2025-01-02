@@ -117,7 +117,7 @@
         ".$$$$$$$$$$$$$$$$$fffffff$$$$$$$$$$$$$$$$$$$$$$.",
         "................................................"
       ],
-      "palettes": [ "farm_dairy_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "farm_dairy_palette" ],
       "terrain": {
         "'": "t_door_o",
         "%": "t_milking_machine",
@@ -131,10 +131,10 @@
         "S": "t_thconc_floor",
         "H": "t_thconc_floor",
         " ": "t_thconc_floor",
-        "s": "t_linoleum_white",
-        "b": "t_linoleum_white",
-        "&": "t_linoleum_white",
-        "~": "t_linoleum_white",
+        "s": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "~": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": "t_floor",
         "a": "t_region_soil",
         "|": "t_wall_w",

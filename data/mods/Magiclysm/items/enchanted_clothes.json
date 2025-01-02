@@ -48,7 +48,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_BULLET", "add": -8 }, { "value": "ARMOR_STAB", "add": -3 }, { "value": "ARMOR_CUT", "add": -3 } ]
+          "incoming_damage_mod": [ { "type": "stab", "add": -3 }, { "type": "cut", "add": -3 }, { "type": "bullet", "add": -8 } ]
         }
       ]
     }
@@ -140,19 +140,19 @@
     "id": "xl_gambeson_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL parabolan wool gambeson" },
+    "name": { "str": "parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_parabolan",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS parabolan wool gambeson" },
+    "name": { "str": "parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_parabolan_thinsleeved",
@@ -207,19 +207,19 @@
     "id": "xl_gambeson_parabolan_thinsleeved",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL thin-sleeved parabolan wool gambeson" },
+    "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_thinsleeved",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_parabolan_thinsleeved",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS thin-sleeved parabolan wool gambeson" },
+    "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_thinsleeved",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_parabolan_vest",
@@ -263,19 +263,19 @@
     "id": "xl_gambeson_parabolan_vest",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL sleeveless parabolan wool gambeson" },
+    "name": { "str": "sleeveless parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_vest",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_parabolan_vest",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS sleeveless parabolan wool gambeson" },
+    "name": { "str": "sleeveless parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_vest",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_pants_parabolan",
@@ -310,19 +310,19 @@
     "id": "xl_gambeson_pants_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL parabolan wool heavy arming pants", "str_pl": "pairs of XL parabolan wool heavy arming pants" },
+    "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "copy-from": "gambeson_pants_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_pants_parabolan",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS parabolan wool heavy arming pants", "str_pl": "pairs of XS parabolan wool heavy arming pants" },
+    "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "copy-from": "gambeson_pants_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_gloves_parabolan",
@@ -374,19 +374,19 @@
     "id": "xl_gambeson_gloves_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL parabolan wool arming mittens", "str_pl": "pairs of XL parabolan wool arming mittens" },
+    "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "copy-from": "gambeson_gloves_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gambeson_gloves_parabolan",
-    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS parabolan wool arming mittens", "str_pl": "pairs of XS parabolan wool arming mittens" },
+    "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "copy-from": "gambeson_gloves_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_lab_plus_one",

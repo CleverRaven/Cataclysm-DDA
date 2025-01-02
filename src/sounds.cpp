@@ -238,11 +238,11 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
 
 // Static globals tracking sounds events of various kinds.
 // The sound events since the last monster turn.
-static std::vector<std::pair<tripoint, monster_sound_event>> recent_sounds;
+static std::vector<std::pair<tripoint_bub_ms, monster_sound_event>> recent_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
-static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
+static std::vector<std::pair<tripoint_bub_ms, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
-static std::unordered_map<tripoint, sound_event> sound_markers;
+static std::unordered_map<tripoint_bub_ms, sound_event> sound_markers;
 
 // This is an attempt to handle attenuation of sound for underground areas.
 // The main issue it addresses is that you can hear activity
@@ -250,10 +250,10 @@ static std::unordered_map<tripoint, sound_event> sound_markers;
 // My research indicates that attenuation through soil-like materials is as
 // high as 100x the attenuation through air, plus vertical distances are
 // roughly five times as large as horizontal ones.
-static int sound_distance( const tripoint &source, const tripoint &sink )
+static int sound_distance( const tripoint_bub_ms &source, const tripoint_bub_ms &sink )
 {
-    const int lower_z = std::min( source.z, sink.z );
-    const int upper_z = std::max( source.z, sink.z );
+    const int lower_z = std::min( source.z(), sink.z() );
+    const int upper_z = std::max( source.z(), sink.z() );
     const int vertical_displacement = upper_z - lower_z;
     int vertical_attenuation = vertical_displacement;
     if( lower_z < 0 && vertical_displacement > 0 ) {
@@ -308,19 +308,14 @@ static bool is_provocative( sounds::sound_t category )
     cata_fatal( "Invalid sound_t category" );
 }
 
-void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
+void sounds::ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
                             const std::string &description )
 {
     sound( p, vol, category, description, true );
 }
 
-void sounds::ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
-                            const std::string &description )
-{
-    sounds::ambient_sound( p.raw(), vol, category, description );
-}
-
-void sounds::sound( const tripoint &p, int vol, sound_t category, const std::string &description,
+void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const std::string &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
     if( vol < 0 ) {
@@ -330,37 +325,24 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
     }
     // Description is not an optional parameter
     if( description.empty() ) {
-        debugmsg( "Sound at %d:%d has no description!", p.x, p.y );
+        debugmsg( "Sound at %d:%d has no description!", p.x(), p.y() );
     }
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
     recent_sounds.emplace_back( p, monster_sound_event{ vol, is_provocative( category ) } );
     sounds_since_last_turn.emplace_back( p,
-                                         sound_event { vol, category, description, ambient,
+                                         sound_event{ vol, category, description, ambient,
                                                  false, id, variant, seas_str } );
-}
-
-void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
-                    const std::string &description,
-                    bool ambient, const std::string &id, const std::string &variant )
-{
-    sounds::sound( p.raw(), vol, category, description, ambient, id, variant );
-}
-
-void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
-                    bool ambient, const std::string &id, const std::string &variant )
-{
-    sounds::sound( p, vol, category, description.translated(), ambient, id, variant );
 }
 
 void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
                     const translation &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
-    sounds::sound( p.raw(), vol, category, description, ambient, id, variant );
+    sounds::sound( p, vol, category, description.translated(), ambient, id, variant );
 }
 
-void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
+void sounds::add_footstep( const tripoint_bub_ms &p, int volume, int, monster *,
                            const std::string &footstep )
 {
     const season_type seas = season_of_year( calendar::turn );
@@ -380,8 +362,9 @@ static void vector_quick_remove( std::vector<C> &source, int index )
     source.pop_back();
 }
 
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, monster_sound_event>>
-        input_sounds )
+static std::vector<centroid> cluster_sounds(
+    std::vector<std::pair<tripoint_bub_ms, monster_sound_event>>
+    input_sounds )
 {
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
@@ -395,8 +378,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, mon
         std::max( std::min( input_sounds.size(), static_cast<size_t>( 10 ) ),
                   static_cast<size_t>( std::log( input_sounds.size() ) ) );
     const size_t stopping_point = input_sounds.size() - num_seed_clusters;
-    const size_t max_map_distance = sound_distance( tripoint( point_zero, OVERMAP_DEPTH ),
-                                    tripoint( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT ) );
+    const size_t max_map_distance = sound_distance( { point_bub_ms::zero, OVERMAP_DEPTH },
+    { MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT } );
     // Randomly choose cluster seeds.
     for( size_t i = input_sounds.size(); i > stopping_point; i-- ) {
         size_t index = rng( 0, i - 1 );
@@ -404,8 +387,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, mon
         sound_clusters.push_back(
             // Assure the compiler that these int->float conversions are safe.
         {
-            static_cast<float>( input_sounds[index].first.x ), static_cast<float>( input_sounds[index].first.y ),
-            static_cast<float>( input_sounds[index].first.z ),
+            static_cast<float>( input_sounds[index].first.x() ), static_cast<float>( input_sounds[index].first.y() ),
+            static_cast<float>( input_sounds[index].first.z() ),
             static_cast<float>( input_sounds[index].second.volume ), static_cast<float>( input_sounds[index].second.volume ),
             input_sounds[index].second.provocative
         } );
@@ -418,8 +401,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, mon
         for( auto centroid_iter = sound_clusters.begin(); centroid_iter != cluster_end;
              ++centroid_iter ) {
             // Scale the distance between the two by the max possible distance.
-            tripoint centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
-            const int dist = sound_distance( sound_event_pair.first, centroid_pos );
+            tripoint_bub_ms centroid_pos { static_cast<int>( centroid_iter->x ), static_cast<int>( centroid_iter->y ), static_cast<int>( centroid_iter->z ) };
+            const int dist = sound_distance( tripoint_bub_ms( sound_event_pair.first ), centroid_pos );
             if( dist * dist < dist_factor ) {
                 found_centroid = centroid_iter;
                 dist_factor = dist * dist;
@@ -428,13 +411,13 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, mon
         const float volume_sum = static_cast<float>( sound_event_pair.second.volume ) +
                                  found_centroid->weight;
         // Set the centroid location to the average of the two locations, weighted by volume.
-        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x *
+        found_centroid->x = static_cast<float>( ( sound_event_pair.first.x() *
                                                 sound_event_pair.second.volume ) +
                                                 ( found_centroid->x * found_centroid->weight ) ) / volume_sum;
-        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y *
+        found_centroid->y = static_cast<float>( ( sound_event_pair.first.y() *
                                                 sound_event_pair.second.volume ) +
                                                 ( found_centroid->y * found_centroid->weight ) ) / volume_sum;
-        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z *
+        found_centroid->z = static_cast<float>( ( sound_event_pair.first.z() *
                                                 sound_event_pair.second.volume ) +
                                                 ( found_centroid->z * found_centroid->weight ) ) / volume_sum;
         // Set the centroid volume to the larger of the volumes.
@@ -483,7 +466,7 @@ void sounds::process_sounds()
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
         const int vol = this_centroid.volume - weather_vol;
-        const tripoint source = tripoint( this_centroid.x, this_centroid.y, this_centroid.z );
+        const tripoint_bub_ms source = tripoint_bub_ms( this_centroid.x, this_centroid.y, this_centroid.z );
         // --- Monster sound handling here ---
         // Alert all hordes
         int sig_power = get_signal_for_hordes( this_centroid );
@@ -491,13 +474,13 @@ void sounds::process_sounds()
 
             const point_abs_ms abs_ms = get_map().getglobal( source ).xy();
             const point_abs_sm abs_sm( coords::project_to<coords::sm>( abs_ms ) );
-            const tripoint_abs_sm target( abs_sm, source.z );
+            const tripoint_abs_sm target( abs_sm, source.z() );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
         for( monster &critter : g->all_monsters() ) {
             // TODO: Generalize this to Creature::hear_sound
-            const int dist = sound_distance( source, critter.pos() );
+            const int dist = sound_distance( source, critter.pos_bub() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
@@ -506,12 +489,12 @@ void sounds::process_sounds()
         // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
             for( const tripoint_bub_ms &tp : get_map().trap_locations( trapType->id ) ) {
-                const int dist = sound_distance( source, tp.raw() );
+                const int dist = sound_distance( source, tp );
                 const trap &tr = get_map().tr_at( tp );
                 // Exclude traps that certainly won't hear the sound
                 if( vol * 2 > dist ) {
                     if( tr.triggered_by_sound( vol, dist ) ) {
-                        tr.trigger( tp.raw() );
+                        tr.trigger( tp );
                     }
                 }
             }
@@ -582,7 +565,7 @@ void sounds::process_sound_markers( Character *you )
         // so the references may become invalid after the vector enlarged its internal buffer
         const tripoint_bub_ms pos = tripoint_bub_ms( sounds_since_last_turn[i].first );
         const sound_event sound = sounds_since_last_turn[i].second;
-        const int distance_to_sound = sound_distance( you->pos_bub().raw(), pos.raw() );
+        const int distance_to_sound = sound_distance( you->pos_bub(), pos );
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -662,7 +645,7 @@ void sounds::process_sound_markers( Character *you )
         if( you->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( you );
-                guy->handle_sound( sound.category, description, heard_volume, pos.raw() );
+                guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
         }
@@ -769,10 +752,10 @@ void sounds::process_sound_markers( Character *you )
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         // Also show sensory sounds like SONAR even if we can see the point.
-        std::vector<tripoint> unseen_points;
+        std::vector<tripoint_bub_ms> unseen_points;
         for( const tripoint_bub_ms &newp : get_map().points_in_radius( pos, err_offset ) ) {
             if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
-                unseen_points.emplace_back( newp.raw() );
+                unseen_points.emplace_back( newp );
             }
         }
 
@@ -798,10 +781,10 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
-std::vector<tripoint> sounds::get_footstep_markers()
+std::vector<tripoint_bub_ms> sounds::get_footstep_markers()
 {
     // Optimization, make this static and clear it in reset_markers?
-    std::vector<tripoint> footsteps;
+    std::vector<tripoint_bub_ms> footsteps;
     footsteps.reserve( sound_markers.size() );
     for( const auto &mark : sound_markers ) {
         footsteps.push_back( mark.first );
@@ -809,15 +792,15 @@ std::vector<tripoint> sounds::get_footstep_markers()
     return footsteps;
 }
 
-std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_sounds()
+std::pair<std::vector<tripoint_bub_ms>, std::vector<tripoint_bub_ms>> sounds::get_monster_sounds()
 {
     auto sound_clusters = cluster_sounds( recent_sounds );
-    std::vector<tripoint> sound_locations;
+    std::vector<tripoint_bub_ms> sound_locations;
     sound_locations.reserve( recent_sounds.size() );
     for( const auto &sound : recent_sounds ) {
         sound_locations.push_back( sound.first );
     }
-    std::vector<tripoint> cluster_centroids;
+    std::vector<tripoint_bub_ms> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
     for( const centroid &sound : sound_clusters ) {
         cluster_centroids.emplace_back( static_cast<int>( sound.x ), static_cast<int>( sound.y ),
@@ -826,7 +809,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     return { sound_locations, cluster_centroids };
 }
 
-std::string sounds::sound_at( const tripoint &location )
+std::string sounds::sound_at( const tripoint_bub_ms &location )
 {
     auto this_sound = sound_markers.find( location );
     if( this_sound == sound_markers.end() ) {
@@ -958,7 +941,7 @@ void sfx::do_vehicle_engine_sfx()
     if( !is_channel_playing( ch ) ) {
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     seas_str, indoors, night,
-                                    sfx::get_heard_volume( player_character.pos() ), ch, 1000 );
+                                    sfx::get_heard_volume( player_character.pos_bub() ), ch, 1000 );
         add_msg_debug( debugmode::DF_SOUND, "START %s %s", id_and_variant.first, id_and_variant.second );
     } else {
         add_msg_debug( debugmode::DF_SOUND, "PLAYING" );
@@ -1003,11 +986,11 @@ void sfx::do_vehicle_engine_sfx()
 
     if( current_gear > previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
-                            get_heard_volume( player_character.pos() ), 0_degrees, 0.8, 0.8 );
+                            get_heard_volume( player_character.pos_bub() ), 0_degrees, 0.8, 0.8 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR UP" );
     } else if( current_gear < previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", seas_str, indoors, night,
-                            get_heard_volume( player_character.pos() ), 0_degrees, 1.2, 1.2 );
+                            get_heard_volume( player_character.pos_bub() ), 0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
     double pitch = 1.0;
@@ -1025,7 +1008,7 @@ void sfx::do_vehicle_engine_sfx()
         add_msg_debug( debugmode::DF_SOUND, "STOP speed %d =/= %d", current_speed, previous_speed );
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     seas_str, indoors, night,
-                                    sfx::get_heard_volume( player_character.pos() ), ch, 1000, pitch );
+                                    sfx::get_heard_volume( player_character.pos_bub() ), ch, 1000, pitch );
         add_msg_debug( debugmode::DF_SOUND, "PITCH %f", pitch );
     }
     previous_speed = current_speed;
@@ -1063,10 +1046,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
             vehicle.v->vehicle_noise -
-            sound_distance( player_character.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
+            sound_distance( player_character.pos_bub(), vehicle.v->pos_bub() ) > noise_factor ) {
 
-            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos(),
-                           vehicle.v->global_pos3() );
+            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos_bub(),
+                           vehicle.v->pos_bub() );
             veh = vehicle.v;
         }
     }
@@ -1105,7 +1088,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     if( is_channel_playing( ch ) ) {
         if( engine_external_id_and_variant == id_and_variant ) {
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol,
                            Mix_Volume( ch_int, -1 ) );
@@ -1115,7 +1098,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
             add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, change id/var" );
             play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                         seas_str, indoors, night, 128, ch, 0 );
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub() ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound %s %s vol: %d",
                            id_and_variant.first,
@@ -1126,7 +1109,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     seas_str, indoors, night, 128, ch, 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
-        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->global_pos3() ) ), 0 );
+        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub() ) ), 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         set_channel_volume( ch, vol );
         add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d",
@@ -1151,9 +1134,9 @@ void sfx::do_ambient()
     }
     audio_muted = false;
     const bool is_deaf = player_character.is_deaf();
-    const int heard_volume = get_heard_volume( player_character.pos() );
-    const bool is_underground = player_character.pos().z < 0;
-    const bool is_sheltered = g->is_sheltered( player_character.pos() );
+    const int heard_volume = get_heard_volume( player_character.pos_bub() );
+    const bool is_underground = player_character.posz() < 0;
+    const bool is_sheltered = g->is_sheltered( player_character.pos_bub() );
     const bool night = is_night( calendar::turn );
     const bool weather_changed =
         get_weather().weather_id != previous_weather ||
@@ -1327,7 +1310,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
-    const tripoint source = source_arg.pos();
+    const tripoint_bub_ms source = source_arg.pos_bub();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;
@@ -1343,7 +1326,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
     // this does not mean p == avatar (it could be a vehicle turret)
-    if( player_character.pos() == source ) {
+    if( player_character.pos_bub() == source ) {
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();
@@ -1356,7 +1339,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 
     } else {
         angle = get_heard_angle( source );
-        distance = sound_distance( player_character.pos(), source );
+        distance = sound_distance( player_character.pos_bub(), source );
         if( distance <= 17 ) {
             selected_sound = "fire_gun";
         } else {
@@ -1372,7 +1355,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 namespace sfx
 {
 struct sound_thread {
-    sound_thread( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
+    sound_thread( const tripoint_bub_ms &source, const tripoint_bub_ms &target, bool hit, bool targ_mon,
                   const std::string &material );
 
     bool hit;
@@ -1392,7 +1375,8 @@ struct sound_thread {
 };
 } // namespace sfx
 
-void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
+void sfx::generate_melee_sound( const tripoint_bub_ms &source, const tripoint_bub_ms &target,
+                                bool hit,
                                 bool targ_mon,
                                 const std::string &material )
 {
@@ -1417,7 +1401,8 @@ void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, 
     }
 }
 
-sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target, const bool hit,
+sfx::sound_thread::sound_thread( const tripoint_bub_ms &source, const tripoint_bub_ms &target,
+                                 const bool hit,
                                  const bool targ_mon, const std::string &material )
     : hit( hit )
     , targ_mon( targ_mon )
@@ -1508,8 +1493,8 @@ void sfx::do_projectile_hit( const Creature &target )
         return;
     }
 
-    const int heard_volume = sfx::get_heard_volume( target.pos() );
-    const units::angle angle = get_heard_angle( target.pos() );
+    const int heard_volume = sfx::get_heard_volume( target.pos_bub() );
+    const units::angle angle = get_heard_angle( target.pos_bub() );
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
     const bool indoors = !is_creature_outside( get_player_character() );
@@ -1555,7 +1540,7 @@ void sfx::do_player_death_hurt( const Character &target, bool death )
     const std::string seas_str = season_str( seas );
     const bool indoors = !is_creature_outside( get_player_character() );
     const bool night = is_night( calendar::turn );
-    int heard_volume = get_heard_volume( target.pos() );
+    int heard_volume = get_heard_volume( target.pos_bub() );
     const bool male = target.male;
     if( !male && !death ) {
         play_variant_sound( "deal_damage", "hurt_f", seas_str, indoors, night, heard_volume );
@@ -1903,7 +1888,7 @@ void sfx::do_obstacle( const std::string &obst )
         const std::string seas_str = season_str( seas );
         const bool indoors = !is_creature_outside( player_character );
         const bool night = is_night( calendar::turn );
-        int heard_volume = sfx::get_heard_volume( player_character.pos() );
+        int heard_volume = sfx::get_heard_volume( player_character.pos_bub() );
         if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
             play_variant_sound( "plmove", obst, seas_str, indoors, night,
                                 heard_volume, 0_degrees, 0.8, 1.2 );
@@ -2008,7 +1993,7 @@ void sfx::play_ambient_variant_sound( const std::string &, const std::string &, 
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
 void sfx::generate_gun_sound( const Character &, const item & ) { }
-void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
+void sfx::generate_melee_sound( const tripoint_bub_ms &, const tripoint_bub_ms &, bool, bool,
                                 const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
@@ -2046,9 +2031,9 @@ void sfx::play_variant_sound( const std::string &, const std::string &, const st
 /** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
   * without sound support. */
 /*@{*/
-int sfx::get_heard_volume( const tripoint &source )
+int sfx::get_heard_volume( const tripoint_bub_ms &source )
 {
-    int distance = sound_distance( get_player_character().pos(), source );
+    int distance = sound_distance( get_player_character().pos_bub(), source );
     // fract = -100 / 24
     const float fract = -4.166666f;
     int heard_volume = fract * distance - 1 + 100;
@@ -2059,14 +2044,9 @@ int sfx::get_heard_volume( const tripoint &source )
     return heard_volume;
 }
 
-int sfx::get_heard_volume( const tripoint_bub_ms &source )
+units::angle sfx::get_heard_angle( const tripoint_bub_ms &source )
 {
-    return sfx::get_heard_volume( source.raw() );
-}
-
-units::angle sfx::get_heard_angle( const tripoint &source )
-{
-    units::angle angle = coord_to_angle( get_player_character().pos(), source ) + 90_degrees;
+    units::angle angle = coord_to_angle( get_player_character().pos_bub(), source ) + 90_degrees;
     //add_msg(m_warning, "angle: %i", angle);
     return angle;
 }

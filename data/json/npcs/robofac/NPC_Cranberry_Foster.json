@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "robofac_merc_1",
     "name_unique": "Cranberry Foster",
-    "//": "Appears in the the surface of Hub 01 as an external mercenary.",
+    "//": "Appears in the surface of Hub 01 as an external mercenary.",
     "name_suffix": "Hub Mercenary",
     "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "NC_ROBOFAC_MERC_1",
@@ -257,11 +257,7 @@
         "condition": {
           "and": [
             {
-              "or": [
-                { "u_has_perception": 10 },
-                { "math": [ "u_skill('mechanics')", ">=", "4" ] },
-                { "math": [ "u_skill('gun')", ">=", "2" ] }
-              ]
+              "or": [ { "u_has_perception": 10 }, { "math": [ "u_skill('mechanics') >= 4" ] }, { "math": [ "u_skill('gun') >= 2" ] } ]
             },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] } }
           ]
@@ -305,7 +301,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_asked_gender" } ] } },
-            { "math": [ "n_npc_trust()", ">=", "3" ] }
+            { "math": [ "n_npc_trust() >= 3" ] }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"
@@ -701,8 +697,8 @@
         "effect": [
           { "u_consume_item": "gold_small", "count": 200 },
           { "u_spawn_item": "RobofacCoin", "count": 8 },
-          { "math": [ "n_npc_trust()", "++" ] },
-          { "math": [ "n_npc_value()", "++" ] }
+          { "math": [ "n_npc_trust()++" ] },
+          { "math": [ "n_npc_value()++" ] }
         ],
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_TRADE"
       },
@@ -772,7 +768,7 @@
     "end": {
       "effect": [
         "stop_following",
-        { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor", "++" ] },
+        { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor++" ] },
         { "npc_lose_var": "general_robofac_merc_1_temporal_follower" },
         { "u_add_var": "general_robofac_merc_1_helped_with_missions", "value": "yes" },
         { "math": [ "n_npc_trust()", "+=", "2" ] },

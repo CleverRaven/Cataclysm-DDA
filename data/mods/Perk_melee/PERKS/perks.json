@@ -1,0 +1,76 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "perk"
+  },
+  {
+    "type": "mutation",
+    "id": "perk_ma_perk_menu",
+    "name": { "str": "Practice Martial Arts" },
+    "points": 0,
+    "purifiable": false,
+    "description": "Learn new martial arts techniques and perks.",
+    "active": true,
+    "activated_eocs": [ "EOC_open_ma_perk_menu" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_BASE",
+    "name": { "str": "Melee Perk", "//~": "NO_I18N" },
+    "points": 0,
+    "description": { "str": "We copy from this one.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_CAREFREE_STANCE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Carefree Stance" },
+    "description": "You aren't even trying.\nYou clear all combat buffs whenever you wait.",
+    "flags": "MELEE_PERK_CAREFREE_STANCE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_MOVING_DODGE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Flowing Retreat" },
+    "description": "You'll attempt to move away from your attackers when you successfully dodge an attack.  You'll gain a momentum stack if you can normally gain them.",
+    "flags": "MELEE_PERK_MOVING_DODGE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_RIPOSTE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Counter Strikes" },
+    "description": "You gain +1 accuracy for two turns after a successful block.",
+    "flags": "MELEE_PERK_RIPOSTE"
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_BLOCK",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Stalwart" },
+    "description": "You have an extra block attempt per turn.",
+    "flags": "MELEE_PERK_BLOCK",
+    "enchantments": [ { "values": [ { "value": "BONUS_BLOCK", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_SHRUG_OFF",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Shrug it off" },
+    "description": "Automatically block the first attack that hits you every 15 turns.",
+    "flags": "MELEE_PERK_SHRUG_OFF",
+    "enchantments": [ "melee_perk_ench_shrug_off" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MELEE_PERK_DODGE",
+    "copy-from": "MELEE_PERK_BASE",
+    "name": { "str": "Spry footwork" },
+    "description": "You have an extra dodge attempt per turn.",
+    "flags": "MELEE_PERK_DODGE",
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
+  }
+]

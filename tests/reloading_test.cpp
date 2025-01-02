@@ -1138,7 +1138,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         map &here = get_map();
         dummy.setpos( test_origin );
-        const tripoint_bub_ms near_point = test_origin + tripoint_east;
+        const tripoint_bub_ms near_point = test_origin + tripoint::east;
 
         SECTION( "liquid in container on floor" ) {
             ammo_jug.remove_item();

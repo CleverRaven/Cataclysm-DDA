@@ -7,16 +7,15 @@
 #include <numeric>
 #include <optional>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 #include "action.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input_context.h"
+#include "json_error.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -25,34 +24,49 @@
 #include "translations.h"
 #include "ui_manager.h"
 
+class JsonObject;
+
 help &get_help()
 {
     static help single_instance;
     return single_instance;
 }
 
-void help::load()
+void help::load( const JsonObject &jo, const std::string &src )
 {
-    read_from_file_optional_json( PATH_INFO::help(), [&]( const JsonValue & jsin ) {
-        deserialize( jsin );
-    } );
+    get_help().load_object( jo, src );
 }
 
-void help::deserialize( const JsonArray &ja )
+void help::reset()
 {
-    for( JsonObject jo : ja ) {
-        if( jo.get_string( "type" ) != "help" ) {
-            debugmsg( "object with type other than \"type\" found in help text file" );
-            continue;
-        }
+    get_help().reset_instance();
+}
 
-        std::vector<translation> messages;
-        jo.read( "messages", messages );
+void help::reset_instance()
+{
+    current_order_start = 0;
+    current_src = "";
+    help_texts.clear();
+}
 
-        translation name;
-        jo.read( "name", name );
+void help::load_object( const JsonObject &jo, const std::string &src )
+{
+    if( src == "dda" ) {
+        jo.throw_error( string_format( "Vanilla help must be located in %s",
+                                       PATH_INFO::jsondir().generic_u8string() ) );
+    }
+    if( src != current_src ) {
+        current_order_start = help_texts.empty() ? 0 : help_texts.crbegin()->first + 1;
+        current_src = src;
+    }
+    std::vector<translation> messages;
+    jo.read( "messages", messages );
 
-        help_texts[ jo.get_int( "order" ) ] = std::make_pair( name, messages );
+    translation name;
+    jo.read( "name", name );
+    const int modified_order = jo.get_int( "order" ) + current_order_start;
+    if( !help_texts.try_emplace( modified_order, std::make_pair( name, messages ) ).second ) {
+        jo.throw_error_at( "order", "\"order\" must be unique (per src)" );
     }
 }
 
@@ -88,7 +102,7 @@ std::string help::get_dir_grid()
 }
 
 std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::window &win,
-                                       int selected ) const
+                                       int selected, std::map<int, input_event> &hotkeys ) const
 {
     std::map<int, inclusive_rectangle<point>> opt_map;
 
@@ -102,15 +116,22 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
     int second_column = divide_round_up( getmaxx( win ), 2 );
     size_t i = 0;
     for( const auto &text : help_texts ) {
-        const std::string cat_name = text.second.first.translated();
-        const int cat_width = utf8_width( remove_color_tags( shortcut_text( c_white, cat_name ) ) );
+        std::string cat_name;
+        auto hotkey_it = hotkeys.find( text.first );
+        if( hotkey_it != hotkeys.end() ) {
+            cat_name = colorize( hotkey_it->second.short_description(),
+                                 selected == text.first ? hilite( c_light_blue ) : c_light_blue );
+            cat_name += ": ";
+        }
+        cat_name += text.second.first.translated();
+        const int cat_width = utf8_width( remove_color_tags( cat_name ) );
         if( i < half_size ) {
             second_column = std::max( second_column, cat_width + 4 );
         }
 
         const point sc_start( i < half_size ? 1 : second_column, y + i % half_size );
-        shortcut_print( win, sc_start, selected == text.first ? hilite( c_white ) : c_white,
-                        selected == text.first ? hilite( c_light_blue ) : c_light_blue, cat_name );
+        fold_and_print( win, sc_start, getmaxx( win ) - 2,
+                        selected == text.first ? hilite( c_white ) : c_white, cat_name );
         ++i;
 
         opt_map.emplace( text.first,
@@ -168,23 +189,26 @@ void help::display_help() const
     std::map<int, inclusive_rectangle<point>> opt_map;
     int sel = -1;
 
+    const hotkey_queue &hkq = hotkey_queue::alphabets();
+    input_event next_hotkey = ctxt.first_unassigned_hotkey( hkq );
+    std::map<int, input_event> hotkeys;
+    for( const auto &text : help_texts ) {
+        hotkeys.emplace( text.first, next_hotkey );
+        next_hotkey = ctxt.next_unassigned_hotkey( hkq, next_hotkey );
+    }
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( "Help" ) );
         wnoutrefresh( w_help_border );
-        opt_map = draw_menu( w_help, sel );
+        opt_map = draw_menu( w_help, sel, hotkeys );
     } );
-
-    std::map<int, std::vector<std::string>> hotkeys;
-    for( const auto &text : help_texts ) {
-        hotkeys.emplace( text.first, get_hotkeys( text.second.first.translated() ) );
-    }
 
     do {
         ui_manager::redraw();
 
         sel = -1;
         action = ctxt.handle_input();
-        std::string sInput = ctxt.get_raw_input().text;
+        input_event input = ctxt.get_raw_input();
 
         // Mouse selection
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
@@ -196,8 +220,8 @@ void help::display_help() const
                 } );
                 if( cnt > 0 && action == "SELECT" ) {
                     auto iter = hotkeys.find( sel );
-                    if( iter != hotkeys.end() && !iter->second.empty() ) {
-                        sInput = iter->second.front();
+                    if( iter != hotkeys.end() ) {
+                        input = iter->second;
                         action = "CONFIRM";
                     }
                 }
@@ -209,58 +233,57 @@ void help::display_help() const
             if( help_text_it == help_texts.end() ) {
                 continue;
             }
-            for( const std::string &hotkey : hotkey_entry.second ) {
-                if( sInput == hotkey ) {
-                    std::vector<std::string> i18n_help_texts;
-                    i18n_help_texts.reserve( help_text_it->second.second.size() );
-                    std::transform( help_text_it->second.second.begin(), help_text_it->second.second.end(),
-                    std::back_inserter( i18n_help_texts ), [&]( const translation & line ) {
-                        std::string line_proc = line.translated();
-                        if( line_proc == "<DRAW_NOTE_COLORS>" ) {
-                            line_proc = get_note_colors();
-                        } else if( line_proc == "<HELP_DRAW_DIRECTIONS>" ) {
-                            line_proc = get_dir_grid();
-                        }
-                        size_t pos = line_proc.find( "<press_", 0, 7 );
-                        while( pos != std::string::npos ) {
-                            size_t pos2 = line_proc.find( ">", pos, 1 );
-
-                            std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
-                            std::string replace = "<color_light_blue>" +
-                                                  press_x( look_up_action( action ), "", "" ) + "</color>";
-
-                            if( replace.empty() ) {
-                                debugmsg( "Help json: Unknown action: %s", action );
-                            } else {
-                                line_proc = string_replace(
-                                                line_proc, "<press_" + std::move( action ) + ">", replace );
-                            }
-
-                            pos = line_proc.find( "<press_", pos2, 7 );
-                        }
-                        return line_proc;
-                    } );
-
-                    if( !i18n_help_texts.empty() ) {
-                        ui.on_screen_resize( nullptr );
-
-                        const auto get_w_help_border = [&]() {
-                            init_windows( ui );
-                            return w_help_border;
-                        };
-
-                        scrollable_text( get_w_help_border, _( "Help" ),
-                                         std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
-                                                          i18n_help_texts.front(),
-                        []( std::string lhs, const std::string & rhs ) {
-                            return std::move( lhs ) + "\n\n" + rhs;
-                        } ) );
-
-                        ui.on_screen_resize( init_windows );
+            if( input == hotkey_entry.second ) {
+                std::vector<std::string> i18n_help_texts;
+                i18n_help_texts.reserve( help_text_it->second.second.size() );
+                std::transform( help_text_it->second.second.begin(), help_text_it->second.second.end(),
+                std::back_inserter( i18n_help_texts ), [&]( const translation & line ) {
+                    std::string line_proc = line.translated();
+                    if( line_proc == "<DRAW_NOTE_COLORS>" ) {
+                        line_proc = get_note_colors();
+                    } else if( line_proc == "<HELP_DRAW_DIRECTIONS>" ) {
+                        line_proc = get_dir_grid();
                     }
-                    action = "CONFIRM";
-                    break;
+                    size_t pos = line_proc.find( "<press_", 0, 7 );
+                    while( pos != std::string::npos ) {
+                        size_t pos2 = line_proc.find( ">", pos, 1 );
+
+                        std::string action = line_proc.substr( pos + 7, pos2 - pos - 7 );
+                        std::string replace = "<color_light_blue>" +
+                                              press_x( look_up_action( action ), "", "" ) + "</color>";
+
+                        if( replace.empty() ) {
+                            debugmsg( "Help json: Unknown action: %s", action );
+                        } else {
+                            line_proc = string_replace(
+                                            line_proc, "<press_" + std::move( action ) + ">", replace );
+                        }
+
+                        pos = line_proc.find( "<press_", pos2, 7 );
+                    }
+                    return line_proc;
+                } );
+
+                if( !i18n_help_texts.empty() ) {
+                    ui.on_screen_resize( nullptr );
+
+                    const auto get_w_help_border = [&]() {
+                        init_windows( ui );
+                        return w_help_border;
+                    };
+
+                    scrollable_text( get_w_help_border, _( "Help" ),
+                                     std::accumulate( i18n_help_texts.begin() + 1, i18n_help_texts.end(),
+                                                      i18n_help_texts.front(),
+                    []( std::string lhs, const std::string & rhs ) {
+                        return std::move( lhs ) + "\n\n" + rhs;
+                    } ) );
+
+                    ui.on_screen_resize( init_windows );
                 }
+                action = "CONFIRM";
+                break;
+
             }
         }
     } while( action != "QUIT" );

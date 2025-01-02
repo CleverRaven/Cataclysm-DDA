@@ -116,13 +116,36 @@
   },
   {
     "type": "effect_type",
+    "id": "enchant_windrun_monster",
+    "name": [ "Windrunning" ],
+    "desc": [ "You are bolstered and pushed along by the power of the wind." ],
+    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "remove_message": "The wind at your back dies down.",
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 20 } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "dark_sight",
     "name": [ "Dark Sight" ],
     "desc": [ "You can see in the dark." ],
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape.",
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } },
+          { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } }
+        ]
+      },
+      {
+        "condition": { "and": [ { "not": "is_day" }, { "math": [ "u_spell_level('dark_sight') >= 4" ] } ] },
+        "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "u_spell_level('dark_sight') / 4" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -130,11 +153,82 @@
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],
     "max_intensity": 4,
+    "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
+    "remove_message": "The ghostly arms fade away.",
+    "show_in_info": true,
+    "//": "FIXME--top enchant is due to bug #78597",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-10 + (u_ethereal_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')<= 1" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-30 + (u_ethereal_grasp_affected_level * -4) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 2" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-20 + (u_ethereal_grasp_affected_level * -3) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 3" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-10 + (u_ethereal_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_val('size')== 4" ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_ethereal_grasp_affected_level * -1) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')>= 5" ] }, { "math": [ "u_ethereal_grasp_affected_level >= 15" ] } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + clamp( (u_ethereal_grasp_affected_level - 15), 0, -5) )* u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ethereal_grasp_monster",
+    "name": [ "Ethereal Hold" ],
+    "desc": [ "Ghostly arms are trying to hold you in place!" ],
+    "max_intensity": 4,
     "int_add_val": 1,
     "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
     "remove_message": "The ghostly arms fade away.",
-    "base_mods": { "speed_mod": [ -40 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "enchantments": [
+      { "condition": { "math": [ "u_val('size')== 1" ] }, "values": [ { "value": "SPEED", "add": -60 } ] },
+      { "condition": { "math": [ "u_val('size')== 2" ] }, "values": [ { "value": "SPEED", "add": -40 } ] },
+      { "condition": { "math": [ "u_val('size')== 3" ] }, "values": [ { "value": "SPEED", "add": -30 } ] },
+      { "condition": { "math": [ "u_val('size')== 4" ] }, "values": [ { "value": "SPEED", "add": -15 } ] },
+      { "condition": { "math": [ "u_val('size')== 5" ] }, "values": [ { "value": "SPEED", "add": -5 } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -190,12 +284,85 @@
     "name": [ "Vegetative Grasp" ],
     "desc": [ "Roots and vines entangle your foes." ],
     "max_intensity": 4,
+    "show_in_info": true,
+    "apply_message": "Roots and vines burst from the ground and entangle you!",
+    "remove_message": "The roots and vines wither up and die.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_vegetative_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-20 + (u_vegetative_grasp_affected_level * -4) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-15 + (u_vegetative_grasp_affected_level * -3) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "(-5 + (u_vegetative_grasp_affected_level * -2) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "( (u_vegetative_grasp_affected_level * -1) ) * u_evocation_spell_affected_proficiency" ] }
+          }
+        ]
+      }
+    ],
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "entangled_monster",
+    "name": [ "Vegetative Grasp" ],
+    "desc": [ "Roots and vines entangle your foes." ],
+    "max_intensity": 4,
     "int_add_val": 1,
     "show_in_info": true,
     "apply_message": "Roots and vines burst from the ground and entangle you!",
     "remove_message": "The roots and vines wither up and die.",
-    "base_mods": { "speed_mod": [ -20 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] },
+    "enchantments": [
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 1" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -40 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 2" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -30 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 3" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -20 } ]
+      },
+      {
+        "condition": { "and": [ { "math": [ "u_val('size')== 4" ] }, { "u_is_on_terrain_with_flag": "DIGGABLE" } ] },
+        "values": [ { "value": "SPEED", "add": -10 } ]
+      }
+    ],
     "flags": [ "EFFECT_IMPEDING" ]
   },
   {
@@ -207,8 +374,7 @@
     "int_add_val": 1,
     "apply_message": "Roots rip out from the ground and impale your enemies!",
     "remove_message": "The roots wither up and die.",
-    "base_mods": { "speed_mod": [ -30 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": -25 } ] } ]
   },
   {
     "type": "effect_type",
@@ -238,7 +404,7 @@
     "remove_message": "The tingling fades.",
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_ACID", "multiply": { "math": [ "((u_spell_level('acid_resistance') * -0.02) - 0.2)" ] } } ]
+        "incoming_damage_mod": [ { "type": "acid", "multiply": { "math": [ "((u_spell_level('acid_resistance') * -0.02) - 0.2)" ] } } ]
       }
     ]
   },
@@ -249,7 +415,7 @@
     "desc": [ "You are greatly protected from acid damage." ],
     "apply_message": "Your body tingles.",
     "remove_message": "The tingling fades.",
-    "enchantments": [ { "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "acid", "multiply": -0.75 } ] } ]
   },
   {
     "type": "effect_type",
@@ -303,6 +469,7 @@
     "apply_message": "Your mind accelerates.",
     "remove_message": "Your mind returns to normal speed.",
     "rating": "good",
+    "show_in_info": true,
     "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 30 ] }
   },
   {
@@ -442,6 +609,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biomancer_aura_caustic",
+    "name": [ "Caustic Aura" ],
+    "desc": [ "An aura of thin acid, swirling around your body ready to corrode your enemies when struck or while striking." ],
+    "rating": "good",
+    "enchantments": [ "ench_aura_caustic" ]
+  },
+  {
+    "type": "effect_type",
     "id": "bio_weave",
     "name": [ "Coagulant Weave" ],
     "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
@@ -500,8 +675,33 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
-    "max_duration": "1 d",
+    "max_duration": "2 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_earthshaper_petrifying_touch",
+    "name": [ "Petrified" ],
+    "desc": [ "You are made of stone.  Fortunately it's temporary." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -30 },
+          { "type": "stab", "add": -80 },
+          { "type": "cut", "add": -80 },
+          { "type": "bullet", "add": -120 },
+          { "type": "heat", "add": -80 },
+          { "type": "cold", "add": -50 },
+          { "type": "necrotic", "add": -120 },
+          { "type": "poison", "add": -120 },
+          { "type": "gravity", "multiply": -0.5 }
+        ]
+      }
+    ],
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
   },
   {
     "type": "effect_type",
@@ -682,10 +882,7 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      {
-        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
-      }
+      { "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ], "melee_damage_bonus": [ { "type": "cut", "add": 17 } ] }
     ]
   },
   {
@@ -700,13 +897,13 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
+      "ELECTRIC_VISION",
       {
         "values": [
-          { "value": "BONUS_BLOCK", "add": 1 },
           { "value": "BONUS_DODGE", "add": 1 },
-          { "value": "DEXTERITY", "add": 2 },
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 }
+          { "value": "DODGE_CHANCE", "add": { "math": [ "u_spell_level('electric_eye') / 7" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "u_spell_level('electric_eye') / 10" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "u_spell_level('electric_eye') / 5" ] } }
         ]
       }
     ]
@@ -731,7 +928,9 @@
     "remove_message": "Sparks under your skin vanish.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ARMOR_ELEC", "add": -35 } ] } ]
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "u_spell_level('electric_arts') * -1.5" ] } } ] }
+    ]
   },
   {
     "type": "effect_type",
@@ -813,7 +1012,7 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
+        "incoming_damage_mod": [ { "type": "bash", "add": -10 }, { "type": "stab", "add": -10 }, { "type": "cut", "add": -10 } ]
       }
     ]
   },
@@ -924,7 +1123,14 @@
     "max_duration": "50 minutes",
     "enchantments": [
       {
-        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] } } ]
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "not": { "npc_has_flag": "FLIES" } },
+            "distance": { "math": [ "( u_spell_level('earthshaper_danger_sense') * 3)" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
       }
     ]
   },
@@ -938,7 +1144,15 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(( u_spell_level('animist_sense_outsiders') * 2.5) + 3)" ] } } ]
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+            },
+            "distance": { "math": [ "( u_spell_level('animist_sense_outsiders') * 2.5) + 3" ] },
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          }
+        ]
       }
     ]
   },
@@ -992,10 +1206,8 @@
     "enchantments": [
       {
         "emitter": "emit_kelvinist_anti_cold",
-        "values": [
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-          { "value": "ARMOR_COLD", "add": { "math": [ "( u_spell_level('kelvinist_anti_cold') * -1)" ] } }
-        ]
+        "incoming_damage_mod": [ { "type": "cold", "add": { "math": [ "( u_spell_level('kelvinist_anti_cold') * -1)" ] } } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
       }
     ]
   },
@@ -1011,10 +1223,8 @@
     "enchantments": [
       {
         "emitter": "emit_kelvinist_anti_heat",
-        "values": [
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } }
-        ]
+        "incoming_damage_mod": [ { "type": "heat", "add": { "math": [ "( u_spell_level('kelvinist_anti_heat') * -1)" ] } } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
       }
     ]
   },
@@ -1226,18 +1436,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_petrified",
-    "name": [ "Petrified" ],
-    "desc": [ "You skin feels like stone.  You can't move." ],
-    "rating": "bad",
-    "apply_message": "Your whole body goes rigid and you can't move a muscle!",
-    "remove_message": "The rigidity fades and you can move again.",
-    "removes_effects": [ "haste", "enchant_windrun", "flask_speed_eff" ],
-    "max_intensity": 1000,
-    "flags": [ "EFFECT_IMPEDING" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_biomancer_hyper_regeneration",
     "name": [ "Rapid Regeneration" ],
     "desc": [ "You are healing unbelievably quickly." ],
@@ -1248,12 +1446,12 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
-            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
-            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
-            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
-            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
-            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+            { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') < u_hp_max('head')" ] }
           ]
         },
         "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
@@ -1329,7 +1527,7 @@
     "show_in_info": true,
     "blocks_effects": [ "blisters" ],
     "removes_effects": [ "onfire" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ],
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ] } ],
     "flags": [ "HEAT_IMMUME" ]
   },
   {
@@ -1339,7 +1537,15 @@
     "desc": [ "You have shed your physical form." ],
     "rating": "good",
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": 3 },
+          { "value": "MOVE_COST", "multiply": -0.66 },
+          { "value": "PHASE_DISTANCE", "add": 1 }
+        ]
+      }
+    ],
     "flags": [
       "ETHEREAL",
       "FEATHER_FALL",
@@ -1374,6 +1580,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_cannot_move_attack_or_damage_target",
+    "name": [ "Adamantine Gaol" ],
+    "desc": [ "You are totally immobile and invulnerable." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_traverse_the_wilds",
     "name": [ "Traverse the Wilds" ],
     "desc": [ "Nature is speeding your passage." ],
@@ -1385,6 +1601,10 @@
         "values": [
           { "value": "MOVE_COST", "multiply": { "math": [ "((u_spell_level('druid_traverse_the_wilds') * -0.015) - 0.05)" ] } }
         ]
+      },
+      {
+        "condition": { "math": [ "u_spell_level('druid_traverse_the_wilds') > 7" ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 2 } ]
       }
     ]
   },
@@ -1404,6 +1624,14 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "LEVITATION", "CLIMB_FLYING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_druid_shifter_fish_form_cant_move",
+    "//": "Hidden effect, used in an enchantment",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CANNOT_MOVE" ]
   },
   {
     "type": "effect_type",
@@ -1476,8 +1704,8 @@
   {
     "type": "effect_type",
     "id": "effect_feral_stormshaper_stormhammer",
-    "name": [ "Wielding Stormhammer" ],
-    "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
+    "name": [ { "str": "Wielding Stormhammer", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are a monster wielding a stormhammer, as this effect indicates.", "//~": "NO_I18N" } ],
     "show_in_info": true
   },
   {
@@ -1486,6 +1714,70 @@
     "//": "Longer internal cooldown for feral stormshaper hammer",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_blade",
+    "name": [ { "str": "Wielding Mage Blade", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are a monster wielding a mage blade, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_blade_cooldown",
+    "//": "Longer internal cooldown for feral mage blade",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_armor",
+    "name": [ "Mage Armor" ],
+    "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "cut", "add": -15 },
+          { "type": "bash", "add": -15 },
+          { "type": "stab", "add": -15 },
+          { "type": "bullet", "add": -15 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_mage_armor_cooldown",
+    "//": "Longer internal cooldown for feral mage armor",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_technomancer_bless",
+    "name": [ "Bless" ],
+    "desc": [ { "str": "You get bonuses to hit and dodge because monsters don't have stats.", "//~": "NO_I18N" } ],
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ 2 ], "dodge_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_high_technomancer_mage_armor",
+    "name": [ "Mage Armor" ],
+    "desc": [ { "str": "You are a monster wearing conjured armor, as this effect indicates.", "//~": "NO_I18N" } ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": 15 } ],
+        "incoming_damage_mod": [
+          { "type": "cut", "add": -30 },
+          { "type": "bash", "add": -30 },
+          { "type": "stab", "add": -30 },
+          { "type": "bullet", "add": -30 }
+        ]
+      }
+    ]
   },
   {
     "id": "effect_dispel_magic",
@@ -1498,7 +1790,6 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
-      "effect_petrified",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
@@ -1558,7 +1849,11 @@
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
       "effect_technomancer_pain_ignore",
-      "effect_feral_stormshaper_stormhammer"
+      "effect_feral_stormshaper_stormhammer",
+      "effect_feral_technomancer_mage_blade",
+      "effect_feral_technomancer_mage_armor",
+      "effect_feral_technomancer_bless",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1614,7 +1909,8 @@
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
-      { "u_remove_item_with": "technomancer_far_sight_lens" }
+      { "u_remove_item_with": "technomancer_far_sight_lens" },
+      { "u_remove_item_with": "thought_shield_item" }
     ]
   },
   {
@@ -1628,7 +1924,7 @@
     "max_duration": "2 seconds",
     "removes_effects": [
       "enchant_windrun",
-      "effect_petrified",
+      "effect_earthshaper_petrifying_touch",
       "dark_sight",
       "effect_ethereal_grasp",
       "invisibility",
@@ -1706,7 +2002,11 @@
       "effect_flame_immunity",
       "effect_burning_trail",
       "effect_ring_of_flight",
-      "effect_feral_stormshaper_stormhammer"
+      "effect_feral_stormshaper_stormhammer",
+      "effect_feral_technomancer_mage_blade",
+      "effect_feral_technomancer_mage_armor",
+      "effect_feral_technomancer_bless",
+      "enchant_windrun_monster"
     ]
   },
   {
@@ -1779,7 +2079,9 @@
       { "u_remove_item_with": "force_magical_armor" },
       { "u_remove_item_with": "subzero_talons" },
       { "u_remove_item_with": "aura_cold_energy" },
-      { "u_remove_item_with": "pocket_sun" }
+      { "u_remove_item_with": "pocket_sun" },
+      { "u_remove_item_with": "thought_shield_item" },
+      { "u_remove_item_with": "thought_shield_plus_item" }
     ]
   },
   {
@@ -1798,21 +2100,7 @@
     "rating": "good",
     "show_intensity": false,
     "show_in_info": false,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": -20 },
-          { "value": "ARMOR_CUT", "add": -20 },
-          { "value": "ARMOR_STAB", "add": -20 },
-          { "value": "ARMOR_BULLET", "add": -20 },
-          { "value": "ARMOR_HEAT", "add": -20 },
-          { "value": "ARMOR_COLD", "add": -20 },
-          { "value": "ARMOR_ELEC", "add": -20 },
-          { "value": "ARMOR_ACID", "add": -20 },
-          { "value": "ARMOR_BIO", "add": -20 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": -20 } ] } ]
   },
   {
     "id": "sun_mage_buff",

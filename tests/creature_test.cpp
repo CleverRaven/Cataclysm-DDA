@@ -5,7 +5,6 @@
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinate_constants.h"
 #include "creature.h"
 #include "enum_traits.h"
 #include "monster.h"
@@ -46,7 +45,7 @@ static void calculate_bodypart_distribution( const bool can_attack_high,
         { bodypart_id( "hand_l" ), 0 }, { bodypart_id( "hand_r" ), 0 }, { bodypart_id( "leg_l" ), 0 }, { bodypart_id( "leg_r" ), 0 }, { bodypart_id( "foot_l" ), 0 }, { bodypart_id( "foot_r" ), 0 }
     };
 
-    npc &defender = spawn_npc( point_bub_ms_zero, "thug" );
+    npc &defender = spawn_npc( point_bub_ms::zero, "thug" );
     clear_character( defender );
     REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_LOWER ) );
     REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_UPPER ) );

@@ -26,7 +26,6 @@
     "name": "feral adept",
     "description": "This feral human moves with a disturbing fluid grace.  Despite that, they bear the same crazed expression as all the others.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.1 },
     "relative": { "melee_skill": 2, "melee_dice": 1, "melee_dice_sides": -2, "dodge": 2 },
     "symbol": "@",
     "color": "pink",
@@ -53,7 +52,6 @@
     "name": { "str": "feral dervish", "str_pl": "feral dervishes" },
     "description": "Despite their appearance, this creature moves too quickly and smoothly to be truly human.  Bloodshot eyes are the only indicator that they are not some kind of perfectly precise android.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.25 },
     "relative": { "melee_skill": 4, "melee_dice": 1, "dodge": 4 },
     "color": "pink",
     "symbol": "@",
@@ -84,6 +82,16 @@
           "cooldown": 1,
           "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_biokin2_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_heightened_reflex" } } ]
+          },
+          "monster_message": "%1$s begins moving more quickly."
         }
       ],
       "flags": [ "STUN_IMMUNE" ]
@@ -96,7 +104,6 @@
     "description": "With inhumanly precise movements, this feral moves toward you.  They are clearly still alive, but their mouth is closed and their chest does not rise or fall.  As you watch, they suddenly blur into rapid motion.",
     "//": "NO_BREATHE here is due to the biokinetic Sealed System power.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.35 },
     "relative": { "melee_skill": 6, "melee_dice": 1, "dodge": 6 },
     "color": "pink",
     "symbol": "@",
@@ -148,6 +155,19 @@
             ]
           },
           "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+        },
+        {
+          "id": "psi_biokin3_heightened_reflexes",
+          "type": "spell",
+          "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+            ]
+          },
+          "monster_message": "%1$s begins moving much more quickly."
         },
         {
           "type": "monster_attack",
@@ -345,9 +365,7 @@
     "name": "avatar of the storm",
     "description": "This feral is barely visible, their body constantly wreathed in bolts of lightning.  A harsh actinic glow casts their surroundings into sharp relief while leaving their own features concealed.  Crackling lightning nearly-constantly explodes from their body and grounds itself nearby.",
     "copy-from": "mon_feral_psion_default",
-    "proportional": { "speed": 1.1 },
     "relative": { "dodge": 1 },
-    "//": "Speed due to Neuro-acceleration",
     "color": "cyan",
     "symbol": "@",
     "melee_damage": [ { "damage_type": "electric", "amount": 10 } ],
@@ -381,6 +399,19 @@
           "cooldown": { "math": [ "12 + rand(24)" ] },
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s's waves a hand at %3$s and sparks crackle over their skin!"
+        },
+        {
+          "id": "psi_electrokin3_neuro_acceleration",
+          "type": "spell",
+          "spell_data": { "id": "electrokinetic_neuro_acceleration_enhanced_monster" },
+          "cooldown": 1,
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "effect_monster_neuro_acceleration_enhanced" } }
+            ]
+          },
+          "monster_message": "%1$s begins moving much more quickly."
         },
         {
           "id": "psi_electrokin3_revive",
@@ -1325,10 +1356,10 @@
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "accuracy": 4,
           "move_cost": 60,
-          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
           "dodgeable": true,
           "blockable": true,
-          "effects": [ { "id": "effect_vitakinetic_health_down", "duration": [ 620000, 1620000 ] } ],
+          "eoc": [ "EOC_FERAL_VITAKIN1_ENERVATING_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s touches you and you feel weaker!",
           "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
@@ -1345,7 +1376,7 @@
     "id": "mon_feral_human_vita2",
     "type": "MONSTER",
     "name": "feral regenerator",
-    "description": "This feral human doesn't even have bloodshot eyes.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
+    "description": "This feral human doesn't even have bloodshot eyes.  Their skin shines, their eyes are clear, and they move with a relaxed confidence among the apocalypse.  Only the indifference of the nearby zombies indicates something is deeply wrong.",
     "copy-from": "mon_feral_psion_default",
     "proportional": { "hp": 1.45 },
     "color": "green",
@@ -1357,7 +1388,7 @@
     "bleed_rate": 0,
     "death_drops": "feral_humans_death_drops_vita",
     "zombify_into": "mon_zombie_survivor",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_vita3" },
     "extend": {
       "special_attacks": [
         { "id": "feral_weapon_pipe" },
@@ -1390,10 +1421,10 @@
           "cooldown": { "math": [ "7 + rand(14)" ] },
           "accuracy": 6,
           "move_cost": 60,
-          "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
           "dodgeable": true,
           "blockable": true,
-          "effects": [ { "id": "effect_vitakinetic_healing_down", "duration": [ 920000, 2120000 ] } ],
+          "eoc": [ "EOC_FERAL_VITAKIN2_ENERVATING_TOUCH" ],
           "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s touches you and you feel weaker!",
           "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
@@ -1408,11 +1439,117 @@
           "spell_data": { "id": "vitakinetic_regeneration_monster" },
           "cooldown": { "math": [ "10 + rand(20)" ] },
           "allow_no_target": true,
-          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_regeneration" } } ] },
           "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
         }
       ],
       "flags": [ "NO_FUNG_DMG", "WIELDED_WEAPON" ]
     }
+  },
+  {
+    "id": "mon_feral_human_vita3",
+    "type": "MONSTER",
+    "name": { "str": "font of vitality", "str_pl": "fonts of vitality" },
+    "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
+    "copy-from": "mon_feral_psion_default",
+    "proportional": { "hp": 1.75 },
+    "color": "green",
+    "symbol": "@",
+    "morale": 45,
+    "regen_morale": true,
+    "regenerates": 5,
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ], [ "effect_psi_null", -5 ], [ "effect_feral_regeneration", 10 ] ],
+    "bleed_rate": 0,
+    "zombify_into": "mon_zombie_survivor",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "death_function": {
+      "eoc": "EOC_VITAKIN3_DEATH_EFFECT",
+      "message": "As %s succumbs to their wounds, they suddenly rise up with new vigor!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "extend": {
+      "special_attacks": [
+        { "id": "feral_weapon_pipe" },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_vitakinetic_laceration",
+          "cooldown": { "math": [ "6 + rand(12)" ] },
+          "accuracy": 8,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 25 } ],
+          "effects": [
+            { "id": "bleed", "duration": [ 60, 120 ], "intensity": [ 1, 10 ], "chance": 75, "affect_hit_bp": true },
+            { "id": "psi_vitakinetic_degeneration", "duration": [ 1200, 6000 ] }
+          ],
+          "dodgeable": true,
+          "blockable": true,
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "%1$s touches you and wounds open on your flesh!",
+          "hit_dmg_npc": "%1$s touches <npcname> and wounds open on their flesh!",
+          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_vitakinetic_weakness_",
+          "cooldown": { "math": [ "6 + rand(12)" ] },
+          "accuracy": 7,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
+          "dodgeable": true,
+          "blockable": true,
+          "eoc": [ "EOC_FERAL_VITAKIN3_ENERVATING_TOUCH" ],
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "%1$s touches you and you feel weaker!",
+          "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
+          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_vitakinetic_degeneration_3",
+          "cooldown": { "math": [ "8 + rand(16)" ] },
+          "accuracy": 7,
+          "move_cost": 60,
+          "damage_max_instance": [ { "damage_type": "biological", "amount": 1 } ],
+          "dodgeable": true,
+          "blockable": true,
+          "eoc": [ "EOC_VITAKIN_FERAL_VITA3_DEGENERATING_TOUCH" ],
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "hit_dmg_u": "%1$s touches you and you feel weaker!",
+          "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
+          "miss_msg_u": "%1$s tries to touch you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to touch <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s touches you but only hits your armor.",
+          "no_dmg_msg_npc": "%1$s touches <npcname> but only hits their armor."
+        },
+        {
+          "id": "psi_vitakin3_regeneration",
+          "type": "spell",
+          "spell_data": { "id": "vitakinetic_regeneration_monster" },
+          "cooldown": { "math": [ "8 + rand(16)" ] },
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_feral_regeneration" } } ] },
+          "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
+        }
+      ],
+      "flags": [ "NO_FUNG_DMG", "WIELDED_WEAPON" ]
+    }
+  },
+  {
+    "id": "mon_feral_human_vita3_revived",
+    "type": "MONSTER",
+    "name": { "str": "font of vitality", "str_pl": "fonts of vitality" },
+    "description": "This is the healthiest person you've even seen, especially after the end of the world.  Their skin positively glows, and as you watch them brush past a jagged chunk of wood to get to you, the wound they receive immediately stops bleeding and rapidly begins to close.",
+    "copy-from": "mon_feral_human_vita3",
+    "death_drops": "feral_humans_death_drops_vita",
+    "death_function": {  }
   }
 ]

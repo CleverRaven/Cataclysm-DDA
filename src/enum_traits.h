@@ -118,4 +118,26 @@ inline bool operator!( E e )
     return !static_cast<I>( e );
 }
 
+template<typename E>
+static E &operator++( E &e )
+{
+    using I = std::underlying_type_t<E>;
+    e = static_cast<E>( static_cast<I>( e ) + 1 );
+    if( e == enum_traits<E>::last ) {
+        e = enum_traits<E>::first;
+    }
+    return e;
+}
+
+template<typename E>
+static E &operator--( E &e )
+{
+    using I = std::underlying_type_t<E>;
+    if( e == enum_traits<E>::first ) {
+        e = enum_traits<E>::last;
+    }
+    e = static_cast<E>( static_cast<I>( e ) - 1 );
+    return e;
+}
+
 #endif // CATA_SRC_ENUM_TRAITS_H

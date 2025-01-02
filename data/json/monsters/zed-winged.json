@@ -104,9 +104,10 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_flying" ],
     "vision_night": 5,
     "harvest": "zombie_animal",
+    "decay": "zombie_decay_bone",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
-    "fungalize_into": "mon_fungal_raptor",
+    "fungalize_into": "mon_spawn_raptor_dusted",
     "flags": [
       "SEES",
       "HEARS",

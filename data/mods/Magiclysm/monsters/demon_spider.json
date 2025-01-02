@@ -1,43 +1,31 @@
 [
   {
-    "type": "SPECIES",
-    "id": "DEMON_SPIDER",
-    "description": "a huge spider",
-    "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
-  },
-  {
-    "id": "demon_spider_queen",
-    "type": "harvest",
-    "//": "separate harvest entry for future special alchemical items",
-    "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
-      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
-      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
-      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
-    ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "demon_spider",
-    "base_faction": "spider"
+    "abstract": "demon_spider_base",
+    "type": "MONSTER",
+    "name": { "str": "base demon spider", "//~": "NO_I18N" },
+    "description": { "str": "abstract demon spider you shouldn't see this", "//~": "NO_I18N" },
+    "hp": 45,
+    "volume": "30 L",
+    "weight": "40750 g",
+    "symbol": "s",
+    "color": "red",
+    "default_faction": "demon_spider",
+    "bodytype": "spider",
+    "speed": 150,
+    "species": [ "DEMON_SPIDER" ],
+    "material": [ "iflesh", "demon_chitin" ],
+    "harvest": "demon_spider",
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ]
   },
   {
     "id": "mon_demon_spiderling",
     "type": "MONSTER",
     "name": "demon spiderling",
+    "copy-from": "demon_spider_base",
     "description": "Despite it being the size of a small dog, you can tell this is a very young spider.  Its red color is why you gave it this name; you have never seen this creature before the Cataclysm.  It is quick, and its large fangs drip with venom.",
-    "default_faction": "demon_spider",
-    "bodytype": "spider",
-    "species": [ "DEMON_SPIDER" ],
-    "material": [ "iflesh", "demon_chitin" ],
     "diff": 2,
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "hp": 45,
-    "speed": 150,
-    "symbol": "s",
-    "color": "red",
     "aggression": -10,
     "morale": 100,
     "melee_skill": 6,
@@ -47,20 +35,14 @@
     "dodge": 7,
     "vision_day": 5,
     "vision_night": 7,
-    "harvest": "demon_spider",
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
     "armor": { "bash": 1, "cut": 8, "stab": 8, "acid": 3, "heat": 80, "bullet": 8 }
   },
   {
     "id": "mon_demon_spider",
     "type": "MONSTER",
-    "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscous black liquid that sizzles when it touches the ground.",
     "name": "demon spider",
-    "default_faction": "demon_spider",
-    "bodytype": "spider",
-    "species": [ "DEMON_SPIDER" ],
-    "material": [ "iflesh", "demon_chitin" ],
+    "copy-from": "demon_spider_base",
+    "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscous black liquid that sizzles when it touches the ground.",
     "diff": 7,
     "weight": "125 kg",
     "//": "monster can't be any bigger because of limits of volume on tiles.  if there is a way designed around this, it should be about 3500 L",
@@ -68,7 +50,6 @@
     "hp": 435,
     "speed": 95,
     "symbol": "S",
-    "color": "red",
     "aggression": 50,
     "morale": 100,
     "melee_skill": 9,
@@ -78,10 +59,7 @@
     "dodge": 4,
     "vision_day": 6,
     "vision_night": 12,
-    "harvest": "demon_spider",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 } ],
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
     "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 80, "bullet": 60 }
   },
   {
@@ -100,7 +78,7 @@
     "vision_day": 12,
     "vision_night": 18,
     "harvest": "demon_spider_queen",
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
+    "extend": { "flags": [ "STUN_IMMUNE" ] },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_summon_demon_spiderlings" }, "cooldown": 14 } ]
   }
 ]

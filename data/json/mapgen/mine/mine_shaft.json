@@ -31,7 +31,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate", ".": "t_hole" }
+      "terrain": { "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate", ".": "t_open_air" }
     }
   },
   {

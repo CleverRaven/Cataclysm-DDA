@@ -60,8 +60,7 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
-                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) {
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
         }
 
     private:
@@ -75,6 +74,8 @@ class mission_ui_impl : public cataimgui::window
         size_t window_width = str_width_to_pixels( TERMX ) / 2;
         size_t window_height = str_height_to_pixels( TERMY ) / 2;
         size_t table_column_width = window_width / 2;
+
+        cataimgui::scroll s = cataimgui::scroll::none;
 
     protected:
         void draw_controls() override;
@@ -132,13 +133,21 @@ void mission_ui_impl::draw_controls()
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
         adjust_selected = true;
         selected_mission = 0;
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
         adjust_selected = true;
         selected_mission = 0;
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         --switch_tab;
+    } else if( last_action == "PAGE_UP" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        s = cataimgui::scroll::page_up;
+    } else if( last_action == "PAGE_DOWN" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        s = cataimgui::scroll::page_down;
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -220,6 +229,8 @@ void mission_ui_impl::draw_controls()
         draw_selected_description( umissions, selected_mission );
         ImGui::EndTable();
     }
+
+    cataimgui::set_scroll( s );
 }
 
 void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission,

@@ -6,7 +6,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EVAC_GUARD3_danger_sense",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 2" ] }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
@@ -39,7 +39,7 @@
       {
         "text": "[Telepathy 8+] *Go deeper*.",
         "topic": "TALK_EVAC_GUARD3_deep_scan",
-        "condition": { "math": [ "u_school_level('TELEPATH')", ">=", "8" ] }
+        "condition": { "math": [ "u_school_level('TELEPATH') >= 8" ] }
       }
     ]
   },
@@ -115,7 +115,7 @@
         "text": "[Brilliant Flash Check] *blind <npc_name>*",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('pyrokinetic_flash')", ">=", "1" ] },
+            { "math": [ "u_spell_level('pyrokinetic_flash') >= 1" ] },
             { "not": { "npc_has_worn_with_flag": "FLASH_PROTECTION" } }
           ]
         },
@@ -136,7 +136,7 @@
       },
       {
         "text": "[Sensory Deprivation Check] *Shut off <npc_name>'s senses*.",
-        "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('telepathic_confusion') >= 1" ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
@@ -162,7 +162,7 @@
       },
       {
         "text": "[Synaptic Overload Check] *Attack <npc_name>'s mind*.",
-        "condition": { "and": [ { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "math": [ "u_spell_level('telepathic_blast') >= 1" ] } ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
@@ -181,7 +181,7 @@
           "topic": "TALK_DONE",
           "effect": [
             "hostile",
-            { "math": [ "n_hp('head')", "=", "80 - (6 * (u_spell_level('telepathic_blast')))" ] },
+            { "math": [ "n_hp('head') = 80 - (6 * (u_spell_level('telepathic_blast')))" ] },
             { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },
@@ -192,7 +192,7 @@
       },
       {
         "text": "[Transposition Check] *Teleport away <npc_name>'s weapon*.",
-        "condition": { "math": [ "u_spell_level('teleport_transpose')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('teleport_transpose') >= 1" ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
@@ -221,7 +221,7 @@
       },
       {
         "text": "[Oubliette Check] *Banish <npc_name> to another dimension*.",
-        "condition": { "math": [ "u_spell_level('teleport_banish')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('teleport_banish') >= 1" ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
@@ -231,7 +231,7 @@
           "topic": "TALK_DONE",
           "effect": [
             { "npc_add_effect": "stunned", "duration": "2 s" },
-            { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "0 seconds" },
+            { "run_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "0 seconds" },
             { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 },
             {
               "u_message": "<npc_name> seems ready to attack you but suddenly freezes in place.  For a moment, caught between worlds, they stare straight ahead.  As the cold and the darkness of a teleport begin to overtake them and the air around them wavers like summer heat, they open their mouth to scream.\n\nAnd then, they are gone.",
@@ -278,7 +278,7 @@
         "text": "Good.",
         "topic": "TALK_DONE",
         "effect": [
-          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "run_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
           { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
         ]
       },
@@ -298,7 +298,7 @@
         "text": "…",
         "topic": "TALK_DONE",
         "effect": [
-          { "queue_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
+          { "run_eocs": [ "EOC_REMOVE_REFUGEE_CENTER_TRAITOR_BANISHED" ], "time_in_future": "4 seconds" },
           { "finish_mission": "MISSION_OLD_GUARD_REP_2", "step": 1 }
         ]
       }

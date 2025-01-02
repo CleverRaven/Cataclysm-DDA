@@ -296,6 +296,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_weldingstore" ],
+    "copy-from": "generic_city_building",
+    "name": "welding store",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_weldingstore_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "welding store roof",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_electronics",

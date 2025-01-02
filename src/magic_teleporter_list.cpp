@@ -90,7 +90,7 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
                                  60 );
     you.add_effect( effect_ignore_fall_damage, 1_seconds, false, 0, true );
     g->place_player_overmap( omt_pt );
-    g->place_player( local_dest.raw() );
+    g->place_player( rebase_bub( local_dest ) );
     return true;
 }
 

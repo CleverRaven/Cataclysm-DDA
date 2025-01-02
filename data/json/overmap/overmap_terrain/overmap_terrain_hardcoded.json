@@ -141,38 +141,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "slimepit",
-    "vision_levels": "underground_stone",
-    "name": "slime pit",
-    "sym": "~",
-    "color": "light_green",
-    "see_cost": "full_high",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "slimepit_down",
-    "vision_levels": "underground_stone",
-    "name": "slime pit",
-    "sym": "~",
-    "color": "light_green",
-    "see_cost": "full_high",
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rock",
-    "//": "This is old rock type replaced by empty_rock/deep_rock, now only used for edges of slimepits",
-    "vision_levels": "always_full",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "see_cost": "opaque",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "empty_rock",
     "name": "solid rock",
     "vision_levels": "always_full",
@@ -181,32 +149,5 @@
     "see_cost": "opaque",
     "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan",
-    "see_cost": "full_high",
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial_roof",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan",
-    "see_cost": "none",
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "tutorial_underground",
-    "name": "tutorial room",
-    "sym": "O",
-    "color": "cyan",
-    "see_cost": "full_high",
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   }
 ]

@@ -6,11 +6,15 @@
     "condition": "ALWAYS",
     "name": { "str": "Magic blade" },
     "description": "The damage done and light emitted by this sword increase with intelligence.",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_CUT",
-        "add": { "math": [ "(u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))" ] }
-      },
+        "type": "light",
+        "add": {
+          "math": [ "min( ( (u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus') ) ),40)" ]
+        }
+      }
+    ],
+    "values": [
       {
         "value": "LUMINATION",
         "add": { "math": [ "((u_val('intelligence') * 2) + (u_spell_level('holy_blade') + u_spell_level('holy_blade_plus'))) * 3" ] }
@@ -24,31 +28,41 @@
     "condition": "ALWAYS",
     "name": { "str": "Magic armor" },
     "description": "This magical armor improves with your intelligence and the spell's level.",
+    "incoming_damage_mod": [
+      {
+        "type": "bash",
+        "add": {
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
+        }
+      },
+      {
+        "type": "stab",
+        "add": {
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
+        }
+      },
+      {
+        "type": "cut",
+        "add": {
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
+        }
+      },
+      {
+        "type": "bullet",
+        "add": {
+          "math": [
+            "max( ( ( (u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1), -45)"
+          ]
+        }
+      }
+    ],
     "values": [
-      {
-        "value": "ARMOR_BASH",
-        "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
-        }
-      },
-      {
-        "value": "ARMOR_CUT",
-        "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
-        }
-      },
-      {
-        "value": "ARMOR_STAB",
-        "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
-        }
-      },
-      {
-        "value": "ARMOR_BULLET",
-        "add": {
-          "math": [ "((u_val('intelligence') * 1.5) + (u_spell_level('spirit_armor') + u_spell_level('spirit_armor_plus')) * 0.5) * -1" ]
-        }
-      },
       {
         "value": "LUMINATION",
         "add": {
@@ -64,9 +78,9 @@
     "condition": "ALWAYS",
     "name": { "str": "Storm hammer" },
     "description": "A magical hammer whose damage increases with the spell.",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ELEC",
+        "type": "electric",
         "add": { "math": [ "(5 + (1 * u_spell_level('storm_hammer')) + (1 * u_spell_level('storm_hammer_plus')))" ] }
       }
     ]
@@ -78,9 +92,9 @@
     "condition": { "not": "u_has_weapon" },
     "name": { "str": "Stormglove" },
     "description": "A coating of lighting on your hand and lower arm.",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ELEC",
+        "type": "electric",
         "add": { "math": [ "rand(5 + (1 * u_spell_level('stormfist')) + (1 * u_spell_level('stormfist_plus')))" ] }
       }
     ]
@@ -90,18 +104,18 @@
     "id": "ench_aura_caustic",
     "has": "WORN",
     "condition": "ALWAYS",
-    "name": { "str": "Caustic Aura" },
-    "description": "A thin shell of acid hangs in the air around you.",
     "hit_me_effect": [ { "id": "corrosive_aura_spell" } ],
-    "values": [
+    "incoming_damage_mod": [
       {
-        "value": "ARMOR_ACID",
+        "type": "acid",
         "add": {
           "math": [ "(-2 - (0.5 * u_spell_level('biomancer_caustic_aura')) - (0.5 * u_spell_level('biomancer_caustic_aura_plus')))" ]
         }
-      },
+      }
+    ],
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_ACID",
+        "type": "acid",
         "add": {
           "math": [ "(1 + (0.25 * u_spell_level('biomancer_caustic_aura')) + (0.25 * u_spell_level('biomancer_caustic_aura_plus')))" ]
         }
@@ -115,7 +129,7 @@
     "condition": "ALWAYS",
     "name": { "str": "Subzero Talons" },
     "description": "Icy talons to freeze your enemies.",
-    "values": [ { "value": "ITEM_DAMAGE_COLD", "add": { "math": [ "(3 + (0.5 * u_spell_level('summon_subzero_talons')))" ] } } ]
+    "melee_damage_bonus": [ { "type": "cold", "add": { "math": [ "(3 + (0.5 * u_spell_level('summon_subzero_talons')))" ] } } ]
   },
   {
     "type": "enchantment",
@@ -165,16 +179,18 @@
     "name": { "str": "Luck Bone" },
     "//": "relic_data is set when the item is created and then never changes, so each luck-bone should have random minor effects.  All deliberately picked so they can't be seen on the character sheet",
     "description": "The spirits within are giving you their blessing.",
+    "incoming_damage_mod": [
+      { "type": "bash", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "cut", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "stab", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "bullet", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "acid", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "electric", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "heat", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "cold", "add": { "math": [ "rand(3) * -1" ] } },
+      { "type": "biological", "add": { "math": [ "rand(3) * -1" ] } }
+    ],
     "values": [
-      { "value": "ARMOR_ACID", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_BASH", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_BIO", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_BULLET", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_COLD", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_CUT", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_ELEC", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_HEAT", "add": { "math": [ "rand(3) * -1" ] } },
-      { "value": "ARMOR_STAB", "add": { "math": [ "rand(3) * -1" ] } },
       { "value": "FORCEFIELD", "add": { "math": [ "rand(5) * 0.01" ] } },
       { "value": "EVASION", "add": { "math": [ "rand(5) * 0.01" ] } },
       { "value": "LEARNING_FOCUS", "add": { "math": [ "rand(5)" ] } },

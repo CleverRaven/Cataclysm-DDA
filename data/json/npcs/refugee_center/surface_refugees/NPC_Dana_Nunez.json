@@ -178,7 +178,7 @@
     "responses": [
       { "text": "Dana, hey?  Nice to meet you.  How are things here?", "topic": "TALK_REFUGEE_Dana_Situation" },
       { "text": "Nice to meet you, Dana.  What's your story?", "topic": "TALK_REFUGEE_Dana_Background" },
-      { "text": "Hi Dana, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Dana, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -191,7 +191,7 @@
         "\""
       ]
     },
-    "responses": [ { "text": "Hi Dana, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Hi Dana, nice to see you too.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -201,8 +201,8 @@
     "responses": [
       { "text": "Have you done any baking lately?", "topic": "TALK_REFUGEE_Dana_Background_baking" },
       { "text": "I'm sorry for your loss.", "topic": "TALK_REFUGEE_Dana_Background_sorry" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Dana.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -390,7 +390,7 @@
     "id": "TALK_REFUGEE_Dana_Background_baking",
     "responses": [
       { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
-      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+      { "text": "I'll look into that.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -398,15 +398,15 @@
     "id": "TALK_REFUGEE_Dana_Background_baking2_nobarter",
     "dynamic_line": "Sorry, it's not something I can bend on.  I don't make a big profit off this, I use what I get to make more bread.  If I cut you a deal, I'll run out of supplies.",
     "//": "see above for responses to buy bread at original price.",
-    "responses": [ { "text": "Thanks, but I think I'll pass.  I gotta run.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Thanks, but I think I'll pass.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_baking2_yesbarter",
     "dynamic_line": "Oh, fine.  Six cups of flour, or one merch.  I'm not going any lower, I got a business to run here.",
     "responses": [
-      { "text": "You know, I think I changed my mind.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
-      { "text": "I guess I'm outta here then.", "topic": "TALK_DONE" }
+      { "text": "You know, I think I changed my mind.  <done_conversation_section>", "topic": "TALK_REFUGEE_Dana_1" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -414,8 +414,8 @@
     "id": "TALK_REFUGEE_Dana_Background_sorry",
     "dynamic_line": "That's kind of you to say.  I'm doing my best to move on… it hurts, but in the scale of things it could be worse.  Pablo and I still have each other, that's a lot more than most.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Dana.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -443,7 +443,7 @@
         "topic": "TALK_DANA_Sourdough",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Dana_Sourdough" } ] } }
       },
-      { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
+      { "text": "It smells awesome.  <end_talking_leave>  Thanks!", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -459,7 +459,7 @@
         ],
         "topic": "TALK_DANA_Sourdough2"
       },
-      { "text": "Maybe not right now, I think I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Maybe not right now.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -491,8 +491,8 @@
     "id": "TALK_REFUGEE_Dana_Background_baking_revival",
     "dynamic_line": "Sorry, not quite yet.  Landough was in pretty rough shape.  No fault of yours, it was no good having him cooped up in a dank fridge for that long… and I think my apprentice baker may have fucked with him before the Cataclysm too.  He'd better hope he's a zombie now, because if I see him alive… anyway, it's gonna take a few more feeds before I can get him ready for prime time, check back in a couple days.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Dana.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -500,8 +500,8 @@
     "id": "TALK_REFUGEE_Dana_Situation",
     "dynamic_line": "Things are tense at the best of times.  We didn't choose this crowd, so not all of us really get along.  I like Jenny and Fatima, and the three of us are kind of lucky to have friends here, but that doesn't make up for us being a bunch of unfamiliar faces crammed into a tiny space.  Someone's gonna murder someone soon, mark my words.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Dana.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -514,8 +514,8 @@
     },
     "speaker_effect": { "effect": { "u_add_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } },
     "responses": [
-      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+      { "text": "I'll look into that.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'll look into that.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -530,8 +530,8 @@
     "dynamic_line": "Pablo's a little quicker on the trigger than I am.  We're trying to have a baby, did you know that?  It's a bit crazy in this world, but I won't change those plans.  Tell you what: if your camp has access to a doctor and some medical facilities, in case I actually can get pregnant again, I would consider getting out of here and signing up.",
     "speaker_effect": { "effect": { "u_add_var": "knowledge_dana_pregnancy", "value": "knows" } },
     "responses": [
-      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+      { "text": "I'll look into that.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I'll look into that.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -555,6 +555,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I could get my real sourdough starter…",
       "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and has been in my family for generations… if you can bring him to me, I'll bake you the finest bread you've ever had.",

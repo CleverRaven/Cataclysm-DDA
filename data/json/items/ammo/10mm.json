@@ -68,7 +68,7 @@
     "copy-from": "10mm_fmj",
     "type": "AMMO",
     "name": { "str_sp": "10mm Auto +P" },
-    "description": "'Full House' 10mm Auto ammunition with a 140gr solid copper penetrator projectile, hunting of or self-defense from dangerous game.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
+    "description": "'Full House' 10mm Auto ammunition with a 140gr solid copper penetrator projectile, for hunting or self-defense from dangerous game.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "price": "8 USD",
     "price_postapoc": "11 USD",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": 2 } },

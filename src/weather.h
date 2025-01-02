@@ -173,7 +173,7 @@ nc_color get_wind_color( double );
  * The first overload is in map-square coords, the second for larger scale
  * queries.
  */
-bool warm_enough_to_plant( const tripoint &pos );
+bool warm_enough_to_plant( const tripoint_bub_ms &pos );
 bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
 bool is_wind_blocker( const tripoint_bub_ms &location );
@@ -222,9 +222,9 @@ class weather_manager
         // The time at which weather will shift next.
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, units::temperature > temperature_cache;
+        std::unordered_map< tripoint_bub_ms, units::temperature > temperature_cache;
         // Returns outdoor or indoor temperature of given location
-        units::temperature get_temperature( const tripoint &location );
+        units::temperature get_temperature( const tripoint_bub_ms &location );
         // Returns outdoor or indoor temperature of given location
         units::temperature get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();

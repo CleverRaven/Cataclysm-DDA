@@ -70,7 +70,7 @@ static weakpoint_report damage_monster( const mtype_id &target_type, const damag
 {
     weakpoint_report ret{};
     for( int i = 0; i < attacks; i++ ) {
-        monster target{ mtype_id( target_type ), tripoint_zero };
+        monster target{ mtype_id( target_type ), tripoint_bub_ms::zero };
         ret.Accumulate( target.deal_damage( nullptr, bodypart_id( "torso" ), dam ) );
     }
 

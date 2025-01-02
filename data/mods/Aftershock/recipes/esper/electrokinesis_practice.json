@@ -34,7 +34,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_SPARK_SIGHT",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_see_electric')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('afs_electrokinetic_see_electric') >= 1" ] },
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
@@ -62,7 +62,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_SHOCK_TOUCH",
-        "condition": { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_shock_touch') >= 1" ] },
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
@@ -90,7 +90,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_ZAP_ENEMIES",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies') >= 1" ] },
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
@@ -118,7 +118,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTRO_HACKING_INTERFACE",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface') >= 1" ] },
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
@@ -146,7 +146,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTRO_PERSONAL_BATTERY",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_personal_battery')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('afs_electrokinetic_personal_battery') >= 1" ] },
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
@@ -174,7 +174,7 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_RECHARGE_VEHICLE",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle') >= 1" ] },
         "effect": [
           {
             "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",

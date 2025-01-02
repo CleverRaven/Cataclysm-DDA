@@ -159,7 +159,7 @@
           { "item": "veggy_canned_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 2, 8 ] },
           { "item": "can_tomato_jar_3l_glass_sealed_24", "chance": 30, "repeat": [ 1, 4 ] },
           { "item": "meat_canned_jar_3l_glass_sealed_12", "chance": 15, "repeat": [ 1, 4 ] },
-          { "item": "flour_bag_paper_powder_1_70", "chance": 60, "repeat": [ 2, 9 ] },
+          { "item": "flour_bag_paper_full", "chance": 60, "repeat": [ 2, 9 ] },
           { "item": "kitchen_sack", "chance": 60, "repeat": [ 1, 8 ] }
         ],
         "5": [ { "item": "SUS_bathroom_sink", "chance": 80 } ],

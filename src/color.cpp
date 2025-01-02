@@ -821,8 +821,10 @@ static void draw_header( const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
 
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, 3 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
-    mvwputch( w, point( 48, 3 ), BORDER_COLOR, LINE_OXXX ); //^|^
+    mvwaddch( w, point( 48, 3 ), LINE_OXXX ); //^|^
+    wattroff( w, BORDER_COLOR );
 
     mvwprintz( w, point( 3, 4 ), c_white, _( "Colorname" ) );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Normal" ) );
@@ -839,6 +841,7 @@ void color_manager::show_gui()
     point iOffset;
 
     std::vector<int> vLines;
+    vLines.reserve( 2 );
     vLines.push_back( -1 );
     vLines.push_back( 48 );
 
@@ -862,7 +865,7 @@ void color_manager::show_gui()
         w_colors_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                               iOffset );
         w_colors_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                              iOffset + point_south_east );
+                                              iOffset + point::south_east );
         w_colors = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                        iOffset + point( 1, iHeaderHeight + 1 ) );
 
@@ -894,32 +897,25 @@ void color_manager::show_gui()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_colors_border, BORDER_COLOR, _( "Color manager" ) );
-        mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
-                  LINE_XOXX ); // -|
+        wattron( w_colors_border, BORDER_COLOR );
+        mvwaddch( w_colors_border, point( 0, 4 ), LINE_XXXO ); // |-
+        mvwaddch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 4 ), LINE_XOXX ); // -|
 
-        for( int &iCol : vLines ) {
+        for( const int &iCol : vLines ) {
             if( iCol > -1 ) {
-                mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-                          LINE_XXOX ); // _|_
-                mvwputch( w_colors_header, point( iCol, 3 ), BORDER_COLOR, LINE_XOXO );
+                mvwaddch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX ); // _|_
+                mvwaddch( w_colors_header, point( iCol, 4 ), LINE_XOXO );
             }
         }
+        wattroff( w_colors_border, BORDER_COLOR );
         wnoutrefresh( w_colors_border );
 
         draw_header( w_colors_header );
 
         // Clear all lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
-                mvwputch( w_colors, point( j, i ), c_black, ' ' );
-
-                for( int &iCol : vLines ) {
-                    if( iCol == j ) {
-                        mvwputch( w_colors, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                    }
-                }
-            }
+        mvwrectf( w_colors, point::zero, c_black, ' ', 79, iContentHeight );
+        for( int &iCol : vLines ) {
+            mvwvline( w_colors, point( iCol, 0 ), BORDER_COLOR, LINE_XOXO, iContentHeight );
         }
 
         calcStartPos( iStartPos, iCurrentLine, iContentHeight, iMaxColors );

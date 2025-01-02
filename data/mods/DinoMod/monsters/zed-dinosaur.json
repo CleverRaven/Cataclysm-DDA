@@ -44,7 +44,7 @@
     "burn_into": "mon_zeratosaurus_scorched",
     "fungalize_into": "mon_zeratosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zeratosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ],
     "armor": { "bash": 4, "cut": 5, "bullet": 2 }
   },
   {
@@ -79,7 +79,6 @@
     "upgrades": { "half_life": 30, "into_group": "GROUP_zpinosaurus_UPGRADE" },
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "GRABS",
       "POISON",
@@ -129,20 +128,7 @@
     "burn_into": "mon_zorvosaurus_scorched",
     "fungalize_into": "mon_zorvosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zorvosaurus_UPGRADE" },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "GRABS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "DESTROYS",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM"
-    ],
+    "flags": [ "SEES", "GRABS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "dissect": "dissect_dino_large_pred",
@@ -172,7 +158,7 @@
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zallosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "GRABS", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "HEARS", "POISON", "GRABS", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
@@ -198,7 +184,7 @@
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zacrocanthosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "GRABS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 11, "cut": 4, "bullet": 2 }
   },
   {
@@ -222,7 +208,7 @@
     "burn_into": "mon_ziganotosaurus_scorched",
     "fungalize_into": "mon_ziganotosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ziganotosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "GRABS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
@@ -248,7 +234,7 @@
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ziats_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
@@ -356,7 +342,7 @@
     "burn_into": "mon_zianzhousaurus_scorched",
     "fungalize_into": "mon_zianzhousaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 3 }
   },
   {
@@ -390,7 +376,7 @@
     "burn_into": "mon_zaspletosaurus_scorched",
     "fungalize_into": "mon_zaspletosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zaspletosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -425,7 +411,6 @@
     "upgrades": { "half_life": 30, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
     "flags": [
       "SEES",
-      "SMELLS",
       "HEARS",
       "PET_MOUNTABLE",
       "POISON",
@@ -457,39 +442,54 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zallimimus",
-    "name": { "str": "gallimimus zombie" },
-    "looks_like": "mon_gallimimus",
+    "id": "mon_zedcolbertia",
+    "name": { "str": "nedcolbertia zombie" },
+    "looks_like": "mon_nedcolbertia",
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",
     "color": "green",
-    "volume": "440 L",
-    "weight": "440 kg",
+    "volume": "50 L",
+    "weight": "50 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
     "aggression": 100,
     "morale": 100,
-    "speed": 135,
-    "attack_cost": 135,
+    "speed": 130,
+    "attack_cost": 130,
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 120,
+    "hp": 80,
     "grab_strength": 35,
     "special_attacks": [ { "id": "bite_grab" }, [ "scratch", 10 ], { "type": "bite", "cooldown": 10 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.",
-    "burn_into": "mon_zallimimus_scorched",
-    "fungalize_into": "mon_zallimimus_fungus",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_zallimimus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "burn_into": "mon_zedcolbertia_scorched",
+    "fungalize_into": "mon_zedcolbertia_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zedcolbertia_UPGRADE" },
+    "flags": [ "SEES", "HEARS", "GRABS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 2 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zallimimus",
+    "name": { "str": "gallimimus zombie" },
+    "copy-from": "mon_zedcolbertia",
+    "looks_like": "mon_gallimimus",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur with a beak, covered with tattered feathers and black, putrid liquid.",
+    "volume": "440 L",
+    "weight": "440 kg",
+    "speed": 135,
+    "attack_cost": 135,
+    "burn_into": "mon_zallimimus_scorched",
+    "fungalize_into": "mon_zallimimus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zallimimus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -732,7 +732,7 @@
       [ "scratch", 10 ],
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
     ],
-    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "GRABS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 8, "cut": 8, "bullet": 6 }
   },
   {
@@ -1112,7 +1112,7 @@
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zankylosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ],
@@ -1178,7 +1178,7 @@
     "burn_into": "mon_zenontosaurus_scorched",
     "fungalize_into": "mon_zenontosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zenontosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ],
@@ -1214,7 +1214,7 @@
     "burn_into": "mon_zryosaurus_scorched",
     "fungalize_into": "mon_zryosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zryosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ],
@@ -1250,7 +1250,7 @@
     "burn_into": "mon_zamptosaurus_scorched",
     "fungalize_into": "mon_zamptosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zamptosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ],
@@ -1509,7 +1509,7 @@
     "burn_into": "mon_zachycephalosaurus_scorched",
     "fungalize_into": "mon_zachycephalosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ],
@@ -1567,6 +1567,24 @@
     "fungalize_into": "mon_zzuniceratops_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zzuniceratops_UPGRADE" },
     "special_attacks": [ [ "LUNGE", 10 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zokiceratops",
+    "name": { "str": "lokiceratops zombie" },
+    "copy-from": "mon_zriceratops",
+    "//": "When large weights and volumes are fixed this should be 5000 L and 5000 kg",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_skill": 5,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "hp": 375,
+    "description": "A massive, shambling, four-legged dinosaur with a bony head crest with two large horns that curve out and down, two long brow horns, and a beak.  Its eyes ooze black, putrid tears.",
+    "burn_into": "mon_zokiceratops_scorched",
+    "fungalize_into": "mon_zokiceratops_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zokiceratops_UPGRADE" },
+    "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 40 ], { "type": "bite", "cooldown": 5 } ]
   },
   {
     "type": "MONSTER",
@@ -1675,7 +1693,7 @@
     "fungalize_into": "mon_zosmoceratops_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zosmoceratops_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 6, "cut": 7, "bullet": 4 }
   },
   {
@@ -1720,6 +1738,22 @@
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
     ],
     "armor": { "bash": 5, "cut": 7, "bullet": 3 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zona",
+    "name": { "str": "fona zombie" },
+    "copy-from": "mon_zescelosaurus",
+    "volume": "50 L",
+    "weight": "50 kg",
+    "speed": 80,
+    "attack_cost": 80,
+    "melee_dice": 1,
+    "hp": 60,
+    "description": "A shambling, two-legged dinosaur corpse with claws and a long tail.  Its eyes ooze black, putrid tears.",
+    "burn_into": "mon_zona_scorched",
+    "fungalize_into": "mon_zona_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zona_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1774,20 +1808,7 @@
     "burn_into": "mon_zteranodon_scorched",
     "fungalize_into": "mon_zteranodon_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zteranodon_brute" },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "BASHES",
-      "FLIES",
-      "HIT_AND_RUN"
-    ],
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES", "FLIES", "HIT_AND_RUN" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ],
@@ -1886,6 +1907,39 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zallimimus_juvenile",
+    "name": { "str": "juvenile gallimimus zombie" },
+    "copy-from": "mon_zallimimus",
+    "looks_like": "mon_gallimimus",
+    "upgrades": { "half_life": 30, "into": "mon_zallimimus" },
+    "volume": "220 L",
+    "weight": "220 kg",
+    "hp": 60
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ztruthiomimus_juvenile",
+    "name": { "str": "juvenile struthiomimus zombie" },
+    "copy-from": "mon_ztruthiomimus",
+    "looks_like": "mon_gallimimus",
+    "upgrades": { "half_life": 30, "into": "mon_ztruthiomimus" },
+    "volume": "220 L",
+    "weight": "220 kg",
+    "hp": 60
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zornithomimus_juvenile",
+    "name": { "str": "juvenile ornithomimus zombie" },
+    "copy-from": "mon_zornithomimus",
+    "looks_like": "mon_gallimimus",
+    "upgrades": { "half_life": 30, "into": "mon_zornithomimus" },
+    "volume": "220 L",
+    "weight": "220 kg",
+    "hp": 60
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zarahsaurus_juvenile",
     "name": { "str": "juvenile sarahsaurus zombie" },
     "copy-from": "mon_zapatosaurus_juvenile",
@@ -1967,7 +2021,7 @@
     "burn_into": "mon_zapatosaurus_scorched",
     "fungalize_into": "mon_zapatosaurus_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zapatosaurus" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ],

@@ -1,4 +1,6 @@
-# Background & Introduction
+# Guide to Reviewing PRs
+
+## Background & Introduction
 
 As the CDDA project grows, it is becoming harder for the few volunteers in project management to keep constant tabs on what gets merged.  Over the years, we've found there are two possible ways this shakes out.  Whenever the lead devs are away for real-life reasons for a while, either we get a huge backlog of PRs, or we wind up with a few things getting merged that really shouldn't have been.  This leads to having to revert work by enthusiastic and well-meaning contributors, which we consider a very bad outcome.  This document aims to do two things to reduce this:
 

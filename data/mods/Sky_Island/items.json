@@ -58,7 +58,8 @@
   {
     "type": "ARMOR",
     "id": "warpbag_base",
-    "name": { "str": "warped bag" },
+    "name": { "str": "warped bag", "//~": "NO_I18N" },
+    "description": { "str": "This is a template you shouldn't actually see.", "//~": "NO_I18N" },
     "symbol": "[",
     "color": "light_gray",
     "material": [ "alien_resin" ],
@@ -80,7 +81,6 @@
     "weight": "400 g",
     "volume": "2000 ml",
     "longest_side": "11 meter",
-    "description": "This is a template you shouldn't actually see.",
     "armor": [
       {
         "coverage": 0,
@@ -308,6 +308,28 @@
     "flags": [ "UNBREAKABLE" ],
     "weight": "100 g",
     "volume": "200 ml"
+  },
+  {
+    "id": "warped_autodoc_upgrader_1",
+    "type": "TOOL",
+    "name": { "str": "warped autodoc enhancer" },
+    "description": "A small device, so complex you can't entirely tell what it does.  You can see a miniature chair, a bed, some kind of machine, a computer console, a tangle of mechanical arms, all changing from moment to moment.  When used on an existing autodoc mark XI, you can upgrade it to a more advanced XXII model.",
+    "volume": "5 ml",
+    "weight": "5 g",
+    "material": [ "alien_resin" ],
+    "symbol": "A",
+    "color": "pink"
+  },
+  {
+    "id": "warped_autodoc_upgrader_2",
+    "type": "TOOL",
+    "name": { "str": "warped autodoc augmenter" },
+    "description": "A small device, so complex you can't entirely tell what it does.  You can see a miniature chair, a bed, some kind of machine, a computer console, a tangle of mechanical arms, all changing from moment to moment.  When used on an advanced autodoc mark XXII, you can upgrade it to its most advanced XXXIII form.",
+    "volume": "5 ml",
+    "weight": "5 g",
+    "material": [ "alien_resin" ],
+    "symbol": "A",
+    "color": "pink"
   },
   {
     "id": "warp_grassbag",

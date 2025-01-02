@@ -373,7 +373,9 @@ void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 void scen_blacklist::finalize()
 {
     std::vector<string_id<scenario>> all_scens;
-    for( const scenario &scen : scenario::get_all() ) {
+    std::vector<scenario> all_scenarios = scenario::get_all();
+    all_scens.reserve( all_scenarios.size() );
+    for( const scenario &scen : all_scenarios ) {
         all_scens.emplace_back( scen.ident() );
     }
     for( const string_id<scenario> &sc : sc_blacklist.scenarios ) {

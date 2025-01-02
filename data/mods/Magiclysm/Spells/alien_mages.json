@@ -2,8 +2,8 @@
   {
     "id": "monster_heal_spell",
     "type": "SPELL",
-    "name": "Heal Self Monster ",
-    "description": "A spell for a monster to heal themselves.  How DARE they!",
+    "name": { "str": "Heal Self Monster ", "//~": "NO_I18N" },
+    "description": { "str": "A spell for a monster to heal themselves.  How DARE they!", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
     "effect": "attack",
@@ -16,8 +16,8 @@
   {
     "id": "migo_fleshwarper_blood_poison_spell",
     "type": "SPELL",
-    "name": "Blood Poison Monster",
-    "description": "Projects a spray of acrid blood and gore all around the monster while also doing damage.",
+    "name": { "str": "Blood Poison Monster", "//~": "NO_I18N" },
+    "description": { "str": "Projects a spray of acrid blood and gore all around the monster while also doing damage.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_AOE", "SPLIT_DAMAGE" ],
     "effect": "attack",
@@ -42,8 +42,8 @@
   {
     "id": "migo_fleshwarper_mutate",
     "type": "SPELL",
-    "name": "Fleshwarp Target ",
-    "description": "A spell for the mi-go fleshwarper to cause a random mutation.",
+    "name": { "str": "Fleshwarp Target", "//~": "NO_I18N" },
+    "description": { "str": "A spell for the mi-go fleshwarper to cause a random mutation.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "//": "Random 25% to 75% chance to cause a mutation",
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
@@ -57,8 +57,11 @@
   {
     "id": "migo_nethermancer_summon_nether",
     "type": "SPELL",
-    "name": "Summon Nether Being",
-    "description": "A spell for the mi-go nethermancer to summon a nether being.  It's a bug if you have this.",
+    "name": { "str": "Summon Nether Being", "//~": "NO_I18N" },
+    "description": {
+      "str": "A spell for the mi-go nethermancer to summon a nether being.  It's a bug if you have this.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "ground" ],
     "flags": [ "HOSTILE_SUMMON", "LOUD", "NO_PROJECTILE", "SPAWN_GROUP" ],
     "shape": "blast",
@@ -77,8 +80,8 @@
   {
     "id": "sorcerer_hand_monster",
     "type": "SPELL",
-    "name": "Sorcerer's Hand Monster",
-    "description": "Pull a target or set of items to you.",
+    "name": { "str": "Sorcerer's Hand Monster", "//~": "NO_I18N" },
+    "description": { "str": "Pull a target or set of items to you.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
     "effect": "pull_target",
@@ -92,8 +95,8 @@
   {
     "id": "teleport_anchor_monster",
     "type": "SPELL",
-    "name": "Teleport Anchor Monster",
-    "description": "Prevent the target from being able to teleport.",
+    "name": { "str": "Teleport Anchor Monster", "//~": "NO_I18N" },
+    "description": { "str": "Prevent the target from being able to teleport.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",
@@ -111,8 +114,8 @@
   {
     "id": "triffid_brambles_arc",
     "type": "SPELL",
-    "name": "Triffid Summon Brambles",
-    "description": "Call up brambles to trap a pathetic mammal.  This is the triffid version with no math.",
+    "name": { "str": "Triffid Summon Brambles", "//~": "NO_I18N" },
+    "description": { "str": "Call up brambles to trap a pathetic mammal.  This is the triffid version with no math.", "//~": "NO_I18N" },
     "valid_targets": [ "ground", "hostile" ],
     "effect": "ter_transform",
     "effect_str": "druid_summoned_brambles",
@@ -129,8 +132,11 @@
   {
     "id": "triffid_summon_tanglevine",
     "type": "SPELL",
-    "name": "Summon Tanglevine",
-    "description": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
+    "name": { "str": "Summon Tanglevine", "//~": "NO_I18N" },
+    "description": {
+      "str": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "ground" ],
     "flags": [ "RANDOM_AOE", "RANDOM_DURATION", "HOSTILE_SUMMON" ],
     "effect": "summon",
@@ -150,8 +156,8 @@
   {
     "id": "triffid_pollen_cone",
     "type": "SPELL",
-    "name": { "str": "Pollen Spray" },
-    "description": "Spews pollen in a cone.",
+    "name": { "str": "Pollen Spray", "//~": "NO_I18N" },
+    "description": { "str": "Spews pollen in a cone.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground" ],
     "max_level": 5,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ],
@@ -170,8 +176,8 @@
   {
     "id": "triffid_pollen_heal",
     "type": "SPELL",
-    "name": { "str": "Pollen Heal" },
-    "description": "Heals other triffids.",
+    "name": { "str": "Pollen Heal", "//~": "NO_I18N" },
+    "description": { "str": "Heals other triffids.", "//~": "NO_I18N" },
     "valid_targets": [ "ally" ],
     "max_level": 5,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
@@ -187,8 +193,8 @@
   {
     "id": "triffid_pollen_speed",
     "type": "SPELL",
-    "name": { "str": "Pollen enhancement" },
-    "description": "Increases the speed of other triffids.",
+    "name": { "str": "Pollen enhancement", "//~": "NO_I18N" },
+    "description": { "str": "Increases the speed of other triffids.", "//~": "NO_I18N" },
     "valid_targets": [ "ally" ],
     "max_level": 8,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
@@ -205,8 +211,8 @@
   {
     "id": "triffid_pollen_blind",
     "type": "SPELL",
-    "name": { "str": "Pollen blinding" },
-    "description": "Blind target and emit pollen.",
+    "name": { "str": "Pollen blinding", "//~": "NO_I18N" },
+    "description": { "str": "Blind target and emit pollen.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "max_level": 8,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
@@ -223,8 +229,8 @@
   {
     "id": "triffid_pollen_emit",
     "type": "SPELL",
-    "name": { "str": "Pollen Emit Spell" },
-    "description": "Causes a pollen emit when the triffid seedshaper uses other spells.",
+    "name": { "str": "Pollen Emit Spell", "//~": "NO_I18N" },
+    "description": { "str": "Causes a pollen emit when the triffid seedshaper uses other spells.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],

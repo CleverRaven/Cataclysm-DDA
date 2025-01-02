@@ -380,7 +380,11 @@
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
           {
-            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "distribution": [
+              { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] },
+              { "item": "smallweldtank", "prob": 100, "count": [ 1, 3 ] }
+            ],
             "prob": 100
           },
           {
@@ -394,6 +398,7 @@
       },
       [ "oxy_torch", 60 ],
       { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "smallweldtank", "prob": 60, "count": [ 1, 3 ] },
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },

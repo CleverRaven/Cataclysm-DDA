@@ -240,19 +240,21 @@
     "blocks_effects": [ "bleed", "hypovolemia", "dermatik" ],
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_CUT",
-            "add": { "math": [ "( -4 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
-          },
-          {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "add": { "math": [ "( -6 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
           },
           {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "add": { "math": [ "( -3 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
           },
+          {
+            "type": "cut",
+            "add": { "math": [ "( -4 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling" ] }
+          }
+        ],
+        "values": [
           {
             "value": "PAIN",
             "multiply": {
@@ -606,14 +608,20 @@
     "max_intensity": 58,
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "value": "MOTION_VISION_RANGE",
-            "add": {
+            "condition": {
+              "or": [
+                { "and": [ { "not": "npc_is_character" }, { "math": [ "n_val('anger') >= 10" ] } ] },
+                { "and": [ "npc_is_character", "npc_hostile" ] }
+              ]
+            },
+            "distance": {
               "math": [
                 "( ( u_spell_level('clair_danger_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense a danger here." } ]
           }
         ]
       }
@@ -665,31 +673,7 @@
       {
         "values": [
           {
-            "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
-          },
-          {
-            "value": "ARMOR_COLD",
+            "value": "ARMOR_ALL",
             "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           }
         ]
@@ -972,14 +956,23 @@
     "max_intensity": 83,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_ELECTRIC",
-            "add": {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
           }
         ]
       }
@@ -1247,7 +1240,21 @@
     "desc": [ "You're just another survivor.  There's definitely nothing odd about you at all." ],
     "rating": "good",
     "remove_message": "The illusions around you fall away.",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "UGLINESS",
+            "multiply": {
+              "math": [
+                "max(((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 )) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1258,6 +1265,13 @@
     "remove_message": "You stop paying attention to the radio waves around you.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokin_sterilization",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1666,7 +1680,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "blocks_effects": [ "blisters" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ] } ],
     "flags": [ "HEAT_IMMUNE" ]
   },
   {
@@ -1681,17 +1695,9 @@
     "max_intensity": 41,
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_CUT",
-            "multiply": {
-              "math": [
-                "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1699,7 +1705,7 @@
             }
           },
           {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1707,13 +1713,23 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('telekinetic_momentum') * -0.005 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "multiply": {
               "math": [
                 "( ( u_spell_level('telekinetic_momentum') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
-          },
+          }
+        ],
+        "values": [
           {
             "value": "MOVE_COST",
             "multiply": {
@@ -1818,17 +1834,9 @@
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_CUT",
-            "add": {
-              "math": [
-                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "add": {
               "math": [
                 "( -2 + ( u_spell_level('telekinetic_shield') * -0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1836,7 +1844,7 @@
             }
           },
           {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "add": {
               "math": [
                 "( -5 + ( u_spell_level('telekinetic_shield') * -1.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1844,7 +1852,15 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "add": {
+              "math": [
+                "( -3 + ( u_spell_level('telekinetic_shield') * -1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "add": {
               "math": [
                 "( -12 + ( u_spell_level('telekinetic_shield') * -2.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
@@ -1880,11 +1896,11 @@
     "removes_effects": [ "grabbed" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "add": -100000 },
-          { "value": "ARMOR_BASH", "add": -100000 },
-          { "value": "ARMOR_STAB", "add": -100000 },
-          { "value": "ARMOR_BULLET", "add": -100000 }
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -100000 },
+          { "type": "stab", "add": -100000 },
+          { "type": "cut", "add": -100000 },
+          { "type": "bullet", "add": -100000 }
         ]
       }
     ],
@@ -1934,14 +1950,16 @@
     "max_intensity": 50,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_MINDS",
-            "add": {
+            "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [ { "id": "sense_minds", "symbol": "?", "color": "c_white", "text": "You sense something sapient here." } ]
           }
         ]
       }
@@ -2405,24 +2423,21 @@
   {
     "type": "effect_type",
     "id": "effect_vita_super_heal",
+    "name": [ "Anabolic Rejuvenation" ],
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "30 seconds",
-              "spell_effects": [ { "id": "vita_super_heal_healing" }, { "id": "vita_super_heal_drain" } ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vita_degenerating_touch",
+    "name": [ "Degenerating" ],
+    "desc": [ "You flesh is withering and decaying!" ],
+    "rating": "bad",
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -3 ], "hit_mod": [ -3 ] },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -1 }, { "value": "SPEED", "multiply": -0.33 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2430,26 +2445,7 @@
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good",
-    "removes_effects": [ "bleed" ],
-    "enchantments": [
-      {
-        "intermittent_activation": {
-          "effects": [
-            {
-              "frequency": "1 seconds",
-              "spell_effects": [
-                { "id": "vita_super_heal_healing" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" },
-                { "id": "vita_super_heal_drain" }
-              ]
-            }
-          ]
-        }
-      }
-    ],
-    "flags": [ "BLEED_IMMUNE" ]
+    "rating": "good"
   },
   {
     "type": "effect_type",

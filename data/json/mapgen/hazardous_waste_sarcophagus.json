@@ -55,7 +55,8 @@
         " ffffffffffffffffffffffffffffffffffffffffffffff ",
         "                                                "
       ],
-      "fill_ter": "t_linoleum_white",
+      "palettes": [ "parametrized_linoleum_palette" ],
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "terrain": {
         " ": [ [ "t_region_groundcover", 40 ], [ "t_region_shrub", 2 ], [ "t_region_tree", 1 ] ],
         "f": "t_chainfence",
@@ -119,6 +120,11 @@
         "c": { "item": "office_supplies", "chance": 60 },
         "b": { "item": "lab_bookshelves", "chance": 60, "repeat": 2 },
         "l": { "item": "cleaning", "chance": 85, "repeat": 2 },
+        "A": [
+          { "item": "toxic_dump_equipment", "chance": 85, "repeat": [ 1, 2 ] },
+          { "item": "tools_common", "chance": 85, "repeat": [ 1, 2 ] },
+          { "item": "cleaning", "chance": 85, "repeat": 2 }
+        ],
         "F": { "item": "office_paper", "chance": 50 }
       },
       "place_item": [ { "item": "id_military", "x": 22, "y": 20 }, { "item": "cleansuit", "x": 28, "y": 24 } ],

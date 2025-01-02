@@ -16,13 +16,13 @@
         "if": { "u_has_trait": "hair_buzzcut" },
         "then": [
           { "u_lose_trait": "hair_buzzcut" },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
+          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
         ],
         "else": {
           "if": { "u_has_trait": "hair_crewcut" },
           "then": [
             { "u_lose_trait": "hair_crewcut" },
-            { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
+            { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
           ],
           "else": {
             "if": {
@@ -40,7 +40,7 @@
               { "u_lose_trait": "hair_short_over_eye" },
               { "u_lose_trait": "hair_modern" },
               { "u_lose_trait": "hair_detective" },
-              { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
+              { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
             ],
             "else": {
               "if": {
@@ -56,13 +56,13 @@
                 { "u_lose_trait": "hair_puff" },
                 { "u_lose_trait": "hair_beaded" },
                 { "u_lose_trait": "hair_curls" },
-                { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
+                { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
               ],
               "else": {
                 "if": { "u_has_trait": "hair_mohawk" },
                 "then": [
                   { "u_lose_trait": "hair_mohawk" },
-                  { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
+                  { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
                 ],
                 "else": {
                   "if": {
@@ -82,14 +82,14 @@
                     { "u_lose_trait": "hair_long_over_eye" },
                     { "u_lose_trait": "hair_mullet" },
                     { "u_lose_trait": "hair_bun" },
-                    { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
+                    { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
                   ],
                   "else": {
                     "if": { "or": [ { "u_has_trait": "hair_messy" }, { "u_has_trait": "hair_punk_long" } ] },
                     "then": [
                       { "u_lose_trait": "hair_messy" },
                       { "u_lose_trait": "hair_punk_long" },
-                      { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
+                      { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
                     ],
                     "else": {
                       "if": { "or": [ { "u_has_trait": "hair_very_long" }, { "u_has_trait": "hair_twintails" }, { "u_has_trait": "hair_braid" } ] },
@@ -97,19 +97,13 @@
                         { "u_lose_trait": "hair_very_long" },
                         { "u_lose_trait": "hair_twintails" },
                         { "u_lose_trait": "hair_braid" },
-                        {
-                          "run_eoc_with": "reset_natural_hair_color",
-                          "variables": { "trait_id": "hair_extremely_long" }
-                        }
+                        { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
                       ],
                       "else": {
                         "if": { "or": [ { "u_has_trait": "hair_extremely_long" } ] },
                         "then": [
                           { "u_lose_trait": "hair_extremely_long" },
-                          {
-                            "run_eoc_with": "reset_natural_hair_color",
-                            "variables": { "trait_id": "hair_body_length" }
-                          }
+                          { "run_eocs": "reset_natural_hair_color", "variables": { "trait_id": "hair_body_length" } }
                         ]
                       }
                     }
@@ -424,7 +418,7 @@
     "condition": { "u_has_item": "hair_dye_black" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "black" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "black" } }
     ],
     "false_effect": [ { "u_message": "You don't have any black hair dye!" } ]
   },
@@ -434,7 +428,7 @@
     "condition": { "u_has_item": "hair_dye_blond" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "blond" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "blond" } }
     ],
     "false_effect": [ { "u_message": "You don't have any blond hair dye!" } ]
   },
@@ -444,7 +438,7 @@
     "condition": { "u_has_item": "hair_dye_blue" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "blue" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "blue" } }
     ],
     "false_effect": [ { "u_message": "You don't have any blue hair dye!" } ]
   },
@@ -454,7 +448,7 @@
     "condition": { "u_has_item": "hair_dye_brown" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "brown" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "brown" } }
     ],
     "false_effect": [ { "u_message": "You don't have any brown hair dye!" } ]
   },
@@ -464,7 +458,7 @@
     "condition": { "u_has_item": "hair_dye_gray" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "gray" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "gray" } }
     ],
     "false_effect": [ { "u_message": "You don't have any gray hair dye!" } ]
   },
@@ -474,7 +468,7 @@
     "condition": { "u_has_item": "hair_dye_green" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "green" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "green" } }
     ],
     "false_effect": [ { "u_message": "You don't have any green hair dye!" } ]
   },
@@ -484,7 +478,7 @@
     "condition": { "u_has_item": "hair_dye_red" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "red" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "red" } }
     ],
     "false_effect": [ { "u_message": "You don't have any red hair dye!" } ]
   },
@@ -494,7 +488,7 @@
     "condition": { "u_has_item": "hair_dye_pink" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "pink" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "pink" } }
     ],
     "false_effect": [ { "u_message": "You don't have any pink hair dye!" } ]
   },
@@ -504,7 +498,7 @@
     "condition": { "u_has_item": "hair_dye_white" },
     "effect": [
       { "u_message": "You finish dyeing your hair." },
-      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "white" } }
+      { "run_eocs": "apply_hair_dye", "variables": { "color_id": "white" } }
     ],
     "false_effect": [ { "u_message": "You don't have any white hair dye!" } ]
   }

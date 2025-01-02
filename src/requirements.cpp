@@ -836,6 +836,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
         const read_only_visitable &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
+    output_buffer.reserve( 2 );
     output_buffer.push_back( colorize( _( "Tools required:" ), col ) );
     if( tools.empty() && qualities.empty() ) {
         output_buffer.push_back( colorize( "> ", col ) + colorize( _( "NONE" ), c_green ) );
@@ -1323,7 +1324,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             std::vector<item *> del;
             craft_components.visit_items( [&comp, &qty, &del]( item * e, item * ) {
                 std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
+                if( e->use_charges( comp.type, qty, used, tripoint_bub_ms::zero ) ) {
                     del.push_back( e );
                 }
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;

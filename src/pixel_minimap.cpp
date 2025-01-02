@@ -54,7 +54,7 @@ point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
             return { std::max( tile_size.x - 1, 1 ), std::max( tile_size.y - 1, 1 ) };
 
         case pixel_minimap_mode::dots:
-            return { point_south_east };
+            return { point::south_east };
     }
 
     return {};
@@ -87,11 +87,11 @@ SDL_Color get_map_color_at( const tripoint &p )
 {
     const map &here = get_map();
     if( const optional_vpart_position vp = here.veh_at( p ) ) {
-        const vpart_display vd = vp->vehicle().get_display_of_tile( vp->mount() );
+        const vpart_display vd = vp->vehicle().get_display_of_tile( vp->mount_pos() );
         return curses_color_to_SDL( vd.color );
     }
 
-    if( const furn_id furn_id = here.furn( p ) ) {
+    if( const furn_id &furn_id = here.furn( p ) ) {
         return curses_color_to_SDL( furn_id->color() );
     }
 
@@ -548,7 +548,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 }
 
 //the main call for drawing the pixel minimap to the screen
-void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
+void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center )
 {
     if( !g ) {
         return;
@@ -559,8 +559,8 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     }
 
     set_screen_rect( screen_rect );
-    process_cache( center );
-    render( center );
+    process_cache( center.raw() );
+    render( center.raw() );
 }
 
 void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )

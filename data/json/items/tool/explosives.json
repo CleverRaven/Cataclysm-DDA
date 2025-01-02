@@ -9,7 +9,7 @@
     "volume": "1 L",
     "price": "90 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
@@ -25,7 +25,7 @@
     "weight": "1570 g",
     "volume": "1 L",
     "price": "0 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
@@ -44,7 +44,7 @@
     "volume": "750 ml",
     "price": "60 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ { "type": "tnt", "portion": 95 }, { "type": "paper", "portion": 5 } ],
     "symbol": "*",
     "color": "red",
@@ -85,7 +85,7 @@
     "volume": "2430 ml",
     "price": "60 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ { "type": "tnt", "portion": 95 }, { "type": "steel", "portion": 40 }, { "type": "paper", "portion": 5 } ],
     "symbol": "*",
     "color": "red",
@@ -125,7 +125,7 @@
     "volume": "15500 ml",
     "price": "600 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "explode_in_fire": true,
@@ -152,7 +152,7 @@
     "volume": "15500 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "explode_in_fire": true,
@@ -178,12 +178,10 @@
     "volume": "25 ml",
     "price": "4 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
-    "use_action": [ "FIRECRACKER" ],
-    "melee_damage": { "bash": 1 }
+    "use_action": [ "FIRECRACKER" ]
   },
   {
     "id": "firecracker_act",
@@ -194,14 +192,12 @@
     "volume": "10 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
     "material": [ "paper" ],
     "symbol": ";",
     "color": "red",
     "tick_action": [ { "type": "sound", "sound_message": "ssss…", "sound_volume": 0, "sound_id": "misc", "sound_variant": "lit_fuse" } ],
     "countdown_action": { "type": "sound", "sound_message": "Bang!", "sound_volume": 20, "sound_id": "explosion", "sound_variant": "small" },
-    "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 1 }
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "firecracker_pack",
@@ -212,12 +208,10 @@
     "volume": "50 ml",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
-    "use_action": [ "FIRECRACKER_PACK" ],
-    "melee_damage": { "bash": 1 }
+    "use_action": [ "FIRECRACKER_PACK" ]
   },
   {
     "id": "firecracker_pack_act",
@@ -228,7 +222,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
     "material": [ "paper" ],
     "symbol": "*",
     "color": "red",
@@ -245,7 +238,7 @@
     "volume": "270 ml",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "dark_gray",
@@ -258,7 +251,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "flashbang_act",
@@ -352,7 +345,7 @@
     "volume": "270 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "dark_gray",
@@ -378,7 +371,7 @@
     "volume": "540 ml",
     "price": "15 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
@@ -391,7 +384,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "grenade_act",
@@ -403,7 +396,7 @@
     "volume": "270 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
@@ -411,7 +404,7 @@
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
     "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "grenade_emp",
@@ -424,7 +417,7 @@
     "price": "60 USD",
     "//": "Something this useful doesn't come cheap after the apocalypse",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "looks_like": "EMPbomb",
@@ -438,7 +431,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "grenade_emp_act",
@@ -450,7 +443,7 @@
     "volume": "270 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "cyan",
@@ -464,7 +457,7 @@
       "emp_blast_radius": 4
     },
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "grenade_inc",
@@ -476,7 +469,7 @@
     "volume": "270 ml",
     "price": "20 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_red",
@@ -489,7 +482,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE", "GRENADE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "grenade_inc_act",
@@ -501,14 +494,14 @@
     "volume": "270 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_red",
     "revert_to": "canister_empty",
     "countdown_action": "GRENADE_INC_ACT",
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "gasbomb",
@@ -543,8 +536,7 @@
     "price_postapoc": "0 cent",
     "description": "This tear gas grenade has had its pin removed and is (or will shortly be) expelling highly noxious gas.",
     "emits": [ "emit_tear_gas_stream" ],
-    "countdown_interval": "50 seconds",
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID", "DANGEROUS" ]
   },
   {
@@ -642,7 +634,7 @@
     "longest_side": "46 cm",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "nylon" ],
     "symbol": "*",
     "color": "light_green",
@@ -689,7 +681,7 @@
     "longest_side": "276 mm",
     "price": "5 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
@@ -717,7 +709,7 @@
     "longest_side": "276 mm",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
@@ -736,7 +728,7 @@
     "price": "60 USD",
     "//": "Something this useful doesn't come cheap after the apocalypse",
     "price_postapoc": "50 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "yellow",
@@ -749,7 +741,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "scrambler_act",
@@ -761,14 +753,14 @@
     "volume": "270 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "draw_explosion_radius": 4, "draw_explosion_color": "cyan", "scrambler_blast_radius": 4 },
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "smokebomb",
@@ -788,7 +780,7 @@
     "name": { "str": "armed smoke bomb" },
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
-    "countdown_action": { "type": "transform", "target": "canister_empty" },
+    "revert_to": "canister_empty",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -927,7 +919,7 @@
     "longest_side": "229 mm",
     "price": "30 USD",
     "price_postapoc": "30 USD",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_gray",
@@ -940,7 +932,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "military_explosive_pipebomb_act",
@@ -1004,7 +996,7 @@
     "weight": "92600 g",
     "volume": "52500 ml",
     "price": "450 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "red",
@@ -1030,7 +1022,7 @@
     "weight": "92600 g",
     "volume": "52500 ml",
     "price": "0 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",
@@ -1047,10 +1039,10 @@
     "category": "weapons",
     "name": { "str": "military explosive 100 L barrel bomb" },
     "description": "A 100 L metal barrel filled with military explosives.  Once it has been activated it will explode after 100 seconds, raining fire and steel on everything in sight.",
-    "weight": "172000 g",
+    "weight": "172 kg",
     "volume": "105 L",
     "price": "900 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "red",
@@ -1072,10 +1064,10 @@
     "category": "weapons",
     "name": { "str": "active military explosive 100 L barrel bomb" },
     "description": "A 100 L metal barrel filled with military explosives.  It has been activated and will soon explode, delivering its entire destructive power to everything in sight.",
-    "weight": "172000 g",
+    "weight": "172 kg",
     "volume": "105 L",
     "price": "0 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",
@@ -1170,7 +1162,7 @@
     "volume": "280 ml",
     "price": "15 USD",
     "longest_side": "229 mm",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_gray",
@@ -1186,7 +1178,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "pipebomb_act",
@@ -1199,7 +1191,7 @@
     "volume": "280 ml",
     "longest_side": "229 mm",
     "price": "0 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_gray",
@@ -1208,7 +1200,7 @@
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "homemade_bomb",
@@ -1264,7 +1256,7 @@
     "weight": "3875 g",
     "volume": "3900 ml",
     "price": "0 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "powder" ],
     "symbol": "*",
     "color": "red",
@@ -1291,7 +1283,7 @@
     "volume": "3900 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "powder" ],
     "symbol": "*",
     "color": "red",
@@ -1311,7 +1303,7 @@
     "weight": "61620 g",
     "volume": "52500 ml",
     "price": "1 kUSD",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "red",
@@ -1319,9 +1311,9 @@
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "half_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1336,14 +1328,14 @@
     "weight": "61620 g",
     "volume": "52500 ml",
     "price": "0 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",
     "use_action": {
       "type": "message",
       "message": "You've already activated the bomb - clear the area immediately!",
-      "name": "Activate fuze"
+      "name": "Activate fuse"
     },
     "explode_in_fire": true,
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
@@ -1360,7 +1352,7 @@
     "weight": "110610 g",
     "volume": "105 L",
     "price": "900 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "red",
@@ -1368,9 +1360,9 @@
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "full_barrel_bomb_act",
-      "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
+      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
       "target_timer": "100 seconds",
-      "menu_text": "Activate fuze",
+      "menu_text": "Activate fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1385,14 +1377,14 @@
     "weight": "110610 g",
     "volume": "105 L",
     "price": "0 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_red",
     "use_action": {
       "type": "message",
       "message": "You've already activated the bomb - clear the area immediately!",
-      "name": "Activate fuze"
+      "name": "Activate fuse"
     },
     "explode_in_fire": true,
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },

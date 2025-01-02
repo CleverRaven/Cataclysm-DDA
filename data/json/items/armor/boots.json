@@ -423,6 +423,7 @@
     "weight": "907 g",
     "volume": "1 L",
     "price": "25 USD",
+    "price_postapoc": "6 USD 50 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": "[",

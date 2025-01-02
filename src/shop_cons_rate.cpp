@@ -25,7 +25,7 @@ bool icg_entry::operator==( icg_entry const &rhs ) const
 
 bool icg_entry::matches( item const &it, npc const &beta ) const
 {
-    dialogue temp( get_talker_for( get_avatar() ), get_talker_for( beta ) );
+    const_dialogue temp( get_const_talker_for( get_avatar() ), get_const_talker_for( beta ) );
     return ( !condition || condition( temp ) ) &&
            ( itype.is_empty() || it.typeId() == itype ) &&
            ( category.is_empty() || it.get_category_shallow().id == category ) &&

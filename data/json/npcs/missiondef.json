@@ -40,8 +40,7 @@
     "value": 150000,
     "urgent": true,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "deadline_low": 30,
-    "deadline_high": 48,
+    "deadline": [ "30 days", "48 days" ],
     "dialogue": {
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
@@ -74,8 +73,7 @@
     "urgent": true,
     "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "deadline_low": 24,
-    "deadline_high": 48,
+    "deadline": [ "24 days", "48 days" ],
     "dialogue": {
       "describe": "This infection is bad, <very> bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
@@ -129,7 +127,7 @@
       "offer": "We have the flag but now we need to locate US troops to see what we can do to help.  I haven't seen any but I'm figurin' one of those choppers that were flyin' round during th' outbreak would have a good idea.  If you can get me a black box from one of the wrecks I'll look into where we might open 'er at.",
       "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "Survivors were talking about them crashing but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.",
+      "advice": "Survivors were talkin' 'bout seeing 'em falling out of the sky but I don't know where.  If I were a pilot I'd avoid crash landing in a city or forest though.  Black boxes are housed in the tail to survive the crash so check there when you do find one.  Now get to it!",
       "inquire": "How 'bout that black box?",
       "success": "America, fuck yeah!",
       "success_lie": "What?!  I oughta whip your ass.",
@@ -857,7 +855,7 @@
       "and": [
         { "u_has_item": "duffelbag" },
         { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
-        { "math": [ "u_skill('survival')", ">=", "1" ] }
+        { "math": [ "u_skill('survival') >= 1" ] }
       ]
     },
     "difficulty": 1,
@@ -969,12 +967,10 @@
     "description": "You have some time left until you can transfer control to your companions, provided you have <color_yellow>established a Basecamp</color> and <color_yellow>have at least 1 NPC companion</color>.",
     "difficulty": 0,
     "value": 0,
+    "deadline": { "math": [ "time_between_succession" ] },
     "invisible_on_complete": true,
     "start": {
-      "effect": [
-        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
-        { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
-      ]
+      "effect": [ { "math": [ "u_timer_time_of_last_succession = time('now')" ] }, { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" } ]
     }
   },
   {
@@ -982,19 +978,9 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession) > time_between_succession" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
     "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
-    "eoc_type": "EVENT",
-    "required_event": "game_start",
-    "effect": [
-      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -1003,15 +989,24 @@
     "required_event": "game_avatar_new",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+      {
+        "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE",
+        "deadline": { "math": [ "time('now') + time_between_succession" ] }
+      }
     ]
+  },
+  {
+    "//": "DUMB HACK ALERT! We need to check during both game_start and game_begin, because game_start runs first. If we only listen during game_begin then EOC_FACTION_SUCCESSION_CHANGE_INIT finds the variable doesn't exist when it runs during game_start, substituting a value of 0 turns. Double assigning the same value is harmless, just stupid. It shouldn't be necessary to make two EOCs for this. Oh well, what can you do",
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMEBEGIN_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
-    "eoc_type": "EVENT",
-    "required_event": "game_begin",
-    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession = time(' 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1023,9 +1018,9 @@
       "and": [
         "u_is_avatar",
         { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
-        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] },
-        { "math": [ "u_hp('torso')", "!=", "0" ] },
-        { "math": [ "u_hp('head')", "!=", "0" ] }
+        { "math": [ "time_since(u_timer_time_of_last_succession) < time_between_succession" ] },
+        { "math": [ "u_hp('torso') != 0" ] },
+        { "math": [ "u_hp('head') != 0" ] }
       ]
     },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",

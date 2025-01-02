@@ -592,5 +592,27 @@
     "location": "underbarrel",
     "mod_targets": [ "smg", "pistol" ],
     "min_skills": [ [ "weapon", 3 ], [ "gun", 1 ] ]
+  },
+  {
+    "id": "ree_33_tripod",
+    "type": "GUNMOD",
+    "name": { "str": "heavy-duty tripod" },
+    "description": "Massive tripod, used by Exodii naval rifle so it can be used by lightweight units, providing firearm support.  Allows using naval rifle while prone.",
+    "weight": "6000 g",
+    "volume": "5800 ml",
+    "longest_side": "66 cm",
+    "price_postapoc": "5 USD",
+    "install_time": "5 m",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
+    "min_str_required_mod_if_prone": -83,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "ree_33" ],
+    "handling_modifier": 18,
+    "min_skills": [ [ "weapon", 2 ] ],
+    "flags": [ "BIPOD", "SLOW_WIELD" ],
+    "melee_damage": { "bash": 12 }
   }
 ]

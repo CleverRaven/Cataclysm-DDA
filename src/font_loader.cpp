@@ -23,6 +23,11 @@ void font_loader::load_throws( const cata_path &path )
         } else {
             config.read( "typeface", typeface );
         }
+        if( config.has_string( "gui_typeface" ) ) {
+            gui_typeface.emplace_back( config.get_string( "gui_typeface" ) );
+        } else {
+            config.read( "gui_typeface", gui_typeface );
+        }
         if( config.has_string( "map_typeface" ) ) {
             map_typeface.emplace_back( config.get_string( "map_typeface" ) );
         } else {
@@ -35,6 +40,7 @@ void font_loader::load_throws( const cata_path &path )
         }
 
         ensure_unifont_loaded( typeface );
+        ensure_unifont_loaded( gui_typeface );
         ensure_unifont_loaded( map_typeface );
         ensure_unifont_loaded( overmap_typeface );
 
@@ -52,6 +58,7 @@ void font_loader::save( const cata_path &path ) const
             JsonOut json( stream, true ); // pretty-print
             json.start_object();
             json.member( "typeface", typeface );
+            json.member( "gui_typeface", typeface );
             json.member( "map_typeface", map_typeface );
             json.member( "overmap_typeface", overmap_typeface );
             json.end_object();

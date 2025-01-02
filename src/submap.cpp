@@ -17,8 +17,6 @@ static furn_id f_null;
 
 static const furn_str_id furn_f_console( "f_console" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
-
 void maptile_soa::swap_soa_tile( const point_sm_ms &p1, const point_sm_ms &p2 )
 {
     std::swap( ter[p1.x()][p1.y()], ter[p2.x()][p2.y()] );
@@ -196,8 +194,7 @@ bool submap::contains_vehicle( vehicle *veh )
 
 bool submap::is_open_air( const point_sm_ms &p ) const
 {
-    ter_id t = get_ter( p );
-    return t->trap == tr_ledge;
+    return get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR );
 }
 
 void submap::rotate( int turns )
@@ -259,9 +256,9 @@ void submap::rotate( int turns )
     }
 
     for( auto &elem : vehicles ) {
-        const point_sm_ms new_pos = point_sm_ms( rotate_point( elem->pos ) );
+        const point_sm_ms new_pos = point_sm_ms( rotate_point( elem->pos.raw() ) );
 
-        elem->pos = new_pos.raw();
+        elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
         elem->turn( turns * 90_degrees );
@@ -326,7 +323,7 @@ void submap::revert_submap( submap &sr )
     reverted = true;
     if( sr.is_uniform() ) {
         m.reset();
-        set_all_ter( sr.get_ter( point_sm_ms_zero ), true );
+        set_all_ter( sr.get_ter( point_sm_ms::zero ), true );
         return;
     }
 

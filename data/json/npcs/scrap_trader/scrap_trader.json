@@ -65,7 +65,7 @@
       {
         "group": "no_sell",
         "rigid": true,
-        "condition": { "math": [ "n_NEVER", "==", "1" ] },
+        "condition": { "math": [ "n_NEVER == 1" ] },
         "refusal": "<npcname> will never sell this"
       },
       { "group": "fridges_and_freezers_tradeable" }
@@ -199,7 +199,7 @@
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
           "and": [
-            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "math": [ "n_npc_trust() >= 2" ] },
             { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_knows_u" } ] }
           ]
         }
@@ -301,7 +301,13 @@
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
     "dynamic_line": "Sure, I'm fine with it.  There's a spare bed in the shed next door for anyone who needs it.  Just don't hog it.  Someone else might come along.",
-    "responses": [ { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" } ]
+    "responses": [
+      {
+        "text": "Thanks, <name_g>.",
+        "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
+        "effect": { "u_set_fac_relation": "share public goods" }
+      }
+    ]
   },
   {
     "type": "talk_topic",
@@ -325,7 +331,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]

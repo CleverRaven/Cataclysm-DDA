@@ -888,6 +888,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CONFIRM_MULTIPLE",
+    "name": "Confirm and continue",
+    "bindings": [ { "input_method": "keyboard_any", "key": "SPACE" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_DEFAULT_MODS",
     "category": "MODMANAGER_DIALOG",
     "name": "Save mods as default",
@@ -1240,6 +1246,13 @@
     "category": "OVERMAP",
     "name": "Teleport to cursor",
     "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REVEAL_MAP",
+    "category": "OVERMAP",
+    "name": "Reveal map",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -1615,7 +1628,7 @@
     "type": "keybinding",
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Change cataclysm start date",
+    "name": "Change Cataclysm start date",
     "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
@@ -1666,6 +1679,17 @@
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_PROFESSIONS",
     "name": "Randomize profession",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Randomize trait",
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
@@ -2020,6 +2044,13 @@
     "category": "EDITMAP",
     "name": "Edit fields",
     "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_RADS",
+    "category": "EDITMAP",
+    "name": "Edit radiation",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
   },
   {
     "type": "keybinding",
@@ -2586,10 +2617,22 @@
   },
   {
     "type": "keybinding",
+    "name": "Throw wielded item",
+    "category": "DEFAULTMODE",
+    "id": "throw_wielded"
+  },
+  {
+    "type": "keybinding",
     "name": "Blind throw item",
     "category": "LOOK",
     "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind throw wielded item",
+    "category": "LOOK",
+    "id": "throw_blind_wielded"
   },
   {
     "type": "keybinding",
@@ -2900,7 +2943,7 @@
   {
     "type": "keybinding",
     "id": "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE",
-    "name": "Toggle debug dialogue show hidden responses ",
+    "name": "Toggle debug dialogue show hidden responses",
     "bindings": [
       { "input_method": "keyboard_char", "key": "CTRL+R" },
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "r" }
@@ -2931,7 +2974,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View temperature map (using Map font)",
+    "name": "View temperature map (using map font)",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
   },
@@ -3234,7 +3277,7 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Supernatural Abilities",
+    "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
@@ -4609,7 +4652,7 @@
     "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "SCROLL_DESC_DOWN",
-    "name": "Scroll item description Down",
+    "name": "Scroll item description down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -4840,6 +4883,48 @@
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "s" },
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MONSTER_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle monster group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NPC_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle NPC group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_GENERAL_INFO_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle general info group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_BUFFS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle buffs group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_TECHNIQUES_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle techniques group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_WEAPONS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle weapons group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",

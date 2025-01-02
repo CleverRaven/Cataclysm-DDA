@@ -1,0 +1,256 @@
+[
+  {
+    "id": "mx_sevenoclock_track",
+    "type": "map_extra",
+    "name": { "str": "Half-eaten corpses" },
+    "description": "Piles of gore surround a trail of bloody footsteps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sevenoclock_track" },
+    "sym": "l",
+    "min_max_zlevel": [ 0, 0 ],
+    "color": "magenta_yellow",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_sevenoclock_track",
+    "object": {
+      "rows": [
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "-----------1----------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": {
+        "-": { "chunks": [ [ "corpse_blood_gibs_college_3x3", 1 ], [ "null", 250 ] ] },
+        "1": { "chunks": [ "sevenoclock_track" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sevenoclock_track",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "x": "f_sevenoclock_track" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cabin_sevenoclock" ],
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........~~...........",
+        "...........~~...........",
+        "...%.......~~...........",
+        "**######w##++#########**",
+        "**#R  d#sT#  #A DBBD #**",
+        "**#R  c#  #  #A  BB  w**",
+        "**wR   #  =  =       w**",
+        "**wR   #  #  #########**",
+        "**#R   ####  =  DBBD #**",
+        "**#R   L##A  #A  BB  w**",
+        "**####=####  #A      w**",
+        "**#ttb  uu#  #########**",
+        "**wttb   u#  #a OOO  w**",
+        "**wbb     =  =    rrrw**",
+        "**#      u#  #    rSr#**",
+        "**#1F5V234#  #a   rrr#**",
+        "**###ww####++####ww###**",
+        "..o bbbb             o..",
+        "..-                  -..",
+        "..-                  -..",
+        "..o-------o  o-------o..",
+        "...........~~...........",
+        "...........~~...........",
+        "...........~~..........."
+      ],
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+      "terrain": { "-": "t_railing" },
+      "place_rubble": [
+        { "x": 20, "y": 17, "items": true },
+        { "x": 19, "y": 18, "items": true },
+        { "x": 20, "y": 18, "items": true },
+        { "x": 18, "y": 19, "items": true },
+        { "x": 19, "y": 19, "items": true },
+        { "x": 20, "y": 19, "items": true },
+        { "x": 19, "y": 3, "items": true },
+        { "x": 20, "y": 3, "items": true },
+        { "x": 21, "y": 3, "items": true },
+        { "x": 20, "y": 4, "items": true },
+        { "x": 21, "y": 4, "items": true },
+        { "x": 21, "y": 5, "items": true }
+      ],
+      "place_monster": [ { "monster": "mon_sevenoclock_passive", "x": 11, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cabin_roof_sevenoclock",
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  -5------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -................~.-  ",
+        "  -..................-  ",
+        "  --------------------  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "id": "mx_deathworm_track",
+    "type": "map_extra",
+    "name": { "str": "Bloodsoaked acid streaks" },
+    "description": "A hole in the ground surrounds piles of acid-burned gore.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_deathworm_track" },
+    "sym": "l",
+    "min_max_zlevel": [ 0, 0 ],
+    "color": "magenta_yellow",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_deathworm_track",
+    "object": {
+      "rows": [
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "-----------1----------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "nested": { "-": { "chunks": [ [ "acid_gibs_3x3", 1 ], [ "null", 50 ] ] }, "1": { "chunks": [ "deathworm_track" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "acid_gibs_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_fields": [ { "field": "fd_acid", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "deathworm_track",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "x" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "x": "f_deathworm_track" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "field_deathworm",
+    "object": {
+      "fill_ter": "t_dirt",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "----------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "place_monster": [ { "monster": "mon_deathworm", "x": 11, "y": 12 } ],
+      "nested": { "-": { "chunks": [ [ "acid_gibs_3x3", 1 ], [ "null", 5 ] ] } }
+    }
+  }
+]

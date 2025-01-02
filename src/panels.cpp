@@ -176,7 +176,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     const int sight_points = you.overmap_modified_sight_range( g->light_level( you.posz() ) );
 
     oter_display_options opts( global_omt, sight_points );
-    if( targ != overmap::invalid_tripoint ) {
+    if( !targ.is_invalid() ) {
         opts.mission_target = targ;
     }
     opts.hilite_pc = true;
@@ -225,7 +225,7 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
     ImVec2 char_size = ImGui::CalcTextSize( "X" );
     // Map is centered on curs - typically player's global_omt_location
     const tripoint_abs_omt targ = you.get_active_mission_target();
-    bool drew_mission = targ == overmap::invalid_tripoint;
+    bool drew_mission = targ.is_invalid();
     const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
     // i scans across width, with 0 in the middle(ish)
@@ -599,8 +599,12 @@ static void draw_border_win( catacurses::window &w, const std::vector<int> &colu
     werase( w );
     decorate_panel( _( "Sidebar options" ), w );
     // Draw vertical separators
-    mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
-    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );
+    wattron( w, BORDER_COLOR );
+    mvwvline( w, point( column_widths[0] + 1, 1 ), 0,
+              popup_height - 2 ); //FIXME char is zero?
+    mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0,
+              popup_height - 2 ); //FIXME char is zero?
+    wattroff( w, BORDER_COLOR );
     wnoutrefresh( w );
 }
 

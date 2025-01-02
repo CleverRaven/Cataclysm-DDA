@@ -8,15 +8,15 @@
       "rows": [
         "........................",
         "........................",
-        "..--W--/................",
+        "..##W##/................",
         "..W&Cf+.................",
-        "..-ddXW...s..s..........",
-        "..--W--.................",
+        "..#ddXW...s..s..........",
+        "..##W##.................",
         "_aaaaaaaaaaaaaaaaaaaaaa_",
         "_wwwwwwwwwwwwwwwwwwwwww_",
-        "_|ww|ww|ww|ww|ww|ww|ww|_",
-        "_|cc|cc|cc|cc|cc|cc|cc|_",
-        "_######################_",
+        "_#ww#ww#ww#ww#ww#ww#ww#_",
+        "_#cc#cc#cc#cc#cc#cc#cc#_",
+        "_----------------------_",
         "_                      _",
         "_                      _",
         "_                      _",
@@ -55,6 +55,7 @@
         ".______________________.",
         ".....______________....."
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "furniture": {
         "&": "f_trashcan",
         "@": "f_target",
@@ -67,10 +68,9 @@
         "/": "f_wooden_flagpole"
       },
       "terrain": {
-        "#": "t_thconc_floor",
+        "-": "t_thconc_floor",
         "&": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall_w",
         ".": "t_region_groundcover",
         "s": "t_region_groundcover",
         "/": "t_region_groundcover",
@@ -86,7 +86,6 @@
         "d": "t_floor",
         "f": "t_floor",
         "w": "t_thconc_floor",
-        "|": "t_wall_wood",
         "O": "t_dirtmound"
       },
       "place_items": [

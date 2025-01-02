@@ -67,7 +67,7 @@
   {
     "type": "item_action",
     "id": "GEIGER",
-    "name": { "str": "Use geiger counter" }
+    "name": { "str": "Use Geiger counter" }
   },
   {
     "type": "item_action",
@@ -688,6 +688,11 @@
     "type": "item_action",
     "id": "PORTAL",
     "name": { "str": "Place" }
+  },
+  {
+    "type": "item_action",
+    "id": "POST_UP",
+    "name": { "str": "Put up" }
   },
   {
     "type": "item_action",

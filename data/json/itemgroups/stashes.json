@@ -76,8 +76,31 @@
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       { "prob": 4, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 7 ],
+      [ "pipe_water", 5 ],
       { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_1_5" },
       { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
+      { "item": "lsd", "prob": 6, "count": [ 1, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_drugs_illegals",
+    "items": [
+      { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
+      { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },
+      { "prob": 10, "group": "xanax_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
+      [ "pipe_tobacco", 2 ],
+      { "prob": 2, "group": "tobacco_bag_plastic_1_20" },
+      [ "seed_tobacco", 15 ],
+      [ "rolling_paper", 9 ],
+      [ "pipe_glass", 17 ],
+      { "prob": 8, "group": "coke_bag_zipper_1_8" },
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
+      { "prob": 4, "group": "crack_bag_zipper_1_4" },
+      [ "crackpipe", 7 ],
       { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
       { "item": "lsd", "prob": 6, "count": [ 1, 5 ] }
     ]

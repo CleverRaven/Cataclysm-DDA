@@ -60,10 +60,10 @@
         "     ||||||||||||||     ",
         "     ||||||||||||||     ",
         "|||||||||||||||||||     ",
-        "WWwwWW|||||||||||||     ",
-        "w...6W|||||||||||||     ",
-        "w>...W|||||||||||||     ",
-        "WWwwWW|||||||||||||     ",
+        "GGOOGG|||||||||||||     ",
+        "O...0G|||||||||||||     ",
+        "O>...G|||||||||||||     ",
+        "GGOOGG|||||||||||||     ",
         "     ||||||||||||||     ",
         "     ||||||||||||||     ",
         "     ||||||||||||||     ",
@@ -81,8 +81,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "|": "t_shingle_flat_roof", "W": "t_wood_wall_w", "w": "t_window", " ": "t_open_air", ".": "t_floor" },
-      "computers": { "6": { "name": "Church Bells 1.0", "options": [ { "name": "Toll Bells", "action": "toll" } ] } }
+      "terrain": { "|": "t_shingle_flat_roof", "G": "t_wood_wall_w", "O": "t_window", " ": "t_open_air", ".": "t_floor" },
+      "computers": { "0": { "name": "Church Bells 1.0", "options": [ { "name": "Toll Bells", "action": "toll" } ] } }
     }
   },
   {
@@ -126,7 +126,7 @@
     "method": "json",
     "om_terrain": [ [ "rural_church_basement" ] ],
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "########################",
         "########################",
@@ -153,8 +153,8 @@
         "######||||||||||########",
         "########################"
       ],
-      "palettes": [ "cathedral" ],
-      "terrain": { "#": "t_soil", " ": "t_linoleum_gray" }
+      "palettes": [ "parametrized_linoleum_palette", "cathedral" ],
+      "terrain": { "#": "t_soil", " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } }
     }
   }
 ]

@@ -13,24 +13,24 @@
         "text": "Play!",
         "condition": {
           "or": [
-            { "math": [ "regular_zombies_allowed", "==", "1" ] },
-            { "math": [ "special_zombies_allowed", "==", "1" ] },
-            { "math": [ "spiders_allowed", "==", "1" ] },
-            { "math": [ "triffids_allowed", "==", "1" ] },
-            { "math": [ "robots_allowed", "==", "1" ] },
-            { "math": [ "subspace_allowed", "==", "1" ] },
-            { "math": [ "dinos_allowed", "==", "1" ] },
-            { "math": [ "lizardfolk_allowed", "==", "1" ] },
-            { "math": [ "goblins_allowed", "==", "1" ] },
-            { "math": [ "golems_allowed", "==", "1" ] },
-            { "math": [ "orcs_allowed", "==", "1" ] },
-            { "math": [ "megafauna_allowed", "==", "1" ] },
-            { "math": [ "mindovermatter_allowed", "==", "1" ] },
-            { "math": [ "candymonsters_allowed", "==", "1" ] },
-            { "math": [ "mythos_allowed", "==", "1" ] },
-            { "math": [ "exodii_allowed", "==", "1" ] },
-            { "math": [ "xedra_allowed", "==", "1" ] },
-            { "math": [ "aftershock_allowed", "==", "1" ] }
+            { "math": [ "regular_zombies_allowed == 1" ] },
+            { "math": [ "special_zombies_allowed == 1" ] },
+            { "math": [ "spiders_allowed == 1" ] },
+            { "math": [ "triffids_allowed == 1" ] },
+            { "math": [ "robots_allowed == 1" ] },
+            { "math": [ "subspace_allowed == 1" ] },
+            { "math": [ "dinos_allowed == 1" ] },
+            { "math": [ "lizardfolk_allowed == 1" ] },
+            { "math": [ "goblins_allowed == 1" ] },
+            { "math": [ "golems_allowed == 1" ] },
+            { "math": [ "orcs_allowed == 1" ] },
+            { "math": [ "megafauna_allowed == 1" ] },
+            { "math": [ "mindovermatter_allowed == 1" ] },
+            { "math": [ "candymonsters_allowed == 1" ] },
+            { "math": [ "mythos_allowed == 1" ] },
+            { "math": [ "exodii_allowed == 1" ] },
+            { "math": [ "xedra_allowed == 1" ] },
+            { "math": [ "aftershock_allowed == 1" ] }
           ]
         },
         "effect": { "run_eocs": "defense_mode_game_start_final_setup" },
@@ -56,220 +56,220 @@
     "responses": [
       {
         "text": "Allow regular zombies.",
-        "condition": { "math": [ "regular_zombies_allowed", "==", "0" ] },
-        "effect": { "math": [ "regular_zombies_allowed", "=", "1" ] },
+        "condition": { "math": [ "regular_zombies_allowed == 0" ] },
+        "effect": { "math": [ "regular_zombies_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable regular zombies.",
-        "condition": { "math": [ "regular_zombies_allowed", "==", "1" ] },
-        "effect": { "math": [ "regular_zombies_allowed", "=", "0" ] },
+        "condition": { "math": [ "regular_zombies_allowed == 1" ] },
+        "effect": { "math": [ "regular_zombies_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow special zombies.",
-        "condition": { "math": [ "special_zombies_allowed", "==", "0" ] },
-        "effect": { "math": [ "special_zombies_allowed", "=", "1" ] },
+        "condition": { "math": [ "special_zombies_allowed == 0" ] },
+        "effect": { "math": [ "special_zombies_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable special zombies.",
-        "condition": { "math": [ "special_zombies_allowed", "==", "1" ] },
-        "effect": { "math": [ "special_zombies_allowed", "=", "0" ] },
+        "condition": { "math": [ "special_zombies_allowed == 1" ] },
+        "effect": { "math": [ "special_zombies_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow spiders.",
-        "condition": { "math": [ "spiders_allowed", "==", "0" ] },
-        "effect": { "math": [ "spiders_allowed", "=", "1" ] },
+        "condition": { "math": [ "spiders_allowed == 0" ] },
+        "effect": { "math": [ "spiders_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable spiders.",
-        "condition": { "math": [ "spiders_allowed", "==", "1" ] },
-        "effect": { "math": [ "spiders_allowed", "=", "0" ] },
+        "condition": { "math": [ "spiders_allowed == 1" ] },
+        "effect": { "math": [ "spiders_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow triffids.",
-        "condition": { "math": [ "triffids_allowed", "==", "0" ] },
-        "effect": { "math": [ "triffids_allowed", "=", "1" ] },
+        "condition": { "math": [ "triffids_allowed == 0" ] },
+        "effect": { "math": [ "triffids_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable triffids.",
-        "condition": { "math": [ "triffids_allowed", "==", "1" ] },
-        "effect": { "math": [ "triffids_allowed", "=", "0" ] },
+        "condition": { "math": [ "triffids_allowed == 1" ] },
+        "effect": { "math": [ "triffids_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow robots.",
-        "condition": { "math": [ "robots_allowed", "==", "0" ] },
-        "effect": { "math": [ "robots_allowed", "=", "1" ] },
+        "condition": { "math": [ "robots_allowed == 0" ] },
+        "effect": { "math": [ "robots_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable robots.",
-        "condition": { "math": [ "robots_allowed", "==", "1" ] },
-        "effect": { "math": [ "robots_allowed", "=", "0" ] },
+        "condition": { "math": [ "robots_allowed == 1" ] },
+        "effect": { "math": [ "robots_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow eldritch horrors.",
-        "condition": { "math": [ "subspace_allowed", "==", "0" ] },
-        "effect": { "math": [ "subspace_allowed", "=", "1" ] },
+        "condition": { "math": [ "subspace_allowed == 0" ] },
+        "effect": { "math": [ "subspace_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable eldritch horrors.",
-        "condition": { "math": [ "subspace_allowed", "==", "1" ] },
-        "effect": { "math": [ "subspace_allowed", "=", "0" ] },
+        "condition": { "math": [ "subspace_allowed == 1" ] },
+        "effect": { "math": [ "subspace_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow dinosaurs.",
-        "condition": { "and": [ { "mod_is_loaded": "DinoMod" }, { "math": [ "dinos_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "dinos_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "DinoMod" }, { "math": [ "dinos_allowed == 0" ] } ] },
+        "effect": { "math": [ "dinos_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable dinosaurs.",
-        "condition": { "and": [ { "mod_is_loaded": "DinoMod" }, { "math": [ "dinos_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "dinos_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "DinoMod" }, { "math": [ "dinos_allowed == 1" ] } ] },
+        "effect": { "math": [ "dinos_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow lizardfolk.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "lizardfolk_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "lizardfolk_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "lizardfolk_allowed == 0" ] } ] },
+        "effect": { "math": [ "lizardfolk_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable lizardfolk.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "lizardfolk_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "lizardfolk_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "lizardfolk_allowed == 1" ] } ] },
+        "effect": { "math": [ "lizardfolk_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow golems.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "golems_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "golems_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "golems_allowed == 0" ] } ] },
+        "effect": { "math": [ "golems_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable golems.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "golems_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "golems_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "golems_allowed == 1" ] } ] },
+        "effect": { "math": [ "golems_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow goblins.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "goblins_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "goblins_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "goblins_allowed == 0" ] } ] },
+        "effect": { "math": [ "goblins_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable goblins.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "goblins_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "goblins_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "goblins_allowed == 1" ] } ] },
+        "effect": { "math": [ "goblins_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow orcs.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "orcs_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed == 0" ] } ] },
+        "effect": { "math": [ "orcs_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable orcs.",
-        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "orcs_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "magiclysm" }, { "math": [ "orcs_allowed == 1" ] } ] },
+        "effect": { "math": [ "orcs_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow megafauna.",
-        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "megafauna_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed == 0" ] } ] },
+        "effect": { "math": [ "megafauna_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable megafauna.",
-        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "megafauna_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "megafauna" }, { "math": [ "megafauna_allowed == 1" ] } ] },
+        "effect": { "math": [ "megafauna_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow psychics.",
-        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "mindovermatter_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed == 0" ] } ] },
+        "effect": { "math": [ "mindovermatter_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable psychics.",
-        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "mindovermatter_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "mindovermatter" }, { "math": [ "mindovermatter_allowed == 1" ] } ] },
+        "effect": { "math": [ "mindovermatter_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow sweets.",
-        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "candymonsters_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed == 0" ] } ] },
+        "effect": { "math": [ "candymonsters_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable sweets.",
-        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "candymonsters_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "my_sweet_cataclysm" }, { "math": [ "candymonsters_allowed == 1" ] } ] },
+        "effect": { "math": [ "candymonsters_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Mgah'ehye ya nyth'drnn.",
         "//": "Allow my servants.",
-        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "mythos_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed == 0" ] } ] },
+        "effect": { "math": [ "mythos_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Mgah ya nyth'drnn.",
         "//": "Stop my servants.",
-        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "mythos_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "Mythos-Creatures" }, { "math": [ "mythos_allowed == 1" ] } ] },
+        "effect": { "math": [ "mythos_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow Exodii.",
-        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "exodii_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed == 0" ] } ] },
+        "effect": { "math": [ "exodii_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable Exodii.",
-        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "exodii_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "exodii_allowed == 1" ] } ] },
+        "effect": { "math": [ "exodii_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow XEDRA offworlders.",
-        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "xedra_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "xedra_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "xedra_allowed == 0" ] } ] },
+        "effect": { "math": [ "xedra_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable XEDRA offworlders.",
-        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "xedra_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "xedra_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "xedra_evolved" }, { "math": [ "xedra_allowed == 1" ] } ] },
+        "effect": { "math": [ "xedra_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Allow exoplanetary residents.",
-        "condition": { "and": [ { "mod_is_loaded": "aftershock" }, { "math": [ "aftershock_allowed", "==", "0" ] } ] },
-        "effect": { "math": [ "aftershock_allowed", "=", "1" ] },
+        "condition": { "and": [ { "mod_is_loaded": "aftershock" }, { "math": [ "aftershock_allowed == 0" ] } ] },
+        "effect": { "math": [ "aftershock_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       {
         "text": "Disable exoplanetary residents.",
-        "condition": { "and": [ { "mod_is_loaded": "aftershock" }, { "math": [ "aftershock_allowed", "==", "1" ] } ] },
-        "effect": { "math": [ "aftershock_allowed", "=", "0" ] },
+        "condition": { "and": [ { "mod_is_loaded": "aftershock" }, { "math": [ "aftershock_allowed == 1" ] } ] },
+        "effect": { "math": [ "aftershock_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ENEMY_SELECTION"
       },
       { "text": "Return to main menu.", "topic": "TALK_DEFENSE_MODE_MAIN_MENU" }
@@ -283,12 +283,12 @@
       {
         "text": "<color_yellow>Shaun of The Dead</color>: (Defend a bar against classic zombies with your five friends.  Easy and fun.)",
         "effect": [
-          { "math": [ "regular_zombies_allowed", "=", "1" ] },
-          { "math": [ "special_zombies_allowed", "=", "0" ] },
-          { "math": [ "spiders_allowed", "=", "0" ] },
-          { "math": [ "triffids_allowed", "=", "0" ] },
-          { "math": [ "robots_allowed", "=", "0" ] },
-          { "math": [ "subspace_allowed", "=", "0" ] },
+          { "math": [ "regular_zombies_allowed = 1" ] },
+          { "math": [ "special_zombies_allowed = 0" ] },
+          { "math": [ "spiders_allowed = 0" ] },
+          { "math": [ "triffids_allowed = 0" ] },
+          { "math": [ "robots_allowed = 0" ] },
+          { "math": [ "subspace_allowed = 0" ] },
           {
             "u_location_variable": { "global_val": "your_spawnpoint" },
             "target_params": { "om_terrain": "bar", "search_range": 500, "z": 0 }
@@ -302,12 +302,12 @@
       {
         "text": "<color_yellow>Dawn of The Dead</color>: (Classic zombies only, slower and more realistic.)",
         "effect": [
-          { "math": [ "regular_zombies_allowed", "=", "1" ] },
-          { "math": [ "special_zombies_allowed", "=", "0" ] },
-          { "math": [ "spiders_allowed", "=", "0" ] },
-          { "math": [ "triffids_allowed", "=", "0" ] },
-          { "math": [ "robots_allowed", "=", "0" ] },
-          { "math": [ "subspace_allowed", "=", "0" ] },
+          { "math": [ "regular_zombies_allowed = 1" ] },
+          { "math": [ "special_zombies_allowed = 0" ] },
+          { "math": [ "spiders_allowed = 0" ] },
+          { "math": [ "triffids_allowed = 0" ] },
+          { "math": [ "robots_allowed = 0" ] },
+          { "math": [ "subspace_allowed = 0" ] },
           { "run_eocs": "defense_mode_game_start_final_setup" }
         ],
         "topic": "TALK_DONE"
@@ -315,12 +315,12 @@
       {
         "text": "<color_yellow>Eight-Legged Freaks</color>: (Hordes of spiders!  Not arachnophobia friendly!)",
         "effect": [
-          { "math": [ "regular_zombies_allowed", "=", "0" ] },
-          { "math": [ "special_zombies_allowed", "=", "0" ] },
-          { "math": [ "spiders_allowed", "=", "1" ] },
-          { "math": [ "triffids_allowed", "=", "0" ] },
-          { "math": [ "robots_allowed", "=", "0" ] },
-          { "math": [ "subspace_allowed", "=", "0" ] },
+          { "math": [ "regular_zombies_allowed = 0" ] },
+          { "math": [ "special_zombies_allowed = 0" ] },
+          { "math": [ "spiders_allowed = 1" ] },
+          { "math": [ "triffids_allowed = 0" ] },
+          { "math": [ "robots_allowed = 0" ] },
+          { "math": [ "subspace_allowed = 0" ] },
           { "run_eocs": "defense_mode_game_start_final_setup" }
         ],
         "topic": "TALK_DONE"
@@ -328,12 +328,12 @@
       {
         "text": "<color_yellow>Day of The Triffids</color>: (Protect your mansion against the triffids.)",
         "effect": [
-          { "math": [ "regular_zombies_allowed", "=", "0" ] },
-          { "math": [ "special_zombies_allowed", "=", "0" ] },
-          { "math": [ "spiders_allowed", "=", "0" ] },
-          { "math": [ "triffids_allowed", "=", "1" ] },
-          { "math": [ "robots_allowed", "=", "0" ] },
-          { "math": [ "subspace_allowed", "=", "0" ] },
+          { "math": [ "regular_zombies_allowed = 0" ] },
+          { "math": [ "special_zombies_allowed = 0" ] },
+          { "math": [ "spiders_allowed = 0" ] },
+          { "math": [ "triffids_allowed = 1" ] },
+          { "math": [ "robots_allowed = 0" ] },
+          { "math": [ "subspace_allowed = 0" ] },
           {
             "u_location_variable": { "global_val": "your_spawnpoint" },
             "target_params": { "om_terrain": "dm_mansion_e2", "search_range": 500, "z": 0 }
@@ -346,12 +346,12 @@
       {
         "text": "<color_yellow>Skynet</color>: (Robots have decided that humans are the enemy!)",
         "effect": [
-          { "math": [ "regular_zombies_allowed", "=", "0" ] },
-          { "math": [ "special_zombies_allowed", "=", "0" ] },
-          { "math": [ "spiders_allowed", "=", "0" ] },
-          { "math": [ "triffids_allowed", "=", "0" ] },
-          { "math": [ "robots_allowed", "=", "1" ] },
-          { "math": [ "subspace_allowed", "=", "0" ] },
+          { "math": [ "regular_zombies_allowed = 0" ] },
+          { "math": [ "special_zombies_allowed = 0" ] },
+          { "math": [ "spiders_allowed = 0" ] },
+          { "math": [ "triffids_allowed = 0" ] },
+          { "math": [ "robots_allowed = 1" ] },
+          { "math": [ "subspace_allowed = 0" ] },
           { "run_eocs": "defense_mode_game_start_final_setup" }
         ],
         "topic": "TALK_DONE"
@@ -359,12 +359,12 @@
       {
         "text": "<color_yellow>The Call of Cthulhu</color>: (Fend off hordes of eldritch horrors.)",
         "effect": [
-          { "math": [ "regular_zombies_allowed", "=", "0" ] },
-          { "math": [ "special_zombies_allowed", "=", "0" ] },
-          { "math": [ "spiders_allowed", "=", "0" ] },
-          { "math": [ "triffids_allowed", "=", "0" ] },
-          { "math": [ "robots_allowed", "=", "0" ] },
-          { "math": [ "subspace_allowed", "=", "1" ] },
+          { "math": [ "regular_zombies_allowed = 0" ] },
+          { "math": [ "special_zombies_allowed = 0" ] },
+          { "math": [ "spiders_allowed = 0" ] },
+          { "math": [ "triffids_allowed = 0" ] },
+          { "math": [ "robots_allowed = 0" ] },
+          { "math": [ "subspace_allowed = 1" ] },
           { "run_eocs": "defense_mode_game_start_final_setup" }
         ],
         "topic": "TALK_DONE"
@@ -379,50 +379,50 @@
     "responses": [
       {
         "text": "Disable merchant trading.",
-        "condition": { "math": [ "trading_allowed", "==", "0" ] },
-        "effect": { "math": [ "trading_allowed", "=", "1" ] },
+        "condition": { "math": [ "trading_allowed == 0" ] },
+        "effect": { "math": [ "trading_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Enable merchant trading.",
-        "condition": { "math": [ "trading_allowed", "==", "1" ] },
-        "effect": { "math": [ "trading_allowed", "=", "0" ] },
+        "condition": { "math": [ "trading_allowed == 1" ] },
+        "effect": { "math": [ "trading_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Disable special waves.",
-        "condition": { "math": [ "special_waves_allowed", "==", "0" ] },
-        "effect": { "math": [ "special_waves_allowed", "=", "1" ] },
+        "condition": { "math": [ "special_waves_allowed == 0" ] },
+        "effect": { "math": [ "special_waves_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Enable special waves.",
-        "condition": { "math": [ "special_waves_allowed", "==", "1" ] },
-        "effect": { "math": [ "special_waves_allowed", "=", "0" ] },
+        "condition": { "math": [ "special_waves_allowed == 1" ] },
+        "effect": { "math": [ "special_waves_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Disable portal storms.",
-        "condition": { "math": [ "portal_storms_allowed", "==", "0" ] },
-        "effect": { "math": [ "portal_storms_allowed", "=", "1" ] },
+        "condition": { "math": [ "portal_storms_allowed == 0" ] },
+        "effect": { "math": [ "portal_storms_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Enable portal storms.",
-        "condition": { "math": [ "portal_storms_allowed", "==", "1" ] },
-        "effect": { "math": [ "portal_storms_allowed", "=", "0" ] },
+        "condition": { "math": [ "portal_storms_allowed == 1" ] },
+        "effect": { "math": [ "portal_storms_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Disable random events.",
-        "condition": { "math": [ "random_events_allowed", "==", "0" ] },
-        "effect": { "math": [ "random_events_allowed", "=", "1" ] },
+        "condition": { "math": [ "random_events_allowed == 0" ] },
+        "effect": { "math": [ "random_events_allowed = 1" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       {
         "text": "Enable random events.",
-        "condition": { "math": [ "random_events_allowed", "==", "1" ] },
-        "effect": { "math": [ "random_events_allowed", "=", "0" ] },
+        "condition": { "math": [ "random_events_allowed == 1" ] },
+        "effect": { "math": [ "random_events_allowed = 0" ] },
         "topic": "TALK_DEFENSE_MODE_ADVANCED_GAME_OPTIONS"
       },
       { "text": "Return to main menu.", "topic": "TALK_DEFENSE_MODE_MAIN_MENU" }
@@ -435,32 +435,32 @@
     "responses": [
       {
         "text": "<color_yellow>Easy</color>: No additional enemies spawn per wave, and you get a second chance when you die the first time.  Good for newcomers or those not familiar with isometric horde fighters.",
-        "effect": [ { "math": [ "diffulty_modifier", "=", "1" ] }, { "math": [ "revivication_counter", "=", "1" ] } ],
+        "effect": [ { "math": [ "diffulty_modifier = 1" ] }, { "math": [ "revivication_counter = 1" ] } ],
         "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU"
       },
       {
         "text": "<color_yellow>Normal</color>: The basic way to play, no additional enemies, with no safety nets.  This is considered the default.",
-        "effect": { "math": [ "diffulty_modifier", "=", "1" ] },
+        "effect": { "math": [ "diffulty_modifier = 1" ] },
         "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU"
       },
       {
         "text": "<color_yellow>Difficult</color>: More enemies spawn per wave, but nothing too extreme.  You'll have to fight harder to live, but more loot comes with it too.",
-        "effect": { "math": [ "diffulty_modifier", "=", "1.5" ] },
+        "effect": { "math": [ "diffulty_modifier = 1.5" ] },
         "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU"
       },
       {
         "text": "<color_yellow>Hard</color>: Twice the number of enemies will spawn per wave.  A true challenge to test your metal.",
-        "effect": { "math": [ "diffulty_modifier", "=", "2" ] },
+        "effect": { "math": [ "diffulty_modifier = 2" ] },
         "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU"
       },
       {
         "text": "<color_yellow>Nightmare</color>: Three times the number of enemies will attack you, making things a long and brutal slog though guts and blood.  Come prepared to possibly fail a few times.",
-        "effect": { "math": [ "diffulty_modifier", "=", "3" ] },
+        "effect": { "math": [ "diffulty_modifier = 3" ] },
         "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU"
       },
       {
         "text": "<color_yellow>DOOM</color>: Fives times the number of enemies will attack you.  Armies will come to your door, and what they will be met with is up to you to decide.  Incredibly difficult.",
-        "effect": { "math": [ "diffulty_modifier", "=", "5" ] },
+        "effect": { "math": [ "diffulty_modifier = 5" ] },
         "topic": "TALK_DEFENSE_MODE_DIFFICULTY_SELECTION_MENU"
       },
       { "text": "Make a custom difficulty.", "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU" },
@@ -474,7 +474,7 @@
     "responses": [
       {
         "text": "Increase by 1",
-        "effect": { "math": [ "diffulty_modifier", "++" ] },
+        "effect": { "math": [ "diffulty_modifier++" ] },
         "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU"
       },
       {
@@ -484,7 +484,7 @@
       },
       {
         "text": "Decrease by 1",
-        "effect": { "math": [ "diffulty_modifier", "--" ] },
+        "effect": { "math": [ "diffulty_modifier--" ] },
         "topic": "TALK_DEFENSE_MODE_CUSTOM_DIFFICULTY_MENU"
       },
       {

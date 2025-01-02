@@ -179,9 +179,8 @@
     "enchantments": [
       {
         "condition": "ACTIVE",
+        "incoming_damage_mod": [ { "type": "biological", "add": -7 }, { "type": "cold", "add": -5 } ],
         "values": [
-          { "value": "ARMOR_BIO", "add": -7 },
-          { "value": "ARMOR_COLD", "add": -5 },
           { "value": "PAIN_REMOVE", "add": 45 },
           { "value": "METABOLISM", "multiply": 1.5 },
           { "value": "REGEN_HP", "multiply": 2 }
@@ -232,84 +231,95 @@
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
-    "id": "bio_forcefield_bash_cut_weak",
+    "id": "bio_shield_weak",
     "type": "bionic",
-    "name": { "str": "HawkingCorps GravyField Mark I" },
-    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of gravity fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps GravyField Mark I.  Activating the field will reduce incoming bashing and cut damage by 5 points.",
+    "name": { "str": "HawkingCorps Mark I Shield" },
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of -color glass condensate- and any and all of their specific functions are the intellectual property of the Hawking Corporation and/or its local subsidiaries.\n-From the owners manual of HawkingCorps Mark I Shield.\n\nActivating the shield will create an energy shield capable of negating a modest amount of damage from weak or improvised weapons.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
-    "available_upgrades": [ "bio_forcefield_bash_cut_medium", "bio_forcefield_bash_cut_heavy" ],
-    "act_cost": "1 kJ",
-    "react_cost": "1 kJ",
-    "time": "1 s",
-    "enchantments": [ "forcefield_bash_cut_weak" ],
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
-    "id": "bio_forcefield_bash_cut_medium",
-    "type": "bionic",
-    "name": { "str": "HawkingCorps GravyField Mark II" },
-    "description": "The HawkingCorps GravyField Mark II was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  Activating the field will reduce incoming bashing and cut damage by 15 points.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "upgraded_bionic": "bio_forcefield_bash_cut_weak",
-    "available_upgrades": [ "bio_forcefield_bash_cut_heavy" ],
-    "act_cost": "5 kJ",
-    "react_cost": "5 kJ",
-    "time": "1 s",
-    "enchantments": [ "forcefield_bash_cut_medium" ],
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
-    "id": "bio_forcefield_bash_cut_heavy",
-    "type": "bionic",
-    "name": { "str": "Debt Collection Agent GravyField" },
-    "description": "This class of personal gravity manipulator often sees action on both sides of the vicious ship-to-ship boarding fights that are common with both repossession and piracy.  It remains practically impenetrable to melee weapons that lack sharp piercing points.  Activating the field will reduce incoming bashing and cut damage by 25 points.",
-    "occupied_bodyparts": [ [ "torso", 14 ] ],
-    "upgraded_bionic": "bio_forcefield_bash_cut_medium",
+    "available_upgrades": [ "bio_shield_medium", "bio_shield_heavy" ],
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
     "act_cost": "10 kJ",
-    "react_cost": "10 kJ",
-    "time": "1 s",
-    "enchantments": [ "forcefield_bash_cut_heavy" ],
-    "flags": [ "BIONIC_TOGGLED" ]
-  },
-  {
-    "id": "bio_forcefield_ballistic_weak",
-    "type": "bionic",
-    "name": { "str": "Point Energy Conversion Field" },
-    "description": "The PEC, as it is commonly known, works by converting kinetic energy into forms that are less damaging to the wearer, such as light.  Since this can be problematic, various types of shielding have been developed that do different emissions.  However, the ability to stop ballistic and piercing damage in its tracks often makes up for any inconvenience these emissions can cause.  Activating the field will reduce incoming ballistic and piercing damage by 10 points.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "available_upgrades": [ "bio_forcefield_ballistic_medium", "bio_forcefield_ballistic_heavy" ],
-    "act_cost": "1 kJ",
     "react_cost": "1 kJ",
     "time": "1 s",
-    "enchantments": [ "forcefield_ballistic_piercing_weak" ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [
+      {
+        "id": "bio_shield_weak_activate",
+        "effect": {
+          "run_eocs": "EOC_bio_start_shield",
+          "variables": {
+            "shield_max_hp": "120",
+            "shield_regen": "1",
+            "shield_regen_rate": "2",
+            "success_message": "The shield activates.",
+            "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shield" ]
   },
   {
-    "id": "bio_forcefield_ballistic_medium",
+    "id": "bio_shield_medium",
     "type": "bionic",
-    "name": { "str": "Holtzman Personal Shield Generator" },
-    "description": "Personal shielding against bullets and sharp-pointed weapons comes in a variety of types.  This version is known for drastically increasing an individual soldier's lifespan while often decreasing that of anyone - friend or foe - in close proximity.  Activating the field will reduce incoming ballistic and piercing damage by 20 points.",
+    "name": { "str": "HawkingCorps Mark V Shield" },
+    "description": "Powerful and covert, the Mark V Shield is a military-grade shielding system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse-engineered from.  A.\n\nActivating the shield will create an energy barrier capable of withstanding a modest amount of melee and ranged damage.",
     "occupied_bodyparts": [ [ "torso", 12 ] ],
-    "upgraded_bionic": "bio_forcefield_ballistic_weak",
-    "available_upgrades": [ "bio_forcefield_ballistic_heavy" ],
-    "act_cost": "5 kJ",
-    "react_cost": "5 kJ",
+    "upgraded_bionic": "bio_shield_weak",
+    "available_upgrades": [ "bio_shield_heavy" ],
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
+    "act_cost": "10 kJ",
+    "react_cost": "2 kJ",
     "time": "1 s",
-    "enchantments": [ "forcefield_ballistic_piercing_medium" ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [
+      {
+        "id": "bio_shield_medium_activate",
+        "effect": {
+          "run_eocs": "EOC_bio_start_shield",
+          "variables": {
+            "shield_max_hp": "550",
+            "shield_regen": "2",
+            "shield_regen_rate": "1",
+            "success_message": "The shield activates.",
+            "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shield" ]
   },
   {
-    "id": "bio_forcefield_ballistic_heavy",
+    "id": "bio_shield_heavy",
     "type": "bionic",
     "name": { "str": "Kinetic Annulment System" },
-    "description": "A kinetic attenuation system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
+    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to withstand prolonged assault from anti-vehicle weaponry.",
     "occupied_bodyparts": [ [ "torso", 14 ] ],
-    "upgraded_bionic": "bio_forcefield_ballistic_medium",
-    "act_cost": "10 kJ",
-    "react_cost": "10 kJ",
+    "upgraded_bionic": "bio_shield_medium",
+    "active_flags": [ "BIO_SHIELD_ACTIVE" ],
+    "act_cost": "1500 kJ",
+    "react_cost": "100 kJ",
     "time": "1 s",
-    "enchantments": [ "forcefield_ballistic_piercing_heavy" ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED", "DEAF" ],
+    "activated_eocs": [
+      {
+        "id": "bio_shield_heavy_activate",
+        "effect": {
+          "run_eocs": "EOC_bio_start_shield",
+          "variables": {
+            "shield_max_hp": "10000",
+            "shield_regen": "20",
+            "shield_regen_rate": "1",
+            "success_message": "All surrounding noise is muted as the barrier coalesces.",
+            "failure_message": "Your implant vibrates uncomfortably as the shield fails to activate."
+          }
+        }
+      }
+    ],
+    "processed_eocs": [ "EOC_bio_update_ui" ],
+    "deactivated_eocs": [ "EOC_bio_stop_shield" ]
   },
   {
     "id": "afs_bio_neurosoft_aeronautics",
@@ -371,7 +381,7 @@
             { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
           ]
         },
-        "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
+        "melee_damage_bonus": [ { "type": "heat", "add": 35 } ]
       }
     ]
   },
@@ -398,7 +408,7 @@
           ]
         },
         "hit_you_effect": [ { "id": "bio_blade_electric_arc" } ],
-        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
+        "melee_damage_bonus": [ { "type": "electric", "add": 10 } ]
       }
     ]
   },

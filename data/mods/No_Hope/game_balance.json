@@ -3,28 +3,24 @@
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STAMINA_BURN_RATE",
     "//": "TODO: Why is this lower than vanilla?",
-    "info": "Sets base stamina burn per 100 moves of the walking player.",
     "stype": "int",
     "value": 10
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "OVERRIDE_VEHICLE_INIT_STATE",
-    "info": "If true, initial status and amount of fuel for all spawned vehicles will be overridden by values of VEHICLE_STATUS_AT_SPAWN and VEHICLE_FUEL_AT_SPAWN options.",
     "stype": "bool",
     "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "VEHICLE_STATUS_AT_SPAWN",
-    "info": "All vehicles spawn in this status.  -1 is lightly damaged (default), 0 is undamaged, 1 is disabled (destroyed tires or engine).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
     "stype": "int",
     "value": 1
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "VEHICLE_FUEL_AT_SPAWN",
-    "info": "All vehicles spawn with this percentage of fuel.  0 is empty, 100 is fully loaded, -1 is random amount from 7% to 35% (default).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
     "stype": "int",
     "value": 0
   }

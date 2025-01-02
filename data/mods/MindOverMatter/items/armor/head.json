@@ -74,7 +74,19 @@
     "environmental_protection": 1,
     "flags": [ "OUTER", "FRAGILE", "SUN_GLASSES", "WATER_BREAK", "PADDED", "ELECTRONIC" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_MINDS", "add": 20 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "condition": { "test_eoc": "EOC_CONDITION_HAS_MIND" },
+              "distance": 20,
+              "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -91,9 +103,6 @@
       "msg": "Your %s deactivates.",
       "target": "psionic_mindsight_glasses"
     },
-    "power_draw": "3500 mW",
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_MINDS", "add": 20 } ] } ]
-    }
+    "power_draw": "3500 mW"
   }
 ]

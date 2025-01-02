@@ -43,24 +43,23 @@
   {
     "id": "xl_boots_glimmer_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL glimmer fur boots", "str_pl": "pairs of XL glimmer fur boots" },
+    "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
     "copy-from": "boots_glimmer_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_glimmer_fur",
     "type": "ARMOR",
     "copy-from": "boots_glimmer_fur",
-    "looks_like": "boots_glimmer_fur",
-    "name": { "str": "pair of XS glimmer fur boots", "str_pl": "pairs of XS glimmer fur boots" },
+    "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "pants_glimmer_fur",
     "type": "ARMOR",
-    "name": { "str_sp": "glimmer fur pants" },
+    "name": { "str": "pair of glimmer fur pants", "str_pl": "pairs of glimmer fur pants" },
     "description": "A hefty pair of fae fur-lined pants.",
     "weight": "920 g",
     "volume": "4 L",
@@ -110,19 +109,18 @@
   {
     "id": "xl_pants_glimmer_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL glimmer fur pants", "str_pl": "pairs of XL glimmer fur pants" },
+    "name": { "str": "pair of glimmer fur pants", "str_pl": "pairs of glimmer fur pants" },
     "copy-from": "pants_glimmer_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_pants_glimmer_fur",
     "type": "ARMOR",
     "copy-from": "pants_glimmer_fur",
-    "looks_like": "pants_glimmer_fur",
-    "name": { "str": "pair of XS glimmer fur pants", "str_pl": "pairs of XS glimmer fur pants" },
+    "name": { "str": "pair of glimmer fur pants", "str_pl": "pairs of glimmer fur pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cloak_glimmer_fur",
@@ -176,19 +174,18 @@
   {
     "id": "xl_coat_glimmer_fur",
     "type": "ARMOR",
-    "name": { "str": "XL glimmer fur coat" },
+    "name": { "str": "glimmer fur coat" },
     "copy-from": "coat_glimmer_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_glimmer_fur",
     "type": "ARMOR",
     "copy-from": "coat_glimmer_fur",
-    "looks_like": "coat_glimmer_fur",
-    "name": { "str": "XS glimmer fur coat" },
+    "name": { "str": "glimmer fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "trenchcoat_glimmer_fur",
@@ -437,19 +434,18 @@
   {
     "id": "xl_duster_glimmer_fur",
     "type": "ARMOR",
-    "name": { "str": "XL glimmer fur duster" },
+    "name": { "str": "glimmer fur duster" },
     "copy-from": "duster_glimmer_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_glimmer_fur",
     "type": "ARMOR",
     "copy-from": "duster_glimmer_fur",
-    "looks_like": "duster_glimmer_fur",
-    "name": { "str": "XS glimmer fur duster" },
+    "name": { "str": "glimmer fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gambeson_gossamer",
@@ -560,19 +556,17 @@
     "id": "xl_mt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_arms",
-    "name": { "str": "pair of XL moon tears chainmail sleeves", "str_pl": "pairs of XL moon tears chainmail sleeves" },
-    "description": "Moon tears chainmail arms found in places where redcap aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_arms",
-    "name": { "str": "pair of XS moon tears chainmail sleeves", "str_pl": "pairs of XS moon tears chainmail sleeves" },
-    "description": "Moon tears chainmail arms found in places where pooka aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_feet",
@@ -594,19 +588,19 @@
     "id": "xl_mt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_feet",
-    "name": { "str": "pair of XL moon tears chainmail chausses", "str_pl": "pairs of XL moon tears chainmail chausses" },
+    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous.",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_feet",
-    "name": { "str": "pair of XS moon tears chainmail chausses", "str_pl": "pairs of XS moon tears chainmail chausses" },
+    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_hands",
@@ -628,17 +622,17 @@
     "id": "xl_mt_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hands",
-    "name": { "str": "pair of XL moon tears chainmail gloves", "str_pl": "pairs of XL moon tears chainmail gloves" },
+    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mt_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hands",
-    "name": { "str": "pair of XS moon tears chainmail gloves", "str_pl": "pairs of XS moon tears chainmail gloves" },
+    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_hood",
@@ -660,20 +654,17 @@
     "id": "xl_mt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hood",
-    "name": { "str": "XL moon tears chainmail coif" },
-    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
+    "name": { "str": "moon tears chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hood",
-    "looks_like": "hc_chainmail_hood",
-    "name": { "str": "XS moon tears chainmail coif" },
-    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
+    "name": { "str": "moon tears chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_legs",
@@ -695,19 +686,19 @@
     "id": "xl_mt_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_legs",
-    "name": { "str": "XL moon tears chainmail leggings", "str_pl": "pairs of XL moon tears chainmail leggings" },
+    "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
     "description": "Moon tears chainmail leggings for the largest of redcaps.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mt_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_legs",
-    "name": { "str": "XS moon tears chainmail leggings", "str_pl": "pairs of XS moon tears chainmail leggings" },
+    "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
     "description": "Moon tears chainmail leggings for the smallest of pooka.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_hauberk",
@@ -728,18 +719,18 @@
   {
     "id": "xl_mt_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL moon tears chainmail hauberk" },
+    "name": { "str": "moon tears chainmail hauberk" },
     "copy-from": "mt_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mt_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_hauberk",
-    "name": { "str": "XS moon tears chainmail hauberk" },
+    "name": { "str": "moon tears chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_suit",
@@ -760,26 +751,26 @@
   {
     "id": "xl_mt_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL moon tears chainmail armor" },
+    "name": { "str": "moon tears chainmail armor" },
     "copy-from": "mt_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mt_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "mt_chainmail_suit",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "XS moon tears chainmail armor" },
+    "name": { "str": "moon tears chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "high steel chainmail vest" },
+    "name": { "str": "moon tears chainmail vest" },
     "description": "A customized moon tears chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
@@ -793,18 +784,18 @@
   {
     "id": "xl_mt_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "XL moon tears chainmail vest" },
+    "name": { "str": "moon tears chainmail vest" },
     "copy-from": "mt_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
-    "name": { "str": "XS moon tears chainmail vest" },
+    "name": { "str": "moon tears chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "dreamforged_ballistic_plate",
@@ -1268,6 +1259,40 @@
     "relic_data": { "passive_effects": [ { "id": "ench_verdant_gauntlets" } ] }
   },
   {
+    "id": "leg_guards_verdant",
+    "//": "Derived from chitin leg guards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of verdant leg guards", "str_pl": "pairs of verdant leg guards" },
+    "description": "A pair of leg guards made from living plant matter, with bark covering the outer surface.  This is definitely not anything that could have existed before the Cataclysm.",
+    "weight": "510 g",
+    "volume": "5000 ml",
+    "price": "250 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "mut_wood", "veggy" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 4,
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "PADDED" ],
+    "armor": [
+      {
+        "breathability": "AVERAGE",
+        "material": [
+          { "type": "mut_wood", "covered_by_mat": 95, "thickness": 3 },
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l" ],
+        "encumbrance": 3
+      }
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_verdant_legs" } ] }
+  },
+  {
     "id": "boots_verdant",
     "//": "Derived from chitinous boots",
     "type": "ARMOR",
@@ -1321,5 +1346,58 @@
     ],
     "melee_damage": { "bash": 4 },
     "relic_data": { "passive_effects": [ { "id": "ench_verdant_boots" } ] }
+  },
+  {
+    "id": "sevenoclock_coat",
+    "type": "ARMOR",
+    "name": { "str": "coat of the timely sleeper" },
+    "description": "A old-fashioned padded coat with deep pockets.  As you touch it, you feel that this coat could allow you to fall asleep whenever and wherever you want.",
+    "weight": "1340 g",
+    "volume": "6750 ml",
+    "price": "14000 USD",
+    "price_postapoc": "70 USD 50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "coat_rain",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 11 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 70,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "ALARMCLOCK", "OUTER" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_sevenoclock_coat" } ] }
   }
 ]

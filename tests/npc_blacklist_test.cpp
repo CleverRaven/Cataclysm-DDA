@@ -9,6 +9,6 @@ TEST_CASE( "npc_blacklist", "[npc][trade]" )
     guy.load_npc_template( npc_template_test_npc_trader );
 
     REQUIRE( guy.wants_to_buy( item( "bow_saw" ) ) );
-    guy.set_value( "npctalk_var_bool_bigotry_hates_bow_saws", "yes" );
+    guy.set_value( "bool_bigotry_hates_bow_saws", "yes" );
     REQUIRE( !guy.wants_to_buy( item( "bow_saw" ) ) );
 }

@@ -10,6 +10,9 @@
 #include "list.h"
 #include "point.h"
 
+// historically 8 bits is enough for rise and run, as a shadowcasting radius of 60
+// readily fits within that space. larger shadowcasting volumes may require larger
+// storage units; a radius of 120 definitely will not fit.
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
         // Ensure run is always positive for the inequality operators
@@ -21,8 +24,7 @@ struct slope {
         }
     }
 
-    // We don't need more that 8 bits since the shadowcasting area is not that large,
-    // currently the radius is 60.
+    // see above for commentary on types.
     int_least8_t rise;
     int_least8_t run;
 };
@@ -166,11 +168,11 @@ void cast_horizontal_zlight_segment(
     const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = MAX_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
-    static half_open_rectangle<point> bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
+    static half_open_rectangle<point> bounds( point::zero, point( MAPSIZE_X, MAPSIZE_Y ) );
 
     slope new_start_minor( 1, 1 );
 
@@ -295,7 +297,7 @@ void cast_horizontal_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
@@ -362,7 +364,7 @@ void cast_vertical_zlight_segment(
     const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
-    const int radius = 60 - offset_distance;
+    const int radius = MAX_VIEW_DISTANCE - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -467,7 +469,7 @@ void cast_vertical_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint::zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {

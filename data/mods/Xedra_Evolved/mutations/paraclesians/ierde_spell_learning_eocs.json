@@ -25,7 +25,7 @@
         },
         {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -56,20 +56,20 @@
     "//": "This is a separate EoC to allow looping through until it finds a spell the Ierde knows. Probability is [11-Difficulty]",
     "condition": {
       "or": [
-        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_knockback_punch_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_reshape_the_earth_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_slow_enemies_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_earthen_shield_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_buff_armor_allies_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] },
-        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_create_pits_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_knockback_punch_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_iron_armor_spell') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_reshape_the_earth_spell') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_slow_enemies_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_entrap_target_in_stone') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_earthen_shield_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_buff_armor_allies_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit') < 35" ] },
+        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
     "effect": {
@@ -96,8 +96,8 @@
     "id": "EOC_LEVELER_IERDE_STOMP_GROUND_SMASH",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_stomp_ground_smash_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -114,8 +114,8 @@
     "id": "EOC_LEVELER_IERDE_CREATE_PITS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_create_pits_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_create_pits_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_create_pits_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -132,8 +132,8 @@
     "id": "EOC_LEVELER_IERDE_KNOCKBACK_PUNCH",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_knockback_punch_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_knockback_punch_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_knockback_punch_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_knockback_punch_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -150,8 +150,8 @@
     "id": "EOC_LEVELER_IERDE_IRON_ARMOR",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_iron_armor_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_iron_armor_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_iron_armor_spell') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -168,8 +168,8 @@
     "id": "EOC_LEVELER_IERDE_REVEAL_EARTH_MAP",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -186,8 +186,8 @@
     "id": "EOC_LEVELER_IERDE_RESHAPE_THE_EARTH",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_reshape_the_earth_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_reshape_the_earth_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_reshape_the_earth_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_reshape_the_earth_spell') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -204,8 +204,8 @@
     "id": "EOC_LEVELER_IERDE_SLOW_ENEMIES",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_slow_enemies_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_slow_enemies_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_slow_enemies_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_slow_enemies_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -222,8 +222,8 @@
     "id": "EOC_LEVELER_IERDE_ENTRAP_TARGET_IN_STONE",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_entrap_target_in_stone') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_entrap_target_in_stone') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -240,8 +240,8 @@
     "id": "EOC_LEVELER_IERDE_EARTHEN_SHIELD",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_earthen_shield_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_earthen_shield_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_earthen_shield_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_earthen_shield_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -258,8 +258,8 @@
     "id": "EOC_LEVELER_IERDE_BUFF_ARMOR_ALLIES",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_buff_armor_allies_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_buff_armor_allies_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_buff_armor_allies_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_buff_armor_allies_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -276,8 +276,8 @@
     "id": "EOC_LEVELER_IERDE_SUMMON_EARTH_SPIRIT",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] }
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_summon_earth_spirit') < 35" ] }
       ]
     },
     "effect": [
@@ -294,8 +294,8 @@
     "id": "EOC_LEVELER_IERDE_TUNNEL_TRANSLOCATE",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -312,8 +312,8 @@
     "id": "EOC_LEVELER_IERDE_CULTIVATE_GOBLIN_FRUIT",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", ">=", "0" ] },
-        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit') >= 0" ] },
+        { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -330,8 +330,8 @@
     "id": "EOC_LEVELER_IERDE_MAKE_GOSSAMER",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
     "effect": [

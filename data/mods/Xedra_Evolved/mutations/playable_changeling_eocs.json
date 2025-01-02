@@ -88,7 +88,7 @@
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
           ]
         }
       ],
@@ -130,7 +130,7 @@
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
           ],
           "false_effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
         }
@@ -261,7 +261,7 @@
     },
     "effect": [
       { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
-      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -289,7 +289,7 @@
     },
     "effect": [
       { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
-      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -309,7 +309,7 @@
       },
       { "u_message": "You wrap yourself up in a glamour.", "type": "good" },
       {
-        "queue_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
+        "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
         "time_in_future": [
           { "math": [ "(changeling_common_traits() * 22.5) + (u_skill('deduction') * 230) + 351" ] },
           { "math": [ "(changeling_common_traits() * 57.5) + (u_skill('deduction') * 560) + 789" ] }
@@ -503,8 +503,8 @@
     "id": "EOC_CHANGELING_NOBLE_MOVEMENT_BUFFS",
     "condition": "u_is_npc",
     "effect": [
-      { "math": [ "u_glamoured_changeling_noble_traits", "=", "n_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE')" ] },
-      { "math": [ "u_glamoured_deduction_movement_buff", "=", "n_skill('deduction')" ] },
+      { "math": [ "u_glamoured_changeling_noble_traits = n_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE')" ] },
+      { "math": [ "u_glamoured_deduction_movement_buff = n_skill('deduction')" ] },
       {
         "u_add_effect": "effect_changeling_noble_movement_buffs_ally",
         "duration": {
@@ -533,7 +533,7 @@
     "effect": [ { "u_add_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ],
     "false_effect": [
       { "u_message": "After your actions you may not invoke the right of passage.", "type": "bad" },
-      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -554,11 +554,12 @@
     "condition": {
       "and": [
         { "u_has_trait": "BROWNIE_HOMEBODY" },
-        { "math": [ "u_brownie_homebody_speed_bonus", "<=", "19" ] },
+        { "math": [ "u_brownie_homebody_speed_bonus <= 19" ] },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
-    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "++" ] }, { "math": [ "u_brownie_sense_intruders", "++" ] } ]
+    "deactivate_condition": { "not": { "u_has_trait": "BROWNIE_HOMEBODY" } },
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus++" ] }, { "math": [ "u_brownie_sense_intruders++" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -568,7 +569,7 @@
     "condition": {
       "and": [
         "u_is_outside",
-        { "math": [ "u_brownie_homebody_speed_bonus", ">", "0" ] },
+        { "math": [ "u_brownie_homebody_speed_bonus > 0" ] },
         {
           "not": {
             "or": [
@@ -662,7 +663,7 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "--" ] }, { "math": [ "u_brownie_sense_intruders", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus--" ] }, { "math": [ "u_brownie_sense_intruders = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -702,7 +703,7 @@
     "id": "EOC_BROWNIE_HOME_TELEPORT_SET_DESTINATION",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus", ">=", "12" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus >= 12" ] } ] },
     "effect": [ { "u_location_variable": { "u_val": "brownie_home_teleport_loc" } } ]
   },
   {
@@ -753,21 +754,19 @@
       ]
     },
     "effect": [
-      { "math": [ "brownie_home_teleport", "=", "0" ] },
+      { "math": [ "brownie_home_teleport = 0" ] },
       {
-        "u_run_monster_eocs": [
-          { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_MONSTER", "effect": { "math": [ "brownie_home_teleport", "=", "1" ] } }
-        ],
+        "u_run_monster_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_MONSTER", "effect": { "math": [ "brownie_home_teleport = 1" ] } } ],
         "monster_range": 45,
         "monster_must_see": true
       },
       {
-        "u_run_npc_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_NPC", "effect": { "math": [ "brownie_home_teleport", "=", "1" ] } } ],
+        "u_run_npc_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_NPC", "effect": { "math": [ "brownie_home_teleport = 1" ] } } ],
         "npc_range": 45,
         "npc_must_see": true
       },
       {
-        "if": { "math": [ "brownie_home_teleport", "==", "0" ] },
+        "if": { "math": [ "brownie_home_teleport == 0" ] },
         "then": [
           { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
           { "u_message": "You slip through the door and head straight home.", "type": "good" }
@@ -780,7 +779,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK",
-    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "condition": { "math": [ "u_val('mana') >= 1" ] },
     "effect": [
       {
         "run_eocs": [
@@ -793,14 +792,14 @@
                 "1 + u_has_trait('POOKA_SHAPESHIFT_GOOD') + (u_has_trait('POOKA_SHAPESHIFT_GOOD2') * 2) + (u_has_trait('POOKA_SHAPESHIFT_GOOD3') * 4) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 50)"
               ]
             },
-            "effect": [ { "math": [ "u_val('mana')", "--" ] } ]
+            "effect": [ { "math": [ "u_val('mana')--" ] } ]
           }
         ]
       }
     ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain all of your shapeshifts!", "type": "bad" },
-      { "queue_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future", "time_in_future": 0 }
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future", "time_in_future": 0 }
     ]
   },
   {
@@ -1157,7 +1156,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
-    "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+    "condition": { "math": [ "u_val('mana') >= 2" ] },
     "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
     "false_effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
@@ -1183,7 +1182,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
@@ -1196,7 +1195,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a bat.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1244,7 +1243,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
@@ -1256,7 +1255,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a raven.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1303,7 +1302,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
@@ -1315,7 +1314,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a bear.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1362,7 +1361,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
@@ -1373,7 +1372,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a deer.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1419,7 +1418,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
@@ -1430,7 +1429,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a wolf.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1473,7 +1472,7 @@
           "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
           {
             "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated_2",
-            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "condition": { "math": [ "u_val('mana') >= 2" ] },
             "effect": [
               { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
               { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },
@@ -1486,7 +1485,7 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough mana to transform into a cougar.", "type": "bad" },
-              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future", "time_in_future": 0 }
+              { "run_eocs": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
@@ -1538,14 +1537,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
-    "condition": { "math": [ "magic_weather_dense_fog", "!=", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
     "effect": [
       { "u_message": "A thick fog begins to rise.", "type": "neutral" },
-      { "math": [ "magic_weather_dense_fog", "=", "1" ] },
+      { "math": [ "magic_weather_dense_fog = 1" ] },
       { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
       {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+        "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
         "time_in_future": [
           {
             "math": [
@@ -1562,26 +1561,26 @@
     ],
     "false_effect": [
       { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
-      { "math": [ "magic_weather_dense_fog", "=", "0" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
-    "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
     "effect": [
       { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
       { "u_lose_effect": "effect_controlling_weather_fog" },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
-      { "math": [ "magic_weather_dense_fog", "=", "0" ] }
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
-    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
     "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER" } ],
     "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
   },
@@ -1589,10 +1588,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_NOT_WINTER",
     "condition": {
-      "and": [
-        { "math": [ "u_weather_change_limit", "<=", "2" ] },
-        { "not": { "u_has_effect": "effect_controlling_weather_rains" } }
-      ]
+      "and": [ { "math": [ "u_weather_change_limit <= 2" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rains" } } ]
     },
     "effect": [
       {
@@ -1602,9 +1598,9 @@
             "condition": { "not": { "u_has_effect": "effect_controlling_weather_lightningstorm" } },
             "effect": [
               { "u_lose_effect": "effect_controlling_weather" },
-              { "math": [ "u_weather_change_limit", "=", "3" ] },
-              { "math": [ "u_weather_stage_up_lower_bound", "=", "60" ] },
-              { "math": [ "u_weather_stage_up_upper_bound", "=", "180" ] },
+              { "math": [ "u_weather_change_limit = 3" ] },
+              { "math": [ "u_weather_stage_up_lower_bound = 60" ] },
+              { "math": [ "u_weather_stage_up_upper_bound = 180" ] },
               { "u_add_effect": "effect_controlling_weather_rains", "duration": "6 hours" },
               {
                 "u_add_effect": "effect_controlling_weather",
@@ -1615,7 +1611,7 @@
                 }
               },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+                "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ]
@@ -1626,7 +1622,7 @@
     "false_effect": [
       {
         "if": { "u_has_effect": "effect_controlling_weather_rains" },
-        "then": [ { "math": [ "u_weather_change_limit", "=", "0" ] }, { "u_lose_effect": "effect_controlling_weather" } ],
+        "then": [ { "math": [ "u_weather_change_limit = 0" ] }, { "u_lose_effect": "effect_controlling_weather" } ],
         "else": { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_INITIATE" }
       }
     ]
@@ -1634,7 +1630,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
-    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "condition": { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] },
     "effect": [ { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER" } ],
     "false_effect": [ { "u_message": "The weather is too cold for you to control it.", "type": "bad" } ]
   },
@@ -1642,10 +1638,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_NOT_WINTER",
     "condition": {
-      "and": [
-        { "math": [ "u_weather_change_limit", "<=", "3" ] },
-        { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } }
-      ]
+      "and": [ { "math": [ "u_weather_change_limit <= 3" ] }, { "not": { "u_has_effect": "effect_controlling_weather_rainstorm" } } ]
     },
     "effect": [
       {
@@ -1655,9 +1648,9 @@
             "condition": { "not": { "u_has_effect": "effect_controlling_weather_lightningstorm" } },
             "effect": [
               { "u_lose_effect": "effect_controlling_weather" },
-              { "math": [ "u_weather_change_limit", "=", "4" ] },
-              { "math": [ "u_weather_stage_up_lower_bound", "=", "60" ] },
-              { "math": [ "u_weather_stage_up_upper_bound", "=", "180" ] },
+              { "math": [ "u_weather_change_limit = 4" ] },
+              { "math": [ "u_weather_stage_up_lower_bound = 60" ] },
+              { "math": [ "u_weather_stage_up_upper_bound = 180" ] },
               { "u_add_effect": "effect_controlling_weather_rainstorm", "duration": "6 hours" },
               {
                 "u_add_effect": "effect_controlling_weather",
@@ -1668,7 +1661,7 @@
                 }
               },
               {
-                "queue_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+                "run_eocs": "EOC_WEATHER_CONTROL_INITIATE",
                 "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
               }
             ]
@@ -1679,7 +1672,7 @@
     "false_effect": [
       {
         "if": { "u_has_effect": "effect_controlling_weather_rainstorm" },
-        "then": [ { "math": [ "u_weather_change_limit", "=", "0" ] }, { "u_lose_effect": "effect_controlling_weather" } ],
+        "then": [ { "math": [ "u_weather_change_limit = 0" ] }, { "u_lose_effect": "effect_controlling_weather" } ],
         "else": { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM_INITIATE" }
       }
     ]
@@ -1689,26 +1682,23 @@
     "id": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
     "condition": { "or": [ { "is_weather": "magic_weather_rainstorm" }, { "is_weather": "rainstorm" } ] },
     "effect": [
-      { "math": [ "u_weather_change_limit", "=", "6" ] },
-      { "math": [ "magic_weather_rainstorm", "=", "0" ] },
-      { "math": [ "magic_weather_lightning", "=", "1" ] },
+      { "math": [ "u_weather_change_limit = 6" ] },
+      { "math": [ "magic_weather_rainstorm = 0" ] },
+      { "math": [ "magic_weather_lightning = 1" ] },
       { "u_add_effect": "effect_controlling_weather_lightningstorm", "duration": "6 hours" },
       { "u_add_effect": "effect_controlling_weather", "duration": "30 minutes" },
       { "run_eocs": "EOC_CALL_NEXT_WEATHER" },
       { "u_message": "The sky explodes in a frenzy of lightning!", "type": "mixed" },
-      {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END",
-        "time_in_future": [ "10 minutes", "30 minutes" ]
-      }
+      { "run_eocs": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END", "time_in_future": [ "10 minutes", "30 minutes" ] }
     ],
     "false_effect": [ { "u_message": "You need a heavy rainstorm to agitate it into lightning.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM_END",
-    "condition": { "math": [ "magic_weather_lightning", "==", "1" ] },
+    "condition": { "math": [ "magic_weather_lightning == 1" ] },
     "effect": [
-      { "math": [ "u_weather_change_limit", "=", "0" ] },
+      { "math": [ "u_weather_change_limit = 0" ] },
       { "u_lose_effect": "effect_controlling_weather" },
       { "u_lose_effect": "effect_controlling_weather_lightningstorm" }
     ]

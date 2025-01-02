@@ -94,15 +94,15 @@ extended_description_window::extended_description_window( tripoint_bub_ms &p ) :
         creature_description = critter->extended_description();
     }
     bool sees = get_player_character().sees( p );
-    furn_id furn = get_map().furn( p );
+    const furn_id &furn = get_map().furn( p );
     if( sees && furn ) {
         furniture_description = furn->extended_description();
     }
-    ter_id ter = get_map().ter( p );
+    const ter_id &ter = get_map().ter( p );
     if( sees && ter ) {
         terrain_description = ter->extended_description();
     }
-    const optional_vpart_position vp = get_map().veh_at( p );
+    const optional_vpart_position &vp = get_map().veh_at( p );
     if( sees && vp ) {
         veh_app_description = vp.extended_description();
     }

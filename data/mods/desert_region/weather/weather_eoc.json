@@ -55,19 +55,19 @@
         "or": [
           { "is_weather": "dust_storm" },
           { "is_weather": "early_dust_storm" },
-          { "math": [ "cause_dust_storm", "==", "1" ] },
-          { "math": [ "cause_early_dust_storm", "==", "1" ] },
+          { "math": [ "cause_dust_storm == 1" ] },
+          { "math": [ "cause_early_dust_storm == 1" ] },
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "math": [ "cause_portal_storm", "==", "1" ] },
-          { "math": [ "cause_early_portal_storm", "==", "1" ] }
+          { "math": [ "cause_portal_storm == 1" ] },
+          { "math": [ "cause_early_portal_storm == 1" ] }
         ]
       }
     },
     "effect": [
-      { "math": [ "cause_early_dust_storm", "=", "1" ] },
+      { "math": [ "cause_early_dust_storm = 1" ] },
       "next_weather",
-      { "queue_eocs": "EOC_CAUSE_DUST_STORM", "time_in_future": [ "5 minutes", "30 minutes" ] },
+      { "run_eocs": "EOC_CAUSE_DUST_STORM", "time_in_future": [ "5 minutes", "30 minutes" ] },
       {
         "run_eocs": [
           {
@@ -99,13 +99,13 @@
     "id": "EOC_CAUSE_DUST_STORM",
     "global": true,
     "//": "This sets up all the variables for the start of a dust storm.",
-    "condition": { "not": { "or": [ { "is_weather": "dust_storm" }, { "math": [ "cause_dust_storm", "==", "1" ] } ] } },
+    "condition": { "not": { "or": [ { "is_weather": "dust_storm" }, { "math": [ "cause_dust_storm == 1" ] } ] } },
     "effect": [
-      { "math": [ "cause_early_dust_storm", "=", "0" ] },
-      { "math": [ "cause_dust_storm", "=", "1" ] },
+      { "math": [ "cause_early_dust_storm = 0" ] },
+      { "math": [ "cause_dust_storm = 1" ] },
       "next_weather",
       {
-        "queue_eocs": "EOC_CANCEL_DUST_STORM",
+        "run_eocs": "EOC_CANCEL_DUST_STORM",
         "time_in_future": [ { "global_val": "ds_min_length", "default": "1 hours" }, { "global_val": "ds_max_length", "default": "5 hours" } ]
       },
       {
@@ -128,13 +128,13 @@
       "or": [
         { "is_weather": "dust_storm" },
         { "is_weather": "early_dust_storm" },
-        { "math": [ "cause_dust_storm", "==", "1" ] },
-        { "math": [ "cause_early_dust_storm", "==", "1" ] }
+        { "math": [ "cause_dust_storm == 1" ] },
+        { "math": [ "cause_early_dust_storm == 1" ] }
       ]
     },
     "effect": [
-      { "math": [ "cause_dust_storm", "=", "0" ] },
-      { "math": [ "cause_early_dust_storm", "=", "0" ] },
+      { "math": [ "cause_dust_storm = 0" ] },
+      { "math": [ "cause_early_dust_storm = 0" ] },
       "next_weather",
       {
         "run_eocs": [
@@ -152,7 +152,7 @@
     "id": "EOC_DUST_WIND",
     "recurrence": [ "10 seconds", "30 seconds" ],
     "global": true,
-    "condition": { "and": [ { "math": [ "weather('windpower')", "<=", "60" ] }, { "is_weather": "early_dust_storm" } ] },
+    "condition": { "and": [ { "math": [ "weather('windpower') <= 60" ] }, { "is_weather": "early_dust_storm" } ] },
     "deactivate_condition": { "not": { "is_weather": "early_dust_storm" } },
     "effect": [ { "math": [ "weather('windpower')", "+=", "3" ] }, { "u_message": "WIND", "type": "bad" } ]
   },
@@ -170,7 +170,7 @@
     "id": "EOC_DUST_WIND_STRONG",
     "recurrence": [ "10 seconds", "30 seconds" ],
     "global": true,
-    "condition": { "and": [ { "math": [ "weather('windpower')", "<=", "120" ] }, { "is_weather": "dust_storm" } ] },
+    "condition": { "and": [ { "math": [ "weather('windpower') <= 120" ] }, { "is_weather": "dust_storm" } ] },
     "deactivate_condition": { "not": { "is_weather": "dust_storm" } },
     "effect": [ { "math": [ "weather('windpower')", "+=", "4" ] }, { "u_message": "WIND", "type": "bad" } ]
   }

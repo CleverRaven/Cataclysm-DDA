@@ -40,7 +40,7 @@ env:
   # Enable pretty backtraces
   BACKTRACE: 1
   # Compressed size ~1GB based on observations
-  CCACHE_LIMIT: 8GB
+  CCACHE_LIMIT: 9GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
   CDDA_USE_CCACHE: true
   # There's not enough disk space to build both release and debug versions of
@@ -86,7 +86,7 @@ jobs:
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: '66444e13a86da7087ee24c342f91801cc6eb9877'
+        vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
 
     - name: Integrate vcpkg
       run: |
@@ -111,6 +111,7 @@ jobs:
       id: get-vars
       run: |
         echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "datetime-seconds=$(/bin/date +%s)" >> $GITHUB_OUTPUT
         echo "ccache-path=$(echo "$APPDATA\\ccache")" >> $GITHUB_OUTPUT
       shell: bash
 
@@ -138,9 +139,19 @@ jobs:
       run: |
           msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
 
+    - name: Get ccache cache age cutoff
+      id: get-cache-age
+      run: |
+        NOW=`/bin/date +%s`
+        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        echo "ccache-age=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))" >> $GITHUB_OUTPUT
+      shell: bash
+
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
       run: |
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe --evict-older-than ${{ steps.get-ccache-age.outputs.ccache-age }}
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M ${{ env.CCACHE_LIMIT }}
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -c
@@ -185,7 +196,7 @@ jobs:
     - name: Run tests
       if: ${{ github.ref_name != 'master' }}
       run: |
-          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time --order lex --wait-for-keypress exit
 
     - name: Dump disk usage logs if job failed
       if: failure()

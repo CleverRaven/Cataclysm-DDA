@@ -20,7 +20,7 @@
       { "mapgen_update": "abyssal_hunger_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
       { "mapgen_update": "abyssal_hunger_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
-      { "math": [ "abyssal_hunger_level", "=", "1" ] },
+      { "math": [ "abyssal_hunger_level = 1" ] },
       {
         "u_spawn_monster": "mon_bashing_globule",
         "real_count": { "math": [ "rng( 1, 3 ) + abyssal_hunger_level" ] },
@@ -39,9 +39,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL",
-    "condition": { "math": [ "abyssal_hunger_level", "<", "5" ] },
+    "condition": { "math": [ "abyssal_hunger_level < 5" ] },
     "effect": [
-      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "math": [ "abyssal_hunger_level++" ] },
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "mapgen_update": "abyssal_hunger_dungeon", "target_var": { "global_val": "dungeon_loc" } },
@@ -66,7 +66,7 @@
       { "u_message": "You move through the monster's innards and reach another empty space." }
     ],
     "false_effect": [
-      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "math": [ "abyssal_hunger_level++" ] },
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "mapgen_update": "abyssal_hunger_brain", "target_var": { "global_val": "dungeon_loc" } },
@@ -94,13 +94,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ABYSSAL_HUNGER_GRANT_SHARD",
-    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "condition": { "math": [ "abyssal_hunger_level != 0" ] },
     "effect": [ { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" }, { "u_spawn_item": "abyssal_hunger_shard" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ABYSSAL_HUNGER_EXIT",
-    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "condition": { "math": [ "abyssal_hunger_level != 0" ] },
     "effect": [
       { "mapgen_update": "abyssal_hunger_cleanup", "target_var": { "global_val": "dungeon_loc" } },
       {
@@ -110,14 +110,14 @@
         "force": true
       },
       { "alter_timed_events": "abyssal_hunger" },
-      { "math": [ "abyssal_hunger_level", "=", "0" ] }
+      { "math": [ "abyssal_hunger_level = 0" ] }
     ]
   },
   {
     "id": "EOC_DEATH_ABYSSAL_HUNGER",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "condition": { "math": [ "abyssal_hunger_level != 0" ] },
     "effect": [
       {
         "u_message": "It is unclear if you were slain by an immune system or digested but suffice to say, you are no more.",

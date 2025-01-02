@@ -145,7 +145,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_INTEGRATED ) &&
         !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_MORPHIC ) &&
         !it.has_flag( flag_UNRESTRICTED ) ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             const mutation_branch &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<void>::make_failure( is_avatar() ?
@@ -1129,7 +1129,7 @@ int outfit::swim_modifier( const int swim_skill ) const
     int ret = 0;
     if( swim_skill < 10 ) {
         for( const item &i : worn ) {
-            ret += i.volume() / 125_ml * ( 10 - swim_skill );
+            ret += i.volume() * ( 10 - swim_skill ) / 125_ml;
         }
     }
     return ret;
@@ -1867,35 +1867,6 @@ item &outfit::front()
     return worn.front();
 }
 
-static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
-{
-    //If we're not dealing any damage of the given type, don't even bother.
-    if( du.amount < 0.1f ) {
-        return;
-    }
-    // FIXME: hardcoded damage types -> enchantments
-    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
-    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
-    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
-    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
-    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
-    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
-    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
-    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
-    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
-        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
-    }
-    du.amount = std::max( 0.0f, du.amount );
-}
-
 void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed )
 {
@@ -1926,7 +1897,6 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         const std::string pre_damage_name = armor.tname();
         bool destroy = false;
 
-        item_armor_enchantment_adjust( guy, elem, armor );
         // Heat damage can set armor on fire
         // Even though it doesn't cause direct physical damage to it
         // FIXME: Hardcoded damage type
@@ -1950,7 +1920,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             // if not already destroyed to an armor absorb
             destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
             // for the torso we also need to consider if it hits anything hanging off the character or their neck
-            if( secondary_sbp != sub_bodypart_id() ) {
+            if( secondary_sbp != sub_bodypart_id() && !destroy ) {
                 destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
             }
         }
@@ -1963,6 +1933,11 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
             destroyed_armor_msg( guy, pre_damage_name );
             armor_destroyed = true;
             armor.on_takeoff( guy );
+
+            item_location loc = item_location( guy, &armor );
+            cata::event e = cata::event::make<event_type::character_armor_destroyed>( guy.getID(),
+                            armor.typeId() );
+            get_event_bus().send_with_talker( &guy, &loc, e );
             for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                 worn_remains.push_back( *it );
             }

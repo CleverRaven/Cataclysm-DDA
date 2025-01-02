@@ -189,11 +189,7 @@
     "repeat_responses": [
       {
         "for_category": [ "food" ],
-        "response": {
-          "text": "Here, you can have this <topic_item>.",
-          "topic": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD",
-          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 1 }
-        }
+        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD" }
       }
     ]
   },
@@ -201,10 +197,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD",
     "dynamic_line": "Thanks, I really appreciate this.",
-    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [ { "effect": { "u_bulk_donate": 1 } }, { "effect": { "run_eocs": [ "EOC_BEGGAR_TEST_IF_FOOD_CANNIBAL" ] } } ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_3_INTRO", "effect": { "u_bulk_donate": 1 } },
-      { "text": "No problem.  <end_talking_leave>", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_3_INTRO" },
+      { "text": "No problem.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

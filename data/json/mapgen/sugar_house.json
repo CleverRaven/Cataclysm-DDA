@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "sugar_house_parking" ], [ "sugar_house" ] ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         " ~,,,,,,,,,,,,,,,,,,,,~ ",
         " ~,,,,,,,,,,,,,,,,,,,,~ ",
@@ -55,6 +55,7 @@
         " |||||||++|||||||||||| M",
         " 4      ~~              "
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "terrain": {
         " ": "t_region_groundcover",
         "!": "t_region_groundcover",
@@ -69,7 +70,7 @@
         "h": "t_floor",
         "p": "t_floor",
         "D": "t_floor",
-        "'": "t_linoleum_white",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "_": "t_thconc_floor",
         "F": "t_thconc_floor",
         "r": "t_thconc_floor",

@@ -2,12 +2,7 @@
   {
     "type": "palette",
     "id": "boat_rental_palette",
-    "parameters": {
-      "wall": {
-        "type": "ter_str_id",
-        "default": { "distribution": [ [ "t_wall_wood", 1 ], [ "t_wall_log", 1 ], [ "t_wall_b", 1 ], [ "t_wall_g", 1 ] ] }
-      }
-    },
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       "4": "t_gutter_downspout",
       "s": "t_concrete",
@@ -26,7 +21,6 @@
       "X": "t_floor",
       "w": "t_window",
       "+": "t_door_c",
-      "|": { "param": "wall", "fallback": "t_wall_log" },
       "_": [ [ "t_region_soil", 20 ], [ "t_region_groundcover", 3 ] ],
       "-": "t_region_shrub_decorative"
     },

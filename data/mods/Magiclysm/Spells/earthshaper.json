@@ -59,12 +59,11 @@
     "effect_str": "downed",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground", "none" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "LOUD", "NO_PROJECTILE", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "max_level": 10,
-    "min_damage": 2,
-    "max_damage": 10,
-    "damage_increment": 0.8,
+    "min_damage": 1,
+    "max_damage": 6,
     "min_aoe": 3,
     "max_aoe": 12,
     "aoe_increment": 1,
@@ -87,12 +86,11 @@
     "effect_str": "STAMINA",
     "shape": "blast",
     "valid_targets": [ "self" ],
-    "flags": [ "RESTORATION_SPELL", "NO_HANDS", "CONCENTRATE", "SILENT" ],
-    "min_damage": 1500,
-    "max_damage": 10000,
-    "damage_increment": 750,
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "NO_HANDS", "CONCENTRATE", "SILENT" ],
     "max_level": 12,
     "spell_class": "EARTHSHAPER",
+    "min_damage": { "math": [ "(u_spell_level('recover_stamina') * 350) + 500" ] },
+    "max_damage": { "math": [ "(u_spell_level('recover_stamina') * 650) + 850" ] },
     "base_casting_time": 500,
     "final_casting_time": 300,
     "casting_time_increment": -17,
@@ -109,7 +107,7 @@
     "name": "Shardspray",
     "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "LOUD", "NO_HANDS" ],
     "multiple_projectiles": { "math": [ "rng(3, 8)" ] },
     "components": "spell_components_shardspray",
     "effect": "attack",
@@ -120,9 +118,8 @@
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "max_level": 20,
-    "min_damage": 30,
-    "max_damage": 80,
-    "damage_increment": 2.5,
+    "min_damage": { "math": [ "(u_spell_level('eshaper_shardspray') * 0.8) + 10" ] },
+    "max_damage": { "math": [ "(u_spell_level('eshaper_shardspray') * 2) + 25" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "cut",
     "min_aoe": 25,
@@ -141,7 +138,7 @@
     "name": "Piercing Bolt",
     "description": "This spell projects a piercing rod of conjured iron at those that dare oppose you.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "LOUD" ],
     "effect": "attack",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
@@ -150,9 +147,8 @@
     "base_energy_cost": 115,
     "difficulty": 2,
     "max_level": 20,
-    "min_damage": 20,
-    "max_damage": 50,
-    "damage_increment": 3,
+    "min_damage": { "math": [ "(u_spell_level('eshaper_piercing_bolt') * 1) + 4" ] },
+    "max_damage": { "math": [ "(u_spell_level('eshaper_piercing_bolt') * 2.2) + 8" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab",
     "min_range": 8,
@@ -165,10 +161,9 @@
     "name": "Shardstorm",
     "description": "Creates an omnidirectional spray of razor sharp metal shards all around you.",
     "valid_targets": [ "hostile", "ally", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "SPLIT_DAMAGE" ],
-    "min_damage": 20,
-    "max_damage": 60,
-    "damage_increment": 2.0,
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "LOUD", "SPLIT_DAMAGE" ],
+    "min_damage": { "math": [ "(u_spell_level('eshaper_shardstorm') * 0.5) + 6" ] },
+    "max_damage": { "math": [ "(u_spell_level('eshaper_shardstorm') * 1.5) + 12" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "cut",
     "min_aoe": 1,
@@ -189,11 +184,10 @@
     "name": "Rockbolt",
     "description": "Fires a conjured stone projectile at high velocity.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD" ],
-    "min_damage": 5,
-    "damage_increment": 1.5,
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "LOUD" ],
+    "min_damage": { "math": [ "(u_spell_level('eshaper_rockbolt') * 0.4) + 2" ] },
+    "max_damage": { "math": [ "(u_spell_level('eshaper_rockbolt') * 1.2) + 4" ] },
     "damage_type": "bash",
-    "max_damage": 26,
     "min_range": 5,
     "range_increment": 0.5,
     "max_range": 15,
@@ -358,8 +352,8 @@
   {
     "id": "earthshaper_pillar_side_effect",
     "type": "SPELL",
-    "name": "Pillar Side Effect",
-    "description": "Bash effect that follows, levels reduce damage and AoE.",
+    "name": { "str": "Pillar Side Effect", "//~": "NO_I18N" },
+    "description": { "str": "Bash effect that follows, levels reduce damage and AoE.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "effect": "bash",
     "shape": "blast",
@@ -368,25 +362,26 @@
     "min_damage": 80,
     "max_damage": 20,
     "damage_increment": -6,
-    "min_aoe": 6,
-    "max_aoe": 1,
+    "min_aoe": 5,
+    "max_aoe": 0,
     "aoe_increment": -0.5
   },
   {
     "id": "pertifying_touch",
     "type": "SPELL",
     "name": "Petrifying Touch",
-    "description": "Your hands tries to transform the body of your enemy into a pure stone.  The effect is temporary, but it can deal significant damage.",
+    "description": "With a simple touch, you transform the body of your enemy into pure stone.  The effect is temporary, but the target will be totally immobile while the spell lasts.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "NO_PROJECTILE", "SILENT", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_HANDS" ],
     "effect": "attack",
+    "effect_str": "effect_earthshaper_petrifying_touch",
     "shape": "blast",
     "damage_type": "necrotic",
-    "min_damage": 10,
-    "damage_increment": 2,
-    "max_damage": 45,
     "min_range": 1,
     "max_range": 1,
+    "min_duration": 2000,
+    "max_duration": 12000,
+    "duration_increment": 500,
     "base_energy_cost": 175,
     "final_energy_cost": 75,
     "energy_increment": -5,
@@ -396,25 +391,9 @@
     "base_casting_time": 160,
     "final_casting_time": 40,
     "casting_time_increment": -6,
-    "extra_effects": [ { "id": "pertifying_touch_moves" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "energy_source": "MANA"
-  },
-  {
-    "id": "pertifying_touch_moves",
-    "type": "SPELL",
-    "name": "Petrifying Touch Moves Removing",
-    "description": "Delete some amount of moves from monster, and inflict DoT.  You can see it only in debug mode.",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
-    "effect": "mod_moves",
-    "shape": "blast",
-    "min_damage": -1000,
-    "max_damage": -1,
-    "damage_increment": 50,
-    "min_dot": 0,
-    "max_dot": 10,
-    "dot_increment": 0.5,
-    "max_level": 20
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "energy_source": "MANA",
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION" ]
   },
   {
     "id": "reactive_armor",
@@ -428,9 +407,8 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "EVOCATION_SPELL", "SOMATIC", "LOUD", "NO_HANDS", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
     "max_level": 20,
-    "min_damage": 20,
-    "max_damage": 200,
-    "damage_increment": 9,
+    "min_damage": { "math": [ "(u_spell_level('reactive_armor') * 3) + 8" ] },
+    "max_damage": { "math": [ "(u_spell_level('reactive_armor') * 7) + 15" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "min_aoe": 2,
     "max_aoe": 12,
@@ -459,9 +437,8 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "EVOCATION_SPELL", "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS", "SPLIT_DAMAGE" ],
     "max_level": 20,
-    "min_damage": 16,
-    "max_damage": 106,
-    "damage_increment": 5,
+    "min_damage": { "math": [ "(u_spell_level('eshaper_impalement') * 1.5) + 4" ] },
+    "max_damage": { "math": [ "(u_spell_level('eshaper_impalement') * 3.2) + 8" ] },
     "min_aoe": 1,
     "max_aoe": 7,
     "aoe_increment": 0.3,
@@ -479,8 +456,8 @@
   {
     "id": "eshaper_impalement_moves",
     "type": "SPELL",
-    "name": "Impalement Moves Removing",
-    "description": "Delete some random amount of moves from monster.  You can see it only in debug mode.",
+    "name": { "str": "Impalement Moves Removing", "//~": "NO_I18N" },
+    "description": { "str": "Delete some random amount of moves from monster.  You can see it only in debug mode.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "EVOCATION_SPELL", "SILENT", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "mod_moves",
@@ -571,8 +548,8 @@
   {
     "id": "eshaper_spawn_hammer",
     "type": "SPELL",
-    "name": "Utility Molding (Hammer)",
-    "description": "Spawn the Utility molding hammer.  It's a bug if you have this spell directly.",
+    "name": { "str": "Utility Molding (Hammer)", "//~": "NO_I18N" },
+    "description": { "str": "Spawn the Utility molding hammer.  It's a bug if you have this spell directly.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
@@ -586,8 +563,8 @@
   {
     "id": "eshaper_spawn_pickaxe",
     "type": "SPELL",
-    "name": "Utility Molding (Pickaxe)",
-    "description": "Spawn the Utility molding pickaxe.  It's a bug if you have this spell directly.",
+    "name": { "str": "Utility Molding (Pickaxe)", "//~": "NO_I18N" },
+    "description": { "str": "Spawn the Utility molding pickaxe.  It's a bug if you have this spell directly.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
@@ -601,8 +578,8 @@
   {
     "id": "eshaper_spawn_axe",
     "type": "SPELL",
-    "name": "Utility Molding (Axe)",
-    "description": "Spawn the Utility molding axe.  It's a bug if you have this spell directly.",
+    "name": { "str": "Utility Molding (Axe)", "//~": "NO_I18N" },
+    "description": { "str": "Spawn the Utility molding axe.  It's a bug if you have this spell directly.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
@@ -616,8 +593,8 @@
   {
     "id": "eshaper_spawn_knife",
     "type": "SPELL",
-    "name": "Utility Molding (Knife)",
-    "description": "Spawn the Utility molding knife.  It's a bug if you have this spell directly.",
+    "name": { "str": "Utility Molding (Knife)", "//~": "NO_I18N" },
+    "description": { "str": "Spawn the Utility molding knife.  It's a bug if you have this spell directly.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
@@ -631,8 +608,8 @@
   {
     "id": "eshaper_spawn_shovel",
     "type": "SPELL",
-    "name": "Utility Molding (Shovel)",
-    "description": "Spawn the Utility molding shovel.  It's a bug if you have this spell directly.",
+    "name": { "str": "Utility Molding (Shovel)", "//~": "NO_I18N" },
+    "description": { "str": "Spawn the Utility molding shovel.  It's a bug if you have this spell directly.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "SILENT", "NO_EXPLOSION_SFX" ],
     "min_damage": 1,
@@ -696,13 +673,13 @@
   {
     "type": "SPELL",
     "id": "eshaper_crystal_wrap_damage",
-    "name": "Crystal Wrapping Damage",
-    "description": "Return some damage to attacker.  You can see it only in debug mode.",
+    "name": { "str": "Crystal Wrapping Damage", "//~": "NO_I18N" },
+    "description": { "str": "Return some damage to attacker.  You can see it only in debug mode.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "flags": [ "CONJURATION_SPELL", "SILENT", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
-    "min_damage": 13,
-    "max_damage": 6,
+    "min_damage": 6,
+    "max_damage": 13,
     "valid_targets": [ "hostile" ],
     "damage_type": "cut",
     "min_range": 1,
@@ -713,7 +690,6 @@
     "type": "SPELL",
     "name": "Shape of Dust",
     "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.  Attacking a target will break the spell.",
-    "//": "Fuck its broken. I thought you can make monster hard to see you, so you will be able to hide from them beyond the sand, but of course invis make monsters even more dumb, and they start to stoically ignore your existence.",
     "valid_targets": [ "self" ],
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "LOUD" ],
     "effect": "attack",
@@ -803,7 +779,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_MAP",
-    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "condition": { "math": [ "u_val('pos_z') <= 0" ] },
     "effect": {
       "switch": { "math": [ "u_spell_level('earthshaper_reveal_world_map')" ] },
       "cases": [
@@ -949,7 +925,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_DANGERSENSE",
-    "condition": { "math": [ "u_val('pos_z')", "<=", "0" ] },
+    "condition": { "math": [ "u_val('pos_z') <= 0" ] },
     "effect": [
       {
         "u_add_effect": "effect_tremorsense",
@@ -963,7 +939,7 @@
     "id": "EOC_EARTHSHAPER_DANGERSENSE_CHECKER",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
+    "condition": { "and": [ { "math": [ "u_val('pos_z') >= 1" ] }, { "u_has_effect": "effect_tremorsense" } ] },
     "effect": [
       { "u_lose_effect": "effect_tremorsense" },
       {
@@ -1081,7 +1057,7 @@
             { "u_is_on_terrain": "t_railroad_rubble" }
           ]
         },
-        { "math": [ "u_val('pos_z')", "<=", "0" ] }
+        { "math": [ "u_val('pos_z') <= 0" ] }
       ]
     },
     "effect": [
@@ -1153,7 +1129,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EARTHSHAPER_SLEEP_IN_EARTH",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == -9" ] } },
     "effect": [
       {
         "run_eocs": {
@@ -1228,7 +1204,7 @@
     "eoc_type": "EVENT",
     "//": "No cheating and translocating out to keep your buffs",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z') == -9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
     "effect": [ { "u_lose_trait": "EARTHSHAPER_STONE_SLEEP" } ]
   },
   {
@@ -1287,6 +1263,56 @@
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "earthshaper_diggable_teleport",
+    "type": "SPELL",
+    "name": "Earth Gate",
+    "description": "While standing on natural earth, sink into it and emerge from any other patch of natural earth within the spell's range.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONVEYANCE_SPELL", "VERBAL", "SOMATIC", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_EARTH_GATE_TELEPORT_CHECK",
+    "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 8,
+    "spell_class": "EARTHSHAPER",
+    "teachable": false,
+    "max_level": 20,
+    "energy_source": "MANA",
+    "base_energy_cost": 650,
+    "base_casting_time": 250
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_EARTH_GATE_TELEPORT_CHECK",
+    "effect": [
+      {
+        "if": { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        "then": [
+          {
+            "if": {
+              "u_query_tile": "line_of_sight",
+              "target_var": { "global_val": "earthshaper_earth_gate_location" },
+              "range": { "math": [ "( (u_spell_level('earthshaper_diggable_teleport') * 2) + 3) * conveyance_proficiency_modifier()" ] },
+              "z_level": false,
+              "message": "Select nearby earth to gate to."
+            },
+            "then": {
+              "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "global_val": "earthshaper_earth_gate_location" } },
+              "then": [
+                { "u_teleport": { "global_val": "earthshaper_earth_gate_location" }, "force": true },
+                { "u_message": "You sink into the earth and re-emerge nearby.", "type": "neutral" }
+              ],
+              "else": { "u_message": "You must select a patch of earth to transport to." }
+            },
+            "else": { "u_message": "Canceled" }
+          }
+        ],
+        "else": { "u_message": "You must be on the living earth to use Earth Gate.", "type": "bad" }
       }
     ]
   }

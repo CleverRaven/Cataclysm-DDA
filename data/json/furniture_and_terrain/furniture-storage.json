@@ -1267,7 +1267,7 @@
     "coverage": 90,
     "required_str": -1,
     "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": 5 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
     "keg_capacity": 1200,
     "bash": {

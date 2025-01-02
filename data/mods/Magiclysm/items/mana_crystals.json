@@ -37,6 +37,6 @@
     "capacity": 50,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "crystallized_mana": 50 } } ]
   }
 ]

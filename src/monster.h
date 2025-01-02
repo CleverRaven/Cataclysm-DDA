@@ -88,7 +88,7 @@ class monster : public Creature
     public:
         monster();
         explicit monster( const mtype_id &id );
-        monster( const mtype_id &id, const tripoint &pos );
+        monster( const mtype_id &id, const tripoint_bub_ms &pos );
         monster( const monster & );
         monster( monster && ) noexcept( map_is_noexcept );
         ~monster() override;
@@ -108,17 +108,19 @@ class monster : public Creature
         mfaction_id get_monster_faction() const override {
             return faction.id();
         }
+        void gravity_check() override;
         void poly( const mtype_id &id );
         bool can_upgrade() const;
         void hasten_upgrade();
         int get_upgrade_time() const;
         void allow_upgrade();
         void try_upgrade( bool pin_time );
+        void set_baby_timer( const time_point &time );
         void try_reproduce();
         void try_biosignature();
         void refill_udders();
         void digest_food();
-        void spawn( const tripoint &p );
+        void spawn( const tripoint_bub_ms &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
         std::vector<material_id> get_no_absorb_material() const;
@@ -165,7 +167,8 @@ class monster : public Creature
         // // Returns true if f is set (see mtype.h)
         bool has_flag( const mon_flag_id &f ) const final;
         // Evaluates monster for both JSON and monster flags (converted to mon_flag_id)
-        bool has_flag( flag_id f ) const;
+        using Creature::has_flag;
+        bool has_flag( const flag_id &f ) const override;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
         bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
@@ -189,14 +192,14 @@ class monster : public Creature
         bool is_pet_follow() const;
         bool has_intelligence() const;
 
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+        bool avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const override;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
         void deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         // Performs any necessary coordinate updates due to map shift.
-        void shift( const point &sm_shift );
+        void shift( const point_rel_sm &sm_shift );
         void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
 
         /**
@@ -212,12 +215,12 @@ class monster : public Creature
         // TODO: Get rid of untyped overload
         bool can_move_to( const tripoint &p ) const;
         bool can_move_to( const tripoint_bub_ms &p ) const;
-        bool can_reach_to( const tripoint &p ) const;
-        bool will_move_to( const tripoint &p ) const;
-        bool know_danger_at( const tripoint &p ) const;
+        bool can_reach_to( const tripoint_bub_ms &p ) const;
+        bool will_move_to( const tripoint_bub_ms &p ) const;
+        bool know_danger_at( const tripoint_bub_ms &p ) const;
 
-        bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
-        int  turns_to_reach( const point &p ); // How long will it take?
+        bool will_reach( const point_bub_ms &p ); // Do we have plans to get to (x, y)?
+        int  turns_to_reach( const point_bub_ms &p ); // How long will it take?
 
         // Returns true if the monster has a current goal
         bool has_dest() const;
@@ -254,23 +257,25 @@ class monster : public Creature
         // will change mon_plan::dist
         void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
-        void footsteps( const tripoint &p ); // noise made by movement
-        void shove_vehicle( const tripoint &remote_destination,
-                            const tripoint &nearby_destination ); // shove vehicles out of the way
+        void footsteps( const tripoint_bub_ms &p ); // noise made by movement
+        void shove_vehicle( const tripoint_bub_ms &remote_destination,
+                            const tripoint_bub_ms &nearby_destination ); // shove vehicles out of the way
 
         // check if the given square could drown a drownable monster
-        bool is_aquatic_danger( const tripoint &at_pos ) const;
+        bool is_aquatic_danger( const tripoint_bub_ms &at_pos ) const;
 
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
         // chance is the one_in( chance ) that the monster will drown
-        bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
+        bool die_if_drowning( const tripoint_bub_ms &at_pos, int chance = 1 );
 
-        tripoint scent_move();
-        int calc_movecost( const tripoint &f, const tripoint &t ) const;
-        int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
+        tripoint_bub_ms scent_move();
+        int calc_movecost( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                           bool ignore_fields = false ) const;
+        int calc_climb_cost( const tripoint_bub_ms &f, const tripoint_bub_ms &t ) const;
 
         bool is_immune_field( const field_type_id &fid ) const override;
+        bool check_immunity_data( const field_immunity_data &ft ) const override;
 
         /**
          * Attempt to move to p.
@@ -289,7 +294,7 @@ class monster : public Creature
          *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false, bool step_on_critter = false,
+        bool move_to( const tripoint_bub_ms &p, bool force = false, bool step_on_critter = false,
                       float stagger_adjustment = 1.0 );
 
         /**
@@ -300,14 +305,14 @@ class monster : public Creature
          *
          * @return true if something was attacked, false otherwise
          */
-        bool attack_at( const tripoint &p );
+        bool attack_at( const tripoint_bub_ms &p );
 
         /**
          * Try to smash/bash/destroy your way through the terrain at p.
          *
          * @return true if we destroyed something, false otherwise.
          */
-        bool bash_at( const tripoint &p );
+        bool bash_at( const tripoint_bub_ms &p );
 
         /**
          * Try to push away whatever occupies p, then step in.
@@ -319,17 +324,17 @@ class monster : public Creature
          *
          * @return True if we managed to push something and took its place, false otherwise.
          */
-        bool push_to( const tripoint &p, int boost, size_t depth );
+        bool push_to( const tripoint_bub_ms &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill() const;
         int bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
-        int group_bash_skill( const tripoint &target );
+        int group_bash_skill( const tripoint_bub_ms &target );
 
         void stumble();
-        void knock_back_to( const tripoint &to ) override;
+        void knock_back_to( const tripoint_bub_ms &to ) override;
 
         // Combat
         bool is_fleeing( Character &u ) const;
@@ -425,7 +430,7 @@ class monster : public Creature
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
+        int impact( int force, const tripoint_bub_ms &pos ) override;
 
         bool has_grab_break_tec() const override;
 
@@ -491,7 +496,7 @@ class monster : public Creature
          * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
-        void hear_sound( const tripoint &source, int vol, int distance, bool provocative );
+        void hear_sound( const tripoint_bub_ms &source, int vol, int distance, bool provocative );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
@@ -586,8 +591,6 @@ class monster : public Creature
 
         std::optional<time_point> lastseen_turn;
 
-        pimpl<enchant_cache> enchantment_cache;
-
         // Stair data.
         int staircount = 0;
 
@@ -619,9 +622,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::function<bool( const tripoint & )> get_path_avoid() const override;
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
+        std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -642,7 +643,7 @@ class monster : public Creature
         time_point stomach_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
-        std::vector<tripoint> path;
+        std::vector<tripoint_bub_ms> path;
 
         // Exponential backoff for stuck monsters. Massively reduces pathfinding CPU.
         time_point pathfinding_cd = calendar::turn;

@@ -38,9 +38,9 @@ struct timed_event {
     /** Which faction is responsible for handling this event. */
     int faction_id = -1;
     /** Where the event happens, in global submap coordinates */
-    tripoint_abs_sm map_point = tripoint_abs_sm( tripoint_min );
+    tripoint_abs_sm map_point = tripoint_abs_sm::invalid;
     /** Where the event happens, in global map coordinates */
-    tripoint_abs_ms map_square = tripoint_abs_ms( tripoint_min );
+    tripoint_abs_ms map_square = tripoint_abs_ms::invalid;
     /** How powerful the effect is */
     int strength = -1;
     /** type of applied effect */

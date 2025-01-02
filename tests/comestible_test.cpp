@@ -32,6 +32,8 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 
 static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
 
+static const trait_id trait_GOURMAND( "GOURMAND" );
+
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutagen_alpha( "mutagen_alpha" );
 static const vitamin_id vitamin_mutagen_batrachian( "mutagen_batrachian" );
@@ -75,10 +77,10 @@ static int comp_calories( const std::vector<item_comp> &components )
     for( const item_comp &it : components ) {
         const cata::value_ptr<islot_comestible> &temp = item::find_type( it.type )->comestible;
         if( temp && temp->cooks_like.is_empty() ) {
-            calories += temp->default_nutrition.kcal() * it.count;
+            calories += temp->default_nutrition_read_only().kcal() * it.count;
         } else if( temp ) {
             const itype *cooks_like = item::find_type( temp->cooks_like );
-            calories += cooks_like->comestible->default_nutrition.kcal() * it.count;
+            calories += cooks_like->comestible->default_nutrition_read_only().kcal() * it.count;
         }
     }
     return calories;
@@ -136,7 +138,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     int kcal = 0;
     for( const item &it : byproducts ) {
         if( it.is_comestible() ) {
-            kcal += it.type->comestible->default_nutrition.kcal() * it.count();
+            kcal += it.type->comestible->default_nutrition_read_only().kcal() * it.count();
         }
     }
     return kcal;
@@ -144,7 +146,7 @@ static int byproduct_calories( const recipe &recipe_obj )
 
 static bool has_mutagen_vit( const islot_comestible &comest )
 {
-    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins();
+    const std::map<vitamin_id, int> &vits = comest.default_nutrition_read_only().vitamins();
     for( const vitamin_id &vit : mutagen_vit_list ) {
         if( vits.find( vit ) != vits.end() && vits.at( vit ) > 0 ) {
             return true;
@@ -179,7 +181,7 @@ TEST_CASE( "comestible_health_bounds", "[comestible]" )
 
 static int get_default_calories_recursive( item &it )
 {
-    int calories = it.type->comestible ? it.type->comestible->default_nutrition.kcal() : 0;
+    int calories = it.type->comestible ? it.type->comestible->default_nutrition_read_only().kcal() : 0;
 
     if( it.count_by_charges() ) {
         calories *= it.charges;
@@ -206,8 +208,9 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const recipe &recipe_obj = recipe_pair.first.obj();
         item temp( recipe_obj.result() );
         const bool is_food = temp.is_food();
+        const bool should_make_sense = temp.made_of_any_food_components();
         const bool has_override = temp.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
-        if( is_food && !has_override ) {
+        if( is_food && should_make_sense && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
                                 byproduct_calories( recipe_obj ) );
@@ -268,11 +271,13 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
 //
 // The Character::compute_calories_per_effective_volume function returns a dimensionless integer
 // representing the "satiety" of the food, with higher numbers being more calorie-dense, and lower
-// numbers being less so.
+// numbers being less so. Water in food can be digested more quickly, but for a character with a
+// bigger stomach, the difference will be smaller.
 //
 TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
 {
-    const Character &u = get_player_character();
+    Character &u = get_player_character();
+    u.unset_all_mutations();
     double expect_ratio;
 
     // Apple: 95 kcal / 200 g (1 serving)
@@ -282,10 +287,11 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     REQUIRE( apple.weight() == 200_gram );
     REQUIRE( apple.volume() == 250_ml );
     REQUIRE( apple_nutr.kcal() == 95 );
+    REQUIRE( apple.get_comestible()->quench == 3 );
     // If kcal per gram < 1.0, return 1.0
     CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( apple ) == 500 );
-    CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( u.compute_calories_per_effective_volume( apple ) == 502 );
+    CHECK( satiety_bar( 502 ) == "<color_c_yellow>||\\</color>.." );
 
     // Egg: 80 kcal / 40 g (1 serving)
     const item egg( "test_egg" );
@@ -294,10 +300,11 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     REQUIRE( egg.weight() == 40_gram );
     REQUIRE( egg.volume() == 50_ml );
     REQUIRE( egg_nutr.kcal() == 80 );
+    REQUIRE( egg.get_comestible()->quench == 4 );
     // If kcal per gram > 1.0 but less than 3.0, return ( kcal / gram )
     CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( egg ) == 2000 );
-    CHECK( satiety_bar( 2000 ) == "<color_c_green>|||||</color>" );
+    CHECK( u.compute_calories_per_effective_volume( egg ) == 1777 );
+    CHECK( satiety_bar( 1777 ) == "<color_c_green>||||\\</color>" );
 
     // Pine nuts: 202 kcal / 30 g (4 servings)
     const item nuts( "test_pine_nuts" );
@@ -307,11 +314,21 @@ TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
     REQUIRE( nuts.weight() == 120_gram );
     REQUIRE( nuts.volume() == 250_ml );
     REQUIRE( nuts_nutr.kcal() == 202 );
+    REQUIRE( nuts.get_comestible()->quench == -2 );
     // If kcal per gram > 3.0, return sqrt( 3 * kcal / gram )
     expect_ratio = std::sqrt( 3.0f * 202 / 30 );
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1498 );
-    CHECK( satiety_bar( 1498 ) == "<color_c_green>||||\\</color>" );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
+    CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
+    REQUIRE( u.mutate_towards( trait_GOURMAND ) );
+    // stomach size affects food with water...
+    CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
+    CHECK( u.compute_calories_per_effective_volume( egg ) == 1568 );
+    CHECK( satiety_bar( 1568 ) == "<color_c_green>||||</color>." );
+    // but not food without water.
+    CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1507 );
+    CHECK( satiety_bar( 1507 ) == "<color_c_light_green>||||</color>." );
 }
 
 // satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars
@@ -330,17 +347,23 @@ TEST_CASE( "food_satiety_bar", "[character][food][satiety]" )
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 200 ) == "<color_c_light_red>|\\</color>..." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
-    CHECK( satiety_bar( 300 ) == "<color_c_yellow>||</color>..." );
-    CHECK( satiety_bar( 400 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( satiety_bar( 300 ) == "<color_c_yellow>|\\</color>..." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 400 ) == "<color_c_yellow>||</color>..." );
     CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
-    CHECK( satiety_bar( 600 ) == "<color_c_light_green>|||</color>.." );
-    CHECK( satiety_bar( 700 ) == "<color_c_light_green>|||</color>.." );
-    CHECK( satiety_bar( 800 ) == "<color_c_light_green>|||\\</color>." );
-    CHECK( satiety_bar( 900 ) == "<color_c_light_green>|||\\</color>." );
-    CHECK( satiety_bar( 1000 ) == "<color_c_light_green>||||</color>." );
-    CHECK( satiety_bar( 1100 ) == "<color_c_light_green>||||</color>." );
-    CHECK( satiety_bar( 1200 ) == "<color_c_green>||||</color>." );
-    CHECK( satiety_bar( 1300 ) == "<color_c_green>||||\\</color>" );
-    CHECK( satiety_bar( 1400 ) == "<color_c_green>||||\\</color>" );
-    CHECK( satiety_bar( 1500 ) == "<color_c_green>|||||</color>" );
+    CHECK( satiety_bar( 600 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( satiety_bar( 700 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( satiety_bar( 800 ) == "<color_c_light_green>|||</color>.." );
+    CHECK( satiety_bar( 900 ) == "<color_c_light_green>|||</color>.." );
+    CHECK( satiety_bar( 1000 ) == "<color_c_light_green>|||\\</color>." );
+    CHECK( satiety_bar( 1100 ) == "<color_c_light_green>|||\\</color>." );
+    CHECK( satiety_bar( 1200 ) == "<color_c_light_green>|||\\</color>." );
+    CHECK( satiety_bar( 1300 ) == "<color_c_light_green>||||</color>." );
+    CHECK( satiety_bar( 1400 ) == "<color_c_light_green>||||</color>." );
+    CHECK( satiety_bar( 1500 ) == "<color_c_light_green>||||</color>." );
+    CHECK( satiety_bar( 1600 ) == "<color_c_green>||||</color>." );
+    CHECK( satiety_bar( 1700 ) == "<color_c_green>||||\\</color>" );
+    CHECK( satiety_bar( 1800 ) == "<color_c_green>||||\\</color>" );
+    CHECK( satiety_bar( 1900 ) == "<color_c_green>||||\\</color>" );
+    CHECK( satiety_bar( 2000 ) == "<color_c_green>|||||</color>" );
 }

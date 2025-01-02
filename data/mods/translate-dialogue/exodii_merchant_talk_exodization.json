@@ -1,0 +1,88 @@
+[
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "n_val('sold') >= 100" ],
+      "yes": {
+        "concatenate": [
+          "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+          "\"\n\n[TRANSLATE:] \"",
+          "Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up."
+        ]
+      },
+      "no": {
+        "u_has_faction_trust": 5,
+        "yes": {
+          "concatenate": [
+            "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+            "\"\n\n[TRANSLATE:] \"",
+            "Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up."
+          ]
+        },
+        "no": {
+          "concatenate": [
+            "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no Exodii turn away a willin' Benny, and so it is.",
+            "\"\n\n[TRANSLATE:] \"",
+            "Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The Exodii won't turn away a willing convert."
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "THIS'n's accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+        "\"\n\n[TRANSLATE:] \"",
+        "MY accent?  You've obviously never had to listen to yourself talk.  Great Grey has more important work to do, get it?  I have to keep myself useful and keep Great Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Great, great, great!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "Fine an' fine, an' fine an' fine!  Ha!  Now as us've got the good tea, us'll rubber up the ol' gristle mill.  You jus' set along with ol' Rubik.",
+        "\"\n\n[TRANSLATE:] \"",
+        "Great, great, great!  Ha!  We'll fire up the old meat grinder.  You just come along with old Rubik."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeNope",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "An' that's a fine choice, I'd razz.  If'n ye change mind, ol' Rubik's here for the long an' short.  You get to know us'n better, us'n get to know you better, an' that's a good tassin'.",
+        "\"\n\n[TRANSLATE:] \"",
+        "That's a fine choice, I understand.  If you change your mind, old Rubik's going to be here for a while.  You'll get to know us better, we'll get to know you better, and that's going to be good all around."
+      ]
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodized2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "concatenate": [
+        "This're what ye'd razz a 'starter package', an I'm ken.  Tassed to get ye started, but for the real lemony tarts you'd be wantin' what this'n's got for sale.  As us'n can come to see you clairly-like, this'n can be tassed to offer more an' more.",
+        "\"\n\n[TRANSLATE:] \"",
+        "This is what you'd call a 'starter package', if I understand it.  Suitable to get you started, but for the really sweet parts you're going to want what I'm selling.  As we get to know each other better, I'll be able to get access to even more stuff."
+      ]
+    }
+  }
+]

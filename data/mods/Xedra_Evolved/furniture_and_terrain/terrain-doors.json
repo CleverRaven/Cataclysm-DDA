@@ -4,7 +4,7 @@
     "id": "t_secretdoor_wall_c",
     "name": "wall",
     "description": "A faux wall positioned and joined seamlessly with the wall, this wall looks pretty normal.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "light_gray",
     "looks_like": "t_wall",
     "move_cost": 0,

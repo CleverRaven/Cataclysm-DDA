@@ -16,7 +16,7 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Gemma_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Gemma_Mood" },
       { "text": "What does a dorm leader do exactly?", "topic": "TALK_GODCO_Gemma_Leader" },
@@ -30,7 +30,7 @@
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } }
           ]
@@ -48,7 +48,7 @@
         "relevant_genders": [ "u" ]
       },
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "I'm rather busy at the moment, I don't have the time to talk right now.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ],
@@ -98,16 +98,16 @@
         "topic": "TALK_GODCO_Gemma_Mood",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] }
           ]
         }
       },
       {
-        "text": "Hello, Gemma.  I'm afraid I can't talk right now.",
+        "text": "Hello, Gemma.  <end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -118,7 +118,7 @@
         "topic": "TALK_GODCO_Gemma_Angry",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] }
           ]
         }
@@ -142,13 +142,13 @@
       "gendered_line": "It's nice to meet you too, survivor.  It's a tragedy what's become of the New England Church Community, perhaps it'll flourish again someday.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Leave",
     "dynamic_line": "I heard what it's like out there.  You must be weary from exploring this unforgiving wasteland.  I'm sorry that you're leaving us this soon.",
-    "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -157,7 +157,7 @@
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Gemma_Joinee" },
       { "text": "What is the Decalogue?", "topic": "TALK_GODCO_Gemma_Decalouge" },
-      { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -184,8 +184,8 @@
     "id": "TALK_GODCO_Gemma_Story",
     "dynamic_line": "My story?  It's been told a thousand times.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,8 +194,8 @@
     "dynamic_line": "I always have things on the go: tidying, organizing, cleaning, but I don't complain.  I never complain.",
     "responses": [
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_GODCO_Gemma_Help" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "There sure is.  Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "There sure is.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -224,21 +224,21 @@
     "id": "TALK_GODCO_Gemma_Help",
     "dynamic_line": "My flowers look a bit dehydrated, I'd appreciate it if you watered them for me.  These indoor plants are the most calming reminders of life before <the_cataclysm>.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I meant \"Are there any jobs you know of?\"", "topic": "TALK_MISSION_LIST" },
-      { "text": "Sure.  Well, bye.", "topic": "TALK_DONE" }
+      { "text": "Sure.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_You_Mutant",
     "dynamic_line": "You certainly have the marks of one.  I don't understand how you can go walking around looking like an abomination, cursed by God, and think everything's alright.  I'm not interested in learning, either, so be gone with you.",
-    "responses": [ { "text": "Sure.  See ya.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sure.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Angry",
     "dynamic_line": "If you really want to know the truth, I;m quite upset with how you've been acting as of late, and I don't want to talk to you.  Now please, leave me be.",
-    "responses": [ { "text": "Sure.  See ya.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sure.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   }
 ]

@@ -423,9 +423,55 @@
     "copy-from": "mon_cow",
     "volume": "600 L",
     "weight": "600 kg",
+    "weakpoint_sets": [  ],
     "hp": 300,
     "dodge": 2,
     "bleed_rate": 60,
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_dummy_reproducer_eggs",
+    "type": "MONSTER",
+    "name": { "str": "debug reproducer (eggs)", "str_pl": "debug reproducers (eggs)" },
+    "description": "Monster used to test `baby_type` work.",
+    "default_faction": "",
+    "volume": "100 ml",
+    "weight": "100 g",
+    "hp": 5,
+    "speed": 100,
+    "color": "white",
+    "symbol": "1",
+    "reproduction": { "baby_type": { "baby_egg": "egg_chicken" }, "baby_count": 1, "baby_timer": 1 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+  },
+  {
+    "id": "mon_dummy_reproducer_egg_group",
+    "copy-from": "mon_dummy_reproducer_eggs",
+    "type": "MONSTER",
+    "name": { "str": "debug reproducer (egg group)", "str_pl": "debug reproducers (egg group)" },
+    "color": "green",
+    "symbol": "2",
+    "reproduction": { "baby_type": { "baby_egg_group": "book_gunmags" }, "baby_count": 1, "baby_timer": 1 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+  },
+  {
+    "id": "mon_dummy_reproducer_mon",
+    "copy-from": "mon_dummy_reproducer_eggs",
+    "type": "MONSTER",
+    "name": { "str": "debug reproducer (monster)", "str_pl": "debug reproducers (monster)" },
+    "color": "cyan",
+    "symbol": "3",
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_bull" }, "baby_count": 1, "baby_timer": 1 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+  },
+  {
+    "id": "mon_dummy_reproducer_mon_group",
+    "copy-from": "mon_dummy_reproducer_eggs",
+    "type": "MONSTER",
+    "name": { "str": "debug reproducer (mongroup)", "str_pl": "debug reproducers (mongroup)" },
+    "color": "yellow",
+    "symbol": "4",
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_PET_CATS" }, "baby_count": 1, "baby_timer": 1 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
   }
 ]

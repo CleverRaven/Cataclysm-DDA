@@ -1,0 +1,178 @@
+[
+  {
+    "type": "palette",
+    "id": "parametrized_walls_palette",
+    "//": "Intended as a palette for randomized interior and exterior walls",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 5 ],
+            [ "t_wall_g", 5 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 3 ],
+            [ "t_wall_w", 15 ],
+            [ "t_wall_y", 3 ],
+            [ "t_wall_gray", 3 ],
+            [ "t_wall_brown", 3 ],
+            [ "t_wall_cyan", 1 ],
+            [ "t_wall_black", 3 ],
+            [ "t_wall_orange", 3 ],
+            [ "t_brick_wall", 2 ]
+          ]
+        }
+      },
+      "exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 4 ],
+            [ "t_wall_wood", 2 ],
+            [ "t_wall_w", 4 ],
+            [ "t_wall_gray", 2 ],
+            [ "t_concrete_wall", 2 ],
+            [ "t_concrete_wall_w", 4 ],
+            [ "t_concrete_wall_gray", 2 ],
+            [ "t_strconc_wall", 1 ],
+            [ "t_strconc_wall_w", 2 ],
+            [ "t_strconc_wall_gray", 1 ],
+            [ "t_sconc_wall", 1 ],
+            [ "t_sconc_wall_w", 2 ],
+            [ "t_sconc_wall_gray", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": {
+      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
+      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" }
+    },
+    "nested": { "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 598 ] ] } }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_highrise_walls_palette",
+    "//": "Intended as a palette for randomized walls for multi-story buildings",
+    "parameters": {
+      "interior_highrise_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_strconc_wall", 1 ],
+            [ "t_strconc_wall_b", 1 ],
+            [ "t_strconc_wall_g", 1 ],
+            [ "t_strconc_wall_r", 1 ],
+            [ "t_strconc_wall_w", 10 ],
+            [ "t_strconc_wall_p", 1 ],
+            [ "t_strconc_wall_P", 1 ],
+            [ "t_strconc_wall_y", 1 ],
+            [ "t_strconc_wall_orange", 1 ],
+            [ "t_strconc_wall_gray", 2 ],
+            [ "t_strconc_wall_brown", 1 ],
+            [ "t_strconc_wall_cyan", 1 ],
+            [ "t_strconc_wall_black", 1 ]
+          ]
+        }
+      },
+      "exterior_highrise_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_strconc_wall", 1 ], [ "t_strconc_wall_w", 3 ], [ "t_strconc_wall_gray", 1 ] ] }
+      }
+    },
+    "terrain": {
+      "|": { "param": "interior_highrise_wall_type", "fallback": "t_strconc_wall" },
+      "#": { "param": "exterior_highrise_wall_type", "fallback": "t_strconc_wall" }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_fences_palette",
+    "//": "Intended as a palette for randomized fences",
+    "parameters": {
+      "fence_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_splitrail_fence", 3 ],
+            [ "t_chainfence", 2 ],
+            [ "t_fence", 2 ],
+            [ "t_privacy_fence", 1 ],
+            [ "t_drystone_wall_half", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": {
+      "Ŧ": { "param": "fence_type", "fallback": "t_fence" },
+      "ɤ": {
+        "switch": { "param": "fence_type", "fallback": "t_fence" },
+        "cases": {
+          "t_splitrail_fence": "t_splitrail_fencegate_c",
+          "t_chainfence": "t_chaingate_c",
+          "t_fence": "t_fencegate_c",
+          "t_privacy_fence": "t_privacy_fencegate_c",
+          "t_drystone_wall_half": "t_chaingate_l"
+        }
+      }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_linoleum_palette",
+    "//": "Intended as a palette for randomized fences",
+    "parameters": {
+      "linoleum_color": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_gray", 1 ], [ "t_linoleum_white", 1 ] ] } }
+    },
+    "terrain": { "~": { "param": "linoleum_color", "fallback": "t_linoleum_gray" } }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_carpets_palette",
+    "//": "Use to randomly assign carpet colors",
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_carpet_red", 1 ], [ "t_carpet_green", 1 ], [ "t_carpet_purple", 1 ], [ "t_carpet_yellow", 1 ] ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" } }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_carpets_nest_palette",
+    "//": "Use to randomly assign carpet colors(for use in carpets that only occur in nested mapgen)",
+    "parameters": {
+      "carpet_color_type": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": {
+          "distribution": [ [ "t_carpet_red", 1 ], [ "t_carpet_green", 1 ], [ "t_carpet_purple", 1 ], [ "t_carpet_yellow", 1 ] ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" } }
+  },
+  {
+    "type": "palette",
+    "id": "parametrized_concrete_carpets_palette",
+    "//": "Use to randomly assign carpet colors",
+    "parameters": {
+      "concrete_carpet_color_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_carpet_concrete_red", 1 ],
+            [ "t_carpet_concrete_green", 1 ],
+            [ "t_carpet_concrete_purple", 1 ],
+            [ "t_carpet_concrete_yellow", 1 ]
+          ]
+        }
+      }
+    },
+    "terrain": { "=": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_red" } }
+  }
+]

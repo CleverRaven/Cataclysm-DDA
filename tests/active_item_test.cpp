@@ -63,7 +63,7 @@ TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
     REQUIRE( test_lantern.ammo_remaining() == ammo_capacity );
     do {
         calendar::turn += 1_seconds;
-        test_lantern.process( here, nullptr, tripoint_zero );
+        test_lantern.process( here, nullptr, tripoint_bub_ms::zero );
         seconds_active++;
     } while( test_lantern.active );
     REQUIRE( test_lantern.ammo_remaining() == 0 );
@@ -90,7 +90,7 @@ TEST_CASE( "tool_power_consumption_rate", "[active_item]" )
     // Capture now because after the loop the tool will be an inactive tool with no power draw.
     units::energy minimum_energy = tool.type->tool->power_draw * 1_seconds;
     do {
-        tool.process( here, nullptr, tripoint_zero );
+        tool.process( here, nullptr, tripoint_bub_ms::zero );
         seconds_of_discharge++;
     } while( tool.active );
     REQUIRE( tool.energy_remaining() < minimum_energy );

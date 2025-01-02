@@ -56,7 +56,7 @@ jobs:
       matrix:
         include:
           - name: Windows Tiles x64 MSVC
-            artifact: windows-tiles-x64-msvc
+            artifact: windows-with-graphics-x64
             arch: x64
             os: windows-2019
             mxe: none
@@ -64,26 +64,10 @@ jobs:
             content: application/zip
             sound: 0
           - name: Windows Tiles Sounds x64 MSVC
-            artifact: windows-tiles-sounds-x64-msvc
+            artifact: windows-with-graphics-and-sounds-x64
             arch: x64
             os: windows-2019
             mxe: none
-            ext: zip
-            content: application/zip
-            sound: 1
-          - name: Windows Tiles x64
-            mxe: x86_64
-            libbacktrace: 1
-            artifact: windows-tiles-x64
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-            sound: 0
-          - name: Windows Tiles Sounds x64
-            mxe: x86_64
-            libbacktrace: 1
-            artifact: windows-tiles-sounds-x64
-            os: ubuntu-latest
             ext: zip
             content: application/zip
             sound: 1
@@ -94,7 +78,7 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 0
-            artifact: linux-tiles-x64
+            artifact: linux-with-graphics-x64
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
@@ -104,7 +88,7 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 1
-            artifact: linux-tiles-sounds-x64
+            artifact: linux-with-graphics-and-sounds-x64
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
@@ -114,23 +98,23 @@ jobs:
             libbacktrace: 1
             tiles: 0
             sound: 0
-            artifact: linux-curses-x64
+            artifact: linux-terminal-only-x64
             ext: tar.gz
             content: application/gzip
           - name: macOS Curses Universal Binary (x64 and arm64)
-            os: macos-12
+            os: macos-13
             mxe: none
             tiles: 0
             sound: 0
-            artifact: osx-curses-universal
+            artifact: osx-terminal-only-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: macOS Tiles Universal Binary (x64 and arm64)
-            os: macos-12
+            os: macos-13
             mxe: none
             tiles: 1
             sound: 0
-            artifact: osx-tiles-universal
+            artifact: osx-with-graphics-universal
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
@@ -188,7 +172,7 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: '66444e13a86da7087ee24c342f91801cc6eb9877'
+          vcpkgGitCommitId: '3b57fb2e1ff55613db14d2aaf0a30529289c7050'
       - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
@@ -246,6 +230,11 @@ jobs:
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
           pip3 install dmgbuild biplist
+      - name: install macports (mac)
+        if: runner.os == 'macOS' && matrix.tiles == 1
+        uses: melusina-org/setup-macports@v1
+        with:
+          parameters: '.github/macports/macports.yml'
       - name: Create VERSION.TXT
         shell: bash
         run: |

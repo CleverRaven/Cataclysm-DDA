@@ -8,7 +8,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_PYROKIN_CALL_FLAME_GRANT_ITEM" ] },
       { "u_add_effect": "effect_pyrokinetic_fire_tool", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+        "run_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -73,12 +73,12 @@
     "id": "EOC_PYROKIN_CALL_FLAME_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_fire_tool" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_call_flames')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+        "run_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -104,7 +104,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_pyrokinetic_cloak", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+        "run_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -132,12 +132,12 @@
     "id": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_cloak" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_cloak')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+        "run_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -164,7 +164,7 @@
       { "u_add_effect": "effect_pyrokinetic_torch_weld", "duration": "PERMANENT" },
       { "u_spawn_item": "pyrokinetic_torch_weld", "suppress_message": true, "force_equip": true },
       {
-        "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+        "run_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -197,12 +197,12 @@
     "id": "EOC_PYROKIN_TORCH_WELD_DRAIN",
     "condition": { "u_has_item": "pyrokinetic_torch_weld" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 5" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_lance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+        "run_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -228,7 +228,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_pyrokinetic_aura", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_PYROKIN_BLAZING_AURA_DRAIN",
+        "run_eocs": "EOC_PYROKIN_BLAZING_AURA_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -256,12 +256,12 @@
     "id": "EOC_PYROKIN_BLAZING_AURA_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_aura" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 6" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_PYROKIN_BLAZING_AURA_DRAIN",
+        "run_eocs": "EOC_PYROKIN_BLAZING_AURA_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -287,7 +287,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_pyrokinetic_flame_immunity", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
+        "run_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -315,12 +315,12 @@
     "id": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
     "condition": { "u_has_effect": "effect_pyrokinetic_flame_immunity" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 7" ] },
       { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
+        "run_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
         "time_in_future": [
           {
             "math": [

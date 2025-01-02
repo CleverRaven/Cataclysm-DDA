@@ -1206,6 +1206,42 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "glassblowers_crucible",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": false,
+    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "using": [ [ "welding_standard", 100 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_pottery" } ],
+    "components": [
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
+      [ [ "pot_canning_clay", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "fire_brick", 25 ] ],
+      [ [ "clay_lump", 10 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "pipe_fittings", 4 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "thermostat", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "crucible_clay",
     "category": "CC_OTHER",
@@ -2372,7 +2408,8 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "cotton_patchwork", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "cotton_patchwork", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "recipe",

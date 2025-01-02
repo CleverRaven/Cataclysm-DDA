@@ -81,7 +81,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     set_area( square, show_vehicle );
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;
-    filter = save_state->filter;
+    set_filter( save_state->filter );
     if( area == AIM_CONTAINER ) {
         container = save_state->container;
     }
@@ -101,16 +101,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
     if( filter.empty() ) {
         return false;
     }
-
-    const std::string str = it.tname();
-    if( filtercache.find( str ) == filtercache.end() ) {
-        const auto filter_fn = item_filter_from_string( filter );
-        filtercache[str] = filter_fn;
-
-        return !filter_fn( it );
-    }
-
-    return !filtercache[str]( it );
+    return !filter_function( it );
 }
 
 /** converts a raw list of items to "stacks" - items that are not count_by_charges that otherwise stack go into one stack */
@@ -249,6 +240,10 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         } else {
             square.volume = 0_ml;
             square.weight = 0_gram;
+        }
+        // Should not be able to pick up items on terrain with impassable fields.
+        if( m.impassable_field_at( square.pos ) ) {
+            return;
         }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
                 square.i_stacked( square.get_vehicle_stack() ) :
@@ -476,6 +471,6 @@ void advanced_inventory_pane::set_filter( const std::string &new_filter )
         return;
     }
     filter = new_filter;
-    filtercache.clear();
+    filter_function = item_filter_from_string( filter );
     recalc = true;
 }

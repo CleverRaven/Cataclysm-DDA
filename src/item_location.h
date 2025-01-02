@@ -16,6 +16,7 @@ class item_pocket;
 class map_cursor;
 class vehicle_cursor;
 class talker;
+class const_talker;
 struct tripoint;
 template<typename T> class ret_val;
 
@@ -170,6 +171,6 @@ class item_location
         std::shared_ptr<impl> ptr;
 };
 std::unique_ptr<talker> get_talker_for( item_location &it );
-std::unique_ptr<talker> get_talker_for( const item_location &it );
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
 #endif // CATA_SRC_ITEM_LOCATION_H

@@ -45,7 +45,11 @@
       { "item": "faux_fur_collar", "prob": 80 },
       { "item": "leather_collar", "prob": 50 },
       { "item": "fur_collar", "prob": 10 },
-      { "item": "maid_hat", "prob": 25 }
+      { "item": "maid_hat", "prob": 25 },
+      { "item": "cuffs", "prob": 30 },
+      { "item": "collar_playboy", "prob": 30 },
+      { "item": "bunny_ears_black", "prob": 30 },
+      { "item": "tail_bunny_playboy", "prob": 30 }
     ]
   },
   {
@@ -61,7 +65,8 @@
       { "item": "waist_apron_short", "variant": "maid_apron", "prob": 30 },
       { "item": "waist_apron_short", "variant": "gothic_apron", "prob": 10 },
       [ "cheerleader_top_short", 10 ],
-      [ "halter_top", 50 ]
+      [ "halter_top", 50 ],
+      { "item": "bunny_suit_playboy", "prob": 30 }
     ]
   },
   {

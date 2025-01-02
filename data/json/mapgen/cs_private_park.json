@@ -33,7 +33,7 @@
         "........................"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "park_nature_palette" ],
+      "palettes": [ "park_nature_palette", "parametrized_walls_palette" ],
       "terrain": {
         "-": "t_chainfence",
         ".": "t_region_groundcover_urban",
@@ -48,13 +48,11 @@
         "L": "t_floor",
         "S": "t_floor",
         "s": "t_sidewalk",
-        "|": "t_wall_wood",
         "D": "t_door_locked_peep",
         "C": "t_door_c",
         "G": "t_curtains",
         "4": "t_tree_cherry",
         "7": "t_tree_willow",
-        "#": "t_brick_wall",
         "X": "t_chaingate_l"
       },
       "furniture": {
@@ -114,7 +112,7 @@
         "........................"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "park_nature_palette" ],
+      "palettes": [ "park_nature_palette", "parametrized_walls_palette" ],
       "terrain": {
         "-": "t_chainfence",
         ".": "t_region_groundcover_urban",
@@ -129,13 +127,11 @@
         "L": "t_floor",
         "S": "t_floor",
         "s": "t_sidewalk",
-        "|": "t_wall_wood",
         "D": "t_door_c_peep",
         "C": "t_door_c",
         "G": "t_curtains",
         "4": "t_tree_cherry",
         "7": "t_tree_willow",
-        "#": "t_brick_wall",
         "X": "t_chaingate_l",
         "<": [ [ "t_dirtmound", 98 ], [ "t_region_soil", 2 ] ]
       },

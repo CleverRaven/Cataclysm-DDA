@@ -389,6 +389,7 @@ float effect_scaling::get( const Character &u ) const
             break;
         case STAT_NULL:
             bonus = scale;
+            break;
         case NUM_STATS:
             break;
     }

@@ -35,8 +35,8 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "187500 ml",
+    "weight": "244500 g",
     "hp": 112,
     "speed": 60,
     "material": [ "flesh" ],
@@ -74,7 +74,6 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER",
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }

@@ -133,8 +133,8 @@
   {
     "id": "atomic_pseudo_churn",
     "type": "TOOL",
-    "name": { "str": "pseudo atomic butter churn" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "name": { "str": "pseudo atomic butter churn", "//~": "NO_I18N" },
+    "description": { "str": "This is a crafting_pseudo_item if you have it something is wrong.", "//~": "NO_I18N" },
     "weight": "6464 g",
     "volume": "11356 ml",
     "price": "200 USD",

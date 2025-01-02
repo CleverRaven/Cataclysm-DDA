@@ -162,7 +162,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
     if( foe == nullptr || !foe->get_wielded_item() ||
-        foe->get_wielded_item()->gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+        foe->get_wielded_item()->gun_noise().volume < rl_dist( m.pos_bub(), source->pos_bub() ) ) {
         return;
     }
 
@@ -178,7 +178,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const int distance_to_source = rl_dist( m.pos(), source->pos() );
+    const int distance_to_source = rl_dist( m.pos_bub(), source->pos_bub() );
 
     // TODO: implement different rule, dependent on sound and probably some other things
     // Add some inaccuracy since it is blind fire (at a tile, not the player directly)
@@ -186,7 +186,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
-            sounds::sound( m.pos(), 50, sounds::sound_t::alert,
+            sounds::sound( m.pos_bub(), 50, sounds::sound_t::alert,
                            _( "Detected shots from unseen attacker, return fire mode engaged." ) );
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
             if( gunactor->get_max_range() < distance_to_source ) {

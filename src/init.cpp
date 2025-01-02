@@ -47,6 +47,7 @@
 #include "game.h"
 #include "gates.h"
 #include "harvest.h"
+#include "help.h"
 #include "input.h"
 #include "item_action.h"
 #include "item_category.h"
@@ -131,9 +132,7 @@ namespace
 void check_sigint()
 {
     if( g && g->uquit == quit_status::QUIT_EXIT ) {
-        if( g->query_exit_to_OS() ) {
-            throw game::exit_exception();
-        }
+        g->query_exit_to_OS();
     }
 }
 
@@ -276,6 +275,7 @@ void DynamicDataLoader::initialize()
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
+    add( "help", &help::load );
     add( "activity_type", &activity_type::load );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -345,6 +345,7 @@ void DynamicDataLoader::initialize()
         requirement_data::load_requirement( jo, string_id<requirement_data>::NULL_ID(), true );
     } );
     add( "trap", &trap::load_trap );
+    add( "trap_migration", &trap_migrations::load );
 
     add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_ammo( jo, src );
@@ -560,7 +561,7 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
     // if give path is a directory
     if( dir_exist( path.get_unrelative_path() ) ) {
         const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
-                "mod_interactions", path, true, false );
+                "mod_interactions", path, true, true );
         files.insert( files.end(), dir_files.begin(), dir_files.end() );
         // if given path is an individual file
     } else if( file_exist( path.get_unrelative_path() ) ) {
@@ -667,6 +668,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
+    help::reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
@@ -747,6 +749,7 @@ void DynamicDataLoader::unload_data()
     ter_furn_migrations::reset();
     ter_furn_transform::reset();
     trap::reset();
+    trap_migrations::reset();
     unload_talk_topics();
     VehicleGroup::reset();
     VehiclePlacement::reset();
@@ -934,6 +937,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
+            { _( "Trap migrations" ), &trap_migrations::check },
             { _( "Bionics" ), &bionic_data::check_bionic_consistency },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },

@@ -232,23 +232,23 @@
       "forest_thick": {
         "chance": 120,
         "extras": {
-          "mx_helicopter": 1,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
-          "mx_portal": 3,
-          "mx_crater": 10,
-          "mx_portal_in": 3,
-          "mx_fallen_shed": 20,
-          "mx_jabberwock": 1,
-          "mx_clay_deposit": 125,
-          "mx_casings": 30,
-          "mx_corpses": 30,
-          "mx_mass_grave": 5,
-          "mx_exocrash_1": 1,
-          "mx_exocrash_2": 1
+          "mx_clay_deposit": 6250,
+          "mx_casings": 1500,
+          "mx_corpses": 1500,
+          "mx_collegekids": 1250,
+          "mx_science": 1000,
+          "mx_drugdeal": 1000,
+          "mx_fallen_shed": 1000,
+          "mx_supplydrop": 500,
+          "mx_crater": 500,
+          "mx_military": 400,
+          "mx_mass_grave": 250,
+          "mx_portal": 150,
+          "mx_portal_in": 150,
+          "mx_helicopter": 50,
+          "mx_exocrash_1": 50,
+          "mx_exocrash_2": 50,
+          "mx_jabberwock": 1
         }
       },
       "forest_water": {
@@ -356,18 +356,17 @@
       "research_facility_interior": {
         "chance": 2,
         "extras": {
-          "mx_jabberwock": 1,
-          "mx_military": 5,
-          "mx_portal": 100,
-          "mx_crater": 300,
-          "mx_portal_in": 40,
-          "mx_point_burned_ground": 125,
-          "mx_casings": 30
+          "mx_crater": 15000,
+          "mx_portal": 5000,
+          "mx_point_burned_ground": 6250,
+          "mx_portal_in": 2000,
+          "mx_casings": 1500,
+          "mx_military": 250,
+          "mx_jabberwock": 1
         }
       },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
-      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
-      "sewer": { "chance": 80, "extras": { "mx_null": 100 } }
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
     },
     "city": {
       "shop_radius": 30,

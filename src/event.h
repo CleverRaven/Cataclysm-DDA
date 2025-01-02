@@ -66,6 +66,7 @@ enum class event_type : int {
     character_wakes_up,
     character_wields_item,
     character_wears_item,
+    character_armor_destroyed,
     consumes_marloss_item,
     crosses_marloss_threshold,
     crosses_mutation_threshold,
@@ -189,7 +190,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 105,
+static_assert( static_cast<int>( event_type::num_event_types ) == 106,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -338,10 +339,11 @@ struct event_spec<event_type::character_forgets_spell> {
 
 template<>
 struct event_spec<event_type::character_gains_effect> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "character", cata_variant_type::character_id },
             { "bodypart", cata_variant_type::body_part},
             { "effect", cata_variant_type::efftype_id },
+            { "intensity", cata_variant_type::int_ }
         }
     };
 };
@@ -466,9 +468,11 @@ struct event_spec<event_type::character_starts_activity> {
 
 template<>
 struct event_spec<event_type::character_takes_damage> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "character", cata_variant_type::character_id },
             { "damage", cata_variant_type::int_ },
+            { "bodypart", cata_variant_type::body_part },
+            { "pain", cata_variant_type::int_ }
         }
     };
 };
@@ -528,6 +532,9 @@ struct event_spec<event_type::character_butchered_corpse> {
 
 template<>
 struct event_spec<event_type::character_wears_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::character_armor_destroyed> : event_spec_character_item {};
 
 template<>
 struct event_spec<event_type::character_wields_item> : event_spec_character_item {};

@@ -171,12 +171,12 @@ int convert_length( const units::length &length )
     int ret = to_millimeter( length );
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
     if( metric ) {
-        if( ret % 1'000'000 == 0 ) {
+        if( ret % 1000000 == 0 ) {
             // kilometers
-            ret /= 1'000'000;
-        } else if( ret % 1'000 == 0 ) {
+            ret /= 1000000;
+        } else if( ret % 1000 == 0 ) {
             // meters
-            ret /= 1'000;
+            ret /= 1000;
         } else if( ret % 10 == 0 ) {
             // centimeters
             ret /= 10;
@@ -201,10 +201,10 @@ std::string length_units( const units::length &length )
     int length_mm = to_millimeter( length );
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
     if( metric ) {
-        if( length_mm % 1'000'000 == 0 ) {
+        if( length_mm % 1000000 == 0 ) {
             //~ kilometers
             return _( "km" );
-        } else if( length_mm % 1'000 == 0 ) {
+        } else if( length_mm % 1000 == 0 ) {
             //~ meters
             return _( "m" );
         } else if( length_mm % 10 == 0 ) {
@@ -251,12 +251,12 @@ double convert_length_approx( const units::length &length, bool &display_as_inte
     double ret = static_cast<double>( to_millimeter( length ) );
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
     if( metric ) {
-        if( ret > 500'000 ) {
+        if( ret > 500000 ) {
             // kilometers
-            ret /= 1'000'000.0;
+            ret /= 1000000.0;
         } else {
             // meters
-            ret /= 1'000.0;
+            ret /= 1000.0;
             display_as_integer = true;
         }
     } else {
@@ -279,7 +279,7 @@ std::string length_units_approx( const units::length &length )
     int length_mm = to_millimeter( length );
     const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
     if( metric ) {
-        if( length_mm > 500'000 ) {
+        if( length_mm > 500000 ) {
             //~ kilometers
             return _( "km" );
         } else {
@@ -327,13 +327,13 @@ std::pair<std::string, std::string> weight_to_string( const
         units::quantity<int, units::mass_in_microgram_tag> &weight )
 {
     using high_res_mass = units::quantity<int, units::mass_in_microgram_tag>;
-    static const high_res_mass gram = high_res_mass( 1'000'000, {} );
-    static const high_res_mass milligram = high_res_mass( 1'000, {} );
+    static const high_res_mass gram = high_res_mass( 1000000, {} );
+    static const high_res_mass milligram = high_res_mass( 1000, {} );
 
     if( weight > gram ) {
-        return {string_format( "%.0f", weight.value() / 1'000'000.f ), "g"};
+        return {string_format( "%.0f", weight.value() / 1000000.f ), "g"};
     } else if( weight > milligram ) {
-        return {string_format( "%.0f", weight.value() / 1'000.f ), "mg"};
+        return {string_format( "%.0f", weight.value() / 1000.f ), "mg"};
     }
     return {string_format( "%d", weight.value() ), "μg"};
 }

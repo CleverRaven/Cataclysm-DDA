@@ -166,12 +166,12 @@
         "run_eocs": [
           {
             "id": "eoc_start_update_quadraphract_walkers",
-            "condition": { "math": [ "updating_quadraphracts", "!=", "1" ] },
+            "condition": { "math": [ "updating_quadraphracts != 1" ] },
             "effect": [ { "run_eocs": "eoc_update_quadraphract_walkers" } ]
           },
           {
             "id": "quadraphract_setup",
-            "condition": { "math": [ "u_setup", "!=", "1" ] },
+            "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
               {
                 "run_eocs": [
@@ -182,17 +182,17 @@
                   }
                 ]
               },
-              { "math": [ "_quad_uid", "=", "rand(1200)" ] },
-              { "math": [ "u_quad_uid", "=", "_quad_uid" ] },
-              { "math": [ "u_setup", "=", "1" ] },
+              { "math": [ "_quad_uid = rand(1200)" ] },
+              { "math": [ "u_quad_uid = _quad_uid" ] },
+              { "math": [ "u_setup = 1" ] },
               { "u_spawn_monster": "mon_yrax_quadraphract_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
               {
-                "u_run_monster_eocs": [ { "id": "quadraphract_leg_assign", "effect": [ { "math": [ "u_quad_id", "=", "_quad_uid" ] } ] } ],
+                "u_run_monster_eocs": [ { "id": "quadraphract_leg_assign", "effect": [ { "math": [ "u_quad_id = _quad_uid" ] } ] } ],
                 "monster_range": 2,
                 "mtype_ids": [ "mon_yrax_quadraphract_leg" ]
               },
-              { "math": [ "u_timer_quadraphract_deltas", "=", "time('now')" ] },
-              { "math": [ "u_timer_quadraphract_smoke", "=", "time('now')" ] }
+              { "math": [ "u_timer_quadraphract_deltas = time('now')" ] },
+              { "math": [ "u_timer_quadraphract_smoke = time('now')" ] }
             ]
           },
           {
@@ -224,23 +224,23 @@
     "id": "eoc_update_quadraphract_walkers",
     "type": "effect_on_condition",
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('mon_yrax_quadraphract', 'radius': 60)", ">=", "1" ] },
+    "condition": { "math": [ "u_monsters_nearby('mon_yrax_quadraphract', 'radius': 60) >= 1" ] },
     "effect": [
-      { "math": [ "updating_quadraphracts", "=", "1" ] },
-      { "queue_eocs": "eoc_update_quadraphract_walkers", "time_in_future": 1 },
+      { "math": [ "updating_quadraphracts = 1" ] },
+      { "run_eocs": "eoc_update_quadraphract_walkers", "time_in_future": 1 },
       {
         "u_run_monster_eocs": [ "eoc_quadraphract_walker" ],
         "monster_range": 65,
         "mtype_ids": [ "mon_yrax_quadraphract" ]
       }
     ],
-    "false_effect": [ { "math": [ "updating_quadraphracts", "=", "0" ] } ]
+    "false_effect": [ { "math": [ "updating_quadraphracts = 0" ] } ]
   },
   {
     "id": "eoc_quadraphract_walker",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_quad_uid", "=", "u_quad_uid" ] },
+      { "math": [ "_quad_uid = u_quad_uid" ] },
       { "u_location_variable": { "context_val": "quad_pos_1" }, "x_adjust": 1 },
       { "u_location_variable": { "context_val": "quad_pos_2" }, "x_adjust": -1 },
       { "u_location_variable": { "context_val": "quad_pos_3" }, "y_adjust": 1 },
@@ -249,7 +249,7 @@
         "u_run_monster_eocs": [
           {
             "id": "quadraphract_leg_tp",
-            "condition": { "math": [ "u_quad_id", "==", "_quad_uid" ] },
+            "condition": { "math": [ "u_quad_id == _quad_uid" ] },
             "effect": [
               { "u_teleport": { "context_val": "quad_pos_1" } },
               { "u_teleport": { "context_val": "quad_pos_2" } },
@@ -267,12 +267,12 @@
     "id": "EOC_QUADRAPHRACT_HURT",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_quad_uid", "=", "u_quad_id" ] },
+      { "math": [ "_quad_uid = u_quad_id" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "quadraphract_leg_hurt",
-            "condition": { "math": [ "u_quad_uid", "==", "_quad_uid" ] },
+            "condition": { "math": [ "u_quad_uid == _quad_uid" ] },
             "effect": [ { "npc_cast_spell": { "id": "quadraphract_hurt_self" } } ]
           }
         ],
@@ -284,12 +284,12 @@
     "id": "EOC_QUADRAPHRACT_DIES",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "_quad_uid", "=", "u_quad_uid" ] },
+      { "math": [ "_quad_uid = u_quad_uid" ] },
       {
         "u_run_monster_eocs": [
           {
             "id": "quadraphract_leg_dies",
-            "condition": { "math": [ "u_quad_id", "==", "_quad_uid" ] },
+            "condition": { "math": [ "u_quad_id == _quad_uid" ] },
             "effect": [ { "npc_cast_spell": { "id": "quadraphract_hurt_self" } } ]
           }
         ],
@@ -303,12 +303,12 @@
     "type": "effect_on_condition",
     "condition": {
       "and": [
-        { "math": [ "time_since(u_timer_quadraphract_deltas)", ">", "time(' 1 m')" ] },
-        { "math": [ "u_monsters_nearby('mon_yrax_delta', 'radius': 40)", "<", "3" ] }
+        { "math": [ "time_since(u_timer_quadraphract_deltas) > time(' 1 m')" ] },
+        { "math": [ "u_monsters_nearby('mon_yrax_delta', 'radius': 40) < 3" ] }
       ]
     },
     "effect": [
-      { "math": [ "u_timer_quadraphract_deltas", "=", "time('now')" ] },
+      { "math": [ "u_timer_quadraphract_deltas = time('now')" ] },
       {
         "u_spawn_monster": "mon_yrax_delta",
         "real_count": 5,
@@ -321,9 +321,9 @@
   {
     "id": "eoc_quadraphract_smoke",
     "type": "effect_on_condition",
-    "condition": { "and": [ { "math": [ "time_since(u_timer_quadraphract_smoke)", ">", "time(' 40 s')" ] } ] },
+    "condition": { "and": [ { "math": [ "time_since(u_timer_quadraphract_smoke) > time(' 40 s')" ] } ] },
     "effect": [
-      { "math": [ "u_timer_quadraphract_smoke", "=", "time('now')" ] },
+      { "math": [ "u_timer_quadraphract_smoke = time('now')" ] },
       { "u_cast_spell": { "id": "quadraphract_smoke_mortar" } },
       {
         "run_eocs": [

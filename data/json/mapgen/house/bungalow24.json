@@ -8,7 +8,8 @@
         "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -39,24 +40,28 @@
       ],
       "terrain": {
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "?": "t_railing_v",
+        "?": "t_railing",
         "=": "t_floor_noroof",
-        ",": "t_carpet_red",
-        "`": "t_carpet_purple",
-        "!": "t_carpet_purple",
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "`": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "!": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "r": "t_carpet_purple",
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "₸": "t_floor_noroof",
         "&": "t_column",
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "l": "t_carpet_red",
-        "x": "t_carpet_red",
-        "H": "t_carpet_red",
-        "s": "t_carpet_red"
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "x": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "furniture": { "!": "f_chair", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50, "repeat": [ 1, 2 ] } },
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 0, "y": 1 },
+        { "chunks": [ [ "null", 95 ], [ "carcrash_10x10_rand", 5 ] ], "x": [ 10, 13 ], "y": 0 }
+      ],
       "place_loot": [ { "item": "television", "x": 15, "y": 9 }, { "item": "laptop", "x": 21, "y": 12 } ]
     }
   },

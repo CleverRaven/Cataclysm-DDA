@@ -2,7 +2,7 @@
   {
     "id": "cat_arvore_treesinging",
     "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
     "name": "treesinging",
@@ -16,8 +16,19 @@
       "create_verdant_helm",
       "create_verdant_cuirass",
       "create_verdant_gauntlets",
+      "create_verdant_leg_guards",
       "create_verdant_boots",
-      "create_verdant_cloak"
+      "create_verdant_cloak",
+      "create_shortbow_treesung",
+      "create_greatbow_treesung",
+      "create_arrow_treesung",
+      "create_spear_treesung",
+      "create_pike_treesung",
+      "create_mace_treesung",
+      "create_q_staff_treesung",
+      "create_warhammer_treesung",
+      "create_naginata_treesung",
+      "create_baselard_treesung"
     ],
     "difficulty": 1
   },
@@ -39,10 +50,10 @@
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden chair",
+    "name": "treesung wooden chair",
     "id": "create_chair_wood_treesung",
     "description": "Use your magick to turn treesung wood into a chair.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>300 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -55,12 +66,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_CHAIR_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "300" ] },
+        "condition": { "math": [ "u_val('mana') >= 300" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_CHAIR_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "3" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a wooden chair all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -82,17 +93,17 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden wardrobe",
+    "name": "treesung wooden wardrobe",
     "id": "create_wardrobe_wood_treesung",
     "description": "Use your magick to turn treesung wood into a wardrobe.\n\nYou must have <color_yellow>Treesinging level 6</color> and at least <color_yellow>750 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -105,12 +116,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_WARDROBE_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "750" ] },
+        "condition": { "math": [ "u_val('mana') >= 750" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_WARDROBE_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "6" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a wardrobe all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -132,17 +143,17 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden table",
+    "name": "treesung wooden table",
     "id": "create_table_wood_treesung",
     "description": "Use your magick to turn treesung wood into a table.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>400 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -155,12 +166,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_TABLE_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "400" ] },
+        "condition": { "math": [ "u_val('mana') >= 400" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_TABLE_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "4" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a table all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -182,17 +193,17 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
   },
   {
     "type": "recipe",
-    "name": "Treesung wooden bed frame",
+    "name": "treesung wooden bed frame",
     "id": "create_bedframe_wood_treesung",
     "description": "Use your magick to turn treesung wood into a bed frame.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -205,12 +216,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_BEDFRAME_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "200" ] },
+        "condition": { "math": [ "u_val('mana') >= 200" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_BEDFRAME_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "2" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a bed frame all made of a single solid piece of wood, as though it had grown that way in the depths of the forest.",
@@ -232,7 +243,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -242,7 +253,7 @@
     "name": "verdant helm",
     "id": "create_verdant_helm",
     "description": "Use your magick to turn treesung wood into a helmet made of living wood.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -256,12 +267,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_HELM_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "500" ] },
+        "condition": { "math": [ "u_val('mana') >= 500" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_HELM_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "5" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a helmet all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -283,7 +294,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -293,7 +304,7 @@
     "name": "verdant helm",
     "id": "create_verdant_cuirass",
     "description": "Use your magick to turn treesung wood into a cuirass made of living wood.\n\nYou must have <color_yellow>Treesinging level 8</color> and at least <color_yellow>950 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -307,12 +318,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_CUIRASS_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "950" ] },
+        "condition": { "math": [ "u_val('mana') >= 950" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_CUIRASS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "8" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 8" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a cuirass all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -334,7 +345,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -344,7 +355,7 @@
     "name": "verdant gauntlets",
     "id": "create_verdant_gauntlets",
     "description": "Use your magick to turn treesung wood into a set of gauntlets made of living wood.\n\nYou must have <color_yellow>Treesinging level 7</color> and at least <color_yellow>850 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -358,12 +369,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_GAUNTLETS_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "850" ] },
+        "condition": { "math": [ "u_val('mana') >= 850" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_GAUNTLETS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "7" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 7" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of gauntlets all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -385,6 +396,57 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana') = 0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "verdant leg guards",
+    "id": "create_verdant_leg_guards",
+    "description": "Use your magick to turn treesung wood into a set of leg guards made of living wood.\n\nYou must have <color_yellow>Treesinging level 8</color> and at least <color_yellow>850 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 7,
+    "time": "250 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ], [ [ "leaves", 30 ], [ "young_leaves", 30 ], [ "grape_leaves", 30 ] ] ],
+    "byproducts": [ [ "splinter", 25 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_VERDANT_LEG_GUARDS_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 850" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_VERDANT_LEG_GUARDS_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 8" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a set of leg guards all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "leg_guards_verdant", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "850" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(10,80)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "850" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
           { "math": [ "u_val('mana')", "=", "0" ] }
         ]
       }
@@ -395,7 +457,7 @@
     "name": "verdant boots",
     "id": "create_verdant_boots",
     "description": "Use your magick to turn treesung wood into a set of boots made of living wood.\n\nYou must have <color_yellow>Treesinging level 6</color> and at least <color_yellow>750 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -409,12 +471,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_BOOTS_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "750" ] },
+        "condition": { "math": [ "u_val('mana') >= 750" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_BOOTS_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "6" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 6" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a set of boots all made of a single solid piece of wood, with a cushioning of moss and green leaves underneath it, as though it had grown that way in the depths of the forest.",
@@ -436,7 +498,7 @@
         },
         "false_effect": [
           { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
-          { "math": [ "u_val('mana')", "=", "0" ] }
+          { "math": [ "u_val('mana') = 0" ] }
         ]
       }
     ]
@@ -446,7 +508,7 @@
     "name": "verdant cloak",
     "id": "create_verdant_cloak",
     "description": "Use your magick to turn treesung wood into a cloak made of living wood and leaves.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "deduction",
@@ -460,12 +522,12 @@
     "result_eocs": [
       {
         "id": "EOC_ARVORE_TREESINGING_VERDANT_CLOAK_MANA_CHECK",
-        "condition": { "math": [ "u_val('mana')", ">=", "500" ] },
+        "condition": { "math": [ "u_val('mana') >= 500" ] },
         "effect": {
           "run_eocs": [
             {
               "id": "EOC_ARVORE_TREESINGING_VERDANT_CLOAK_SPELL_CHECK",
-              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "5" ] },
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
               "effect": [
                 {
                   "u_message": "As your song fades, you behold a cloak all made of a living leaves woven together with thin branches, as though it had grown that way in the depths of the forest.",
@@ -480,6 +542,516 @@
                 { "u_spawn_item": "splinter", "count": { "math": [ "rng(75,150)" ] }, "suppress_message": true },
                 { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
                 { "math": [ "u_val('mana')", "-=", "500" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana') = 0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung shortbow",
+    "id": "create_shortbow_treesung",
+    "description": "Use your magick to turn treesung wood into a self bow made of living wood and a thin vine.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>350 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "120 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 150 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_SHORTBOW_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 350" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_SHORTBOW_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a bow all made of a single piece of wood with a thin vine for a string, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_bow", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(75,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung greatbow",
+    "id": "create_greatbow_treesung",
+    "description": "Use your magick to turn treesung wood into a an enormous bow made of living wood and a thin vine.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>600 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 3,
+    "time": "240 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 50 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_GREATBOW_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 600" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_GREATBOW_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold an enormous bow all made of a single piece of wood with a thin vine for a string, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_greatbow", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "600" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(40,80)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(5,10)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung arrows",
+    "id": "create_arrow_treesung",
+    "description": "Use your magick to turn treesung wood into a set of arrows made of living wood fletched with leaves.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>400 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "60 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ], [ [ "leaves", 20 ], [ "young_leaves", 20 ], [ "grape_leaves", 20 ] ] ],
+    "byproducts": [ [ "splinter", 100 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_ARROWS_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 400" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_ARROWS_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a set of arrows fletched with leaves, as though they had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "arrow_treesung", "count": 20, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "400" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(80,180)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "400" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung spear",
+    "id": "create_spear_treesung",
+    "description": "Use your magick to turn treesung wood into a spear made of living wood.\n\nYou must have <color_yellow>Treesinging level 1</color> and at least <color_yellow>200 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 150 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_SPEAR_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 200" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_SPEAR_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a spear all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_spear", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "200" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(75,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "200" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung long spear",
+    "id": "create_pike_treesung",
+    "description": "Use your magick to turn treesung wood into a long spear made of living wood.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>350 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 2,
+    "time": "80 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 50 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_PIKE_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 350" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_PIKE_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a long spear all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_pike", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(75,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung mace",
+    "id": "create_mace_treesung",
+    "description": "Use your magick to turn treesung wood into a heavy mace made of living wood.\n\nYou must have <color_yellow>Treesinging level 3</color> and at least <color_yellow>350 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 2,
+    "time": "80 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 50 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_MACE_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 350" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_MACE_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 3" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a mace all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_mace", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(75,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "350" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung quarterstaff",
+    "id": "create_q_staff_treesung",
+    "description": "Use your magick to turn treesung wood into a quarterstaff made of living wood.\n\nYou must have <color_yellow>Treesinging level 1</color> and at least <color_yellow>150 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 0,
+    "time": "30 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 150 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_Q_STAFF_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 150" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_Q_STAFF_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a quarterstaff all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_q_staff", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "150" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(75,150)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "150" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung warhammer",
+    "id": "create_warhammer_treesung",
+    "description": "Use your magick to turn treesung wood into a heavy warhammer made of living wood.\n\nYou must have <color_yellow>Treesinging level 4</color> and at least <color_yellow>400 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 3,
+    "time": "100 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 40 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_WARHAMMER_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 400" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_WARHAMMER_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 4" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a warhammer all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_warhammer", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "400" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(65,125)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(10,20)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "400" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung sword-spear",
+    "id": "create_naginata_treesung",
+    "description": "Use your magick to turn treesung wood into a long spear crowned with a blade made of living wood.\n\nYou must have <color_yellow>Treesinging level 5</color> and at least <color_yellow>500 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "time": "80 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 65 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_NAGINATA_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 500" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_NAGINATA_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 5" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a long staff with a sword blade at the end all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_naginata", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "500" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(45,90)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(8,18)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "500" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ]
+            }
+          ]
+        },
+        "false_effect": [
+          { "u_message": "You do not have enough mana to treesing the wood properly.", "type": "bad" },
+          { "math": [ "u_val('mana')", "=", "0" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "name": "treesung baselard",
+    "id": "create_baselard_treesung",
+    "description": "Use your magick to turn treesung wood into a large knife made of living wood.\n\nYou must have <color_yellow>Treesinging level 2</color> and at least <color_yellow>200 mana</color> to create the item.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_treesinging" }, { "proficiency": "prof_treesinging_equipment" } ],
+    "components": [ [ [ "log_treesung", 1 ] ] ],
+    "byproducts": [ [ "splinter", 200 ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_ARVORE_TREESINGING_BASELARD_TREESUNG_MANA_CHECK",
+        "condition": { "math": [ "u_val('mana') >= 200" ] },
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_ARVORE_TREESINGING_BASELARD_TREESUNG_SPELL_CHECK",
+              "condition": { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 2" ] },
+              "effect": [
+                {
+                  "u_message": "As your song fades, you behold a large knife all made of a single piece of wood, as though it had grown that way in the depths of the forest.",
+                  "type": "good"
+                },
+                { "u_spawn_item": "treesung_q_staff", "count": 1, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "200" ] },
+                { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
+              ],
+              "false_effect": [
+                { "u_message": "Your attempts to sing the wood fail, ruining it!", "type": "bad" },
+                { "u_spawn_item": "splinter", "count": { "math": [ "rng(100,200)" ] }, "suppress_message": true },
+                { "u_spawn_item": "twig", "count": { "math": [ "rng(15,25)" ] }, "suppress_message": true },
+                { "math": [ "u_val('mana')", "-=", "200" ] },
                 { "math": [ "u_spell_exp('arvore_tree_singing_spell')", "+=", "rand(450) + 50" ] }
               ]
             }

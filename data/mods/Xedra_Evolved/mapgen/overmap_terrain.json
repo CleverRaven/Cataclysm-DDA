@@ -166,6 +166,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "xedra_monochrome_meadow" ],
+    "name": "monochrome meadow",
+    "sym": "O",
+    "color": "light_gray",
+    "vision_levels": "open_land",
+    "looks_like": "field",
+    "see_cost": "none",
+    "mondensity": 0
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lodgev_ground1", "lodgev_ground2" ],
     "copy-from": "lodge_ground1"
   },
@@ -308,6 +319,28 @@
     "sym": "#",
     "color": "brown",
     "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_sevenoclock", "cabin_roof_sevenoclock" ],
+    "name": "old cabin",
+    "sym": "C",
+    "color": "green",
+    "vision_levels": "open_land",
+    "looks_like": "cabin",
+    "see_cost": "high",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "field_deathworm" ],
+    "name": "acid-scarred field",
+    "sym": ".",
+    "color": "light_green",
+    "vision_levels": "open_land",
+    "looks_like": "field",
+    "see_cost": "high",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

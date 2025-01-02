@@ -1,0 +1,93 @@
+[
+  {
+    "type": "npc",
+    "id": "exodii_weaponmaster",
+    "name_suffix": "Weaponmaster",
+    "class": "NC_EXODII_TYPE_9_Weaponmaster",
+    "name_unique": "Nine",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_WEAPONMASTER_INTRO_1",
+    "faction": "exodii",
+    "personality": { "aggression": -2, "bravery": 2, "collector": 2, "altruism": -2 }
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_TYPE_9_Weaponmaster",
+    "name": { "str": "Cyborg, type 9" },
+    "job_description": "I'm a cyborg.",
+    "traits": [
+      { "trait": "EXODII_BODY_9" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "MUTE" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ 0, 6 ] },
+    "bonus_per": { "rng": [ 0, 1 ] },
+    "shopkeeper_item_group": [
+      { "group": "EXODII_Shop_Guns_Tier0", "rigid": true },
+      { "group": "EXODII_Shop_OldArmour", "rigid": true },
+      { "group": "EXODII_Shop_Guns_Tier1", "rigid": true, "trust": 1 },
+      { "group": "EXODII_Shop_Guns_Tier2", "rigid": true, "trust": 10 },
+      { "group": "EXODII_Shop_Guns_Tier3", "rigid": true, "trust": 20, "strict": true }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "weapon_override": "brogyeki_weapon_override",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 6, 9 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 6, 9 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 4, 7 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "brogyeki_weapon_override",
+    "entries": [ { "item": "brogyeki", "charges": 2 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_BODY_9",
+    "flags": [ "Exodii_Body" ],
+    "name": { "str": "Exodii cyborg framework - style 9" },
+    "points": 0,
+    "visibility": 9,
+    "ugliness": 7,
+    "mixed_effect": true,
+    "description": "Your entire body is covered by a rectangular frame, that has numerous supporting arms and manipulators, with decent stability.  The price of this is that the weight of the entire frame is enormous, which causes the user to either use dedicated tracked treads to move around, or stay immobile for a large amount of time.",
+    "//": "while it can be handled via limbs and stuff, player have no way to obtain this frame (yet? ever? time will tell) so just enchantments",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cyberframe", "Cybernetic" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "MAX_HP", "add": 250 }, { "value": "STRENGTH", "add": 12 }, { "value": "DEXTERITY", "add": 12 } ]
+      }
+    ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 30,
+        "bash": 30,
+        "stab": 30,
+        "bullet": 25,
+        "acid": 25,
+        "electric": 5
+      }
+    ]
+  }
+]

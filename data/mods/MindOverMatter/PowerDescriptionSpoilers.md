@@ -175,7 +175,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 8 minutes 10 seconds, plus 45 seconds to 1 minutes 15 seconds minutes per level<br />
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
-*Effects*: Reveal the location of all enemies within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
+*Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
 *Prerequisites*: None<br />
 
 ## Discern Weakness
@@ -545,7 +545,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 7 minutes and 30 seconds to 14 minutes and 50 seconds, plus 22.5 seconds to 55 seconds per power level<br />
 *Stamina Cost*: 6500, minus 150 per level to a minimum of 2000<br />
 *Channeling Time*: 1500 moves, minus 75 moves per level to a minimum of 150<br />
-*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.<br />
+*Effects*: Wrap the psion in illusions, concealing any mutations or visible bionics they may have. NPCs will react to them better, and certain people who might refuse to talk to a mutant will be happy to talk to them.  Their total Ugliness is reduced by 60% plus 1.5% per level, to a maximum of 100% Ugliness reduction.<br />
 *Prerequisites*: Chameleoflage 8, Lucent Barrier 5<br />
 
 ## Lucid Shadows
@@ -574,6 +574,15 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Channeling Time*: 200 moves, minus 9.5 moves per level to a minimum of 80<br />
 *Effects*: Unleash a burst of electromagnetic waves, overloading any electronic sensors within the target area.  Any robots caught in the blast will be unable to perceive their environment for the power's duration.<br />
 *Prerequisites*: Star Flash 5 *or* Photon Beam 4, Radio Transception 6<br />
+
+## Gamma Sterilization (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 10 seconds per item of food sterilized<br />
+*Stamina Cost*: 7500, minus 200 per level to a minimum of 4000<br />
+*Channeling Time*: 15 seconds<br />
+*Effects*: Irradiate food, killing bacteria and helping to preserve it for far longer. The psion may irradiate as much food as they can carry, but it takes longer the greater amount of food they wish to irradiate (40g per second time). Every 10 to 15 seconds spent irradiating costs the psion 1 to 3 calories.<br />
+*Prerequisites*: Lucent Barrier 7, Chameleoflage 4, Illuminate 9 *or* Photon Beam 5 *or* Star Flash 3<br />
 
 ## Veil of Light (C)
 *Difficulty*: 6<br />
@@ -1132,7 +1141,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: One attuned location<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
-*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 30 minutes per power level of Gateway to a minimum of 30 minutes<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
 *Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
 *Prerequisites*: Farstep 10, Extended Stride 10 <br />
 
@@ -1255,7 +1264,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 8000<br />
 *Channeling Time*: 5 seconds<br />
 *Effects*: Sink deep into meditation and greatly increase healing speed. While meditating, the psion heals 4 times faster, plus 0.75 times per power level. In addition, broken limbs heal 2 times faster, plus 0.25 times per power level.<br />
-*Prerequisites*: Damage Balancing 6, Allay Infection 5<br />
+*Prerequisites*: Leukocyte Accumulation 6, Allay Infection 5<br />
 
 ## Lacerating Touch 
 *Difficulty*: 6<br />
@@ -1291,7 +1300,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 10000<br />
 *Channeling Time*: 5 seconds<br />
 *Effects*: Purge mundane illnesses with 100% success rate or have a chance to cure long-term or chronic conditions. The power allows the psion to attempt to cure asthma, chemical imbalance, kalupetic psychosis, jittery, mood swings, weakening, narcolepsy, seasonal allergies, or seasonable affective disorder. The chance depends on the particular condition and increases with power level.<br />
-*Prerequisites*: Allay Infection 12, Damage Balancing 8 *or* Immunostimulus 12<br />
+*Prerequisites*: Allay Infection 12, Leukocyte Accumulation 8 *or* Immunostimulus 12<br />
 
 ## Anabolic Rejuvenation (C)
 *Difficulty*: 9<br />
@@ -1299,8 +1308,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 2 minutes and 26 seconds to 6 minutes and 12 seconds, plus 29 seconds to 1 minute and 50 seconds per power level<br />
 *Stamina Cost*: 10000, minus 150 per level to a minimum of 6500<br />
 *Channeling Time*: 10 seconds<br />
-*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
-*Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
+*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 20 to 35 seconds, minus 0.5 seconds per power level to a minimum of 3 to 7 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 60 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
+*Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Leukocyte Accumulation 10 *or* Detoxification 7 *or* Blood Purge 5<br />
+
+## Degenerating Touch 
+*Difficulty*: 9<br />
+*Target*: One enemy within range 1<br />
+*Duration*: 30 seconds minus 1 seccond per power level to 75 seconds minus two seconds per power level to a minimum of 15 seconds<br />
+*Stamina Cost*: 8500, minus 250 per level to a minimum of 4500<br />
+*Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
+*Effects*: Invert the target's healing processes, causing massive cellular breakdown and necrosis, doing 25 to 55 biological damage plus 17 to 32 biological damage per power level. This damage is evenly divided over the power's duration. In addition, the target has any regeneration or healing reduced to 0 and suffers a 33% speed penalty for the power's duration.<br />
+*Prerequisites*: Enervating Touch 16 *or* Lacerating Touch 8, Banish Illness 6, Anabolic Rejuvenation 5 *or* Immunostimulus 15<br />
 
 ## Accelerated Resuscitation (C)
 *Difficulty*: 10<br />
@@ -1308,5 +1326,5 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 1 hour 6 minutes and 2 minutes and 18 seconds to 3 hours and 26 minutes, plus 16 minutes and 2 seconds to 46 minutes and 59 seconds per power level<br />
 *Stamina Cost*: 9000, minus 125 per level to a minimum of 6000<br />
 *Channeling Time*: 30 seconds<br />
-*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 10 hit points will be healed to 10 hit points, their attributes and speed will have no penalties based on pain (penalties increase by 10% every 30 seconds until they reach the normal level) and a much faster Anabolic Rejuvenation is placed on them, ticking once every second for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 5x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
+*Effects*: Prepare the psion's body for a potentially fatal shock. If the psion takes fatal damage while this power is maintained, any body part below 15 hit points will be healed to 15 hit points, their attributes and speed will have no penalties based on pain (penalties increase by 10% every 30 seconds until they reach the normal level) and a much faster Anabolic Rejuvenation is placed on them, ticking once every 1 to 3 seconds for 20 seconds. However, the psion's total stored kCal is reduced by 20% to fuel the resuscitation, and each Anabolic Rejuvenation costs 3x the kCal, iron, etc that it would if the psion had used Anabolic Rejuvenation.<br />
 *Prerequisites*: Anabolic Rejuvenation 6 *or* Banish Illness 8 *and* Revitalizing Meditation 6<br />

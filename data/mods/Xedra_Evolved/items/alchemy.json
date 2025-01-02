@@ -362,7 +362,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Trees" },
-    "description": ".",
+    "description": "In a wooden bowl, Faewild and Dreamdross are mixed together.  The mixture has fae and human blood added to it and parts from the plant fae and then all mixed again until it's a uniform blend.  The resulting mixture will eventually dissolve into a deep green liquid.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",

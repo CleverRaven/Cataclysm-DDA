@@ -54,9 +54,9 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     if( part_num != -1 ) {
-        act.coords.push_back( veh.global_part_pos3( part_num ) );
+        act.coords.push_back( veh.bub_part_pos( part_num ).raw() );
     } else {
-        act.coords.push_back( veh.global_pos3() );
+        act.coords.push_back( veh.pos_bub().raw() );
     }
     act.str_values.push_back( serialize( liquid ) );
 }
@@ -84,7 +84,7 @@ static void serialize_liquid_target( player_activity &act, const vpart_reference
 {
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( vp.vehicle().global_part_pos3( 0 ) );
+    act.coords.push_back( vp.vehicle().bub_part_pos( 0 ).raw() );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 
@@ -154,7 +154,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     if( test_mode ) {
         switch( test_mode_spilling_action ) {
             case test_mode_spilling_action_t::spill_all:
-                target.pos = player_character.pos();
+                target.pos = player_character.pos_bub().raw();
                 target.dest_opt = LD_GROUND;
                 return true;
             case test_mode_spilling_action_t::cancel_spill:

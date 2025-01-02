@@ -3,10 +3,10 @@
     "type": "effect_on_condition",
     "id": "scenario_defense_mode",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "deactivate_condition": { "math": [ "wave_number", ">=", "1" ] },
+    "deactivate_condition": { "math": [ "wave_number >= 1" ] },
     "effect": [
-      { "math": [ "diffulty_modifier", "=", "1" ] },
-      { "math": [ "wave_money_modifier", "=", "-1000" ] },
+      { "math": [ "diffulty_modifier = 1" ] },
+      { "math": [ "wave_money_modifier = -1000" ] },
       { "open_dialogue": { "topic": "TALK_DEFENSE_MODE_MAIN_MENU" } },
       {
         "u_location_variable": { "global_val": "your_spawnpoint" },
@@ -30,7 +30,7 @@
     "id": "defense_mode_caravan_spawn",
     "recurrence": [ "2 days", "4 days" ],
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3)", "<=", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 3) <= 0" ] },
     "effect": [
       { "u_spawn_npc": "defense_mode_merchant", "lifespan": "2 hours", "real_count": 1, "min_radius": 2, "max_radius": 3 },
       { "u_message": "A caravan approaches!", "type": "good", "popup": false }
@@ -76,7 +76,7 @@
     "id": "EOC_DEFENSE_MODE_PREVENT_DEATH",
     "type": "effect_on_condition",
     "eoc_type": "PREVENT_DEATH",
-    "condition": { "math": [ "revivication_counter", ">=", "1" ] },
+    "condition": { "math": [ "revivication_counter >= 1" ] },
     "effect": [
       { "u_lose_effect": "hypovolemia" },
       { "u_lose_effect": "redcells_anemia" },
@@ -84,24 +84,24 @@
       { "u_lose_effect": "staggered" },
       { "u_lose_effect": "bite" },
       { "u_lose_effect": "bleed" },
-      { "math": [ "u_calories()", "=", "u_calories()" ] },
-      { "math": [ "u_val('pkill')", "=", "u_val('pkill')" ] },
-      { "math": [ "u_val('stim')", "=", "u_val('stim')" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('sleepiness')", "=", "0" ] },
-      { "math": [ "u_val('stamina')", "=", "8500" ] },
-      { "math": [ "revivication_counter", "--" ] },
+      { "math": [ "u_calories() = u_calories()" ] },
+      { "math": [ "u_val('pkill') = u_val('pkill')" ] },
+      { "math": [ "u_val('stim') = u_val('stim')" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('sleepiness') = 0" ] },
+      { "math": [ "u_val('stamina') = 8500" ] },
+      { "math": [ "revivication_counter--" ] },
       { "u_cast_spell": { "id": "remove_opponents" } },
       {
         "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
         "popup": true
       },
-      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 100)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 100)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 100)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 100)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 100)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 100)" ] }
+      { "math": [ "u_hp('torso') = max( u_hp('torso'), 100)" ] },
+      { "math": [ "u_hp('head') = max( u_hp('head'), 100)" ] },
+      { "math": [ "u_hp('arm_l') = max( u_hp('arm_l'), 100)" ] },
+      { "math": [ "u_hp('arm_r') = max( u_hp('arm_r'), 100)" ] },
+      { "math": [ "u_hp('leg_l') = max( u_hp('leg_l'), 100)" ] },
+      { "math": [ "u_hp('leg_r') = max( u_hp('leg_r'), 100)" ] }
     ]
   }
 ]

@@ -27,7 +27,7 @@
       { "u_add_effect": "antivirals", "duration": "16 hours" },
       { "u_message": "You take an antiviral.", "type": "info" },
       {
-        "if": { "math": [ "u_effect_intensity('zombie_virus')", "==", "2" ] },
+        "if": { "math": [ "u_effect_intensity('zombie_virus') == 2" ] },
         "then": [
           { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
           {
@@ -37,7 +37,7 @@
         ]
       },
       {
-        "if": { "math": [ "u_effect_intensity('zombie_virus')", "==", "3" ] },
+        "if": { "math": [ "u_effect_intensity('zombie_virus') == 3" ] },
         "then": [
           { "u_add_effect": "zombie_virus", "intensity": 2, "duration": "PERMANENT" },
           {
@@ -47,7 +47,7 @@
         ]
       },
       {
-        "if": { "math": [ "u_effect_intensity('zombie_virus')", "==", "4" ] },
+        "if": { "math": [ "u_effect_intensity('zombie_virus') == 4" ] },
         "then": [
           { "u_add_effect": "zombie_virus", "intensity": 3, "duration": "PERMANENT" },
           {

@@ -120,9 +120,16 @@
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
         "condition": {
           "and": [
-            { "u_has_trait": "PRETTY" },
+            {
+              "or": [
+                { "u_has_trait": "PRETTY" },
+                { "u_has_trait": "BEAUTIFUL" },
+                { "u_has_trait": "BEAUTIFUL2" },
+                { "u_has_trait": "BEAUTIFUL3" }
+              ]
+            },
             { "npc_has_effect": "Alonso_pants_restored" },
-            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -133,9 +140,15 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "PRETTY" } },
+            { "not": { "u_has_trait": "BEAUTIFUL" } },
+            { "not": { "u_has_trait": "BEAUTIFUL2" } },
+            { "not": { "u_has_trait": "BEAUTIFUL3" } },
             { "not": { "u_has_trait": "UGLY" } },
+            { "not": { "u_has_trait": "DEFORMED" } },
+            { "not": { "u_has_trait": "DEFORMED2" } },
+            { "not": { "u_has_trait": "DEFORMED3" } },
             { "npc_has_effect": "Alonso_pants_restored" },
-            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -145,9 +158,16 @@
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
         "condition": {
           "and": [
-            { "u_has_trait": "UGLY" },
+            {
+              "or": [
+                { "u_has_trait": "UGLY" },
+                { "u_has_trait": "DEFORMED" },
+                { "u_has_trait": "DEFORMED2" },
+                { "u_has_trait": "DEFORMED3" }
+              ]
+            },
             { "npc_has_effect": "Alonso_pants_restored" },
-            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "math": [ "u_val('age') >= 18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -155,7 +175,7 @@
       {
         "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Too_Young",
-        "condition": { "math": [ "u_val('age')", "<", "18" ] }
+        "condition": { "math": [ "u_val('age') < 18" ] }
       }
     ]
   },
@@ -181,7 +201,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, Alonso.", "topic": "TALK_REFUGEE_Alonso_1_firstmeet" },
-      { "text": "Hi Alonso, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Alonso, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -193,17 +213,14 @@
     },
     "responses": [
       { "text": "Hi, Alonso.  What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
-      { "text": "Hi Alonso.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi Alonso.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1_firstmeet",
     "dynamic_line": "Nice to meet you too.  Very nice.  It gets so lonely here in the center.",
-    "responses": [
-      { "text": "What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "What's up?", "topic": "TALK_REFUGEE_Alonso_2" }, { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -214,8 +231,8 @@
       "yes": "Well, it's a lot better now that you're here.  Nice to see a familiar face."
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -227,8 +244,8 @@
       "yes": "You know me, I gotta be me, right?"
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -242,8 +259,8 @@
     },
     "responses": [
       { "text": "And how is that working out for you?", "topic": "TALK_REFUGEE_Alonso_CalledOut2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -261,10 +278,10 @@
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
         "effect": [
           { "npc_add_var": "general_none_Alonso_accent", "value": "accepted" },
-          { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+          { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
         ]
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'll leave you to it then.", "topic": "TALK_DONE" }
     ]
   },
@@ -276,7 +293,7 @@
       "yes": "Fine.  As a favor to you, I'll be a guy from Brooklyn.",
       "no": "Alonso thanks you for your kindness, and will remain his glorious self."
     },
-    "responses": [ { "text": "Thanks.  I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Thanks.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -287,8 +304,8 @@
       "yes": "I'm tryin' ta forget, y'know?  Don't like thinkin' about the past.  Better to plan for the future, even if the future looks grim."
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -301,8 +318,8 @@
     },
     "responses": [
       { "text": "Can I help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -314,8 +331,8 @@
       "yes": "Could be better.  I don't really got any friends here in the center, but seeing travelers like you always brightens my day."
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -340,9 +357,10 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I think I might know where those special pants might be though…",
-      "offer": "This clown was into some of the different things, not the vanilla, you understand me?  Yes.  I think you will find my valuables in a toy shop not so so far.",
+      "offer": "This clown was into some of the different things, not the vanilla, you understand me?  Yes.  I think you will find my valuables in a toy shop not so far.",
       "accepted": "You make me so happy I could give you little kisses, and some big kisses, and then something else maybe.",
       "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
       "advice": "It may be crowded no?  A popular place before, maybe is better to visit at night.  Sounds like Alonso's apartment no?",
@@ -371,11 +389,21 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 400 }, { "u_consume_item": "condom" } ]
+      "effect": [
+        { "u_add_effect": "al_relaxed", "duration": 400 },
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 30,
+          "duration": "7 minutes",
+          "decay_start": "6 minutes"
+        },
+        { "u_consume_item": "condom" }
+      ]
     },
     "responses": [
-      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "All done, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sigh.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "All done.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -397,11 +425,21 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 360 }, { "u_consume_item": "condom" } ]
+      "effect": [
+        { "u_add_effect": "al_relaxed", "duration": 360 },
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 30,
+          "duration": "6 minutes",
+          "decay_start": "5 minutes"
+        },
+        { "u_consume_item": "condom" }
+      ]
     },
     "responses": [
-      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sigh.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Yeah.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -423,11 +461,21 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 300 }, { "u_consume_item": "condom" } ]
+      "effect": [
+        { "u_add_effect": "al_relaxed", "duration": 300 },
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 30,
+          "duration": "5 minutes",
+          "decay_start": "4 minutes"
+        },
+        { "u_consume_item": "condom" }
+      ]
     },
     "responses": [
-      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sigh.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Yeah.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -450,7 +498,7 @@
     },
     "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [
-      { "text": "Thanks anyway.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thanks anyway.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Well, thanks anyway.", "topic": "TALK_DONE" }
     ]
   }

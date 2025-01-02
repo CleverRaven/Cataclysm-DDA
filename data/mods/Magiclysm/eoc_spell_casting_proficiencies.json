@@ -5,34 +5,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_evocation_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_evocation_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_evocation_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_evocation_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_evocation_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_evocation_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_evocation_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_evocation_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_evocation_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -43,34 +43,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_channel_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_channel_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_channel_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_channel_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_channel_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_channel_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_channel_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_channel_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -81,34 +81,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_summon_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_summon_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_summon_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_summon_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_summon_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_summon_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_summon_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_summon_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -119,34 +119,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_enhancement_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_enhancement_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_enhancement_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -157,34 +157,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_enervation_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_enervation_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_enervation_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_enervation_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_enervation_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_enervation_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_enervation_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -195,34 +195,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_conveyance_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_conveyance_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_conveyance_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -233,34 +233,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_restoration_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_restoration_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_restoration_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_restoration_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_restoration_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_restoration_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_restoration_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]
@@ -271,34 +271,34 @@
     "global": false,
     "eoc_type": "ACTIVATION",
     "effect": [
-      { "math": [ "u_prof_lowest", "=", "4" ] },
+      { "math": [ "u_prof_lowest = 4" ] },
       {
-        "if": { "math": [ "u_proficiency('prof_magic_transformation_beginner', 'format': 'percent')", ">=", "100" ] },
+        "if": { "math": [ "u_proficiency('prof_magic_transformation_beginner', 'format': 'percent') >= 100" ] },
         "then": [
           {
-            "if": { "math": [ "u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent')", ">=", "100" ] },
+            "if": { "math": [ "u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent') >= 100" ] },
             "then": [
               {
-                "if": { "math": [ "u_proficiency('prof_magic_transformation_master', 'format': 'percent')", ">=", "100" ] },
-                "then": [ { "math": [ "u_prof_level", "=", "3" ] }, { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] } ],
+                "if": { "math": [ "u_proficiency('prof_magic_transformation_master', 'format': 'percent') >= 100" ] },
+                "then": [ { "math": [ "u_prof_level = 3" ] }, { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] } ],
                 "else": [
                   { "math": [ "u_proficiency('prof_magic_transformation_master', 'format': 'percent')", "+=", "rand(4) / 64" ] },
-                  { "math": [ "u_prof_level", "=", "2" ] },
-                  { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+                  { "math": [ "u_prof_level = 2" ] },
+                  { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
                 ]
               }
             ],
             "else": [
               { "math": [ "u_proficiency('prof_magic_transformation_apprentice', 'format': 'percent')", "+=", "rand(4) / 32" ] },
-              { "math": [ "u_prof_level", "=", "1" ] },
-              { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+              { "math": [ "u_prof_level = 1" ] },
+              { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
             ]
           }
         ],
         "else": [
           { "math": [ "u_proficiency('prof_magic_transformation_beginner', 'format': 'percent')", "+=", "rand(4) / 16" ] },
-          { "math": [ "u_prof_level", "=", "0" ] },
-          { "math": [ "u_prof_lowest", "=", "min(u_prof_level, u_prof_lowest)" ] }
+          { "math": [ "u_prof_level = 0" ] },
+          { "math": [ "u_prof_lowest = min(u_prof_level, u_prof_lowest)" ] }
         ]
       }
     ]

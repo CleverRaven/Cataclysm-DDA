@@ -250,12 +250,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos() ) );
+    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos() ) );
+    player_map_memory->load( get_map().getglobal( pos_bub() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -324,7 +324,7 @@ void avatar::reset_all_missions()
 tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
-        return overmap::invalid_tripoint;
+        return tripoint_abs_omt::invalid;
     }
     return active_mission->get_target();
 }
@@ -434,7 +434,7 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( this, *book, pos() );
+        book->get_use( "learn_spell" )->call( this, *book, pos_bub() );
         return true;
     }
 
@@ -688,7 +688,7 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
                         memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
                     }
@@ -1209,12 +1209,12 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p )
+bool avatar::cant_see( const tripoint &p ) const
 {
     return cant_see( tripoint_bub_ms( p ) );
 }
 
-bool avatar::cant_see( const tripoint_bub_ms &p )
+bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
     // calc based on recoil
@@ -1229,15 +1229,15 @@ bool avatar::cant_see( const tripoint_bub_ms &p )
     return aim_cache[p.x()][p.y()];
 }
 
-void avatar::rebuild_aim_cache()
+void avatar::rebuild_aim_cache() const
 {
     aim_cache_dirty =
         false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().bub_from_abs( tripoint_abs_ms(
-                last_target_pos.value() ) );
+    const tripoint_bub_ms local_last_target = get_map().bub_from_abs(
+                last_target_pos.value() );
 
     float base_angle = atan2f( local_last_target.y() - posy(),
                                local_last_target.x() - posx() );
@@ -1276,7 +1276,7 @@ void avatar::rebuild_aim_cache()
             }
 
             // some basic angle inclusion math, but also everything with 15 is still seen
-            if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {
+            if( rl_dist( tripoint_bub_ms( smx, smy, posz() ), pos_bub() ) < 15 ) {
                 aim_cache[smx][smy] = false;
             } else if( lower_bound > upper_bound ) {
                 aim_cache[smx][smy] = !( current_angle >= lower_bound ||
@@ -1302,7 +1302,9 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         // Enchantments based on move modes can stack inappropriately without a recalc here
         recalculate_enchantment_cache();
         // crouching affects visibility
-        get_map().set_seen_cache_dirty( pos().z );
+        //TODO: Replace with dirtying vision_transparency_cache
+        get_map().set_transparency_cache_dirty( pos_bub() );
+        get_map().set_seen_cache_dirty( posz() );
         recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );
@@ -1466,7 +1468,7 @@ item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
     return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
+bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1516,17 +1518,12 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
-bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
-{
-    return avatar::invoke_item( used, pt.raw(), pre_obtain_moves );
-}
-
 bool avatar::invoke_item( item *used )
 {
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {

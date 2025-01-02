@@ -5,7 +5,11 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         ".[...........p._______..",
@@ -36,7 +40,7 @@
       "terrain": {
         "=": "t_floor_noroof",
         "?": "t_shrub_lilac",
-        "`": "t_railing_v",
+        "`": "t_railing",
         "]": "t_door_metal_locked",
         "/": "t_gates_mech_control_lab",
         ",": "t_thconc_floor",

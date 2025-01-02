@@ -16,7 +16,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zeratosaurus_fungus",
@@ -35,7 +35,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "SWIMS" ]
   },
   {
     "id": "mon_zpinosaurus_fungus",
@@ -54,7 +54,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM", "SWIMS" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM", "SWIMS" ]
   },
   {
     "id": "mon_zorvosaurus_fungus",
@@ -73,7 +73,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zallosaurus_fungus",
@@ -92,7 +92,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zacrocanthosaurus_fungus",
@@ -112,7 +112,7 @@
     "grab_strength": 100,
     "special_attacks": [ { "id": "bite_grab" }, [ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_ziganotosaurus_fungus",
@@ -132,7 +132,7 @@
     "grab_strength": 100,
     "special_attacks": [ { "id": "bite_grab" }, [ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_ziats_fungus",
@@ -157,7 +157,7 @@
       { "id": "drag_followup" }
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zryptosaurus_fungus",
@@ -177,7 +177,7 @@
     "grab_strength": 75,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zappalachiosaurus_fungus",
@@ -197,7 +197,7 @@
     "grab_strength": 75,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zorgosaurus_fungus",
@@ -217,7 +217,7 @@
     "grab_strength": 100,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zalbertosaurus_fungus",
@@ -237,7 +237,7 @@
     "grab_strength": 75,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 5 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zianzhousaurus_fungus",
@@ -256,7 +256,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 5 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zanuqsaurus_fungus",
@@ -275,7 +275,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 10 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zaspletosaurus_fungus",
@@ -294,7 +294,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 5 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zyrannosaurus_fungus",
@@ -313,7 +313,26 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zedcolbertia_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal nedcolbertia zombie" },
+    "description": "Once a feathered, plant-eating, bipedal dinosaur, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zedcolbertia",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": false,
+    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zallimimus_fungus",
@@ -332,7 +351,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_ztruthiomimus_fungus",
@@ -351,7 +370,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zornithomimus_fungus",
@@ -370,7 +389,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zalcarius_fungus",
@@ -389,7 +408,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 20 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zerizinosaurus_fungus",
@@ -408,7 +427,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 20 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "DESTROYS" ]
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "DESTROYS" ]
   },
   {
     "id": "mon_zothronychus_fungus",
@@ -427,7 +446,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 30 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zanzu_fungus",
@@ -446,7 +465,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 30 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zeinonychus_fungus",
@@ -470,7 +489,7 @@
       { "type": "bite", "cooldown": 5 }
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zutahraptor_fungus",
@@ -494,7 +513,7 @@
       { "type": "bite", "cooldown": 5 }
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zarahsaurus_fungus",
@@ -513,7 +532,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zanchisaurus_fungus",
@@ -532,7 +551,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zissi_fungus",
@@ -551,7 +570,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zaplocanthosaurus_fungus",
@@ -570,7 +589,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zamargasaurus_fungus",
@@ -593,7 +612,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zapatosaurus_fungus",
@@ -616,7 +635,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zrontosaurus_fungus",
@@ -698,7 +717,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zesperosaurus_fungus",
@@ -721,7 +740,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zastonia_fungus",
@@ -822,7 +841,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zuoplocephalus_fungus",
@@ -847,7 +866,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zcolosaurus_fungus",
@@ -872,7 +891,7 @@
       [ "SMASH", 30 ]
     ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zenontosaurus_fungus",
@@ -891,7 +910,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zryosaurus_fungus",
@@ -910,7 +929,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_zamptosaurus_fungus",
@@ -929,7 +948,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
     "id": "mon_ziguanodon_fungus",
@@ -1059,7 +1078,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_zeptoceratops_fungus",
@@ -1078,7 +1097,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_zzuniceratops_fungus",
@@ -1097,7 +1116,26 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+  },
+  {
+    "id": "mon_zokiceratops_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal lokiceratops zombie" },
+    "description": "This was once a four-legged dinosaur herbivore with a bony head crest with two large horns pointing out and down, two long brow horns, and a beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zokiceratops",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": false,
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_ztyracosaurus_fungus",
@@ -1116,7 +1154,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_zentrosaurus_fungus",
@@ -1135,7 +1173,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_zeiniosaurus_fungus",
@@ -1154,7 +1192,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
     "id": "mon_zachelousaurus_fungus",
@@ -1239,7 +1277,26 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE", "BASHES" ]
+  },
+  {
+    "id": "mon_zona_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal fona zombie" },
+    "description": "This was once a two-legged dinosaur herbivore, with a long tail and claws.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zona",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice_sides": 3, "armor": { "bash": 3 } },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ] ],
+    "upgrades": false,
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "PET_MOUNTABLE", "BASHES" ]
   },
   {
     "id": "mon_zescelosaurus_fungus",
@@ -1258,7 +1315,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "PET_MOUNTABLE", "BASHES" ]
+    "flags": [ "SEES", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "PET_MOUNTABLE", "BASHES" ]
   },
   {
     "id": "mon_zteranodon_fungus",
@@ -1277,7 +1334,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": false,
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "FLIES" ]
+    "flags": [ "SEES", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "FLIES" ]
   },
   {
     "id": "mon_zuetzalcoatlus_fungus",

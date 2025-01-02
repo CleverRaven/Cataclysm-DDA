@@ -5,7 +5,20 @@
     "name": { "str": "zombie dwarf", "str_pl": "zombie dwarves" },
     "copy-from": "mon_zombie_tough",
     "description": "Once a dwarf, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
-    "proportional": { "speed": 0.9, "volume": 0.7, "weight": 0.9 },
+    "proportional": { "volume": 0.7, "weight": 0.9 },
+    "speed": 65,
+    "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
+    "vision_day": 15,
+    "vision_night": 8,
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dwarf_miner",
+    "name": { "str": "zombie dwarven miner" },
+    "copy-from": "mon_zombie_miner",
+    "description": "Once a dwarven miner, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
+    "proportional": { "hp": 1.2, "volume": 0.7, "weight": 0.9, "speed": 0.9 },
     "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
     "vision_day": 15,
     "vision_night": 8,
@@ -75,7 +88,7 @@
       }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_basic_bird" ],
-    "harvest": "demihuman",
+    "harvest": "zombie_ravenfolk",
     "special_attacks": [
       [ "SHRIEK_ALERT", 15 ],
       {
@@ -117,7 +130,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "armor": { "bash": 3, "cut": 4, "stab": 4, "bullet": 2 },
-    "harvest": "lizardfolk",
+    "harvest": "zombie_lizardfolk",
     "//": "No grab--they have multiple natural weapons so they just attack",
     "special_attacks": [
       [ "PARROT", 400 ],

@@ -2,8 +2,8 @@
   {
     "type": "SPELL",
     "id": "spider_emergence_weak",
-    "name": { "str": "Spider Emergence" },
-    "description": "The incubating goblin spider larvae flee their host.",
+    "name": { "str": "Spider Emergence", "//~": "NO_I18N" },
+    "description": { "str": "The incubating goblin spider larvae flee their host.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE" ],
     "valid_targets": [ "ground", "self" ],
     "base_casting_time": 20,
@@ -22,8 +22,8 @@
   {
     "type": "SPELL",
     "id": "spider_emergence_strong",
-    "name": { "str": "Spider Emergence" },
-    "description": "The incubating goblin spider larvae flee their host.",
+    "name": { "str": "Spider Emergence", "//~": "NO_I18N" },
+    "description": { "str": "The incubating goblin spider larvae flee their host.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE" ],
     "valid_targets": [ "ground", "self" ],
     "base_casting_time": 20,
@@ -42,8 +42,8 @@
   {
     "type": "SPELL",
     "id": "eggsac_survivable",
-    "name": { "str": "Eggsac Eruption" },
-    "description": "Hurts yourself.",
+    "name": { "str": "Eggsac Eruption", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "min_damage": 10,
     "max_damage": 20,
@@ -55,8 +55,8 @@
   {
     "type": "SPELL",
     "id": "eggsac_fatal",
-    "name": { "str": "Eggsac Eruption" },
-    "description": "Hurts yourself.",
+    "name": { "str": "Eggsac Eruption", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "min_damage": 100,
     "max_damage": 200,
@@ -68,8 +68,11 @@
   {
     "id": "vampire_map_real",
     "type": "SPELL",
-    "name": "Commune with children of the night Real Spell",
-    "description": "This is the spell that actually fires when you cast Commune with Children of the Night.  It's a bug if you have it.",
+    "name": { "str": "Commune with children of the night Real Spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is the spell that actually fires when you cast Commune with Children of the Night.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "none" ],
     "message": "The secrets of the living earth are revealed to you.",
     "flags": [ "NO_HANDS", "SILENT" ],

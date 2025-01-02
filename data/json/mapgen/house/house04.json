@@ -32,8 +32,8 @@
         ".##oo#####o###*###oo###.",
         "............^---........"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
-      "terrain": { "$": "t_carpet_green", "%": "t_shrub" },
+      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_palette" ],
+      "terrain": { "$": { "param": "carpet_color_type", "fallback": "t_carpet_green" }, "%": "t_shrub" },
       "set": [
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] },
         { "point": "terrain", "id": "t_tree_young", "x": [ 0, 14 ], "y": 0, "chance": 5 },

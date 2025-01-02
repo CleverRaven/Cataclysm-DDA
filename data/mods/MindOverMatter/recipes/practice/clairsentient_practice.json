@@ -52,14 +52,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
-        "condition": { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_night_vision') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_night_vision", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 1" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -89,14 +89,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
-        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_danger_sense", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -106,7 +106,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_DANGER_SENSE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_DANGER_SENSE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -143,14 +143,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_danger_sense')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_danger_sense') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -181,14 +183,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
-        "condition": { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_speed_reading') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_speed_reading", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -218,14 +220,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
-        "condition": { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_spot_weakness') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_spot_weakness", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -235,7 +237,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -272,14 +274,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_spot_weakness')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_spot_weakness') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -310,14 +314,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
-        "condition": { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_sense_rads') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_sense_rads", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -347,14 +351,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
-        "condition": { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_see_auras') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_see_auras", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -364,7 +368,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_SEE_AURAS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_SEE_AURAS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -401,14 +405,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_see_auras')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_see_auras') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -440,14 +446,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
-        "condition": { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_ranged_enhance') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -457,7 +463,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -494,14 +500,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_ranged_enhance')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_ranged_enhance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -533,14 +541,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
-        "condition": { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_voyance') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_voyance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -550,7 +558,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_VOYANCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_VOYANCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -587,14 +595,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_voyance')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_voyance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -626,14 +636,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
-        "condition": { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_dodge_power') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_dodge_power", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -643,7 +653,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_COMBAT_SENSE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_COMBAT_SENSE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -680,14 +690,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_dodge_power')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_dodge_power') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -719,14 +731,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
-        "condition": { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_craft_bonus') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_craft_bonus", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -736,7 +748,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_CRAFT_BONUS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_CRAFT_BONUS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -773,14 +785,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_craft_bonus')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_craft_bonus') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -812,14 +826,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
-        "condition": { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_see_map') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_see_map", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -829,7 +843,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_SEE_MAP_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_SEE_MAP_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -866,14 +880,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_see_map')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_see_map') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -905,14 +921,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
-        "condition": { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_perfect_shot') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_perfect_shot", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -922,7 +938,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_PERFECT_SHOT_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_PERFECT_SHOT_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -959,14 +975,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_perfect_shot')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_perfect_shot') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -998,14 +1016,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
-        "condition": { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_clear_sight') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_clear_sight", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 8" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1015,7 +1033,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -1052,14 +1070,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_clear_sight')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_clear_sight') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1091,14 +1111,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION",
-        "condition": { "math": [ "u_spell_level('clair_astral_projection')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_astral_projection') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_astral_projection", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 8" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1108,7 +1128,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -1145,14 +1165,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_astral_projection')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_astral_projection') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1184,14 +1206,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
-        "condition": { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_group_tactics') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_group_tactics", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 9" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1201,7 +1223,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_GROUP_TACTICS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_GROUP_TACTICS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
           }
         ]
@@ -1238,14 +1260,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_group_tactics')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_group_tactics') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1277,14 +1301,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
-        "condition": { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('clair_omniscience') >= 1" ] },
         "effect": [
           { "set_string_var": "clair_omniscience", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_clairsentience",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 10" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1294,7 +1318,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_CLAIR_OMNISCENCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_CLAIR_OMNISCENCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(10)" ] }, { "math": [ "learn_new_power_upper_time_bound(10)" ] } ]
           }
         ]
@@ -1331,14 +1355,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('clair_omniscience')", "=", "1" ] },
+              { "math": [ "u_spell_level('clair_omniscience') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]

@@ -9,11 +9,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "66 days 16 hours",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the apple potion fruit.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_APPLE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_APPLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -30,11 +26,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the peach potion fruit.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_PEACH" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_PEACH" ]
   },
   {
     "type": "effect_on_condition",
@@ -51,11 +43,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "40 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the pear potion fruit.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_PEAR" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_PEAR" ]
   },
   {
     "type": "effect_on_condition",
@@ -72,11 +60,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of blackberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_BLACKBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_BLACKBERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -93,11 +77,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of raspberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_RASPBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_RASPBERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -114,11 +94,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of strawberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_STRAWBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_STRAWBERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -135,11 +111,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of elderberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_ELDERBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_ELDERBERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -168,11 +140,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of cranberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_CRANBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_CRANBERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -189,11 +157,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of huckleberry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_HUCKLEBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_HUCKLEBERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -210,11 +174,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of wintergreen berry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_WINTERGREEN" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_WINTERGREEN" ]
   },
   {
     "type": "effect_on_condition",
@@ -231,11 +191,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of cherry potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_CHERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_CHERRY" ]
   },
   {
     "type": "effect_on_condition",
@@ -252,11 +208,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of apricot potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_APRICOT" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_APRICOT" ]
   },
   {
     "type": "effect_on_condition",
@@ -273,16 +225,15 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the handful of grape potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_GRAPE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_GRAPE" ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_GRAPE",
-    "effect": [ { "u_add_effect": "effect_pfruit_no_drunk", "duration": "1 seconds" }, { "math": [ "u_pain()", "+=", "10" ] } ]
+    "effect": [
+      { "u_add_effect": "effect_pfruit_no_drunk", "duration": "1 seconds" },
+      { "math": [ "u_pain('type': 'perceived')", "+=", "10" ] }
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -294,11 +245,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the mayapple potion fruit.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -318,11 +265,7 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the starry false Solomon's seal potion fruits.",
-      "effect_on_conditions": [ "EOC_POTION_FRUIT_SOLOMON_SEAL" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_SOLOMON_SEAL" ]
   },
   {
     "type": "effect_on_condition",

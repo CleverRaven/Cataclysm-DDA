@@ -134,12 +134,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
         draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-        mvwputch( w_border, point( 0, 4 ), c_light_gray, LINE_XXXO ); // |-
-        mvwputch( w_border, point( getmaxx( w_border ) - 1, 4 ), c_light_gray, LINE_XOXX ); // -|
+        wattron( w_border, c_light_gray );
+        mvwaddch( w_border, point( 0, 4 ), LINE_XXXO ); // |-
+        mvwaddch( w_border, point( getmaxx( w_border ) - 1, 4 ), LINE_XOXX ); // -|
 
         for( auto &column : column_pos ) {
-            mvwputch( w_border, point( column.second + 1, TERMY - 1 ), c_light_gray, LINE_XXOX ); // _|_
+            mvwaddch( w_border, point( column.second + 1, TERMY - 1 ), LINE_XXOX ); // _|_
         }
+        wattroff( w_border, c_light_gray );
 
         wnoutrefresh( w_border );
 
@@ -163,9 +165,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                                 _( "<Enter>-Edit" ) ) + 2;
         shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
-        for( int i = 0; i < getmaxx( w_header ); i++ ) {
-            mvwputch( w_header, point( i, 3 ), c_light_gray, LINE_OXOX ); // Draw line under header
-        }
+        mvwhline( w_header, point( 0, 3 ), c_light_gray, LINE_OXOX,
+                  getmaxx( w_header ) ); // Draw line under header
 
         int locx = 0;
         const std::string safe_mode_enabled_text = _( "Safe mode enabled:" );
@@ -177,10 +178,12 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         locx += shortcut_print( w_header, point( locx + 1, 2 ), c_white, c_light_green, "  " );
         locx += shortcut_print( w_header, point( locx, 2 ), c_white, c_light_green, _( "<S>witch" ) );
 
+        wattron( w_header, c_light_gray );
         for( auto &pos : column_pos ) {
-            mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_OXXX ); // ^|^
-            mvwputch( w_header, point( pos.second, 4 ), c_light_gray, LINE_XOXO ); // |
+            mvwaddch( w_header, point( pos.second, 3 ), LINE_OXXX ); // ^|^
+            mvwaddch( w_header, point( pos.second, 4 ), LINE_XOXO ); // |
         }
+        wattroff( w_header, c_light_gray );
 
         locx = getmaxx( w_header ) / 2 - 15;
         locx += shortcut_print( w_header, point( locx, 3 ), c_white,
@@ -199,14 +202,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         wnoutrefresh( w_header );
 
         // Clear the lines
-        for( int i = 0; i < content_height; i++ ) {
-            for( int j = 0; j < getmaxx( w ) - 1; j++ ) {
-                mvwputch( w, point( j, i ), c_black, ' ' );
-            }
-
-            for( auto &pos : column_pos ) {
-                mvwputch( w, point( pos.second, i ), c_light_gray, LINE_XOXO ); // |
-            }
+        mvwrectf( w, point::zero, c_black, ' ', getmaxx( w ) - 1, content_height );
+        for( auto &pos : column_pos ) {
+            mvwvline( w, point( pos.second, 0 ), c_light_gray, LINE_XOXO, content_height ); // |
         }
 
         auto &current_tab = tab == GLOBAL_TAB ? global_rules : character_rules;
@@ -532,7 +530,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
                              offset );
         w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
-                              offset + point_south_east );
+                              offset + point::south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -559,11 +557,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
-        for( int i = 0; i < content_height; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
-                mvwputch( w_test_rule_content, point( j, i ), c_black, ' ' );
-            }
-        }
+        mvwrectf( w_test_rule_content, point::zero, c_black, ' ', 79, content_height );
 
         calcStartPos( start_pos, line, content_height, creature_list.size() );
 
@@ -785,8 +779,8 @@ bool safemode::save( const bool is_character_in )
     cata_path file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -818,7 +812,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     cata_path file = PATH_INFO::safemode();
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
     fs::path file_path = file.get_unrelative_path();

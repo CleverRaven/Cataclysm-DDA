@@ -233,7 +233,6 @@
     "volume": "250 ml",
     "price": "14 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "glasses_safety",

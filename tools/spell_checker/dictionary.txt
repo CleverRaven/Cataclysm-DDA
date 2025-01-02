@@ -877,6 +877,7 @@ Bulgarian
 Bullard
 bullpup
 bullseye
+bullshit
 Buluotuo
 Bulwer
 Bundahis
@@ -1100,6 +1101,8 @@ chk
 Chloe
 Cho
 chode
+chokeberry
+chokeberries
 chokepoints
 Chol
 chonker
@@ -1114,6 +1117,9 @@ Christmas
 Christopher
 chromatographer
 chromoelectric
+chronal
+chronomancy
+chronomantic
 Chu
 Chuang
 chucklefuck
@@ -2068,6 +2074,7 @@ foamcrete
 foie
 Foily
 Folsom
+fona
 Fonzie
 foodborne
 foodburger
@@ -2160,6 +2167,7 @@ Fuji
 fulleroclathrate
 fullscreen
 fumarolic
+fungalizing
 fungaloid
 fungaloids
 fungideer
@@ -2361,6 +2369,7 @@ gravesite
 Gravol
 GravyField
 Grayfield
+grayscale
 greatbow
 greatbows
 greatclub
@@ -2630,6 +2639,8 @@ HMS
 HMTD
 hnefatafl
 Hobbes
+hobblebush
+hobbleberries
 hoc
 Hockomock
 hodag
@@ -3462,6 +3473,7 @@ locs
 Locutus
 Loew
 Loki
+lokiceratops
 lolita
 London
 longarm
@@ -4128,6 +4140,8 @@ namele
 Namibian
 Nana
 Nani
+nannyberry
+nannyberries
 nano
 nanobots
 nanocompound
@@ -4193,6 +4207,7 @@ necrowolf
 nectivore
 Ned
 Nedarim
+nedcolbertia
 Needham
 needlelike
 Needletip
@@ -4636,6 +4651,8 @@ Pennsylvania
 Pennywise
 Penobscot
 pentaceratops
+Pentapanic
+Pentapanics
 Pentecost
 Pentecostal
 Pepeha
@@ -5600,6 +5617,7 @@ Sikorsky
 Silat
 siloed
 siloing
+silverberry
 Silvergram
 Silvergrams
 Silverhawk
@@ -5913,6 +5931,7 @@ streetwear
 stressfully
 striders
 strigoi
+strix
 strobing
 strobus
 Stromer
@@ -6246,7 +6265,9 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timeloops
 timestamp
+timestream
 timey
 Timmy
 Timorese
@@ -6407,6 +6428,7 @@ tumescences
 Tunguska
 Tunisian
 tuno
+tupelo
 tupperware
 tupperwares
 Turing

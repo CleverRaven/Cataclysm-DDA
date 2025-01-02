@@ -193,7 +193,7 @@
         "S": "t_secretdoor_concrete_o",
         "Y": "t_strconc_floor_olight"
       },
-      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
+      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satellite_dish" },
       "items": {
         "l": [
           { "item": "NC_ANCILLA_GRUNT_worn", "chance": 50 },

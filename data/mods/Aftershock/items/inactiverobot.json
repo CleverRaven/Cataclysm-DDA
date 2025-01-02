@@ -281,7 +281,7 @@
     "abstract": "bot_medibot_base",
     "type": "TOOL",
     "looks_like": "mon_tripod",
-    "name": "inactive medibot",
+    "name": { "str": "inactive medibot", "//~": "NO_I18N" },
     "material": [ "steel", "plastic" ],
     "weight": "70 kg",
     "volume": "50 L",
@@ -304,7 +304,7 @@
   {
     "abstract": "bot_utilibot_base",
     "type": "TOOL",
-    "name": "inactive utilibot",
+    "name": { "str": "inactive utilibot", "//~": "NO_I18N" },
     "looks_like": "mon_cleanerbot",
     "price": "100 USD",
     "price_postapoc": "100 USD",
@@ -355,7 +355,7 @@
   {
     "abstract": "bot_milbot_base",
     "type": "TOOL",
-    "name": "inactive military robot",
+    "name": { "str": "inactive military robot", "//~": "NO_I18N" },
     "looks_like": "mon_secubot",
     "material": [ "steel", "kevlar" ],
     "weight": "140 kg",
@@ -386,7 +386,7 @@
   {
     "abstract": "bot_defbot_base",
     "type": "TOOL",
-    "name": "inactive defense robot",
+    "name": { "str": "inactive defense robot", "//~": "NO_I18N" },
     "looks_like": "mon_riotbot",
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
@@ -402,7 +402,7 @@
   {
     "abstract": "bot_skitterbot_base",
     "type": "TOOL",
-    "name": "inactive skitterbot",
+    "name": { "str": "inactive skitterbot", "//~": "NO_I18N" },
     "looks_like": "broken_skitterbot",
     "material": [ "steel", "plastic" ],
     "weight": "62650 g",
@@ -469,7 +469,7 @@
   {
     "abstract": "bot_eyebot_base",
     "type": "TOOL",
-    "name": "inactive eyebot",
+    "name": { "str": "inactive eyebot", "//~": "NO_I18N" },
     "looks_like": "afs_broken_eyebot",
     "price": "100 USD",
     "price_postapoc": "100 USD",

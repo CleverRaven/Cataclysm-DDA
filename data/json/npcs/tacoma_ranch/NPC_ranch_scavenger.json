@@ -85,11 +85,16 @@
     "id": "MISSION_RANCH_SCAVENGER_1",
     "type": "mission_definition",
     "name": { "str": "Make 12 Simple Knife Spears" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [
+        { "item": "spear_knife", "amount": 12 },
+        { "item": "spear_knife_superior", "amount": 12 },
+        { "item": "spear_knife_proper", "amount": 12 }
+      ]
+    },
     "difficulty": 5,
     "value": 50000,
-    "item": "spear_knife",
-    "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_2",
     "dialogue": {
@@ -127,6 +132,15 @@
             { "chance": 100, "item": "allsporting", "x": 14, "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
           ],
           "place_item": [ { "item": "30gal_drum", "x": 8, "y": 19, "faction": "tacoma_commune" } ]
+        }
+      ],
+      "effect": [
+        {
+          "u_consume_item_sum": [
+            { "item": "spear_knife", "amount": 12 },
+            { "item": "spear_knife_superior", "amount": 12 },
+            { "item": "spear_knife_proper", "amount": 12 }
+          ]
         }
       ]
     }

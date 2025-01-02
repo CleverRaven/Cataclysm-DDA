@@ -541,6 +541,7 @@
         "monster_message": "%1$s gestures and you hear the creak of growing wood!"
       }
     ],
+    "death_drops": { "subtype": "collection", "items": [ { "item": "treesung_pike", "prob": 30, "damage": [ 1, 5 ] } ] },
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
     "dissect": "dissect_arvore_huge",
     "flags": [
@@ -979,7 +980,8 @@
       "NO_BREATHE",
       "NOGIB",
       "PLASTIC",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "EVIL_EYE_IMMUNE_MONSTER"
     ]
   }
 ]

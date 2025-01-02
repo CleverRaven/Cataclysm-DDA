@@ -136,7 +136,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
+          "melee_damage_bonus": [ { "type": "cold", "add": 17 } ],
           "name": { "str": "Ice Fists" },
           "description": "Strikes from this weapon can freeze targets solid."
         }
@@ -183,8 +183,8 @@
     "type": "GUN",
     "symbol": "(",
     "color": "green",
-    "name": { "str_sp": "Tankbot Main Gun" },
-    "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
+    "name": { "str_sp": "Tankbot Main Gun", "//~": "NO_I18N" },
+    "description": { "str": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!", "//~": "NO_I18N" },
     "price": "999 kUSD 999 USD 99 cent",
     "material": [ "steel" ],
     "skill": "launcher",

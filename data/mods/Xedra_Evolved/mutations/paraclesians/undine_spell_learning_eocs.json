@@ -26,7 +26,7 @@
           ]
         },
         {
-          "or": [ { "math": [ "u_undine_is_connected_to_waters", "==", "1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
+          "or": [ { "math": [ "u_undine_is_connected_to_waters == 1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
         }
       ]
     },
@@ -39,23 +39,23 @@
     "//": "This is a separate EoC to allow looping through until it finds a spell the Undine knows. Probability is [11-Difficulty]",
     "condition": {
       "or": [
-        { "math": [ "u_spell_level('create_fog')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('grant_buoyancy')", "<", "20" ] },
-        { "math": [ "u_spell_level('acidic_mist')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('deadly_mist')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('wave_rider')", "<", "20" ] },
-        { "math": [ "u_spell_level('water_pocket')", "<", "20" ] },
-        { "math": [ "u_spell_level('summon_fish')", "<", "35" ] },
-        { "math": [ "u_spell_level('charm_fish')", "<", "35" ] },
-        { "math": [ "u_spell_level('summon_kraken')", "<", "35" ] },
-        { "math": [ "u_spell_level('undine_acid_resist_ally_spell')", "<", "per_to_level(1)" ] },
-        { "math": [ "u_spell_level('undine_bash_and_slow_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('undine_drag_inward_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('undine_tidal_wave_spell')", "<", "str_to_level(1)" ] },
-        { "math": [ "u_spell_level('summon_water_sprite')", "<", "35" ] },
-        { "math": [ "u_spell_level('cloud_of_steam_undine')", "<", "35" ] },
-        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+        { "math": [ "u_spell_level('create_fog') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('grant_buoyancy') < 20" ] },
+        { "math": [ "u_spell_level('acidic_mist') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('deadly_mist') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('wave_rider') < 20" ] },
+        { "math": [ "u_spell_level('water_pocket') < 20" ] },
+        { "math": [ "u_spell_level('summon_fish') < 35" ] },
+        { "math": [ "u_spell_level('charm_fish') < 35" ] },
+        { "math": [ "u_spell_level('summon_kraken') < 35" ] },
+        { "math": [ "u_spell_level('undine_acid_resist_ally_spell') < per_to_level(1)" ] },
+        { "math": [ "u_spell_level('undine_bash_and_slow_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('undine_drag_inward_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('undine_tidal_wave_spell') < str_to_level(1)" ] },
+        { "math": [ "u_spell_level('summon_water_sprite') < 35" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_undine') < 35" ] },
+        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit') < dex_to_level(1)" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
     "effect": {
@@ -83,10 +83,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_CREATE_FOG",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('create_fog')", ">=", "0" ] },
-        { "math": [ "u_spell_level('create_fog')", "<", "dex_to_level(1)" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('create_fog') >= 0" ] }, { "math": [ "u_spell_level('create_fog') < dex_to_level(1)" ] } ]
     },
     "effect": [
       {
@@ -101,10 +98,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_GRANT_BUOYANCY",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('grant_buoyancy')", ">=", "0" ] },
-        { "math": [ "u_spell_level('grant_buoyancy')", "<", "20" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('grant_buoyancy') >= 0" ] }, { "math": [ "u_spell_level('grant_buoyancy') < 20" ] } ]
     },
     "effect": [
       {
@@ -120,8 +114,8 @@
     "id": "EOC_LEVELER_UNDINE_ACIDIC_MIST",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('acidic_mist')", ">=", "0" ] },
-        { "math": [ "u_spell_level('acidic_mist')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('acidic_mist') >= 0" ] },
+        { "math": [ "u_spell_level('acidic_mist') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -138,8 +132,8 @@
     "id": "EOC_LEVELER_UNDINE_DEADLY_MIST",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('deadly_mist')", ">=", "0" ] },
-        { "math": [ "u_spell_level('deadly_mist')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('deadly_mist') >= 0" ] },
+        { "math": [ "u_spell_level('deadly_mist') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -154,9 +148,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_WAVE_RIDER",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level('wave_rider')", ">=", "0" ] }, { "math": [ "u_spell_level('wave_rider')", "<", "20" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level('wave_rider') >= 0" ] }, { "math": [ "u_spell_level('wave_rider') < 20" ] } ] },
     "effect": [
       {
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
@@ -170,10 +162,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_WATER_SEALED",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('water_pocket')", ">=", "0" ] },
-        { "math": [ "u_spell_level('water_pocket')", "<", "20" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('water_pocket') >= 0" ] }, { "math": [ "u_spell_level('water_pocket') < 20" ] } ]
     },
     "effect": [
       {
@@ -187,9 +176,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_SUMMON_FISH",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level('summon_fish')", ">=", "0" ] }, { "math": [ "u_spell_level('summon_fish')", "<", "35" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level('summon_fish') >= 0" ] }, { "math": [ "u_spell_level('summon_fish') < 35" ] } ] },
     "effect": [
       {
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
@@ -202,9 +189,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_CHARM_FISH",
-    "condition": {
-      "and": [ { "math": [ "u_spell_level('charm_fish')", ">=", "0" ] }, { "math": [ "u_spell_level('charm_fish')", "<", "35" ] } ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level('charm_fish') >= 0" ] }, { "math": [ "u_spell_level('charm_fish') < 35" ] } ] },
     "effect": [
       {
         "u_message": "Your time spent among the flowing waters has increased your facility with your fae magicks.",
@@ -218,10 +203,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LEVELER_UNDINE_SUMMON_KRAKEN",
     "condition": {
-      "and": [
-        { "math": [ "u_spell_level('summon_kraken')", ">=", "0" ] },
-        { "math": [ "u_spell_level('summon_kraken')", "<", "35" ] }
-      ]
+      "and": [ { "math": [ "u_spell_level('summon_kraken') >= 0" ] }, { "math": [ "u_spell_level('summon_kraken') < 35" ] } ]
     },
     "effect": [
       {
@@ -237,8 +219,8 @@
     "id": "EOC_LEVELER_UNDINE_ACID_RESIST_ALLY",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('undine_acid_resist_ally_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('undine_acid_resist_ally_spell')", "<", "per_to_level(1)" ] }
+        { "math": [ "u_spell_level('undine_acid_resist_ally_spell') >= 0" ] },
+        { "math": [ "u_spell_level('undine_acid_resist_ally_spell') < per_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -255,8 +237,8 @@
     "id": "EOC_LEVELER_UNDINE_BASH_AND_SLOW_SPELL",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('undine_bash_and_slow_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('undine_bash_and_slow_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('undine_bash_and_slow_spell') >= 0" ] },
+        { "math": [ "u_spell_level('undine_bash_and_slow_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -273,8 +255,8 @@
     "id": "EOC_LEVELER_UNDINE_DRAG_INWARD_SPELL",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('undine_drag_inward_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('undine_drag_inward_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('undine_drag_inward_spell') >= 0" ] },
+        { "math": [ "u_spell_level('undine_drag_inward_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -291,8 +273,8 @@
     "id": "EOC_LEVELER_UNDINE_TIDAL_WAVE_SPELL",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('undine_tidal_wave_spell')", ">=", "0" ] },
-        { "math": [ "u_spell_level('undine_tidal_wave_spell')", "<", "str_to_level(1)" ] }
+        { "math": [ "u_spell_level('undine_tidal_wave_spell') >= 0" ] },
+        { "math": [ "u_spell_level('undine_tidal_wave_spell') < str_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -309,8 +291,8 @@
     "id": "EOC_LEVELER_UNDINE_SUMMON_WATER_SPRITE",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('summon_water_sprite')", ">=", "0" ] },
-        { "math": [ "u_spell_level('summon_water_sprite')", "<", "35" ] }
+        { "math": [ "u_spell_level('summon_water_sprite') >= 0" ] },
+        { "math": [ "u_spell_level('summon_water_sprite') < 35" ] }
       ]
     },
     "effect": [
@@ -327,8 +309,8 @@
     "id": "EOC_LEVELER_UNDINE_CLOUD_OF_STEAM",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('cloud_of_steam_undine')", ">=", "0" ] },
-        { "math": [ "u_spell_level('cloud_of_steam_undine')", "<", "35" ] }
+        { "math": [ "u_spell_level('cloud_of_steam_undine') >= 0" ] },
+        { "math": [ "u_spell_level('cloud_of_steam_undine') < 35" ] }
       ]
     },
     "effect": [
@@ -345,8 +327,8 @@
     "id": "EOC_LEVELER_UNDINE_CULTIVATE_GOBLIN_FRUIT",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit')", ">=", "0" ] },
-        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit')", "<", "dex_to_level(1)" ] }
+        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit') >= 0" ] },
+        { "math": [ "u_spell_level('undine_cultivate_goblin_fruit') < dex_to_level(1)" ] }
       ]
     },
     "effect": [
@@ -363,8 +345,8 @@
     "id": "EOC_LEVELER_UNDINE_MAKE_GOSSAMER",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
     },
     "effect": [

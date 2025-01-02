@@ -279,27 +279,27 @@ void debug_menu::wishmutate( Character *you )
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining
             if( threshold || profession ) {
-                if( you->has_trait( mstr ) ) {
+                if( you->has_permanent_trait( mstr ) ) {
                     do {
                         you->remove_mutation( mstr );
                         rc++;
-                    } while( you->has_trait( mstr ) && rc < 10 );
+                    } while( you->has_permanent_trait( mstr ) && rc < 10 );
                 } else {
                     do {
                         you->set_mutation( mstr );
                         rc++;
-                    } while( !you->has_trait( mstr ) && rc < 10 );
+                    } while( !you->has_permanent_trait( mstr ) && rc < 10 );
                 }
-            } else if( you->has_trait( mstr ) ) {
+            } else if( you->has_permanent_trait( mstr ) ) {
                 do {
                     you->remove_mutation( mstr );
                     rc++;
-                } while( you->has_trait( mstr ) && rc < 10 );
+                } while( you->has_permanent_trait( mstr ) && rc < 10 );
             } else {
                 do {
                     you->mutate_towards( mstr );
                     rc++;
-                } while( !you->has_trait( mstr ) && rc < 10 );
+                } while( !you->has_permanent_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
             uistate.wishmutate_selected = wmenu.selected;
@@ -382,7 +382,7 @@ void debug_menu::wishbionics( Character *you )
 
                     you->perform_install( bio, upbio_uid, difficulty, success, level, "NOT_MED",
                                           bio->canceled_mutations,
-                                          you->pos() );
+                                          you->pos_bub() );
                 }
                 break;
             }
@@ -814,9 +814,9 @@ void debug_menu::wishmonster( const std::optional<tripoint> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( std::optional<tripoint> spawn = p ? p : g->look_around() ) {
+            if( std::optional<tripoint_bub_ms> spawn = p ? tripoint_bub_ms( p.value() ) : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
+                for( const tripoint_bub_ms &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
@@ -879,6 +879,11 @@ class wish_item_callback: public uilist_callback
         const std::vector<const itype *> &standard_itype_ids;
         const std::vector<const itype_variant_data *> &itype_variants;
         std::string &last_snippet_id;
+
+        int entnum = -1;
+        std::string header;
+        std::vector<iteminfo> info;
+        item tmp;
 
         explicit wish_item_callback( const std::vector<const itype *> &ids,
                                      const std::vector<const itype_variant_data *> &variants, std::string &snippet_ids ) :
@@ -990,67 +995,65 @@ class wish_item_callback: public uilist_callback
         }
 
         float desired_extra_space_right( ) override {
-            return std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x;
+            return std::min( ImGui::GetMainViewport()->Size.x / 2.0f,
+                             std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x );
         }
 
         void refresh( uilist *menu ) override {
+            const int entnum = menu->previewing;
+            if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
+                tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
+
+                const itype_variant_data *variant = itype_variants[entnum];
+                if( variant != nullptr && tmp.has_itype_variant( false ) ) {
+                    // Set the variant type as shown in the selected list item.
+                    std::string variant_id = variant->id;
+                    tmp.set_itype_variant( variant_id );
+                }
+
+                if( !tmp.type->snippet_category.empty() ) {
+                    if( renew_snippet ) {
+                        last_snippet_id = tmp.snip_id.str();
+                        renew_snippet = false;
+                    } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
+                        std::string snip = chosen_snippet_id.second;
+                        if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
+                            tmp.snip_id = snippet_id( snip );
+                            last_snippet_id = snip;
+                        }
+                    } else {
+                        tmp.snip_id = snippet_id( last_snippet_id );
+                    }
+                }
+
+                header = string_format( "#%d: %s%s%s", entnum,
+                                        standard_itype_ids[entnum]->get_id().c_str(),
+                                        incontainer ? _( " (contained)" ) : "",
+                                        flags.empty() ? "" : _( " (flagged)" ) );
+                info = tmp.get_info( true );
+            }
+
             ImVec2 info_size = ImGui::GetContentRegionAvail();
             info_size.x = desired_extra_space_right( );
+            info_size.y -= ( 3.0 * ImGui::GetTextLineHeightWithSpacing() ) - ImGui::GetFrameHeightWithSpacing();
+
             ImGui::TableSetColumnIndex( 2 );
-            if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->previewing;
-                if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                    item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
-
-                    const itype_variant_data *variant = itype_variants[entnum];
-                    if( variant != nullptr && tmp.has_itype_variant( false ) ) {
-                        // Set the variant type as shown in the selected list item.
-                        std::string variant_id = variant->id;
-                        tmp.set_itype_variant( variant_id );
-                    }
-
-                    if( !tmp.type->snippet_category.empty() ) {
-                        if( renew_snippet ) {
-                            last_snippet_id = tmp.snip_id.str();
-                            renew_snippet = false;
-                        } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
-                            std::string snip = chosen_snippet_id.second;
-                            if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
-                                tmp.snip_id = snippet_id( snip );
-                                last_snippet_id = snip;
-                            }
-                        } else {
-                            tmp.snip_id = snippet_id( last_snippet_id );
-                        }
-                    }
-
-                    const std::string header = string_format( "#%d: %s%s%s", entnum,
-                                               standard_itype_ids[entnum]->get_id().c_str(),
-                                               incontainer ? _( " (contained)" ) : "",
-                                               flags.empty() ? "" : _( " (flagged)" ) );
-                    ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
-                                                header.c_str() ).x ) * 0.5 );
-                    ImGui::TextColored( c_cyan, "%s", header.c_str() );
-
-                    display_item_info( tmp.get_info( true ), {} );
-                }
-
-                float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
-                if( ImGui::GetCursorPosY() < y ) {
-                    ImGui::SetCursorPosY( y );
-                }
-                ImGui::TextColored( c_green, "%s", msg.c_str() );
-                msg.erase();
-                input_context ctxt( menu->input_category, keyboard_mode::keycode );
-                ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                             ctxt.get_desc( "FILTER" ).c_str(),
-                             ctxt.get_desc( "CONTAINER" ).c_str(),
-                             ctxt.get_desc( "FLAG" ).c_str(),
-                             ctxt.get_desc( "EVERYTHING" ).c_str(),
-                             ctxt.get_desc( "SNIPPET" ).c_str(),
-                             ctxt.get_desc( "QUIT" ).c_str() );
+            if( ImGui::BeginChild( "wish item", info_size ) ) {
+                ImGui::SetCursorPosX( ( info_size.x - ImGui::CalcTextSize( header.c_str() ).x ) * 0.5 );
+                ImGui::TextColored( c_cyan, "%s", header.c_str() );
+                display_item_info( info, {} );
             }
             ImGui::EndChild();
+
+            ImGui::TextColored( c_green, "%s", msg.c_str() );
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
+            ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
+                         ctxt.get_desc( "FILTER" ).c_str(),
+                         ctxt.get_desc( "CONTAINER" ).c_str(),
+                         ctxt.get_desc( "FLAG" ).c_str(),
+                         ctxt.get_desc( "EVERYTHING" ).c_str(),
+                         ctxt.get_desc( "SNIPPET" ).c_str(),
+                         ctxt.get_desc( "QUIT" ).c_str() );
         }
 };
 
@@ -1105,7 +1108,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "SCROLL_DESC_UP", translation() },
         { "SCROLL_DESC_DOWN", translation() },
     };
-    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+    wmenu.desired_bounds = { -0.9, -0.9, 0.9, 0.9 };
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( itypes, ivariants, snipped_id_str );
     wmenu.callback = &cb;

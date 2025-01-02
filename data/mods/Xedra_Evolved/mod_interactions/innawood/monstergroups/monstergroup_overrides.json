@@ -1,0 +1,7 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RENFIELD_UPGRADE_INNAWOOD",
+    "monsters": [ { "monster": "mon_renfield", "weight": 950 }, { "monster": "mon_renfield_abomination", "weight": 50 } ]
+  }
+]

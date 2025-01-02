@@ -113,7 +113,7 @@
     "id": "pseudo_bio_picklock",
     "type": "TOOL",
     "name": { "str": "bio lockpick" },
-    "description": "this a pseudo item",
+    "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "0 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",

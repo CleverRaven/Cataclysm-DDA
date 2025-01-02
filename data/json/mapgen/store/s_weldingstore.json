@@ -1,0 +1,75 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_weldingstore" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        ",____;____;____---ccccc$",
+        "%____;____;____---ccccc$",
+        ",_Á__;_Á__;_Á__---ccccc$",
+        ",____;____;____---ccccc$",
+        ",____;____;____---ccccc$",
+        ",____;____;____---ccccc$",
+        "%#oo###ooo##oo##*#cctcc$",
+        ",#sssssfffssss   #ccccc$",
+        ",#               #ccccc$",
+        ",#=              occccc$",
+        ",of sss   sss    occccc$",
+        ",#f s#s   s#s    #ccccc$",
+        ",#f sss   sss    #ccccc$",
+        "%#f              *ccccc$",
+        ",of         ddHdD#FFFcc$",
+        ",#          d h  #FFFcc$",
+        ",#pppp==SSSSd    #$$$£$$",
+        ",#||||||||||||||+#CCCcc$",
+        "[#l b|fffffrrrrr #CCccc$",
+        ",#l b|fff==      #Ccccc$",
+        ",#l  +           *cccgg$",
+        ",######oo####oo###$$$$$$",
+        ",,,,,,,,%,,,[,4,,%,,,,,,",
+        "%,[,,%,,,,,,,,,[,,,,,,,,"
+      ],
+      "palettes": [ "welding_store_palette", "parametrized_walls_palette" ],
+      "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 10, 15 ], "y": [ 19, 20 ], "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_weldingstore_roof" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " -----------------------",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -....1.........&......-",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -....1................-",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -------------5---------",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  }
+]

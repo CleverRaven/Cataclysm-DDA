@@ -1670,9 +1670,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                      &entry );
 
         if( selected && visible_cells() > 1 ) {
-            for( int hx = x1; hx < hx_max; ++hx ) {
-                mvwputch( win, point( hx, yy ), h_white, ' ' );
-            }
+            mvwhline( win, point( x1, yy ), h_white, ' ', hx_max - x1 );
         }
 
         cata_assert( entry.denial.has_value() );
@@ -1885,10 +1883,10 @@ const item_category *inventory_selector::naturalize_category( const item_categor
         return iter != categories.end() ? &*iter : nullptr;
     };
 
-    const int dist = rl_dist( u.pos(), pos );
+    const int dist = rl_dist( u.pos_bub().raw(), pos );
 
     if( dist != 0 ) {
-        const std::string suffix = direction_suffix( u.pos(), pos );
+        const std::string suffix = direction_suffix( u.pos_bub().raw(), pos );
         const item_category_id id = item_category_id( string_format( "%s_%s", category.get_id().c_str(),
                                     suffix.c_str() ) );
 
@@ -2166,13 +2164,14 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         map &here = get_map();
-        for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
+        for( const tripoint_bub_ms &pos : closest_points_first( u.pos_bub(), radius ) ) {
             // can not reach this -> can not access its contents
-            if( u.pos() != pos && !here.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+            if( u.pos_bub() != pos &&
+                !here.clear_path( u.pos_bub(), pos, rl_dist( u.pos_bub(), pos ), 1, 100 ) ) {
                 continue;
             }
-            add_map_items( pos );
-            add_vehicle_items( pos );
+            add_map_items( pos.raw() );
+            add_vehicle_items( pos.raw() );
         }
     }
 }
@@ -2509,7 +2508,7 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
                     hint );
 
     int const bottom = border + get_header_height();
-    mvwhline( w, point( border, bottom ), LINE_OXOX, getmaxx( w ) - 2 * border );
+    mvwhline( w, point( border, bottom ), BORDER_COLOR, LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
         size_t y = border;
@@ -2779,8 +2778,10 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
     draw_border( w );
 
     const int y = border + get_header_height();
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, y ), LINE_XXXO, 1 );
     mvwhline( w, point( getmaxx( w ) - border, y ), LINE_XOXX, 1 );
+    wattroff( w, BORDER_COLOR );
 }
 
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
@@ -2823,10 +2824,12 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
             const int y = getmaxy( w ) - border;
 
             mvwprintz( w, point( x1, y ), footer.second, footer.first );
-            mvwputch( w, point( x1 - 1, y ), c_light_gray, ' ' );
-            mvwputch( w, point( x2 + 1, y ), c_light_gray, ' ' );
-            mvwputch( w, point( x1 - 2, y ), c_light_gray, LINE_XOXX );
-            mvwputch( w, point( x2 + 2, y ), c_light_gray, LINE_XXXO );
+            wattron( w, c_light_gray );
+            mvwaddch( w, point( x1 - 1, y ), ' ' );
+            mvwaddch( w, point( x2 + 1, y ), ' ' );
+            mvwaddch( w, point( x1 - 2, y ), LINE_XOXX );
+            mvwaddch( w, point( x2 + 2, y ), LINE_XXXO );
+            wattroff( w, c_light_gray );
         }
     }
 }
@@ -4374,7 +4377,7 @@ void inventory_examiner::force_max_window_size()
 {
     constexpr int border_width = 1;
     _fixed_size = { TERMX / 3 + 2 * border_width, TERMY };
-    _fixed_origin = point_zero;
+    _fixed_origin = point::zero;
 }
 
 int inventory_examiner::execute()

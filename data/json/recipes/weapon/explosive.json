@@ -84,28 +84,6 @@
     "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
-    "result": "flashbang",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "fabrication",
-    "skills_required": [ "chemistry", 5 ],
-    "difficulty": 6,
-    "time": "40 m",
-    "reversible": true,
-    "book_learn": [ [ "recipe_labchem", 5 ], [ "textbook_anarch", 7 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "small_grenade_case", 1 ] ],
-    "components": [
-      [ [ "pilot_light", 1 ] ],
-      [ [ "super_glue", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "oxy_powder", 75 ] ],
-      [ [ "incendiary", 50 ] ]
-    ]
-  },
-  {
     "result": "gasbomb_makeshift",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -182,7 +160,17 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "accelerant_liquid", 500 ] ],
-    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 2 ], [ "clay_canister", 2 ] ] ]
+    "components": [
+      [ [ "cotton_patchwork", 1 ] ],
+      [
+        [ "bottle_glass", 1 ],
+        [ "jar_glass_sealed", 1 ],
+        [ "bottle_glass_seasoning", 1 ],
+        [ "bottle_glass_seasoning_small", 2 ],
+        [ "flask_glass", 2 ],
+        [ "clay_canister", 2 ]
+      ]
+    ]
   },
   {
     "result": "dynamite_bomb",

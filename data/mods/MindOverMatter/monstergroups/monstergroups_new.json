@@ -8,12 +8,12 @@
       { "monster": "mon_hidebehind", "weight": 20 },
       { "monster": "mon_psi_gremlin", "weight": 100 },
       { "monster": "mon_psi_gremlin", "weight": 15, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_cockatrice", "weight": 75 },
-      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_hodag", "weight": 10 },
+      { "monster": "mon_cockatrice", "weight": 75, "starts": "21 days" },
+      { "monster": "mon_cockatrice", "weight": 10, "pack_size": [ 3, 5 ], "starts": "21 days" },
+      { "monster": "mon_hodag", "weight": 10, "starts": "180 days" },
       { "monster": "mon_bandersnatch", "weight": 5 },
       { "monster": "mon_fear_hawk", "weight": 10 },
-      { "monster": "mon_cockatrice", "weight": 2, "pack_size": [ 2, 2 ] }
+      { "monster": "mon_hellhound", "weight": 75 }
     ]
   },
   {
@@ -70,9 +70,9 @@
     "name": "GROUP_FERAL_TELEPORTER",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_feral_human_clair", "weight": 25 },
-      { "monster": "mon_feral_human_clair2", "weight": 8 },
-      { "monster": "mon_feral_human_clair3", "weight": 1 }
+      { "monster": "mon_feral_human_porter", "weight": 25 },
+      { "monster": "mon_feral_human_porter2", "weight": 8 },
+      { "monster": "mon_feral_human_porter3", "weight": 1 }
     ]
   },
   {
@@ -111,13 +111,6 @@
     "name": "GROUP_FEAR_HAWKS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fear_hawk", "weight": 1000 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_PIGEON_UPGRADE",
-    "default": "mon_pigeon",
-    "//": "pigeon upgrades",
-    "monsters": [ { "monster": "mon_pigeon", "weight": 500 }, { "monster": "mon_pigeon_passenger", "weight": 50 } ]
   },
   {
     "name": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE",
@@ -260,9 +253,34 @@
     ]
   },
   {
+    "name": "GROUP_REPRODUCTION_COW_MUTANT_BABIES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cow_calf", "weight": 95 }, { "monster": "mon_hodag_calf", "weight": 95 } ]
+  },
+  {
+    "name": "GROUP_REPRODUCTION_COW_PRE_HODAG_MUTANT_BABIES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cow_calf", "weight": 75 }, { "monster": "mon_hodag_calf", "weight": 25 } ]
+  },
+  {
+    "name": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dog_pup", "weight": 80 }, { "monster": "mon_hellhound_pup", "weight": 20 } ]
+  },
+  {
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 1 } ]
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 100 } ]
+  },
+  {
+    "name": "GROUP_EGG_CHICKEN",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 95 } ]
+  },
+  {
+    "name": "GROUP_EGG_PIGEON",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pigeon_passenger_chick", "weight": 5 }, { "monster": "mon_pigeon_chick", "weight": 95 } ]
   },
   {
     "name": "GROUP_ALIEN_MEADOW",

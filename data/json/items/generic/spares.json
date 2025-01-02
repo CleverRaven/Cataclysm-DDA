@@ -142,10 +142,10 @@
     "material": [ "steel" ],
     "weight": "7 kg",
     "volume": "3 L",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "price": "100 USD",
     "price_postapoc": "20 USD",
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "nitrogen_membrane_filter",

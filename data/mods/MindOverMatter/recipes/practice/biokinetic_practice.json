@@ -49,14 +49,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
-        "condition": { "and": [ { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "math": [ "u_spell_level('biokin_overcome_pain') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "biokin_overcome_pain", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 1" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -82,14 +82,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
-        "condition": { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_physical_enhance') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_physical_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -115,14 +115,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
-        "condition": { "and": [ { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "math": [ "u_spell_level('biokin_breathe_skin') >= 1" ] } ] },
         "effect": [
           { "set_string_var": "biokin_breathe_skin", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -132,7 +132,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -169,14 +169,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_breathe_skin')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_breathe_skin') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -203,14 +205,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
-        "condition": { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_flexibility') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_flexibility", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -220,7 +222,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_FLEXIBILITY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -253,14 +255,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_flexibility')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_flexibility') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -287,14 +291,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_DASH",
-        "condition": { "math": [ "u_spell_level('biokin_dash')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_dash') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_dash", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -304,7 +308,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_DASH_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_DASH_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -337,14 +341,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_dash')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_dash') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -372,14 +378,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
-        "condition": { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_armor_skin') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_armor_skin", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -389,7 +395,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -422,14 +428,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_armor_skin')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_armor_skin') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -457,14 +465,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
-        "condition": { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_climate_control') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_climate_control", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -474,7 +482,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -507,14 +515,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_climate_control')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_climate_control') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -542,14 +552,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ADRENALINE",
-        "condition": { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_adrenaline') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_adrenaline", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -559,7 +569,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_ADRENALINE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_ADRENALINE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -592,14 +602,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_adrenaline')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_adrenaline') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -627,14 +639,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
-        "condition": { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_enhance_mobility') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_enhance_mobility", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -644,7 +656,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -677,14 +689,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_enhance_mobility')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_enhance_mobility') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -712,14 +726,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
-        "condition": { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_hammerhand') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_hammerhand", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -729,7 +743,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_HAMMERHAND_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -762,14 +776,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_hammerhand')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_hammerhand') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -797,14 +813,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
-        "condition": { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_reflex_enhance') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_reflex_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -814,7 +830,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -847,14 +863,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_reflex_enhance')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_reflex_enhance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -882,14 +900,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
-        "condition": { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_sealed_system') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_sealed_system", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -899,7 +917,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -932,14 +950,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_sealed_system')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_sealed_system') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -967,14 +987,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE",
-        "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_metabolism_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -984,7 +1004,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -1017,14 +1037,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_metabolism_enhance')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_metabolism_enhance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1052,14 +1074,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE",
-        "condition": { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_combat_dance') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_combat_dance", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 8" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1069,7 +1091,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_COMBAT_DANCE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -1102,14 +1124,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_combat_dance')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_combat_dance') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1137,14 +1161,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION",
-        "condition": { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_perfected_motion') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_perfected_motion", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 9" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1154,7 +1178,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_PERFECTED_MOTION_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
           }
         ]
@@ -1187,14 +1211,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_perfected_motion')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_perfected_motion') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1222,14 +1248,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS",
-        "condition": { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('biokin_hurricane_blows') >= 1" ] },
         "effect": [
           { "set_string_var": "biokin_hurricane_blows", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_biokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 10" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1239,7 +1265,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_BIOKIN_HURRICANE_BLOWS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(10)" ] }, { "math": [ "learn_new_power_upper_time_bound(10)" ] } ]
           }
         ]
@@ -1272,14 +1298,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('biokin_hurricane_blows')", "=", "1" ] },
+              { "math": [ "u_spell_level('biokin_hurricane_blows') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]

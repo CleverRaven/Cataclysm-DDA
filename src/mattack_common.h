@@ -31,7 +31,7 @@ class mattack_actor
         dbl_or_var cooldown;
 
         // Dialogue conditions of the attack
-        std::function<bool( dialogue & )> condition;
+        std::function<bool( const_dialogue const & )> condition;
         bool has_condition = false;
 
         void load( const JsonObject &jo, const std::string &src );

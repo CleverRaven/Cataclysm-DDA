@@ -5,6 +5,6 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_profession": "xe_hedge_mage_magic_squares" },
-    "effect": [ { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_deciphered_spellbook_hedge_abramelin_the_mage = 1" ] } ]
   }
 ]
