@@ -53,7 +53,8 @@
     "sym": "%",
     "color": "brown",
     "see_cost": "opaque",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ],
+    "uniform_terrain": "t_sandstone"
   },
   {
     "type": "overmap_terrain",
