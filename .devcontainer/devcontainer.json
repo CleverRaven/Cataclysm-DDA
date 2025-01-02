@@ -2,12 +2,28 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
   "name": "Standard",
+  "name": "Internal Windows Server 2025",
   "build": {
     "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "args": {
+      "INSTALL_DEPENDENCIES": "true"
+    }
+  },
+  "features": {
+    "ghcr.io/elanhasson/devcontainer-features/dotnet-aspire-daily:1": {},
+    "ghcr.io/nikiforovall/devcontainer-features/dotnet-aspire:1": {},
+    "ghcr.io/nikiforovall/devcontainer-features/dotnet-csharpier:1": {}
   },
   "customizations": {
     "vscode": {
       "extensions": [
+        "ms-vscode.cmake-tools",
+        "ms-dotnettools.csharp",
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "ms-vscode.powershell",
         "github.vscode-github-actions",
         "ms-vscode.makefile-tools",
         "ms-vscode.cpptools-extension-pack",
@@ -15,6 +31,66 @@
         "chiehyu.vscode-astyle"
       ]
     }
+  },
+  "forwardPorts": [],
+  "postCreateCommand": "gcc --version && cmake . && make && ./run_tests",
+  "remoteUser": "root",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace/runner-images",
+  "initializeCommand": "PORT=$(shuf -i 55000-55999 -n 1) && echo $PORT",
+  "dockerfile": {
+    "content": [
+      "# Use the base image for C++ development",
+      "FROM mcr.microsoft.com/devcontainers/cpp:1-debian-12",
+      "",
+      "# Set the CMake version to reinstall if needed",
+      "ARG REINSTALL_CMAKE_VERSION_FROM_SOURCE=\"none\"",
+      "",
+      "# Copy the script to reinstall CMake from source",
+      "COPY ./reinstall-cmake.sh /tmp/",
+      "",
+      "# Reinstall CMake if a specific version is provided",
+      "RUN if [ \"${REINSTALL_CMAKE_VERSION_FROM_SOURCE}\" != \"none\" ]; then \\",
+      "        chmod +x /tmp/reinstall-cmake.sh && /tmp/reinstall-cmake.sh ${REINSTALL_CMAKE_VERSION_FROM_SOURCE}; \\",
+      "    fi \\",
+      "    && rm -f /tmp/reinstall-cmake.sh",
+      "",
+      "# Install additional system packages for debugging",
+      "RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \\",
+      "    && apt-get -y install --no-install-recommends \\",
+      "       python3-pip \\",
+      "       nodejs \\",
+      "       npm \\",
+      "       openjdk-17-jdk \\",
+      "       gdb \\",
+      "       valgrind \\",
+      "       lsof \\",
+      "       git \\",
+      "    && apt-get clean && rm -rf /var/lib/apt/lists/*",
+      "",
+      "# Python setup",
+      "RUN python3 -m pip install --upgrade pip",
+      "",
+      "# Node.js setup",
+      "RUN npm install -g yarn",
+      "",
+      "# Install vcpkg if not already present",
+      "RUN git clone https://github.com/microsoft/vcpkg.git $VCPKG_INSTALLATION_ROOT \\",
+      "    && cd $VCPKG_INSTALLATION_ROOT \\",
+      "    && ./bootstrap-vcpkg.sh",
+      "",
+      "# Copy project files into the container",
+      "COPY . /workspace",
+      "",
+      "# Set the working directory in the container",
+      "WORKDIR /workspace",
+      "",
+      "# Default command to launch a debugging shell",
+      "CMD [\"bash\"]"
+    ]
   }
 
   // Features to add to the dev container. More info: https://containers.dev/features.
