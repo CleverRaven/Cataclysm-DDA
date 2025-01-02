@@ -1072,7 +1072,7 @@
     ],
     "flags": [ "EATEN_HOT" ],
     "relative": { "calories": 200, "fun": 2 },
-    "price": 500,
+    "price": "5 USD",
     "price_postapoc": 50,
     "spoils_in": "7 days"
   },
