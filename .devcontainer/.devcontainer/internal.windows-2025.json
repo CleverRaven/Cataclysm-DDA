@@ -1,0 +1,591 @@
+{
+  "NodeType": "HeaderNode",
+  "Title": "Windows Server 2025",
+  "Children": [
+    {
+      "NodeType": "ToolVersionNode",
+      "ToolName": "OS Version:",
+      "Version": "10.0.26100 Build 2605"
+    },
+    {
+      "NodeType": "ToolVersionNode",
+      "ToolName": "Image Version:",
+      "Version": "20241215.1.0"
+    },
+    {
+      "NodeType": "HeaderNode",
+      "Title": "Windows updates",
+      "Children": [
+        {
+          "NodeType": "ToolVersionNode",
+          "ToolName": "Update Title",
+          "Version": "Some Update",
+          "TimeCreated": "2024-12-30T12:34:56Z"
+        },
+        {
+          "NodeType": "ToolVersionNode",
+          "ToolName": "Another Update",
+          "Version": "Another Update Version",
+          "TimeCreated": "2024-12-30T12:34:56Z"
+        }
+      ]
+    },
+    {
+      "NodeType": "HeaderNode",
+      "Title": "Windows features",
+      "Children": {
+        "NodeType": "ToolVersionNode",
+        "ToolName": "Windows Subsystem for Linux (WSLv1):",
+        "Version": "Enabled"
+      }
+    },
+    {
+      "NodeType": "HeaderNode",
+      "Title": "Installed Software",
+      "Children": [
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Language and Runtime",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Bash",
+              "Version": "5.2.37(1)-release"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Go",
+              "Version": "1.23.4"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Julia",
+              "Version": "1.10.5"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Kotlin",
+              "Version": "2.1.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "LLVM",
+              "Version": "19.1.5"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Node",
+              "Version": "22.12.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Perl",
+              "Version": "5.40.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "PHP",
+              "Version": "8.3.14"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Python",
+              "Version": "3.9.13"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Ruby",
+              "Version": "3.3.6"
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Package Management",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Chocolatey",
+              "Version": "2.4.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Composer",
+              "Version": "2.8.4"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Helm",
+              "Version": "3.16.2"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Miniconda",
+              "Version": "24.9.2 (pre-installed on the image but not added to PATH)"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "NPM",
+              "Version": "10.9.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "NuGet",
+              "Version": "6.12.1.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "pip",
+              "Version": "24.3.1 (python 3.9)"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Pipx",
+              "Version": "1.7.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "RubyGems",
+              "Version": "3.5.22"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Vcpkg",
+              "Version": "(build from commit c26eabb23)"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Yarn",
+              "Version": "1.22.22"
+            },
+            {
+              "NodeType": "HeaderNode",
+              "Title": "Environment variables",
+              "Children": {
+                "NodeType": "TableNode",
+                "Headers": "Name|Value",
+                "Rows": [
+                  "VCPKG_INSTALLATION_ROOT|C:\\vcpkg",
+                  "CONDA|C:\\Miniconda"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Project Management",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Ant",
+              "Version": "1.10.14"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Gradle",
+              "Version": "8.11"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Maven",
+              "Version": "3.9.9"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "sbt",
+              "Version": "1.10.6"
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Tools",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "7zip",
+              "Version": "24.09"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "aria2",
+              "Version": "1.37.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "azcopy",
+              "Version": "10.27.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Bazel",
+              "Version": "8.0.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Bazelisk",
+              "Version": "1.25.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Bicep",
+              "Version": "0.32.4"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Cabal",
+              "Version": "3.12.1.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "CMake",
+              "Version": "3.31.2"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "CodeQL Action Bundle",
+              "Version": "2.20.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Docker",
+              "Version": "26.1.3"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Docker Compose v2",
+              "Version": "2.27.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Docker-wincred",
+              "Version": "0.8.2"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "ghc",
+              "Version": "9.10.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Git",
+              "Version": "2.47.1.windows.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Git LFS",
+              "Version": "3.6.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "ImageMagick",
+              "Version": "7.1.1-41"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "jq",
+              "Version": "1.7.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Kind",
+              "Version": "0.25.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Kubectl",
+              "Version": "1.32.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "gcc",
+              "Version": "14.2.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "gdb",
+              "Version": "14.2"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "GNU Binutils",
+              "Version": "2.42"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Newman",
+              "Version": "6.2.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "OpenSSL",
+              "Version": "3.4.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Packer",
+              "Version": "1.11.2"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Pulumi",
+              "Version": "3.143.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "R",
+              "Version": "4.4.2"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Service Fabric SDK",
+              "Version": "10.1.2493.9590"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Stack",
+              "Version": "3.1.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Swig",
+              "Version": "4.1.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "VSWhere",
+              "Version": "3.1.7"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "WinAppDriver",
+              "Version": "1.2.2009.02003"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "WiX Toolset",
+              "Version": "3.14.1.8722"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "yamllint",
+              "Version": "1.35.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "zstd",
+              "Version": "1.5.6"
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "CLI Tools",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "AWS CLI",
+              "Version": "2.22.17"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "AWS SAM CLI",
+              "Version": "1.132.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "AWS Session Manager CLI",
+              "Version": "1.2.694.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Azure CLI",
+              "Version": "2.67.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Azure DevOps CLI extension",
+              "Version": "1.0.1"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "GitHub CLI",
+              "Version": "2.63.2"
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Rust Tools",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Cargo",
+              "Version": "1.83.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Rust",
+              "Version": "1.83.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Rustdoc",
+              "Version": "1.83.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Rustup",
+              "Version": "1.27.1"
+            },
+            {
+              "NodeType": "HeaderNode",
+              "Title": "Packages",
+              "Children": [
+                {
+                  "NodeType": "ToolVersionNode",
+                  "ToolName": "Clippy",
+                  "Version": "0.1.83"
+                },
+                {
+                  "NodeType": "ToolVersionNode",
+                  "ToolName": "Rustfmt",
+                  "Version": "1.8.0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Browsers and Drivers",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Google Chrome",
+              "Version": "131.0.6778.140"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Chrome Driver",
+              "Version": "131.0.6778.108"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Microsoft Edge",
+              "Version": "131.0.2903.99"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Microsoft Edge Driver",
+              "Version": "131.0.2903.99"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Mozilla Firefox",
+              "Version": "133.0.3"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Gecko Driver",
+              "Version": "0.35.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "IE Driver",
+              "Version": "4.14.0.0"
+            },
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Selenium server",
+              "Version": "4.27.0"
+            },
+            {
+              "NodeType": "HeaderNode",
+              "Title": "Environment variables",
+              "Children": {
+                "NodeType": "TableNode",
+                "Headers": "Name|Value",
+                "Rows": [
+                  "CHROMEWEBDRIVER|C:\\SeleniumWebDrivers\\ChromeDriver",
+                  "EDGEWEBDRIVER|C:\\SeleniumWebDrivers\\EdgeDriver",
+                  "GECKOWEBDRIVER|C:\\SeleniumWebDrivers\\GeckoDriver",
+                  "SELENIUM_JAR_PATH|C:\\selenium\\selenium-server.jar"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Java",
+          "Children": {
+            "NodeType": "TableNode",
+            "Headers": "Version|Environment Variable",
+            "Rows": [
+              "8.0.432+6|JAVA_HOME_8_X64",
+              "11.0.25+9|JAVA_HOME_11_X64",
+              "17.0.13+11 (default)|JAVA_HOME_17_X64",
+              "21.0.5+11.0|JAVA_HOME_21_X64"
+            ]
+          }
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Shells",
+          "Children": {
+            "NodeType": "TableNode",
+            "Headers": "Name|Target",
+            "Rows": [
+              "gitbash.exe|C:\\Program Files\\Git\\bin\\bash.exe",
+              "msys2bash.cmd|C:\\msys64\\usr\\bin\\bash.exe",
+              "wslbash.exe|C:\\Windows\\System32\\bash.exe"
+            ]
+          }
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "MSYS2",
+          "Children": [
+            {
+              "NodeType": "ToolVersionNode",
+              "ToolName": "Pacman",
+              "Version": "6.1.0"
+            },
+            {
+              "NodeType": "HeaderNode",
+              "Title": "Notes",
+              "Children": {
+                "NodeType": "NoteNode",
+                "Content": "Location: C:\\msys64\n\nNote: MSYS2 is pre-installed on image but not added to PATH."
+              }
+            }
+          ]
+        },
+        {
+          "NodeType": "HeaderNode",
+          "Title": "Cached Tools",
+          "Children": [
+            {
+              "NodeType": "ToolVersionsListNode",
+              "ToolName": "Go",
+              "Versions": [
+                "1.21.13",
+                "1.22.10",
+                "1.23.4"
+              ],
+              "MajorVersionRegex": "^\\d+\\.\\d+",
+              "ListType": "List"
+            },
+            {
+              "NodeType": "ToolVersionsListNode",
+              "ToolName": "Node.js",
+              "Versions": [
+                "18.20.5",
+                "20.18.1",
+                "22.12.0"
+              ],
+              "MajorVersionRegex": "^\\d+",
+              "ListType": "List"
+            },
