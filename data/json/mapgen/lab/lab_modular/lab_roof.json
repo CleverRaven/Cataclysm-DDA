@@ -36,7 +36,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "full_basic_lab_roof",
+    "om_terrain": [ "full_basic_lab_roof", "full_mutagen_lab_roof" ],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -45,25 +45,26 @@
           "else_chunks": [ "24x24_gutter_horizontal" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "north": [ "full_basic_lab_roof", "lab_security", "lab_surface" ] }
+          "//": "Ideally these would reference a (currently non-existent) LAB or ROOF omt flag instead of partial strings",
+          "neighbors": { "north": [ "full_basic_lab_roof", "full_mutagen_lab_roof", "lab_security", "lab_surface" ] }
         },
         {
           "else_chunks": [ "24x24_gutter_vertical" ],
           "x": 23,
           "y": 0,
-          "neighbors": { "east": [ "full_basic_lab_roof", "lab_security", "lab_surface" ] }
+          "neighbors": { "east": [ "full_basic_lab_roof", "full_mutagen_lab_roof", "lab_security", "lab_surface" ] }
         },
         {
           "else_chunks": [ "24x24_gutter_horizontal" ],
           "x": 0,
           "y": 23,
-          "neighbors": { "south": [ "full_basic_lab_roof", "lab_security", "lab_surface" ] }
+          "neighbors": { "south": [ "full_basic_lab_roof", "full_mutagen_lab_roof", "lab_security", "lab_surface" ] }
         },
         {
           "else_chunks": [ "24x24_gutter_vertical" ],
           "x": 0,
           "y": 0,
-          "neighbors": { "west": [ "full_basic_lab_roof", "lab_security", "lab_surface" ] }
+          "neighbors": { "west": [ "full_basic_lab_roof", "full_mutagen_lab_roof", "lab_security", "lab_surface" ] }
         }
       ]
     }
