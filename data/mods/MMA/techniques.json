@@ -146,7 +146,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -187,7 +187,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -274,7 +274,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -379,7 +379,7 @@
     "crit_ok": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
         { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
@@ -400,7 +400,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [
@@ -437,7 +437,7 @@
     "required_buffs_all": [ "mma_buff_setting_sun_onpause" ],
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         {
           "or": [
@@ -479,7 +479,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "downed" } },
         {
           "or": [
@@ -525,7 +525,7 @@
         "chance": 100,
         "duration": 400,
         "on_damage": true,
-        "message": "The weapon of %s has been forced out ot their hands!"
+        "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
     "attack_vectors": [ "vector_null" ]
@@ -570,7 +570,7 @@
     "crit_tec": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "not": { "npc_has_effect": "stunned" } },
         {
           "and": [

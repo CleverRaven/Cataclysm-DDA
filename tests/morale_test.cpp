@@ -2,10 +2,12 @@
 #include <iosfwd>
 #include <utility>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
+#include "map_helpers.h"
 #include "morale.h"
 #include "npc.h"
 #include "player_helpers.h"
@@ -28,6 +30,7 @@ static const morale_type morale_wet( "morale_wet" );
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
@@ -202,7 +205,7 @@ TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
     clear_avatar();
     Character &player = get_player_character();
     player_morale &m = *player.morale;
-    tripoint next_to = player.adjacent_tile();
+    tripoint_bub_ms next_to = player.adjacent_tile();
     standard_npc innocent( "Lapin", next_to, {}, 0, 8, 8, 8, 7 );
     // Innocent as could be.
     faction_id lapin( "lapin" );
@@ -226,7 +229,7 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
     clear_avatar();
     Character &player = get_player_character();
     player_morale &m = *player.morale;
-    tripoint next_to = player.adjacent_tile();
+    tripoint_bub_ms next_to = player.adjacent_tile();
     standard_npc badguy( "Raider", next_to, {}, 0, 8, 8, 8, 7 );
     // Always-hostile
     faction_id hells_raiders( "hells_raiders" );
@@ -240,6 +243,35 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
         player.mod_moves( 1000 );
         player.melee_attack( badguy, true );
     }
+    REQUIRE( m.get_total_negative_value() == 0 );
+}
+
+TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_morale]" )
+{
+    clear_avatar();
+    avatar &player = get_avatar();
+    // Set the time to midnight to ensure the bandit doesn't notice the player.
+    set_time( calendar::turn_zero + 0_hours );
+    // Give us a clairvoyance to clearly see the target in the night.
+    player.set_mutation( trait_DEBUG_CLAIRVOYANCE );
+    player_morale &m = *player.morale;
+    const tripoint_bub_ms bandit_pos = player.pos_bub() + ( point::east * 2 );
+    npc &badguy = spawn_npc( bandit_pos.xy(), "thug" );
+    badguy.set_all_parts_hp_cur( 1 );
+    CHECK( m.get_total_positive_value() == 0 );
+    CHECK( m.get_total_negative_value() == 0 );
+    CHECK( badguy.guaranteed_hostile() == true );
+    CHECK( badguy.sees( player.pos() ) == false );
+    for( size_t loop = 0; loop < 1000; loop++ ) {
+        player.set_body();
+        arm_shooter( player, "shotgun_s" );
+        player.recoil = 0;
+        player.fire_gun( bandit_pos, 1, *player.get_wielded_item() );
+        if( badguy.is_dead_state() ) {
+            break;
+        }
+    }
+    CHECK( badguy.is_dead_state() == true );
     REQUIRE( m.get_total_negative_value() == 0 );
 }
 

@@ -720,14 +720,11 @@ void Messages::dialog::show()
             // Print line brackets to mark ranges of time
             if( printing_range ) {
                 const size_t last_line = log_from_top ? line - 1 : line + 1;
-                wattron( w, bracket_color );
-                mvwaddch( w, point( border_width + time_width - 1, border_width + last_line ), LINE_XOXO );
-                wattroff( w, bracket_color );
+                mvwputch( w, point( border_width + time_width - 1, border_width + last_line ), bracket_color,
+                          LINE_XOXO );
             }
-            wattron( w, bracket_color );
-            mvwaddch( w, point( border_width + time_width - 1, border_width + line ),
+            mvwputch( w, point( border_width + time_width - 1, border_width + line ), bracket_color,
                       log_from_top ? LINE_XXOO : LINE_OXXO );
-            wattroff( w, bracket_color );
             printing_range = true;
         }
 
@@ -1004,11 +1001,6 @@ void add_msg( const game_message_params &params, std::string msg )
     Messages::add_msg( params, std::move( msg ) );
 }
 
-void add_msg_if_player_sees( const tripoint &target, std::string msg )
-{
-    add_msg_if_player_sees( tripoint_bub_ms( target ), std::move( msg ) );
-}
-
 void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg )
 {
     if( get_player_view().sees( target ) ) {
@@ -1021,12 +1013,6 @@ void add_msg_if_player_sees( const Creature &target, std::string msg )
     if( get_player_view().sees( target ) ) {
         Messages::add_msg( std::move( msg ) );
     }
-}
-
-void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
-                             std::string msg )
-{
-    add_msg_if_player_sees( tripoint_bub_ms( target ), params, std::move( msg ) );
 }
 
 void add_msg_if_player_sees( const tripoint_bub_ms &target, const game_message_params &params,

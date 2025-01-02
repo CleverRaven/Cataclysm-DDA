@@ -158,7 +158,7 @@
       {
         "id": "coat_rabbit_fur",
         "name": { "str": "rabbit overcoat" },
-        "description": "Prey and predator are brought together within this luxurious fir coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
+        "description": "Prey and predator are brought together within this luxurious fur coat, sewn from panels of velvety, snowy-white rabbit pelts and accentuated by a beige layer of fox fur trimming the collar and cuffs.  With a tapered waist and two side pockets, the jacket is both comfortable to wear and stylish.",
         "color": "white",
         "weight": 6
       },
@@ -1002,7 +1002,7 @@
       {
         "id": "m65_flecktarn",
         "name": { "str": "mottled-camo combat jacket" },
-        "description": "This particular garment has a base hue of dark tan, coated by myriad spots, blobs, and splotches of green, reddish brown, black, and greyish green to form a mottled, disruptive camouflage pattern.",
+        "description": "This particular garment has a base hue of dark tan, coated by myriad spots, blobs, and splotches of green, reddish brown, black, and grayish green to form a mottled, disruptive camouflage pattern.",
         "color": "green",
         "weight": 15,
         "append": true
@@ -1010,7 +1010,7 @@
       {
         "id": "m65_ocean",
         "name": { "str": "ocean-camouflage combat jacket" },
-        "description": "This jacket's exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Chrome buttons, zips, and other fixtures glint from their home upon the coat.",
+        "description": "This jacket's exterior shell is dyed a mix of blue and gray hues, with extra patches and disruptive striations, flipping between black and dark gray, covering the garment from collar to hem.  Chrome buttons, zips, and other fixtures glint from their home upon the coat.",
         "color": "blue",
         "weight": 10,
         "append": true
@@ -1019,7 +1019,7 @@
         "id": "m65_digital",
         "//": "Intended to be US military UCP camo.",
         "name": { "str": "digital-camo combat jacket" },
-        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army's former combat uniform, combining a sand-brown base with disruptive patterns of urban grey and sage green, as well as plastic zips and buttons.",
+        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army's former combat uniform, combining a sand-brown base with disruptive patterns of urban gray and sage green, as well as plastic zips and buttons.",
         "color": "green",
         "weight": 5,
         "append": true
@@ -1036,7 +1036,7 @@
         "id": "m65_swedish",
         "//": "Intended to be Swedish M90 camo. This is a civilian variant, and, yes, for some reason, out of all camo patterns, this exists: https://www.epicmilitaria.com/brandit-m65-giant-jacket-swedish-camo.html",
         "name": { "str": "splinter-camo combat jacket" },
-        "description": "This particular jacket is sown from fabric dyed a base color of stoney grey with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, grey, and hues of deep naval blue.",
+        "description": "This particular jacket is sown from fabric dyed a base color of stoney gray with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, gray, and hues of deep naval blue.",
         "color": "dark_gray",
         "weight": 10,
         "append": true
@@ -1348,7 +1348,7 @@
         "moves": 80
       }
     ],
-    "warmth": 25,
+    "warmth": 15,
     "material_thickness": 0.95,
     "snippet_category": [
       {
@@ -1738,7 +1738,7 @@
       {
         "id": "black_white_varsity_jacket",
         "name": { "str": "black and white varsity jacket" },
-        "description": "This one is is black except the white arms, and has no discerning emblem or writing.",
+        "description": "This one is black except the white arms, and has no discerning emblem or writing.",
         "color": "white",
         "weight": 10,
         "append": true
@@ -3715,7 +3715,7 @@
       {
         "id": "tacjacket_marshland",
         "name": { "str": "marshland-camo tactical jacket" },
-        "description": "A staple companion of gamesmen whose trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
+        "description": "A staple companion of gamesmen whose trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, gray, green, and black hues.",
         "color": "brown",
         "weight": 15,
         "append": true
@@ -3723,7 +3723,7 @@
       {
         "id": "tacjacket_desert",
         "name": { "str": "arid tactical jacket" },
-        "description": "If you were traipsing off to the Sonoran desert, this pocket-laden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
+        "description": "If you were traipsing off to the Sonoran desert, this pocket-laden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is, is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
         "color": "brown",
         "weight": 10,
         "append": true
@@ -3731,7 +3731,7 @@
       {
         "id": "tacjacket_alpine",
         "name": { "str": "alpine-camo tactical jacket" },
-        "description": "A comfortable overcoat for the summer-time mountaineer, hiker, or alpine hunter, this predominantly grey jacket is coated in jagged lines and geometric shapes of brown and white dye.",
+        "description": "A comfortable overcoat for the summer-time mountaineer, hiker, or alpine hunter, this predominantly gray jacket is coated in jagged lines and geometric shapes of brown and white dye.",
         "color": "light_gray",
         "weight": 10,
         "append": true
@@ -3739,7 +3739,7 @@
       {
         "id": "tacjacket_urban",
         "name": { "str": "urban-camo tactical jacket" },
-        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colors — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
+        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colors — blacks, grays, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
         "weight": 20,
         "append": true
@@ -3747,7 +3747,7 @@
       {
         "id": "tacjacket_ocean",
         "name": { "str": "maritime tactical jacket" },
-        "description": "Resplendent in a wide assortment of blue and light grey tones, this versatile outerwear is the garment of choice for ocean-side activities, namely ocean activities with less fun sea-side paddling and more marine security and over-the-beach gunfights.",
+        "description": "Resplendent in a wide assortment of blue and light gray tones, this versatile outerwear is the garment of choice for ocean-side activities, namely ocean activities with less fun sea-side paddling and more marine security and over-the-beach gunfights.",
         "color": "blue",
         "weight": 10,
         "append": true
@@ -3755,7 +3755,7 @@
       {
         "id": "tacjacket_river",
         "name": { "str": "river-camo tactical jacket" },
-        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler.  Its water-repellent construction ensures that one's possessions are protected from river spray.",
+        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and gray — that would make it at home with any river-based huntsman or angler.  Its water-repellent construction ensures that one's possessions are protected from river spray.",
         "color": "blue",
         "weight": 12,
         "append": true
@@ -3763,7 +3763,7 @@
       {
         "id": "tacjacket_arctic",
         "name": { "str": "poler-camo tactical jacket" },
-        "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, grey, and a hint of light brown.",
+        "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, gray, and a hint of light brown.",
         "color": "white",
         "weight": 5,
         "append": true
@@ -3771,7 +3771,7 @@
       {
         "id": "tacjacket_grey",
         "name": { "str": "wolf tactical jacket" },
-        "description": "Subtle and unassuming, save for the purely ludicrous number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of grey verging into beige.",
+        "description": "Subtle and unassuming, save for the purely ludicrous number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of gray verging into beige.",
         "color": "dark_gray",
         "weight": 20,
         "append": true

@@ -248,7 +248,7 @@
     "weight": "40823 g",
     "volume": "250 L",
     "longest_side": "118 cm",
-    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artifically as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
+    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artificially as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
     "price": "400 USD",
     "price_postapoc": "5 USD",
     "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -760,7 +760,7 @@
     "volume": "70 ml",
     "longest_side": "12 cm",
     "price": "30 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "3 USD",
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
@@ -835,7 +835,7 @@
     "use_action": [ "OXYTORCH" ],
     "charged_qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "smallweldtank", "tinyweldtank" ] } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 3 }
   },
@@ -1193,8 +1193,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },

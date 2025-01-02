@@ -852,8 +852,8 @@
         "-...........................................-   ",
         "-...........................................-   ",
         "-...#############...........................-   ",
-        "-...#66r66r66r66#...........................-   ",
-        "-...#66_66_66_66#..................&&.......-   ",
+        "-...#GGrGGrGGrGG#...........................-   ",
+        "-...#GG_GG_GG_GG#..................&&.......-   ",
         "-...#___________#...........................-   ",
         "-...##########_##+##........................-   ",
         "-...#AAAAAAAAA_#__L#........................-   ",
@@ -886,13 +886,13 @@
         "r": "t_thconc_floor",
         "L": "t_thconc_floor",
         "A": "t_thconc_floor",
-        "6": "t_thconc_floor"
+        "G": "t_thconc_floor"
       },
       "items": {
         "L": [ { "item": "jackets", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "r": [ { "item": "tools_mechanic", "chance": 40 }, { "item": "tools_common", "chance": 80 } ]
       },
-      "furniture": { "1": "f_water_purifier", "6": "f_generator_broken" },
+      "furniture": { "1": "f_water_purifier", "G": "f_generator_broken" },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 },
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 25, 30 ], "density": 0.06 }

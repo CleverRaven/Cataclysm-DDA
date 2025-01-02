@@ -8,7 +8,7 @@
       { "u_lose_effect": "effect_biokin_potion_comedown" },
       { "u_add_effect": "effect_biokin_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
-      { "queue_eocs": "EOC_BIOKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_BIOKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -33,7 +33,7 @@
       { "u_lose_effect": "effect_clair_potion_comedown" },
       { "u_add_effect": "effect_clair_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
-      { "queue_eocs": "EOC_CLAIR_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_CLAIR_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -59,7 +59,7 @@
       { "u_add_effect": "effect_electrokin_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
       { "run_eocs": "EOC_ELECTROKIN_POTION_JITTERS_CHECKER" },
-      { "queue_eocs": "EOC_ELECTROKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_ELECTROKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -70,7 +70,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_POTION_JITTERS_CHECKER",
     "condition": { "and": [ { "u_has_trait": "JITTERY" }, { "not": { "u_has_effect": "effect_electrokin_potion_comedown" } } ] },
-    "effect": [ { "math": [ "u_preexisting_jittery_trait", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_preexisting_jittery_trait = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -78,7 +78,7 @@
     "effect": [
       { "u_lose_effect": "effect_electrokin_potion" },
       { "u_lose_effect": "effect_matrix_potion_nether_boost" },
-      { "if": { "math": [ "u_preexisting_jittery_trait", "!=", "1" ] }, "then": { "u_add_trait": "JITTERY" } },
+      { "if": { "math": [ "u_preexisting_jittery_trait != 1" ] }, "then": { "u_add_trait": "JITTERY" } },
       { "u_add_effect": "effect_electrokin_potion_comedown", "duration": [ "24 hours", "55 hours" ] }
     ]
   },
@@ -88,7 +88,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_electrokin_potion_comedown", { "context_val": "effect" } ] },
-    "effect": [ { "if": { "math": [ "u_preexisting_jittery_trait", "!=", "1" ] }, "then": { "u_lose_trait": "JITTERY" } } ]
+    "effect": [ { "if": { "math": [ "u_preexisting_jittery_trait != 1" ] }, "then": { "u_lose_trait": "JITTERY" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -100,7 +100,7 @@
       { "u_add_effect": "effect_photokin_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
       { "u_add_trait": "PHOTOLIXIR_LIGHT" },
-      { "queue_eocs": "EOC_PHOTOKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_PHOTOKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -127,7 +127,7 @@
       { "u_lose_effect": "effect_pyrokin_potion_comedown" },
       { "u_add_effect": "effect_pyrokin_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
-      { "queue_eocs": "EOC_PYROKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_PYROKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -153,7 +153,7 @@
       { "u_add_effect": "effect_telekin_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
       { "u_add_trait": "TELELIXIRDOWN" },
-      { "queue_eocs": "EOC_TELEKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_TELEKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -180,7 +180,7 @@
       { "u_lose_effect": "effect_telepath_potion_comedown" },
       { "u_add_effect": "effect_telepath_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
-      { "queue_eocs": "EOC_TELEPATH_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_TELEPATH_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -205,7 +205,7 @@
       { "u_lose_effect": "effect_teleport_potion_comedown" },
       { "u_add_effect": "effect_teleport_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
-      { "queue_eocs": "EOC_TELEPORT_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_TELEPORT_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -242,7 +242,7 @@
       { "u_lose_effect": "effect_vitakin_potion_comedown" },
       { "u_add_effect": "effect_vitakin_potion", "duration": "30 hours" },
       { "u_add_effect": "effect_matrix_potion_nether_boost", "duration": "30 hours" },
-      { "queue_eocs": "EOC_VITAKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
+      { "run_eocs": "EOC_VITAKIN_POTION_COMEDOWN", "time_in_future": [ "12 hours", "30 hours" ] }
     ],
     "false_effect": [
       { "u_message": "You drink the concoction." },
@@ -272,7 +272,7 @@
     "effect": [
       { "u_lose_effect": "effect_noetic_resilience_comedown" },
       { "u_add_effect": "effect_noetic_resilience", "duration": "30 hours" },
-      { "queue_eocs": "EOC_DRAIN_RESIST_POTION_COMEDOWN", "time_in_future": [ "18 hours", "30 hours" ] }
+      { "run_eocs": "EOC_DRAIN_RESIST_POTION_COMEDOWN", "time_in_future": [ "18 hours", "30 hours" ] }
     ]
   },
   {

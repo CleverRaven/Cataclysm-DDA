@@ -53,14 +53,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SPARK_SIGHT",
-        "condition": { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_see_electric') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_see_electric", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 1" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -90,14 +90,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SHOCK_TOUCH",
-        "condition": { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_shock_touch') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_shock_touch", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 1" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
@@ -127,14 +127,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES",
-        "condition": { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_zap_enemies') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_zap_enemies", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -144,7 +144,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
           }
         ]
@@ -181,14 +181,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_zap_enemies')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_zap_enemies') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -219,14 +221,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS",
-        "condition": { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_melee_attacks') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_melee_attacks", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -236,7 +238,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -273,14 +275,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_melee_attacks')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_melee_attacks') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -307,18 +311,19 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE",
-        "condition": { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_hacking_interface') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_hacking_interface", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -328,7 +333,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -365,14 +370,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_hacking_interface')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_hacking_interface') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -399,18 +406,19 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
+    "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_ROBOT_INTERFACE",
-        "condition": { "math": [ "u_spell_level('electrokinetic_robot_interface')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_robot_interface') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_robot_interface", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -420,7 +428,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTRO_ROBOT_INTERFACE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTRO_ROBOT_INTERFACE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -457,14 +465,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_robot_interface')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_robot_interface') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -495,14 +505,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY",
-        "condition": { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_personal_battery') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_personal_battery", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -512,7 +522,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
           }
         ]
@@ -549,14 +559,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_personal_battery')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_personal_battery') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -588,14 +600,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS",
-        "condition": { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_paralysis') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_paralysis", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -605,7 +617,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_PARALYSIS_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_PARALYSIS_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -642,14 +654,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_paralysis')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_paralysis') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -681,14 +695,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN",
-        "condition": { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_reduce_pain') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_reduce_pain", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -698,7 +712,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
           }
         ]
@@ -735,14 +749,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_reduce_pain')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_reduce_pain') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -774,14 +790,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT",
-        "condition": { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_lightning_bolt') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_lightning_bolt", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -791,7 +807,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
           }
         ]
@@ -828,14 +844,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_lightning_bolt') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -867,14 +885,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_RECHARGE_VEHICLE",
-        "condition": { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_recharge_vehicle') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_recharge_vehicle", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -884,7 +902,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_RECHARGE_VEHICLE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_RECHARGE_VEHICLE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -921,14 +939,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_recharge_vehicle') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -960,14 +980,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST",
-        "condition": { "math": [ "u_spell_level('electrokinetic_speed_boost')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_speed_boost') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_speed_boost", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -977,7 +997,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -1014,14 +1034,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_speed_boost')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_speed_boost') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1053,14 +1075,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE",
-        "condition": { "math": [ "u_spell_level('electrokinetic_pain_immune')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_pain_immune') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_pain_immune", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 6" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1070,7 +1092,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
           }
         ]
@@ -1107,14 +1129,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_pain_immune')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_pain_immune') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1146,14 +1170,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT",
-        "condition": { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_kill_robot') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_kill_robot", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1163,7 +1187,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
           }
         ]
@@ -1200,14 +1224,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_kill_robot')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_kill_robot') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1239,14 +1265,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA",
-        "condition": { "math": [ "u_spell_level('electrokinetic_lightning_aura')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_lightning_aura') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_lightning_aura", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 8" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1256,7 +1282,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
           }
         ]
@@ -1293,14 +1319,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_lightning_aura')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_lightning_aura') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1332,14 +1360,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST",
-        "condition": { "math": [ "u_spell_level('electrokinetic_lightning_blast')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_lightning_blast') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_lightning_blast", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 9" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1349,7 +1377,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
           }
         ]
@@ -1386,14 +1414,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_lightning_blast')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_lightning_blast') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]
@@ -1425,14 +1455,14 @@
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_REVIVE",
-        "condition": { "math": [ "u_spell_level('electrokinetic_revive')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('electrokinetic_revive') >= 1" ] },
         "effect": [
           { "set_string_var": "electrokinetic_revive", "target_var": { "u_val": "latest_studied_power_name" } },
           {
             "set_string_var": "prof_contemplation_electrokinesis",
             "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
+          { "math": [ "u_latest_studied_power_difficulty = 10" ] },
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
@@ -1442,7 +1472,7 @@
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
-            "queue_eocs": "EOC_PRACTICE_ELECTROKIN_REVIVE_LEARNING",
+            "run_eocs": "EOC_PRACTICE_ELECTROKIN_REVIVE_LEARNING",
             "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(10)" ] }, { "math": [ "learn_new_power_upper_time_bound(10)" ] } ]
           }
         ]
@@ -1479,14 +1509,16 @@
                 "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
-              { "math": [ "u_spell_level('electrokinetic_revive')", "=", "1" ] },
+              { "math": [ "u_spell_level('electrokinetic_revive') = 1" ] },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
-              { "u_lose_effect": "effect_psi_learning_new_power" }
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
             ]
           }
         ]

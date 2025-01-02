@@ -1,6 +1,7 @@
 #include "recipe_dictionary.h"
 
 #include <algorithm>
+#include <chrono>
 #include <iterator>
 #include <memory>
 #include <unordered_map>
@@ -11,6 +12,7 @@
 #include "crafting_gui.h"
 #include "display.h"
 #include "debug.h"
+#include "flag.h"
 #include "init.h"
 #include "input.h"
 #include "item.h"
@@ -18,6 +20,7 @@
 #include "itype.h"
 #include "make_static.h"
 #include "mapgen.h"
+#include "math_parser.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "requirements.h"
@@ -166,6 +169,51 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
+// Cache for the search function
+static std::map<const itype_id, std::string> item_info_cache;
+static time_point cache_valid_turn;
+
+static std::string cached_item_info( const itype_id &item_type )
+{
+    if( cache_valid_turn != calendar::turn ) {
+        cache_valid_turn = calendar::turn;
+        item_info_cache.clear();
+    }
+    if( item_info_cache.count( item_type ) > 0 ) {
+        return item_info_cache.at( item_type );
+    }
+    const item result( item_type );
+    item_info_cache[item_type] = result.info( true );
+    return item_info_cache.at( item_type );
+}
+
+// keep data for one search cycle
+static itype filtered_fake_itype;
+static item filtered_fake_item;
+static std::unordered_set<bodypart_id> filtered_bodyparts;
+static std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+static std::unordered_set<layer_level> filtered_layers;
+
+template<typename Unit>
+static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
+                                std::vector<std::pair<std::string, Unit>> units )
+{
+    auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
+        throw math::runtime_error( _( string_format( hint, txt ) ) );
+    };
+    // Start at max. On convert failure: results are empty and user knows it is unusable.
+    Unit uni = max;
+    try {
+        uni = detail::read_from_json_string_common<Unit>( txt, units, error );
+    } catch( math::runtime_error &err ) {
+        popup( err.what() );
+    }
+    // copy the debug item template (itype)
+    filtered_fake_itype = itype( *item_controller->find_template( STATIC(
+                                     itype_id( "debug_item_search" ) ) ) );
+    return uni;
+}
+
 std::vector<const recipe *> recipe_subset::search(
     const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -207,12 +255,36 @@ std::vector<const recipe *> recipe_subset::search(
                 return item::find_type( r->result() )->has_any_quality( txt );
             }
 
+            case search_type::length:
+            case search_type::volume:
+            case search_type::mass:
+                return item( r->result() ).can_contain( filtered_fake_item ).success();
+
+            case search_type::covers: {
+                const item result_item( r->result() );
+                return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
+                [&result_item]( const bodypart_id & bp ) {
+                    return result_item.covers( bp );
+                } )
+                || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
+                [&result_item]( const sub_bodypart_id & sbp ) {
+                    return result_item.covers( sbp );
+                } );
+            }
+
+            case search_type::layer: {
+                const std::vector<layer_level> layers = item( r->result() ).get_layer();
+                return std::any_of( layers.begin(), layers.end(), []( layer_level l ) {
+                    return filtered_layers.count( l );
+                } );
+            }
+
             case search_type::description_result: {
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result( r->result() );
-                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                    // Info is always rendered for avatar anyway, no need to cache per Character then.
+                    return lcmatch( remove_color_tags( cached_item_info( r->result() ) ), txt );
                 }
             }
 
@@ -283,9 +355,80 @@ std::vector<const recipe *> recipe_subset::search(
         }
     };
 
+    // prepare search
+    switch( key ) {
+        case search_type::length: {
+            units::length len = can_contain_filter(
+                                    "Failed to convert '%s' to length.\nValid examples:\n122 cm\n1101mm\n2   meter",
+                                    txt, units::length_max, units::length_units );
+
+            filtered_fake_itype.longest_side = len;
+            filtered_fake_item = item( &filtered_fake_itype );
+            // make the item hard, otherwise longest_side is ignored
+            filtered_fake_item.set_flag( flag_HARD );
+            break;
+        }
+        case search_type::volume: {
+            units::volume vol = can_contain_filter(
+                                    "Failed to convert '%s' to volume.\nValid examples:\n750 ml\n4L",
+                                    txt, units::volume_max, units::volume_units );
+
+            filtered_fake_itype.volume = vol;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::mass: {
+            units::mass mas = can_contain_filter(
+                                  "Failed to convert '%s' to mass.\nValid examples:\n12 mg\n400g\n25  kg",
+                                  txt, units::mass_max, units::mass_units );
+
+            filtered_fake_itype.weight = mas;
+            filtered_fake_item = item( &filtered_fake_itype );
+            break;
+        }
+        case search_type::covers: {
+            filtered_bodyparts.clear();
+            filtered_sub_bodyparts.clear();
+            for( const body_part &bp : all_body_parts ) {
+                const bodypart_str_id &bp_str_id = convert_bp( bp );
+                if( lcmatch( body_part_name( bp_str_id, 1 ), txt )
+                    || lcmatch( body_part_name( bp_str_id, 2 ), txt ) ) {
+                    filtered_bodyparts.insert( bp_str_id->id );
+                }
+                for( const sub_bodypart_str_id &sbp : bp_str_id->sub_parts ) {
+                    if( lcmatch( sbp->name.translated(), txt )
+                        || lcmatch( sbp->name_multiple.translated(), txt ) ) {
+                        filtered_sub_bodyparts.insert( sbp->id );
+                    }
+                }
+            }
+            break;
+        }
+        case search_type::layer: {
+            filtered_layers.clear();
+            for( layer_level layer = layer_level( 0 ); layer != layer_level::NUM_LAYER_LEVELS; ++layer ) {
+                if( lcmatch( item::layer_to_string( layer ), txt ) ) {
+                    filtered_layers.insert( layer );
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
+    // search
     std::vector<const recipe *> res;
     size_t i = 0;
+    ctxt.register_action( "QUIT" );
+    std::chrono::steady_clock::time_point next_input_check = std::chrono::steady_clock::now();
     for( const recipe *r : recipes ) {
+        if( std::chrono::steady_clock::now() > next_input_check ) {
+            next_input_check = std::chrono::steady_clock::now() + std::chrono::milliseconds( 250 );
+            if( ctxt.handle_input( 1 ) == "QUIT" ) {
+                return res;
+            }
+        }
         if( progress_callback ) {
             progress_callback( i, recipes.size() );
         }
@@ -441,30 +584,9 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     r.was_loaded = true;
 
     // Check for duplicate recipe_ids before assigning it to the map
-    if( out.find( r.ident() ) != out.end() ) {
-        const std::string new_mod_src = enumerate_as_string( r.src, [](
-        const std::pair<recipe_id, mod_id> &source ) {
-            return string_format( "'%s'", source.second->name() );
-        }, enumeration_conjunction::arrow );
-        const std::string old_mod_src = enumerate_as_string( out[ r.ident() ].src, [](
-        const std::pair<recipe_id, mod_id> &source ) {
-            return string_format( "'%s'", source.second->name() );
-        }, enumeration_conjunction::arrow );
-
-        const std::string base_json = string_format( "'%s'", _( "Dark Days Ahead" ) );
-        if( old_mod_src == base_json && new_mod_src != base_json ) {
-            // Assume the mod developer knows what they're doing
-        } else if( old_mod_src == new_mod_src ) {
-            // Conflict within a single source. Throw an error:
-            debugmsg( "Unable to load recipe_id %1$s. A recipe with that id already exists.\nExisting recipe source: %2$s\nNew recipe source: %3$s",
-                      r.ident().str(), old_mod_src, new_mod_src );
-        } else {
-            // Conflict between mods, leave a warning for debugging
-            DebugLog( DebugLevel::D_WARNING,
-                      DC_ALL ) <<
-                               string_format( "Recipe_id conflict: %1$s is included in both %2$s and %3$s.  Only the latter recipe will be loaded",
-                                              r.ident().str(), old_mod_src, new_mod_src );
-        }
+    auto duplicate = out.find( r.ident() );
+    if( duplicate != out.end() ) {
+        mod_tracker::check_duplicate_entries( r, duplicate->second );
     }
 
     return out[ r.ident() ] = std::move( r );

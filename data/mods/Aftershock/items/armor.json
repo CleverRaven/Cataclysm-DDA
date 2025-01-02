@@ -86,16 +86,14 @@
       {
         "id": "old",
         "name": { "str": "IX-2110 computer" },
-        "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity means its only slightly less capable than its modern counterparts.",
-        "append": true
+        "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity means its only slightly less capable than its modern counterparts."
       },
       {
         "id": "standard",
         "name": { "str": "IX-2330S computer" },
         "weight": 0,
         "description": "A rugged and radiation shielded wirst computer specifically designed to support salvage operations.  It can perform general computing tasks and might be used to interface with most ancient computer systems.",
-        "color": "dark_gray",
-        "append": true
+        "color": "dark_gray"
       }
     ],
     "weight": "315 g",
@@ -138,19 +136,18 @@
   {
     "id": "xl_jeans",
     "type": "ARMOR",
-    "name": { "str": "XL jeans", "str_pl": "pairs of XL jeans" },
-    "description": "A pair of XL blue jeans with two deep pockets.",
+    "name": { "str_sp": "jeans" },
     "weight": "900 g",
     "volume": "3 L",
     "copy-from": "jeans",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "750 ml", "max_contains_weight": "1 kg" } ],
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "xl_technician_pants_gray",
     "type": "ARMOR",
-    "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
+    "name": { "str": "work pants", "str_pl": "pairs of work pants" },
     "description": "A pair of gray work pants.",
     "copy-from": "technician_pants_gray",
     "weight": "770 g",
@@ -162,13 +159,13 @@
       { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
       { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
     ],
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "xl_technician_shirt_gray",
     "type": "ARMOR",
-    "name": { "str": "XL work t-shirt" },
-    "description": "A gray XL work t-shirt with a small front pocket.",
+    "name": { "str": "work t-shirt" },
+    "description": "A gray work t-shirt with a small front pocket.",
     "weight": "84 g",
     "volume": "350 ml",
     "copy-from": "technician_shirt_gray",
@@ -177,7 +174,7 @@
       { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
       { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
     ],
-    "flags": [ "VARSIZE", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "q_solarpack",
@@ -248,7 +245,7 @@
     "type": "ARMOR",
     "category": "armor",
     "//": "Based on US Army SPCS",
-    "name": { "str": "empty XL ballistic vest" },
+    "name": { "str": "empty ballistic vest" },
     "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "4 kg",
     "volume": "7 L",
@@ -258,14 +255,14 @@
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 8,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "PREFIX_XL" ],
     "armor": [ { "encumbrance": 6, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlballistic_vest_esapi",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL ESAPI ballistic vest" },
+    "name": { "str": "ESAPI ballistic vest" },
     "description": "Oversized ballistic armor with ESAPI ceramic armor plates.",
     "weight": "12 kg",
     "volume": "9 L",
@@ -275,14 +272,14 @@
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 26,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ],
+    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR", "PREFIX_XL" ],
     "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "xlboots_combat",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of XL combat boots", "str_pl": "pairs of XL combat boots" },
+    "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
     "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
     "weight": "1460 g",
     "volume": "5 L",
@@ -296,7 +293,7 @@
     "warmth": 25,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "PREFIX_XL" ],
     "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
     "melee_damage": { "bash": 1 }
   },
@@ -304,7 +301,7 @@
     "id": "xlgloves_tactical",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of XL tactical gloves", "str_pl": "pairs of XL tactical gloves" },
+    "name": { "str": "pair of tactical gloves", "str_pl": "pairs of tactical gloves" },
     "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
     "weight": "1 kg",
     "volume": "750 ml",
@@ -315,7 +312,7 @@
     "color": "dark_gray",
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ],
+    "flags": [ "OVERSIZE", "VARSIZE", "STURDY", "PREFIX_XL" ],
     "armor": [ { "encumbrance": 13, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -339,43 +336,43 @@
   {
     "id": "xlleather_belt",
     "type": "ARMOR",
-    "name": { "str": "XL leather belt" },
+    "name": { "str": "leather belt" },
     "description": "An XL leather belt.  Useful for making your pair of pants fit if you need really big pants.",
     "weight": "150 g",
     "volume": "350 ml",
     "copy-from": "leather_belt",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xlpolice_belt",
     "type": "ARMOR",
-    "name": { "str": "XL police duty belt" },
+    "name": { "str": "police duty belt" },
     "description": "An XL black leather belt used by extremely large uplifted police officers.  It has several pouches and a holder for a baton.",
     "weight": "450 g",
     "volume": "2500 ml",
     "copy-from": "police_belt",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xltac_fullhelmet",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL tactical full helmet" },
+    "name": { "str": "tactical full helmet" },
     "description": "An all-encompassing massive black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
     "weight": "1324 g",
     "volume": "2 L",
     "copy-from": "tac_fullhelmet",
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "type": "ARMOR",
     "id": "xllegpouch_large",
-    "name": { "str": "XL leg ammo pouch", "str_pl": "XL leg ammo pouches" },
+    "name": { "str": "leg ammo pouch", "str_pl": "leg ammo pouches" },
     "description": "An XL fabric ammo pouch that can be strapped to your leg; capable of holding two magazines close at hand.",
     "weight": "120 g",
     "volume": "250 ml",
     "copy-from": "legpouch_large",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "wetsuit_cecalia",
@@ -503,10 +500,10 @@
   {
     "id": "xl_nanomesh_vest",
     "type": "ARMOR",
-    "name": { "str": "XL nanomesh vest" },
+    "name": { "str": "nanomesh vest" },
     "copy-from": "nanomesh_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "carbide_cuirass",
@@ -546,19 +543,18 @@
   {
     "id": "xl_carbide_cuirass",
     "type": "ARMOR",
-    "name": { "str": "XL vacuum cast cuirass", "str_pl": "XL vacuum cast cuirasses" },
+    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "copy-from": "carbide_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER", "PREFIX_XL" ]
   },
   {
     "id": "xs_carbide_cuirass",
     "type": "ARMOR",
     "copy-from": "carbide_cuirass",
-    "looks_like": "carbide_cuirass",
     "material_thickness": 3,
-    "name": { "str": "XS vacuum cast cuirass", "str_pl": "XS vacuum cast cuirasses" },
+    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

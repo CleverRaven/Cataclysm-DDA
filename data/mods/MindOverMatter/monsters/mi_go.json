@@ -60,6 +60,19 @@
         "cooldown": { "math": [ "9 + rand(18)" ] },
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s moves so quickly it's nothing but a blur!"
+      },
+      {
+        "id": "psi_juggernaut_heightened_reflexes",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_heightened_reflexes_enhanced_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "u_has_effect": "effect_monster_heightened_reflex_enhanced" } }
+          ]
+        },
+        "monster_message": "%1$s begins moving much more quickly."
       }
     ],
     "flags": [

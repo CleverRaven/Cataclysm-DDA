@@ -8,7 +8,7 @@
         "text": "[2 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_consume_item": "RobofacCoin", "count": 2, "popup": true },
           { "u_spawn_item": "mask_gas_half" },
           { "u_spawn_item": "robofac_enviro_suit" },
           { "u_spawn_item": "gasfilter_med", "count": 1 },
@@ -34,7 +34,7 @@
         "text": "[1 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
-          { "u_buy_item": "RobofacCoin", "count": 1 },
+          { "u_consume_item": "RobofacCoin", "count": 1, "popup": true },
           { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40, "random": true, "search_range": 70 },
           { "npc_add_var": "dialogue_intercom_sold_local_map", "value": "yes" }
         ],
@@ -58,7 +58,7 @@
         "condition": { "u_has_items": { "item": "nre_anomaly_printout_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "nre_anomaly_printout_data", "count": 1, "popup": true },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 10 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -68,7 +68,7 @@
         "condition": { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "large_printout_portal_storm_data", "count": 1, "popup": true },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 18 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -78,13 +78,13 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "medium_printout_portal_storm_data", "count": 1 } },
-            { "math": [ "portal_storm_medium_data_sold", "<", "15" ] }
+            { "math": [ "portal_storm_medium_data_sold < 15" ] }
           ]
         },
         "effect": [
           { "u_consume_item": "medium_printout_portal_storm_data", "count": 1, "popup": true },
-          { "math": [ "portal_storm_medium_data_sold", "++" ] },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "portal_storm_medium_data_sold++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Medium"
@@ -94,14 +94,14 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "small_printout_portal_storm_data", "count": 1 } },
-            { "math": [ "portal_storm_medium_data_sold", "<", "15" ] },
-            { "math": [ "portal_storm_small_data_sold", "<", "3" ] }
+            { "math": [ "portal_storm_medium_data_sold < 15" ] },
+            { "math": [ "portal_storm_small_data_sold < 3" ] }
           ]
         },
         "effect": [
           { "u_consume_item": "small_printout_portal_storm_data", "count": 1, "popup": true },
-          { "math": [ "portal_storm_small_data_sold", "++" ] },
-          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
+          { "math": [ "portal_storm_small_data_sold++" ] },
+          { "math": [ "u_portal_storm_recordings_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Small"
@@ -113,7 +113,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Small",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "portal_storm_small_data_sold", ">=", "3" ],
+      "math": [ "portal_storm_small_data_sold >= 3" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
@@ -133,7 +133,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Medium",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "portal_storm_medium_data_sold", ">=", "15" ],
+      "math": [ "portal_storm_medium_data_sold >= 15" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
         "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
@@ -174,12 +174,12 @@
         "text": "[8 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_consume_item": "RobofacCoin", "count": 8, "popup": true },
           { "u_spawn_item": "armor_riot", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },
-          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+          { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
@@ -198,12 +198,12 @@
     "responses": [
       {
         "text": "I can pay you what I owe in cash and looted gear.",
-        "effect": [ { "npc_add_var": "u_pay_back_on_cash", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+        "effect": [ { "npc_add_var": "npc_dialogue_intercom_u_pay_back_on_cash", "value": "yes" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT"
       },
       {
         "text": "If you give me this deal you can have all the alien corpses, their stuff and their tower",
-        "effect": [ { "npc_add_var": "u_pay_back_on_specimens", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+        "effect": [ { "npc_add_var": "npc_dialogue_intercom_u_pay_back_on_specimens", "value": "yes" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT"
       },
       { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
@@ -226,7 +226,7 @@
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },
           { "assign_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" },
-          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+          { "npc_add_var": "npc_dialogue_exodii_npc_bought_riot_gear", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
@@ -255,7 +255,7 @@
         "condition": { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_trifacet", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_trifacet_sold", "++" ] },
+          { "math": [ "u_broken_yrax_trifacet_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET"
@@ -265,7 +265,7 @@
         "condition": { "and": [ { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } } ] },
         "effect": [
           { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_triakis_sold", "++" ] },
+          { "math": [ "u_broken_yrax_triakis_sold++" ] },
           { "u_spend_cash": -1000 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS"
@@ -275,7 +275,7 @@
         "condition": { "and": [ { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } } ] },
         "effect": [
           { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
-          { "math": [ "u_broken_golden_monolith_sold", "++" ] },
+          { "math": [ "u_broken_golden_monolith_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 7 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH"
@@ -285,7 +285,7 @@
         "condition": { "and": [ { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } } ] },
         "effect": [
           { "u_consume_item": "broken_yrax_delta", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_delta_sold", "++" ] },
+          { "math": [ "u_broken_yrax_delta_sold++" ] },
           { "u_spend_cash": -200 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_BROKEN_YRAX_DELTA"
@@ -295,7 +295,7 @@
         "condition": { "u_has_items": { "item": "broken_yrax_quadraphract_leg", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_quadraphract_leg", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_quadraphract_leg_sold", "++" ] },
+          { "math": [ "u_broken_yrax_quadraphract_leg_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT_LEG"
@@ -305,7 +305,7 @@
         "condition": { "u_has_items": { "item": "broken_yrax_quadraphract", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_quadraphract", "count": 1, "popup": true },
-          { "math": [ "u_broken_yrax_quadraphract_sold", "++" ] },
+          { "math": [ "u_broken_yrax_quadraphract_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 25 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT"
@@ -315,7 +315,7 @@
         "condition": { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_trifacet", "count": 1, "popup": true },
-          { "math": [ "u_bot_yrax_trifacet_sold", "++" ] },
+          { "math": [ "u_bot_yrax_trifacet_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 2 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET"
@@ -325,7 +325,7 @@
         "condition": { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_triakis", "count": 1, "popup": true },
-          { "math": [ "u_bot_yrax_triakis_sold", "++" ] },
+          { "math": [ "u_bot_yrax_triakis_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS"
@@ -335,7 +335,7 @@
         "condition": { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_golden_monolith", "count": 1, "popup": true },
-          { "math": [ "u_bot_golden_monolith_sold", "++" ] },
+          { "math": [ "u_bot_golden_monolith_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 16 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH"
@@ -345,7 +345,7 @@
         "condition": { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } },
         "effect": [
           { "u_consume_item": "bot_yrax_delta", "count": 1, "popup": true },
-          { "math": [ "u_bot_yrax_delta_sold", "++" ] },
+          { "math": [ "u_bot_yrax_delta_sold++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA"

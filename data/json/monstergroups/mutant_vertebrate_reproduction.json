@@ -14,6 +14,15 @@
     ]
   },
   {
+    "name": "REPRODUCTION_MUT_BEAVER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_beaver_kit", "weight": 38 },
+      { "monster": "mon_beaver_mutant_avian_kit", "weight": 1 },
+      { "monster": "mon_beaver_mutant_huge_kit", "weight": 1 }
+    ]
+  },
+  {
     "name": "REPRODUCTION_MUT_RATTLESNAKE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_rattlesnake_s", "weight": 19 }, { "monster": "mon_rattlesnake_big_s", "weight": 1 } ]

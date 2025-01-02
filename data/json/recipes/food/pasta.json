@@ -52,17 +52,11 @@
     "tools": [ [ [ "surface_heat", 28, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour, 1u for sauce, 20u for meat + heating the water (2u)",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],
-      [
-        [ "seasoning_italian", 4 ],
-        [ "sauce_red", 2 ],
-        [ "tomato", 1 ],
-        [ "tomato_cut", 1 ],
-        [ "can_tomato", 1 ],
-        [ "wild_herbs", 10 ]
-      ],
+      [ [ "seasoning_italian", 4 ], [ "sauce_red", 2 ], [ "any_tomato", 1, "LIST" ], [ "wild_herbs", 10 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "meatball", 2 ] ]
     ]
   },
@@ -81,17 +75,11 @@
     "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour, 1u for cheese, 1u for sauce, 4u for meat + heating the water (2u)",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "lasagne_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],
-      [
-        [ "seasoning_italian", 4 ],
-        [ "sauce_red", 2 ],
-        [ "tomato", 1 ],
-        [ "tomato_cut", 1 ],
-        [ "can_tomato", 1 ],
-        [ "wild_herbs", 10 ]
-      ],
+      [ [ "seasoning_italian", 4 ], [ "sauce_red", 2 ], [ "any_tomato", 1, "LIST" ], [ "wild_herbs", 10 ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "meat_cooked", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ] ]
     ]
@@ -114,6 +102,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour + heating the water (2u)",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "spaghetti_raw", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "sauce_pesto", 1 ] ] ]
   },
   {
@@ -211,6 +200,7 @@
     "tools": [ [ [ "surface_heat", 31, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour, 1u for cheese, 2u of egg, 20u for meat, heating the water (2u)",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],
@@ -234,6 +224,7 @@
     "tools": [ [ [ "surface_heat", 31, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour, 1u for cheese, 4u of red sauce, 20u for meat, heating the water (2u)",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],

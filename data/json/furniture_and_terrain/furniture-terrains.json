@@ -205,6 +205,7 @@
     "required_str": -1,
     "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "close": "f_cardboard_door",
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
@@ -890,6 +891,34 @@
   },
   {
     "type": "furniture",
+    "id": "f_plane_wreckage",
+    "name": "metal wreckage from a plane",
+    "description": "A pile of various bent and twisted metals.  Some of it looks pretty rusty, you wouldn't want to cut yourself on this.",
+    "looks_like": "t_scrap_wall_halfway",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_sharp_metal_wreckage",
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "SMALL_HIDE",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
     "id": "f_reactor_meltdown",
     "name": "radioactive slag",
     "description": "A pile of melted slag from a destroyed nuclear reactor.  What are you doing looking at it?  Get the hell out of here, you nutcase!",
@@ -1188,6 +1217,9 @@
     "looks_like": "f_curtain",
     "flags": [ "THIN_OBSTACLE", "TRANSPARENT", "CLIMBABLE", "BLOCKSDOOR", "NOITEM", "PERMEABLE" ],
     "examine_action": "chainfence",
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 2 }, { "item": "scrap", "count": 4 }, { "item": "plastic_chunk", "count": 8 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 30,

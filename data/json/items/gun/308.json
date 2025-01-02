@@ -5,13 +5,13 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Belgian battle rifle" },
-    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
+    "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even among modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "fal_dsa",
         "name": { "str": "DSA SA-58 rifle" },
-        "description": "Originally designed during the Cold War, the FAL is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone of the SA-58 pattern built by DSA."
+        "description": "Originally designed during the Cold War, the FAL is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even among modern competitors.  This is a semi-automatic clone of the SA-58 pattern built by DSA."
       }
     ],
     "weight": "4250 g",

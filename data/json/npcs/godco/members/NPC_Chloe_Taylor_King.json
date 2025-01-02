@@ -3,10 +3,10 @@
     "id": "TALK_GODCO_chloe",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "n_npc_anger()", ">=", "5" ],
+      "math": [ "n_npc_anger() >= 5" ],
       "yes": "What are you doing here, go away!  I don't want to talk to you…",
       "no": {
-        "math": [ "n_npc_value()", ">=", "3" ],
+        "math": [ "n_npc_value() >= 3" ],
         "yes": [ "Aw hey, it's you again, <u_name>.  How have you been?", "Aw hey, it's you again, <name_g>.  How have you been?" ],
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ],
@@ -23,11 +23,11 @@
         "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
-        "text": "Hi.  I can't stay and chat right now.",
+        "text": "Hi.  <end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } }
           ]
         },
@@ -37,19 +37,13 @@
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_idle_chat",
         "condition": {
-          "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
-          ]
+          "and": [ { "math": [ "n_npc_anger() < 5" ] }, { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } ]
         }
       },
       {
         "text": "Do you need any help?",
         "condition": {
-          "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
-          ]
+          "and": [ { "math": [ "n_npc_anger() < 5" ] }, { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } ]
         },
         "topic": "TALK_GODCO_chloe_help"
       },
@@ -57,19 +51,13 @@
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_angry",
         "condition": {
-          "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
-          ]
+          "and": [ { "math": [ "n_npc_anger() >= 5" ] }, { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } ]
         }
       },
       {
         "text": "Do you need any help?",
         "condition": {
-          "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
-          ]
+          "and": [ { "math": [ "n_npc_anger() >= 5" ] }, { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } ]
         },
         "topic": "TALK_GODCO_chloe_angry"
       },
@@ -77,20 +65,14 @@
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
         "condition": {
-          "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
-          ]
+          "and": [ { "math": [ "n_npc_anger() < 5" ] }, { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } ]
         }
       },
       {
         "text": "Okay <name_b>, I'll leave.",
         "topic": "TALK_DONE",
         "condition": {
-          "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
-            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] }
-          ]
+          "and": [ { "math": [ "n_npc_anger() >= 5" ] }, { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_chloe" } ] } ]
         }
       }
     ]
@@ -104,7 +86,7 @@
         "text": "Really, what's your story?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "told_backstory_second_attempt" } ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_told_backstory" } ] } }
           ]
@@ -117,7 +99,7 @@
         "text": "How'd you and Sonia come to meet?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_told_about_sonia" } ] } }
           ]
         },
@@ -127,7 +109,7 @@
         "text": "How'd you and Sonia come to meet again?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_told_about_sonia" } ] }
           ]
         },
@@ -135,14 +117,17 @@
       },
       { "text": "Aren't you a bit young to be carrying a knife?", "topic": "TALK_GODCO_chloe_knife" },
       { "text": "On second though, let's talk about something else.", "topic": "TALK_GODCO_chloe" },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_GODCO_chloe_2",
     "type": "talk_topic",
     "dynamic_line": "Things suck right now, but you know that anyway.  I don't even know why you bother asking these stupid questions.",
-    "responses": [ { "text": "What's your story?", "topic": "TALK_GODCO_chloe_past" }, { "text": "I gotta go.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_GODCO_chloe_past" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_GODCO_chloe_help",
@@ -162,7 +147,7 @@
     },
     "speaker_effect": [ { "effect": { "npc_add_var": "told_backstory_second_attempt", "value": "yes" } } ],
     "responses": [
-      { "text": "I'm sorry for your loss.  Maybe we should talk about something else.", "topic": "TALK_GODCO_chloe" },
+      { "text": "I'm sorry for your loss.  <done_conversation_section>", "topic": "TALK_GODCO_chloe" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
     ]
   },

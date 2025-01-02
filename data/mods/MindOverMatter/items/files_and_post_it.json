@@ -212,6 +212,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_IG882_P_item",
+    "name": { "str": "IG882-P Report", "str_pl": "copies of IG882-P Report" },
+    "category": "books",
+    "description": "A note written on official XEDRA letterhead.",
+    "snippet_category": "lab_file_IG882_P",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_phavian_memo_item",
     "name": { "str": "Project PHAVIAN memo", "str_pl": "copies of Project PHAVIAN memo" },
     "category": "books",

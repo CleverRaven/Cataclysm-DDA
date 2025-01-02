@@ -2,8 +2,8 @@
   {
     "id": "shapeshifter_remove_pain_spell",
     "type": "SPELL",
-    "name": "Shapeshifter reduce pain spell",
-    "description": "This reduces pain for shapeshifters as their wounds regenerate.  You should never see it.",
+    "name": { "str": "Shapeshifter reduce pain spell", "//~": "NO_I18N" },
+    "description": { "str": "This reduces pain for shapeshifters as their wounds regenerate.  You should never see it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,

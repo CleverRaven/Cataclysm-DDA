@@ -6,7 +6,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -35,18 +35,17 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "terrain": {
-        "_": "t_carpet_purple",
-        "@": "t_carpet_purple",
-        "h": "t_carpet_purple",
-        "I": "t_carpet_purple",
-        "=": "t_carpet_purple",
-        "D": "t_carpet_purple",
-        "d": "t_carpet_purple",
-        "L": "t_carpet_purple",
-        "l": "t_carpet_yellow",
-        "H": "t_carpet_yellow",
-        "s": "t_carpet_yellow",
-        "%": "t_carpet_yellow",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "@": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "I": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "D": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "d": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "L": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "%": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "z": "t_thconc_floor",
         "m": "t_thconc_floor",
         "N": "t_thconc_floor",
@@ -184,7 +183,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -218,9 +217,9 @@
         "K": "t_region_groundcover_urban",
         "!": "t_region_groundcover_urban",
         "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "=": "t_carpet_red",
-        "f": "t_carpet_red",
-        "h": "t_carpet_red",
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "?": "t_region_shrub",
         "~": "t_pavement",
         "%": "t_door_glass_c"
@@ -240,7 +239,12 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen" ],
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen",
+        "parametrized_carpets_palette"
+      ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -274,11 +278,11 @@
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
-        "[": "t_carpet_red",
-        "]": "t_carpet_yellow",
-        "=": "t_carpet_green",
-        "f": "t_carpet_green",
-        "h": "t_carpet_green",
+        "[": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "]": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "?": "t_region_shrub",
         "%": "t_door_glass_c",
         ",": "t_floor_noroof",
@@ -298,7 +302,7 @@
     "weight": 20,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -330,9 +334,9 @@
         "}": "t_region_shrub_decorative",
         "{": "t_region_tree_shade",
         "[": "t_region_soil",
-        "=": "t_carpet_yellow",
-        "f": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "?": "t_region_shrub",
         "%": "t_door_glass_c"
       },
@@ -397,7 +401,7 @@
     "weight": 100,
     "method": "json",
     "object": {
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -428,9 +432,9 @@
       "terrain": {
         "%": "t_door_glass_c",
         "Y": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        ",": "t_carpet_purple",
-        "&": "t_carpet_purple",
-        "T": "t_carpet_purple",
+        ",": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "&": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
         "=": "t_glass_railing",
         "_": "t_concrete",
         "$": "t_concrete",

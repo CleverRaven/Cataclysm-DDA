@@ -20,6 +20,7 @@
 #include "memory_fast.h"
 #include "omdata.h"
 #include "overmap_types.h"
+#include "simple_pathfinding.h"
 #include "type_id.h"
 
 class basecamp;
@@ -42,6 +43,7 @@ struct overmap_path_params {
     std::map<oter_travel_cost_type, int> travel_cost_per_type;
     bool avoid_danger = true;
     bool only_known_by_player = true;
+    bool allow_diagonal = false;
 
     void set_cost( const oter_travel_cost_type &type, int v ) {
         travel_cost_per_type.emplace( type, v );
@@ -231,6 +233,10 @@ class overmapbuffer
          * If there are any, it's not safe.
          */
         bool is_safe( const tripoint_abs_omt &p );
+        /**
+         * Check if the tripoint is part of or surrounded by a city, ignoring z-level
+         */
+        bool is_in_city( const tripoint_abs_omt &p );
 
         /**
          * Move the tracking mark of the given vehicle.
@@ -356,7 +362,7 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius );
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint_abs_omt> get_travel_path(
+        pf::simple_path<tripoint_abs_omt> get_travel_path(
             const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
@@ -377,7 +383,7 @@ class overmapbuffer
          * within the overmap (for use with overmap APIs).
          * get_existing_om_global will not create a new overmap and
          * if the requested overmap does not yet exist it returns
-         * { nullptr, tripoint_zero }.
+         * { nullptr tripoint::zero }.
          * get_om_global creates a new overmap if needed.
          */
         overmap_with_local_coords get_existing_om_global( const point_abs_omt &p );

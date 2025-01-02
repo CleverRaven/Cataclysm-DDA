@@ -18,8 +18,8 @@
 #include "calendar.h"
 #include "color.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "damage.h"
-#include "point.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
@@ -162,11 +162,12 @@ struct vpslot_toolkit {
 
 struct vpslot_terrain_transform {
     std::set<std::string> pre_flags;
-    std::string post_terrain;
-    std::string post_furniture;
-    std::string post_field;
-    int post_field_intensity = 0;
-    time_duration post_field_age = 0_turns;
+    std::optional<ter_str_id> post_terrain;
+    std::optional<furn_str_id> post_furniture;
+    std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
+    int post_field_intensity;
+    time_duration post_field_age;
 };
 
 struct vp_control_req {
@@ -464,7 +465,7 @@ class vpart_info
 };
 
 struct vehicle_item_spawn {
-    point pos;
+    point_rel_ms pos;
     int chance = 0;
     /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necessary) */
     int with_ammo = 0;
@@ -483,7 +484,7 @@ struct vehicle_item_spawn {
 struct vehicle_prototype {
     public:
         struct part_def {
-            point pos;
+            point_rel_ms pos;
             vpart_id part;
             std::string variant;
             int with_ammo = 0;
@@ -497,7 +498,7 @@ struct vehicle_prototype {
             zone_type_id zone_type;
             std::string name;
             std::string filter;
-            point pt;
+            point_rel_ms pt;
         };
 
         vproto_id id;

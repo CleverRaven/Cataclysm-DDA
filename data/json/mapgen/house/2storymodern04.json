@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "parametrized_carpets_palette" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -34,9 +34,9 @@
         "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
       ],
       "terrain": {
-        "0": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "r": "t_carpet_yellow",
+        "0": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "%": "t_thconc_floor",
         "N": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -65,7 +65,8 @@
         "standard_domestic_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_lino_kitchen",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor_waxed",
       "rows": [
@@ -100,8 +101,8 @@
         "Ὠ": "t_privacy_fence",
         "§": "t_privacy_fencegate_c",
         "Թ": "t_column",
-        "❦": "t_carpet_purple",
-        "ᨖ": "t_carpet_red",
+        "❦": { "param": "carpet_color_type", "fallback": "t_carpet_purple" },
+        "ᨖ": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "₸": "t_sidewalk",
         "K": "t_sidewalk",
         "U": "t_concrete",

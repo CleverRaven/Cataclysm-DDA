@@ -52,7 +52,7 @@
       "Gotta earn my keep.",
       "It's honest work, and now and then I get to take a zombie down."
     ],
-    "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

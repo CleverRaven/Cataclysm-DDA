@@ -176,6 +176,8 @@ enum action_id : int {
     ACTION_MEND,
     /** Open the throw menu */
     ACTION_THROW,
+    /** Throw the currently wielded item */
+    ACTION_THROW_WIELDED,
     /** Fire the wielded weapon, or open fire menu if none */
     ACTION_FIRE,
     /** Burst-fire the current weapon */
@@ -480,7 +482,7 @@ std::optional<tripoint_bub_ms> choose_adjacent_bub( const std::string &message,
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
-        const std::string &message, bool allow_vertical = false, int timeout = -1,
+        const std::string &message, bool allow_vertical = false, int timeout = 50,
         const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
@@ -509,7 +511,7 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
 std::optional<tripoint> choose_direction( const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        bool allow_vertical = false, bool allow_mouse = false, int timeout = -1,
+        bool allow_vertical = false, bool allow_mouse = false, int timeout = 50,
         const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
@@ -529,11 +531,7 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-// TODO: Get rid of untyped version and change name of typed one.
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, action_id action,
-        bool allow_vertical = false, bool allow_autoselect = true );
-std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, action_id action,
         bool allow_vertical = false, bool allow_autoselect = true );
 
@@ -554,16 +552,8 @@ std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::stri
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-// TODO: Get rid of untyped overload.
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false, bool allow_autoselect = true );
 std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
-        bool allow_vertical = false, bool allow_autoselect = true );
-// TODO: Get rid of untyped overload.
-std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
 std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
         const std::string &message,

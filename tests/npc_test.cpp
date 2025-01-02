@@ -328,7 +328,7 @@ static void check_npc_movement( const tripoint &origin )
     }
 }
 
-static npc *make_companion( const tripoint &npc_pos )
+static npc *make_companion( const tripoint_bub_ms &npc_pos )
 {
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
@@ -376,7 +376,7 @@ TEST_CASE( "npc-board-player-vehicle" )
             */
 
             int turns = 0;
-            while( turns++ < 100 && companion->pos() != data.npc_target ) {
+            while( turns++ < 100 && companion->pos_bub() != data.npc_target ) {
                 companion->set_moves( 100 );
                 /* Uncommment for extra debug info
                 tripoint npc_pos = companion->pos();
@@ -424,7 +424,7 @@ TEST_CASE( "npc-board-player-vehicle" )
                     }
                 }
             }
-            CHECK( companion->pos() == data.npc_target );
+            CHECK( companion->pos_bub() == data.npc_target );
         }
     }
 }
@@ -435,7 +435,7 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
 
-    g->place_player( tripoint( 60, 60, 0 ) );
+    g->place_player( { 60, 60, 0 } );
 
     clear_map();
 
@@ -473,8 +473,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_zero, vpart_frame );
-                veh->install_part( point_zero, vpart_seat );
+                veh->install_part( point_rel_ms::zero, vpart_frame );
+                veh->install_part( point_rel_ms::zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -482,11 +482,12 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
-                do {
-                    guy->normalize();
-                    guy->randomize();
-                    // Repeat until we get an NPC vulnerable to acid
-                } while( guy->is_immune_field( fd_acid ) );
+                guy->normalize();
+                guy->randomize();
+                guy->remove_worn_items_with( [&]( item & armor ) {
+                    return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
+                } );
+                REQUIRE( !guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( get_map().getglobal( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
@@ -541,7 +542,7 @@ TEST_CASE( "npc-movement" )
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
                 if( setup[y][x] == 'V' ) {
-                    g->place_player( player_character.pos() + point( x, y ) );
+                    g->place_player( player_character.pos_bub() + point( x, y ) );
                     break;
                 }
             }
@@ -560,8 +561,8 @@ TEST_CASE( "npc_can_target_player" )
     set_time_to_day();
 
     Character &player_character = get_player_character();
-    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point::south, "thug" );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
 
@@ -590,7 +591,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
     arm_shooter( hostile, "M24" );

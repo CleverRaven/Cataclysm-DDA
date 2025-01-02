@@ -468,7 +468,7 @@
     "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
-    "extend": { "category": [ "DRAGON_BLACK", "SPECIES_RAVENFOLK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
   },
   {
     "type": "mutation",

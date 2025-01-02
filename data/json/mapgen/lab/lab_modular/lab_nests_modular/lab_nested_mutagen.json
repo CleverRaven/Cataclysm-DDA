@@ -254,8 +254,7 @@
       },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
-        { "group": "common_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 },
-        { "item": "migo_bio_tech", "x": 3, "y": 3, "chance": 100 }
+        { "group": "common_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 }
       ]
     }
   },
@@ -439,7 +438,12 @@
       "furniture": { "!": "f_chair", "ō": "f_glass_fridge" },
       "vehicles": { "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 } },
       "monster": { "ւ": { "monster": "mon_mi_go_captured" } },
-      "item": { "ō": { "item": "migo_plate_overgrown", "chance": 100, "repeat": 2 } },
+      "item": {
+        "ō": [
+          { "item": "migo_plate_overgrown", "chance": 100, "repeat": 2 },
+          { "item": "migo_sideplate_overgrown", "chance": 100, "repeat": 2 }
+        ]
+      },
       "place_loot": [ { "item": "recipe_migo_plate", "x": [ 1, 3 ], "y": 1, "chance": 100 } ],
       "computers": {
         "θ": {

@@ -124,7 +124,7 @@
   {
     "id": "TALK_CYBORG_LEAVES",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, *beeeeep* I don't think so.  Bye.",
+    "dynamic_line": "Yeah, *beeeeep* I don't think so.  <end_talking_bye>",
     "responses": [ { "text": "Suit yourself.", "topic": "TALK_DONE" } ]
   }
 ]

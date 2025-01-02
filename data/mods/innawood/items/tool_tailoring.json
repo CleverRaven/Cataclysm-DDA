@@ -139,6 +139,7 @@
       {
         "type": "heal",
         "move_cost": 200,
+        "bleed": 1,
         "used_up_item": { "id": "fibercloth_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
       },
       "WASH_HARD_ITEMS"

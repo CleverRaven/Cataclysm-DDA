@@ -35,12 +35,13 @@
         "domestic_general_and_variant_palette",
         "standard_domestic_landscaping_palette",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_lino_kitchen"
+        "standard_domestic_lino_kitchen",
+        "parametrized_carpets_palette"
       ],
       "terrain": {
         "$": "t_screened_porch_wall",
         "=": "t_screen_door_c",
-        ";": "t_carpet_green",
+        ";": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "~": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",

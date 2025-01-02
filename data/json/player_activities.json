@@ -123,6 +123,14 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_BASH",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "bashing",
+    "can_resume": false,
+    "based_on": "neither"
+  },
+  {
     "id": "ACT_BIKERACK_RACKING",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

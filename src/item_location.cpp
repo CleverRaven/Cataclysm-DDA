@@ -90,6 +90,9 @@ class item_location::impl
         }
         virtual tripoint position() const = 0;
         virtual Character *carrier() const = 0;
+        virtual const vehicle_cursor *veh_cursor() const {
+            return nullptr;
+        };
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -141,7 +144,7 @@ class item_location::impl::nowhere : public item_location::impl
 
         tripoint position() const override {
             debugmsg( "invalid use of nowhere item_location" );
-            return tripoint_min;
+            return tripoint::min;
         }
 
         Character *carrier() const override {
@@ -263,7 +266,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos().raw() );
+            mv += 100 * rl_dist( ch.pos_bub(), cur.pos() );
 
             // TODO: handle unpacking costs
 
@@ -347,7 +350,7 @@ class item_location::impl::item_on_person : public item_location::impl
 
         tripoint position() const override {
             if( !ensure_who_unpacked() ) {
-                return tripoint_zero;
+                return tripoint::zero;
             }
             return who->pos();
         }
@@ -482,11 +485,15 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur.veh.global_part_pos3( cur.part );
+            return cur.veh.bub_part_pos( cur.part ).raw();
         }
 
         Character *carrier() const override {
             return nullptr;
+        }
+
+        const vehicle_cursor *veh_cursor() const override {
+            return &cur;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -501,7 +508,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += " " + direction_suffix( ch->pos(), part_pos.pos() );
+                res += " " + direction_suffix( ch->pos_bub().raw(), part_pos.pos_bub().raw() );
             }
             return res;
         }
@@ -527,7 +534,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub(), cur.veh.bub_part_pos( cur.part ) );
 
             // TODO: handle unpacking costs
 
@@ -812,7 +819,7 @@ void item_location::deserialize( const JsonObject &obj )
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint pos = tripoint_min;
+    tripoint_bub_ms pos = tripoint_bub_ms::invalid;
 
     obj.read( "idx", idx );
     obj.read( "pos", pos );
@@ -1000,7 +1007,7 @@ bool item_location::eventually_contains( item_location loc ) const
 
 void item_location::overflow()
 {
-    get_item()->overflow( position(), *this );
+    get_item()->overflow( pos_bub(), *this );
 }
 
 item_location::type item_location::where() const
@@ -1109,6 +1116,11 @@ Character *item_location::carrier() const
     return ptr->carrier();
 }
 
+const vehicle_cursor *item_location::veh_cursor() const
+{
+    return ptr->veh_cursor();
+}
+
 bool item_location::held_by( Character const &who ) const
 {
     return carrier() == &who;
@@ -1153,7 +1165,7 @@ std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );
 }
-std::unique_ptr<talker> get_talker_for( const item_location &it )
+std::unique_ptr<const_talker> get_const_talker_for( const item_location &it )
 {
     return std::make_unique<talker_item_const>( &it );
 }

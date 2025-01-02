@@ -67,7 +67,7 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }
       },
       {
-        "text": "I'll get you out of here, just stay calm.  Let's hit the road.",
+        "text": "I'll get you out of here, just stay calm.  <lets_go>",
         "topic": "TALK_ISHERWOOD_BARRY_Escaping",
         "condition": { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } }
       },
@@ -93,8 +93,8 @@
         "text": "Okay then, your family's outside.  Let me go get them.",
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "effect": [
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
@@ -104,8 +104,8 @@
         "condition": { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
         "effect": [
           "follow_only",
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -122,21 +122,21 @@
     "responses": [
       {
         "text": "Yeah, they did, I'll go get them.",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "Yeah, Chris did, we're taking you home.",
-        "condition": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -153,11 +153,11 @@
     "responses": [
       {
         "text": "Okay, me too, let's go.",
-        "condition": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -165,11 +165,11 @@
       },
       {
         "text": "All right, we're leaving, but you better not test me again.",
-        "condition": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ],
@@ -177,20 +177,20 @@
       },
       {
         "text": "Okay, me too.  I'll go get your family.",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "All right, we're leaving, but you better not test me again.  I'll be back with your family.",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ],
         "topic": "TALK_DONE"
@@ -207,26 +207,26 @@
         "text": "What farm?",
         "topic": "TALK_ISHERWOOD_BARRY_Escaping_What_Farm",
         "condition": { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
-        "effect": { "u_add_var": "u_dont_know_about_farm", "type": "general", "context": "knowledge", "value": "yes" }
+        "effect": { "u_add_var": "general_knowledge_u_dont_know_about_farm", "value": "yes" }
       },
       {
         "text": "That shouldn't take long, your family's outside waiting.  I'll be back with them.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "condition": { "math": [ "isherwood_family_coming == 1" ] },
         "effect": [
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ]
       },
       {
         "text": "That shouldn't take long, I brought some of your family with me.  Let's get you home.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "math": [ "isherwood_family_coming", "!=", "1" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ] },
+        "condition": { "and": [ { "math": [ "isherwood_family_coming != 1" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ] },
         "effect": [
           "follow_only",
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" }
         ]
@@ -239,12 +239,12 @@
     "dynamic_line": "\"Oh, so my family didn't send you then.\"  Barry looks downtrodden for a brief moment.  \"Look, we just need to get out of here first, I'll tell you about it later.\"",
     "responses": [
       {
-        "text": "Okay, sounds good to me.  Let's go.",
+        "text": "Okay, sounds good to me.  <lets_go>",
         "topic": "TALK_DONE",
         "effect": [
           "follow_only",
-          { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-          { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+          { "u_add_var": "general_meeting_barry_following", "value": "yes" },
+          { "math": [ "u_timer_barry_rescue = time('now')" ] },
           { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
         ]
       }
@@ -276,7 +276,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_no",
         "condition": {
           "and": [
-            { "math": [ "u_timer_barry_rescue", "<", "time('5 d')" ] },
+            { "math": [ "u_timer_barry_rescue < time('5 d')" ] },
             {
               "and": [
                 { "not": { "npc_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 } },
@@ -293,7 +293,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh1",
         "condition": {
           "and": [
-            { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] },
+            { "math": [ "u_timer_barry_rescue > time('5 d')" ] },
             {
               "and": [
                 { "not": { "npc_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 } },
@@ -346,7 +346,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_family1",
         "condition": {
           "and": [
-            { "math": [ "barry_PTSD_freakouts", ">=", "1" ] },
+            { "math": [ "barry_PTSD_freakouts >= 1" ] },
             {
               "and": [
                 { "not": { "npc_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 } },
@@ -359,7 +359,7 @@
         }
       },
       {
-        "text": "I'd better get going.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -371,7 +371,7 @@
         }
       },
       {
-        "text": "Alright, let's get going.",
+        "text": "<lets_go>",
         "topic": "TALK_DONE",
         "condition": {
           "or": [
@@ -440,7 +440,7 @@
     "dynamic_line": "*laughs.  \"It was terrible timing, but I have to admit, you don't see many situations that perfect for that reference.  Sorry I didn't get it at the time.\"",
     "responses": [
       { "text": "Can I ask you some questions?", "topic": "TALK_ISHERWOOD_BARRY_askback" },
-      { "text": "Well, I should head out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -506,7 +506,7 @@
         "text": "Thanks for taking the time to talk to me.  I had some other questions.",
         "topic": "TALK_ISHERWOOD_BARRY_askback"
       },
-      { "text": "Thanks for the story, I'm going to head out.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the story.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -519,28 +519,25 @@
         "text": "Thanks for taking the time to talk to me.  I had some other questions.",
         "topic": "TALK_ISHERWOOD_BARRY_askback"
       },
-      { "text": "Thanks for the story, I'm going to head out.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the story.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_farm",
     "dynamic_line": "Oh, yeah, now I remember.  That farm I was talking about is where I live, almost the whole Isherwood family lives there, including me.  I just wanted to get back home as fast as possible so I can see everyone again, and so everyone knows that I'm okay.",
-    "speaker_effect": {
-      "sentinel": "u_learned_about_farm",
-      "effect": [ { "u_lose_var": "u_dont_know_about_farm", "type": "general", "context": "knowledge" } ]
-    },
+    "speaker_effect": { "sentinel": "u_learned_about_farm", "effect": [ { "u_lose_var": "general_knowledge_u_dont_know_about_farm" } ] },
     "responses": [
       { "text": "Can you give me some directions to it?", "topic": "TALK_ISHERWOOD_BARRY_TOWER_farm_directions" },
       {
-        "text": "That's pretty cool.  I'd like to ask you about something else.",
+        "text": "That's pretty cool.  <done_conversation_section>",
         "topic": "TALK_ISHERWOOD_BARRY_askback",
-        "effect": { "u_add_var": "u_thinking_about_farm", "type": "general", "context": "knowledge", "value": "yes" }
+        "effect": { "u_add_var": "general_knowledge_u_thinking_about_farm", "value": "yes" }
       },
       {
-        "text": "I'm going to head out.",
+        "text": "<end_talking_leave>",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_thinking_about_farm", "type": "general", "context": "knowledge", "value": "yes" }
+        "effect": { "u_add_var": "general_knowledge_u_thinking_about_farm", "value": "yes" }
       }
     ]
   },
@@ -554,13 +551,13 @@
         "topic": "TALK_DONE",
         "effect": [
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
-          { "u_lose_var": "u_thinking_about_farm", "type": "general", "context": "knowledge" }
+          { "u_lose_var": "general_knowledge_u_thinking_about_farm" }
         ]
       },
       {
         "text": "I'd like to think about it some more.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_thinking_about_farm", "type": "general", "context": "knowledge", "value": "yes" }
+        "effect": { "u_add_var": "general_knowledge_u_thinking_about_farm", "value": "yes" }
       }
     ]
   },
@@ -583,7 +580,7 @@
     "end": {
       "effect": [
         "stop_following",
-        { "math": [ "isherwood_barry_rescued", "=", "1" ] },
+        { "math": [ "isherwood_barry_rescued = 1" ] },
         { "u_add_var": "u_saved_barry_isherwood", "value": "yes" }
       ]
     },

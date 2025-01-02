@@ -60,8 +60,7 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
-                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) {
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
         }
 
     private:
@@ -75,6 +74,8 @@ class mission_ui_impl : public cataimgui::window
         size_t window_width = str_width_to_pixels( TERMX ) / 2;
         size_t window_height = str_height_to_pixels( TERMY ) / 2;
         size_t table_column_width = window_width / 2;
+
+        cataimgui::scroll s = cataimgui::scroll::none;
 
     protected:
         void draw_controls() override;
@@ -132,13 +133,21 @@ void mission_ui_impl::draw_controls()
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
         adjust_selected = true;
         selected_mission = 0;
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
         adjust_selected = true;
         selected_mission = 0;
+        s = cataimgui::scroll::begin;
         switch_tab = selected_tab;
         --switch_tab;
+    } else if( last_action == "PAGE_UP" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        s = cataimgui::scroll::page_up;
+    } else if( last_action == "PAGE_DOWN" ) {
+        ImGui::SetWindowFocus(); // Dumb hack! Clear our focused item so listbox selection isn't nav highlighted.
+        s = cataimgui::scroll::page_down;
     }
 
     ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
@@ -220,6 +229,8 @@ void mission_ui_impl::draw_controls()
         draw_selected_description( umissions, selected_mission );
         ImGui::EndTable();
     }
+
+    cataimgui::set_scroll( s );
 }
 
 void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission,
@@ -284,10 +295,8 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
-        ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
         if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
-            // There's no point in displaying this for a completed/failed mission.
-            // @ TODO: But displaying when you completed it would be useful.
+            ImGui::TextWrapped( _( "Deadline: %s" ), to_string( deadline ).c_str() );
             const time_duration remaining = deadline - calendar::turn;
             std::string remaining_time;
             if( remaining <= 0_turns ) {
@@ -298,6 +307,24 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
                 remaining_time = to_string_approx( remaining );
             }
             ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
+        } else {
+            const time_duration time_in_past = calendar::turn - deadline;
+            std::string time_in_past_string;
+            if( get_player_character().has_watch() ) {
+                time_in_past_string = to_string( time_in_past );
+            } else {
+                time_in_past_string = to_string_approx( time_in_past );
+            }
+            if( deadline != calendar::turn_zero ) {
+                if( selected_tab == mission_ui_tab_enum::COMPLETED ) {
+                    cataimgui::draw_colored_text( string_format( _( "Completed: %s" ),
+                                                  to_string( deadline ) ), c_green );
+                } else if( selected_tab == mission_ui_tab_enum::FAILED ) {
+                    cataimgui::draw_colored_text( string_format( _( "Failed at: %s" ),
+                                                  to_string( deadline ).c_str() ), c_red );
+                }
+                cataimgui::draw_colored_text( string_format( _( "%s ago" ), time_in_past_string ), c_unset );
+            }
         }
     }
     if( miss->has_target() ) {

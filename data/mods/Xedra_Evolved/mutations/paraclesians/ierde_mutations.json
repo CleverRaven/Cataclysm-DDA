@@ -127,7 +127,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to to begin the vigil.",
+    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to begin the vigil.",
     "prereqs": [ "IERDE_EYES" ],
     "category": [ "IERDE" ],
     "activated_is_setup": false,
@@ -149,6 +149,21 @@
     "active": true,
     "activated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON" ],
     "deactivated_eocs": [ "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_CRAFT_IN_DARKNESS",
+    "name": { "str": "Sense the Smallest Tremor" },
+    "points": 3,
+    "description": "The Ierde's ability to sense small movements is heightened to such a degree that with small movements of their fingers, they can sense the exact shape and position of objects nearby.  They can craft in darkness, as long as \"The Soil Knows Those Who Tread Upon It\" is active.",
+    "prereqs": [ "IERDE_DETECT_NEARBY_MONSTERS_EARTH" ],
+    "category": [ "IERDE" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_effect": "effect_ierde_sense_nearby_monsters" },
+        "ench_effects": [ { "effect": "effect_ierde_craft_in_darkness", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -344,7 +359,7 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -376,7 +391,7 @@
       {
         "condition": {
           "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            { "math": [ "u_val('pos_z') <= -1" ] },
             {
               "and": [
                 { "u_is_on_terrain_with_flag": "DIGGABLE" },
@@ -477,6 +492,60 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_ROOTED_IN_PLACE",
+    "name": { "str": "The Root of the Mountain" },
+    "points": 8,
+    "description": "When standing on the living earth or underground, the Ierde can root themselves in place.  While doing so, they cannot move, but they are immune to being stunned, dazed, or downed, and gain additional armor.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_STR_BONUS_3", "IERDE_STR_BONUS_4" ],
+    "active": true,
+    "activated_is_setup": true,
+    "mana": true,
+    "cost": 1,
+    "time": 10,
+    "activation_msg": "You ",
+    "activated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_activated" ],
+    "deactivated_eocs": [ "EOC_IERDE_ROOTED_IN_PLACE_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_TOUGH",
+    "name": { "str": "Durability of the Earth" },
+    "points": 2,
+    "description": "The Ierde has some of the toughness of the earth.  +15% hit points.",
+    "changes_to": [ "IERDE_TOUGH2" ],
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_TOUGH2",
+    "name": { "str": "Durability of the Stone" },
+    "points": 5,
+    "description": "The Ierde has some of the toughness of the stone.  +30% hit points.",
+    "changes_to": [ "IERDE_TOUGH3" ],
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
+    "prereqs2": [ "IERDE_TOUGH" ],
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_TOUGH3",
+    "name": { "str": "Durability of the Mountain" },
+    "points": 9,
+    "description": "The Ierde has the toughness of the enduring mountains.  +45% hit points.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SKIN_3" ],
+    "prereqs2": [ "IERDE_TOUGH2" ],
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.45 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -564,23 +633,7 @@
     "prereqs": [ "IERDE_FEEL_HALF_PAIN" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
-            {
-              "and": [
-                { "u_is_on_terrain_with_flag": "DIGGABLE" },
-                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
-                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
-                { "not": { "u_is_on_terrain": "t_fungus" } },
-                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
-                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
-                { "not": { "u_is_on_terrain": "t_swater_surf" } },
-                { "not": { "u_is_on_terrain": "t_woodchips" } }
-              ]
-            }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
         "values": [ { "value": "PAIN", "multiply": -1.0 } ]
       }
     ]
@@ -648,8 +701,10 @@
     "threshreq": [ "THRESH_IERDE" ],
     "active": true,
     "activated_is_setup": true,
+    "cost": 1,
+    "time": 2,
+    "mana": true,
     "activated_eocs": [ "EOC_IERDE_STONE_FORM_ON" ],
-    "processed_eocs": [ "EOC_IERDE_STONE_FORM_PER_TURN" ],
     "deactivated_eocs": [ "EOC_IERDE_STONE_FORM_OFF" ]
   },
   {
@@ -662,5 +717,22 @@
     "enchantments": [ "ench_ierde_stone_form" ],
     "override_look": { "id": "mon_stonegolem", "tile_category": "monster" },
     "flags": [ "ACID_IMMUNE", "BIO_IMMUNE", "COLD_IMMUNE", "STAB_IMMUNE", "BULLET_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_NO_BROKEN_BONES",
+    "name": { "str": "Body of Adamant" },
+    "points": 12,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Ierde is so infused with the power of stone they are approaching invincibility.  There is a small chance that attacks against them simply rebound off their rocky skin, and their limbs are so resilient that they will never break.",
+    "prereqs": [ "IERDE_STONE_FORM" ],
+    "prereqs2": [ "IERDE_STOP_BLEEDING" ],
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "enchantments": [
+      { "values": [ { "value": "FORCEFIELD", "add": 0.15 } ] },
+      { "ench_effects": [ { "effect": "effect_ierde_limb_breaking_stopper", "intensity": 1 } ] }
+    ]
   }
 ]

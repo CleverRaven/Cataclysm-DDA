@@ -32,7 +32,6 @@
         "........................"
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_rock_wall" },
       "nested": {
         "1": {
           "chunks": [

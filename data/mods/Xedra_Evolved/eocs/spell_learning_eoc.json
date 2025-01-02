@@ -11,15 +11,29 @@
       ]
     },
     "effect": [
-      { "math": [ "debug_xe_spell_exp_diff", "=", "(spell_exp_diff(u_spell_level(_spell)))" ] },
-      { "math": [ "debug_xe_spell_train_factor", "=", "(spell_train_factor(_cost))" ] },
-      { "math": [ "debug_xe_spell_xp_give", "=", "spell_exp_diff(u_spell_level(_spell))/spell_train_factor(_cost)" ] },
+      {
+        "math": [
+          "debug_xe_spell_exp_diff = spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell))"
+        ]
+      },
+      { "math": [ "debug_xe_spell_train_factor = (spell_train_factor(_cost))" ] },
+      {
+        "math": [
+          "debug_xe_spell_xp_give = (spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell)))/spell_train_factor(_cost)"
+        ]
+      },
       { "u_message": "school: <context_val:school>", "type": "debug" },
       { "u_message": "spell: <context_val:spell>", "type": "debug" },
       { "u_message": "spell_exp_diff: <global_val:debug_xe_spell_exp_diff>", "type": "debug" },
       { "u_message": "spell_train_factor: <global_val:debug_xe_spell_train_factor>", "type": "debug" },
       { "u_message": "amount of XP added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
-      { "math": [ "u_spell_exp(_spell)", "+=", "spell_exp_diff(u_spell_level(_spell))/spell_train_factor(_cost)" ] }
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "(spell_exp_for_level(_spell, u_spell_level(_spell)+1) - spell_exp_for_level(_spell, u_spell_level(_spell)))/spell_train_factor(_cost)"
+        ]
+      }
     ]
   },
   {
@@ -33,7 +47,7 @@
       {
         "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },
         "then": [
-          { "math": [ "xe_eater_leveling", "++" ] },
+          { "math": [ "xe_eater_leveling++" ] },
           {
             "u_message": "Got a new level for eater, xe_eater_leveling: <global_val:xe_eater_leveling>",
             "type": "debug"
@@ -43,7 +57,7 @@
       {
         "if": { "and": [ { "u_has_trait": "DREAMER" }, { "compare_string": [ "DREAMER", { "context_val": "school" } ] } ] },
         "then": [
-          { "math": [ "xe_dreamer_leveling", "++" ] },
+          { "math": [ "xe_dreamer_leveling++" ] },
           {
             "u_message": "Got a new level for dreamer, xe_dreamer_leveling: <global_val:xe_dreamer_leveling>",
             "type": "debug"
@@ -55,11 +69,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_QUEUE_LEVELING",
-    "recurrence": [ "1 h", "3 h" ],
-    "condition": { "u_has_effect": "sleep" },
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" },
     "effect": [
-      { "if": { "math": [ "xe_eater_leveling", ">", "0" ] }, "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER" } ] },
-      { "if": { "math": [ "xe_dreamer_leveling", ">", "0" ] }, "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER" } ] }
+      {
+        "if": { "math": [ "xe_eater_leveling > 0" ] },
+        "then": [ { "run_eocs": "EOC_PICK_SPELL_EATER", "iterations": { "global_val": "xe_eater_leveling" } } ]
+      },
+      {
+        "if": { "math": [ "xe_dreamer_leveling > 0" ] },
+        "then": [ { "run_eocs": "EOC_PICK_SPELL_DREAMER", "iterations": { "global_val": "xe_dreamer_leveling" } } ]
+      }
     ]
   },
   {
@@ -90,13 +111,15 @@
               "spell_speed_wonder",
               "spell_weak",
               "spell_unbreakable",
-              "point_blank"
+              "point_blank",
+              "xedra_eater_stabilize_reality",
+              "xedra_eater_erosion"
             ],
             "target_var": { "var_val": "random_eater_spell" }
           }
         ]
       },
-      { "math": [ "xe_eater_leveling", "--" ] },
+      { "math": [ "xe_eater_leveling--" ] },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },
@@ -132,13 +155,15 @@
               "spell_ethereal_wings",
               "spell_karma_arms",
               "spell_stalker_eyes",
-              "spell_devil_tail"
+              "spell_devil_tail",
+              "xedra_dreamer_time_bubble",
+              "xedra_dreamer_generate_accelerated_time"
             ],
             "target_var": { "var_val": "random_dreamer_spell" }
           }
         ]
       },
-      { "math": [ "xe_dreamer_leveling", "--" ] },
+      { "math": [ "xe_dreamer_leveling--" ] },
       { "run_eocs": [ "EOC_XE_GIVE_SPELL_SELECTOR" ] }
     ]
   },
@@ -168,25 +193,25 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_1",
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)", "++" ] } ]
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_1)++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_2",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "3" ] },
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_2)", "++" ] } ]
+    "condition": { "math": [ "u_skill('deduction') >= 3" ] },
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_2)++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_3",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "6" ] },
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_3)", "++" ] } ]
+    "condition": { "math": [ "u_skill('deduction') >= 6" ] },
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_3)++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_GIVE_SPELL_4",
-    "condition": { "math": [ "u_skill('deduction')", ">=", "8" ] },
-    "effect": [ { "math": [ "u_spell_level(_xe_spell_4)", "++" ] } ]
+    "condition": { "math": [ "u_skill('deduction') >= 8" ] },
+    "effect": [ { "math": [ "u_spell_level(_xe_spell_4)++" ] } ]
   },
   {
     "type": "effect_on_condition",

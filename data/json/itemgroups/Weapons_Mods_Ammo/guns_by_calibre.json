@@ -180,7 +180,6 @@
       { "item": "px4", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "hi_power_9mm", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "walther_ppq_9mm", "prob": 4, "charges": [ 0, -1 ] },
-      { "item": "kpf9", "prob": 24, "charges": [ 0, -1 ] },
       { "item": "hptc9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "cz75", "prob": 7, "charges": [ 0, -1 ] },
       { "item": "walther_ccp", "prob": 2, "charges": [ 0, -1 ] },
@@ -488,7 +487,9 @@
       { "group": "nested_marlin_9a", "prob": 3 },
       { "group": "nested_ruger_1022", "prob": 100 },
       { "group": "nested_rossi_gallery", "prob": 11 },
-      { "group": "nested_ar15_retool_22", "prob": 2 }
+      { "group": "nested_ar15_retool_22", "prob": 2 },
+      { "group": "nested_rio_bravo", "prob": 15 },
+      { "group": "nested_henry_golden_boy", "prob": 31 }
     ]
   },
   {
@@ -540,7 +541,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_9mm",
-    "items": [ { "group": "nested_ksub2000", "prob": 100 }, { "group": "nested_cx4", "prob": 1 } ]
+    "items": [ { "group": "nested_ksub2000", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -555,8 +556,21 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common_357",
+    "items": [
+      { "group": "nested_uberti_1873", "prob": 100 },
+      { "group": "nested_rossi_r92_357_16", "prob": 18 },
+      { "group": "nested_rossi_r92_357_20", "prob": 37 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_44",
-    "items": [ { "group": "nested_henry_big_boy", "prob": 100 } ]
+    "items": [
+      { "group": "nested_henry_big_boy", "prob": 100 },
+      { "group": "nested_rossi_r92_44_16", "prob": 185 },
+      { "group": "nested_rossi_r92_44_20", "prob": 121 }
+    ]
   },
   {
     "type": "item_group",
@@ -648,7 +662,9 @@
       { "item": "ruger_1022", "prob": 100 },
       { "item": "rossi_gallery", "prob": 11 },
       { "item": "marlin_9a", "prob": 3 },
-      { "group": "ar15_22", "prob": 2 }
+      { "group": "ar15_22", "prob": 2 },
+      { "item": "rio_bravo", "prob": 15 },
+      { "item": "henry_golden_boy", "prob": 31 }
     ]
   },
   {
@@ -701,7 +717,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_9mm",
-    "items": [ { "item": "ksub2000", "prob": 100 }, { "item": "cx4", "prob": 1 } ]
+    "items": [ { "item": "ksub2000", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -716,8 +732,21 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common_display_357",
+    "items": [
+      { "item": "uberti_1873", "prob": 100 },
+      { "item": "rossi_r92_357_16", "prob": 18 },
+      { "item": "rossi_r92_357_20", "prob": 37 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_display_44",
-    "items": [ { "item": "henry_big_boy", "prob": 100 } ]
+    "items": [
+      { "item": "henry_big_boy", "prob": 100 },
+      { "item": "rossi_r92_44_16", "prob": 185 },
+      { "item": "rossi_r92_44_20", "prob": 121 }
+    ]
   },
   {
     "type": "item_group",

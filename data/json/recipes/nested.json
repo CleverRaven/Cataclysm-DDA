@@ -2503,7 +2503,8 @@
       "quiver_large_birchbark",
       "nylon_quiver",
       "pipe_quiver",
-      "pipe_quiver_large"
+      "pipe_quiver_large",
+      "quiver_simple_cloth"
     ],
     "difficulty": 3
   },
@@ -4495,9 +4496,7 @@
       "38_casing",
       "40_casing",
       "45_casing",
-      "45_casing_from_460",
       "45colt_casing",
-      "460_casing",
       "50ae_casing"
     ],
     "difficulty": 2
@@ -4674,8 +4673,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "cavalry sabres",
-    "description": "Recipes for making cavalry sabres.",
+    "name": "cavalry sabers",
+    "description": "Recipes for making cavalry sabers.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ],
     "difficulty": 7
@@ -7109,7 +7108,7 @@
     "name": "pikes",
     "description": "Recipes related to constructing pikes from various materials",
     "skill_used": "fabrication",
-    "nested_category_data": [ "pike", "pike_copper", "pike_wood" ],
+    "nested_category_data": [ "pike", "pike_bronze", "pike_copper", "pike_wood" ],
     "difficulty": 3
   },
   {

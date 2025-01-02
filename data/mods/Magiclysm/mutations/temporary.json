@@ -45,8 +45,8 @@
   {
     "type": "mutation",
     "id": "EARTHSHAPER_STONE_SLEEP",
-    "name": { "str": "Stony Sleep" },
-    "description": "You are resting in the depths of the earth.  You should never actually see this.",
+    "name": { "str": "Stony Sleep", "//~": "NO_I18N" },
+    "description": { "str": "You are resting in the depths of the earth.  You should never actually see this.", "//~": "NO_I18N" },
     "player_display": false,
     "points": 0,
     "enchantments": [
@@ -62,5 +62,33 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BESTIAL_MIND",
+    "name": { "str": "Animalistic Mind" },
+    "description": { "str": "It's hard to think.  Let the instinct take over." },
+    "points": -2,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BESTIAL_MIND_COMBAT",
+    "name": { "str": "Predator's Mind" },
+    "description": { "str": "Hunt.  Kill.  Feed." },
+    "points": 0,
+    "mixed_effect": true,
+    "enchantments": [ { "values": [ { "value": "COMBAT_CATCHUP", "multiply": 1 } ] } ],
+    "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMIST_BODY_OF_SPIRIT_APPEARANCE",
+    "name": { "str": "Body of Spirit", "//~": "NO_I18N" },
+    "description": { "str": "You're a disembodied spirit so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "mon_hologram", "tile_category": "monster" }
   }
 ]

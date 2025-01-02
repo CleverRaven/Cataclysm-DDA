@@ -8,7 +8,7 @@
       { "u_add_effect": "effect_vitakin_slow_bleeding", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_SLOW_BLEEDING_SWITCHER" ] },
       {
-        "queue_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
+        "run_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -54,13 +54,12 @@
     "id": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
     "condition": { "u_has_effect": "effect_vitakin_slow_bleeding" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('vita_slow_bleeding')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
+        "run_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -86,7 +85,7 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING" ] },
       { "u_add_effect": "effect_vita_health", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
+        "run_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -114,13 +113,12 @@
     "id": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
     "condition": { "u_has_effect": "effect_vita_health" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 1" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('vita_health_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
+        "run_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -148,7 +146,7 @@
         "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_CONCENTRATED_HEALING_SELECTOR", "EOC_VITAKIN_REMOVE_HEALTH_POWER" ]
       },
       {
-        "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
+        "run_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -163,7 +161,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+        "run_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
         "time_in_future": [
           {
             "math": [
@@ -373,13 +371,12 @@
     "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
     "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('vita_slow_bleeding')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
+        "run_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -405,7 +402,7 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_vita_cure_disease", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
+        "run_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -420,7 +417,7 @@
         ]
       },
       {
-        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
+        "run_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
         "time_in_future": [
           { "math": [ "max( ( 600 - (u_spell_level('vita_cure_disease') * 5  ) ), 1)" ] },
           { "math": [ "max( ( 3600 - (u_spell_level('vita_cure_disease') * 30) ), 1)" ] }
@@ -440,13 +437,12 @@
     "id": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
     "condition": { "u_has_effect": "effect_vita_cure_disease" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 4" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('vita_cure_disease')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
+        "run_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -472,7 +468,22 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_vita_super_heal", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
+        "run_eocs": "EOC_VITAKIN_SUPER_HEAL_RUN_HEALING",
+        "time_in_future": [
+          {
+            "math": [
+              "20 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 17) "
+            ]
+          },
+          {
+            "math": [
+              "35 - min( ( (u_spell_level('vita_super_heal') * 0.5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), 28) "
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -503,13 +514,12 @@
     "id": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
     "condition": { "u_has_effect": "effect_vita_super_heal" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "9" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(9)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 9" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('vita_super_heal')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
+        "run_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -533,10 +543,10 @@
     "effect": [
       { "u_message": "You prepare yourself to return from near-death.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
-      { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_calories()" ] },
+      { "math": [ "u_vitakin_return_from_death_kcal = u_calories()" ] },
       { "u_add_effect": "effect_vita_return_from_death", "duration": "PERMANENT" },
       {
-        "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
+        "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
         "time_in_future": [
           {
             "math": [
@@ -559,7 +569,7 @@
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      { "queue_eocs": "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH_2", "time_in_future": [ "2 seconds", "2 seconds" ] }
+      { "run_eocs": "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH_2", "time_in_future": [ "2 seconds", "2 seconds" ] }
     ]
   },
   {
@@ -573,14 +583,13 @@
     "id": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty", "=", "10" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(10)" ] },
-      { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_calories()" ] },
+      { "math": [ "u_latest_channeled_power_difficulty = 10" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_vitakin_return_from_death_kcal = u_calories()" ] },
       { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
-        "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
+        "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
         "time_in_future": [
           {
             "math": [

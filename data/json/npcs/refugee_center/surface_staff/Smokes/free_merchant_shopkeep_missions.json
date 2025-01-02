@@ -17,10 +17,11 @@
         "search_range": 1000
       }
     },
-    "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },
+    "end": { "effect": { "math": [ "free_merchants_hub_trade_route = 1" ] } },
     "goal_condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
       "offer": "…",
@@ -31,6 +32,21 @@
       "success": "Oh, good.  I'm glad you're alright; I had no idea what to make of them.  Well, one less thing to worry about.",
       "success_lie": "What good does this do us?",
       "failure": "At least you came back alive.  Don't sweat it too much - it's no skin off my back.  If they want it that bad, they can come get another copy themselves."
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "smokes_take_down_back_bay_barricade",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },
+        { "square": "furniture", "id": "f_clear", "x": 3, "y": 4, "x2": 20, "y2": 14 },
+        { "square": "furniture", "id": "f_clear", "x": 4, "y": 15, "x2": 20, "y2": 15 },
+        { "square": "furniture", "id": "f_clear", "x": 5, "y": 16, "x2": 18, "y2": 16 },
+        { "square": "item_remove", "x": 3, "y": 3, "x2": 20, "y2": 16 },
+        { "square": "item_remove", "x": 21, "y": 12, "x2": 23, "y2": 15 }
+      ]
     }
   },
   {
@@ -48,6 +64,7 @@
         "om_terrain": "evac_center_9",
         "reveal_radius": 1
       },
+      "effect": [ { "mapgen_update": "smokes_take_down_back_bay_barricade", "om_terrain": "evac_center_8" } ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
@@ -65,10 +82,11 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the Cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
+      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the Cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell… he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.  <color_red>If you accept, I'll tell the guards to immediately take down the barricade in the back.  You should only accept if you're ready to do this now.</color>",
       "accepted": "Please be careful, we don't need any more deaths.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
@@ -156,6 +174,7 @@
       "effect": [ { "u_spawn_item": "FMCNote", "count": 30 }, { "u_add_var": "mission_flag_FMShopkeep_Mission2", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
       "describe": "We need help…",
@@ -179,7 +198,7 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 200 },
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 540 },
       "update_mapgen": {
         "place_npcs": [
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
@@ -199,6 +218,7 @@
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help…",
@@ -223,6 +243,7 @@
     "item": "ground_solar_panel",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
       "effect": [ { "u_spawn_item": "FMCNote", "count": 100 }, { "u_add_var": "mission_flag_FMShopkeep_Mission4", "value": "yes" } ]
@@ -253,6 +274,7 @@
       "effect": [ { "u_spawn_item": "FMCNote", "count": 25 }, { "u_add_var": "mission_flag_FMShopkeep_Mission5", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need help…",
       "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth.  Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
@@ -320,7 +342,7 @@
         "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1++" ] },
           { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],
@@ -363,7 +385,7 @@
         "text": "He wants permission to build himself a little shelter outside of your lobby, somewhere out of the way.  He'd need access to your washrooms and things, but you could clear him out of this space.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2"
       },
-      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -375,7 +397,7 @@
         "text": "What about the rooftop?  There's a stair access there, I can see it from outside, and he'd probably be able to do a bit of a lookout job.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3"
       },
-      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {

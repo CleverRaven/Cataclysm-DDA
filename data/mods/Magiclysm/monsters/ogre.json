@@ -22,7 +22,7 @@
     "dodge": 0,
     "harvest": "ogre",
     "stomach_size": 6000,
-    "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_hulk" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
     "grab_strength": 50,
@@ -114,7 +114,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_invisibility_spell", "min_level": 10, "hit_self": true },
         "cooldown": 40,
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "150" ] }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') < 150" ] }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] }
       },
       { "id": "smash", "throw_strength": 40 },
       [ "EAT_FOOD", 120 ]

@@ -17,8 +17,8 @@
                 { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
               ]
             },
-            "effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_homullus_is_in_civilization = 1" ] } ],
+            "false_effect": [ { "math": [ "u_homullus_is_in_civilization = 0" ] } ]
           }
         ]
       }
@@ -47,7 +47,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
-    "condition": { "math": [ "u_homullus_is_in_civilization", "==", "1" ] },
+    "condition": { "math": [ "u_homullus_is_in_civilization == 1" ] },
     "effect": [  ]
   },
   {
@@ -127,7 +127,7 @@
       "and": [
         { "u_has_trait": "HOMULLUS_DREAMWALKER" },
         { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
-        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any')", ">", "0" ] }
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any') > 0" ] }
       ]
     },
     "effect": [
@@ -150,6 +150,7 @@
     "id": "EOC_HOMULLUS_GAIN_BIONIC_POWER_IN_CITIES",
     "recurrence": "30 seconds",
     "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } },
     "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
   },
   {
@@ -191,7 +192,7 @@
     "recurrence": "10 m",
     "condition": { "u_has_trait": "HOMULLUS_NO_DOLL_MUTATIONS" },
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS_NO_DOLL_MUTATIONS" } },
-    "effect": [ { "math": [ "u_vitamin('mutagen_dollkin')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_vitamin('mutagen_dollkin') = 0" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -211,7 +212,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER",
-    "condition": { "math": [ "u_doll_form_movement", ">", "0" ] },
+    "condition": { "math": [ "u_doll_form_movement > 0" ] },
     "effect": [ { "math": [ "u_doll_form_movement", "-=", "rand(3) + 1" ] } ]
   },
   {
@@ -219,12 +220,13 @@
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER",
     "recurrence": "1 s",
     "condition": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } },
     "effect": [
       {
         "run_eocs": {
           "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER_2",
           "condition": {
-            "and": [ { "math": [ "u_doll_form_movement", "==", "0" ] }, { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
+            "and": [ { "math": [ "u_doll_form_movement == 0" ] }, { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
           },
           "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
         }
@@ -242,15 +244,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_RESETTER",
-    "condition": { "math": [ "u_monsters_nearby('radius': 45, 'attitude': 'both')", "==", "0" ] },
-    "effect": [ { "math": [ "u_doll_form_movement", "=", "0" ] }, { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
+    "condition": { "math": [ "u_monsters_nearby('radius': 45, 'attitude': 'both') == 0" ] },
+    "effect": [ { "math": [ "u_doll_form_movement = 0" ] }, { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_INCREASING",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" }, { "math": [ "u_doll_form_movement", "<=", "1000" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" }, { "math": [ "u_doll_form_movement <= 1000" ] } ] },
     "effect": [ { "math": [ "u_doll_form_movement", "+=", "rand(10) + 2" ] } ]
   },
   {
@@ -261,7 +263,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
-        { "math": [ "u_doll_form_movement", ">", "0" ] },
+        { "math": [ "u_doll_form_movement > 0" ] },
         { "x_in_y_chance": { "x": { "math": [ "u_doll_form_movement" ] }, "y": 1000 } }
       ]
     },
@@ -318,7 +320,7 @@
     "effect": [
       { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
       { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
-      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": [ 180, 360 ] }
+      { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": [ 180, 360 ] }
     ]
   },
   {
@@ -348,7 +350,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
-            { "math": [ "u_characters_nearby('radius': 50, 'attitude': 'any')", ">=", "15" ] }
+            { "math": [ "u_characters_nearby('radius': 50, 'attitude': 'any') >= 15" ] }
           ]
         }
       ]

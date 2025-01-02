@@ -47,7 +47,7 @@
   },
   {
     "id": "pistol_pcc",
-    "copy-from": "cx4",
+    "copy-from": "m1carbine",
     "type": "GUN",
     "name": "survivalist carbine",
     "ammo": [ "ammo_pistol" ],

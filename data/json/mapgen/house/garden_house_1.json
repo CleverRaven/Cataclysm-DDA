@@ -31,22 +31,21 @@
         ".!.......9..9..9......!.",
         ".!!!!!!!!!!!!!!!!!!!!!!."
       ],
-      "palettes": [ "house_w_foundation_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "house_w_foundation_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         "[": "t_region_groundcover_urban",
         "]": "t_region_groundcover_urban",
-        "#": "t_brick_wall",
         "!": "t_fence",
         "@": "t_fencegate_c",
-        "1": "t_linoleum_white",
-        "2": "t_linoleum_white",
-        "3": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "6": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "8": "t_linoleum_white",
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "2": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "3": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "4": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "5": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "9": [
           [ "t_region_groundcover_urban", 60 ],
           "t_region_tree_shade",
@@ -54,12 +53,12 @@
           [ "t_region_tree_nut", 2 ]
         ],
         "0": "t_water_pool_shallow_outdoors",
-        "c": "t_linoleum_white",
-        "i": "t_linoleum_white",
-        "j": "t_linoleum_white",
-        "l": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "Y": "t_linoleum_white"
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "j": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Y": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "furniture": {
         "c": "f_cupboard",
@@ -163,13 +162,12 @@
         "------------------------",
         "------------------------"
       ],
-      "palettes": [ "house_w_foundation_palette" ],
+      "palettes": [ "house_w_foundation_palette", "parametrized_carpets_palette" ],
       "terrain": {
-        "_": "t_carpet_red",
-        "#": "t_brick_wall",
-        "H": "t_carpet_red",
+        "_": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "s": "t_screened_porch_wall",
-        "R": "t_carpet_red",
+        "R": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
         "u": "t_door_glass_c"
       },
       "furniture": { "8": "f_counter" },

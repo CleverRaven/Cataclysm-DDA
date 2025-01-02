@@ -15,7 +15,7 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus')", "==", "1" ] },
+            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 1" ] },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
@@ -27,14 +27,14 @@
               { "u_lose_trait": "VAMPIRIC_RESILIENCE" },
               { "u_lose_trait": "VAMPIRE_HEIGHTENED_SENSES" },
               { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
-              { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell')", "=", "-1" ] },
-              { "math": [ "u_spell_level('vampire_stamina_for_blood_spell')", "=", "-1" ] },
+              { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell') = -1" ] },
+              { "math": [ "u_spell_level('vampire_stamina_for_blood_spell') = -1" ] },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus')", "==", "2" ] },
+            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 2" ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE2" },
@@ -45,8 +45,8 @@
               { "u_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
               { "u_lose_trait": "VAMPIRE_BEAST_CLAWS" },
               { "u_lose_trait": "VAMPIRE_SEE_HEAT" },
-              { "math": [ "u_spell_level('spell_blood_heal')", "=", "-1" ] },
-              { "math": [ "u_spell_level('vampire_fear_gaze_spell')", "=", "-1" ] },
+              { "math": [ "u_spell_level('spell_blood_heal') = -1" ] },
+              { "math": [ "u_spell_level('vampire_fear_gaze_spell') = -1" ] },
               {
                 "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
                 "type": "good"
@@ -55,7 +55,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus')", "==", "3" ] },
+            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 3" ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
@@ -65,9 +65,9 @@
               { "u_lose_trait": "MAGICFORBLOOD" },
               { "u_lose_trait": "VAMPIRE_COMMAND_BEAST" },
               { "u_lose_trait": "VAMPIRE_EARTH_SLUMBER" },
-              { "math": [ "u_spell_level('vampire_magic_for_blood_spell')", "=", "-1" ] },
-              { "math": [ "u_spell_level('spell_hypnotic_gaze')", "=", "-1" ] },
-              { "math": [ "u_spell_level('vampire_command_beast_spell')", "=", "-1" ] },
+              { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
+              { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
+              { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
               {
                 "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
                 "type": "good"
@@ -79,7 +79,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
-                { "math": [ "u_effect_intensity('vampire_virus_ascendant')", "==", "1" ] }
+                { "math": [ "u_effect_intensity('vampire_virus_ascendant') == 1" ] }
               ]
             },
             "effect": [
@@ -95,7 +95,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
-                { "math": [ "u_effect_intensity('vampire_virus_post_mortal')", "==", "1" ] }
+                { "math": [ "u_effect_intensity('vampire_virus_post_mortal') == 1" ] }
               ]
             },
             "effect": [
@@ -150,13 +150,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
-    "condition": { "math": [ "vampire_total_tier_one_traits()", ">=", "4" ] },
+    "condition": { "math": [ "vampire_total_tier_one_traits() >= 4" ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
-    "condition": { "math": [ "vampire_total_tier_two_traits()", ">=", "4" ] },
+    "condition": { "math": [ "vampire_total_tier_two_traits() >= 4" ] },
     "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {
@@ -178,15 +178,12 @@
         {
           "id": "EOC_VAMPVIRUS",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "math": [ "u_effect_intensity('vampire_virus')", "==", "1" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 1 }, { "math": [ "u_effect_intensity('vampire_virus') == 1" ] } ]
           },
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_1_math_checker",
-              "condition": { "math": [ "vampire_total_tier_one_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_one_traits() < 4" ] },
               "effect": {
                 "run_eocs": [
                   {
@@ -208,7 +205,7 @@
                         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]
                       },
-                      { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
+                      { "run_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
                     ],
                     "false_effect": [
                       { "u_add_trait": "VAMPIRE" },
@@ -225,15 +222,12 @@
         {
           "id": "EOC_VAMPVIRUS1",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 2 },
-              { "math": [ "u_effect_intensity('vampire_virus')", "==", "2" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 2 }, { "math": [ "u_effect_intensity('vampire_virus') == 2" ] } ]
           },
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_2_math_checker",
-              "condition": { "math": [ "vampire_total_tier_two_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_two_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_2_trait",
@@ -253,7 +247,7 @@
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS2" ]
                     },
-                    { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "15 days", "8 hours" ] }
+                    { "run_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "15 days", "8 hours" ] }
                   ],
                   "false_effect": [
                     { "u_add_trait": "VAMPIRE2" },
@@ -269,15 +263,12 @@
         {
           "id": "EOC_VAMPVIRUS2",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 3 },
-              { "math": [ "u_effect_intensity('vampire_virus')", "==", "3" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 3 }, { "math": [ "u_effect_intensity('vampire_virus') == 3" ] } ]
           },
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_3_math_checker",
-              "condition": { "math": [ "vampire_total_tier_three_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_three_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_3_trait",
@@ -308,7 +299,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_4_math_checker",
-              "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_four_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_4_trait",
@@ -342,7 +333,7 @@
           "effect": {
             "run_eocs": {
               "id": "eoc_vampvirus_5_math_checker",
-              "condition": { "math": [ "vampire_total_tier_five_traits()", "<", "4" ] },
+              "condition": { "math": [ "vampire_total_tier_five_traits() < 4" ] },
               "effect": {
                 "run_eocs": {
                   "id": "eoc_vampvirus_5_trait",
@@ -376,16 +367,13 @@
     "id": "EOC_vampire_virus_blood_needs",
     "//": "This EOC works on telling the vampire whether they need to consume blood or not.",
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
-    "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-450" ] }, { "u_has_effect": "vampire_virus" } ] },
+    "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin') <= -450" ] }, { "u_has_effect": "vampire_virus" } ] },
     "effect": {
       "run_eocs": [
         {
           "id": "EOC_VAMPVIRUS_HUNGER",
           "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "math": [ "u_effect_intensity('vampire_virus')", ">=", "1" ] }
-            ]
+            "and": [ { "u_has_effect": "vampire_virus", "intensity": 1 }, { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] } ]
           },
           "effect": {
             "run_eocs": {

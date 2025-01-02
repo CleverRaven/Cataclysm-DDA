@@ -29,6 +29,25 @@
     }
   },
   {
+    "id": "large_bird_flightless",
+    "//": "a large non-mutant flightless bird: more fat, feathers & bone, since weight matters less for them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.02 },
+      { "drop": "lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "heart", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
     "id": "bulette",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
@@ -44,6 +63,19 @@
     "id": "demon_spider",
     "//": "Maybe demon blood in future.  But for now, tainted will do.",
     "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
+      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
+    ]
+  },
+  {
+    "id": "demon_spider_queen",
+    "type": "harvest",
+    "//": "separate harvest entry for future special alchemical items",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
@@ -213,6 +245,25 @@
     ]
   },
   {
+    "id": "zombie_lizardfolk",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "zombie_ravenfolk",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "//": "removes 66% of their featers due to most being unusable due to being from an undead corpse.",
+    "delete": { "entries": [ { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "feather", "type": "skin", "mass_ratio": 0.007 },
+        { "drop": "down_feather", "type": "skin", "mass_ratio": 0.003 }
+      ]
+    }
+  },
+  {
     "id": "ogre",
     "type": "harvest",
     "copy-from": "demihuman_large_fur",
@@ -249,6 +300,20 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.07 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.005 },
       { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
+    ]
+  },
+  {
+    "id": "large_bird_flightless_zombie",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.02 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.03 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.013 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
     ]
   },
   {

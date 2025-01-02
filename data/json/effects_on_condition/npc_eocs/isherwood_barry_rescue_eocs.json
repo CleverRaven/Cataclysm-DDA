@@ -5,13 +5,13 @@
     "effect": [
       { "u_location_variable": { "u_val": "mission_return_position" } },
       {
-        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "if": { "math": [ "isherwood_family_coming == 1" ] },
         "then": [
           { "run_eocs": [ "isherwood_mission_family_included_eoc", "isherwood_mission_set_teleport_position" ] },
-          { "math": [ "currently_invading_map", "=", "1" ] }
+          { "math": [ "currently_invading_map = 1" ] }
         ],
         "else": {
-          "if": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+          "if": { "math": [ "isherwood_family_coming != 1" ] },
           "then": [
             {
               "u_location_variable": { "global_val": "invasion_map" },
@@ -20,12 +20,12 @@
             { "u_teleport": { "global_val": "invasion_map" }, "force": true },
             { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
             { "u_teleport": { "u_val": "mission_return_position" }, "force": true },
-            { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+            { "math": [ "is_isherwood_flee_eoc_activated = 0" ] }
           ]
         }
       },
       {
-        "if": { "math": [ "isherwood_luke_truck_coming", "==", "1" ] },
+        "if": { "math": [ "isherwood_luke_truck_coming == 1" ] },
         "then": {
           "mapgen_update": "truck_bomb_spawn",
           "om_terrain": "barry_mi-go_scout_tower_1",
@@ -39,14 +39,14 @@
     "id": "isherwood_mission_chris_spawn_eoc",
     "effect": [
       {
-        "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
+        "if": { "math": [ "isherwood_gear_status == 1" ] },
         "then": {
           "mapgen_update": "nest_Isherwood_chris_swat_add",
           "om_terrain": "isherwood_barry_rescue_field",
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
-          "if": { "math": [ "isherwood_gear_status", "!=", "1" ] },
+          "if": { "math": [ "isherwood_gear_status != 1" ] },
           "then": {
             "mapgen_update": "nest_Isherwood_chris_add",
             "om_terrain": "isherwood_barry_rescue_field",
@@ -61,14 +61,14 @@
     "id": "isherwood_mission_lisa_spawn_eoc",
     "effect": [
       {
-        "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "==", "1" ] } ] },
+        "if": { "and": [ { "math": [ "isherwood_lisa_coming == 1" ] }, { "math": [ "isherwood_gear_status == 1" ] } ] },
         "then": {
           "mapgen_update": "nest_Isherwood_lisa_swat_add",
           "om_terrain": "isherwood_barry_rescue_field",
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
-          "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "!=", "1" ] } ] },
+          "if": { "and": [ { "math": [ "isherwood_lisa_coming == 1" ] }, { "math": [ "isherwood_gear_status != 1" ] } ] },
           "then": {
             "mapgen_update": "nest_Isherwood_lisa_add",
             "om_terrain": "isherwood_barry_rescue_field",
@@ -88,7 +88,7 @@
       },
       { "u_teleport": { "global_val": "invasion_map" }, "force": true },
       {
-        "if": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "if": { "math": [ "isherwood_gear_status < 1" ] },
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_line_add",
@@ -97,7 +97,7 @@
           }
         ],
         "else": {
-          "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
+          "if": { "math": [ "isherwood_gear_status == 1" ] },
           "then": [
             {
               "mapgen_update": "nest_Isherwood_firing_line_swat_add",
@@ -108,7 +108,7 @@
         }
       },
       {
-        "if": { "math": [ "isherwood_wall_status", "==", "1" ] },
+        "if": { "math": [ "isherwood_wall_status == 1" ] },
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_wall_add",
@@ -131,12 +131,12 @@
   {
     "type": "effect_on_condition",
     "id": "isherwood_mission_wall_finished",
-    "effect": [ { "math": [ "isherwood_wall_status", "=", "1" ] } ]
+    "effect": [ { "math": [ "isherwood_wall_status = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "isherwood_mission_lisa_coming",
-    "effect": [ { "math": [ "isherwood_lisa_coming", "=", "1" ] } ]
+    "effect": [ { "math": [ "isherwood_lisa_coming = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -146,20 +146,20 @@
     "required_event": "avatar_enters_omt",
     "condition": {
       "and": [
-        { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
-        { "math": [ "isherwood_family_coming", "!=", "1" ] },
+        { "math": [ "isherwood_barry_rescued != 1" ] },
+        { "math": [ "isherwood_family_coming != 1" ] },
         { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] },
         { "u_near_om_location": "horse_farm_isherwood_13", "range": 30 }
       ]
     },
-    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued == 1" ] },
     "effect": [
       {
         "u_message": "Barry raises a hand to signal you to stop.  \"This is it.  Thank you so much.  I can't believe I'm here, alive.  It almost feels like I'm dreaming, like it can't be real.\"  He stares at you, his eyes glistening.  \"Whoever you are, thank you.  I'm going to head the rest of the way now and catch up to my family.  Come by and talk to me later when I've had a moment to rest.\"",
         "type": "good",
         "popup": true
       },
-      { "u_lose_var": "u_dont_know_about_farm", "type": "general", "context": "knowledge" },
+      { "u_lose_var": "general_knowledge_u_dont_know_about_farm" },
       {
         "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "then": [
@@ -223,15 +223,15 @@
         ],
         "unique_ids": [ "BARRY_MISSION" ]
       },
-      { "math": [ "barry_travelling_home", "=", "1" ] }
+      { "math": [ "barry_travelling_home = 1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BARRY_CHECK_IF_HOME",
     "recurrence": 100,
-    "condition": { "math": [ "barry_travelling_home", "==", "1" ] },
-    "deactivate_condition": { "math": [ "barry_travelling_home", "==", "2" ] },
+    "condition": { "math": [ "barry_travelling_home == 1" ] },
+    "deactivate_condition": { "math": [ "barry_travelling_home == 2" ] },
     "effect": [
       {
         "u_run_npc_eocs": [
@@ -249,7 +249,7 @@
               },
               { "u_teleport": { "global_val": "barry_return_home_map" }, "force": true },
               {
-                "queue_eocs": { "id": "EOC_BARRY_CHECK_IF_HOME_DEACTIVATE", "effect": { "math": [ "barry_travelling_home", "=", "2" ] } },
+                "run_eocs": { "id": "EOC_BARRY_CHECK_IF_HOME_DEACTIVATE", "effect": { "math": [ "barry_travelling_home = 2" ] } },
                 "time_in_future": 25
               },
               { "u_spawn_item": "NC_Isherwood_Barry_equip", "use_item_group": true, "force_equip": true },
@@ -265,20 +265,17 @@
     "type": "effect_on_condition",
     "id": "isherwood_mission_large_damage_retreat",
     "recurrence": 1,
-    "condition": { "math": [ "currently_invading_map", "==", "1" ] },
-    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+    "condition": { "math": [ "currently_invading_map == 1" ] },
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued == 1" ] },
     "effect": [
       {
-        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "if": { "math": [ "isherwood_family_coming == 1" ] },
         "then": {
           "u_run_npc_eocs": [
             {
               "id": "EOC_ISHERWOODS_TOO_MUCH_DAMAGE_FLEE",
               "condition": {
-                "or": [
-                  { "math": [ "u_hp('ALL')", "<=", "(u_hp_max('bp_null') * 0.7)" ] },
-                  { "math": [ "u_effect_intensity('bleed')", ">=", "3" ] }
-                ]
+                "or": [ { "math": [ "u_hp('ALL') <= (u_hp_max('bp_null') * 0.7)" ] }, { "math": [ "u_effect_intensity('bleed') >= 3" ] } ]
               },
               "effect": [
                 { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
@@ -287,8 +284,8 @@
                   "om_terrain": "isherwood_barry_rescue_field",
                   "om_special": "Barry's Mi-Go Scout Tower"
                 },
-                { "math": [ "currently_invading_map", "=", "0" ] },
-                { "queue_eocs": "isherwood_mission_damage_flee_message", "time_in_future": 1 }
+                { "math": [ "currently_invading_map = 0" ] },
+                { "run_eocs": "isherwood_mission_damage_flee_message", "time_in_future": 1 }
               ]
             }
           ],
@@ -303,7 +300,7 @@
     "global": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued == 1" ] },
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
@@ -316,7 +313,7 @@
             { "not": { "u_near_om_location": "barry_mi-go_scout_tower_4", "range": 2 } }
           ]
         },
-        { "math": [ "currently_invading_map", "==", "1" ] }
+        { "math": [ "currently_invading_map == 1" ] }
       ]
     },
     "effect": [
@@ -341,8 +338,8 @@
         ],
         "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
       },
-      { "math": [ "currently_invading_map", "=", "0" ] },
-      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] },
+      { "math": [ "currently_invading_map = 0" ] },
+      { "math": [ "is_isherwood_flee_eoc_activated = 0" ] },
       {
         "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
         "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
@@ -380,7 +377,7 @@
         "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
       },
       {
-        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "if": { "math": [ "isherwood_family_coming == 1" ] },
         "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" }
       },
       {
@@ -388,8 +385,8 @@
         "om_terrain": "barry_mi-go_scout_tower_1",
         "om_special": "Barry's Mi-Go Scout Tower"
       },
-      { "math": [ "currently_invading_map", "=", "0" ] },
-      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+      { "math": [ "currently_invading_map = 0" ] },
+      { "math": [ "is_isherwood_flee_eoc_activated = 0" ] }
     ]
   },
   {
@@ -419,33 +416,33 @@
     "global": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued == 1" ] },
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-        { "math": [ "isherwood_family_coming", "==", "0" ] },
+        { "math": [ "isherwood_family_coming == 0" ] },
         { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 },
-        { "math": [ "is_isherwood_flee_eoc_activated", "==", "0" ] }
+        { "math": [ "is_isherwood_flee_eoc_activated == 0" ] }
       ]
     },
-    "effect": [ { "math": [ "currently_invading_map", "=", "1" ] }, { "math": [ "is_isherwood_flee_eoc_activated", "=", "1" ] } ]
+    "effect": [ { "math": [ "currently_invading_map = 1" ] }, { "math": [ "is_isherwood_flee_eoc_activated = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LUKE_RETRIEVE_TRUCK_END",
     "condition": { "not": { "u_near_om_location": "trailhead_shack_z0", "range": 2 } },
-    "deactivate_condition": { "math": [ "isherwood_luke_truck_status", ">", "1" ] },
+    "deactivate_condition": { "math": [ "isherwood_luke_truck_status > 1" ] },
     "effect": [
       { "mapgen_update": "LUKE_REMOVE_TRUCK", "om_terrain": "trailhead_shack_z0" },
-      { "math": [ "isherwood_luke_truck_status", "++" ] }
+      { "math": [ "isherwood_luke_truck_status++" ] }
     ],
-    "false_effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
+    "false_effect": [ { "run_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BARRY_ISHERWOOD_DIE",
     "eoc_type": "NPC_DEATH",
-    "effect": [ { "queue_eocs": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT", "time_in_future": 1 } ]
+    "effect": [ { "run_eocs": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT", "time_in_future": 1 } ]
   },
   {
     "type": "effect_on_condition",
@@ -455,7 +452,7 @@
       { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": false },
       { "set_string_var": "true", "target_var": { "global_val": "is_barry_dead" } },
       {
-        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "if": { "math": [ "isherwood_family_coming == 1" ] },
         "then": [
           { "set_string_var": "blames_themselves", "target_var": { "global_val": "isherwood_barry_death_opinion" } },
           { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
@@ -475,7 +472,8 @@
   },
   {
     "type": "effect_on_condition",
-    "eoc_type": "OM_MOVE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
     "id": "EOC_HAVE_U_BEEN_TO_MIGOS",
     "condition": {
       "or": [

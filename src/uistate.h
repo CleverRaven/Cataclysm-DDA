@@ -10,6 +10,7 @@
 
 #include "enums.h"
 #include "flat_set.h"
+#include "item_location.h"
 #include "json.h"
 #include "omdata.h"
 #include "type_id.h"
@@ -159,6 +160,7 @@ class uistatedata
         bool distraction_mutation = true;
         bool distraction_oxygen = true;
         bool distraction_withdrawal = true;
+        bool distraction_all = true; // NOLINT(cata-serialize)
         bool numpad_navigation = false;
 
         // V Menu Stuff

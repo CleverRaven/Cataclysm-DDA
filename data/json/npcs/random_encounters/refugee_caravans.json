@@ -86,7 +86,7 @@
     "dynamic_line": "We're just trying to find a safe place right now.  I think there's a FEMA camp nearby that should have room for us.",
     "responses": [
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
-      { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Good luck with that.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -114,7 +114,7 @@
         "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
         "effect": [
           { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+          { "math": [ "exodii_mission_wh_chance = max( exodii_mission_wh_chance, 1 )" ] }
         ]
       }
     ]
@@ -138,7 +138,7 @@
           ]
         }
       },
-      { "text": "Thanks for the story.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the story.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -157,7 +157,7 @@
           ]
         }
       },
-      { "text": "Thanks for the information.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the information.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,7 +194,7 @@
         "text": "Can you give me directions to where you're going too?  I love cartography.",
         "topic": "TALK_CARAVAN_REFUGEE_A_FEMA"
       },
-      { "text": "Thanks for the information.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the information.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -247,7 +247,7 @@
           ]
         }
       },
-      { "text": "Not interested.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Not interested.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -271,7 +271,7 @@
           ]
         }
       },
-      { "text": "Yeah, I guess it's hard all over.  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Yeah, I guess it's hard all over.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -305,8 +305,8 @@
     "dynamic_line": "Sure, I can mark it on your map if you like.  Here.",
     "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
     "responses": [
-      { "text": "Thanks for the tip!  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the tip!  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Thanks for the tip!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -308,7 +308,7 @@
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_COMPACT" ],
     "material": [ "lc_steel", "plastic" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "mka_1919_10",

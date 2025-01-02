@@ -42,7 +42,7 @@
         "3": "t_tree_young",
         "4": "t_chaingate_l",
         "5": "t_wall_wood",
-        "6": "t_chainfence_h",
+        "6": "t_chainfence",
         "7": "t_door_metal_locked",
         "8": "t_gates_mech_control",
         "E": "t_dirtfloor",

@@ -1,45 +1,45 @@
 [
   {
+    "id": "mon_feral_wizard_default",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "//": "interstitial copy-from to edit flags and special attacks appropriately",
+    "special_attacks": [ [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "PRIORITIZE_TARGETS",
+      "EATS"
+    ]
+  },
+  {
     "id": "mon_feral_human_magician",
     "type": "MONSTER",
     "name": { "str": "feral wizard" },
+    "copy-from": "mon_feral_wizard_default",
     "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occasional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "type": "spell",
-        "spell_data": { "id": "spell_feral_wizard_base" },
-        "monster_message": "%1$s chants and gestures erratically!",
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "cooldown": 10
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "spell",
+          "spell_data": { "id": "spell_feral_wizard_base" },
+          "monster_message": "%1$s chants and gestures erratically!",
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "cooldown": 10
+        }
+      ]
+    },
     "death_drops": {
       "subtype": "distribution",
       "items": [
@@ -47,299 +47,210 @@
         { "group": "feral_humans_death_drops_pipe", "prob": 100 },
         { "group": "enchanted_wands_lesser", "prob": 3 }
       ]
-    },
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
+    }
   },
   {
     "id": "mon_feral_lab_magician",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral thaumaturgical researcher" },
     "description": "A researcher with the look of the stereotypical academic mage, their lab coat bearing an arcane sigil on the breast pocket.  The bloodshot eyes and constant muttering, accompanied by the occasional gesture that releases a burst of sparks, tell you that research is currently far from their minds.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "cyan",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_thaum_sci_spell_magicmissile",
-        "cooldown": 10,
-        "move_cost": 100,
-        "range": 12,
-        "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
-        "dodgeable": false,
-        "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
-        "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
-        "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
-        "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
-        "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
-      },
-      {
-        "id": "feral_thaum_sci_spell_blindflash",
-        "type": "spell",
-        "spell_data": { "id": "blinding_flash", "min_level": 0 },
-        "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s gestures and light explodes everywhere!"
-      },
-      {
-        "id": "smash",
-        "move_cost": 80,
-        "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 15, "armor_penetration": 10 } ],
-        "hitsize_min": 12,
-        "range": 8,
-        "throw_strength": 40,
-        "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "hit_dmg_u": "%1$s gestures at you and a powerful force hurls you through the air!",
-        "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
-        "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
-        "miss_msg_npc": "%s gestures at <npcname> but nothing happens!"
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
-    "//": "No automatic zombie upgrade because XE037 in Magiclysm doesn't work quite the same way as in vanilla, and also to continue to provide more difficult caster enemies throughout the entire gameplay period.",
-    "death_drops": "mon_zombie_research_thaumaturge_death_drops",
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_thaum_sci_spell_magicmissile",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_thaum_sci_spell_blindflash",
+          "type": "spell",
+          "spell_data": { "id": "blinding_flash", "min_level": 0 },
+          "cooldown": 15,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s gestures and light explodes everywhere!"
+        },
+        {
+          "id": "smash",
+          "move_cost": 80,
+          "cooldown": 10,
+          "accuracy": 5,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 15, "armor_penetration": 10 } ],
+          "hitsize_min": 12,
+          "range": 8,
+          "throw_strength": 40,
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "hit_dmg_u": "%1$s gestures at you and a powerful force hurls you through the air!",
+          "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
+          "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+          "miss_msg_npc": "%s gestures at <npcname> but nothing happens!"
+        }
+      ]
+    },
+    "death_drops": "mon_zombie_research_thaumaturge_death_drops"
   },
   {
     "id": "mon_feral_radiation_mage",
     "type": "MONSTER",
     "name": { "str": "feral radiation mage" },
-    "description": "A research thaumaturge with the international radiation danger symbol in front of a pentagram on their lab coat.  If you had a geiger counter active, it would probably be going crazy right now.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
-    "speed": 100,
-    "material": [ "flesh" ],
+    "copy-from": "mon_feral_wizard_default",
+    "description": "A research thaumaturge with the international radiation danger symbol in front of a pentagram on their lab coat.  If you had a Geiger counter active, it would probably be going crazy right now.",
     "symbol": "@",
     "color": "cyan",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "emit_fields": [ { "emit_id": "emit_rad_leak", "delay": "5 s" } ],
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "id": "feral_rad_mage_wall_of_fog",
-        "type": "spell",
-        "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 3 },
-        "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s gestures and a sudden force slams you to the ground!"
-      },
-      {
-        "id": "feral_rad_mage_rad_attack",
-        "type": "spell",
-        "spell_data": { "id": "feral_rad_mage_rad_spell", "min_level": 5 },
-        "cooldown": 25,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s makes arcane motions and the air is filled with burning gas!"
-      },
-      {
-        "id": "feral_thaum_sci_spell_mirrorimage",
-        "type": "spell",
-        "spell_data": { "id": "mirror_image_rad_mage", "min_level": 0 },
-        "cooldown": 15,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s smiles and duplicates appear!"
-      },
-      {
-        "id": "feral_thaum_sci_spell_summon_zombie",
-        "type": "spell",
-        "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
-        "cooldown": 30,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
-      },
-      {
-        "id": "feral_thaum_sci_spell_disjunction",
-        "type": "spell",
-        "spell_data": { "id": "disjunction_monster", "min_level": 8 },
-        "cooldown": 50,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s waves their hands in a gesture of negation!"
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_rad_mage__magic_fissile",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "necrotic", "amount": 10 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "eoc": [ "EOC_FERAL_RADIATION_MAGE_MAGIC_FISSILE_IRRADIATES_YOU" ],
+          "hit_dmg_u": "%1$s screams words of magic and a sickly-glowing eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and a sickly-glowing eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid a sickly-glowing eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids a sickly-glowing eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by a sickly-glowing eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by a sickly-glowing eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_rad_mage_wall_of_fog",
+          "type": "spell",
+          "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 3 },
+          "cooldown": 15,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s gestures and a sudden force slams you to the ground!"
+        },
+        {
+          "id": "feral_rad_mage_rad_attack",
+          "type": "spell",
+          "spell_data": { "id": "feral_rad_mage_rad_spell", "min_level": 5 },
+          "cooldown": 25,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s makes arcane motions and the air is filled with burning gas!"
+        },
+        {
+          "id": "feral_thaum_sci_spell_mirrorimage",
+          "type": "spell",
+          "spell_data": { "id": "mirror_image_rad_mage", "min_level": 0 },
+          "cooldown": 15,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s smiles and duplicates appear!"
+        },
+        {
+          "id": "feral_thaum_sci_spell_summon_zombie",
+          "type": "spell",
+          "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
+          "cooldown": 30,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
+        },
+        {
+          "id": "feral_thaum_sci_spell_disjunction",
+          "type": "spell",
+          "spell_data": { "id": "disjunction_monster", "min_level": 8 },
+          "cooldown": 50,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s waves their hands in a gesture of negation!"
+        }
+      ],
+      "flags": [ "NO_BREATHE" ]
+    },
     "death_drops": {
       "subtype": "collection",
       "items": [ { "item": "wrapped_rad_badge", "prob": 80 }, { "group": "mon_zombie_research_thaumaturge_death_drops", "prob": 100 } ]
-    },
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "//": "NO_BREATHE is required so it doesn't kill itself with its own radiation field",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "NO_BREATHE",
-      "HUMAN",
-      "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER",
-      "EATS"
-    ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_RADIATION_MAGE_MAGIC_FISSILE_IRRADIATES_YOU",
+    "effect": [ { "math": [ "n_val('rad') += rand(10)+10" ] }, { "npc_emit": "emit_rad_leak" } ]
   },
   {
     "id": "mon_feral_druid",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral druid" },
     "description": "A member of a druidic order with the bloodshot eyes you've come to recognize and dread.  Patches of their skin are covered in bark and fur, leaves grow in their hair, and long claws grow from the ends of their fingers.  Protecting nature is obviously the last thing on their mind now.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "green",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      { "id": "scratch", "cooldown": 10 },
-      {
-        "id": "feral_druid_healing_spell",
-        "type": "spell",
-        "spell_data": { "id": "monster_heal_spell", "min_level": 10, "hit_self": true },
-        "cooldown": 25,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s weaves their hands in a complicated gesture!"
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_druid_wood_shaft_spell",
-        "cooldown": 8,
-        "move_cost": 100,
-        "range": 10,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
-        "dodgeable": true,
-        "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "hit_dmg_u": "%1$s screams words of magic and jagged shards of wood impact your %2$s!",
-        "hit_dmg_npc": "%1$s screams words of magic and jagged shards of wood impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s screams words of magic and you narrowly avoid jagged shards of wood!",
-        "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids jagged shards of wood!",
-        "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by jagged shards of wood, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by jagged shards of wood, but they do no damage."
-      },
-      {
-        "id": "feral_druid_veggrasp_spell",
-        "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
-        "cooldown": 35,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "relative": { "melee_skill": 1 },
+    "extend": {
+      "special_attacks": [
+        { "id": "scratch", "cooldown": 10 },
+        {
+          "id": "feral_druid_healing_spell",
+          "type": "spell",
+          "spell_data": { "id": "monster_heal_spell", "min_level": 10, "hit_self": true },
+          "cooldown": 25,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s weaves their hands in a complicated gesture!"
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_druid_wood_shaft_spell",
+          "accuracy": 5,
+          "cooldown": 8,
+          "move_cost": 100,
+          "range": 10,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
+          "dodgeable": true,
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "hit_dmg_u": "%1$s screams words of magic and jagged shards of wood impact your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and jagged shards of wood impact <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid jagged shards of wood!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids jagged shards of wood!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by jagged shards of wood, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by jagged shards of wood, but they do no damage."
+        },
+        {
+          "id": "feral_druid_veggrasp_spell",
+          "type": "spell",
+          "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
+          "cooldown": 35,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
+        }
+      ],
+      "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
+    },
     "death_drops": "mon_feral_druid_death_drops",
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
   {
     "id": "mon_feral_druid_enhanced",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "//~": "High here meaning Grand, Powerful, Mighty, like High Elf", "str": "feral high druid" },
-    "description": "One a leader of a druidic order, this feral is barely recognizable anymore beneath the patches of bark, fur, and scales that cover their skin.  They occasionally stop and sniff the air like an animal.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
+    "description": "Once a leader of a druidic order, this feral is barely recognizable anymore beneath the patches of bark, fur, and scales that cover their skin.  They occasionally stop and sniff the air like an animal.",
     "symbol": "@",
     "color": "green",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 3,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 10,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "relative": { "dodge": 2, "melee_skill": 4 },
     "special_attacks": [
       { "id": "scratch", "cooldown": 10 },
       {
@@ -354,6 +265,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "feral_druid_root_strike_spell",
+        "accuracy": 7,
         "cooldown": 8,
         "move_cost": 100,
         "range": 8,
@@ -372,7 +284,7 @@
       {
         "id": "feral_high_druid_veggrasp_spell",
         "type": "spell",
-        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "spell_data": { "id": "druid_veggrasp_monster", "min_level": 5 },
         "cooldown": 25,
         "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
@@ -402,599 +314,653 @@
   {
     "id": "mon_feral_earthshaper",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral earthshaper" },
     "description": "An earthen wizard, obvious by the rocky texture of their skin and the granite dust that flakes off of them when they move.  Their eyes, still obviously human, are bloodshot and their gaze is unfocused.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
+    "weight": "121500 g",
     "symbol": "@",
     "color": "brown",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      { "id": "smash", "range": 1, "throw_strength": 40 },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_earthshaper_seismic_stomp",
-        "cooldown": 15,
-        "move_cost": 100,
-        "range": 6,
-        "attack_upper": false,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 2 } ],
-        "effects": [ { "id": "downed", "duration": 2, "chance": 95, "affect_hit_bp": false } ],
-        "effects_require_dmg": false,
-        "dodgeable": false,
-        "blockable": false,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
-        "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
-        "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
-        "miss_msg_npc": "%1$s stomps heavily and the ground shakes!",
-        "no_dmg_msg_u": "%1$s stomps heavily and the ground shakes!",
-        "no_dmg_msg_npc": "%1$s stomps heavily and the ground shakes!"
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_earthshaper_rock_bolt",
-        "cooldown": 10,
-        "move_cost": 100,
-        "range": 12,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ],
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
-        "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
-        "miss_msg_npc": "%1$s makes a throwing gesture and <npcname> narrowly avoids heavy chunks of rock!",
-        "no_dmg_msg_u": "%1$s makes a throwing gesture your %2$s is impacted by heavy chunks of rock, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s makes a throwing gesture and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "relative": { "melee_skill": 1 },
+    "extend": {
+      "special_attacks": [
+        { "id": "smash", "range": 1, "throw_strength": 40 },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_earthshaper_seismic_stomp",
+          "cooldown": 15,
+          "move_cost": 100,
+          "range": 6,
+          "attack_upper": false,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 2 } ],
+          "effects": [ { "id": "downed", "duration": 2, "chance": 95, "affect_hit_bp": false } ],
+          "effects_require_dmg": false,
+          "dodgeable": false,
+          "blockable": false,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
+          "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
+          "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
+          "miss_msg_npc": "%1$s stomps heavily and the ground shakes!",
+          "no_dmg_msg_u": "%1$s stomps heavily and the ground shakes!",
+          "no_dmg_msg_npc": "%1$s stomps heavily and the ground shakes!"
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_earthshaper_rock_bolt",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ],
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
+          "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
+          "miss_msg_npc": "%1$s makes a throwing gesture and <npcname> narrowly avoids heavy chunks of rock!",
+          "no_dmg_msg_u": "%1$s makes a throwing gesture your %2$s is impacted by heavy chunks of rock, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s makes a throwing gesture and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
+        }
+      ],
+      "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
+    },
     "death_drops": "mon_feral_earthshaper_death_drops",
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
-    "//": "armor values below taken from the stoneskin spell.",
-    "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
+    "//": "armor values below taken from the stoneskin spell."
   },
   {
     "id": "mon_feral_earthshaper_enhanced",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral high earthshaper" },
     "description": "Once a master of earthshaping, this feral now wanders haphazardly through the post-Cataclysmic world.  Their skin is stone covered in fine crystalline spikes, and their bloodshot eyes glitter like polished gems, but their movements are uncoordinated.  Occasionally, the earth shakes when they take a step.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
+    "weight": "121500 g",
     "symbol": "@",
     "color": "brown",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      { "id": "smash", "range": 1, "throw_strength": 70 },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_earthshaper_seismic_stomp",
-        "cooldown": 15,
-        "move_cost": 100,
-        "range": 6,
-        "attack_upper": false,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 2 } ],
-        "effects": [ { "id": "downed", "duration": 2, "chance": 95, "affect_hit_bp": false } ],
-        "effects_require_dmg": false,
-        "dodgeable": false,
-        "blockable": false,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
-        "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
-        "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
-        "miss_msg_npc": "%1$s stomps heavily and the ground shakes!",
-        "no_dmg_msg_u": "%1$s stomps heavily and the ground shakes!",
-        "no_dmg_msg_npc": "%1$s stomps heavily and the ground shakes!"
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_earthshaper_high_rock_bolt",
-        "cooldown": 10,
-        "move_cost": 100,
-        "range": 12,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ],
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
-        "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
-        "miss_msg_npc": "%1$s makes a throwing gesture and <npcname> narrowly avoids heavy chunks of rock!",
-        "no_dmg_msg_u": "%1$s makes a throwing gesture your %2$s is impacted by heavy chunks of rock, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s makes a throwing gesture and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_earthshaper_high_petrifying_touch",
-        "cooldown": 20,
-        "move_cost": 80,
-        "range": 1,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 1 } ],
-        "effects_require_dmg": false,
-        "dodgeable": true,
-        "blockable": false,
-        "effects": [ { "id": "effect_petrified", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false } ],
-        "hit_dmg_u": "%1$s reaches out and touches your %2$s!",
-        "hit_dmg_npc": "%1$s reaches out and touches <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s reaches out and you narrowly avoid their touch!",
-        "miss_msg_npc": "%1$s reaches out and <npcname> narrowly avoids their touch!",
-        "no_dmg_msg_u": "",
-        "no_dmg_msg_npc": ""
-      },
-      {
-        "id": "earthshaper_high_dispel",
-        "type": "spell",
-        "spell_data": { "id": "dispel_magic_monster", "min_level": 10 },
-        "cooldown": 40,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
-        "monster_message": "%1$s claps both hands in the air and shouts at %3$s."
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "relative": { "melee_skill": 4 },
+    "extend": {
+      "special_attacks": [
+        { "id": "smash", "range": 1, "throw_strength": 70 },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_earthshaper_seismic_stomp",
+          "cooldown": 15,
+          "move_cost": 100,
+          "range": 6,
+          "attack_upper": false,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 2 } ],
+          "effects": [ { "id": "downed", "duration": 2, "chance": 95, "affect_hit_bp": false } ],
+          "effects_require_dmg": false,
+          "dodgeable": false,
+          "blockable": false,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
+          "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
+          "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
+          "miss_msg_npc": "%1$s stomps heavily and the ground shakes!",
+          "no_dmg_msg_u": "%1$s stomps heavily and the ground shakes!",
+          "no_dmg_msg_npc": "%1$s stomps heavily and the ground shakes!"
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_earthshaper_high_rock_bolt",
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ],
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
+          "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
+          "miss_msg_npc": "%1$s makes a throwing gesture and <npcname> narrowly avoids heavy chunks of rock!",
+          "no_dmg_msg_u": "%1$s makes a throwing gesture your %2$s is impacted by heavy chunks of rock, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s makes a throwing gesture and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_earthshaper_high_petrifying_touch",
+          "cooldown": 20,
+          "move_cost": 80,
+          "range": 1,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 1 } ],
+          "effects_require_dmg": false,
+          "dodgeable": true,
+          "blockable": false,
+          "effects": [
+            { "id": "effect_earthshaper_petrifying_touch", "duration": 3, "chance": 75, "intensity": 100, "affect_hit_bp": false }
+          ],
+          "hit_dmg_u": "%1$s reaches out and touches your %2$s!",
+          "hit_dmg_npc": "%1$s reaches out and touches <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s reaches out and you narrowly avoid their touch!",
+          "miss_msg_npc": "%1$s reaches out and <npcname> narrowly avoids their touch!",
+          "no_dmg_msg_u": "",
+          "no_dmg_msg_npc": ""
+        },
+        {
+          "id": "earthshaper_high_dispel",
+          "type": "spell",
+          "spell_data": { "id": "dispel_magic_monster", "min_level": 10 },
+          "cooldown": 40,
+          "condition": { "not": { "u_has_flag": "MUTE" } },
+          "monster_message": "%1$s claps both hands in the air and shouts at %3$s."
+        }
+      ],
+      "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
+    },
     "death_drops": {
       "subtype": "collection",
       "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_earthshaper_death_drops", "prob": 100 } ]
     },
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
-    "//": "armor values below taken from the stoneskin spell.",
-    "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
+    "//": "armor values taken from the stoneskin spell."
   },
   {
     "id": "mon_feral_magus",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral magus", "str_pl": "feral magi" },
     "description": "A mage gone feral, their bloodshot eyes looking to and fro as eldritch light occasionally trails from their hands.  The arcane sigils on their clothing and the rings and jewelry they wear bespeak that they were once a mage of considerable power before the Cataclysm took their mind.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_magus_spell_magicmissile",
-        "cooldown": 8,
-        "move_cost": 100,
-        "range": 12,
-        "damage_max_instance": [ { "damage_type": "nether", "amount": 9 } ],
-        "dodgeable": false,
-        "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
-        "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
-        "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
-        "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
-        "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
-      },
-      {
-        "id": "feral_magus_dispel",
-        "type": "spell",
-        "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
-        "cooldown": 30,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic."
-      },
-      {
-        "id": "feral_magus_light_target",
-        "type": "spell",
-        "spell_data": { "id": "magus_light_target", "min_level": 5 },
-        "cooldown": 15,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic and waves their hands."
-      },
-      {
-        "id": "feral_magus_phase_door",
-        "type": "spell",
-        "spell_data": { "id": "phase_door", "min_level": 6 },
-        "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s makes a quick gesture and disappears."
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
-    "death_drops": "mon_feral_magus_death_drops",
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_magus_spell_magicmissile",
+          "cooldown": 8,
+          "move_cost": 100,
+          "range": 12,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 9 } ],
+          "dodgeable": false,
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_magus_dispel",
+          "type": "spell",
+          "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s screams words of magic."
+        },
+        {
+          "id": "feral_magus_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 15,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s screams words of magic and waves their hands."
+        },
+        {
+          "id": "feral_magus_phase_door",
+          "type": "spell",
+          "spell_data": { "id": "phase_door", "min_level": 6 },
+          "cooldown": 15,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s makes a quick gesture and disappears."
+        }
+      ]
+    },
+    "death_drops": "mon_feral_magus_death_drops"
   },
   {
     "id": "mon_feral_magus_enhanced",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral high magus", "str_pl": "feral high magi" },
     "description": "A mage gone feral, their bloodshot eyes looking to and fro as eldritch light occasionally trails from their hands.  They randomly make half-remembered arcane gestures, but the occasional spells that result are no less potent for it.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "magenta",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_high_magus_spell_mana_bolt",
-        "cooldown": 10,
-        "move_cost": 100,
-        "range": 15,
-        "damage_max_instance": [ { "damage_type": "nether", "amount": 30 } ],
-        "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
-        "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
-        "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
-        "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
-        "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
-      },
-      {
-        "id": "feral_high_magus_dispel",
-        "type": "spell",
-        "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
-        "cooldown": 30,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic."
-      },
-      {
-        "id": "feral_high_magus_light_target",
-        "type": "spell",
-        "spell_data": { "id": "magus_light_target", "min_level": 5 },
-        "cooldown": 15,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic and waves their hands."
-      },
-      {
-        "id": "feral_high_magus_slow",
-        "type": "spell",
-        "spell_data": { "id": "magus_slow", "min_level": 3 },
-        "cooldown": 35,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic and the world suddenly starts moving much slower."
-      },
-      {
-        "id": "feral_high_magus_phase_door",
-        "type": "spell",
-        "spell_data": { "id": "phase_door", "min_level": 10 },
-        "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s makes a quick gesture and disappears."
-      },
-      {
-        "id": "feral_high_magus_silence",
-        "type": "spell",
-        "spell_data": { "id": "magus_silence", "min_level": 5 },
-        "cooldown": 25,
-        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic and the sounds around you grow muffled."
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+    "melee_skill": 4,
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_magus_spell_mana_bolt",
+          "accuracy": 6,
+          "cooldown": 10,
+          "move_cost": 100,
+          "range": 15,
+          "damage_max_instance": [ { "damage_type": "nether", "amount": 30 } ],
+          "blockable": false,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
+          "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
+          "miss_msg_npc": "%1$s screams words of magic and <npcname> narrowly avoids an eldritch bolt!",
+          "no_dmg_msg_u": "%1$s screams words of magic and your %2$s is impacted by an eldritch bolt, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s screams words of magic and <npcname>'s %2$s is impacted by an eldritch bolt, but it does no damage."
+        },
+        {
+          "id": "feral_high_magus_dispel",
+          "type": "spell",
+          "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
+          "cooldown": 30,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s screams words of magic."
+        },
+        {
+          "id": "feral_high_magus_light_target",
+          "type": "spell",
+          "spell_data": { "id": "magus_light_target", "min_level": 5 },
+          "cooldown": 15,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s screams words of magic and waves their hands."
+        },
+        {
+          "id": "feral_high_magus_slow",
+          "type": "spell",
+          "spell_data": { "id": "magus_slow", "min_level": 3 },
+          "cooldown": 35,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s screams words of magic and the world suddenly starts moving much slower."
+        },
+        {
+          "id": "feral_high_magus_phase_door",
+          "type": "spell",
+          "spell_data": { "id": "phase_door", "min_level": 10 },
+          "cooldown": 15,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s makes a quick gesture and disappears."
+        },
+        {
+          "id": "feral_high_magus_silence",
+          "type": "spell",
+          "spell_data": { "id": "magus_silence", "min_level": 5 },
+          "cooldown": 25,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s screams words of magic and the sounds around you grow muffled."
+        }
+      ]
+    },
     "death_drops": {
       "subtype": "collection",
       "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_magus_death_drops", "prob": 100 } ]
-    },
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
+    }
   },
   {
     "id": "mon_feral_stormshaper",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral stormshaper" },
     "description": "Their hair standing on end and sparks emitting from their fingers, this feral still evinces some of the control over lightning they had before the Cataclysm.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "yellow",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_stormshaper_spell_lightning_blast",
-        "cooldown": 8,
-        "move_cost": 100,
-        "range": 9,
-        "accuracy": 4,
-        "damage_max_instance": [ { "damage_type": "electric", "amount": 20 } ],
-        "dodgeable": true,
-        "blockable": false,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
-        "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
-        "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
-        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
-      },
-      {
-        "id": "feral_stormshaper_wall_of_fog",
-        "type": "spell",
-        "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 5 },
-        "cooldown": 20,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s gestures and fog rapidly condenses out of the air!"
-      },
-      {
-        "id": "feral_stormshaper_shocking dash",
-        "type": "spell",
-        "spell_data": { "id": "shocking_dash", "min_level": 5 },
-        "cooldown": 25,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s surges forward in a burst of sparks."
-      },
-      {
-        "id": "feral_stormshaper_blinding_flash",
-        "type": "spell",
-        "spell_data": { "id": "blinding_flash", "min_level": 3 },
-        "cooldown": 45,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s makes a quick gesture and the air erupts into eye-searing light!"
-      },
-      {
-        "id": "feral_stormshaper_summon_stormhammer",
-        "type": "spell",
-        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 5, "hit_self": true },
-        "cooldown": 50,
-        "condition": {
-          "and": [
-            { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
-            { "not": { "u_has_flag": "NO_SPELLCASTING" } }
-          ]
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_stormshaper_spell_lightning_blast",
+          "cooldown": 8,
+          "move_cost": 100,
+          "range": 9,
+          "accuracy": 4,
+          "damage_max_instance": [ { "damage_type": "electric", "amount": 20 } ],
+          "dodgeable": true,
+          "blockable": false,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
+          "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
+          "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
+          "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of spark bolts, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of spark bolts, but they do no damage."
         },
-        "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_stormshaper_stormhammer_attack",
-        "cooldown": 2,
-        "move_cost": 100,
-        "accuracy": 4,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
-        "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
-        "hit_dmg_u": "%1$s stormhammers your %2$s!",
-        "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s tries to stormhammers you, but you dodge!",
-        "miss_msg_npc": "%1$s tries to stormhammer <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s stormhammers your %2$s, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s stormhammers <npcname>'s %2$s, but they do no damage."
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+        {
+          "id": "feral_stormshaper_wall_of_fog",
+          "type": "spell",
+          "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 5 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s gestures and fog rapidly condenses out of the air!"
+        },
+        {
+          "id": "feral_stormshaper_shocking dash",
+          "type": "spell",
+          "spell_data": { "id": "shocking_dash", "min_level": 5 },
+          "cooldown": 25,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s surges forward in a burst of sparks."
+        },
+        {
+          "id": "feral_stormshaper_blinding_flash",
+          "type": "spell",
+          "spell_data": { "id": "blinding_flash", "min_level": 3 },
+          "cooldown": 45,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s makes a quick gesture and the air erupts into eye-searing light!"
+        },
+        {
+          "id": "feral_stormshaper_summon_stormhammer",
+          "type": "spell",
+          "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 50,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_stormshaper_stormhammer_attack",
+          "cooldown": 2,
+          "move_cost": 100,
+          "accuracy": 4,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
+          "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
+          "hit_dmg_u": "%1$s stormhammers your %2$s!",
+          "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s tries to stormhammers you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to stormhammer <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s stormhammers your %2$s, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s stormhammers <npcname>'s %2$s, but they do no damage."
+        }
+      ],
+      "armor": { "electric": 20 }
+    },
     "death_drops": "mon_feral_stormshaper_death_drops",
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
-    "armor": { "electric": 20 },
     "special_when_hit": [ "ZAPBACK", 50 ]
   },
   {
     "id": "mon_feral_stormshaper_enhanced",
     "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
     "name": { "str": "feral high stormshaper" },
     "description": "Lightning crackles across the surface of this feral wizard.  Their bloodshot eyes shine with actinic glow and their hands are wreathed in lightning.  Was that a rumble of thunder?",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "FERAL" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 84,
-    "speed": 100,
-    "material": [ "flesh" ],
     "symbol": "@",
     "color": "yellow",
-    "aggression": 30,
-    "morale": 100,
     "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 45,
-    "vision_night": 3,
-    "stomach_size": 700,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_high_stormshaper_spell_lightning_blast",
-        "cooldown": 8,
-        "move_cost": 100,
-        "range": 11,
-        "accuracy": 6,
-        "damage_max_instance": [ { "damage_type": "electric", "amount": 25 } ],
-        "dodgeable": true,
-        "blockable": false,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
-        "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
-        "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
-        "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
-      },
-      [ "SHOCKSTORM", 25 ],
-      {
-        "id": "feral_high_stormshaper_wall_of_fog",
-        "type": "spell",
-        "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 9 },
-        "cooldown": 20,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s gestures and a sudden force slams you into the ground!"
-      },
-      {
-        "id": "feral_high_stormshaper_shocking dash",
-        "type": "spell",
-        "spell_data": { "id": "shocking_dash", "min_level": 10 },
-        "cooldown": 20,
-        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s surges forward in a burst of sparks."
-      },
-      {
-        "id": "feral_high_stormshaper_summon_stormhammer",
-        "type": "spell",
-        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 15, "hit_self": true },
-        "cooldown": 40,
-        "condition": {
-          "and": [
-            { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
-            { "not": { "u_has_flag": "NO_SPELLCASTING" } }
-          ]
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_stormshaper_spell_lightning_blast",
+          "cooldown": 8,
+          "move_cost": 100,
+          "range": 11,
+          "accuracy": 6,
+          "damage_max_instance": [ { "damage_type": "electric", "amount": 25 } ],
+          "dodgeable": true,
+          "blockable": false,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
+          "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
+          "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
+          "no_dmg_msg_u": "%1$s gestures and your %2$s is impacted by a shower of sparks bolt, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s gestures and <npcname>'s %2$s is impacted by a shower of sparks bolt, but they do no damage."
         },
-        "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "feral_high_stormshaper_stormhammer_attack",
-        "cooldown": 2,
-        "move_cost": 100,
-        "accuracy": 7,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
-        "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
-        "hit_dmg_u": "%1$s stormhammers your %2$s!",
-        "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s tries to stormhammer you, but you dodge!",
-        "miss_msg_npc": "%1$s tries to stormhammer <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s stormhammers your %2$s, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s stormhammers <npcname>'s %2$s, but they do no damage."
-      },
-      [ "BROWSE", 100 ],
-      [ "EAT_FOOD", 100 ]
-    ],
+        [ "SHOCKSTORM", 25 ],
+        {
+          "id": "feral_high_stormshaper_wall_of_fog",
+          "type": "spell",
+          "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 9 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s gestures and a sudden force slams you into the ground!"
+        },
+        {
+          "id": "feral_high_stormshaper_shocking dash",
+          "type": "spell",
+          "spell_data": { "id": "shocking_dash", "min_level": 10 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s surges forward in a burst of sparks."
+        },
+        {
+          "id": "feral_high_stormshaper_summon_stormhammer",
+          "type": "spell",
+          "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 15, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_stormshaper_stormhammer_attack",
+          "cooldown": 2,
+          "move_cost": 100,
+          "accuracy": 7,
+          "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
+          "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
+          "hit_dmg_u": "%1$s stormhammers your %2$s!",
+          "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
+          "miss_msg_u": "%1$s tries to stormhammer you, but you dodge!",
+          "miss_msg_npc": "%1$s tries to stormhammer <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s stormhammers your %2$s, but they do no damage.",
+          "no_dmg_msg_npc": "%1$s stormhammers <npcname>'s %2$s, but they do no damage."
+        }
+      ],
+      "armor": { "electric": 40 }
+    },
     "death_drops": {
       "subtype": "collection",
       "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_stormshaper_death_drops", "prob": 100 } ]
     },
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
-    "armor": { "electric": 40 },
     "special_when_hit": [ "ZAPBACK", 100 ]
+  },
+  {
+    "id": "mon_feral_technomancer",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
+    "name": { "str": "feral technomancer" },
+    "description": "At first seeming like just another feral, a closer look shows the implanted metal amid the flesh, a tell-tale sign of a technomancer.  Their movements are more controlled than most of the other ferals, but they still have bloodshot eyes.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "dissect": "dissect_mon_feral_technomancer",
+    "death_drops": "mon_feral_technomancer_death_drops",
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_technomancer_summon_mage_blade",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_flag": "MUTE" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
+        },
+        {
+          "id": "feral_technomancer_summon_mage_armor",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_technomancer_mageblade_attack",
+          "cooldown": 2,
+          "move_cost": 100,
+          "accuracy": 5,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 20 } ],
+          "condition": { "u_has_effect": "effect_feral_technomancer_mage_blade" },
+          "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
+          "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
+          "miss_msg_npc": "%1$s swings a blade of light at <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s swings a blade of light at your %2$s, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
+        },
+        {
+          "id": "feral_technomancer_lase",
+          "type": "spell",
+          "spell_data": { "id": "feral_laze", "min_level": 2 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s points and fires a beam of light!"
+        },
+        {
+          "id": "feral_technomancer_bless",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_bless_spell", "min_level": 2, "hit_self": true },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters some words and their body is limned in light."
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_feral_technomancer_enhanced",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_wizard_default",
+    "name": { "str": "feral high technomancer" },
+    "description": "This feral human has obvious bionic enhancements in what would have been the sign of a powerful technomancer before the Cataclysm.  They move with much more speed and grace than most feral humans you've seen.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "dissect": "dissect_mon_feral_high_technomancer",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "enchanted_combat_items", "prob": 30 }, { "group": "mon_feral_technomancer_death_drops", "prob": 100 } ]
+    },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "feral_high_technomancer_summon_mage_blade",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_summon_mage_blade_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_blade_cooldown" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+              { "not": { "u_has_flag": "MUTE" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a blade of glowing light materializes."
+        },
+        {
+          "id": "feral_high_technomancer_summon_mage_armor",
+          "type": "spell",
+          "spell_data": { "id": "feral_high_technomancer_summon_mage_armor_spell", "min_level": 5, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_mage_armor_cooldown" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s raises an arm and a suit of glowing armor appears on their body."
+        },
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "feral_high_technomancer_mageblade_attack",
+          "cooldown": 2,
+          "move_cost": 100,
+          "accuracy": 5,
+          "damage_max_instance": [ { "damage_type": "cut", "amount": 11 }, { "damage_type": "light", "amount": 32 } ],
+          "condition": { "u_has_effect": "effect_feral_technomancer_mage_blade" },
+          "hit_dmg_u": "%1$s hits your %2$s with a blade of light!",
+          "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a blade of light!",
+          "miss_msg_u": "%1$s swings a blade of light at you, but you dodge!",
+          "miss_msg_npc": "%1$s swings a blade of light at <npcname>, but they dodge!",
+          "no_dmg_msg_u": "%1$s swings a blade of light at your %2$s, but it does no damage.",
+          "no_dmg_msg_npc": "%1$s swings a blade of light at <npcname>'s %2$s, but it does no damage."
+        },
+        {
+          "id": "feral_high_technomancer_laze",
+          "type": "spell",
+          "spell_data": { "id": "feral_laze", "min_level": 5 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s points and fires a beam of light!"
+        },
+        {
+          "id": "feral_technomancer_bless",
+          "type": "spell",
+          "spell_data": { "id": "feral_technomancer_bless_spell", "min_level": 2, "hit_self": true },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters some words and their body is limned in light."
+        },
+        {
+          "id": "feral_high_technomancer_invisibility",
+          "type": "spell",
+          "spell_data": { "id": "feral_invisibility", "min_level": 2, "hit_self": true },
+          "cooldown": 20,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_feral_technomancer_bless" } },
+              { "math": [ "u_val('morale') <= -20" ] },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s makes a gesture and disappears."
+        },
+        {
+          "id": "feral_high_technomancer_summon_blade",
+          "type": "spell",
+          "spell_data": { "id": "feral_animated_blade", "min_level": 10 },
+          "cooldown": 65,
+          "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+          "monster_message": "%1$s gestures and swords appear out of thin air!"
+        },
+        {
+          "id": "feral_high_technomancer_synaptic_stim",
+          "type": "spell",
+          "spell_data": { "id": "feral_synaptic_stimulation", "min_level": 4, "hit_self": true },
+          "cooldown": 40,
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "synaptic_stim" } },
+              { "not": { "u_has_flag": "MUTE" } },
+              { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+            ]
+          },
+          "monster_message": "%1$s mutters some words and begins moving much faster."
+        }
+      ]
+    }
   }
 ]

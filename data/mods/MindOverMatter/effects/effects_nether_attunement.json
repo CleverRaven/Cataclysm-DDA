@@ -14,12 +14,29 @@
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
+      [ "Your mind thrums with power.  It's intoxicating, but growing increasingly harder to control.", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ],
+      [
+        "Your whole body pulses with a raging torrent of energy.  It's taking almost all of your concentration to hold on.",
+        "mixed"
+      ],
+      [ "", "mixed" ]
+    ],
+    "decay_messages": [
       [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "The constant hum of power fades, just a little.  It's easier to think now.", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "", "mixed" ],
+      [ "The roar of the Nether subsides.  You can finally hear your own thoughts again.", "mixed" ],
       [ "", "mixed" ],
       [ "", "mixed" ]
     ],

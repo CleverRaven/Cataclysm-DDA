@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "robofac_merc_1",
     "name_unique": "Cranberry Foster",
-    "//": "Appears in the the surface of Hub 01 as an external mercenary.",
+    "//": "Appears in the surface of Hub 01 as an external mercenary.",
     "name_suffix": "Hub Mercenary",
     "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "NC_ROBOFAC_MERC_1",
@@ -200,7 +200,7 @@
         "topic": "TALK_DONE",
         "effect": "npc_rules_menu"
       },
-      { "text": "Never mind.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -257,11 +257,7 @@
         "condition": {
           "and": [
             {
-              "or": [
-                { "u_has_perception": 10 },
-                { "math": [ "u_skill('mechanics')", ">=", "4" ] },
-                { "math": [ "u_skill('gun')", ">=", "2" ] }
-              ]
+              "or": [ { "u_has_perception": 10 }, { "math": [ "u_skill('mechanics') >= 4" ] }, { "math": [ "u_skill('gun') >= 2" ] } ]
             },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_robofac_merc_1_HWP" } ] } }
           ]
@@ -305,7 +301,7 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_robofac_merc_1_asked_gender" } ] } },
-            { "math": [ "n_npc_trust()", ">=", "3" ] }
+            { "math": [ "n_npc_trust() >= 3" ] }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"
@@ -315,7 +311,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "general_robofac_merc_1_has_gold_deal" } ] },
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_QUERY"
       },
-      { "text": "Well, I should get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -460,6 +456,11 @@
     },
     "responses": [
       { "text": "Damn.  Where can I get one of those?", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION_WHERE" },
+      {
+        "text": "I've helped you out now.  Do you think you could vouch for me with our employers?",
+        "condition": { "compare_string": [ "1", { "u_val": "favor_owed_to_u_robofac_merc_1_favor" } ] },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_YES"
+      },
       { "text": "I see.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
     ]
   },
@@ -471,7 +472,11 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_HWP_YES",
     "type": "talk_topic",
-    "dynamic_line": "I do owe you one.  Tell you what: I'll let the Hub know that you're worth manufacturing some proper gear for.  Let 'em know that I sent you next time you talk with them and I'm sure they'll help you.",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "dialogue_hub_merc_promised_u" } ],
+      "no": "I do owe you one.  Tell you what: I'll let the Hub know that you're worth manufacturing some proper gear for.  Let 'em know that I sent you next time you talk with them and I'm sure they'll help you.",
+      "yes": "As promised earlier, I'll let the Hub know that you're worth manufacturing some proper gear for.  Let 'em know that I sent you next time you talk with them and I'm sure they'll help you."
+    },
     "speaker_effect": { "effect": { "u_add_var": "dialogue_hub_rnd_u_can_research_rifle", "value": "yes" } },
     "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
@@ -497,6 +502,7 @@
     "id": "TALK_ROBOFAC_MERC_1_HWP_IF_I_OWE_YOU",
     "type": "talk_topic",
     "dynamic_line": "Once we finish up this job, I'll vouch for you.  Pinkie promise.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_hub_merc_promised_u", "value": "yes" } },
     "responses": [ { "text": "Alright.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
@@ -691,8 +697,8 @@
         "effect": [
           { "u_consume_item": "gold_small", "count": 200 },
           { "u_spawn_item": "RobofacCoin", "count": 8 },
-          { "math": [ "n_npc_trust()", "++" ] },
-          { "math": [ "n_npc_value()", "++" ] }
+          { "math": [ "n_npc_trust()++" ] },
+          { "math": [ "n_npc_value()++" ] }
         ],
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_TRADE"
       },
@@ -762,7 +768,7 @@
     "end": {
       "effect": [
         "stop_following",
-        { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor", "++" ] },
+        { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor++" ] },
         { "npc_lose_var": "general_robofac_merc_1_temporal_follower" },
         { "u_add_var": "general_robofac_merc_1_helped_with_missions", "value": "yes" },
         { "math": [ "n_npc_trust()", "+=", "2" ] },

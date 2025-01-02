@@ -45,7 +45,6 @@
         "U": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",
-        "y": "t_concrete",
         "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "$": "t_screened_porch_wall",

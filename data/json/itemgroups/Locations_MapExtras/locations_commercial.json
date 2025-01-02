@@ -102,6 +102,7 @@
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
+      { "group": "small_candles_in_box", "prob": 10 },
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
       { "item": "lighter", "prob": 25, "charges": [ 0, 100 ] },
@@ -620,7 +621,6 @@
       [ "motorbike_armor", 2 ],
       [ "motorbike_pants", 2 ],
       [ "motorbike_boots", 2 ],
-      [ "dragonskin", 2 ],
       [ "kittel", 1 ],
       [ "kippah", 3 ],
       [ "thawb", 2 ],
@@ -895,6 +895,8 @@
       { "item": "folded_bicycle", "prob": 3 },
       { "item": "sunglasses", "prob": 25 },
       { "item": "cowboy_hat", "prob": 25 },
+      { "item": "mp3", "prob": 35, "charges": [ 0, 100 ] },
+      { "item": "fursuit", "prob": 5 },
       { "item": "mp3", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "wolfsuit", "prob": 5 },
       { "item": "dinosuit", "prob": 5 },
@@ -1604,7 +1606,11 @@
       [ "garter_belt", 5 ],
       [ "bullwhip", 20 ],
       { "item": "candle", "prob": 20, "charges": [ 0, 100 ] },
-      [ "condom", 50 ]
+      [ "condom", 50 ],
+      { "item": "cuffs", "prob": 30 },
+      { "item": "collar_playboy", "prob": 30 },
+      { "item": "bunny_ears_black", "prob": 30 },
+      { "item": "tail_bunny_playboy", "prob": 30 }
     ]
   },
   {
@@ -1633,7 +1639,8 @@
       [ "ninja_dress_sleeveless", 5 ],
       [ "sinister_dress_short", 2 ],
       [ "witch_dress", 3 ],
-      [ "witch_dress_short", 5 ]
+      [ "witch_dress_short", 5 ],
+      { "item": "bunny_suit_playboy", "prob": 30 }
     ]
   },
   {

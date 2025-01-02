@@ -58,21 +58,21 @@ TEST_CASE( "line_attack", "[magic]" )
     spell sp( spell_test_line_spell );
 
     // set up Character to test with, only need position
-    npc &c = spawn_npc( point_bub_ms_zero, "test_talker" );
+    npc &c = spawn_npc( point_bub_ms::zero, "test_talker" );
     clear_character( c );
-    c.setpos( tripoint_bub_ms_zero );
+    c.setpos( tripoint_bub_ms::zero );
 
     // target point 5 tiles east of zero
-    tripoint_bub_ms target = c.pos_bub() + tripoint_rel_ms_east * 5;
+    tripoint_bub_ms target = c.pos_bub() + tripoint_rel_ms::east * 5;
 
     // Ensure that AOE=0 spell covers the 5 tiles along vector towards target
     SECTION( "aoe=0" ) {
         const std::set<tripoint_bub_ms> reference( {
-            c.pos_bub() + tripoint_rel_ms_east * 1,
-            c.pos_bub() + tripoint_rel_ms_east * 2,
-            c.pos_bub() + tripoint_rel_ms_east * 3,
-            c.pos_bub() + tripoint_rel_ms_east * 4,
-            c.pos_bub() + tripoint_rel_ms_east * 5,
+            c.pos_bub() + tripoint_rel_ms::east * 1,
+            c.pos_bub() + tripoint_rel_ms::east * 2,
+            c.pos_bub() + tripoint_rel_ms::east * 3,
+            c.pos_bub() + tripoint_rel_ms::east * 4,
+            c.pos_bub() + tripoint_rel_ms::east * 5,
         } );
 
         std::set<tripoint_bub_ms> targets = calculate_spell_effect_area( sp, target, c );
@@ -100,10 +100,10 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         CHECK( dummy.get_location() == player_initial_pos );
 
         // create fd_fatigue of each intensity near player
-        tripoint_abs_ms p1 = player_initial_pos + tripoint_east * 10;
-        tripoint_abs_ms p2 = player_initial_pos + tripoint_east * 11;
-        tripoint_abs_ms p3 = player_initial_pos + tripoint_east * 12;
-        tripoint_abs_ms p4 = player_initial_pos + tripoint_east * 13;
+        tripoint_abs_ms p1 = player_initial_pos + tripoint::east * 10;
+        tripoint_abs_ms p2 = player_initial_pos + tripoint::east * 11;
+        tripoint_abs_ms p3 = player_initial_pos + tripoint::east * 12;
+        tripoint_abs_ms p4 = player_initial_pos + tripoint::east * 13;
         m.add_field( m.bub_from_abs( p1 ), fd_fatigue, 1, 1_hours );
         m.add_field( m.bub_from_abs( p2 ), fd_fatigue, 2, 1_hours );
         m.add_field( m.bub_from_abs( p3 ), fd_fatigue, 3, 1_hours );
@@ -119,7 +119,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         m.build_map_cache( 0 );
         dummy.recalc_sight_limits();
 
-        CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
+        CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
@@ -128,7 +128,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
+        CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
@@ -137,7 +137,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
+        CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );

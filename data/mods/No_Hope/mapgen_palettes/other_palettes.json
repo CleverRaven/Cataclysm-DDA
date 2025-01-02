@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "house_w_foundation_palette",
     "//1": "TODO: These would ideally copy-from the vanilla palettes and only override what it changes if #73299 is resolved",
+    "palettes": [ "parametrized_walls_palette" ],
     "furniture": {
       "A": "f_stool",
       "B": "f_rotary_clothesline",
@@ -50,7 +51,6 @@
       "p": "t_region_groundcover_urban",
       "X": "t_region_groundcover_urban",
       " ": "t_floor",
-      "|": "t_wall_w",
       "<": "t_wood_stairs_up",
       ">": "t_wood_stairs_down",
       "o": [
@@ -277,10 +277,10 @@
   {
     "type": "palette",
     "id": "office_doctor",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "!": "t_door_locked_interior",
-      "#": "t_wall_w",
       "$": "t_floor",
       "&": "t_floor",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
@@ -358,14 +358,14 @@
   {
     "type": "palette",
     "id": "shelter",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "!": "t_pavement",
       "`": "t_pavement_y",
       "&": "t_sidewalk",
-      "#": "t_soil",
+      "-": "t_soil",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      "-": "t_wall_w",
       "_": "t_linoleum_white",
       ":": [
         [ "t_window_frame", 70 ],
@@ -378,7 +378,6 @@
       ],
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "|": "t_wall_w",
       ";": "t_concrete_wall",
       "/": "t_concrete_wall",
       "*": "t_ladder_up",
@@ -418,20 +417,19 @@
   {
     "type": "palette",
     "id": "shelter_used",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "!": "t_pavement",
       "`": "t_pavement_y",
       "&": "t_sidewalk",
-      "#": "t_soil",
+      "-": "t_soil",
       "+": [ "t_door_c", "t_door_b" ],
-      "-": "t_wall_w",
       ".": "t_floor",
       "_": "t_linoleum_white",
       ":": [ "t_window_frame", "t_window_no_curtains" ],
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "|": "t_wall_w",
       ";": "t_concrete_wall",
       "/": "t_concrete_wall",
       "*": "t_ladder_up",
@@ -474,7 +472,7 @@
     },
     "nested": {
       "|": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
-      "-": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
+      "#": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       ";": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       "/": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       "6": { "chunks": [ "shelter_computer" ] },
@@ -484,14 +482,14 @@
   {
     "type": "palette",
     "id": "shelter_vandal",
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       " ": "t_region_groundcover_urban",
       "!": "t_pavement",
       "`": "t_pavement_y",
       "&": "t_sidewalk",
-      "#": "t_soil",
+      "-": "t_soil",
       "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
-      "-": "t_wall_w",
       "_": "t_linoleum_white",
       ":": [
         [ "t_window_frame", 5 ],
@@ -503,7 +501,6 @@
       ],
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "|": "t_wall_w",
       ";": "t_concrete_wall",
       "/": "t_concrete_wall",
       "*": "t_ladder_up",
@@ -567,7 +564,7 @@
     },
     "nested": {
       "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
-      "-": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+      "#": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
       ";": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
       ":": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
       ".": { "chunks": [ [ "bile_field", 5 ], [ "null", 95 ] ] },
@@ -863,33 +860,16 @@
     "type": "palette",
     "id": "gun_store_palette",
     "//": " P, U, S, h, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "&": {  } },
-    "parameters": {
-      "interior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ]
-          ]
-        }
-      }
-    },
     "terrain": {
       "-": "t_wall_w",
-      "#": "t_brick_wall",
       "q": "t_thconc_floor",
       "&": "t_thconc_floor",
       ":": "t_window_bars_alarm",
       "+": [ [ "t_door_metal_pickable", 90 ], [ "t_door_metal_o", 5 ], [ "t_door_metal_c", 15 ] ],
       "D": [ [ "t_door_o", 40 ], [ "t_door_c", 40 ], [ "t_door_locked_interior", 20 ] ],
       ",": [ [ "t_region_groundcover_urban", 100 ], [ "t_region_shrub", 10 ] ],
-      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" },
       "@": "t_region_shrub_decorative",
       "u": "t_region_shrub",
       "B": "t_region_groundcover_barren",
@@ -949,7 +929,7 @@
       "m": "f_rack",
       "Y": "f_rack",
       "y": "f_rack",
-      "|": "f_locker",
+      "F": "f_locker",
       "Q": "f_rack",
       "K": "f_rack",
       "L": [ [ "f_rack_l", 65 ], [ "f_rack", 35 ] ],

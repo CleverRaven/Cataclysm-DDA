@@ -155,7 +155,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( effects.count( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.activate_thrown( attack.end_point.raw() );
+            do_drop = !dropped_item.activate_thrown( attack.end_point );
         }
 
         map &here = get_map();
@@ -173,7 +173,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         const trap &tr = here.tr_at( pt );
         if( tr.triggered_by_item( dropped_item ) ) {
-            tr.trigger( pt.raw(), dropped_item );
+            tr.trigger( pt, dropped_item );
         }
     }
 }
@@ -314,7 +314,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
 
         if( first ) {
             sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
-                                     sfx::get_heard_angle( target.raw() ) );
+                                     sfx::get_heard_angle( target ) );
         }
         // TODO: Z dispersion
     }
@@ -368,9 +368,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
             tripoint_bub_ms floor2 = tp;
 
             if( floor1.z() < floor2.z() ) {
-                floor1 += tripoint_above;
+                floor1 += tripoint::above;
             } else {
-                floor2 += tripoint_above;
+                floor2 += tripoint::above;
             }
             // We only stop the bullet if there are two floors in a row
             // this allow the shooter to shoot adjacent enemies from rooftops.
@@ -473,7 +473,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
                     const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
                     if( bt_len > 0 ) {
                         const tripoint_bub_ms &dest = move_along_line( tp, trajectory, bt_len );
-                        here.add_splatter_trail( blood_type, tp.raw(), dest.raw() );
+                        here.add_splatter_trail( blood_type, tp, dest );
                     }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
@@ -527,7 +527,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
     apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( null_source ? nullptr : origin, tp.raw(),
+        explosion_handler::explosion( null_source ? nullptr : origin, tp,
                                       proj.get_custom_explosion() );
     }
 
@@ -554,7 +554,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos_bub(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
-                                     sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
+                                     sfx::get_heard_volume( z.pos_bub() ), sfx::get_heard_angle( z.pos_bub() ) );
         }
     }
 

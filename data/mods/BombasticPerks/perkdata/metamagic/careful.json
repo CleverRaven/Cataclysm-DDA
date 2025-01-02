@@ -24,8 +24,8 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('casting_time' )", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('difficulty' )", "=", "-5" ] }
+      { "math": [ "u_spellcasting_adjustment('casting_time' ) = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('difficulty' ) = -5" ] }
     ]
   }
 ]

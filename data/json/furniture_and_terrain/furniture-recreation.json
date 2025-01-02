@@ -379,7 +379,6 @@
   {
     "type": "furniture",
     "id": "f_punching_bag",
-    "alias": "f_floor_canvas",
     "looks_like": "f_floor_canvas",
     "name": "heavy punching bag",
     "description": "A hefty, oblong leather bag, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",

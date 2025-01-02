@@ -40,7 +40,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 5G
+ccache -M 20G
 ccache --show-stats --verbose
 
 if [ "$CMAKE" = "1" ]

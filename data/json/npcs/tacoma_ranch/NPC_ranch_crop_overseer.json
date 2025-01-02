@@ -53,7 +53,7 @@
         }
       },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -127,8 +127,8 @@
           ]
         }
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_NONE" },
-      { "text": "I've got to go.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -137,8 +137,8 @@
     "dynamic_line": "We'll help plow the land and put up a sign to let everybody know it's yours.  Once it's plowed, you can hire some workers to plant or harvest the crops for a small fee of course.  Oh, and if you're growing anything we have a demand for, we'll gladly take it off your hands after the harvest.",
     "responses": [
       { "text": "I'm interested.  How much is it going to cost?", "topic": "TALK_RANCH_CROP_OVERSEER_PURCHASE_FIELD" },
-      { "text": "Maybe later.", "topic": "TALK_RANCH_CROP_OVERSEER" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_later>", "topic": "TALK_RANCH_CROP_OVERSEER" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -163,16 +163,16 @@
         "condition": { "u_has_items": { "item": "FMCNote", "count": 350 } }
       },
       {
-        "text": "I'm a bit short right now.  Maybe later.",
+        "text": "I'm a bit short right now.  <end_talking_later>",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "not": { "u_has_items": { "item": "FMCNote", "count": 350 } } }
       },
       {
-        "text": "Maybe later.",
+        "text": "<end_talking_later>",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 350 } }
       },
-      { "text": "I've got to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -195,8 +195,8 @@
           ]
         }
       },
-      { "text": "Maybe later.", "topic": "TALK_RANCH_CROP_OVERSEER" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_later>", "topic": "TALK_RANCH_CROP_OVERSEER" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -220,16 +220,16 @@
         "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } }
       },
       {
-        "text": "I don't have that much right now.  Maybe later.",
+        "text": "I don't have that much right now.  <end_talking_later>",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "not": { "u_has_items": { "item": "FMCNote", "count": 200 } } }
       },
       {
-        "text": "Maybe later.",
+        "text": "<end_talking_later>",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } }
       },
-      { "text": "I've got to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -254,16 +254,16 @@
         "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } }
       },
       {
-        "text": "I don't have that much right now.  Maybe later.",
+        "text": "I don't have that much right now.  <end_talking_later>",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "not": { "u_has_items": { "item": "FMCNote", "count": 300 } } }
       },
       {
-        "text": "Maybe later.",
+        "text": "<end_talking_later>",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } }
       },
-      { "text": "I've got to go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -306,8 +306,8 @@
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" }
         ]
       },
-      { "text": "Maybe later.", "topic": "TALK_RANCH_CROP_OVERSEER" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_later>", "topic": "TALK_RANCH_CROP_OVERSEER" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -320,8 +320,8 @@
         "topic": "TALK_DONE",
         "effect": { "companion_mission": "PLANT FIELD" }
       },
-      { "text": "Never mind.", "topic": "TALK_RANCH_CROP_OVERSEER" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_RANCH_CROP_OVERSEER" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -334,8 +334,8 @@
         "topic": "TALK_DONE",
         "effect": { "companion_mission": "HARVEST FIELD" }
       },
-      { "text": "Never mind.", "topic": "TALK_RANCH_CROP_OVERSEER" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_RANCH_CROP_OVERSEER" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -4,25 +4,25 @@
     "id": "EOC_MOM_GAMELOAD_HEADBLIND_UPDATER",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "condition": { "math": [ "u_has_headblind_pr_set", "!=", "1" ] },
-    "effect": [ { "math": [ "u_has_headblind_pr_set", "=", "1" ] }, { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] } ]
+    "condition": { "math": [ "u_has_headblind_pr_set != 1" ] },
+    "effect": [ { "math": [ "u_has_headblind_pr_set = 1" ] }, { "math": [ "u_has_initial_awakening_countup_set = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MOM_GAMELOAD_POWER_LEARNING_VARIABLES_UPDATER",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "condition": { "math": [ "global_updated_power_learning_variables", "!=", "1" ] },
+    "condition": { "math": [ "global_updated_power_learning_variables != 1" ] },
     "effect": [
-      { "math": [ "global_insight_power_learning_time_low", "=", "43200" ] },
-      { "math": [ "global_insight_power_learning_time_high", "=", "604800" ] },
-      { "math": [ "global_tier_one_power_learning_time_low", "=", "43200" ] },
-      { "math": [ "global_tier_one_power_learning_time_high", "=", "86400" ] },
-      { "math": [ "global_tier_two_power_learning_time_low", "=", "129600" ] },
-      { "math": [ "global_tier_two_power_learning_time_high", "=", "259200" ] },
-      { "math": [ "global_tier_three_power_learning_time_low", "=", "345600" ] },
-      { "math": [ "global_tier_three_power_learning_time_high", "=", "604800" ] },
-      { "math": [ "global_updated_power_learning_variables", "=", "1" ] }
+      { "math": [ "global_insight_power_learning_time_low = 43200" ] },
+      { "math": [ "global_insight_power_learning_time_high = 604800" ] },
+      { "math": [ "global_tier_one_power_learning_time_low = 43200" ] },
+      { "math": [ "global_tier_one_power_learning_time_high = 86400" ] },
+      { "math": [ "global_tier_two_power_learning_time_low = 129600" ] },
+      { "math": [ "global_tier_two_power_learning_time_high = 259200" ] },
+      { "math": [ "global_tier_three_power_learning_time_low = 345600" ] },
+      { "math": [ "global_tier_three_power_learning_time_high = 604800" ] },
+      { "math": [ "global_updated_power_learning_variables = 1" ] }
     ]
   },
   {
@@ -59,5 +59,20 @@
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_PAIN_SPLIT",
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_HIDE_UGLY_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('photokinetic_hide_ugly')" ] },
+      "cases": [
+        { "case": 0, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_01" } },
+        { "case": 4, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_02" } },
+        { "case": 8, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_03" } },
+        { "case": 12, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_04" } },
+        { "case": 16, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_05" } },
+        { "case": 20, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_06" } }
+      ]
+    }
   }
 ]

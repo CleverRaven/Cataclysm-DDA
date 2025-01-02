@@ -15,7 +15,7 @@ class npc;
 class JsonObject;
 class Trait_group;
 
-struct dialogue;
+struct const_dialogue;
 struct faction_price_rule;
 
 namespace trait_group
@@ -52,7 +52,7 @@ struct shopkeeper_item_group {
     int trust = 0;
     bool strict = false;
     translation refusal;
-    std::function<bool( dialogue & )> condition;
+    std::function<bool( const_dialogue const & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -109,6 +109,8 @@ class npc_class
         item_group_id worn_override;
         item_group_id carry_override;
         item_group_id weapon_override;
+
+        translation bye_message_override;
 
         std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );

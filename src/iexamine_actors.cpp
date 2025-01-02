@@ -24,7 +24,7 @@ void appliance_convert_examine_actor::load( const JsonObject &jo, const std::str
     mandatory( jo, false, "item", appliance_item );
 }
 
-void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &examp ) const
+void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
         return;
@@ -37,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp.raw(), vpart_appliance_from_item( appliance_item ) );
+    place_appliance( examp, vpart_appliance_from_item( appliance_item ), you );
 }
 
 void appliance_convert_examine_actor::finalize() const
@@ -107,13 +107,14 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
             continue;
         }
         if( omt_allowed_radius ) {
-            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint_min );
+            tripoint_abs_omt cardloc = it->get_var( "spawn_location_omt", tripoint_abs_omt::min );
             // Cards without a location are treated as valid
-            if( cardloc == tripoint_min ) {
+            if( cardloc == tripoint_abs_omt::min ) {
                 ret.push_back( it );
                 continue;
             }
-            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getglobal( examp ).raw() ).xy() );
+            int dist = rl_dist( cardloc.xy(),
+                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -131,7 +132,7 @@ bool cardreader_examine_actor::apply( const tripoint_bub_ms &examp ) const
 
     map &here = get_map();
     if( map_regen ) {
-        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getglobal( examp ).raw() ) );
+        tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( here.getglobal( examp ) ) );
         const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
                 false );
         if( !has_colliding_vehicle.success() ) {
@@ -179,8 +180,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &exam
                 break;
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
-                        examp ).raw() ) &&
+            if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
+                coords::project_to<coords::omt>( here.getglobal( examp ) ) &&
                 critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
@@ -255,8 +256,8 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
-    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
-    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
+    d.set_value( "this", get_map().furn( examp ).id().str() );
+    d.set_value( "pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

@@ -855,7 +855,7 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
-      "furniture": { "1": "f_air_conditioner", "2": "f_vent_pipe", "3": "f_roof_turbine_vent", "4": "f_small_satelitte_dish" }
+      "furniture": { "1": "f_air_conditioner", "2": "f_vent_pipe", "3": "f_roof_turbine_vent", "4": "f_small_satellite_dish" }
     }
   },
   {
@@ -892,7 +892,7 @@
       ],
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { "/": "t_wall_prefab_metal", "!": "t_door_metal_c", "©": "t_sidewalk" },
-      "furniture": { "1": "f_air_conditioner", "2": "f_vent_pipe", "3": "f_solar_unit", "4": "f_small_satelitte_dish" }
+      "furniture": { "1": "f_air_conditioner", "2": "f_vent_pipe", "3": "f_solar_unit", "4": "f_small_satellite_dish" }
     }
   },
   {
@@ -1010,7 +1010,7 @@
         "1": "f_air_conditioner",
         "2": "f_solar_unit",
         "3": "f_vent_pipe",
-        "4": "f_small_satelitte_dish",
+        "4": "f_small_satellite_dish",
         "5": "f_intermodal_crate_open",
         "6": "f_sealed_intermodal_crate"
       },

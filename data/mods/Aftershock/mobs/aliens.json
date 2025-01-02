@@ -63,7 +63,7 @@
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "ANIMAL", "SEES", "HEARS", "SMELLS", "NOHEAD", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "ANIMAL", "SEES", "HEARS", "SMELLS", "NOHEAD", "HARDTOSHOOT" ]
   },
   {
     "id": "afs_mon_boatman",
@@ -206,7 +206,7 @@
     "harvest": "alien_small_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "STUMBLES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "STUMBLES" ]
   },
   {
     "id": "afs_venandi",

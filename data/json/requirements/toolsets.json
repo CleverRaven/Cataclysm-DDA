@@ -9,9 +9,9 @@
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials",
+    "components": [ [ [ "any_water", 1, "LIST" ] ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "any_water", 1, "LIST" ] ],
       [
         [ "ladle", -1 ],
         [ "ceramic_mug", -1 ],

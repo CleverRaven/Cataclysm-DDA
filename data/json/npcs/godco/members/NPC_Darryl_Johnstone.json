@@ -25,7 +25,7 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Darryl_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Darryl_Mood" },
       { "text": "Nice farm you have here.", "topic": "TALK_GODCO_Darryl_Farm" },
@@ -39,7 +39,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Shove off, we've got no good words for each other.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ],
@@ -60,7 +60,7 @@
         "text": "About that well…",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "in-progress", { "npc_val": "mission_completed_godco_darryl_mission1" } ] }
           ]
         },
@@ -81,7 +81,7 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -92,7 +92,7 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -103,7 +103,7 @@
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -114,7 +114,7 @@
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -125,18 +125,18 @@
         "text": "How are the chickens?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
-            { "math": [ "darryl_building_coop", "==", "2" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
+            { "math": [ "darryl_building_coop == 2" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_darryl" } ] }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"
       },
       {
-        "text": "I'm afraid I can't talk right now.",
+        "text": "<end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -151,7 +151,7 @@
         "text": "Fuck you <name_b>, I'm outta here.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -176,7 +176,7 @@
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"
       },
       { "text": "Do you have any family?", "topic": "TALK_GODCO_Darryl_Wife" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -184,8 +184,8 @@
     "id": "TALK_GODCO_Darryl_Mood",
     "dynamic_line": "This uncertainty is eating me inside, to be frank with you.  I'm a simple man: I tend my farm, I scare off vermin, but even I can see somethin' ain't right here.  I've talked to my wife, I had a word with Damien, they told me to have more faith in God.  It's the last sliver of hope I have left, and I was told that's enough.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,7 +194,7 @@
     "dynamic_line": "Well, I'd rather not get into my life before all this.  I have a farm to maintain, after all.  Would be nice, sharing our tales while sipping cold brew beer.  Not at a time like this.  Now if you'll excuse me, I'll be back to work.",
     "responses": [
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'll leave you to it.", "topic": "TALK_DONE" }
     ]
   },
@@ -204,7 +204,7 @@
     "dynamic_line": "Took us three days and four hard-working hands to clear this humble little land.  It's a far-cry from my old garden, it really is.  I heard theories, from Tom of course, that really messed with my head.  You can never know what's in one of them toxic clouds, can ya?  I suspect goo-puker blood.  That putrid oil is a sure way to make any soil infertile, or so that nitwit says.  Here I go again, ramblin' once more.  One of my bad habits.",
     "responses": [
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'll leave you to it.", "topic": "TALK_DONE" }
     ]
   },
@@ -214,8 +214,8 @@
     "dynamic_line": "Huh, never would have thought you were interested in the fine art of farming.  Sure, I've got seeds I can say goodbye to… if you have the appropriate money of course.",
     "responses": [
       { "text": "Let's trade, then.", "topic": "TALK_GODCO_Darryl_Trade2" },
-      { "text": "You know what?  Nevermind.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -229,7 +229,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 7 } },
         "effect": [ { "u_sell_item": "icon", "count": 7 }, { "u_spawn_item": "egg_chicken", "count": 12 } ]
       },
-      { "text": "That's a bit rich for my blood.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "That's a bit rich for my blood.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -304,7 +304,7 @@
         },
         "failure": { "topic": "TALK_GODCO_Darryl_BarterFail", "opinion": { "trust": -6 } }
       },
-      { "text": "That's a bit rich for my blood.  I had better go.", "topic": "TALK_DONE" }
+      { "text": "That's a bit rich for my blood.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -336,14 +336,14 @@
     "id": "TALK_GODCO_Darryl_Mom&Dad",
     "dynamic_line": "Oh, they passed a long time ago.  Wish they could've seen Gemma and I marry…",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'm sorry for your loss.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_You_Mutant",
-    "dynamic_line": "I've heard of unnatural monsters such as yourself causing chaos after the fall of civilization, and how men have transformed into horrors and gone mad with sin.  This is the judgement of God upon you heathens for your wicked ways, and I want nothing to do with it.",
+    "dynamic_line": "I've heard of unnatural monsters such as yourself causing chaos after the fall of civilization, and how men have transformed into horrors and gone mad with sin.  This is the judgment of God upon you heathens for your wicked ways, and I want nothing to do with it.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {

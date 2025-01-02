@@ -37,7 +37,7 @@
     "id": "MILITIA_MERCHANT_misc",
     "subtype": "collection",
     "items": [
-      { "item": "jerky", "count-min": 3, "count-max": 8, "prob": 30 },
+      { "item": "jerky", "count": [ 3, 8 ], "prob": 30 },
       { "group": "tools_general", "prob": 80, "count": [ 1, 3 ] },
       { "group": "tools_home", "prob": 80, "count": [ 1, 3 ] },
       { "group": "tools_carpentry", "prob": 30, "count": [ 1, 3 ] },
@@ -141,7 +141,7 @@
       "yes": "Hello again.",
       "no": "Welcome to our camp.  Behave yourself while you are here.  What can I do for you?"
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_MILITIAMAIN", "value": "yes" } },
     "responses": [
       {
         "text": "What do you do here?",

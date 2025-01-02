@@ -34,7 +34,7 @@
     "effect": {
       "run_eocs": {
         "id": "EOC_PDEPENDENT_STRONG_WEAK_EFFECTS_ACCEPTANCE",
-        "condition": { "math": [ "ps_str", ">", "4" ] },
+        "condition": { "math": [ "ps_str > 4" ] },
         "effect": {
           "weighted_list_eocs": [
             [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
@@ -299,7 +299,7 @@
     "effect": [
       { "u_message": "You suddenly feel feeble.  Your muscles wobble.", "type": "bad" },
       { "u_add_effect": "pd_str_bad", "duration": "50 minutes" },
-      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
+      { "run_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {
@@ -310,7 +310,7 @@
     "effect": [
       { "u_message": "You suddenly feel a sharp pain in your hand.  You reach out to grab it, and miss.", "type": "bad" },
       { "u_add_effect": "pd_dex_bad", "duration": "50 minutes" },
-      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
+      { "run_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {
@@ -321,7 +321,7 @@
     "effect": [
       { "u_message": "You blink one time, and everything seems bigger.", "type": "bad" },
       { "u_add_effect": "pd_per_bad", "duration": "50 minutes" },
-      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
+      { "run_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {
@@ -332,7 +332,7 @@
     "effect": [
       { "u_message": "You stop to think, but you can't seem to remember about what.", "type": "bad" },
       { "u_add_effect": "pd_int_bad", "duration": "50 minutes" },
-      { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
+      { "run_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
   },
   {

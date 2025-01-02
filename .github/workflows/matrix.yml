@@ -94,14 +94,11 @@ jobs:
             dont_skip_data_only_changes: 1
             mods: --mods=magiclysm
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
-            # ~190MB in a clean build
-            # ~30MB compressed
-            # observed usage: 3.0GB -> 300MB
-            ccache_limit: 2G
+            ccache_limit: 4.5G
             ccache_key: linux-llvm-10-break1
 
           - compiler: clang++
-            os: macos-12
+            os: macos-13
             cmake: 0
             native: osx
             pch: 0
@@ -109,8 +106,7 @@ jobs:
             sound: 1
             localize: 1
             title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
-            # cache size ??? to be observed
-            ccache_limit: 4G
+            ccache_limit: 10G
             ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
@@ -126,10 +122,7 @@ jobs:
             pch: 1
             cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
-            # ~850MB in a clean build
-            # ~370MB compressed
-            # observed usage: 4.0GB -> 1.5GB
-            ccache_limit: 3G
+            ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
 
           - compiler: clang++-12
@@ -144,10 +137,7 @@ jobs:
             cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
-            # ~390MB in a clean build
-            # ~50MB compressed
-            # observed usage: 4.0GB -> 400MB
-            ccache_limit: 3G
+            ccache_limit: 6G
             ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
@@ -160,30 +150,8 @@ jobs:
             pch: 1
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
-            # ~480MB in a clean build
-            # ~50MB compressed
-            # observed usage: 4.4GB -> 400MB
-            ccache_limit: 4G
+            ccache_limit: 6.5G
             ccache_key: linux-gcc-11-asan
-
-          - compiler: g++
-            os: ubuntu-latest
-            cmake: 0
-            native:
-            pch: 1
-            tiles: 1
-            sound: 1
-            localize: 1
-            libbacktrace: 1
-            title: GCC 12, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
-            ldflags: -static-libgcc -static-libstdc++
-            mxe_target: x86_64-w64-mingw32.static.gcc12
-            wine: wine
-            # ~285MB in a clean build
-            # ~36MB compressed
-            # observed usage: 3.0GB -> 350MB
-            ccache_limit: 2G
-            ccache_key: mingw-gcc-12
 
           - compiler: g++-9
             os: ubuntu-latest
@@ -194,16 +162,8 @@ jobs:
             native: linux64
             pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
-            # ~180MB in a clean build
-            # ~25MB compressed
-            # observed usage: 3.0GB -> 300MB
-            ccache_limit: 2G
+            ccache_limit: 1G
             ccache_key: linux-gcc-9-cmake
-
-          # Reserving space for msvc ccache & vcpkg cache
-            # observed usage:
-            # vcpkg: ??? -> 500MB
-            # ccache: 8GB -> 1.0GB
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -235,7 +195,12 @@ jobs:
         CCACHE_FILECLONE: true
         CCACHE_HARDLINK: true
         CCACHE_NOCOMPRESS: true
-        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP: >-
+          ${{
+          ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) ||
+          ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) ||
+          ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' )
+          }}
         SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
     - name: Maximize build space
@@ -256,11 +221,12 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       run: |
           sudo apt-get install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
-    - name: install recent ccache on ubuntu 20.04
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.os == 'ubuntu-20.04' }}
+    - name: install recent ccache on ubuntu
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
+          ccache --version
           sudo apt-get remove --purge -y ccache
-          curl -sL https://github.com/ccache/ccache/releases/download/v4.8.3/ccache-4.8.3-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.8.3-linux-x86_64/ccache
+          curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
           ccache --version
     - name: install Clang 12 (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
@@ -286,6 +252,11 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
+    - name: install macports (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' && matrix.tiles == 1 }}
+      uses: melusina-org/setup-macports@v1
+      with:
+        parameters: '.github/macports/macports.yml'
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
@@ -294,6 +265,7 @@ jobs:
       if: ${{ env.SKIP == 'false' }}
       run: |
         echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "datetime-seconds=$(/bin/date +%s)" >> $GITHUB_OUTPUT
         echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
@@ -312,6 +284,10 @@ jobs:
     - name: post-build ccache manipulation
       if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |
+        ccache --show-stats --verbose
+        NOW=`/bin/date +%s`
+        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        ccache --evict-older-than ${DELTA}s
         ccache --show-stats --verbose
         ccache -M ${{ env.CCACHE_LIMIT }}
         ccache -c
@@ -351,7 +327,7 @@ jobs:
         if-no-files-found: ignore
         retention-days: 9
   emscripten:
-    needs: [ varied_builds ]
+    needs: [ skip-duplicates-code, varied_builds ]
     uses: ./.github/workflows/emscripten.yml
-    if: ${{ success() && github.event.pull_request.draft == false }}
+    if: ${{ needs.skip-duplicates.outputs.should_skip_code != 'true' && success() && github.event.pull_request.draft == false }}
     secrets: inherit

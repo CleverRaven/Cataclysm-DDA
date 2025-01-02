@@ -140,7 +140,7 @@
     "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_first_meeting", "value": "yes" } },
     "responses": [
       {
-        "text": "Yeah, I got it.  See ya.",
+        "text": "Yeah, I got it.  <end_talking_bye>",
         "topic": "TALK_DONE",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_first_meeting" } ] } }
       },
@@ -383,7 +383,7 @@
         "text": "Please!  I don't want to go back there!  I'm tired and hungry!  I just need time to rest!",
         "topic": "TALK_PRISONER_LEADER_ANNOYED"
       },
-      { "text": "Shit!  Looks like I'm on my own now.  Thanks for nothing.  Bye.", "topic": "TALK_DONE" }
+      { "text": "Shit!  Looks like I'm on my own now.  Thanks for nothing.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -399,7 +399,7 @@
       {
         "text": "[Survival 2] I have some survival expertise!",
         "topic": "TALK_PRISONER_LEADER_NO",
-        "condition": { "math": [ "u_skill('survival')", ">=", "2" ] }
+        "condition": { "math": [ "u_skill('survival') >= 2" ] }
       },
       { "text": "I guess I need to find some other place…", "topic": "TALK_DONE" }
     ]
@@ -410,7 +410,7 @@
     "dynamic_line": "The answer is still no.  In fact it might be better for us to kill you right away - you know, the less mouths to feed, the better.  But I'm in a good mood today, so I've decided to help you get out of this island.",
     "responses": [
       { "text": "Ok, I'm listening.", "topic": "TALK_PRISONER_LEADER_GIVES_WORK" },
-      { "text": "You know, I think I'll manage without your help.  Bye.", "topic": "TALK_DONE" }
+      { "text": "You know, I think I'll manage without your help.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -527,7 +527,7 @@
     "id": "TALK_PRISONER_LEADER_TRIAL_SUCCESS",
     "type": "talk_topic",
     "dynamic_line": "Okay.  It was convincing.  I'll still get what I want, one way or another.  You better watch your back from now on.",
-    "responses": [ { "text": "Noted.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Noted.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",

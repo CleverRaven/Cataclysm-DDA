@@ -17,8 +17,8 @@
   {
     "id": "goblin_fruit_regeneration_spell",
     "type": "SPELL",
-    "name": "Sweet Goblin Fruit Healing Effect",
-    "description": "Heals the target.",
+    "name": { "str": "Sweet Goblin Fruit Healing Effect", "//~": "NO_I18N" },
+    "description": { "str": "Heals the target.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": -1,
     "max_damage": -1,
@@ -68,8 +68,8 @@
   {
     "id": "goblin_fruit_aura_thorns",
     "type": "SPELL",
-    "name": "Goblin fruit aura thorns",
-    "description": "Stab a monster that attacked you.",
+    "name": { "str": "Goblin fruit aura thorns", "//~": "NO_I18N" },
+    "description": { "str": "Stab a monster that attacked you.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_DAMAGE" ],
     "shape": "blast",

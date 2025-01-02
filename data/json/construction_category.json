@@ -66,6 +66,11 @@
     "name": "Others"
   },
   {
+    "type": "construction_category",
+    "id": "DECONSTRUCT",
+    "name": "Deconstructions"
+  },
+  {
     "//": "Should be last in the list",
     "type": "construction_category",
     "id": "FILTER",

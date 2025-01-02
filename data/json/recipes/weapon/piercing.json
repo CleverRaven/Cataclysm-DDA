@@ -387,6 +387,27 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "result": "pike_bronze",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "6 h",
+    "book_learn": [ [ "bronze_book", 4 ], [ "bronze_mag", 5 ], [ "textbook_weapwest", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_carving", "skill_penalty": 0 }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "casting_mold", -1 ] ] ],
+    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pike",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -519,7 +540,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "type": "recipe",
@@ -1200,7 +1221,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {

@@ -51,6 +51,7 @@ enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
     PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
+    SPLIT_DAMAGE, // spell apply damage across all limbs. Works only with characters, for monsters do not have limbs
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
@@ -318,6 +319,10 @@ class spell_type
         // max pierce damage
         dbl_or_var max_pierce;
 
+        dbl_or_var min_bash_scaling;
+        dbl_or_var bash_scaling_increment;
+        dbl_or_var max_bash_scaling;
+
         // base energy cost of spell
         dbl_or_var base_energy_cost;
         // increment of energy cost per spell level
@@ -331,6 +336,9 @@ class spell_type
 
         // the difficulty of casting a spell
         dbl_or_var difficulty;
+
+        // if projectile should shot more than one projectile
+        dbl_or_var multiple_projectiles;
 
         // max level this spell can achieve
         dbl_or_var max_level;
@@ -377,6 +385,15 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+
+        // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
+        std::optional<jmath_func_id> get_level_formula_id;
+        std::optional<jmath_func_id> exp_for_level_formula_id;
+
+        // returns the exp required for the given level of the spell.
+        int exp_for_level( int level ) const;
+        // returns the level of this spell type if the spell has the given experience.
+        int get_level( int experience ) const;
     private:
         // default values
 
@@ -416,12 +433,16 @@ class spell_type
         static const int min_pierce_default;
         static const float pierce_increment_default;
         static const int max_pierce_default;
+        static const float min_bash_scaling_default;
+        static const float max_bash_scaling_default;
+        static const float bash_scaling_increment_default;
         static const int base_energy_cost_default;
         static const float energy_increment_default;
         static const trait_id spell_class_default;
         static const magic_energy_type energy_source_default;
         static const damage_type_id dmg_type_default;
         static const int difficulty_default;
+        static const int multiple_projectiles_default;
         static const int max_level_default;
         static const int base_casting_time_default;
         static const float casting_time_increment_default;
@@ -458,7 +479,7 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage( const Creature &caster ) const;
-        int min_leveled_dot( const Creature &caster ) const;
+        double min_leveled_dot( const Creature &caster ) const;
         // minimum aoe including levels
         int min_leveled_aoe( const Creature &caster ) const;
         // minimum duration including levels (moves)
@@ -472,7 +493,9 @@ class spell
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
 
-        static int exp_for_level( int level );
+        double bash_scaling( const Creature &caster ) const;
+
+        int exp_for_level( int level ) const;
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent
@@ -506,8 +529,8 @@ class spell
         // how much damage does the spell do
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
-        int damage_dot( const Creature &caster ) const;
-        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps,
+        double damage_dot( const Creature &caster ) const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_id> &bps,
                                                 const Creature &caster ) const;
         dealt_damage_instance get_dealt_damage_instance( Creature &caster ) const;
         dealt_projectile_attack get_projectile_attack( const tripoint_bub_ms &target,
@@ -549,10 +572,13 @@ class spell
         bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
+        // if spell shoots more than one projectile
+        int get_amount_of_projectiles( const Creature &guy ) const;
         // is this spell valid
         bool is_valid() const;
+        int bps_affected() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( const bodypart_str_id &bp ) const;
+        bool bp_is_affected( const bodypart_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         bool has_flag( const std::string &flag ) const;

@@ -34,6 +34,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_KCAL_COST",
+    "effect": [ { "math": [ "u_calories()", "-=", "psionics_kcal_cost(u_latest_channeled_power_difficulty)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -128,15 +133,15 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "2" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "2" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER') = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC') = 2" ] }
     ]
   },
   {
@@ -163,16 +168,49 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "4" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER') = 4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC') = 4" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PSYCHIC_VAMPIRE_TELEPATHY",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" },
+        { "math": [ "_success == true" ] },
+        { "or": [ { "compare_string": [ "telepathic_blast", { "context_val": "spell" } ] } ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "+=", "rand(2) + 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_PSYCHIC_VAMPIRE_VITAKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" },
+        { "math": [ "_success == true" ] },
+        {
+          "or": [
+            { "compare_string": [ "vita_hurt_touch", { "context_val": "spell" } ] },
+            { "compare_string": [ "vita_attack_touch", { "context_val": "spell" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_perk_blood_drinking_heal_hp_check" } ]
   },
   {
     "type": "effect_on_condition",
@@ -181,8 +219,8 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC')", "=", "25" ] },
-      { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' )", "=", "-1" ] }
+      { "math": [ "u_spellcasting_adjustment('casting_time', 'flag_whitelist': 'PSIONIC') = 25" ] },
+      { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = -1" ] }
     ]
   },
   {
@@ -191,7 +229,7 @@
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' )", "=", "0.75" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' ) = 0.75" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -200,15 +238,15 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_effect": "effect_nether_attunement_power_surge" },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "3" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER') = 3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC') = 3" ] }
     ]
   },
   {
@@ -218,15 +256,15 @@
     "required_event": "opens_spellbook",
     "condition": { "u_has_effect": "effect_noetic_resilience_comedown" },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "-3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "-4" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "-4" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH') = -3" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER') = -4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC') = -4" ] }
     ]
   },
   {
@@ -308,9 +346,146 @@
       { "u_lose_effect": "effect_telepath_invisibility" },
       { "u_lose_effect": "effect_telepath_network_effect" },
       { "u_lose_effect": "effect_vitakin_purge_rads" },
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers') = 0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_END_PSI_POWERS_SPECIFIC",
+    "//": "This will remove a single toggleable power, selected by the player (or no power).",
+    "effect": [
+      {
+        "title": "Stop concentrating on which power?",
+        "run_eoc_selector": [
+          "EOC_BIOKIN_REMOVE_OVERCOME_PAIN",
+          "EOC_BIOKIN_REMOVE_PHYSICAL_ENHANCE",
+          "EOC_BIOKIN_REMOVE_BREATHE_SKIN",
+          "EOC_BIOKIN_REMOVE_HARDENED_SKIN",
+          "EOC_BIOKIN_REMOVE_CLIMATE_CONTROL",
+          "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
+          "EOC_BIOKIN_REMOVE_HAMMERHAND",
+          "EOC_BIOKIN_REMOVE_REFLEX_ENHANCE",
+          "EOC_BIOKIN_REMOVE_METABOLISM_ENHANCE",
+          "EOC_CLAIR_REMOVE_NIGHT_EYES",
+          "EOC_CLAIR_REMOVE_SPEED_READ",
+          "EOC_CLAIR_REMOVE_DANGER_SENSE",
+          "EOC_CLAIR_REMOVE_SEE_AURAS",
+          "EOC_CLAIR_REMOVE_RANGED_ENHANCE",
+          "EOC_CLAIR_REMOVE_DODGE_POWER",
+          "EOC_CLAIR_REMOVE_CRAFT_BONUS",
+          "EOC_CLAIR_REMOVE_CLEAR_SIGHT",
+          "EOC_CLAIR_REMOVE_GROUP_TACTICS",
+          "EOC_ELECTROKIN_REMOVE_SEE_ELECTRICITY",
+          "EOC_ELECTROKIN_REMOVE_ZAP_ENEMIES",
+          "EOC_ELECTROKIN_REMOVE_MELEE_ATTACKS",
+          "EOC_ELECTROKIN_REMOVE_HACKING_INTERFACE",
+          "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
+          "EOC_ELECTROKIN_REMOVE_REDUCE_PAIN",
+          "EOC_ELECTROKIN_REMOVE_SPEED_BOOST",
+          "EOC_ELECTROKIN_REMOVE_LIGHTNING_AURA",
+          "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL",
+          "EOC_PHOTOKIN_REMOVE_LIGHT_DODGE",
+          "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
+          "EOC_PHOTOKIN_REMOVE_CAMOUFLAGE",
+          "EOC_PHOTOKIN_REMOVE_HIDE_UGLY",
+          "EOC_PHOTOKIN_REMOVE_RADIO",
+          "EOC_PHOTOKIN_REMOVE_INVISIBILITY",
+          "EOC_PHOTOKIN_REMOVE_BLINDING_GLARE",
+          "EOC_PYRO_REMOVE_FIRE_TOOL",
+          "EOC_PYRO_REMOVE_WARMTH_CLOAK",
+          "EOC_PYROKIN_REMOVE_BLAZING_AURA",
+          "EOC_PYRO_REMOVE_TORCH_WELD",
+          "EOC_PYROKIN_REMOVE_FLAME_IMMUNITY",
+          "EOC_TELEKIN_REMOVE_MOMENTUM",
+          "EOC_TELEKIN_REMOVE_LIFTING_FIELD",
+          "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
+          "EOC_TELEKIN_REMOVE_SHIELD",
+          "EOC_TELEKIN_REMOVE_JACKING_TOOL",
+          "EOC_TELEKIN_REMOVE_LEVITATION",
+          "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION",
+          "EOC_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
+          "EOC_TELEPATH_REMOVE_TELEPATHIC_MORALE",
+          "EOC_TELEPATH_REMOVE_SENSE_MINDS",
+          "EOC_TELEPORT_REMOVE_EPHEMERAL_WALK",
+          "EOC_TELEPORT_REMOVE_STRIDE",
+          "EOC_VITAKIN_REMOVE_SLOW_BLEEDING",
+          "EOC_VITAKIN_REMOVE_CONCENTRATED_HEALING",
+          "EOC_VITAKIN_REMOVE_HEALTH_POWER",
+          "EOC_VITAKIN_REMOVE_CURE_DISEASE",
+          "EOC_VITAKIN_REMOVE_SUPER_HEAL",
+          "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH",
+          "EOC_MOM_NO_EFFECT"
+        ],
+        "names": [
+          "Overcome Pain",
+          "Physical Enhancement",
+          "Oxygen Absorption",
+          "Hardened Skin",
+          "Temperature Adaptability",
+          "Enhance Mobility",
+          "Hammerhand",
+          "Heightened Reflexes",
+          "Metabolic Hyperefficiency",
+          "Night Eyes",
+          "Speed Reader",
+          "Premonition",
+          "Aura Sight",
+          "Marksman's Eye",
+          "Combat Sense",
+          "Intuitive Artisan",
+          "Clarity",
+          "Prescient Tactician",
+          "Spark Sight",
+          "Electrical Discharge",
+          "Voltaic Strikes",
+          "Hacking Interface",
+          "Electron Overflow",
+          "Pain Suppression",
+          "Neuro-acceleration",
+          "Galvanic Aura",
+          "Candle's Glow",
+          "Trick of the Light",
+          "Lucent Barrier",
+          "Chameleoflage",
+          "Mirror-Mask",
+          "Radio Transception",
+          "Veil of Light",
+          "Blinding Radiance",
+          "Banked Flames",
+          "Cloak of Warmth",
+          "Blazing Aura",
+          "Incandescent Lance",
+          "Flameshield",
+          "Momentum Alteration",
+          "Lifting Field",
+          "Enhance Strength",
+          "Inertial Barrier",
+          "Lift Vehicle",
+          "Levitation",
+          "Concentration Trance",
+          "Telepathic Shield",
+          "Mood Stabilization",
+          "Sense Minds",
+          "Ephemeral Walk",
+          "Extended Stride",
+          "Coagulation",
+          "Leukocyte Accumulation",
+          "Healthy Glow",
+          "Immunostimulus",
+          "Anabolic Rejuvenation",
+          "Accelerated Resuscitation",
+          "cancel"
+        ],
+        "hide_failing": true,
+        "allow_cancel": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_NO_EFFECT",
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
@@ -378,7 +553,7 @@
           "EOC_VITAKIN_REMOVE_RETURN_FROM_DEATH"
         ]
       },
-      { "math": [ "u_vitamin('vitamin_maintained_powers')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_maintained_powers') = 0" ] },
       { "u_lose_effect": "effect_psi_intense_concentration" }
     ]
   }

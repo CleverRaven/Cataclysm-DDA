@@ -11,8 +11,8 @@
           {
             "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER_2",
             "condition": { "not": { "u_near_om_location": "road", "range": 2 } },
-            "effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_arvore_is_in_wilderness = 1" ] } ],
+            "false_effect": [ { "math": [ "u_arvore_is_in_wilderness = 0" ] } ]
           }
         ]
       }
@@ -64,8 +64,8 @@
                 { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
               ]
             },
-            "effect": [ { "math": [ "u_arvore_is_in_forest", "=", "1" ] } ],
-            "false_effect": [ { "math": [ "u_arvore_is_in_forest", "=", "0" ] } ]
+            "effect": [ { "math": [ "u_arvore_is_in_forest = 1" ] } ],
+            "false_effect": [ { "math": [ "u_arvore_is_in_forest = 0" ] } ]
           }
         ]
       }
@@ -86,12 +86,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST",
-    "condition": { "math": [ "u_arvore_is_in_forest", "==", "1" ] }
+    "condition": { "math": [ "u_arvore_is_in_forest == 1" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD",
-    "condition": { "math": [ "u_arvore_is_in_wilderness", "==", "1" ] }
+    "condition": { "math": [ "u_arvore_is_in_wilderness == 1" ] }
   },
   {
     "type": "effect_on_condition",
@@ -223,10 +223,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_JAGGED_CLAWS_ON",
     "condition": { "not": { "u_has_trait": "ARVORE_WOOD_CLAWS_active" } },
-    "effect": [
-      { "u_add_trait": "ARVORE_WOOD_CLAWS_active" },
-      { "u_message": "Your fingers itch as jagged wood rapidly covers them.", "type": "good" }
-    ],
+    "effect": [ { "u_add_trait": "ARVORE_WOOD_CLAWS_active" } ],
     "false_effect": [
       { "u_lose_trait": "ARVORE_WOOD_CLAWS_active" },
       { "u_message": "The jagged wood covering your hands recedes, leaving no trace behind.", "type": "neutral" }
@@ -245,23 +242,75 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
-    "condition": {
-      "or": [
-        { "u_at_om_location": "forest_thick" },
-        { "u_at_om_location": "forest" },
-        { "u_at_om_location": "forest_water" },
-        { "u_at_om_location": "arvore_genius_loci_NW" },
-        { "u_at_om_location": "arvore_genius_loci_NE" },
-        { "u_at_om_location": "arvore_genius_loci_SW" },
-        { "u_at_om_location": "arvore_genius_loci_SE" }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "arvore_traverse_the_wilds_real" }, "targeted": true } ],
-    "false_effect": { "u_message": "You need to be in a forest or swamp to traverse the wilds.", "type": "bad" }
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION",
+            "effect": [
+              {
+                "if": {
+                  "u_query_tile": "line_of_sight",
+                  "target_var": { "global_val": "arvore_walk_wilds_location" },
+                  "range": {
+                    "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
+                  },
+                  "z_level": false,
+                  "message": "Select tree to step to."
+                },
+                "then": {
+                  "if": {
+                    "or": [
+                      { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_walk_wilds_location" } },
+                      { "map_terrain_with_flag": "YOUNG", "loc": { "global_val": "arvore_walk_wilds_location" } }
+                    ]
+                  },
+                  "then": [
+                    { "u_teleport": { "global_val": "arvore_walk_wilds_location" }, "force": true },
+                    { "u_message": "You step into the tree and step out of another one nearby.", "type": "neutral" }
+                  ],
+                  "else": { "u_message": "You must select a tree to step to." }
+                },
+                "else": { "u_message": "Canceled" }
+              }
+            ],
+            "false_effect": { "u_message": "You need to be standing next to a tree to traverse the wilds.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "arvore_walk_wilds_origin" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_origin" } }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SEED_BEARER",
+    "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_CHECK",
+    "effect": [
+      {
+        "u_map_run_eocs": [
+          {
+            "id": "EOC_ARVORE_SUMMON_FLORAL_BOAT_ACTION",
+            "effect": [ { "u_cast_spell": { "id": "arvore_summon_floral_boat_real" }, "targeted": true } ],
+            "false_effect": { "u_message": "You need a nearby tree to transform it into the viridescent vessel.", "type": "bad" }
+          }
+        ],
+        "range": 1,
+        "store_coordinates_in": { "context_val": "arvore_floral_boat_tree" },
+        "stop_at_first": true,
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_floral_boat_tree" } }
+      },
+      {
+        "u_transform_radius": 0,
+        "target_var": { "context_val": "arvore_floral_boat_tree" },
+        "ter_furn_transform": "ter_arvore_tree_to_grass"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_activated",
     "condition": {
       "and": [
         "u_is_outside",
@@ -269,8 +318,53 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_seed_bearer_real" } } ],
+    "effect": [
+      {
+        "if": { "and": [ { "not": { "u_has_effect": "effect_arvore_seedbearer_cooldown" } }, { "not": { "is_season": "winter" } } ] },
+        "then": [
+          { "u_lose_effect": "effect_arvore_seedbearer_available" },
+          { "u_message": "You bring forth seeds.", "type": "good" },
+          {
+            "math": [ "u_arvore_seedbearer_iterations", "=", "1 + ( u_sum_traits_of_category_char_has('ARVORE') / 5)" ]
+          },
+          {
+            "run_eocs": "EOC_ARVORE_SEED_BEARER_GIVE_SEEDS",
+            "iterations": { "math": [ "u_arvore_seedbearer_iterations" ] }
+          },
+          { "u_add_effect": "effect_arvore_seedbearer_cooldown", "duration": { "math": [ "432000 + rand(432000)" ] } }
+        ],
+        "else": {
+          "if": { "is_season": "winter" },
+          "then": { "u_message": "Your seeds slumber and dream of spring.", "type": "mixed" },
+          "else": [ { "u_message": "You need more time before you can summon seeds again.", "type": "bad" } ]
+        }
+      }
+    ],
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth regional seeds.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_GIVE_SEEDS",
+    "effect": { "u_spawn_item": "farming_seeds", "use_item_group": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_arvore_seedbearer_cooldown", { "context_val": "effect" } ] },
+    "effect": {
+      "if": { "is_season": "winter" },
+      "then": { "run_eocs": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER", "time_in_future": "24 hours" },
+      "else": { "u_add_effect": "effect_arvore_seedbearer_available", "duration": "PERMANENT" }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER",
+    "condition": { "is_season": "winter" },
+    "effect": { "run_eocs": "EOC_ARVORE_SEED_BEARER_SWITCH_EFFECTS_WINTER", "time_in_future": "24 hours" },
+    "false_effect": { "u_add_effect": "effect_arvore_seedbearer_available", "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
@@ -336,10 +430,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MIND_CONTROL_POLLEN_ON",
+    "effect": { "u_add_trait": "ARVORE_MIND_CONTROL_POLLEN_ON" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIND_CONTROL_POLLEN_OFF",
+    "effect": { "u_lose_trait": "ARVORE_MIND_CONTROL_POLLEN_ON" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_VINE_DRAG_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "arvore_vine_drag_spell",
@@ -424,23 +528,23 @@
       { "u_add_effect": "downed", "duration": 1 },
       { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
       { "u_spawn_item": "corpse_painful" },
-      { "queue_eocs": "EOC_PERENNIAL_REBIRTH_FINALIZE", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_PERENNIAL_REBIRTH_FINALIZE", "time_in_future": "1 seconds" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PERENNIAL_REBIRTH_HEAL",
     "effect": [
-      { "math": [ "u_hp('ALL')", "=", "999" ] },
-      { "math": [ "u_hp('ALL_MAJOR')", "=", "45" ] },
-      { "math": [ "u_calories()", "=", "70000" ] },
-      { "math": [ "u_val('thirst')", "=", "0" ] },
-      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
-      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
-      { "math": [ "u_vitamin('blood')", "=", "0" ] },
-      { "math": [ "u_vitamin('instability')", "=", "0" ] },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('rad')", "=", "0" ] },
+      { "math": [ "u_hp('ALL') = 999" ] },
+      { "math": [ "u_hp('ALL_MAJOR') = 45" ] },
+      { "math": [ "u_calories() = 70000" ] },
+      { "math": [ "u_val('thirst') = 0" ] },
+      { "math": [ "u_vitamin('redcells') = 0" ] },
+      { "math": [ "u_vitamin('bad_food') = 0" ] },
+      { "math": [ "u_vitamin('blood') = 0" ] },
+      { "math": [ "u_vitamin('instability') = 0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_val('rad') = 0" ] },
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "onfire" },
       { "u_lose_effect": "dazed" },
@@ -468,14 +572,14 @@
       { "u_teleport": { "u_val": "arvore_perennial_rebirth_teleport" } },
       { "u_lose_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
       { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
-      { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_calories()", "=", "65000" ] },
-      { "math": [ "u_val('thirst')", "=", "0" ] },
+      { "math": [ "u_pain() = 0" ] },
+      { "math": [ "u_calories() = 65000" ] },
+      { "math": [ "u_val('thirst') = 0" ] },
       {
         "foreach": "ids",
         "var": { "context_val": "id" },
         "target": "vitamin",
-        "effect": [ { "math": [ "u_vitamin(_id)", "=", "0" ] } ]
+        "effect": [ { "math": [ "u_vitamin(_id) = 0" ] } ]
       }
     ]
   },
@@ -491,28 +595,20 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SUN_FOODS_ON_KCAL",
+    "id": "EOC_ARVORE_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
-    "condition": { "math": [ "u_calories()", ">=", "118000" ] },
-    "effect": [  ],
-    "false_effect": {
-      "run_eocs": [
-        {
-          "id": "EOC_SUN_FOODS_ON_KCAL_2",
-          "condition": { "and": [ { "math": [ "u_calories()", "<=", "179999" ] }, { "math": [ "u_calories()", ">=", "75000" ] } ] },
-          "effect": [ { "math": [ "u_calories()", "+=", "7" ] } ],
-          "false_effect": {
-            "run_eocs": [
-              {
-                "id": "EOC_SUN_FOODS_ON_KCAL_3",
-                "condition": { "math": [ "u_calories()", "<=", "74999" ] },
-                "effect": [ { "math": [ "u_calories()", "+=", "12" ] } ]
-              }
-            ]
-          }
-        }
-      ]
-    }
+    "recurrence": [ "1 minutes", "1 minutes" ],
+    "condition": { "and": [ { "u_has_trait": "ARVORE_SUN_FOODS" }, "is_day", "u_is_outside" ] },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE_SUN_FOODS" } },
+    "effect": [
+      {
+        "if": {
+          "and": [ { "math": [ "u_calories('dont_affect_weariness': true) <= 179999" ] }, { "math": [ "u_calories() >= 75000" ] } ]
+        },
+        "then": { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "7" ] },
+        "else": { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "12" ] } }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -522,8 +618,17 @@
       "run_eocs": [
         {
           "id": "EOC_ARVORE_OVERGROWTH_2",
-          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
-          "effect": [ { "u_cast_spell": { "id": "arvore_overgrowth_spell_real" } } ],
+          "condition": { "math": [ "u_val('pos_z') == 0" ] },
+          "effect": [
+            {
+              "u_transform_radius": {
+                "math": [
+                  "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('intelligence') ) ) )"
+                ]
+              },
+              "ter_furn_transform": "ter_arvore_overgrowth"
+            }
+          ],
           "false_effect": { "u_message": "You must be on the surface and not on a building's upper stories to cast Overgrowth!", "type": "bad" }
         }
       ]
@@ -533,42 +638,95 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING",
-    "condition": "u_is_outside",
+    "condition": "npc_is_outside",
     "effect": [
+      { "npc_message": "Nature's power roars forth in an explosion of vital energy!", "type": "good" },
       {
-        "math": [
-          "u_latest_arvore_embrace_of_verdant_mother_aoe",
-          "=",
-          "( (u_spell_level('arvore_damage_zombies_heal_living') * rng(0.8,1.2)) + rng(1.5,4)) * scaling_factor(u_val('intelligence') )"
-        ]
-      },
-      {
-        "math": [
-          "u_latest_arvore_embrace_of_verdant_mother_damage",
-          "=",
-          " ( (u_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(u_val('intelligence') )"
-        ]
-      },
-      {
-        "run_eocs": [
+        "if": "u_is_npc",
+        "then": [
           {
-            "id": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING_2",
-            "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
-            "effect": [
-              { "u_cast_spell": { "id": "arvore_verdant_mother_damage_zombies_and_aliens" } },
-              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_animals" } },
-              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_npcs" } },
-              { "u_cast_spell": { "id": "arvore_verdant_mother_heal_ferals" } }
-            ],
-            "false_effect": {
-              "u_message": "You must be on the surface and not on a building's upper stories to cast Embrace of the Verdant Mother!",
-              "type": "bad"
+            "math": [
+              "u_hp('arm_l')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('arm_r')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('leg_l')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('leg_r')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('torso')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          },
+          {
+            "math": [
+              "u_hp('head')",
+              "+=",
+              "rng((n_spell_level('arvore_damage_zombies_heal_living') * 0.75), (n_spell_level('arvore_damage_zombies_heal_living') * 2.5)) * scaling_factor(n_val('intelligence') )"
+            ]
+          }
+        ],
+        "else": [
+          {
+            "if": {
+              "or": [
+                { "u_has_species": "PLANT" },
+                { "u_has_species": "ARVORE" },
+                { "u_has_species": "FERAL" },
+                { "u_has_species": "SPIDER" },
+                { "u_has_species": "CENTIPEDE" },
+                { "u_has_species": "WORM" },
+                { "u_has_species": "INSECT_FLYING" },
+                { "u_has_species": "INSECT" },
+                { "u_has_species": "MOLLUSK" },
+                { "and": [ { "u_has_species": "MAMMAL" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "BIRD" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "FISH" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "AMPHIBIAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "REPTILE" }, { "not": { "u_has_species": "ZOMBIE" } } ] },
+                { "and": [ { "u_has_species": "HUMAN" }, { "not": { "u_has_species": "ZOMBIE" } } ] }
+              ]
+            },
+            "then": {
+              "math": [
+                "u_hp('ALL')",
+                "=",
+                "( (n_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(n_val('intelligence') )"
+              ]
+            },
+            "else": {
+              "u_deal_damage": "biological",
+              "amount": {
+                "math": [
+                  "( (n_spell_level('arvore_damage_zombies_heal_living') * rng(12,22)) + rng(50,120)) * scaling_factor(n_val('intelligence') )"
+                ]
+              }
             }
           }
         ]
       }
-    ],
-    "false_effect": [ { "u_message": "You must be outside to cast Embrace of the Verdant Mother!", "type": "bad" } ]
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -577,11 +735,11 @@
       {
         "if": {
           "u_query_tile": "around",
-          "target_var": { "context_val": "arvore_treesung_location" },
+          "target_var": { "global_val": "arvore_treesung_location" },
           "message": "Select nearby tree"
         },
         "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_treesung_location" } },
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_treesung_location" } },
           "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
           "else": { "u_message": "You must be near a tree to treesing to it." }
         },
@@ -617,7 +775,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "ARVORE" },
-        { "math": [ "u_spell_level('arvore_tree_singing_spell')", ">=", "1" ] },
+        { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 1" ] },
         {
           "or": [
             { "not": { "u_know_recipe": "create_chair_wood_treesung" } },
@@ -627,8 +785,18 @@
             { "not": { "u_know_recipe": "create_verdant_helm" } },
             { "not": { "u_know_recipe": "create_verdant_cuirass" } },
             { "not": { "u_know_recipe": "create_verdant_gauntlets" } },
+            { "not": { "u_know_recipe": "create_verdant_leg_guards" } },
             { "not": { "u_know_recipe": "create_verdant_boots" } },
-            { "not": { "u_know_recipe": "create_verdant_cloak" } }
+            { "not": { "u_know_recipe": "create_verdant_cloak" } },
+            { "not": { "u_know_recipe": "create_shortbow_treesung" } },
+            { "not": { "u_know_recipe": "create_greatbow_treesung" } },
+            { "not": { "u_know_recipe": "create_arrow_treesung" } },
+            { "not": { "u_know_recipe": "create_spear_treesung" } },
+            { "not": { "u_know_recipe": "create_pike_treesung" } },
+            { "not": { "u_know_recipe": "create_mace_treesung" } },
+            { "not": { "u_know_recipe": "create_q_staff_treesung" } },
+            { "not": { "u_know_recipe": "create_naginata_treesung" } },
+            { "not": { "u_know_recipe": "create_baselard_treesung" } }
           ]
         },
         {
@@ -636,7 +804,7 @@
             {
               "and": [
                 "u_is_outside",
-                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "not": { "math": [ "u_val('pos_z') <= -1" ] } },
                 { "u_near_om_location": "forest", "range": 2 },
                 { "not": { "u_at_om_location": "field" } }
               ]
@@ -644,7 +812,7 @@
             {
               "and": [
                 "u_is_outside",
-                { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
+                { "not": { "math": [ "u_val('pos_z') <= -1" ] } },
                 { "u_near_om_location": "forest_thick", "range": 2 },
                 { "not": { "u_at_om_location": "field" } }
               ]
@@ -655,6 +823,7 @@
         }
       ]
     },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE" } },
     "effect": [
       {
         "u_roll_remainder": [
@@ -665,8 +834,18 @@
           "create_verdant_helm",
           "create_verdant_cuirass",
           "create_verdant_gauntlets",
+          "create_verdant_leg_guards",
           "create_verdant_boots",
-          "create_verdant_cloak"
+          "create_verdant_cloak",
+          "create_shortbow_treesung",
+          "create_greatbow_treesung",
+          "create_arrow_treesung",
+          "create_spear_treesung",
+          "create_pike_treesung",
+          "create_mace_treesung",
+          "create_q_staff_treesung",
+          "create_naginata_treesung",
+          "create_baselard_treesung"
         ],
         "type": "recipe"
       },
@@ -677,12 +856,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
     "condition": { "and": [ "u_is_outside", { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } ] },
-    "effect": [
-      { "u_add_trait": "CHLOROMORPH" },
-      { "u_add_trait": "LEAVES3" },
-      { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" },
-      { "u_add_effect": "effect_arvore_tree_immobility", "duration": 86400, "intensity": 100 }
-    ],
+    "effect": [ { "u_add_trait": "CHLOROMORPH" }, { "u_add_trait": "LEAVES3" }, { "u_add_trait": "ARVORE_TREE_FORM_TRAITS" } ],
     "false_effect": [ { "u_message": "You must be outside on diggable ground to become one with the forest.", "type": "bad" } ]
   },
   {
@@ -703,8 +877,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_REDUCE_THIRST",
-    "condition": { "math": [ "u_val('thirst')", ">=", "-50" ] },
-    "effect": [ { "math": [ "u_val('thirst')", "-=", "1" ] } ]
+    "recurrence": [ "3 minutes", "3 minutes" ],
+    "condition": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" },
+    "deactivate_condition": { "not": { "u_has_trait": "ARVORE_TREE_FORM_TRAITS" } },
+    "effect": [ { "if": { "math": [ "u_val('thirst') >= -50" ] }, "then": { "math": [ "u_val('thirst')", "-=", "1" ] } } ]
   },
   {
     "type": "effect_on_condition",
@@ -718,8 +894,8 @@
     "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_2",
     "condition": { "not": "u_is_npc" },
     "effect": [
-      { "math": [ "u_arvore_turn_into_tree_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_arvore_turn_into_tree_spell_level", "=", "n_spell_level('arvore_turn_into_tree')" ] },
+      { "math": [ "u_arvore_turn_into_tree_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_arvore_turn_into_tree_spell_level = n_spell_level('arvore_turn_into_tree')" ] },
       {
         "u_location_variable": { "global_val": "arvore_tree_transform_target" },
         "x_adjust": 0,
@@ -728,7 +904,7 @@
       },
       { "u_cast_spell": { "id": "arvore_turn_into_tree_banish", "message": "" } },
       {
-        "run_eoc_with": "EOC_NULL",
+        "run_eocs": "EOC_NULL",
         "beta_loc": { "global_val": "arvore_tree_transform_target" },
         "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
       }
@@ -755,7 +931,7 @@
         "z_adjust": 0
       },
       {
-        "if": { "math": [ "u_arvore_turn_into_tree_damage", ">", "u_health_comparison" ] },
+        "if": { "math": [ "u_arvore_turn_into_tree_damage > u_health_comparison" ] },
         "then": [
           "u_die",
           {
@@ -765,7 +941,7 @@
             "true_eocs": [ { "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
           },
           {
-            "run_eoc_with": "EOC_NULL",
+            "run_eocs": "EOC_NULL",
             "beta_loc": { "global_val": "arvore_tree_transform_target" },
             "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
           }

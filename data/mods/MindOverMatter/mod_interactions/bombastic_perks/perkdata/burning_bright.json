@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_BURNING_BRIGHT_CHANNELING_FINISH_RAISE_ATTUNEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "u_has_trait": "perk_burning_bright" },
+    "effect": [ { "run_eocs": "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_BURNING_BRIGHT_RAISE_ATTUNEMENT",
+    "condition": { "u_has_trait": "perk_burning_bright" },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(6) + 4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_BURNING_BRIGHT_ATTUNEMENT_MAINTAINED",
+    "recurrence": [ "5 seconds", "15 seconds" ],
+    "condition": { "and": [ { "u_has_trait": "perk_burning_bright" }, { "math": [ "u_vitamin('vitamin_maintained_powers') == 0" ] } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_burning_bright" } },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "1" ] } ]
+  }
+]

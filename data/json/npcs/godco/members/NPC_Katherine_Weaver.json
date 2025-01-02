@@ -16,46 +16,46 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Katherine_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "How are things here?", "topic": "TALK_GODCO_Katherine_Mood" },
       {
         "text": "Can you tell me about Arturo?",
         "topic": "TALK_GODCO_Katherine_Arturo",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Corrie?",
         "topic": "TALK_GODCO_Katherine_Corrie",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Jane?",
         "topic": "TALK_GODCO_Katherine_Jane",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Sonia?",
         "topic": "TALK_GODCO_Katherine_Sonia",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Zachary?",
         "topic": "TALK_GODCO_Katherine_Zachary",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Simon?",
         "topic": "TALK_GODCO_Katherine_Simon",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
       {
         "text": "Can you tell me about Jeremiah?",
         "topic": "TALK_GODCO_Katherine_Jeremiah",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -74,13 +74,13 @@
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Katherine_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Katherine_Job" },
       {
         "text": "You don't seem to like the joinees very much.  Why is that?",
         "topic": "TALK_GODCO_Katherine_Joinee_Opinion",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       { "text": "Do you know where I could find some work?", "topic": "TALK_MISSION_LIST" },
       { "text": "How are things here?", "topic": "TALK_GODCO_Katherine_Mood" }
@@ -93,7 +93,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Please go away, I'm not in the mood to talk right now.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ],
@@ -108,7 +108,7 @@
         "topic": "TALK_GODCO_Katherine_2a",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -129,17 +129,17 @@
         "text": "You sure, I've got plenty of time.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Katherine_Angry"
       },
       {
-        "text": "I'm afraid I can't talk right now.",
+        "text": "<end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -149,7 +149,7 @@
         "text": "Okay, I'll see you later.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -159,7 +159,7 @@
         "text": "Alright, fuck you then.",
         "condition": {
           "or": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
@@ -173,14 +173,14 @@
     "dynamic_line": "It's always a pleasure.  How may I help you?",
     "responses": [
       { "text": "I just had some questions.", "topic": "TALK_GODCO_Katherine_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_2a",
     "dynamic_line": "We have many things to pray for, I'm afraid.",
-    "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -194,8 +194,8 @@
     "dynamic_line": "Our prayers were heard.  We knew the day was coming, so we prepared.  Our community stockpiled months' worth of canned goods, well enough until the chaos ends.  With the food we have left, we could live peacefully, but we foolishly didn't take extra people into consideration.  With so much at risk, I don't think we can afford more people.  Though I'm not the one who makes the decisions here, and it's probably for the better.",
     "responses": [
       { "text": "Can you can take in joinees once there's a vacancy?", "topic": "TALK_GODCO_Katherine_Joinees" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -203,8 +203,8 @@
     "id": "TALK_GODCO_Katherine_Job",
     "dynamic_line": "I worked for the Church, organized charities and filed paperwork.  That's how I met the Founder.  I did so much for everyone, yet they never noticed…",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -212,8 +212,8 @@
     "id": "TALK_GODCO_Katherine_Joinee_Opinion",
     "dynamic_line": "You're right, I don't.  They should've come when they had the chance.  Now that our Ark has sailed, they want to jump aboard.  Such is the way of sinners, I suppose.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -271,8 +271,8 @@
     "responses": [
       { "text": "Tell me about the community.", "topic": "TALK_GODCO_Katherine_Community" },
       { "text": "Tell me about your family.", "topic": "TALK_GODCO_Katherine_Family" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -282,8 +282,8 @@
     "responses": [
       { "text": "The Founder?", "topic": "TALK_GODCO_Katherine_Founder" },
       { "text": "Tell me about your family.", "topic": "TALK_GODCO_Katherine_Family" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -292,8 +292,8 @@
     "dynamic_line": "I'm sure you've met my husband, Simon.  He was also a volunteer at a homeless shelter, working as a cook.  We were brought together by the hands of fate as some would say.  We have a son together, Jeremiah, the light in my life.  Such a creative and well-behaved boy, I just wish we could find an appropriate woman for him.",
     "responses": [
       { "text": "Tell me about the community.", "topic": "TALK_GODCO_Katherine_Community" },
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -301,7 +301,7 @@
     "id": "TALK_GODCO_Katherine_Founder",
     "dynamic_line": "He was quite reserved when I met him, seemed distant in his thoughts.  Theresa has the answers you are looking for.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "I'll talk to her then.", "topic": "TALK_DONE" }
     ]
   },
@@ -321,7 +321,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Angry_Pressed",
     "dynamic_line": "&Katherine scowls with anger at you.  \"This is the exact <swear> reason I don't want to talk to you, now go away!\"",
-    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "++" ] } } ],
+    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()++" ] } } ],
     "responses": [ { "text": "Fuck's sake <name_b>, I'm leaving!", "topic": "TALK_DONE" } ]
   }
 ]

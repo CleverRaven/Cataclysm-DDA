@@ -39,7 +39,7 @@
     },
     "responses": [
       { "text": "What are you doing?", "topic": "TALK_MILITIA_GUARD1_Introduction" },
-      { "text": "Well I've got to go.", "topic": "TALK_MILITIA_GUARD1_BYE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_MILITIA_GUARD1_BYE" }
     ]
   },
   {

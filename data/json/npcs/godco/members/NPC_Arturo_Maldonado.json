@@ -10,22 +10,18 @@
       "TALK_GODCO_Arturo_Hallucinations"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Arturo_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Arturo_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things around here?", "topic": "TALK_GODCO_Arturo_Mood" },
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Arturo_Community" },
       {
         "text": "Want to come with me?",
         "topic": "TALK_GODCO_Arturo_Recruit",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "What do you see in your visions?",
         "topic": "TALK_GODCO_Arturo_Hallucinations",
-        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+        "condition": { "math": [ "n_npc_value() >= 2" ] }
       }
     ]
   },
@@ -36,10 +32,10 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "I must be seeing things again!  Stay away from me!",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "* eyes you menacingly with a scowl on his face.  \"What do you want?\"",
         "no": {
-          "math": [ "n_npc_value()", ">=", "3" ],
+          "math": [ "n_npc_value() >= 3" ],
           "yes": "Hi, <name_g>.  It's good to see you again.",
           "no": {
             "npc_has_effect": "Arturo_visions_timer",
@@ -80,7 +76,7 @@
         "text": "Hey Arturo, how are ya?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -91,7 +87,7 @@
         "text": "Hey Arturo, how are ya?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -102,7 +98,7 @@
         "text": "Nothing, I'll see you later.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -110,10 +106,10 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Nice talking to you, but I gotta go.",
+        "text": "<end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_arturo" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -131,7 +127,7 @@
     },
     "responses": [
       { "text": "It's alright, just take your time.", "topic": "TALK_DONE" },
-      { "text": "Sorry, I gotta go.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

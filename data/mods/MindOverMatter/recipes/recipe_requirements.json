@@ -101,6 +101,6 @@
   {
     "id": "eggs_bird",
     "type": "requirement",
-    "extend": { "components": [ [ [ "egg_cockatrice", 1 ] ] ] }
+    "extend": { "components": [ [ [ "egg_cockatrice", 1 ], [ "egg_pigeon_passenger", 1 ] ] ] }
   }
 ]

@@ -138,7 +138,7 @@
           { "u_message": "Thanks for bringing the glass back.", "type": "good", "popup": true }
         ]
       },
-      { "text": "I'll be going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -235,6 +235,7 @@
     "item": "still",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_2",
     "dialogue": {
       "describe": "We need help…",
@@ -269,6 +270,7 @@
     "item": "yeast",
     "count": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_3",
     "dialogue": {
       "describe": "We need help…",
@@ -304,6 +306,7 @@
     "item": "seed_sugar_beet",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_4",
     "dialogue": {
       "describe": "We need help…",
@@ -344,6 +347,7 @@
     "item": "metal_tank",
     "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
       "describe": "We need help…",
@@ -378,6 +382,7 @@
     "item": "55gal_drum",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",
@@ -391,6 +396,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
+      "effect": { "u_add_var": "mission_flag_Bartender_rewarded", "value": "no" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
         "place_item": [ { "item": "55gal_drum", "x": 18, "y": 3, "repeat": 2, "faction": "tacoma_commune" } ],

@@ -1365,7 +1365,7 @@
     "id": "sloppyjoe",
     "name": { "str": "sloppy joe" },
     "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "manwich", "str_pl": "manwiches" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "sloppy Joseph" } },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",

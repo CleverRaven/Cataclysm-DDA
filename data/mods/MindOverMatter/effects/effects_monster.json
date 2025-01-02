@@ -3,8 +3,8 @@
     "id": "nemesis_buff",
     "type": "effect_type",
     "max_duration": "1000 s",
-    "name": [ "SWOLE" ],
-    "desc": [ "If you see this description it is a bug." ],
+    "name": [ { "str": "SWOLE", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "If you see this description it is a bug.", "//~": "NO_I18N" } ],
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [ "ench_nemesis_buff" ]
@@ -103,9 +103,29 @@
     "show_in_info": true,
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -9 }, { "value": "ARMOR_STAB", "add": -4 } ]
+        "incoming_damage_mod": [ { "type": "bash", "add": -9 }, { "type": "stab", "add": -4 }, { "type": "cut", "add": -6 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_heightened_reflex",
+    "name": [ "Heightened Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "show_in_info": true,
+    "removes_effects": [ "blind", "deaf" ],
+    "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.1 }, { "value": "SPEED", "multiply": 0.17 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_heightened_reflex_enhanced",
+    "name": [ "Heightened Reflexes" ],
+    "desc": [ "You are enhancing your speed and senses." ],
+    "show_in_info": true,
+    "removes_effects": [ "blind", "deaf" ],
+    "//": "VISION_RANGE enchant is a proxy for perception, which monsters do not have",
+    "enchantments": [ { "values": [ { "value": "VISION_RANGE", "multiply": 0.2 }, { "value": "SPEED", "multiply": 0.35 } ] } ]
   },
   {
     "type": "effect_type",
@@ -118,8 +138,24 @@
   {
     "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
-    "name": [ "One Perfect Rock" ],
-    "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
+    "name": [ { "str": "One Perfect Rock", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are prepared to ruin the player's day with an inhumanly accurate thrown rock.", "//~": "NO_I18N" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_neuro_acceleration",
+    "name": [ "Neuro-Acceleration" ],
+    "desc": [ "You are enhancing your speed." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_neuro_acceleration_enhanced",
+    "name": [ "Neuro-Acceleration" ],
+    "desc": [ "You are enhancing your speed." ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.4 } ] } ]
   },
   {
     "type": "effect_type",
@@ -187,7 +223,7 @@
     "id": "effect_monster_pyrokinetic_fire_immunity",
     "name": [ "Flame Immunity" ],
     "desc": [ "You are immune to fire." ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -197,13 +233,13 @@
     "show_in_info": true,
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "multiply": -0.1 },
-          { "value": "ARMOR_BASH", "multiply": -0.1 },
-          { "value": "ARMOR_STAB", "multiply": -0.1 },
-          { "value": "ARMOR_BULLET", "multiply": -0.1 },
-          { "value": "SPEED", "multiply": 0.03 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.1 },
+          { "type": "stab", "multiply": -0.1 },
+          { "type": "cut", "multiply": -0.1 },
+          { "type": "bullet", "multiply": -0.1 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": 0.03 } ]
       }
     ]
   },
@@ -216,11 +252,11 @@
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "add": -15 },
-          { "value": "ARMOR_BASH", "add": -10 },
-          { "value": "ARMOR_STAB", "add": -20 },
-          { "value": "ARMOR_BULLET", "add": -35 }
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -10 },
+          { "type": "stab", "add": -20 },
+          { "type": "cut", "add": -15 },
+          { "type": "bullet", "add": -35 }
         ]
       }
     ]
@@ -234,14 +270,22 @@
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_CUT", "add": -25 },
-          { "value": "ARMOR_BASH", "add": -18 },
-          { "value": "ARMOR_STAB", "add": -32 },
-          { "value": "ARMOR_BULLET", "add": -50 }
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -18 },
+          { "type": "stab", "add": -32 },
+          { "type": "cut", "add": -25 },
+          { "type": "bullet", "add": -50 }
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_monster_immune_to_telepathy",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "You have a shield up to prevent telepathic detection and attack." ],
+    "show_in_info": true,
+    "max_intensity": 20
   },
   {
     "type": "effect_type",
@@ -274,13 +318,26 @@
     "rating": "bad",
     "max_duration": "12 hours",
     "base_mods": {
-      "str_mod": [ -2 ],
+      "str_mod": [ -1 ],
       "h_mod_min": [ -2 ],
       "h_mod_chance": [ 1 ],
       "h_mod_chance_bot": [ 5 ],
       "h_mod_tick": [ 600 ],
       "healing_rate": [ 0.75 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_health_down_monster",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 1800,
+    "int_decay_remove": true,
+    "base_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] },
+    "scaling_mods": { "hit_mod": [ -0.2 ], "dodge_mod": [ -0.2 ], "speed_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -298,6 +355,26 @@
       "h_mod_chance_bot": [ 4 ],
       "h_mod_tick": [ 500 ],
       "healing_rate": [ 0.5 ]
+    },
+    "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_healing_down_super",
+    "name": [ "Feeling Extremely Unwell" ],
+    "desc": [ "You feel exhausted and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "18 hours",
+    "base_mods": {
+      "str_mod": [ -3 ],
+      "dex_mod": [ -1 ],
+      "h_mod_min": [ -3 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 4 ],
+      "h_mod_tick": [ 300 ],
+      "healing_rate": [ 0.25 ]
     },
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
   },
@@ -337,14 +414,16 @@
   {
     "type": "effect_type",
     "id": "effect_feral_regeneration",
-    "name": [ "Feral Regeneration" ],
-    "desc": [ "Your wounds are rapidly closing." ]
+    "name": [ { "str": "Feral Regeneration", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "Your wounds are rapidly closing.", "//~": "NO_I18N" } ]
   },
   {
     "type": "effect_type",
     "id": "effect_telepath_network_monster_effect",
-    "name": [ "Telepathic Network Monster" ],
-    "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
+    "name": [ { "str": "Telepathic Network Monster", "//~": "NO_I18N" } ],
+    "desc": [
+      { "str": "You are in constant communication with your allies, looking out for each other in combat.", "//~": "NO_I18N" }
+    ],
     "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
   }
 ]

@@ -34,7 +34,7 @@
           { "u_add_var": "flag_safe_lighthouse_girl", "value": "yes" }
         ]
       },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -80,7 +80,7 @@
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
       { "text": "<BGSS_intro_question>", "topic": "TALK_lighthouse_girl_Background" },
       { "text": "Do you need any help?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Goodbye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

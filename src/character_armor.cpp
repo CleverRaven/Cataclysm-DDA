@@ -54,7 +54,7 @@ bool Character::can_interface_armor() const
 resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
-    for( const trait_id &iter : get_mutations() ) {
+    for( const trait_id &iter : get_functioning_mutations() ) {
         res += iter->damage_resistance( bp );
     }
 
@@ -122,37 +122,7 @@ int Character::get_env_resist( bodypart_id bp ) const
 
 // adjusts damage unit depending on type by enchantments.
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
-static void armor_enchantment_adjust( Character &guy, damage_unit &du )
-{
-    //If we're not dealing any damage of the given type, don't even bother.
-    if( du.amount < 0.1f ) {
-        return;
-    }
-    // FIXME: hardcoded damage types -> enchantments
-    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
-    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
-    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
-    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
-    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
-    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
-    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
-    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
-    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
-    }
-    if( du.type != STATIC( damage_type_id( "pure" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
-    }
-    du.amount = std::max( 0.0f, du.amount );
-}
+
 
 void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
@@ -166,31 +136,6 @@ void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
     who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
                                _( "<npcname>'s %s is completely destroyed!" ),
                                pre_damage_name );
-}
-
-void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
-{
-    // FIXME: hardcoded damage types -> enchantments
-    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ACID );
-    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BASH );
-    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BIO );
-    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_COLD );
-    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_CUT );
-    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ELEC );
-    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_HEAT );
-    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_STAB );
-    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
-        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BULLET );
-    }
-    du.amount = std::max( 0.0f, du.amount );
 }
 
 const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
@@ -246,13 +191,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
             }
         }
 
-        armor_enchantment_adjust( *this, elem );
+        adjust_taken_damage_by_enchantments( elem );
 
         worn.absorb_damage( *this, elem, bp, worn_remains, armor_destroyed );
 
         passive_absorb_hit( bp, elem );
 
-        post_absorbed_damage_enchantment_adjust( *this, elem );
+        adjust_taken_damage_by_enchantments_post_absorbed( elem );
         elem.amount = std::max( elem.amount, 0.0f );
     }
     map &here = get_map();
@@ -276,23 +221,32 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
     // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
     if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
-                pos(), nullptr ) ) {
+        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
         armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
+                           armor.tname() );
+    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
+        armor.energy_consume( units::from_kilojoule( du.amount ),
+                              pos_bub(), nullptr );
     }
+    // We copy the damage unit here since it will be mutated by mitigate_damage()
+    damage_unit pre_mitigation = du;
+
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
 
     // check if the armor was damaged
-    item::armor_status damaged = armor.damage_armor_durability( du, bp, calculate_by_enchantment( 1,
-                                 enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+    item::armor_status damaged = armor.damage_armor_durability( du, pre_mitigation, bp,
+                                 calculate_by_enchantment( 1,
+                                         enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
 
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
         describe_damage( du, armor );
     }
+
     return damaged == item::armor_status::DESTROYED;
 }
 
@@ -305,23 +259,32 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
     // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
     if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
-                pos(), nullptr ) ) {
+        units::from_kilojoule( du.amount ) > armor.energy_remaining( nullptr, true ) ) {
         armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
+        add_msg_if_player( _( "Your %s doesn't have enough power to absorb the blow and shuts down!" ),
+                           armor.tname() );
+    } else if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
+               units::from_kilojoule( du.amount ) < armor.energy_remaining( nullptr, true ) ) {
+        armor.energy_consume( units::from_kilojoule( du.amount ),
+                              pos_bub(), nullptr );
     }
+    // We copy the damage unit here since it will be mutated by mitigate_damage()
+    damage_unit pre_mitigation = du;
+
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, bp, -1 );
 
     // check if the armor was damaged
-    item::armor_status damaged = armor.damage_armor_durability( du, bp, calculate_by_enchantment( 1,
-                                 enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+    item::armor_status damaged = armor.damage_armor_durability( du, pre_mitigation, bp,
+                                 calculate_by_enchantment( 1,
+                                         enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
 
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
         describe_damage( du, armor );
     }
+
     return damaged == item::armor_status::DESTROYED;
 }
 
@@ -353,8 +316,9 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                     damaged = ablative_armor.damage_armor_transforms( pre_mitigation, calculate_by_enchantment( 1,
                               enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
                 } else {
-                    damaged = ablative_armor.damage_armor_durability( du, bp->parent, calculate_by_enchantment( 1,
-                              enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
+                    damaged = ablative_armor.damage_armor_durability( du, pre_mitigation, bp->parent,
+                              calculate_by_enchantment( 1,
+                                                        enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
                 }
 
                 if( damaged == item::armor_status::TRANSFORMED ) {

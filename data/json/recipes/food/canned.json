@@ -791,12 +791,13 @@
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_glass_sealed",
-    "charges": 8,
+    "charges": 10,
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "liver", 8 ], [ "human_liver", 8 ], [ "demihuman_liver", 8 ] ]
+      [ [ "liver", 10 ], [ "human_liver", 10 ], [ "demihuman_liver", 10 ] ]
     ]
   },
   {
@@ -814,12 +815,13 @@
     "using": [ [ "canning_high_heat", 6, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_3l_glass_sealed",
-    "charges": 48,
+    "charges": 60,
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "liver", 48 ], [ "human_liver", 48 ], [ "demihuman_liver", 48 ] ]
+      [ [ "liver", 60 ], [ "human_liver", 60 ], [ "demihuman_liver", 60 ] ]
     ]
   },
   {
@@ -837,12 +839,13 @@
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_glass_sealed",
-    "charges": 8,
+    "charges": 10,
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "heart", 8 ], [ "human_heart", 8 ], [ "demihuman_heart", 8 ] ]
+      [ [ "heart", 10 ], [ "human_heart", 10 ], [ "demihuman_heart", 10 ] ]
     ]
   },
   {
@@ -860,12 +863,13 @@
     "using": [ [ "canning_high_heat", 6, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_3l_glass_sealed",
-    "charges": 48,
+    "charges": 60,
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "heart", 48 ], [ "human_heart", 48 ], [ "demihuman_heart", 48 ] ]
+      [ [ "heart", 60 ], [ "human_heart", 60 ], [ "demihuman_heart", 60 ] ]
     ]
   },
   {
@@ -889,9 +893,9 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 6 ] ],
-      [ [ "can_tomato", 4 ], [ "tomato_cut", 4 ], [ "tomato", 4 ] ],
+      [ [ "any_tomato", 4, "LIST" ] ],
       [ [ "broccoli", 4 ] ],
-      [ [ "zucchini", 4 ], [ "zucchini_cut", 4 ] ],
+      [ [ "any_zucchini", 4, "LIST" ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -918,7 +922,7 @@
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water_clean", 12 ] ],
-      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ] ],
+      [ [ "any_tomato", 24, "LIST" ] ],
       [ [ "canning_acid_large", 1, "LIST" ] ]
     ]
   },
@@ -944,7 +948,7 @@
     "//2": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ] ],
+      [ [ "any_tomato", 4, "LIST" ] ],
       [ [ "water_clean", 2 ] ],
       [ [ "canning_acid_small", 1, "LIST" ] ]
     ]
@@ -1068,6 +1072,7 @@
     "time": "30 m",
     "charges": 2,
     "book_learn": [ [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//": "Canned tomatoes aren't an option as they've already been preserved.",
@@ -1113,6 +1118,7 @@
     "time": "40 m",
     "charges": 12,
     "book_learn": [ [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//": "Canned tomatoes aren't an option as they've already been preserved.",
@@ -1158,6 +1164,7 @@
     "time": "30 m",
     "charges": 2,
     "book_learn": [ [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat. Due to pickling, ordinarily pressure canned veggy can be water bathed.",
@@ -1182,6 +1189,7 @@
     "time": "40 m",
     "charges": 12,
     "book_learn": [ [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat. Due to pickling, ordinarily pressure canned veggy can be water bathed.",
@@ -1206,6 +1214,7 @@
     "time": "30 m",
     "charges": 2,
     "book_learn": [ [ "manual_canning", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat. Due to pickling, ordinarily pressure canned veggy can be water bathed.",
@@ -1224,6 +1233,7 @@
     "difficulty": 6,
     "time": "40 m",
     "charges": 12,
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "using": [ [ "canning_low_heat", 6, "LIST" ] ],
@@ -1668,7 +1678,7 @@
     "book_learn": [ [ "manual_sealing", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "can_food_big",
-    "charges": 12,
+    "charges": 6,
     "batch_time_factors": [ 83, 5 ],
     "components": [
       [ [ "water_clean", 1 ] ],
@@ -2198,6 +2208,7 @@
     "time": "20 m",
     "book_learn": [ [ "manual_sealing", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "container": "can_food",
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "poultry_raw_any", 2, "LIST" ] ] ],
@@ -2415,7 +2426,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "tomato_cut", 4 ] ], [ [ "water_clean", 5 ] ] ],
+    "components": [ [ [ "any_tomato", 4, "LIST" ] ], [ [ "water_clean", 5 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2435,7 +2446,7 @@
     "container": "can_food",
     "charges": 4,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "tomato_cut", 2 ] ], [ [ "water_clean", 3 ] ] ],
+    "components": [ [ [ "any_tomato", 2, "LIST" ] ], [ [ "water_clean", 3 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2455,7 +2466,7 @@
     "container": "can_food_big",
     "charges": 48,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "tomato_cut", 24 ] ], [ [ "water_clean", 30 ] ] ],
+    "components": [ [ [ "any_tomato", 24, "LIST" ] ], [ [ "water_clean", 30 ] ] ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]
@@ -2931,12 +2942,13 @@
     "difficulty": 5,
     "time": "20 m",
     "batch_time_factors": [ 83, 5 ],
-    "container": "canister_empty",
+    "container": "can_food",
     "contained": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 4 ], [ "human_liver", 4 ], [ "demihuman_liver", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 5 ], [ "human_liver", 5 ], [ "demihuman_liver", 5 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
-    "charges": 4,
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "charges": 5,
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ]
   },
@@ -2953,9 +2965,10 @@
     "batch_time_factors": [ 83, 5 ],
     "container": "can_medium",
     "contained": true,
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 8 ], [ "human_liver", 8 ], [ "demihuman_liver", 8 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "liver", 10 ], [ "human_liver", 10 ], [ "demihuman_liver", 10 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
-    "charges": 8,
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "charges": 10,
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -2973,9 +2986,10 @@
     "batch_time_factors": [ 83, 5 ],
     "container": "can_food_big",
     "contained": true,
-    "components": [ [ [ "water_clean", 6 ] ], [ [ "liver", 48 ], [ "human_liver", 48 ], [ "demihuman_liver", 48 ] ] ],
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "liver", 60 ], [ "human_liver", 60 ], [ "demihuman_liver", 60 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
-    "charges": 48,
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "charges": 60,
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]

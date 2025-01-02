@@ -152,6 +152,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_druid_goodberry",
+    "name": "Dabbler (Goodberry)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  Biohacking was your passion, trying to optimize your life through diet, exercise, and sleep tricks, and you turned to druidic magic to cut out wasted time.  When the Pomodoro timer went off, you scurried to the fridge, grabbed a handful of berries and enchanted them, scarfed them down, and then got back to work.  You never had to deal with meal replacement nonsense, you just ate your berries and got things done.  Your clients are dead now and everything you worked on is ash and dust, but eating those berries has proven to be the best habit you picked up.",
+    "points": 4,
+    "spells": [ { "id": "druid_goodberry", "level": 5 } ],
+    "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_eshaper_spawn_tools",
     "name": "Dabbler (Utility Molding)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Utility Molding.  You read a pamphlet once entitled, \"One Spell is All You Need!\" and thought it seemed like a good idea.  And true, maybe you've never needed a mining pick before, but the ability to all up a knife or a shovel or a hammer whenever you want has come in handy countless times.",

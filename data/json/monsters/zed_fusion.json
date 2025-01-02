@@ -35,8 +35,8 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "187500 ml",
+    "weight": "244500 g",
     "hp": 112,
     "speed": 60,
     "material": [ "flesh" ],
@@ -52,6 +52,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "zombie_humanoid_multiple",
+    "decay": "zombie_decay_bone_human_skull_multiple",
     "//grab": "All these arms to grab you with",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch" }, [ "ZOMBIE_FUSE", 80 ] ],
@@ -73,7 +74,6 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER",
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }

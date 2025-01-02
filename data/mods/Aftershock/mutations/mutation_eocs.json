@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAD_ADAP_activated",
-    "condition": { "math": [ "u_val('sleep_deprivation')", "<=", "14400" ] },
+    "condition": { "math": [ "u_val('sleep_deprivation') <= 14400" ] },
     "effect": [
       { "math": [ "u_val('sleep_deprivation')", "+=", "time('15 minutes')" ] },
       {
@@ -16,7 +16,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAD_FLUSH_activated",
-    "condition": { "math": [ "u_val('sleep_deprivation')", "<=", "14400" ] },
+    "condition": { "math": [ "u_val('sleep_deprivation') <= 14400" ] },
     "effect": [
       { "math": [ "u_val('sleep_deprivation')", "+=", "time('35 minutes')" ] },
       {
