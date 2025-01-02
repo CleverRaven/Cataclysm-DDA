@@ -88,8 +88,8 @@
         " -...............-      ",
         " 5----------------      "
       ],
-      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
-      "terrain": { "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
+      "palettes": [ "roof_palette" ],
+      "terrain": { "#": "t_wall_w", "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [
@@ -114,69 +114,6 @@
           "y": [ 12, 16 ]
         }
       ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "s_gun_looted" ],
-    "//": "Looted version of s_gun. Uses same roof as s_gun.",
-    "weight": 300,
-    "object": {
-      "fill_ter": "t_thconc_floor",
-      "rows": [
-        ",/____________________',",
-        ",,*___*___*___*___*___',",
-        ",,*___*___*___*___*___',",
-        ",,*___*___*___*___*___',",
-        ",,*___*___*___*___*___',",
-        ",,*___*___*___*___*___',",
-        ",,###:::########:::###',",
-        ",,#M?C``mmmmmm``pppmm#',",
-        ",,#eaC``````````````m#',",
-        ",,#M`C```````````````+',",
-        ",,#M````mmmmmm``mmmmm#,,",
-        ",,#|||D||||||||||||||#,,",
-        ",,#&q|`|MMM`AnA`r|SSS#,,",
-        ",,#r`D`D`````````D`SS#,,",
-        ",,#|||D|||||||||||`SS#,,",
-        ",;#M=n==n==n==n==|`||#,,",
-        ",,#M=============|`D<#,,",
-        ",,WWWCWWCWWCWWCW=W+###,,",
-        ",,W==============W.www,,",
-        ",,W==============W....,,",
-        ",,W..............W,,,,,,",
-        ",,W..T..T..T..T..W,,,,,,",
-        ",,WxxxxxxxxxxxxxxW,,,,,,",
-        ",,WWWWWWWWWWWWWWWW,,,,,,"
-      ],
-      "palettes": [ "gun_store_palette" ],
-      "terrain": { ";": "t_region_groundcover_urban", "w": "t_pavement", "/": "t_region_groundcover_urban" },
-      "nested": {
-        "#": { "chunks": [ [ "general_graffiti", 15 ], [ "null", 75 ] ] },
-        "m": { "chunks": [ [ "destroyed_furniture", 40 ], [ "null", 80 ] ] },
-        "M": { "chunks": [ [ "destroyed_furniture", 50 ], [ "null", 80 ] ] },
-        "C": { "chunks": [ [ "destroyed_furniture", 85 ], [ "null", 90 ] ] },
-        "V": { "chunks": [ [ "destroyed_furniture", 75 ], [ "null", 80 ] ] },
-        "A": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "E": { "chunks": [ [ "destroyed_furniture", 45 ], [ "null", 90 ] ] },
-        "a": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "^": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "n": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "p": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "S": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "?": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "T": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "&": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
-        "q": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "r": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
-        "e": { "chunks": [ [ "looted_gunsafe_nested", 25 ], [ "jammed_gunsafe_nested", 75 ], [ "null", 95 ] ] },
-        "D": { "chunks": [ [ "damaged_door_nested", 50 ], [ "destroyed_door_nested", 100 ], [ "null", 75 ] ] },
-        ":": { "chunks": [ [ "damaged_window_bars_nested", 75 ], [ "destroyed_window_bars_nested", 100 ], [ "null", 95 ] ] },
-        "+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 75 ] ] },
-        "`": { "chunks": [ [ "corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
-      },
-      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 5, "y": [ 7, 9 ] } ]
     }
   },
   {
@@ -253,8 +190,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette", "parametrized_walls_palette" ],
-      "terrain": { "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
+      "palettes": [ "roof_palette" ],
+      "terrain": { "#": "t_wall_w", "+": "t_door_metal_pickable", "_": "t_thconc_floor" },
       "place_nested": [
         {
           "chunks": [

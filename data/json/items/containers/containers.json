@@ -254,6 +254,32 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "blister_packaging",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "blister pack" },
+    "looks_like": "bag_plastic",
+    "description": "A blister pack is a sort of packaging that has a thick plastic case attached to a sheet of cardboard, allowing easy viewing of a product while keeping it protected.  Known for being an absolute pain to open.",
+    "weight": "200 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic", "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "transparent": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "100 cm",
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS", "NO_RELOAD" ]
+  },
+  {
     "id": "bag_garbage",
     "type": "GENERIC",
     "category": "container",

@@ -366,7 +366,6 @@
     "type": "overmap_terrain",
     "id": [
       "s_gun",
-      "s_gun_looted",
       "s_gun_1",
       "s_gun_2",
       "s_gun_3",

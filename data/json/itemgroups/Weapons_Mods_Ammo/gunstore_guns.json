@@ -1190,6 +1190,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "guns_rifle_common_boxed_4570",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "entries": [
       { "group": "firearm_box_extras" },
       { "distribution": [ { "item": "sharps", "prob": 100 }, { "item": "1895sbl", "prob": 67 } ] }
