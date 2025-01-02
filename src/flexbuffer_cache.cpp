@@ -148,7 +148,7 @@ struct flexbuffer_mmap_storage : flexbuffer_storage {
     explicit flexbuffer_mmap_storage( std::shared_ptr<const mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
 
     const uint8_t *data() const override {
-        return mmap_handle_->base();
+        return static_cast<const uint8_t *>( mmap_handle_->base() );
     }
     size_t size() const override {
         return mmap_handle_->len();
