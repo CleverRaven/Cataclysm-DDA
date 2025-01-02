@@ -3283,6 +3283,12 @@
   },
   {
     "type": "keybinding",
+    "id": "recast_spell",
+    "name": "Repeat last supernatural ability",
+    "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
     "id": "diary",
     "name": "Open diary / achievements / scores",
     "category": "DEFAULTMODE",

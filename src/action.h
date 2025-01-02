@@ -188,6 +188,8 @@ enum action_id : int {
     ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Recast last spell */
+    ACTION_RECAST_SPELL,
     /** Open the insert-item menu */
     ACTION_INSERT_ITEM,
     /** Unload container in a given direction */
