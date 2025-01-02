@@ -2165,8 +2165,11 @@ size_t worldfactory::get_world_index( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const cata_path &candidate )
 {
-    std::string filename = candidate.get_relative_path().filename().generic_u8string();
-    return filename == PATH_INFO::worldoptions() || filename == "mods.json";
+    fs::path candidate_path = candidate.get_unrelative_path();
+    std::string filename = candidate_path.filename().generic_u8string();
+    return filename == PATH_INFO::worldoptions()
+           || filename == "mods.json"
+           || candidate_path.extension().generic_u8string() == ".dict";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
@@ -2180,7 +2183,7 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         return;
     }
 
-    // Clear out everything except options and mods.
+    // Clear out everything except options and mods and compression dictionaries.
     // It would be easier to delete and recreate the world, but some people,
     // like the author of this code, use symlinks to have world contents located
     // 'elsewhere', and doing so would break such use cases.
