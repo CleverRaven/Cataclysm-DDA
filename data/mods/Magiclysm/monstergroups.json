@@ -492,12 +492,13 @@
     "type": "monstergroup",
     "name": "GROUP_FOREST_SPIRIT",
     "monsters": [
-      { "monster": "mon_mossling", "weight": 24, "cost_multiplier": 1 },
-      { "monster": "mon_mossling", "weight": 8, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
-      { "monster": "mon_dryad", "weight": 8, "cost_multiplier": 2 },
-      { "monster": "mon_dryad", "weight": 3, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_brackenwight", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_treant", "weight": 2, "cost_multiplier": 10 }
+      { "monster": "mon_mossling", "weight": 48, "cost_multiplier": 1 },
+      { "monster": "mon_mossling", "weight": 16, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_dryad", "weight": 16, "cost_multiplier": 2 },
+      { "monster": "mon_dryad", "weight": 6, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_brackenwight", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_treant", "weight": 4, "cost_multiplier": 10 },
+      { "monster": "mon_keeper_of_the_glades", "weight": 1, "cost_multiplier": 20 }
     ]
   },
   {
