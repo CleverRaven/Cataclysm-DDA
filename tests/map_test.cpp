@@ -220,7 +220,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     restore_on_out_of_scope restore_temp(
         get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
-    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc.raw() ) ) == 21 );
+    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
 
     item almond_milk( "almond_milk" );
     item *bp = nullptr;

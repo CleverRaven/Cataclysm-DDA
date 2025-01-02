@@ -2915,7 +2915,7 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     if( !possible ) {
         entries[10].push_back( miss );
     }
-    const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
+    const point_rel_omt direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
     entries[tab_order + 1].emplace_back( miss );
 }

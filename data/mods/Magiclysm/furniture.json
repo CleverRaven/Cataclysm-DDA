@@ -8,7 +8,7 @@
     "description": "A gate for translocation.  Cast the translocation spell or use a translocator to choose this gate as a destination.",
     "color": "light_gray",
     "required_str": 25,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT" ],
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "FREE_TO_EXAMINE" ],
     "examine_action": "translocator"
   },
   {
@@ -281,15 +281,61 @@
     "description": "A candelabra, strangely the candles never seem to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
     "symbol": ".",
     "color": "white",
-    "move_cost_mod": -1,
+    "move_cost_mod": 2,
     "required_str": 12,
-    "light_emitted": 40,
+    "light_emitted": 80,
     "flags": [ "TRANSPARENT" ],
     "bash": {
       "sound": "SMASH!",
       "str_min": 20,
       "str_max": 40,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everburning_street_lamp",
+    "name": "everburning street lamp",
+    "description": "A street lamp, strangely the candle never seems to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "light_emitted": 120,
+    "looks_like": "f_street_light",
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "pipe", "count": [ 1, 7 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everburning_brazier",
+    "name": "everburning brazier",
+    "description": "A raised metal dish in which to safely burn things.  This one seems to contain a flame that burns endlessly without fuel.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "looks_like": "f_brazier",
+    "light_emitted": 180,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 5, 15 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] }
+      ]
     }
   },
   {
@@ -355,6 +401,66 @@
         { "item": "nuts_bolts", "charges": [ 5, 20 ] },
         { "item": "mtorch_everburning", "count": [ 1, 4 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_statue_velzain",
+    "name": "statue of Valzain",
+    "description": "A massive solid gold statue of the Forge Lord himself.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "looks_like": "f_statue",
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 60,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "1l_gold", "count": [ 5, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_avatar_of_valzain",
+    "name": "monolithic statue of Valzain",
+    "description": "A truly monolithic statue of the Forge Lord siting lazily on a golden throne.  Meeting it's gaze sends chills down your spine.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "looks_like": "f_statue",
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 120,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "1l_gold", "count": [ 6, 18 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_taxidermy_owlbear",
+    "name": "owlbear taxidermy",
+    "description": "An aggressive looking stuffed Owlbear stands here, menacingly.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "looks_like": "mon_owlbear",
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "fur", "count": [ 5, 12 ] } ]
     }
   }
 ]

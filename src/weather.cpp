@@ -870,7 +870,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint_bub_ms &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos.raw() ) >= units::from_fahrenheit( 50 );
+    return get_weather().get_temperature( pos ) >= units::from_fahrenheit( 50 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
@@ -949,7 +949,7 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-units::temperature weather_manager::get_temperature( const tripoint &location )
+units::temperature weather_manager::get_temperature( const tripoint_bub_ms &location )
 {
     if( forced_temperature ) {
         return *forced_temperature;
@@ -961,13 +961,13 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
     }
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    units::temperature temp = location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 
     if( !g->new_game ) {
         units::temperature_delta temp_mod;
-        temp_mod = get_heat_radiation( tripoint_bub_ms( location ) );
-        temp_mod += get_convection_temperature( tripoint_bub_ms( location ) );
-        temp_mod += get_map().get_temperature_mod( tripoint_bub_ms( location ) );
+        temp_mod = get_heat_radiation( location );
+        temp_mod += get_convection_temperature( location );
+        temp_mod += get_map().get_temperature_mod( location );
 
         temp += temp_mod;
     }

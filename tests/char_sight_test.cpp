@@ -179,9 +179,9 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
         here.build_map_cache( 0, false );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos_bub() ) );
 
-        THEN( "sight limit is 60 tiles away" ) {
+        THEN( "sight limit is" << MAX_VIEW_DISTANCE << "tiles away" ) {
             dummy.recalc_sight_limits();
-            CHECK( dummy.unimpaired_range() == 60 );
+            CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
         }
     }
 
@@ -226,10 +226,10 @@ TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
             dummy.wear_item( item( "glasses_eye" ) );
             REQUIRE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
-            THEN( "unimpaired sight, with 60 tiles of range" ) {
+            THEN( "unimpaired sight, with " << MAX_VIEW_DISTANCE << " tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
             }
         }
     }
@@ -288,7 +288,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             THEN( "unimpaired sight, with 7 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                 CHECK( dummy.sight_range( light_here ) == 7 );
             }
         }
@@ -302,7 +302,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             THEN( "unimpaired sight, with 8 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                 CHECK( dummy.sight_range( light_here ) == 8 );
             }
         }
@@ -316,7 +316,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
             THEN( "unimpaired sight, with 27 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 60 );
+                CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                 CHECK( dummy.sight_range( light_here ) == 18 );
             }
         }
@@ -343,7 +343,7 @@ TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
                 THEN( "unimpaired sight, with 87 tiles of range" ) {
                     dummy.recalc_sight_limits();
                     CHECK_FALSE( dummy.sight_impaired() );
-                    CHECK( dummy.unimpaired_range() == 60 );
+                    CHECK( dummy.unimpaired_range() == MAX_VIEW_DISTANCE );
                     CHECK( dummy.sight_range( light_here ) == 87 );
                 }
             }

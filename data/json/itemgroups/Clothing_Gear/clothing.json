@@ -3205,7 +3205,6 @@
       [ "tireplate", 10 ],
       [ "ballistic_vest_esapi", 2 ],
       { "group": "military_ballistic_vest", "prob": 4 },
-      [ "dragonskin", 1 ],
       [ "corset", 1 ],
       [ "corset_waist", 1 ],
       [ "football_armor", 18 ],

@@ -285,19 +285,28 @@ diag_assign_dbl_f faction_trust_ass( char /* scope */, std::vector<diag_value> c
 }
 
 diag_eval_dbl_f faction_food_supply_eval( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return [fac_val = params[0]]( const_dialogue const & d ) {
+    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
+    return [fac_val = params[0], vit_val]( const_dialogue const & d ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        if( !vit_val.is_empty() ) {
+            return static_cast<double>( fac->food_supply.get_vitamin( vitamin_id( vit_val.str( d ) ) ) );
+        }
         return static_cast<double>( fac->food_supply.calories );
     };
 }
 
 diag_assign_dbl_f faction_food_supply_ass( char /* scope */,
-        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return [fac_val = params[0]]( dialogue const & d, double val ) {
+    diag_value vit_val = kwargs.kwarg_or( "vitamin" );
+    return [fac_val = params[0], vit_val]( dialogue const & d, double val ) {
         faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        if( !vit_val.is_empty() ) {
+            fac->food_supply.add_vitamin( vitamin_id( vit_val.str( d ) ), val );
+            return;
+        }
         fac->food_supply.calories = val;
     };
 }
@@ -756,6 +765,9 @@ bool _filter_character( Character const *beta, Character const &guy, int radius,
     return false;
 }
 
+// TODO: some form of notation or sentinel value for referencing
+// the reality bubble size (since it might change from 60, and
+// hardcoding that is unfortunate)
 diag_eval_dbl_f _characters_nearby_eval( char scope, std::vector<diag_value> const &params,
         diag_kwargs const &kwargs )
 {
@@ -871,6 +883,9 @@ bool _filter_monster( Creature const &critter, std::vector<ID> const &ids, int r
     return false;
 }
 
+// TODO: some form of notation or sentinel value for referencing
+// the reality bubble size (since it might change from 60, and
+// hardcoding that is unfortunate)
 template <class ID>
 diag_eval_dbl_f _monsters_nearby_eval( char scope, std::vector<diag_value> const &params,
                                        diag_kwargs const &kwargs, f_monster_match<ID> f )
