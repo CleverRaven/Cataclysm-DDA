@@ -1,5 +1,6 @@
 [
   {
+    "//1": "This file consists of chunks of mapgen intended to be reusable for other labs, they don't spawn as is.",
     "type": "overmap_special",
     "id": "Lab_Parking_Lot",
     "//": "A secure parking lot and concrete wall.",
