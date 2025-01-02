@@ -4,10 +4,10 @@
     "id": "exo_heavy_guns",
     "name": { "str": "Exosuit Heavy Weapons" },
     "points": 0,
-    "description": "The active exosuit provides enough strength and stability to fire heavy weapons.",
+    "description": "The active exosuit provides enough strength and stability to fire some heavy weapons.",
     "valid": false,
     "purifiable": false,
     "types": [ "Equipment" ],
-    "flags": "ACTIVE_MECH"
+    "flags": "ACTIVE_MECH_WEAPON"
   }
 ]
