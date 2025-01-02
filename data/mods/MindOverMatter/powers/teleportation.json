@@ -651,6 +651,54 @@
     "casting_time_increment": -5.5
   },
   {
+    "id": "teleport_external_gateway",
+    "type": "SPELL",
+    "name": "[Ψ]External Gateway",
+    "description": "Transport your target through the Nether to an attuned location.  You must have already attuned an area to sent them to with [Ψ]Gateway.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_GATEWAY_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 6000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_external_gateway_teleport",
+    "type": "SPELL",
+    "name": "[Ψ]External Gateway - Teleport",
+    "description": "The spell that actually teleports the target.  Should only be casted via teleport_gateway_other's eoc.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile", "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_PROJECTILE" ],
+    "difficulty": 0,
+    "max_level": 0,
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_external_gateway') * 2) + 1.5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EXTERNAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "NONE"
+  },
+  {
     "id": "teleport_summon",
     "type": "SPELL",
     "name": "[Ψ]Breach",
