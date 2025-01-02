@@ -245,7 +245,15 @@
     "label": "Location",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "place_desc", "lighting_desc", "weather_desc", "moon_phase_desc", "date_desc_label", "time_desc_label" ]
+    "widgets": [
+      "territory_desc_label",
+      "place_desc",
+      "lighting_desc",
+      "weather_desc",
+      "moon_phase_desc",
+      "date_desc_label",
+      "time_desc_label"
+    ]
   },
   {
     "id": "place_date_time_layout",
@@ -253,6 +261,6 @@
     "label": "Place/Date/Time",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "place_desc", "date_desc_label", "time_desc_label" ]
+    "widgets": [ "territory_desc_label", "place_desc", "date_desc_label", "time_desc_label" ]
   }
 ]

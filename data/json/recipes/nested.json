@@ -2503,7 +2503,8 @@
       "quiver_large_birchbark",
       "nylon_quiver",
       "pipe_quiver",
-      "pipe_quiver_large"
+      "pipe_quiver_large",
+      "quiver_simple_cloth"
     ],
     "difficulty": 3
   },
@@ -4495,9 +4496,7 @@
       "38_casing",
       "40_casing",
       "45_casing",
-      "45_casing_from_460",
       "45colt_casing",
-      "460_casing",
       "50ae_casing"
     ],
     "difficulty": 2

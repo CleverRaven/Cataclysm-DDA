@@ -26,7 +26,7 @@
           "id": "EOC_IRON_ALLERGY_WEARING_IRON_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_iron_allergy_wearing_iron", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
           ]
         }
       ],
@@ -68,7 +68,7 @@
           "id": "EOC_IRON_ALLERGY_WEARING_STEEL_RESULT_TRUE",
           "effect": [
             { "u_add_effect": "effect_iron_allergy_wearing_steel", "duration": "PERMANENT" },
-            { "queue_eocs": "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
+            { "run_eocs": "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
           ],
           "false_effect": [ { "u_lose_effect": "effect_iron_allergy_wearing_steel" } ]
         }
@@ -86,13 +86,29 @@
     "id": "EOC_RAVENFOLK_LEAP",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "energy_amount": "2500",
           "prep_time": "1",
           "spell_to_cast": "spell_ravenfolk_leap",
           "message_success": { "i18n": true, "str": "You launch yourself into a powerful wing-assisted leap." },
           "message_fail": { "i18n": true, "str": "You're too tired to leap." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAVENFOLK_SCREECH",
+    "effect": [
+      {
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "0",
+          "prep_time": "0",
+          "spell_to_cast": "spell_ravenfolk_screech",
+          "message_success": { "i18n": true, "str": "You let out a piercing cry!" },
+          "message_fail": { "i18n": true, "str": "You change your mind about screeching." }
         }
       }
     ]

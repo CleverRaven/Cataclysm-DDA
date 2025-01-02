@@ -308,11 +308,11 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [
-            { "value": "ARMOR_CUT", "multiply": -0.5 },
-            { "value": "ARMOR_BASH", "multiply": -0.5 },
-            { "value": "ARMOR_STAB", "multiply": -0.5 },
-            { "value": "ARMOR_BULLET", "multiply": -0.5 }
+          "incoming_damage_mod": [
+            { "type": "bash", "multiply": -0.5 },
+            { "type": "stab", "multiply": -0.5 },
+            { "type": "cut", "multiply": -0.5 },
+            { "type": "bullet", "multiply": -0.5 }
           ]
         }
       ]
@@ -417,10 +417,22 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
+          "special_vision": [
+            {
+              "distance": 30,
+              "descriptions": [
+                {
+                  "id": "moving_creature",
+                  "symbol": "?",
+                  "color": "c_white",
+                  "text": "Your halo register potential hazard from this direction."
+                }
+              ]
+            }
+          ],
           "values": [
             { "value": "BONUS_DODGE", "add": 1 },
             { "value": "PERCEPTION", "add": 2 },
-            { "value": "MOTION_VISION_RANGE", "add": 30 },
             { "value": "RANGED_DAMAGE", "multiply": 0.33 },
             { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
           ]
@@ -539,6 +551,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
+    "melee_damage": { "electric": 10 },
     "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
@@ -565,12 +578,7 @@
     ],
     "relic_data": {
       "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
-          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
-        }
+        { "has": "WORN", "condition": "ACTIVE", "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ] }
       ]
     },
     "material_thickness": 0.3,
@@ -638,7 +646,7 @@
     "id": "wolf_mask_act",
     "type": "TOOL_ARMOR",
     "copy-from": "wolf_mask",
-    "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
+    "name": { "str": "wolf's mask (on)", "str_pl": "wolf's masks (on)" },
     "power_draw": "5 W",
     "environmental_protection": 25,
     "revert_to": "wolf_mask",
@@ -671,5 +679,53 @@
     "use_action": { "type": "holster" },
     "flags": [ "MORPHIC", "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "xedra_inventor_damage_reversal_device",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "Injury Reset Device" },
+    "description": "A bulky wristwatch that attaches to your arm.  Using it will revert the last injury that you have suffered.  Also tells the time.",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "looks_like": "wristwatch",
+    "ammo": [ "battery" ],
+    "material": [ "kevlar", "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "charges_per_use": 300,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Reverse your last injury.",
+      "effect_on_conditions": [ "EOC_XEDRA_DAMAGE_REVERSAL" ],
+      "need_worn": true
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "flags": [
+      "MORPHIC",
+      "WATCH",
+      "ALARMCLOCK",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE",
+      "ELECTRONIC",
+      "INVENTOR_CRAFTED",
+      "STURDY",
+      "PADDED"
+    ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   }
 ]

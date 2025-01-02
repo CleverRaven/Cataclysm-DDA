@@ -92,7 +92,7 @@
     "copy-from": "303_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".303 British OTM" },
-    "description": "Jacketed .303 British ammunition loaded with a 174gr open tip match bullet, for precision shooting.  .303 British was the standard caliber for military rifles in the British Empire from 1888 until the 1950s.  The projectile's open tip construction offers greater manufacturing precision, and a marginal amount of increased expansion over regular full metal jacket bullets.",
+    "description": "Jacketed .303 British ammunition loaded with a 174gr open tip match bullet, for precision shooting.  .303 British was the standard caliber for military rifles in the British Empire from 1888 until the 1950s.  The projectile's open tip construction offers greater manufacturing precision and a marginal amount of increased expansion over regular full metal jacket bullets.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 }, "dispersion": -10 }
   },
   {

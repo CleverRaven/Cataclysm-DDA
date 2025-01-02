@@ -40,12 +40,12 @@ static tripoint_abs_omt reveal_destination( const std::string &type )
     const tripoint_abs_omt center_pos =
         overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
 
-    if( center_pos != overmap::invalid_tripoint ) {
+    if( !center_pos.is_invalid() ) {
         overmap_buffer.reveal( center_pos, 2 );
         return center_pos;
     }
 
-    return overmap::invalid_tripoint;
+    return tripoint_abs_omt::invalid;
 }
 
 static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
@@ -75,7 +75,7 @@ static void reveal_target( mission *miss, const std::string &omter_id )
     }
 
     const tripoint_abs_omt destination = reveal_destination( omter_id );
-    if( destination != overmap::invalid_tripoint ) {
+    if( !destination.is_invalid() ) {
         const oter_id oter = overmap_buffer.ter( destination );
         add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
                  oter->get_name( om_vision_level::full ) );
@@ -109,7 +109,7 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
     tripoint_abs_omt loc = get_player_character().global_omt_location();
     loc.z() = target_z;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, omter, 0, must_see );
-    if( place != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+    if( !place.is_invalid() && reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
     return place;
@@ -167,7 +167,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
         closest = underground;
     }
 
-    if( closest != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+    if( !closest.is_invalid() && reveal_rad >= 0 ) {
         overmap_buffer.reveal( closest, reveal_rad );
     }
     miss->set_target( closest );
@@ -177,7 +177,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
 static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     const tripoint_abs_omt &origin_pos, const mission_target_params &params, dialogue &d )
 {
-    tripoint_abs_omt target_pos = overmap::invalid_tripoint;
+    tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
         return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
@@ -206,7 +206,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
         // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
         // have to see the location beforehand, then we can attempt to create the new terrain.
-        if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
+        if( target_pos.is_invalid() && params.create_if_necessary &&
             !params.must_see ) {
             // If this terrain is part of an overmap special...
             if( params.overmap_special ) {
@@ -229,13 +229,13 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
                 // We didn't find it, so allow this search to create new overmaps and try again.
                 find_params.existing_only = true;
-                if( target_pos == overmap::invalid_tripoint ) {
+                if( target_pos.is_invalid() ) {
                     target_pos = overmap_buffer.find_random( origin_pos, find_params );
                 }
 
                 // We found a match, so set this position (which was our replacement terrain)
                 // to our desired mission terrain.
-                if( target_pos != overmap::invalid_tripoint ) {
+                if( !target_pos.is_invalid() ) {
                     overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain.evaluate( d ) ) );
                 }
             }
@@ -245,7 +245,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     // First try to get the position where we only allow existing overmaps.
     get_target_position();
 
-    if( target_pos == overmap::invalid_tripoint ) {
+    if( target_pos.is_invalid() ) {
         // If it's invalid, then that means we couldn't find it or create it (if allowed) on
         // our current overmap. We'll now go ahead and try again but allow it to create new overmaps.
         find_params.existing_only = false;
@@ -254,7 +254,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
     // If we got here and this is still invalid, it means that we couldn't find it nor create it
     // on any overmap (new or existing) within the allowed search range.
-    if( target_pos == overmap::invalid_tripoint ) {
+    if( target_pos.is_invalid() ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain.evaluate( d ) );
         return std::nullopt;
     }
@@ -351,7 +351,7 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
         mission *miss, bool must_see, int range, tripoint_abs_omt loc )
 {
     Character &player_character = get_player_character();
-    if( loc == overmap::invalid_tripoint ) {
+    if( loc.is_invalid() ) {
         loc = player_character.global_omt_location();
     }
 

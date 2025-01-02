@@ -152,16 +152,16 @@
         "~~~~~~~~~~~~~##oo###oo##",
         "~~~~~~~~~~~~~~~~~~^~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_palette" ],
       "terrain": {
         "~": "t_open_air",
         "=": "t_shingle_flat_roof",
-        "B": "t_linoleum_white",
-        "w": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "-": "t_linoleum_white",
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "w": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "-": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "#": "t_wall_log"
       },
       "furniture": { "!": "f_rack_wood" },

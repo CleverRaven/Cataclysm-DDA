@@ -509,7 +509,7 @@
     "//": "Slow sand biofilter: https://wwwnc.cdc.gov/travel/yellowbook/2024/preparing/water-disinfection#:~:text=Figure%202%2D02.%20Emergency%20gravel%20and%20sand%20filter",
     "//1": "Density of sand is around 1.6g/cm^3. Gravel is similar. In a 10 in diameter bucket, 4 in of gravel is about 8 kg and 10 in of sand is about 20 kg.",
     "components": [
-      [ [ "bucket_5gal", 1 ] ],
+      [ [ "bucket_5gal", 1 ], [ "clay_watercont", 1 ], [ "clay_watercont_no_lid", 1 ] ],
       [ [ "material_sand", 2500 ] ],
       [ [ "material_gravel", 1000 ] ],
       [ [ "cotton_patchwork", 4 ], [ "wire_mesh", 4 ] ]

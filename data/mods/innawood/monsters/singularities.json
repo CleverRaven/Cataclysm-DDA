@@ -1,0 +1,51 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_ACTIVATE_SHADOW",
+    "recurrence": "1 second",
+    "global": true,
+    "run_for_npcs": false,
+    "condition": { "and": [ { "math": [ "time_since('cataclysm', 'unit':'days') >= 270" ] }, { "math": [ "Lieutenants_active < 1" ] } ] },
+    "effect": [ { "math": [ "Lieutenants_active = 1" ] }, { "math": [ "Shadow_Lurking = 1" ] } ],
+    "deactivate_condition": { "math": [ "Lieutenants_active >= 1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WARN",
+    "condition": {
+      "and": [
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        {
+          "or": [ { "math": [ "Shadow_Lurking > 0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 270" ] } } ]
+        },
+        {
+          "or": [ { "math": [ "Shadow_Lurking > 0" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 263" ] } ]
+        },
+        {
+          "or": [ { "math": [ "Shadow_Warnings < 1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 270" ] } ]
+        },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Shadow_Warnings", "+=", "1" ] },
+      {
+        "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 270" ] },
+        "then": {
+          "if": { "math": [ "Shadow_Warnings < 2" ] },
+          "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
+          "else": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": false }
+        },
+        "else": {
+          "if": { "math": [ "Shadow_Warnings < 2" ] },
+          "then": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true },
+          "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": false }
+        }
+      }
+    ]
+  }
+]

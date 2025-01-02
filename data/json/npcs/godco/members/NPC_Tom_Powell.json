@@ -9,15 +9,11 @@
       "TALK_GODCO_Tom_Help"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       }
     ]
   },
@@ -28,27 +24,27 @@
       {
         "text": "Tell me about yourself.",
         "topic": "TALK_GODCO_Tom_Background",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Tell me about your family.",
         "topic": "TALK_GODCO_Tom_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Tell me about the community.",
         "topic": "TALK_GODCO_Tom_Community",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       }
     ]
   },
@@ -59,7 +55,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "It's you again <u_name>, you have some nerve coming around after what you've done.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ],
@@ -87,7 +83,7 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -98,7 +94,7 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -106,10 +102,10 @@
         "topic": "TALK_GODCO_Tom_Angry"
       },
       {
-        "text": "Hey, Tom.  I can't stay to talk.",
+        "text": "Hey, Tom.  <end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -119,7 +115,7 @@
         "text": "Alright, alright, I'll leave you be.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -147,7 +143,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
         "topic": "TALK_GODCO_Tom_Firstmeet2"
       },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -172,21 +168,21 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_Firstmeet4",
     "dynamic_line": "Perhaps.  You don't wanna think about the stuff I'm thinking about, it would spiral a newbie independent thinker into madness.  I don't blame you for saying that.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_2",
     "dynamic_line": "I'm currently in the middle of solving a pointless mystery for my own entertainment.  Of course I have time!",
-    "responses": [ { "text": "Sorry Tom, I can't stay to chat.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Sorry Tom.  <end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_Story",
     "dynamic_line": "I haven't got a story.  I'm an independent thinker.  Living out here, away from the Man.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -194,8 +190,8 @@
     "id": "TALK_GODCO_Tom_Background",
     "dynamic_line": "I was nobody but an ordinary office drone.  Lived the average suburban life, prepping for the inevitable.  Had the bright idea of purchasing a Last Man On Earth shelter, but I decided to settle for less when I found out it cost five times my annual salary.  That's how I ended up in a religious campground with my family and a survival kit.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -205,8 +201,8 @@
     "responses": [
       { "text": "Could you tell me about Felicity?", "topic": "TALK_GODCO_Tom_Felicity" },
       { "text": "Could you tell me about Olwen?", "topic": "TALK_GODCO_Tom_Olwen" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -215,8 +211,8 @@
     "dynamic_line": "She's my wife, we've been married for a while now.  We used to live in Rhode Island, worked at a publishing firm, Stillwater.  She's always wanted to be a writer, that's why we moved away.  We've been a bit distant as of late, I don't think she's taking the \"whole end-of-the-world\" thing too well.",
     "//": "Stillwater is a legitimate publishing firm, operating in Rhode Island.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -224,8 +220,8 @@
     "id": "TALK_GODCO_Tom_Olwen",
     "dynamic_line": "Olwen's a bright girl; she's fiddled with electronics and computers since she was in high school.  She got a master's in it from the University of Rhode Island.  Felicity's been a good mother for her, always been there for us.  Olwen might be able to teach you a few things, she should be around here somewhere.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -233,8 +229,8 @@
     "id": "TALK_GODCO_Tom_Community",
     "dynamic_line": "New England Church Community is what they're called.  My wife was the first in the family to come in contact with 'em.  She joined because of their charity work and as for myself, well… you know why I was there.  Let me tell you, being surrounded by like-minded folks was like a breath of fresh air.  Even if the only belief we shared was paranoia, but you get what I'm saying.  I tried everything to prep my family for the inevitable, I really did, but in the end it wasn't me who saved us all.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -256,7 +252,7 @@
     "dynamic_line": "So far?  Not so great.  Now that the Internet is down, I don't know.  Such abundant hidden information - all gone!",
     "responses": [
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_GODCO_Tom_Help" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "Try not to glorify the past.  See you around, Tom.", "topic": "TALK_DONE" }
     ]
   },
@@ -266,8 +262,8 @@
     "dynamic_line": "Of course!  Just put all your literary findings on that chair over there.  Remember, you're not only doing a favor for me, but for all of humanity as well.  World heritage is what we're talking about!  I managed to get my hands on a book called 'Zombie Survival Guide' while, uh… dumpster diving.  Imagine how much this book alone reveals about our pre-Cataclysm culture!  Oh boy, how wrong we were about everything.",
     "responses": [
       { "text": "I mean, can I help with the research?", "topic": "TALK_GODCO_Tom_Research" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -279,8 +275,8 @@
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

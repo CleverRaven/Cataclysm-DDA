@@ -24,6 +24,7 @@
     "name": "GROUP_SAFE",
     "is_safe": true,
     "monsters": [
+      { "monster": "mon_nedcolbertia", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_struthiomimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_ornithomimus", "weight": 50, "pack_size": [ 4, 8 ] },
@@ -32,6 +33,7 @@
       { "monster": "mon_scutellosaurus", "weight": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_aquilops", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nanosaurus", "weight": 20, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_fona", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_oryctodromeus", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dimorphodon", "weight": 50, "pack_size": [ 2, 4 ] }
     ]
@@ -88,6 +90,7 @@
       { "monster": "mon_dromaeosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stenonychosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_fona", "weight": 200, "pack_size": [ 1, 2 ] },
       { "monster": "mon_oryctodromeus", "weight": 200, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -152,6 +155,7 @@
       { "monster": "mon_stegoceras", "weight": 12 },
       { "monster": "mon_leptoceratops", "weight": 12 },
       { "monster": "mon_zuniceratops", "weight": 12 },
+      { "monster": "mon_fona", "weight": 3 },
       { "monster": "mon_oryctodromeus", "weight": 3 },
       { "monster": "mon_thescelosaurus", "weight": 3 },
       { "monster": "mon_pteranodon", "weight": 3 },

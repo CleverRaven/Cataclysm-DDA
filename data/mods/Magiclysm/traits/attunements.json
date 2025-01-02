@@ -36,7 +36,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "EMP_IMMUNE", "CRAFT_IN_DARKNESS" ]
   },
@@ -75,7 +76,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -117,7 +119,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "UNCANNY_DODGE" ]
   },
@@ -156,7 +159,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "BLEEDSLOW2" ]
   },
@@ -171,11 +175,8 @@
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.\n\nBoreal Wind: Your Boreal Mage abilities grant you good resistance to temperature conditions.  Also, your hands emit a small amount of cold, increasing your damage in melee.",
     "enchantments": [
       {
-        "values": [
-          { "value": "ITEM_DAMAGE_COLD", "add": 9 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
-        ]
+        "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
       }
     ],
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
@@ -205,7 +206,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -246,7 +248,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "INFECTION_IMMUNE" ]
   },
@@ -285,7 +288,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -302,8 +306,8 @@
     "spells_learned": [ [ "quake", 5 ], [ "rock_blast", 5 ] ],
     "enchantments": [
       {
+        "incoming_damage_mod": [ { "type": "cut", "add": -15 } ],
         "values": [
-          { "value": "ARMOR_CUT", "add": -15 },
           { "value": "STRENGTH", "add": 5 },
           { "value": "MAX_STAMINA", "multiply": 3 },
           { "value": "REGEN_STAMINA", "multiply": 3 }
@@ -333,7 +337,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -348,11 +353,8 @@
     "description": "You have used your expertise in Biomancy to change your body more toward your affinity for fire as a Kelvinist.  Fire doesn't bother you as much anymore, and your blood is flammable when it touches the air, resulting in a gout of flame when something hurts you.  You are also starting to study more spells that focus on using your own body's affinity for fire.\n\nSalamander: Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also, your body emits streams of blistering heat towards anyone who attacks you.",
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_HEAT", "multiply": -0.4 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-        ]
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -0.4 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
       },
       {
         "hit_me_effect": [
@@ -391,7 +393,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -431,7 +434,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ],
     "enchantments": [ { "values": [ { "value": "MELEE_DAMAGE", "multiply": 1 }, { "value": "SPEED", "multiply": 0.2 } ] } ]
@@ -483,7 +487,8 @@
       "STORMCALLER",
       "TUNDRA_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -527,7 +532,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -566,7 +572,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "STEADY" ]
   },
@@ -613,7 +620,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "CLIMB_NO_LADDER" ]
   },
@@ -654,7 +662,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -669,12 +678,9 @@
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.\n\nIceberg: Your Ice Elemental abilities grant you good resistance to temperature conditions and cold damage, your hands can emit small amount of cold, increasing your damage in melee, and enemies impale themselves on ice spikes when they attack you.",
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_COLD", "multiply": -0.4 },
-          { "value": "ITEM_DAMAGE_COLD", "add": 9 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
-        ]
+        "melee_damage_bonus": [ { "type": "cold", "add": 9 } ],
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.4 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
       },
       {
         "hit_you_effect": [
@@ -713,7 +719,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -753,7 +760,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "HARDTOHIT" ]
   },
@@ -766,7 +774,7 @@
     "purifiable": false,
     "valid": false,
     "description": "This attunement grants you a magical control over the forces of magnetism.\n\nPower: Your Magnetism Mage abilities grant you a good defense against firearms, perfect electric immunity, and the ability to see electric creatures from any distance.",
-    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "add": -50 }, { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] } ],
+    "enchantments": [ "ELECTRIC_VISION", { "incoming_damage_mod": [ { "type": "bullet", "add": -50 } ] } ],
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
     "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ], [ "robot_disabler_explosion", 5 ] ],
     "cancels": [
@@ -794,7 +802,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -838,7 +847,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE" ]
   },
@@ -878,7 +888,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -892,7 +903,7 @@
     "valid": false,
     "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.\n\nSpirits: Your Shaman abilities double your natural mana regeneration.",
     "prereqs": [ "ANIMIST", "DRUID" ],
-    "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_shambling_mound", 5 ] ],
+    "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_keeper_of_the_glades", 5 ] ],
     "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ],
     "cancels": [
       "ALCHEMIST",
@@ -917,7 +928,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -959,7 +971,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ALKAHEST_IMMUNE" ]
   },
@@ -976,11 +989,8 @@
     "prereqs": [ "KELVINIST", "ANIMIST" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ITEM_DAMAGE_PURE", "add": 9 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
-          { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-        ]
+        "melee_damage_bonus": [ { "type": "pure", "add": 9 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
       }
     ],
     "cancels": [
@@ -1008,7 +1018,8 @@
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1023,7 +1034,7 @@
     "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.\n\nCyclone: Your Storm Elemental abilities grant you total electric immunity, and reflective zippers to anyone who tries to attack you.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
     "enchantments": [
-      { "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ] },
+      { "incoming_damage_mod": [ { "type": "electric", "multiply": -0.4 } ] },
       {
         "hit_me_effect": [
           {
@@ -1060,7 +1071,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE", "EMP_IMMUNE" ]
   },
@@ -1100,7 +1112,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
@@ -1151,7 +1164,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1192,7 +1206,8 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
@@ -1244,7 +1259,8 @@
       "TUNDRA_MAGE",
       "VULCANIST",
       "SOULFIRE",
-      "WITHER_MAGE"
+      "WITHER_MAGE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "READ_IN_DARKNESS" ]
   },
@@ -1260,7 +1276,10 @@
     "spells_learned": [ [ "lava_bomb_main", 5 ], [ "vulcanist_pyroclastic_flow", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "enchantments": [
-      { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] },
+      {
+        "incoming_damage_mod": [ { "type": "heat", "multiply": -1 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ]
+      },
       { "ench_effects": [ { "effect": "effect_vulcanist_no_smoke_or_blisters", "intensity": 1 } ] }
     ],
     "cancels": [
@@ -1288,7 +1307,8 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
   },
@@ -1327,7 +1347,8 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE"
+      "SOULFIRE",
+      "MAGIC_EMPTY"
     ],
     "flags": [ "ATTUNEMENT" ]
   }

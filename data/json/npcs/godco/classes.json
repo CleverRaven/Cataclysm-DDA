@@ -257,7 +257,7 @@
       {
         "group": "GODCO_russell_carried",
         "rigid": true,
-        "condition": { "math": [ "n_NEVER", "==", "1" ] },
+        "condition": { "math": [ "n_NEVER == 1" ] },
         "refusal": "<npcname> will never sell this"
       }
     ],

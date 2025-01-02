@@ -126,6 +126,7 @@ static bool need_invalidate_framebuffers = false;
 palette_array windowsPalette;
 
 static Font_Ptr font;
+static Font_Ptr gui_font;
 static Font_Ptr map_font;
 static Font_Ptr overmap_font;
 
@@ -167,7 +168,7 @@ static void ClearScreen()
 static void InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
-#if defined(SOUND)
+#if defined(SDL_SOUND)
     init_flags |= SDL_INIT_AUDIO;
 #endif
     int ret;
@@ -684,10 +685,10 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
 
     // get terrain neighborhood
     const std::array<oter_type_id, 4> neighborhood = {
-        oter_at( omp + point_south )->get_type_id(),
-        oter_at( omp + point_east )->get_type_id(),
-        oter_at( omp + point_west )->get_type_id(),
-        oter_at( omp + point_north )->get_type_id()
+        oter_at( omp + point::south )->get_type_id(),
+        oter_at( omp + point::east )->get_type_id(),
+        oter_at( omp + point::west )->get_type_id(),
+        oter_at( omp + point::north )->get_type_id()
     };
 
     if( ot_type.has_connections() ) {
@@ -793,11 +794,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
     const tripoint_abs_omt corner_NW = origin + any_tile_range.p_min;
-    const tripoint_abs_omt corner_SE = origin + any_tile_range.p_max + point_north_west;
+    const tripoint_abs_omt corner_SE = origin + any_tile_range.p_max + point::north_west;
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Area of fully shown tiles
     const tripoint_abs_omt full_corner_NW = origin + full_base_range.p_min;
-    const tripoint_abs_omt full_corner_SE = origin + full_base_range.p_max + point_north_west;
+    const tripoint_abs_omt full_corner_SE = origin + full_base_range.p_max + point::north_west;
     const inclusive_cuboid<tripoint> full_om_tile_area( full_corner_NW.raw(), full_corner_SE.raw() );
     // Debug vision allows seeing everything
     const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
@@ -917,11 +918,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 }
             }
 
-            if( uistate.place_terrain || uistate.place_special ) {
+            if( ( uistate.place_terrain || uistate.place_special ) &&
+                overmap_ui::is_generated_omt( omp.xy() ) ) {
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
-                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
-                }
+                draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
             }
 
             if( draw_overlays && overmap_buffer.has_vehicle( omp ) ) {
@@ -993,12 +993,14 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         const tripoint_abs_omt &guy_loc = guy->global_omt_location();
         if( guy_loc.z() == center_pos.z() && ( has_debug_vision ||
                                                overmap_buffer.seen_more_than( guy_loc, om_vision_level::details ) ) ) {
-            draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ), lit_level::LIT,
+            draw_entity_with_overlays( *guy, tripoint_bub_ms( global_omt_to_draw_position( guy_loc ) ),
+                                       lit_level::LIT,
                                        height_3d );
         }
     }
 
-    draw_entity_with_overlays( get_player_character(), global_omt_to_draw_position( avatar_pos ),
+    draw_entity_with_overlays( get_player_character(),
+                               tripoint_bub_ms( global_omt_to_draw_position( avatar_pos ) ),
                                lit_level::LIT, height_3d );
     if( !fast_traveling ) {
         draw_from_id_string( "cursor", global_omt_to_draw_position( center_pos ), 0, 0, lit_level::LIT,
@@ -1106,6 +1108,20 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     for( om_vehicle &v : overmap_buffer.get_vehicle( center_pos ) ) {
         notes_window_text.emplace_back( c_white, v.name );
     }
+
+    if( ! g->overmap_data.message.empty() ) {
+        const int padding = 2;
+        SDL_Rect message_background_rect = {
+            0,
+            0,
+            fontwidth * utf8_width( g->overmap_data.message ) + padding * 2,
+            fontheight + padding * 2
+        };
+        geometry->rect( renderer, message_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_string( *font, renderer, geometry, g->overmap_data.message, point( padding, padding ),
+                     cata_cursesport::colorpairs[c_white.to_color_pair_index()].FG );
+    }
+
 
     if( !notes_window_text.empty() && !fast_traveling ) {
         constexpr int padding = 2;
@@ -1445,8 +1461,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
-            win->width * font->width, win->height * font->height );
+        { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
+        win->width * font->width, win->height * font->height );
         update = true;
 
     } else {
@@ -1789,7 +1805,7 @@ bool handle_resize( int w, int h )
     TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
     TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
     need_invalidate_framebuffers = true;
-    catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
+    catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
     throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
     game_ui::init_ui();
     ui_manager::screen_resized();
@@ -1884,7 +1900,7 @@ input_context touch_input_context;
 std::string get_quick_shortcut_name( const std::string &category )
 {
     if( category == "DEFAULTMODE" &&
-        g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos() ) &&
+        g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos_bub() ) &&
         get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
@@ -2693,7 +2709,7 @@ static void CheckMessages()
 
                 Character &player_character = get_player_character();
                 // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-                if( !player_character.get_hostile_creatures( 60 ).empty() ) {
+                if( !player_character.get_hostile_creatures( MAX_VIEW_DISTANCE ).empty() ) {
                     // Only prioritize movement options if we're not driving.
                     if( !player_character.controlling_vehicle ) {
                         actions.insert( ACTION_CYCLE_MOVE );
@@ -3502,20 +3518,21 @@ static void CheckMessages()
     }
     bool resized = false;
     if( resize_dims.has_value() ) {
-        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        restore_on_out_of_scope prev_last_input( last_input );
         needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
     }
     // resizing already reinitializes the render target
     if( !resized && render_target_reset ) {
         throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         needupdate = true;
-        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        restore_on_out_of_scope prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-        ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
+        ui_manager::invalidate( rectangle<point>( point::zero, point( WindowWidth, WindowHeight ) ),
+                                false );
         ui_manager::redraw_invalidated();
     }
     if( needupdate ) {
@@ -3732,15 +3749,17 @@ void catacurses::init_interface()
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
+    gui_font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
+               windowsPalette, fl.gui_typeface, fl.fontsize, fl.fontblending );
     map_font = std::make_unique<FontFallbackList>( renderer, format, fl.map_fontwidth,
                fl.map_fontheight,
                windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
     overmap_font = std::make_unique<FontFallbackList>( renderer, format, fl.overmap_fontwidth,
                    fl.overmap_fontheight,
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
-    stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
+    stdscr = newwin( get_terminal_height(), get_terminal_width(), point::zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-    imclient->load_fonts( font, windowsPalette, fl.typeface );
+    imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
@@ -3781,6 +3800,7 @@ void catacurses::endwin()
     fartilecontext.reset();
     overmap_tilecontext.reset();
     font.reset();
+    gui_font.reset();
     map_font.reset();
     overmap_font.reset();
     ui_manager::reset();
@@ -3988,7 +4008,7 @@ int get_window_height()
 
 window_dimensions get_window_dimensions( const catacurses::window &win )
 {
-    return get_window_dimensions( win, point_zero, point_zero );
+    return get_window_dimensions( win, point::zero, point::zero );
 }
 
 window_dimensions get_window_dimensions( const point &pos, const point &size )
@@ -4175,6 +4195,6 @@ const SDL_Renderer_Ptr &get_sdl_renderer()
 bool window_contains_point_relative( const catacurses::window &win, const point &p )
 {
     const point bound = point( catacurses::getmaxx( win ), catacurses::getmaxy( win ) );
-    const half_open_rectangle<point> win_bounds( point_zero, bound );
+    const half_open_rectangle<point> win_bounds( point::zero, bound );
     return win_bounds.contains( p );
 }

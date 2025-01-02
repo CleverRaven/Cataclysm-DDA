@@ -1205,8 +1205,8 @@
   {
     "abstract": "mon_proxy_giganfrog",
     "type": "MONSTER",
-    "name": { "str": "giant proxy frog" },
-    "description": "This frog is much too big to be real, must be a bug",
+    "name": { "str": "giant proxy frog", "//~": "NO_I18N" },
+    "description": { "str": "This frog is much too big to be real, must be a bug", "//~": "NO_I18N" },
     "default_faction": "frog",
     "bodytype": "frog",
     "species": [ "AMPHIBIAN" ],
@@ -1377,8 +1377,8 @@
   {
     "abstract": "mon_proxy_megafrog",
     "type": "MONSTER",
-    "name": { "str": "mega proxy frog" },
-    "description": "You can only imagine the size of the (de)bugs that drew out this enormous frog",
+    "name": { "str": "mega proxy frog", "//~": "NO_I18N" },
+    "description": { "str": "You can only imagine the size of the (de)bugs that drew out this enormous frog", "//~": "NO_I18N" },
     "default_faction": "frog",
     "bodytype": "frog",
     "species": [ "AMPHIBIAN" ],

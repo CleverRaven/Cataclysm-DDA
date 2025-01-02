@@ -386,7 +386,7 @@ void bodygraph_display::draw_partlist()
     werase( w_partlist );
     int y = 0;
     for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
-        const auto bgt = partlist[i];
+        const auto &bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
                           std::get<1>( bgt )->name.translated();
@@ -434,9 +434,7 @@ void bodygraph_display::draw_info()
         int y = 0;
         for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
-                for( int x = 1; x < info_width - 2; x++ ) {
-                    mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
-                }
+                mvwhline( w_info, point( 1, y ), c_dark_gray, LINE_OXOX, info_width - 3 );
             } else {
                 trim_and_print( w_info, point( 1, y ), info_width - 2, c_white, info_txt[i] );
             }

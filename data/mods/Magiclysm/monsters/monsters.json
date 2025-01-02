@@ -25,6 +25,8 @@
     "path_settings": { "max_dist": 25 },
     "harvest": "owlbear",
     "dissect": "dissect_owlbear_sample_large",
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_type": { "baby_egg": "egg_owlbear_rock" }, "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "//grab": "Assuming they are grabbing you with their paws",
@@ -59,6 +61,8 @@
     "harvest": "exempt",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "dissect": "dissect_slime_sample_single",
+    "weakpoint_sets": [ "wps_slime" ],
+    "families": [ "prof_wp_slime_basic", "prof_wp_slime_advanced" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
@@ -98,6 +102,8 @@
     "vision_night": 30,
     "vision_day": 30,
     "path_settings": { "max_dist": 35 },
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "special_attacks": [
       {
@@ -139,6 +145,8 @@
     "anger_triggers": [  ],
     "harvest": "mammal_small_parabolan_wool",
     "dissect": "dissect_cattle_sample_single",
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "upgrades": { "age_grow": 240, "into": "mon_nightmare_sheep" },
     "//": "Puberty reached in 6-9 months.",
@@ -173,6 +181,8 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "harvest": "mammal_large_parabolan_wool",
     "dissect": "dissect_cattle_sample_small",
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "reproduction": { "baby_type": { "baby_monster": "mon_hunllef_lamb" }, "baby_count": 1, "baby_timer": 275 },
     "//": "Sheep are seasonal breeders. The natural sexual season is positioned so that lambs will be born in the spring when the weather is warmer and grass is available.",
     "baby_flags": [ "SPRING" ],
@@ -227,6 +237,8 @@
     "dodge": 2,
     "harvest": "bulette",
     "dissect": "dissect_bulette_sample_large",
+    "weakpoint_sets": [ "wps_natural_armor" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_nat_armored" ],
     "anger_triggers": [ "SOUND" ],
     "special_attacks": [
       {
@@ -301,7 +313,7 @@
     "vision_day": 45,
     "vision_night": 3,
     "harvest": "human_large_leather",
-    "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_hulk" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "grab_strength": 50,
     "special_attacks": [
@@ -324,7 +336,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_troll_regenerate_limb_spell", "hit_self": true },
         "cooldown": 15,
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", ">", "200" ] }, { "u_has_effect": "maimed_arm" } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') > 200" ] }, { "u_has_effect": "maimed_arm" } ] }
       }
     ],
     "regenerates": 12,
@@ -354,7 +366,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 18 } ],
     "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
     "extend": { "flags": [ "SUNDEATH" ] },
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
+    "death_function": { "eoc": "EOC_ROCK_TROLL_TURN_TO_STONE", "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
   },
   {
     "id": "mon_troll_water",
@@ -392,6 +404,8 @@
     "vision_night": 20,
     "harvest": "stirge",
     "dissect": "dissect_stirge_sample_small",
+    "weakpoint_sets": [ "wps_bird_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_flying" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
@@ -418,6 +432,8 @@
     "vision_day": 10,
     "vision_night": 10,
     "harvest": "shrieker",
+    "weakpoint_sets": [ "wps_fungaloid" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_fungaloid_basic", "prof_wp_fungaloid_advanced" ],
     "special_attacks": [ [ "SHRIEK_ALERT", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
@@ -440,6 +456,8 @@
     "dodge": 6,
     "harvest": "mammal_tiny",
     "dissect": "dissect_batrachian_sample_single",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian" ],
+    "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog" ],
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
@@ -470,6 +488,8 @@
     "vision_day": 40,
     "vision_night": 40,
     "harvest": "lemure",
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "regenerates": 1,
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REVIVES" ]
@@ -479,6 +499,7 @@
     "type": "MONSTER",
     "name": { "str": "winter wolf", "str_pl": "winter wolves" },
     "description": "A pure white dire wolf.  If you squint, you can see a faint mist surrounding its coat, and ice shards slowly descend from its breath.",
+    "copy-from": "mon_wolf",
     "default_faction": "wolf",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -510,7 +531,7 @@
     "id": "mon_loup_garou",
     "type": "MONSTER",
     "name": { "str": "loup garou" },
-    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.",
+    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.  These once normal men, women, elves and dwarves are now forever cursed to roam the wilderness as four legged avatars of destruction; giant, rabid, maddened wolves that never know peace when they can smell or see the creations of the mortal races.  Immortal until killed it would be difficult to remember they were once mortal until cutting beneath the fur shows meat that somehow remembers a different life.",
     "default_faction": "wolf",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -531,8 +552,8 @@
     "dodge": 6,
     "vision_night": 5,
     "harvest": "demihuman_fur",
-    "families": [ "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
     "dissect": "dissect_lupine_sample_large",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
@@ -647,35 +668,6 @@
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "ATTACKMON", "STUN_IMMUNE", "SWARMS" ],
     "//1": "has no HIT_AND_RUN cause they start to be too dumb",
     "armor": { "bash": 0, "cut": 0, "bullet": 0 }
-  },
-  {
-    "id": "mon_shambling_mound",
-    "type": "MONSTER",
-    "name": "shambling mound",
-    "description": "This giant plant mess is one of the oldest magic species in the world.  They were very rare before the Cataclysm, but their population has since dramatically increased.",
-    "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
-    "default_faction": "magical_beast",
-    "volume": "679000 ml",
-    "weight": "769 kg",
-    "hp": 800,
-    "speed": 15,
-    "symbol": "M",
-    "color": "green",
-    "aggression": 100,
-    "morale": 60,
-    "melee_skill": 0,
-    "melee_dice": 0,
-    "melee_dice_sides": 0,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 0,
-    "vision_day": 45,
-    "vision_night": 6,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 }, "cooldown": 1 } ],
-    "material": [ "veggy" ],
-    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
-    "//1": "PACIFIST because #55528",
-    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ],
-    "armor": { "bash": 20, "cut": 20, "bullet": 20 }
   },
   {
     "id": "mon_electric_demon",
@@ -838,7 +830,7 @@
         "spell_data": { "id": "ankheg_acid_spit", "min_level": 3 },
         "cooldown": 1,
         "monster_message": "The ankheg spits a stream of acid at %3$s!",
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL') < 60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
       },
       [ "EAT_FOOD", 60 ],
       [ "EAT_CARRION", 60 ]
@@ -921,6 +913,8 @@
     "path_settings": { "max_dist": 25, "avoid_sharp": true },
     "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_beast_sample_large",
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
     "special_attacks": [
       { "id": "stretch_bite", "cooldown": 1, "range": 2 },
       {

@@ -102,8 +102,11 @@
   {
     "id": "vita_stop_bleeding_01",
     "type": "SPELL",
-    "name": "[Ψ]Staunch Wound #1",
-    "description": "The first of the Staunch Wound spells.  This summons a low-power bandage--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Staunch Wound #1", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Staunch Wound spells.  This summons a low-power bandage--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
@@ -120,8 +123,11 @@
   {
     "id": "vita_stop_bleeding_02",
     "type": "SPELL",
-    "name": "[Ψ]Staunch Wound #2",
-    "description": "The first of the Staunch Wound spells.  This summons a medium-power bandage--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Staunch Wound #2", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Staunch Wound spells.  This summons a medium-power bandage--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
@@ -138,8 +144,11 @@
   {
     "id": "vita_stop_bleeding_03",
     "type": "SPELL",
-    "name": "[Ψ]Staunch Wound #3",
-    "description": "The first of the Staunch Wound spells.  This summons a high-power bandage--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Staunch Wound #3", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Staunch Wound spells.  This summons a high-power bandage--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
@@ -393,8 +402,11 @@
   {
     "id": "vita_stop_infection_01",
     "type": "SPELL",
-    "name": "[Ψ]SAllay Infection #1",
-    "description": "The first of the Allay Infection spells.  This summons a low-power disinfectant/antibiotic--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Allay Infection #1", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Allay Infection spells.  This summons a low-power disinfectant/antibiotic--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "VITAKINETIC",
@@ -411,8 +423,11 @@
   {
     "id": "vita_stop_infection_02",
     "type": "SPELL",
-    "name": "[Ψ]SAllay Infection #2",
-    "description": "The second of the Allay Infection spells.  This summons a medium-power disinfectant/antibiotic--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Allay Infection #2", "//~": "NO_I18N" },
+    "description": {
+      "str": "The second of the Allay Infection spells.  This summons a medium-power disinfectant/antibiotic--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "VITAKINETIC",
@@ -429,8 +444,11 @@
   {
     "id": "vita_stop_infection_03",
     "type": "SPELL",
-    "name": "[Ψ]SAllay Infection #3",
-    "description": "The third of the Allay Infection spells.  This summons a high-power disinfectant/antibiotic--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Allay Infection #3", "//~": "NO_I18N" },
+    "description": {
+      "str": "The third of the Allay Infection spells.  This summons a high-power disinfectant/antibiotic--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "VITAKINETIC",
@@ -562,8 +580,11 @@
   {
     "id": "vita_blood_purge_no_mutagens",
     "type": "SPELL",
-    "name": "[Ψ]Blood Purge Remove Mutagens",
-    "description": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Blood Purge Remove Mutagens", "//~": "NO_I18N" },
+    "description": {
+      "str": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
@@ -625,31 +646,6 @@
     "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 1000" ] }
   },
   {
-    "id": "vita_super_heal_healing",
-    "type": "SPELL",
-    "name": "Anabolic Rejuvenation Heal",
-    "description": "The healing part of Anabolic Rejuvenation.",
-    "valid_targets": [ "self" ],
-    "teachable": false,
-    "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
-    "max_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
-    "effect": "attack",
-    "shape": "blast",
-    "flags": [ "PSIONIC", "SILENT" ]
-  },
-  {
-    "id": "vita_super_heal_drain",
-    "type": "SPELL",
-    "name": "Anabolic Rejuvenation draining",
-    "description": "The draining part of Anabolic Rejuvenation.",
-    "valid_targets": [ "self" ],
-    "teachable": false,
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
-    "shape": "blast",
-    "flags": [ "PSIONIC", "SILENT" ]
-  },
-  {
     "id": "vita_limb_restore",
     "type": "SPELL",
     "name": "[Ψ]Ameliorate Extremity",
@@ -680,6 +676,82 @@
     "final_energy_cost": 8000,
     "energy_increment": -150,
     "base_casting_time": 1200
+  },
+  {
+    "id": "vita_degenerating_touch",
+    "type": "SPELL",
+    "name": "[Ψ]Degenerating Touch",
+    "description": "The ultimate expression of a vitakinetic's ability to reverse vital processes, this power induces massive cellular breakdown in the target, causing severe injury, weakness, and possible death.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_DEGENERATING_TOUCH",
+    "shape": "blast",
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "30 - ( (u_spell_level('vita_degenerating_touch') ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "75 - ( (u_spell_level('vita_degenerating_touch') * 2 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8500,
+    "final_energy_cost": 4500,
+    "energy_increment": -250,
+    "base_casting_time": 85,
+    "final_casting_time": 55,
+    "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vita_degenerating_touch_self_character",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Degenerating Touch Self Character", "//~": "NO_I18N" },
+    "description": { "str": "You are degenerating.  RIP.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_degenerating_touch",
+    "damage_type": "biological",
+    "shape": "blast",
+    "min_dot": { "math": [ "u_vitakinesis_degen_max_possible_limb_damage / u_vitakinesis_degen_duration" ] },
+    "max_dot": { "math": [ "u_vitakinesis_degen_max_possible_limb_damage / u_vitakinesis_degen_duration" ] },
+    "min_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] },
+    "max_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] }
+  },
+  {
+    "id": "vita_degenerating_touch_self_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Degenerating Touch Self Monster", "//~": "NO_I18N" },
+    "description": { "str": "You are degenerating.  RIP.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_vita_degenerating_touch",
+    "damage_type": "biological",
+    "shape": "blast",
+    "min_dot": { "math": [ "u_vitakinesis_degen_max_possible_monster_damage / u_vitakinesis_degen_duration" ] },
+    "max_dot": { "math": [ "u_vitakinesis_degen_max_possible_monster_damage / u_vitakinesis_degen_duration" ] },
+    "min_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] },
+    "max_duration": { "math": [ "u_vitakinesis_degen_duration * 100" ] }
   },
   {
     "id": "vita_return_from_death",

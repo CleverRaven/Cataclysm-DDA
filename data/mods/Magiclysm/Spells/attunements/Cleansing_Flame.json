@@ -13,8 +13,6 @@
     "energy_source": "MANA",
     "spell_class": "CLEANSING_FLAME",
     "difficulty": 8,
-    "min_damage": 1,
-    "max_damage": 1,
     "max_level": 1,
     "base_casting_time": { "math": [ "u_effect_intensity('effect_burning_trail') > -1 ? 0 : 50" ] },
     "base_energy_cost": 25
@@ -26,11 +24,11 @@
     "effect": [
       { "u_add_effect": "effect_burning_trail", "duration": "PERMANENT" },
       { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
-      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
     ],
     "false_effect": [
       { "u_lose_effect": "effect_burning_trail" },
-      { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+      { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
     ]
   },
   {
@@ -42,17 +40,17 @@
         "run_eocs": [
           {
             "id": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_3",
-            "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+            "condition": { "math": [ "u_val('mana') >= 1" ] },
             "effect": [
               { "math": [ "u_val('mana')", "-=", "1" ] },
               { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
               { "u_set_field": "fd_fire", "radius": 0, "hit_player": false },
-              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_2", "time_in_future": 1 }
             ],
             "false_effect": [
               { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" },
               { "u_lose_effect": "effect_burning_trail" },
-              { "queue_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
+              { "run_eocs": "EOC_CLEANSING_FLAME_FIRE_FOOSTEPS_CLEANUP", "time_in_future": 2 }
             ]
           }
         ]
@@ -83,8 +81,8 @@
   },
   {
     "id": "immolate_transform",
-    "name": "Immolate Transform",
-    "description": "The part of the Immolate spell that causes the transform.",
+    "name": { "str": "Immolate Transform", "//~": "NO_I18N" },
+    "description": { "str": "The part of the Immolate spell that causes the transform.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile", "ground" ],
     "type": "SPELL",
     "effect": "ter_transform",
@@ -106,6 +104,7 @@
       "VERBAL",
       "NO_LEGS",
       "LOUD",
+      "RANDOM_DAMAGE",
       "CONCENTRATE",
       "IGNITE_FLAMMABLE",
       "MUST_HAVE_CLASS_TO_LEARN",
@@ -116,9 +115,8 @@
     "shape": "blast",
     "extra_effects": [ { "id": "immolate_transform" }, { "id": "immolate_push" }, { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "heat",
-    "min_damage": 90,
-    "damage_increment": 4.9,
-    "max_damage": 260,
+    "min_damage": { "math": [ "(u_spell_level('immolate') * 2.6) + 61" ] },
+    "max_damage": { "math": [ "(u_spell_level('immolate') * 4.1) + 79" ] },
     "min_range": 4,
     "max_range": 8,
     "range_increment": 0.12,
@@ -136,8 +134,8 @@
   {
     "id": "immolate_push",
     "type": "SPELL",
-    "name": "Immolate Push Effect",
-    "description": "The immolate spell is powerful enough to push targets from its epicenter.",
+    "name": { "str": "Immolate Push Effect", "//~": "NO_I18N" },
+    "description": { "str": "The immolate spell is powerful enough to push targets from its epicenter.", "//~": "NO_I18N" },
     "effect": "directed_push",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -166,26 +164,27 @@
     "base_energy_cost": 800,
     "energy_source": "MANA",
     "difficulty": 10,
-    "min_damage": -20,
-    "max_damage": -120,
-    "damage_increment": -2.9,
+    "min_damage": { "math": [ "(u_spell_level('cleansingflame_hermes_heal') * -1.1) - 8" ] },
+    "max_damage": { "math": [ "(u_spell_level('cleansingflame_hermes_heal') * -2.2) - 15" ] },
     "max_level": 35,
     "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" }, { "id": "eoc_restoration_setup", "hit_self": true } ],
-    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
   {
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
-    "name": "Hermes Reborn Fire",
-    "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+    "name": { "str": "Hermes Reborn Fire", "//~": "NO_I18N" },
+    "description": {
+      "str": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "max_level": 35,
-    "flags": [ "SPLIT_DAMAGE" ],
+    "flags": [ "RANDOM_DAMAGE", "SPLIT_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
-    "min_damage": 10,
-    "max_damage": 25,
-    "damage_increment": 0.45,
+    "min_damage": 8,
+    "max_damage": 20,
     "min_range": 1,
     "max_range": 1,
     "damage_type": "cold",

@@ -40,7 +40,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "name": "Lightning Storm",
     "color": "c_yellow",
     "map_color": "h_yellow",
-    "glyph": "%",
+    "sym": "%",
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
@@ -50,6 +50,6 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "rains": true,
     "required_weathers": [ "thunder" ],
     "priority": 80,
-    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
+    "condition": { "math": [ "weather('pressure') < 990" ] }
   }
 ]

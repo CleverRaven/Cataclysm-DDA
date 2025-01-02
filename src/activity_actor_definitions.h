@@ -614,7 +614,7 @@ class pickup_activity_actor : public activity_actor
 class boltcutting_activity_actor : public activity_actor
 {
     public:
-        explicit boltcutting_activity_actor( const tripoint &target,
+        explicit boltcutting_activity_actor( const tripoint_bub_ms &target,
                                              const item_location &tool ) : target( target ), tool( tool ) {};
 
         activity_id get_type() const override {
@@ -636,7 +636,7 @@ class boltcutting_activity_actor : public activity_actor
         bool testing = false; // NOLINT(cata-serialize)
 
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -1069,7 +1069,7 @@ class drop_or_stash_item_info
 /**
  * Activity to drop items to the ground or into a vehicle cargo part.
  * @items is the list of items to drop
- * @placement is the offset to the current position of the actor (use tripoint_zero for current pos)
+ * @placement is the offset to the current position of the actor (use tripoint::zero for current pos)
  * @force_ground should the items be forced to the ground instead of e.g. a container at the position
  */
 class drop_activity_actor : public activity_actor
@@ -1217,7 +1217,7 @@ class milk_activity_actor : public activity_actor
 {
     public:
         milk_activity_actor() = default;
-        milk_activity_actor( int moves, std::vector<tripoint> coords,
+        milk_activity_actor( int moves, std::vector<tripoint_abs_ms> coords,
                              std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
             string_values( std::move( str_values ) ) {}
 
@@ -1239,19 +1239,19 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint> monster_coords {};
+        std::vector<tripoint_abs_ms> monster_coords {};
         std::vector<std::string> string_values {};
 };
 
 class shearing_activity_actor : public activity_actor
 {
     private:
-        tripoint mon_coords;    // monster is tied for the duration
+        tripoint_bub_ms mon_coords;    // monster is tied for the duration
         bool shearing_tie;      // was the monster tied due to shearing
 
     public:
         explicit shearing_activity_actor(
-            const tripoint &mon_coords, bool shearing_tie = true )
+            const tripoint_bub_ms &mon_coords, bool shearing_tie = true )
             : mon_coords( mon_coords ), shearing_tie( shearing_tie ) {};
 
         activity_id get_type() const override {
@@ -1314,11 +1314,11 @@ class disassemble_activity_actor : public activity_actor
 class move_furniture_activity_actor : public activity_actor
 {
     private:
-        tripoint dp;
+        tripoint_rel_ms dp;
         bool via_ramp;
 
     public:
-        move_furniture_activity_actor( const tripoint &dp, bool via_ramp ) :
+        move_furniture_activity_actor( const tripoint_rel_ms &dp, bool via_ramp ) :
             dp( dp ), via_ramp( via_ramp ) {}
         activity_id get_type() const override {
             return activity_id( "ACT_FURNITURE_MOVE" );
@@ -1374,7 +1374,7 @@ class tent_placement_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        tripoint target;
+        tripoint_rel_ms target;
         int radius = 1;
         item it;
         string_id<furn_t> wall;
@@ -1383,7 +1383,7 @@ class tent_placement_activity_actor : public activity_actor
         string_id<furn_t> door_closed;
 
     public:
-        tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
+        tent_placement_activity_actor( int moves_total, tripoint_rel_ms target, int radius, const item &it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, std::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
             it( it ), wall( wall ), floor( floor ), floor_center( floor_center ),
@@ -1409,7 +1409,7 @@ class tent_placement_activity_actor : public activity_actor
 class oxytorch_activity_actor : public activity_actor
 {
     public:
-        explicit oxytorch_activity_actor( const tripoint &target,
+        explicit oxytorch_activity_actor( const tripoint_bub_ms &target,
                                           const item_location &tool ) : target( target ), tool( tool ) {};
 
         activity_id get_type() const override {
@@ -1430,7 +1430,7 @@ class oxytorch_activity_actor : public activity_actor
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
 
         bool can_resume_with_internal( const activity_actor &other,
@@ -1517,7 +1517,7 @@ class play_with_pet_activity_actor : public activity_actor
 class prying_activity_actor : public activity_actor
 {
     public:
-        explicit prying_activity_actor( const tripoint &target,
+        explicit prying_activity_actor( const tripoint_bub_ms &target,
                                         const item_location &tool ) : target( target ), tool( tool ) {};
 
         activity_id get_type() const override {
@@ -1541,7 +1541,7 @@ class prying_activity_actor : public activity_actor
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
         bool prying_nails = false;
 
@@ -1998,7 +1998,7 @@ class disable_activity_actor : public activity_actor
 {
     public:
         disable_activity_actor() = default;
-        disable_activity_actor( const tripoint &target, int moves_total,
+        disable_activity_actor( const tripoint_bub_ms &target, int moves_total,
                                 bool reprogram ) : target( target ), moves_total( moves_total ), reprogram( reprogram ) {}
 
         activity_id get_type() const override {
@@ -2022,7 +2022,7 @@ class disable_activity_actor : public activity_actor
         static int get_disable_turns();
 
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         int moves_total;
         bool reprogram;
 };

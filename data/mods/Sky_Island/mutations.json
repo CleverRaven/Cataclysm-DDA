@@ -17,11 +17,11 @@
       "and": [
         { "u_has_trait": "mut_skyisland_temperature_adaptation" },
         { "or": [ { "u_at_om_location": "open_air" }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ] },
-        { "math": [ "u_val('pos_z')", "==", "6" ] }
+        { "math": [ "u_val('pos_z') == 6" ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "mut_skyisland_temperature_adaptation" } },
-    "effect": [ { "math": [ "weather('temperature')", "=", "from_fahrenheit( 70 )" ] } ]
+    "effect": [ { "math": [ "weather('temperature') = from_fahrenheit( 70 )" ] } ]
   },
   {
     "type": "effect_on_condition",

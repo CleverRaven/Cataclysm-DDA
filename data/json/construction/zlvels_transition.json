@@ -65,7 +65,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "300 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 10 ], [ "2x4", 8 ] ], [ [ "rock", 20 ] ] ],
+    "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 10 ], [ "2x4", 8 ], [ "stick_long", 5 ] ], [ [ "rock", 20 ] ] ],
     "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above", "check_ramp_high" ],
     "post_terrain": "t_earth_ramp_up_high",
     "post_special": "done_ramp_high"

@@ -53,5 +53,55 @@
         "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "weaponmaster_workshop_base",
+    "//": "todo: add more, heavier guns on racks",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "b_L__",
+        "S_C_c",
+        "S_C@c",
+        "S_Cbc",
+        "|_Lcc"
+      ],
+      "place_item": [
+        { "item": "brogyeki", "x": 0, "y": 1, "chance": 100 },
+        { "item": "sapra", "x": 0, "y": 2, "chance": 100 },
+        { "item": "spear_dory", "x": 0, "y": 3, "chance": 100 }
+      ],
+      "mapping": {
+        "|": { "terrain": "t_scrap_wall" },
+        "_": { "terrain": "t_scrap_floor" },
+        "S": { "terrain": "t_scrap_floor", "furniture": "f_rack" },
+        "C": { "terrain": "t_scrap_floor", "furniture": "f_workbench" },
+        "c": { "terrain": "t_scrap_floor", "furniture": "f_metal_table" },
+        "L": { "terrain": "t_scrap_floor", "furniture": "f_exodii_lamp" },
+        "b": { "terrain": "t_scrap_floor", "furniture": "f_metal_crate_o" },
+        "@": { "terrain": "t_scrap_floor", "furniture": "f_metal_bench", "npcs": { "class": "exodii_weaponmaster" } }
+      },
+      "items": { "b": { "item": "EXODII_Workshop_Damaged", "chance": 100, "repeat": [ 3, 12 ] } }
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Workshop_Damaged",
+    "subtype": "distribution",
+    "items": [
+      { "item": "brogyeki", "prob": 20, "damage": [ 1, 4 ] },
+      { "item": "brogyaga", "prob": 5, "damage": [ 1, 4 ] },
+      { "item": "pamd68", "prob": 60, "damage": [ 1, 4 ] },
+      { "item": "pamd71z", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "sapra", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "armor_lorica", "prob": 20, "damage": [ 1, 4 ] },
+      { "item": "helmet_corinthian", "prob": 60, "damage": [ 1, 4 ] },
+      { "item": "armor_thessalonian", "prob": 80, "damage": [ 1, 4 ] },
+      { "item": "leggings_thessalonian", "prob": 80, "damage": [ 1, 4 ] },
+      { "item": "sword_xiphos", "prob": 50, "damage": [ 1, 4 ] },
+      { "item": "spear_dory", "prob": 30, "damage": [ 1, 4 ] }
+    ]
   }
 ]

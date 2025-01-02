@@ -96,6 +96,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
   "description": "Nothing gets you down!",    // In-game description.
   "starting_trait": true,                     // Can be selected at character creation (default: false).
+  "random_at_chargen": false,                 // (Optional) Starting traits can be randomly assigned to NPCs during chargen.  This options prevents that (default: true).
   "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
@@ -173,6 +174,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
     }
   ],
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
+  "activation_msg": "Time to rock and roll",  // Optional, default "You activate your %s." where %s is replaced with the mutation's name.
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
   "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or sleepiness values set to true (default: 0).
   "time": 100,                                // Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again.  Needs to be higher than one to have any effect (default: 0).
@@ -213,7 +215,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
       { 
-        "condition": { "math": [ "u_val('morale')", "<", "-50" ] },                                     // Dialogue condition (see NPCs.md).
+        "condition": { "math": [ "u_val('morale') < -50" ] },                                     // Dialogue condition (see NPCs.md).
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
       }
     ],
@@ -221,8 +223,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialogue condition (see NPCs.md).
           "or": [ 
-            { "math": [ "u_val('strength')", "<", "5" ] },
-            { "math": [ "u_val('dexterity')", ">", "20" ] }
+            { "math": [ "u_val('strength') < 5" ] },
+            { "math": [ "u_val('dexterity') > 20" ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.

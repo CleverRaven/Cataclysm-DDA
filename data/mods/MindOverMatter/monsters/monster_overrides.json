@@ -114,8 +114,7 @@
     "id": "mon_pigeon",
     "copy-from": "mon_pigeon",
     "type": "MONSTER",
-    "extend": { "flags": [ "CANPLAY" ] },
-    "upgrades": { "half_life": 30, "into_group": "GROUP_PIGEON_UPGRADE" }
+    "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_zombie_regenerating",
@@ -146,7 +145,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
-              { "math": [ "Nemesis_iteration", ">=", "2" ] },
+              { "math": [ "Nemesis_iteration >= 2" ] },
               { "not": { "u_has_effect": "effect_monster_hardened_skin" } }
             ]
           },
@@ -157,7 +156,7 @@
           "type": "spell",
           "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
           "cooldown": 10,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "4" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 4" ] } ] },
           "monster_message": "%1$s's touches %3$s with a jolt!"
         },
         {
@@ -169,7 +168,7 @@
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
               { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
-              { "math": [ "Nemesis_iteration", ">=", "6" ] }
+              { "math": [ "Nemesis_iteration >= 6" ] }
             ]
           },
           "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
@@ -179,7 +178,7 @@
           "type": "spell",
           "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
           "cooldown": 25,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "8" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 8" ] } ] },
           "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
         },
         {
@@ -190,7 +189,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
-              { "math": [ "Nemesis_iteration", ">=", "10" ] },
+              { "math": [ "Nemesis_iteration >= 10" ] },
               { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
             ]
           },
@@ -205,8 +204,8 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
-              { "math": [ "Nemesis_iteration", ">=", "12" ] },
-              { "math": [ "u_hp('ALL')", "<", "480" ] }
+              { "math": [ "Nemesis_iteration >= 12" ] },
+              { "math": [ "u_hp('ALL') < 480" ] }
             ]
           },
           "monster_message": "%1$s's wounds begin healing at a rapid pace!"
@@ -217,7 +216,7 @@
           "move_cost": 50,
           "allow_no_target": true,
           "max_range": 8,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "14" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 14" ] } ] },
           "message": "%1$s moves so quickly your eyes can barely follow it!"
         },
         {
@@ -225,7 +224,7 @@
           "type": "spell",
           "spell_data": { "id": "null_break_concentration_spell" },
           "cooldown": 30,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "16" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 16" ] } ] },
           "monster_message": "%1$s looks at %3$s and the static on the edge of your vision flickers."
         },
         {
@@ -233,7 +232,7 @@
           "type": "spell",
           "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
           "cooldown": 40,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "18" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 18" ] } ] },
           "monster_message": "%1$s glances at %3$s and the world lurches."
         },
         {
@@ -241,7 +240,7 @@
           "type": "spell",
           "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
           "cooldown": 25,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "20" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 20" ] } ] },
           "monster_message": "%1$s stares at %3$s!"
         },
         {
@@ -252,7 +251,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
-              { "math": [ "Nemesis_iteration", ">=", "22" ] },
+              { "math": [ "Nemesis_iteration >= 22" ] },
               { "not": { "u_has_effect": "effect_monster_inertial_barrier" } }
             ]
           },
@@ -263,7 +262,7 @@
           "type": "spell",
           "spell_data": { "id": "telepathic_primal_fear_monster", "min_level": 5 },
           "cooldown": 35,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "24" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 24" ] } ] },
           "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
         },
         {
@@ -281,7 +280,7 @@
           "blockable": false,
           "condition": {
             "and": [
-              { "math": [ "Nemesis_iteration", ">=", "26" ] },
+              { "math": [ "Nemesis_iteration >= 26" ] },
               { "not": { "u_has_effect": "effect_psi_null" } },
               { "not": { "npc_has_flag": "TELEKIN_SHIELD" } }
             ]
@@ -301,7 +300,7 @@
           "dodgeable": true,
           "blockable": true,
           "effects": [ { "id": "effect_vitakinetic_healing_down", "duration": [ 920000, 2120000 ] } ],
-          "condition": { "and": [ { "math": [ "Nemesis_iteration", ">=", "28" ] }, { "not": { "u_has_effect": "effect_psi_null" } } ] },
+          "condition": { "and": [ { "math": [ "Nemesis_iteration >= 28" ] }, { "not": { "u_has_effect": "effect_psi_null" } } ] },
           "hit_dmg_u": "%1$s touches you and you feel weaker!",
           "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
           "miss_msg_u": "%1$s tries to touch you, but you dodge!",
@@ -315,7 +314,7 @@
           "spell_data": { "id": "electrokinetic_revive_monster", "min_level": 5 },
           "cooldown": 35,
           "allow_no_target": true,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration", ">=", "30" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "math": [ "Nemesis_iteration >= 30" ] } ] },
           "monster_message": "Lightning crackles around %1$s!"
         }
       ]
@@ -732,5 +731,11 @@
     "copy-from": "mon_yrax_triakis",
     "type": "MONSTER",
     "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
+  },
+  {
+    "id": "mon_cow",
+    "copy-from": "mon_cow",
+    "type": "MONSTER",
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_COW_MUTANT_BABIES" }, "baby_count": 1, "baby_timer": 343 }
   }
 ]

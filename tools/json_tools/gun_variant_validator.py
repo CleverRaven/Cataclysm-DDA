@@ -106,7 +106,6 @@ NAME_CHECK_BLACKLIST = {
     "hk_mp7",
     "obrez",
     "pressin",
-    "m1911-460",
     "m2010",
     "weatherby_5",
     "win70",

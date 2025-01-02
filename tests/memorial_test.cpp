@@ -125,7 +125,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Caused a resonance cascade." );
 
     check_memorial<event_type::character_gains_effect>(
-        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff );
+        m, b, "Caught on fire.", ch, bodypart_id( "arm_r" ), eff, 1 );
 
     check_memorial<event_type::character_kills_character>(
         m, b, "Killed an innocent person, victim_name, in cold blood and felt terrible "

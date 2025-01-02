@@ -19,13 +19,13 @@
     "info": "You are immune to telepathy."
   },
   {
+    "id": "SHIELD_GENERATOR",
+    "type": "json_flag",
+    "info": "This item is capable of projecting a Riemann protective shield."
+  },
+  {
     "id": "HIVE_MIND",
     "type": "monster_flag",
     "//": "This monster is part of a hive mind"
-  },
-  {
-    "id": "TEEP_IMMUNE",
-    "type": "monster_flag",
-    "//": "Immune to telepathic damage"
   }
 ]

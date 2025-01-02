@@ -2,8 +2,8 @@
   {
     "abstract": "mring_copper",
     "type": "TOOL_ARMOR",
-    "name": "copper magic ring",
-    "description": "A generic copper magic ring.",
+    "name": { "str": "copper magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic copper magic ring.", "//~": "NO_I18N" },
     "weight": "4 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -28,8 +28,8 @@
   {
     "abstract": "mring_silver",
     "type": "TOOL_ARMOR",
-    "name": "magic ring",
-    "description": "A generic silver magic ring.",
+    "name": { "str": "silver magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic silver magic ring.", "//~": "NO_I18N" },
     "weight": "5 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -54,8 +54,8 @@
   {
     "abstract": "mring_gold",
     "type": "TOOL_ARMOR",
-    "name": "magic ring",
-    "description": "A generic gold magic ring.",
+    "name": { "str": "gold magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic gold magic ring.", "//~": "NO_I18N" },
     "weight": "9 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -80,8 +80,8 @@
   {
     "abstract": "mring_platinum",
     "type": "TOOL_ARMOR",
-    "name": "magic ring",
-    "description": "A generic platinum magic ring",
+    "name": { "str": "platinum magic ring", "//~": "NO_I18N" },
+    "description": { "str": "A generic platinum magic ring", "//~": "NO_I18N" },
     "weight": "11 g",
     "volume": "1 ml",
     "price": "50 USD",
@@ -362,11 +362,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -2 },
-            { "value": "ARMOR_BASH", "add": -2 },
-            { "value": "ARMOR_STAB", "add": -2 },
-            { "value": "ARMOR_BULLET", "add": -1 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -2 },
+            { "type": "stab", "add": -2 },
+            { "type": "cut", "add": -2 },
+            { "type": "bullet", "add": -1 }
           ]
         }
       ]
@@ -384,11 +384,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -4 },
-            { "value": "ARMOR_BASH", "add": -4 },
-            { "value": "ARMOR_STAB", "add": -4 },
-            { "value": "ARMOR_BULLET", "add": -2 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -4 },
+            { "type": "stab", "add": -4 },
+            { "type": "cut", "add": -4 },
+            { "type": "bullet", "add": -2 }
           ]
         }
       ]
@@ -406,11 +406,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -6 },
-            { "value": "ARMOR_BASH", "add": -6 },
-            { "value": "ARMOR_STAB", "add": -6 },
-            { "value": "ARMOR_BULLET", "add": -3 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -6 },
+            { "type": "stab", "add": -6 },
+            { "type": "cut", "add": -6 },
+            { "type": "bullet", "add": -3 }
           ]
         }
       ]
@@ -428,11 +428,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [
-            { "value": "ARMOR_CUT", "add": -8 },
-            { "value": "ARMOR_BASH", "add": -8 },
-            { "value": "ARMOR_STAB", "add": -8 },
-            { "value": "ARMOR_BULLET", "add": -4 }
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -8 },
+            { "type": "stab", "add": -8 },
+            { "type": "cut", "add": -8 },
+            { "type": "bullet", "add": -4 }
           ]
         }
       ]
@@ -499,7 +499,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_HEAT", "multiply": -0.5 } ],
+          "incoming_damage_mod": [ { "type": "heat", "multiply": -0.5 } ],
           "ench_effects": [ { "effect": "effect_mring_fire_protection", "intensity": 1 } ]
         }
       ]
@@ -532,7 +532,7 @@
       "passive_effects": [
         {
           "has": "WORN",
-          "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance')", ">=", "25" ] },
+          "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance') >= 25" ] },
           "values": [
             { "value": "THIRST", "multiply": -0.75 },
             { "value": "SLEEPINESS_REGEN", "multiply": 3 },
@@ -550,7 +550,7 @@
     "condition": { "compare_string": [ "mring_sustenance", { "context_val": "itype" } ] },
     "effect": [
       { "u_add_effect": "effect_mring_sustenance", "duration": "PERMANENT" },
-      { "queue_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
+      { "run_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
     ]
   },
   {
@@ -562,16 +562,13 @@
       "true_eocs": [
         {
           "id": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP_TRUE",
-          "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance')", ">=", "25" ] },
+          "condition": { "math": [ "u_effect_intensity('effect_mring_sustenance') >= 25" ] },
           "effect": [
-            { "if": { "math": [ "u_calories()", "<=", "74999" ] }, "then": { "math": [ "u_calories()", "+=", "5" ] } },
-            {
-              "if": { "math": [ "u_calories()", "<=", "118000" ] },
-              "then": { "math": [ "u_calories()", "+=", "7" ] }
-            },
-            { "queue_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
+            { "if": { "math": [ "u_calories() <= 74999" ] }, "then": { "math": [ "u_calories()", "+=", "5" ] } },
+            { "if": { "math": [ "u_calories() <= 118000" ] }, "then": { "math": [ "u_calories()", "+=", "7" ] } },
+            { "run_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
           ],
-          "false_effect": [ { "queue_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 } ]
+          "false_effect": [ { "run_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 } ]
         }
       ],
       "false_eocs": [

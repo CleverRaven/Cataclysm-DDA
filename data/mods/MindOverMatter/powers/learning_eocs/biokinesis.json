@@ -9,28 +9,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "4" ] },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "3" ] }
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 4" ] },
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 3" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_breathe_skin')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_breathe_skin') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_breathe_skin" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_breathe_skin') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_breathe_skin" },
       {
         "u_message": "Use of your powers has led to an insight.  You could use your powers to make your skin selectively permeable to oxygen, allowing you to breathe underwater, if you can figure out the proper technique.",
@@ -48,23 +46,21 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
-            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] }
+            { "math": [ "u_spell_level('biokin_physical_enhance') >= 6" ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_flexibility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_flexibility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_flexibility" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_flexibility') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_flexibility" },
       {
         "u_message": "Use of your powers has led to an insight.  You could twist your joints and relax your muscles far beyond the capability of a baseline human, allowing you to escape shackles and adeptly dodge blows for a brief period, if you can figure out the proper technique.",
@@ -82,7 +78,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
@@ -90,14 +86,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "5" ] }
+                    { "math": [ "u_spell_level('biokin_enhance_mobility') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 5" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('biokin_reflex_enhance') >= 5" ] },
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 8" ] }
                   ]
                 }
               ]
@@ -105,13 +101,13 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_dash')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_dash') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_dash" } }
       ]
     },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_dash')", ">=", "1" ] } ] },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_dash') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_dash" },
       {
         "u_message": "Use of your powers has led to an insight.  You could supercharge your muscles to move incredibly quickly for brief periods, if you can figure out the technique.",
@@ -129,7 +125,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -137,14 +133,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 8" ] },
+                    { "math": [ "u_spell_level('biokin_overcome_pain') >= 6" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('biokin_climate_control')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_flexibility') >= 7" ] },
+                    { "math": [ "u_spell_level('biokin_climate_control') >= 6" ] }
                   ]
                 }
               ]
@@ -152,15 +148,13 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_armor_skin')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_armor_skin') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_armor_skin" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_armor_skin') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_armor_skin" },
       {
         "u_message": "Use of your powers has led to an insight.  You could harden your skin to protect yourself from damage, if you can figure out the technique.",
@@ -178,7 +172,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -186,25 +180,23 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "9" ] },
-                    { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 9" ] },
+                    { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 6" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] }
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_climate_control')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_climate_control') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_climate_control" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_climate_control') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_climate_control" },
       {
         "u_message": "Use of your powers has led to an insight.  You could adapt your physiology to be comfortable in hotter or colder temperatures, if you can figure out the technique.",
@@ -222,33 +214,28 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('biokin_dash') >= 8" ] }, { "math": [ "u_spell_level('biokin_enhance_mobility') >= 6" ] } ]
                 },
-                { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "5" ] }
+                { "math": [ "u_spell_level('biokin_breathe_skin') >= 5" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_adrenaline')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_adrenaline') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_adrenaline" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_adrenaline') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_adrenaline" },
       {
         "u_message": "Use of your powers has led to an insight.  You could control your adrenaline, unleashing a surge of it on command when you need it, if you can figure out the technique.",
@@ -266,7 +253,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
@@ -274,32 +261,32 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "4" ] },
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] }
+                    { "math": [ "u_spell_level('biokin_dash') >= 10" ] },
+                    { "math": [ "u_spell_level('biokin_combat_dance') >= 4" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 10" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('biokin_reflex_enhance') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_flexibility') >= 9" ] }
                   ]
                 },
-                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "4" ] }
+                { "math": [ "u_spell_level('biokin_overcome_pain') >= 4" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_enhance_mobility')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_enhance_mobility') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_enhance_mobility" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_enhance_mobility') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_enhance_mobility" },
       {
         "u_message": "Use of your powers has led to an insight.  You could enhance your skin tension and joint flexibility to make your gear much less encumbering, if you can figure out the technique.",
@@ -317,28 +304,26 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "6" ] }
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 6" ] },
+                { "math": [ "u_spell_level('biokin_armor_skin') >= 6" ] }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_hammerhand')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_hammerhand') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hammerhand" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hammerhand') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_hammerhand" },
       {
         "u_message": "Use of your powers has led to an insight.  You could replicate simple tools with your body, applying enough torque to turn bolts with your fingers or enough force to hammer a nail with your thumb, if you can figure out the technique.",
@@ -356,34 +341,29 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 6" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline') >= 8" ] },
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
-                    { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('biokin_dash') >= 8" ] }, { "math": [ "u_spell_level('biokin_flexibility') >= 8" ] } ]
                 }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_reflex_enhance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_reflex_enhance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_reflex_enhance" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_reflex_enhance') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_reflex_enhance" },
       {
         "u_message": "Use of your powers has led to an insight.  You could enhance your sensory acuity and reaction time, spotting threats from further away and moving more quickly to counter them, if you can figure out the technique.",
@@ -401,7 +381,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
@@ -409,14 +389,14 @@
               "and": [
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "9" ] },
-                    { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "9" ] }
+                    { "math": [ "u_spell_level('biokin_breathe_skin') >= 9" ] },
+                    { "math": [ "u_spell_level('biokin_armor_skin') >= 9" ] }
                   ]
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "7" ] },
-                    { "math": [ "u_spell_level('biokin_climate_control')", ">=", "10" ] }
+                    { "math": [ "u_spell_level('biokin_hammerhand') >= 7" ] },
+                    { "math": [ "u_spell_level('biokin_climate_control') >= 10" ] }
                   ]
                 }
               ]
@@ -424,15 +404,13 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_sealed_system')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_sealed_system') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_sealed_system" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_sealed_system') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_sealed_system" },
       {
         "u_message": "Use of your powers has led to an insight.  With an enormously deep breath and an alteration to your skin, you could protect yourself from harmful gases, electricity, radiation, and other deleterious conditions, if you can figure out the technique.",
@@ -450,17 +428,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_climate_control')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_climate_control') >= 8" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 6" ] },
+                    { "math": [ "u_spell_level('biokin_physical_enhance') >= 12" ] }
                   ]
                 }
               ]
@@ -468,15 +446,15 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_metabolism_enhance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_metabolism_enhance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_metabolism_enhance" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_metabolism_enhance') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_metabolism_enhance" },
       {
         "u_message": "Use of your powers has led to an insight.  You could enhance your metabolism to a preternatural degree, eating only once a day and sleeping every two to three days, if you can figure out the technique.",
@@ -494,34 +472,29 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "10" ] },
-                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "10" ] },
+                { "math": [ "u_spell_level('biokin_physical_enhance') >= 10" ] },
+                { "math": [ "u_spell_level('biokin_reflex_enhance') >= 10" ] },
                 {
-                  "or": [
-                    { "math": [ "u_spell_level('biokin_dash')", ">=", "6" ] },
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "9" ] }
-                  ]
+                  "or": [ { "math": [ "u_spell_level('biokin_dash') >= 6" ] }, { "math": [ "u_spell_level('biokin_adrenaline') >= 9" ] } ]
                 }
               ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_combat_dance')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_combat_dance') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_combat_dance" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_combat_dance') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_combat_dance" },
       {
         "u_message": "Use of your powers has led to an insight.  Combining enhancements to speed, strength, reaction time, agility, and coordination, you could enter a battle trance like the legendary berserkergang, but with full control over your mind, if you can figure out the technique.",
@@ -539,28 +512,25 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
-              "and": [
-                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_dash')", ">=", "12" ] }
-              ]
+              "and": [ { "math": [ "u_spell_level('biokin_combat_dance') >= 6" ] }, { "math": [ "u_spell_level('biokin_dash') >= 12" ] } ]
             }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_perfected_motion')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_perfected_motion') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_perfected_motion" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] } ]
+      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_perfected_motion') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_perfected_motion" },
       {
         "u_message": "Use of your powers has led to an insight.  You could maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding any difficult terrain while doing so, if you can figure out the technique.",
@@ -578,17 +548,17 @@
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "10" ] },
+                { "math": [ "u_spell_level('biokin_combat_dance') >= 10" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "14" ] },
-                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('biokin_reflex_enhance') >= 14" ] },
+                    { "math": [ "u_spell_level('biokin_adrenaline') >= 12" ] }
                   ]
                 }
               ]
@@ -596,15 +566,13 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('biokin_hurricane_blows')", "<=", "0" ] },
+        { "math": [ "u_spell_level('biokin_hurricane_blows') <= 0" ] },
         { "not": { "u_know_recipe": "practice_biokin_hurricane_blows" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_hurricane_blows') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_hurricane_blows" },
       {
         "u_message": "Use of your powers has led to an insight.  You could maintain a speed boost for an extended period of time, traveling a dozen meters in the blink of an eye, and avoiding any difficult terrain while doing so, if you can figure out the technique.",

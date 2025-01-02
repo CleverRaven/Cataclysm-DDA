@@ -57,6 +57,7 @@
     <ClInclude Include="..\src\third-party\imgui\imgui_impl_sdlrenderer2.h" />
     <ClInclude Include="..\src\third-party\imgui\imgui_internal.h" />
     <ClInclude Include="..\src\third-party\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\src\third-party\imgui\imgui_stdlib.h" />
     <ClInclude Include="..\src\third-party\imgui\imstb_textedit.h" />
     <ClInclude Include="..\src\third-party\imgui\imstb_truetype.h" />
     <ClInclude Include="..\src\third-party\imtui\imtui-impl-ncurses.h" />
@@ -67,8 +68,10 @@
     <ClCompile Include="..\src\third-party\imgui\imgui.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\src\third-party\imgui\imgui_freetype.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdl2.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_impl_sdlrenderer2.cpp" />
+    <ClCompile Include="..\src\third-party\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\src\third-party\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\src\third-party\imtui\imtui-impl-ncurses.cpp">

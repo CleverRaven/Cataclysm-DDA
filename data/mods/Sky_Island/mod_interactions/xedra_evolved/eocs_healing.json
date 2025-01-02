@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIX_XEDRA_EVOLVED_PROBLEMS",
+    "effect": [
+      {
+        "if": { "and": [ { "u_has_trait": "LILIN_TRAITS" }, { "math": [ "u_vitamin('lilin_ruach_vitamin') == 0" ] } ] },
+        "then": [
+          { "math": [ "u_vitamin('lilin_ruach_vitamin')", "=", "720" ] },
+          { "u_add_effect": "effect_si_lilin_no_ruach_upgrades", "duration": 259200 }
+        ]
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "VAMPIRE" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -4800" ] } ] },
+        "then": { "math": [ "u_vitamin('human_blood_vitamin')", "=", "0" ] }
+      },
+      { "u_lose_effect": "blood_spiders" },
+      { "u_lose_effect": "visuals" },
+      { "u_lose_effect": "effect_dread_weight" },
+      { "u_lose_effect": "poisoned_blood" },
+      { "u_lose_effect": "poisoned_blood2" },
+      { "u_lose_effect": "effect_broke_fae_ban" },
+      { "u_lose_effect": "effect_evil_eye" }
+    ]
+  }
+]

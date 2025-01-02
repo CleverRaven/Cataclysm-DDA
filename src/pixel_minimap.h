@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 
+#include "coords_fwd.h"
 #include "point.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
@@ -40,7 +41,7 @@ class pixel_minimap
         void set_type( pixel_minimap_type type );
         void set_settings( const pixel_minimap_settings &settings );
 
-        void draw( const SDL_Rect &screen_rect, const tripoint &center );
+        void draw( const SDL_Rect &screen_rect, const tripoint_bub_ms &center );
 
     private:
         struct submap_cache;

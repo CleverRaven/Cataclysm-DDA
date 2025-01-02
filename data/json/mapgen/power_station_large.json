@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "pwr_large_3", "pwr_large_4" ], [ "pwr_large_2", "pwr_large_entrance" ] ],
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "------------------------------------------------",
         "-         -               -     -              -",
@@ -55,6 +55,7 @@
         "-         -               -                -   -",
         "---------------------------------------------+--"
       ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_concrete",
         "i": "t_concrete",
@@ -70,8 +71,7 @@
         "+": "t_chaingate_c",
         "o": "t_window",
         "d": "t_door_locked",
-        "|": "t_wall_b",
-        ".": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "4": "t_gutter_downspout"
       },
       "furniture": {

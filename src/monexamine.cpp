@@ -176,8 +176,9 @@ void push( monster &z )
         return;
     }
 
-    point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    if( z.move_to( tripoint( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+    // Attempt to double the vector between the player and monster
+    const tripoint_rel_ms delta = z.pos_bub() - player_character.pos_bub();
+    if( z.move_to( z.pos_bub() + delta.xy() ) ) {
         add_msg( _( "You pushed the %s." ), pet_name );
     } else {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
@@ -309,7 +310,7 @@ bool give_items_to( monster &z )
         return true;
     }
     z.add_effect( effect_controlled, 5_turns );
-    player_character.drop( to_move, z.pos(), true );
+    player_character.drop( to_move, z.pos_bub(), true );
     // Print an appropriate message for the inserted item or items
     if( to_move.size() > 1 ) {
         add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
@@ -512,10 +513,10 @@ void milk_source( monster &source_mon )
 
     else if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint> coords{};
+        std::vector<tripoint_abs_ms> coords{};
         std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
-        coords.push_back( get_map().getglobal( source_mon.pos_bub() ).raw() );
+        coords.push_back( get_map().getglobal( source_mon.pos_bub() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
@@ -548,7 +549,7 @@ void shear_animal( monster &z )
         z.add_effect( effect_tied, 1_turns, true );
     }
 
-    guy.assign_activity( shearing_activity_actor( z.pos(), !monster_tied ) );
+    guy.assign_activity( shearing_activity_actor( z.pos_bub(), !monster_tied ) );
 }
 
 void remove_battery( monster &z )
@@ -649,12 +650,12 @@ bool monexamine::pet_menu( monster &z )
                                     z.get_stomach_fullness_percent() );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
-    amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
+    amenu.addentry( push_monster, true, 'p', _( "Push the %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
         if( z.has_effect( effect_led_by_leash ) ) {
-            amenu.addentry( stop_lead, true, 'l', _( "Stop leading %s" ), pet_name );
+            amenu.addentry( stop_lead, true, 'l', _( "Stop leading the %s" ), pet_name );
         } else {
-            amenu.addentry( lead, true, 'l', _( "Lead %s by the leash" ), pet_name );
+            amenu.addentry( lead, true, 'l', _( "Lead the %s by the leash" ), pet_name );
         }
     }
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
@@ -662,51 +663,52 @@ bool monexamine::pet_menu( monster &z )
     Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
-        amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
+        amenu.addentry( remove_bag, true, 'b', _( "Remove a bag from the %s" ), pet_name );
         if( !z.inv.empty() ) {
-            amenu.addentry( drop_all, true, 'd', _( "Remove all items from bag" ) );
+            amenu.addentry( drop_all, true, 'd', _( "Remove all items from a bag" ) );
         }
     } else if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
-        amenu.addentry( attach_bag, true, 'b', _( "Attach bag to %s" ), pet_name );
+        amenu.addentry( attach_bag, true, 'b', _( "Attach a bag to the %s" ), pet_name );
     }
     if( z.has_effect( effect_harnessed ) ) {
-        amenu.addentry( mon_harness_remove, true, 'H', _( "Remove vehicle harness from %s" ), pet_name );
+        amenu.addentry( mon_harness_remove, true, 'H', _( "Remove the vehicle harness from the %s" ),
+                        pet_name );
     }
     if( z.has_effect( effect_monster_armor ) ) {
-        amenu.addentry( mon_armor_remove, true, 'a', _( "Remove armor from %s" ), pet_name );
+        amenu.addentry( mon_armor_remove, true, 'a', _( "Remove armor from the %s" ), pet_name );
     } else if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
-        amenu.addentry( mon_armor_add, true, 'a', _( "Equip %s with armor" ), pet_name );
+        amenu.addentry( mon_armor_add, true, 'a', _( "Equip the %s with armor" ), pet_name );
     }
     if( z.has_effect( effect_tied ) ) {
         amenu.addentry( untie, true, 't', _( "Untie" ) );
     }
     if( z.has_effect( effect_leashed ) && !z.has_effect( effect_tied ) ) {
         amenu.addentry( tie, true, 't', _( "Tie" ) );
-        amenu.addentry( unleash, true, 'L', _( "Remove leash from %s" ), pet_name );
+        amenu.addentry( unleash, true, 'L', _( "Remove the leash from the %s" ), pet_name );
     }
     if( !z.has_effect( effect_leashed ) && !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         if( player_character.cache_has_item_with( json_flag_TIE_UP ) ) {
-            amenu.addentry( leash, true, 't', _( "Attach leash to %s" ), pet_name );
+            amenu.addentry( leash, true, 't', _( "Attach a leash to the %s" ), pet_name );
         } else {
-            amenu.addentry( leash, false, 't', _( "You need any type of rope to leash %s" ),
+            amenu.addentry( leash, false, 't', _( "You need any type of rope to leash the %s" ),
                             pet_name );
         }
     }
 
     if( z.has_flag( mon_flag_CANPLAY ) ) {
-        amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
+        amenu.addentry( play_with_pet, true, 'y', _( "Play with the %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_CAN_BE_CULLED ) ) {
-        amenu.addentry( cull_pet, true, 'k', _( "Cull %s" ), pet_name );
+        amenu.addentry( cull_pet, true, 'k', _( "Cull the %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_MILKABLE ) ) {
-        amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
+        amenu.addentry( milk, true, 'm', _( "Milk the %s" ), pet_name );
     }
     if( z.shearable() ) {
         bool available = true;
         if( season_of_year( calendar::turn ) == WINTER ) {
             amenu.addentry( shear, false, 'S',
-                            _( "This animal would freeze if you shear it during winter." ) );
+                            _( "This animal would freeze if you shear it during the winter." ) );
             available = false;
         } else if( z.has_effect( effect_sheared ) ) {
             amenu.addentry( shear, false, 'S', _( "This animal is not ready to be sheared again yet." ) );
@@ -714,7 +716,7 @@ bool monexamine::pet_menu( monster &z )
         }
         if( available ) {
             if( player_character.has_quality( qual_SHEAR, 1 ) ) {
-                amenu.addentry( shear, true, 'S', _( "Shear %s." ), pet_name );
+                amenu.addentry( shear, true, 'S', _( "Shear the %s." ), pet_name );
             } else {
                 amenu.addentry( shear, false, 'S', _( "You cannot shear this animal without a shearing tool." ) );
             }
@@ -723,34 +725,34 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( mon_flag_PET_MOUNTABLE ) && !z.has_effect( effect_monster_saddled ) &&
         player_character.cache_has_item_with( json_flag_TACK ) ) {
         if( player_character.get_skill_level( skill_survival ) >= 1 ) {
-            amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
+            amenu.addentry( attach_saddle, true, 'h', _( "Tack up the %s" ), pet_name );
         } else {
-            amenu.addentry( attach_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
+            amenu.addentry( attach_saddle, false, 'h', _( "You don't know how to saddle the %s" ), pet_name );
         }
     }
     if( z.has_flag( mon_flag_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
-        amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
+        amenu.addentry( remove_saddle, true, 'h', _( "Remove the tack from the %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_PAY_BOT ) ) {
-        amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
+        amenu.addentry( pay, true, 'f', _( "Manage your friendship with the %s" ), pet_name );
     }
     if( !z.type->chat_topics.empty() ) {
-        amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
+        amenu.addentry( talk_to, true, 'c', _( "Talk to the %s" ), pet_name );
     }
     if( z.has_effect( effect_bleed ) ) {
-        amenu.addentry( stop_bleeding, true, 'B', _( "Treat bleeding from %s" ), pet_name );
+        amenu.addentry( stop_bleeding, true, 'B', _( "Treat the %s's bleeding" ), pet_name );
     }
     if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         if( z.has_flag( mon_flag_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
-            amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
+            amenu.addentry( mount, true, 'r', _( "Mount the %s" ), pet_name );
         } else if( !z.has_flag( mon_flag_PET_MOUNTABLE ) ) {
-            amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
+            amenu.addentry( mount, false, 'r', _( "The %s cannot be mounted" ), pet_name );
         } else if( z.get_size() <= player_character.get_size() ) {
-            amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
+            amenu.addentry( mount, false, 'r', _( "The %s is too small to carry your weight" ), pet_name );
         } else if( player_character.get_skill_level( skill_survival ) < 1 ) {
-            amenu.addentry( mount, false, 'r', _( "You require survival skill 1 to ride" ) );
+            amenu.addentry( mount, false, 'r', _( "You require survival skill 1 to ride a mount" ) );
         } else if( player_character.get_weight() >= z.get_weight() * z.get_mountable_weight_ratio() ) {
-            amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
+            amenu.addentry( mount, false, 'r', _( "You are too heavy to mount the %s" ), pet_name );
         } else if( !z.has_effect( effect_monster_saddled ) &&
                    player_character.get_skill_level( skill_survival ) < 4 ) {
             amenu.addentry( mount, false, 'r', _( "You require survival skill 4 to ride without a saddle" ) );

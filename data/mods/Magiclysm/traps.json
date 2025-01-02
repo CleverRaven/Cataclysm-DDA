@@ -25,5 +25,25 @@
     "action": "spell",
     "spell_data": { "id": "forge_trap" },
     "benign": false
+  },
+  {
+    "type": "trap",
+    "id": "tr_rune_trap_summon_blades",
+    "name": "glowing runes",
+    "color": "blue",
+    "symbol": "o",
+    "visibility": 15,
+    "avoidance": 13,
+    "difficulty": 99,
+    "action": "eocs",
+    "eocs": [ "EOC_TRAPS_SUMMON_BLADES" ],
+    "trigger_weight": "50000 g",
+    "trigger_message_u": "As you step forward, runes begin glowing brightly!",
+    "trigger_message_npc": "As <npcname> steps forward, runes begin glowing brightly!"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TRAPS_SUMMON_BLADES",
+    "effect": [ { "u_spawn_monster": "mon_animated_blade_feral", "real_count": [ 1, 2 ], "min_radius": 1, "max_radius": 1 } ]
   }
 ]

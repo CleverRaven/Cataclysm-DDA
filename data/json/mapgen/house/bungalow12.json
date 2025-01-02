@@ -6,10 +6,11 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -39,14 +40,14 @@
         "........................"
       ],
       "terrain": {
-        "/": "t_carpet_green",
-        "H": "t_carpet_green",
-        "s": "t_carpet_green",
-        "l": "t_carpet_green",
-        "E": "t_carpet_green",
-        "?": "t_carpet_yellow",
-        "r": "t_carpet_yellow",
-        ")": "t_carpet_yellow",
+        "/": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "s": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "E": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "?": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        "r": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
+        ")": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "&": "t_concrete",
         "K": "t_concrete",
         "₸": "t_concrete",

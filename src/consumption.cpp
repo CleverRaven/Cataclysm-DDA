@@ -112,7 +112,9 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
+static const json_character_flag json_flag_HERBIVORE_DIET( "HERBIVORE_DIET" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
@@ -156,11 +158,9 @@ static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
 static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
-static const trait_id trait_HERBIVORE( "HERBIVORE" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
@@ -224,7 +224,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     // As float to avoid rounding too many times
-    float kcal = comest.get_comestible()->default_nutrition.kcal();
+    float kcal = comest.get_comestible()->default_nutrition_read_only().kcal();
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
     bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
@@ -232,7 +232,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
+    if( you.has_flag( json_flag_CARNIVORE_DIET ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_vitamin( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
@@ -262,7 +262,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         return {};
     }
 
-    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins();
+    std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition_read_only().vitamins();
 
     // for actual vitamins convert RDA to a internal value
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -272,7 +272,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         vit.second = vit.first->RDA_to_default( vit.second );
     }
 
-    for( const trait_id &trait : you.get_mutations() ) {
+    for( const trait_id &trait : you.get_functioning_mutations() ) {
         const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
@@ -312,6 +312,12 @@ static nutrients compute_default_effective_nutrients( const item &comest,
     return ret;
 }
 
+extern nutrients default_character_compute_effective_nutrients( const item &comest )
+{
+    static npc dummy;
+    return dummy.compute_effective_nutrients( comest );
+}
+
 // Calculate the nutrients that the given character would receive from consuming
 // the given item, taking into account the item components and the character's
 // traits.
@@ -322,8 +328,9 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
         return {};
     }
 
-    // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    // if item has food components, will derive calories from that instead.
+    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) &&
+        comest.made_of_any_food_components( true ) ) {
         nutrients tally{};
         if( comest.recipe_charges == 0 ) {
             // Avoid division by zero
@@ -534,10 +541,18 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
+        ( comest.has_flag( flag_CATTLE ) && has_trait( trait_THRESH_CATTLE ) ) ||
+        ( comest.has_flag( flag_RABBIT ) && has_trait( trait_THRESH_RABBIT ) ) ||
+        ( comest.has_flag( flag_MOUSE ) && has_trait( trait_THRESH_MOUSE ) ) ||
+        ( comest.has_flag( flag_RAT ) && has_trait( trait_THRESH_RAT ) ) ||
+        ( comest.has_flag( flag_BIRD ) && has_trait( trait_THRESH_BIRD ) ) ||
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
         if( fun < 0 ) {
             fun = -fun;
             fun /= 2;
+        }
+        if( fun == 0 ) {
+            fun = 2;
         }
     }
 
@@ -575,7 +590,7 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( has_bionic( bio_faulty_grossfood ) && comest.is_food() ) {
-        fun = fun - 13;
+        fun -= 13;
     }
 
     if( fun < 0 && has_active_bionic( bio_taste_blocker ) &&
@@ -591,7 +606,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 {
     time_duration res = vit.obj().rate();
 
-    for( const auto &m : get_mutations() ) {
+    for( const auto &m : get_functioning_mutations() ) {
         const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
@@ -834,8 +849,9 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     // TODO: This condition occurs way too often. Unify it.
     // update Sep. 26 2018: this apparently still occurs way too often. yay!
-    if( is_underwater() && ( !has_trait( trait_WATERSLEEP ) ||
-                             has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
+    if( is_underwater() &&
+        ( ( !has_trait( trait_WATERSLEEP ) && !has_trait( trait_UNDINE_SLEEP_WATER ) ) ||
+          ( ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) && drinkable ) ) ) {
         return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
@@ -902,13 +918,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
-    if( has_trait( trait_CARNIVORE ) && compute_effective_nutrients( food ).kcal() > 0 &&
+    if( has_flag( json_flag_CARNIVORE_DIET ) && compute_effective_nutrients( food ).kcal() > 0 &&
         food.has_any_vitamin( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "Eww.  Inedible plant stuff!" ) );
     }
 
-    if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
+    if( ( has_flag( json_flag_HERBIVORE_DIET ) || has_trait( trait_RUMINANT ) ) &&
         food.has_any_vitamin( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
@@ -925,7 +941,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 _( "You're still not going to eat animal products." ) );
     }
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
         }
@@ -945,6 +961,12 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     return ret_val<edible_rating>::make_success();
+}
+
+bool Character::okay_with_eating_humans() const
+{
+    return has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ||
+           has_flag( json_flag_PSYCHOPATH ) || has_flag( json_flag_SAPIOVORE );
 }
 
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
@@ -977,12 +999,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    const bool carnivore = has_trait( trait_CARNIVORE );
+    const bool carnivore = has_flag( json_flag_CARNIVORE_DIET );
     const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
-          !has_flag( json_flag_PSYCHOPATH ) && !has_flag( json_flag_SAPIOVORE ) ) &&
+    if( ( food_is_human_flesh && !okay_with_eating_humans() ) &&
         ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
@@ -1416,7 +1437,7 @@ void Character::modify_morale( item &food, const int nutr )
     // Organs are still usually negative due to fun values as low as -35.
     // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
     if( food.has_flag( flag_PREDATOR_FUN ) ) {
-        const bool carnivore = has_trait( trait_CARNIVORE );
+        const bool carnivore = has_flag( json_flag_CARNIVORE_DIET );
         const bool culler = has_flag( json_flag_PRED1 );
         const bool hunter = has_flag( json_flag_PRED2 );
         const bool predator = has_flag( json_flag_PRED3 );
@@ -1461,7 +1482,7 @@ void Character::modify_morale( item &food, const int nutr )
             }
             // Carnivores CAN eat junk food, but they won't like it much.
             // Pizza-scraping happens in consume_effects.
-            if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+            if( has_flag( json_flag_CARNIVORE_DIET ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
                 add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
                 add_morale( morale_no_digest, -25, -125, 30_minutes, 24_minutes );
             }
@@ -1503,10 +1524,10 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
-// Remove the water volume from the food, as that gets absorbed and used as water.
+// Separate the water volume from the food, as that gets absorbed and used as water.
 // If the remaining dry volume of the food is less dense than water, crunch it down to a density equal to water.
 // These maths are made easier by the fact that 1 g = 1 mL. Thanks, metric system.
-units::volume Character::masticated_volume( const item &food ) const
+std::pair<units::volume, units::volume> Character::masticated_volume( const item &food ) const
 {
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
@@ -1515,12 +1536,17 @@ units::volume Character::masticated_volume( const item &food ) const
     units::mass food_dry_weight = food.weight() / std::max( 1, food.count() ) - water_weight;
     units::volume food_dry_volume = food.volume() / std::max( 1, food.count() ) - water_vol;
 
-    if( units::to_milliliter( food_dry_volume ) != 0 &&
+    // Should not return minus volume.
+    if( units::to_milliliter( food_dry_volume ) <= 0 ) {
+        return { water_vol, 0_ml };
+    }
+
+    if( units::to_gram( food_dry_weight ) > 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
         food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
     }
 
-    return food_dry_volume;
+    return { water_vol, food_dry_volume };
 }
 
 // Used when displaying effective food satiation values.
@@ -1536,13 +1562,23 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal();
     }
-    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
-    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = food_vol * energy_density_ratio;
-    if( kcalories == 0 && effective_volume == 0.0 ) {
+    if( kcalories == 0 ) {
+        // Quick bail out if it does not cotain any energy.
         return 0;
     }
-    return std::round( kcalories / effective_volume );
+    units::volume water_volume = masticated_volume( food ).first;
+    units::volume dry_volume = masticated_volume( food ).second;
+    // Water is digested more quickly than solid mass, see get_digest_rates().
+    // stomach_ratio is 0.278 for a default character, will be higher for mutants.
+    const double stomach_ratio = stomach.capacity( *this ) / ( 36.000 * 250_ml );
+    water_volume *= stomach_ratio;
+    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+    dry_volume *= energy_density_ratio;
+    const int effective_volume = dry_volume.value() + water_volume.value();
+    if( effective_volume == 0 ) {
+        return 2000;
+    }
+    return std::round( kcalories * 1000 / effective_volume );
 }
 
 static void activate_consume_eocs( Character &you, item &target )
@@ -1572,7 +1608,7 @@ bool Character::consume_effects( item &food )
         // Was used to cap nutrition and thirst, but no longer does this
         return false;
     }
-    if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
+    if( ( has_flag( json_flag_HERBIVORE_DIET ) || has_trait( trait_RUMINANT ) ) &&
         food.has_any_vitamin( herbivore_blacklist ) ) {
         // No good can come of this.
         return false;
@@ -1646,7 +1682,7 @@ bool Character::consume_effects( item &food )
         mod_pain( 5 );
         int numslime = 1;
         for( int i = 0; i < numslime; i++ ) {
-            if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
+            if( monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 ) ) {
                 slime->friendly = -1;
             }
         }
@@ -1658,10 +1694,8 @@ bool Character::consume_effects( item &food )
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
-    const units::volume water_vol = ( food.get_comestible()->quench > 0 ) ?
-                                    food.get_comestible()->quench *
-                                    5_ml : 0_ml;
-    units::volume food_vol = masticated_volume( food );
+    const units::volume water_vol = masticated_volume( food ).first;
+    units::volume food_vol = masticated_volume( food ).second;
     if( food.count() == 0 ) {
         debugmsg( "Tried to eat food with count of zero." );
         return false;
@@ -1816,22 +1850,7 @@ static bool query_consume_ownership( item &target, Character &p )
         if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
             return false;
         }
-        std::vector<npc *> witnesses;
-        for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) ) {
-                witnesses.push_back( &elem );
-            }
-        }
-        for( npc *elem : witnesses ) {
-            elem->say( "<witnessed_thievery>", 7 );
-        }
-        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
-            if( p.add_faction_warning( target.get_owner() ) ) {
-                for( npc *elem : witnesses ) {
-                    elem->make_angry();
-                }
-            }
-        }
+        g->on_witness_theft( target );
     }
     return true;
 }

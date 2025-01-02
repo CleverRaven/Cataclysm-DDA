@@ -118,8 +118,8 @@
         "topic": "TALK_CUT_YOUR_BEARD",
         "condition": { "npc_has_effect": "vanessa_shave_in_progress" }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -143,7 +143,7 @@
     "dynamic_line": { "gendered_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Hi, Vanessa.  What's up?", "topic": "TALK_REFUGEE_Vanessa_2" },
-      { "text": "Nevermind.  I'm going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -174,7 +174,7 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
+          "math": [ "u_counter_refugee_center_refugee_happiness >= 5" ],
           "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead",
           "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
         },
@@ -197,8 +197,8 @@
     "dynamic_line": "I can see you need one, but last time I used these shears it was to stab a zombie in the face.  I don't think you'd want them in your hair.  Maybe you could help me get set up properly?",
     "responses": [
       { "text": "What can I do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -247,8 +247,8 @@
         "condition": { "u_has_trait": "natural_hair_growth" },
         "effect": { "u_lose_trait": "natural_hair_growth" }
       },
-      { "text": "That's a bit rich for my blood.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "That's a bit rich for my blood.  I better head out.", "topic": "TALK_DONE" }
+      { "text": "That's a bit rich for my blood.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "That's a bit rich for my blood.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -267,6 +267,7 @@
     "value": 0,
     "item": "survivor_hairtrimmer",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "If I had some equipment, I could do some hairdresser work here.",
       "offer": "I didn't think to pack my hairdressing equipment when I was evacuated.  If you could put together a basic hair cutting kit for me, I could do a bit of styling for people around here.  I'll even give you a free haircut for your troubles.",

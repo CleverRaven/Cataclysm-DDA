@@ -37,7 +37,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -141,7 +141,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -161,6 +161,28 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MOMENTUM_BULLET_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MOMENTUM_BULLET_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MOMENTUM_BULLET_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MOMENTUM_BULLET_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MOMENTUM_BULLET_DODGE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I and Spry Footwork",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "MELEE_PERK_MOMENTUM" }, { "u_has_trait": "MELEE_PERK_DODGE" } ] }
+          }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -245,7 +267,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -278,6 +300,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "MELEE_PERK_TWILIGHT_FORM", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Insight I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_INSIGHT" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_INSIGHT_DODGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_INSIGHT_DODGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_INSIGHT_DODGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_INSIGHT_DODGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_INSIGHT_DODGE", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires Insight I",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -387,7 +428,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -401,6 +442,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "MELEE_PERK_BLOCK", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_SHRUG_OFF" } },
+        "text": "Learn [<trait_name:MELEE_PERK_SHRUG_OFF>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_SHRUG_OFF>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_SHRUG_OFF>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_SHRUG_OFF", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "No Requirements",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -425,7 +485,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -444,7 +504,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -463,7 +523,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -482,7 +542,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -501,7 +561,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -520,7 +580,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -539,7 +599,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -558,7 +618,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -577,7 +637,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -596,7 +656,7 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -631,12 +691,12 @@
       {
         "text": "Select Perk.",
         "topic": "TALK_MA_PERK_MENU_MAIN",
-        "condition": { "and": [ { "get_condition": "perk_condition" }, { "math": [ "u_num_ma_perks", ">", "0" ] } ] },
+        "condition": { "and": [ { "get_condition": "perk_condition" }, { "math": [ "u_num_ma_perks > 0" ] } ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_NONE",
         "effect": [
           { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
-          { "math": [ "u_num_ma_perks", "--" ] }
+          { "math": [ "u_num_ma_perks--" ] }
         ]
       },
       {

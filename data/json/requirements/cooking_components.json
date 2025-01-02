@@ -62,7 +62,40 @@
     "id": "any_peanutbutter",
     "type": "requirement",
     "//": "Peanut butter of all types and other peanut butter substitutes",
-    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
+    "components": [ [ [ "peanutbutter", 1 ], [ "spread_peanutbutter", 1 ] ] ]
+  },
+  {
+    "id": "any_nut",
+    "type": "requirement",
+    "//": "Any type of prepared culinary nut besides coconuts",
+    "components": [
+      [
+        [ "peanut_shelled", 1 ],
+        [ "pine_nuts", 2 ],
+        [ "pecan_shelled", 1 ],
+        [ "pecan_roasted", 1 ],
+        [ "cashews", 1 ],
+        [ "pistachio_shelled", 1 ],
+        [ "pistachio_roasted", 1 ],
+        [ "almond_shelled", 1 ],
+        [ "almond_roasted", 1 ],
+        [ "beech_nuts", 1 ],
+        [ "hickory_nut_shelled", 1 ],
+        [ "hickory_nut_roasted", 1 ],
+        [ "chestnut_shelled", 1 ],
+        [ "chestnut_roasted", 1 ],
+        [ "hazelnut_shelled", 1 ],
+        [ "hazelnut_roasted", 1 ],
+        [ "walnut_shelled", 1 ],
+        [ "walnut_roasted", 1 ],
+        [ "butternut_shelled", 1 ],
+        [ "butternut_roasted", 1 ],
+        [ "acorns_cooked", 1 ],
+        [ "acorn_roasted", 1 ],
+        [ "acorns_blanched", 1 ],
+        [ "soy_nuts", 1 ]
+      ]
+    ]
   },
   {
     "id": "eggs_bird",
@@ -210,6 +243,7 @@
         [ "egg_pbass", 1 ],
         [ "egg_perch", 1 ],
         [ "egg_walleye", 1 ],
+        [ "egg_warmouth", 1 ],
         [ "egg_sunfish", 1 ],
         [ "egg_pumpkinseed", 1 ],
         [ "egg_bluegill", 1 ],
@@ -280,7 +314,7 @@
     "id": "lf_milk_standard",
     "type": "requirement",
     "//": "Any kind of lactose-free plant-based milk. Not for use in fermentation recipes.",
-    "components": [ [ [ "soy_milk", 1 ], [ "almond_milk", 1 ] ] ]
+    "components": [ [ [ "soy_milk", 1 ], [ "almond_milk", 1 ], [ "hazelnut_milk", 1 ], [ "walnut_milk", 1 ] ] ]
   },
   {
     "id": "any_frosting",
@@ -1010,6 +1044,7 @@
       [
         [ "hot_sauce", 1 ],
         [ "pepper", 1 ],
+        [ "spicebush_berries_smoked", 1 ],
         [ "seasoning_salt", 1 ],
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
@@ -1093,6 +1128,10 @@
         [ "huckleberries", 1 ],
         [ "mulberries", 1 ],
         [ "elderberries", 1 ],
+        [ "nannyberries", 1 ],
+        [ "tupelo_fruit", 1 ],
+        [ "hobbleberries", 1 ],
+        [ "autumn_olive", 1 ],
         [ "watermelon_wedge", 1 ]
       ]
     ]
@@ -1222,6 +1261,48 @@
     ]
   },
   {
+    "id": "any_tomato",
+    "type": "requirement",
+    "//": "Any form of tomato used in cooking",
+    "components": [ [ [ "tomato", 1 ], [ "tomato_cut", 1 ], [ "can_tomato", 1 ] ] ]
+  },
+  {
+    "id": "any_gherkin_cucumber",
+    "type": "requirement",
+    "//": "Any form of gherkin cucumber used in cooking",
+    "components": [ [ [ "gherkin", 1 ], [ "gherkin_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_eggplant",
+    "type": "requirement",
+    "//": "Any form of eggplant used in cooking",
+    "components": [ [ [ "eggplant", 1 ], [ "eggplant_cut", 2 ] ] ]
+  },
+  {
+    "id": "any_zucchini",
+    "type": "requirement",
+    "//": "Any form of zucchini used in cooking",
+    "components": [ [ [ "zucchini", 1 ], [ "zucchini_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_salad_cucumber",
+    "type": "requirement",
+    "//": "Any form of salad cucumber used in cooking",
+    "components": [ [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_bell_pepper",
+    "type": "requirement",
+    "//": "Any form of bell pepper used in cooking",
+    "components": [ [ [ "bell_pepper", 1 ], [ "bell_pepper_cut", 1 ] ] ]
+  },
+  {
+    "id": "any_chili_pepper",
+    "type": "requirement",
+    "//": "Any form of chili pepper used in cooking",
+    "components": [ [ [ "chili_pepper", 1 ], [ "chili_pepper_cut", 1 ], [ "rehydrated_chili", 1 ] ] ]
+  },
+  {
     "id": "acorns_processed_any",
     "type": "requirement",
     "//": "Any acorns processed to remove tannins and are now palatable, either wet or dry",
@@ -1257,6 +1338,8 @@
         [ "seasoning_salt", 4 ],
         [ "soysauce", 1 ],
         [ "pepper", 4 ],
+        [ "spicebush_berries_smoked", 4 ],
+        [ "spicebush_berries", 4 ],
         [ "garlic_clove", 2 ],
         [ "salt", 4 ]
       ]
@@ -1274,6 +1357,8 @@
         [ "seasoning_salt", 4 ],
         [ "soysauce", 1 ],
         [ "pepper", 4 ],
+        [ "spicebush_berries", 4 ],
+        [ "spicebush_berries_smoked", 4 ],
         [ "garlic_clove", 2 ],
         [ "salt", 4 ]
       ]

@@ -88,14 +88,23 @@
     "max_duration": "7 days",
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_ELECTRIC",
-            "add": {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": {
               "math": [
                 "( ( u_spell_level('electrokinesis_see_electric') * 1.5) + 6 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
-            }
+            },
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
           }
         ]
       }
@@ -149,10 +158,30 @@
     "max_intensity": 50,
     "enchantments": [
       {
-        "values": [
+        "condition": "ALWAYS",
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_MINDS",
-            "add": { "math": [ "( ( u_spell_level('afs_telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "condition": {
+              "and": [
+                {
+                  "or": [
+                    { "and": [ { "not": { "npc_has_species": "PSI_NULL" } }, { "npc_has_flag": "HAS_MIND" } ] },
+                    {
+                      "and": [
+                        { "not": { "npc_has_species": "PSI_NULL" } },
+                        { "not": { "npc_has_species": "ZOMBIE" } },
+                        { "npc_has_flag": "HUMAN" }
+                      ]
+                    },
+                    "npc_is_npc"
+                  ]
+                },
+                { "not": { "npc_has_effect": "eff_monster_immune_to_telepathy" } },
+                { "not": { "npc_has_flag": "TEEP_IMMUNE" } }
+              ]
+            },
+            "distance": { "math": [ "( ( u_spell_level('afs_telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+            "descriptions": [ { "id": "sense_minds", "symbol": "@", "color": "c_white", "text": "You sense something sapient here." } ]
           }
         ]
       }

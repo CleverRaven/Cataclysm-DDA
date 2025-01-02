@@ -9,6 +9,7 @@
       [ "seed_cranberries", 60 ],
       [ "seed_raspberries", 60 ],
       [ "seed_wheat", 60 ],
+      [ "seed_buckwheat", 10 ],
       [ "seed_barley", 60 ],
       [ "seed_sugar_beet", 60 ],
       [ "seed_lettuce", 60 ],

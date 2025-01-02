@@ -5,9 +5,8 @@
     "name": "Cure Light Wounds",
     "description": "Heals a little bit of damage on the target.",
     "valid_targets": [ "self", "ally" ],
-    "min_damage": -5,
-    "max_damage": -20,
-    "damage_increment": -1.0,
+    "min_damage": { "math": [ "(u_spell_level('light_healing') * -0.5) - 1" ] },
+    "max_damage": { "math": [ "(u_spell_level('light_healing') * -1.1) - 4" ] },
     "max_level": 15,
     "min_range": 0,
     "max_range": 4,
@@ -17,7 +16,7 @@
     "base_casting_time": 300,
     "base_energy_cost": 800,
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
-    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "energy_source": "MANA"
@@ -132,18 +131,22 @@
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "max_level": 20,
-    "min_damage": 8,
-    "max_damage": 65,
-    "damage_increment": 4.0,
+    "min_damage": { "math": [ "(u_spell_level('bio_acidicspray') * 1.5) + 0" ] },
+    "max_damage": { "math": [ "(u_spell_level('bio_acidicspray') * 3) + 3" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0
+    "aoe_increment": 5.0,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_intensity_increment": 1,
+    "field_chance": 3
   },
   {
     "id": "bio_fleshpouch",
@@ -251,16 +254,15 @@
     "effect": "attack",
     "effect_str": "biomancer_dart_venom",
     "shape": "blast",
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 80,
     "max_level": 15,
-    "min_damage": 4,
-    "max_damage": 28,
-    "damage_increment": 1.6,
+    "min_damage": { "math": [ "(u_spell_level('biomancer_paralytic_dart') * 0.8) + 0" ] },
+    "max_damage": { "math": [ "(u_spell_level('biomancer_paralytic_dart') * 1.3) + 4" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "poison",
     "min_range": 3,
@@ -284,7 +286,7 @@
       { "id": "biomancer_visceral_backlash", "hit_self": true },
       { "id": "eoc_evocation_setup", "hit_self": true }
     ],
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
     "difficulty": 4,
@@ -292,8 +294,7 @@
     "base_energy_cost": 150,
     "max_level": 20,
     "min_damage": 1,
-    "max_damage": 10,
-    "damage_increment": 0.45,
+    "max_damage": 5,
     "damage_type": "poison",
     "min_aoe": 2,
     "max_aoe": 6,
@@ -307,8 +308,8 @@
   {
     "id": "biomancer_visceral_paralyze",
     "type": "SPELL",
-    "name": "Visceral Paralysis",
-    "description": "Paralytic side effect of Projection.",
+    "name": { "str": "Visceral Paralysis", "//~": "NO_I18N" },
+    "description": { "str": "Paralytic side effect of Projection.", "//~": "NO_I18N" },
     "valid_targets": [ "ally", "hostile" ],
     "effect": "attack",
     "effect_str": "biomancer_dart_venom",
@@ -331,8 +332,8 @@
   {
     "id": "biomancer_visceral_backlash",
     "type": "SPELL",
-    "name": "Visceral Backlash",
-    "description": "Hits the user with side effects too.",
+    "name": { "str": "Visceral Backlash", "//~": "NO_I18N" },
+    "description": { "str": "Hits the user with side effects too.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "biomancer_visceral_side_effects",
@@ -365,8 +366,8 @@
   {
     "id": "corrosive_aura_spell",
     "type": "SPELL",
-    "name": "Caustic Feedback",
-    "description": "This is a sub-spell of the Caustic Aura spell.",
+    "name": { "str": "Caustic Feedback", "//~": "NO_I18N" },
+    "description": { "str": "This is a sub-spell of the Caustic Aura spell.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
@@ -381,7 +382,12 @@
     "min_dot": 2,
     "max_dot": 2,
     "min_duration": 300,
-    "max_duration": 300
+    "max_duration": 300,
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_chance": 2
   },
   {
     "id": "biomancer_caustic_aura",
@@ -389,21 +395,17 @@
     "name": "Caustic Aura",
     "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_caustic",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_aura_caustic",
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "CONCENTRATE" ],
     "components": "spell_components_causticaura",
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "min_damage": 1,
-    "max_damage": 1,
     "base_casting_time": 400,
     "base_energy_cost": 350,
     "max_level": 15,
-    "min_range": 1,
-    "max_range": 1,
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
@@ -416,8 +418,8 @@
     "name": "Improved Caustic Aura",
     "description": "This spell suspends acid in a layer around you, corroding melee attackers when struck and enhancing your melee damage.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_caustic",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_aura_caustic",
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_causticaura",
@@ -488,7 +490,7 @@
     "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
-      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      { "math": [ "u_preshift_size = u_val('size')" ] },
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
@@ -501,7 +503,7 @@
       },
       { "u_add_trait": "BIO_GIANT_GROWTH" },
       {
-        "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
+        "run_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
         "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 ) * ( transformation_proficiency_modifier() )" ] }
       }
     ],
@@ -529,7 +531,7 @@
     "id": "biomancer_remove_instability",
     "type": "SPELL",
     "name": "Preserve Genetic Stability",
-    "description": "The scroll said that this spell is for \"Reducing negative consequencse from XE037 exposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
+    "description": "The scroll said that this spell is for \"Reducing negative consequences from XE037 exposure\", whatever that means.  According the scroll, the spell should be allowed to run its course before reapplication.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
     "components": "spell_components_remove_instability",
@@ -598,7 +600,7 @@
       { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
       {
-        "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
+        "run_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
         "time_in_future": {
           "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
         }
@@ -761,7 +763,7 @@
       { "u_add_trait": "ACIDBLOOD" },
       { "u_add_trait": "ACIDPROOF" },
       {
-        "queue_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
+        "run_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
         "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 600 ) + 1800 ) * ( enhancement_proficiency_modifier() )" ] }
       }
     ],
@@ -796,5 +798,38 @@
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 1500
+  },
+  {
+    "id": "biomancer_get_more_blood",
+    "type": "SPELL",
+    "name": "Carmine Infusion",
+    "description": "Using water as a catalyst, restore some of your lost blood.  This spell has no effect if you're healthy and uninjured.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_GET_MORE_BLOOD",
+    "components": "spell_components_biomancer_get_more_blood",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "base_casting_time": 1500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_GET_MORE_BLOOD",
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('blood') < 0" ] },
+        "then": { "math": [ "u_vitamin('blood')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      },
+      {
+        "if": { "math": [ "u_vitamin('redcells') < 0" ] },
+        "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
+      }
+    ]
   }
 ]

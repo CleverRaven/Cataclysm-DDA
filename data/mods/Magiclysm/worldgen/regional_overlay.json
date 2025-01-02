@@ -4,7 +4,7 @@
     "regions": [ "all" ],
     "city": {
       "houses": { "house_technomancer": 20, "wizard_tower_1": 10, "wizard_tower_2": 20 },
-      "shops": { "magic_shop": 100, "used_bookstore": 225, "magic_academy": 150 }
+      "shops": { "magiclysm_augmentation_clinic": 100, "magic_shop": 100, "used_bookstore": 225, "magic_academy": 150 }
     },
     "region_terrain_and_furniture": {
       "terrain": { "t_region_groundcover_swamp": { "t_horn_moss": 10 } },
@@ -99,7 +99,7 @@
           "river_nw",
           "river_se",
           "river_sw",
-          "slimepit_top",
+          "slimepit_z0",
           "special_forest_thick",
           "spider_pit",
           "standing_stones",

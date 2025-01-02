@@ -181,30 +181,37 @@
   {
     "name": "GROUP_BEARS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "21 days", "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_bandersnatch", "weight": 20, "starts": "2 days", "cost_multiplier": 5 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_CAVE",
-    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "21 days", "cost_multiplier": 5 } ]
+    "monsters": [ { "monster": "mon_hidebehind", "weight": 10, "starts": "2 days", "cost_multiplier": 5 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
     "monsters": [
-      { "monster": "mon_hidebehind", "weight": 1, "starts": "21 days", "cost_multiplier": 10 },
-      { "monster": "mon_psi_gremlin", "weight": 1, "starts": "21 days", "cost_multiplier": 10 }
+      { "monster": "mon_hidebehind", "weight": 1, "starts": "2 days", "cost_multiplier": 10 },
+      { "monster": "mon_psi_gremlin", "weight": 1, "starts": "2 days", "cost_multiplier": 10 }
     ]
   },
   {
     "name": "GROUP_COWS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_hodag", "weight": 10, "starts": "14 days", "cost_multiplier": 8 } ]
+    "monsters": [
+      { "monster": "mon_hodag_calf", "weight": 10, "starts": "7 days", "cost_multiplier": 5 },
+      { "monster": "mon_hodag", "weight": 10, "starts": "180 days", "cost_multiplier": 8 }
+    ]
   },
   {
     "name": "GROUP_COWS_DAIRY",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_hodag", "weight": 10, "starts": "14 days", "cost_multiplier": 20 } ]
+    "monsters": [
+      { "monster": "mon_cow_biokinetic", "weight": 10, "starts": "2 days", "cost_multiplier": 5 },
+      { "monster": "mon_hodag_calf", "weight": 10, "starts": "7 days", "cost_multiplier": 5 },
+      { "monster": "mon_hodag", "weight": 10, "starts": "180 days", "cost_multiplier": 20 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -224,8 +231,8 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_cockatrice", "weight": 5, "starts": "10 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
+      { "monster": "mon_hodag", "weight": 1, "cost_multiplier": 10, "starts": "180 days" },
+      { "monster": "mon_cockatrice", "weight": 5, "starts": "21 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
     ]
   },
   {
@@ -234,8 +241,16 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days", "cost_multiplier": 2 },
-      { "monster": "mon_cockatrice", "weight": 10, "starts": "10 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] }
+      { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days", "cost_multiplier": 2 },
+      { "monster": "mon_cockatrice", "weight": 10, "starts": "21 days", "cost_multiplier": 10, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_pigeon_passenger", "weight": 2, "starts": "21 days", "cost_multiplier": 2 },
+      {
+        "monster": "mon_pigeon_passenger",
+        "weight": 10,
+        "starts": "21 days",
+        "cost_multiplier": 10,
+        "pack_size": [ 3, 5 ]
+      }
     ]
   },
   {
@@ -243,22 +258,40 @@
     "name": "GROUP_SAFE",
     "default": "mon_null",
     "is_animal": true,
+    "monsters": [ { "monster": "mon_cockatrice", "weight": 2, "starts": "21 days" }, { "monster": "mon_psi_gremlin", "weight": 2 } ]
+  },
+  {
+    "name": "GROUP_PET_DOGS",
+    "type": "monstergroup",
+    "default": "mon_dog",
     "monsters": [
-      { "monster": "mon_cockatrice", "weight": 2, "starts": "10 days" },
-      { "monster": "mon_psi_gremlin", "weight": 2, "starts": "21 days" }
+      { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 25, "starts": "90 days", "cost_multiplier": 0 }
     ]
   },
   {
     "name": "GROUP_STRAY_DOGS",
     "type": "monstergroup",
     "default": "mon_dog",
-    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "14 days", "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_hellhound", "weight": 3, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 15, "starts": "90 days", "cost_multiplier": 0 },
+      { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 }
+    ]
   },
   {
     "name": "GROUP_MUTANT_PET_DOGS",
     "type": "monstergroup",
     "default": "mon_dog_mutant_mongrel",
-    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "14 days", "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_dire_hound", "weight": 1, "starts": "58 days", "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_ANIMALPOUND_DOGS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_hellhound", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_hellhound", "weight": 15, "starts": "90 days", "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",

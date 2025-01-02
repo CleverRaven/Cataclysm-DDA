@@ -134,5 +134,10 @@
     "type": "monstergroup",
     "name": "GROUP_NETHER_PORTAL",
     "monsters": [ { "monster": "mon_staring_eye", "weight": 200, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WILDERNESS_FOREST_ZOMBIE",
+    "monsters": [ { "monster": "mon_zpider_mass", "weight": 1, "cost_multiplier": 10 } ]
   }
 ]

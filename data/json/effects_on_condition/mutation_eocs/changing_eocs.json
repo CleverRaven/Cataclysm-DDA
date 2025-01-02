@@ -4,7 +4,7 @@
     "id": "changing_initiate_check",
     "//": "Give player the CHANGING trait when they have enough basic mutagen in their blood.",
     "recurrence": [ "30 m", "45 m" ],
-    "condition": { "and": [ { "math": [ "u_vitamin('mutagen')", ">=", "450" ] }, { "not": { "u_has_flag": "CHANGING" } } ] },
+    "condition": { "and": [ { "math": [ "u_vitamin('mutagen') >= 450" ] }, { "not": { "u_has_flag": "CHANGING" } } ] },
     "deactivate_condition": { "u_has_flag": "CHANGING" },
     "effect": [
       {
@@ -30,7 +30,7 @@
     "effect": [
       { "u_message": "<CHANGING_ENDS>", "type": "bad" },
       { "u_lose_trait": "CHANGING" },
-      { "math": [ "u_vitamin('mutagen')", "=", "0" ] }
+      { "math": [ "u_vitamin('mutagen') = 0" ] }
     ]
   },
   {
@@ -46,7 +46,7 @@
           {
             "id": "changing_mutate2",
             "//": "Mutate!",
-            "condition": { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
+            "condition": { "math": [ "u_vitamin('mutagen') >= 300" ] },
             "effect": [
               { "u_message": "You feel a deep, churning sensation fill your body.", "type": "mixed" },
               { "u_mutate": 0 },

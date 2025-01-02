@@ -49,7 +49,7 @@ static void clear_game( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( tripoint::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 
@@ -188,7 +188,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
+        vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos_bub() );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
         veh.close( vp.part_index() );
@@ -231,7 +231,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint &pos : veh.get_points() ) {
+        for( const tripoint_bub_ms &pos : veh.get_points() ) {
             REQUIRE( here.ter( pos ) );
         }
         // How much it moved

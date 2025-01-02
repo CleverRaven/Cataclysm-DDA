@@ -84,6 +84,11 @@ int kill_tracker::npc_kill_count() const
     return npc_kills.size();
 }
 
+int kill_tracker::total_kill_count() const
+{
+    return monster_kill_count() + npc_kill_count();
+}
+
 int kill_tracker::legacy_kill_xp() const
 {
     int ret = 0;
@@ -92,50 +97,6 @@ int kill_tracker::legacy_kill_xp() const
     }
     ret += npc_kills.size() * 10;
     return ret;
-}
-
-std::string kill_tracker::get_kills_text() const
-{
-    std::vector<std::string> data;
-    int totalkills = 0;
-
-    std::map<std::tuple<std::string, std::string, nc_color>, int> kill_counts;
-
-    // map <name, sym, color> to kill count
-    for( const std::pair<const mtype_id, int> &elem : kills ) {
-        const mtype &m = elem.first.obj();
-        auto key = std::make_tuple( m.nname(), m.sym, m.color );
-        kill_counts[key] += elem.second;
-        totalkills += elem.second;
-    }
-
-    for( const auto &entry : kill_counts ) {
-        const int num_kills = entry.second;
-        const std::string &mname = std::get<0>( entry.first );
-        const std::string &symbol = std::get<1>( entry.first );
-        const nc_color color = std::get<2>( entry.first );
-        data.push_back( string_format( "%4d ", num_kills ) + colorize( symbol,
-                        color ) + " " + colorize( mname, c_light_gray ) );
-    }
-    for( const auto &npc_name : npc_kills ) {
-        totalkills += 1;
-        data.push_back( string_format( "%4d ", 1 ) + colorize( "@ " + npc_name, c_magenta ) );
-    }
-    std::string buffer;
-    if( data.empty() ) {
-        buffer = _( "You haven't killed any monsters yet!" );
-    } else {
-        buffer = string_format( _( "KILL COUNT: %d" ), totalkills );
-        if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-            buffer += string_format( _( "\nExperience: %d (%d points available)" ), get_avatar().kill_xp,
-                                     get_avatar().free_upgrade_points() );
-        }
-        buffer += "\n";
-    }
-    for( const std::string &line : data ) {
-        buffer += "\n" + line;
-    }
-    return buffer;
 }
 
 void kill_tracker::clear()

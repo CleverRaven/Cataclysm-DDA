@@ -65,7 +65,7 @@ static std::map<itype_id, int> repeat_uncraft( Character &they, const itype_id &
         they.complete_disassemble( it_dis_loc, dis_recip );
 
         // Count how many of each type of item are here
-        for( item &it : get_map().i_at( they.pos() ) ) {
+        for( item &it : get_map().i_at( they.pos_bub() ) ) {
             if( yield_items.count( it.typeId() ) == 0 ) {
                 yield_items[it.typeId()] = it.count();
             } else {

@@ -21,7 +21,7 @@ TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
     map_memory memory;
     CHECK( memory.prepare_region( p1, p2 ) );
     CHECK( !memory.prepare_region( p1, p2 ) );
-    CHECK( !memory.prepare_region( p1 + tripoint_east, p2 + tripoint_east ) );
+    CHECK( !memory.prepare_region( p1 + tripoint::east, p2 + tripoint::east ) );
     CHECK( memory.prepare_region( p2, p3 ) );
     CHECK( memory.prepare_region( p1, p3 ) );
     CHECK( !memory.prepare_region( p1, p3 ) );
@@ -204,56 +204,56 @@ TEST_CASE( "shift_map_memory_bitset_cache" )
     GIVEN( "all bits are set" ) {
         test_cache.set();
         WHEN( "positive x shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_east );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::east );
             THEN( "last 12 columns are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( last_twelve, 0 ),
                                  true, false, true, false );
             }
         }
         WHEN( "negative x shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_west );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::west );
             THEN( "first 12 columns are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( first_twelve, 0 ),
                                  false, true, false, true );
             }
         }
         WHEN( "positive y shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_south );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::south );
             THEN( "last 12 rows are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( 0, last_twelve ),
                                  true, true, false, false );
             }
         }
         WHEN( "negative y shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_north );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::north );
             THEN( "first 12 rows are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( 0, first_twelve ),
                                  false, false, true, true );
             }
         }
         WHEN( "positive x, positive y shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_south_east );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::south_east );
             THEN( "last 12 columns and rows are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( last_twelve, last_twelve ),
                                  true, false, false, false );
             }
         }
         WHEN( "positive x, negative y shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_north_east );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::north_east );
             THEN( "last 12 columns and first 12 rows are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( last_twelve, first_twelve ),
                                  false, false, true, false );
             }
         }
         WHEN( "negative x, positive y shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_south_west );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::south_west );
             THEN( "first 12 columns and last 12 rows are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( first_twelve, last_twelve ),
                                  false, true, false, false );
             }
         }
         WHEN( "negative x, negative y shift" ) {
-            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_north_west );
+            shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_rel_sm::north_west );
             THEN( "first 12 columns and rows are 0, rest are 1" ) {
                 check_quadrants( test_cache, point( first_twelve, first_twelve ),
                                  false, false, false, true );

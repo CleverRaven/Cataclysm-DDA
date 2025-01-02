@@ -520,6 +520,8 @@ struct run_cost_effect {
     float plus = 0;
 };
 
+nutrients default_character_compute_effective_nutrients( const item &comest );
+
 class Character : public Creature, public visitable
 {
     public:
@@ -727,7 +729,7 @@ class Character : public Creature, public visitable
 
     public:
 
-        void gravity_check();
+        void gravity_check() override;
         void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -941,7 +943,7 @@ class Character : public Creature, public visitable
         /** Updates the stomach to give accurate hunger messages */
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
-        void update_enchantment_mutations();
+        void update_cached_mutations();
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -1011,6 +1013,11 @@ class Character : public Creature, public visitable
         /** Returns character luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
+        /**
+        * return true if character is able to see creature in some nonstandard ways
+        * to be used only if we do not need to know anything but the fact we see it
+        * for anything more it's better to store and use enchant_cache::get_vision() struct
+        */
         bool sees_with_specials( const Creature &critter ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
@@ -1131,17 +1138,16 @@ class Character : public Creature, public visitable
         bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random technique/vector/contact area set from the  possible techs */
         std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> pick_technique(
-            Creature &t, const item_location &weap,
-            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
+            Creature const &t, const item_location &weap,
+            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} )
+        const;
         // Filter techniques per tech, return a tech/vector/sublimb set
         std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-                evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
-                                    bool crit = false, bool dodge_counter = false, bool block_counter = false );
+                evaluate_technique( const matec_id &tec_id, Creature const &t, const item_location &weap,
+                                    bool crit = false, bool dodge_counter = false, bool block_counter = false ) const;
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
-        // modifies the damage dealt based on the character's enchantments
-        damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const override;
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -1235,9 +1241,9 @@ class Character : public Creature, public visitable
         bool can_autolearn( const matype_id &ma_id ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique );
-        bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<Creature *> &targets );
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique ) const;
+        bool valid_aoe_technique( Creature const &t, const ma_technique &technique,
+                                  std::vector<Creature *> &targets ) const;
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
@@ -1336,6 +1342,10 @@ class Character : public Creature, public visitable
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
         void randomize_cosmetic_trait( const std::string &mutation_type );
+        /** Damages worn equipment
+        @param days - simulated number of in-game days passed
+        */
+        void starting_inv_damage_worn( int days );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -1366,10 +1376,12 @@ class Character : public Creature, public visitable
         bool purifiable( const trait_id &flag ) const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
-        /** Returns true if the player has the entered trait */
+        /** Returns true if the player has the entered trait in cached_mutations */
         bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered trait with the desired variant */
         bool has_trait_variant( const trait_and_var & ) const;
+        /** Returns true if the player has the entered trait in my_mutations */
+        bool has_permanent_trait( const trait_id &b ) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -1387,9 +1399,15 @@ class Character : public Creature, public visitable
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
         /** Returns true if player has a trait, bionic, effect, bodypart, or martial arts buff with a flag */
-        bool has_flag( const json_character_flag &flag ) const;
+        bool has_flag( const json_character_flag &flag ) const override;
         /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
         int count_flag( const json_character_flag &flag ) const;
+
+    private:
+        // Cache if character has a flag on their mutations. It is cleared whenever my_mutations is modified.
+        mutable std::map<const json_character_flag, bool> trait_flag_cache;
+
+    public:
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
         /** Returns the vector of all traits in category, good/bad/any */
@@ -1429,14 +1447,15 @@ class Character : public Creature, public visitable
         void mutation_reflex_trigger( const trait_id &mut );
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const trait_id &mutation );
+        void activate_mutation( const trait_id &mut );
+        void activate_cached_mutation( const trait_id &mut );
         void deactivate_mutation( const trait_id &mut );
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
         bool cant_do_mounted( bool msg = true ) const;
         bool is_mounted() const;
-        bool check_mount_will_move( const tripoint &dest_loc );
+        bool check_mount_will_move( const tripoint_bub_ms &dest_loc );
         bool check_mount_is_spooked();
         void dismount();
         void forced_dismount();
@@ -1528,16 +1547,12 @@ class Character : public Creature, public visitable
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
     private:
-        /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
         void do_skill_rust();
-        /** Applies stat mods to character. */
-        void apply_mods( const trait_id &mut, bool add_remove );
 
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
@@ -1560,8 +1575,6 @@ class Character : public Creature, public visitable
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
@@ -1770,9 +1783,9 @@ class Character : public Creature, public visitable
         /**Success or failure of installation happens here*/
         void perform_install( const bionic_id &bid, bionic_uid upbio_uid, int difficulty, int success,
                               int pl_skill, const std::string &installer_name,
-                              const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
+                              const std::vector<trait_id> &trait_to_rem, const tripoint_bub_ms &patient_pos );
         void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
-                                      int success, float adjusted_skill, const tripoint &patient_pos );
+                                      int success, float adjusted_skill, const tripoint_bub_ms &patient_pos );
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
@@ -1934,11 +1947,9 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        // TODO: Get rid of untyped overload
-        virtual bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves = -1 );
         virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        virtual bool invoke_item( item *, const std::string &, const tripoint &pt,
+        virtual bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
                                   int pre_obtain_moves = -1 );
         /** As above two, but with position equal to current position */
         virtual bool invoke_item( item * );
@@ -2226,7 +2237,7 @@ class Character : public Creature, public visitable
         units::mass best_nearby_lifting_assist() const;
         /// Alternate version if you need to specify a different origin point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
-        units::mass best_nearby_lifting_assist( const tripoint &world_pos ) const;
+        units::mass best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const;
 
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
@@ -2382,8 +2393,8 @@ class Character : public Creature, public visitable
         /** Returns all items that must be taken off before taking off this item */
         std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( item_location loc, const tripoint &where );
-        virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
+        void drop( item_location loc, const tripoint_bub_ms &where );
+        virtual void drop( const drop_locations &what, const tripoint_bub_ms &target, bool stash = false );
         /** Assigns character activity to pick up items from the given drop_locations.
          *  Requires sufficient storage; items cannot be wielded or worn from this activity.
          */
@@ -2512,10 +2523,10 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
-        bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint> &target );
+        bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint_bub_ms> &target );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+        bool avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const override;
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id ) const;
@@ -2604,7 +2615,7 @@ class Character : public Creature, public visitable
         bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
 
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        void mod_pain( int npain ) override;
+        int mod_pain( int npain ) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain( int npain ) override;
         /** Returns perceived pain (reduced with painkillers)*/
@@ -2612,11 +2623,11 @@ class Character : public Creature, public visitable
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
+        int impact( int force, const tripoint_bub_ms &pos ) override;
         /** Checks to see if the character is able to use their wings properly */
         bool can_fly();
         /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &to ) override;
+        void knock_back_to( const tripoint_bub_ms &to ) override;
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
@@ -2664,6 +2675,11 @@ class Character : public Creature, public visitable
             bool include_hidden = true,
             bool ignore_enchantment = false,
             const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
+        /** Get the idents of all traits/mutations with corrupted = 0. */
+        std::vector<trait_id> get_functioning_mutations(
+            bool include_hidden = true,
+            bool ignore_enchantment = false,
+            const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
         /** Same as above, but also grab the variant ids (or empty string if none) */
         std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
                 bool ignore_enchantment = false ) const;
@@ -2695,7 +2711,7 @@ class Character : public Creature, public visitable
          * 0 means climbing is not possible.
          * Return value can depend on the orientation of the terrain.
          */
-        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+        int climbing_cost( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
 
         /** Which body part has the most staunchable bleeding, and what is the max improvement */
         bodypart_id most_staunchable_bp();
@@ -2732,13 +2748,13 @@ class Character : public Creature, public visitable
         // Items currently being hauled
         std::vector<item_location> haul_list;
 
-        tripoint_rel_ms view_offset;
+        mutable tripoint_rel_ms view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
         player_activity activity;
         std::list<player_activity> backlog;
-        std::optional<tripoint> destination_point;
+        std::optional<tripoint_abs_ms> destination_point;
         pimpl<inventory> inv;
         itype_id last_item;
     private:
@@ -2790,7 +2806,7 @@ class Character : public Creature, public visitable
     public:
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
-        std::optional<tripoint> last_target_pos;
+        std::optional<tripoint_abs_ms> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         // FIXME: The presence of camps should be global objects, this should only be knowledge of camps (at best)
@@ -3175,8 +3191,6 @@ class Character : public Creature, public visitable
         void on_item_wear( const item &it );
         /** Called when an item is taken off */
         void on_item_takeoff( const item &it );
-        // things to call when mutations enchantments change
-        void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
@@ -3191,7 +3205,7 @@ class Character : public Creature, public visitable
         /** Called when a stat is changed */
         void on_stat_change( const std::string &stat, int value ) override;
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
+        tripoint_bub_ms adjacent_tile() const;
         /** Returns true if the player has a trait which cancels the entered trait */
         bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns traits that cancel the entered trait */
@@ -3258,12 +3272,6 @@ class Character : public Creature, public visitable
         float power_rating() const override;
         float speed_rating() const override;
 
-        /**
-         * Check whether the this player can see the other creature with infrared. This implies
-         * this player can see infrared and the target is visible with infrared (is warm).
-         * And of course a line of sight exists.
-        */
-        bool sees_with_infrared( const Creature &critter ) const;
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile
@@ -3275,7 +3283,7 @@ class Character : public Creature, public visitable
         int run_cost( int base_cost, bool diag = false ) const;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::function<bool( const tripoint & )> get_path_avoid() const override;
+        std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -3314,11 +3322,11 @@ class Character : public Creature, public visitable
          * Warmth from terrain, furniture, vehicle furniture and traps.
          * Can be negative.
          **/
-        static units::temperature_delta floor_bedding_warmth( const tripoint &pos );
+        static units::temperature_delta floor_bedding_warmth( const tripoint_bub_ms &pos );
         /** Warmth from clothing on the floor **/
-        static units::temperature_delta floor_item_warmth( const tripoint &pos );
+        static units::temperature_delta floor_item_warmth( const tripoint_bub_ms &pos );
         /** Final warmth from the floor **/
-        units::temperature_delta floor_warmth( const tripoint &pos ) const;
+        units::temperature_delta floor_warmth( const tripoint_bub_ms &pos ) const;
 
         /** Correction factor of the body temperature due to traits and mutations **/
         units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
@@ -3373,6 +3381,8 @@ class Character : public Creature, public visitable
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
+        /** Would this character be normally willing to consume human flesh? */
+        bool okay_with_eating_humans() const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
@@ -3395,8 +3405,8 @@ class Character : public Creature, public visitable
         void modify_health( const islot_comestible &comest );
         /** Used to compute how filling a food is.*/
         double compute_effective_food_volume_ratio( const item &food ) const;
-        /** Used to calculate dry volume of a chewed food **/
-        units::volume masticated_volume( const item &food ) const;
+        /** Used to calculate water and dry volume of a chewed food **/
+        std::pair<units::volume, units::volume> masticated_volume( const item &food ) const;
         /** Used to to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
@@ -3488,7 +3498,7 @@ class Character : public Creature, public visitable
         * @param clear_path True to select only items within view. False to select all within the radius.
         * @returns Craftable inventory items found.
         * */
-        const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
+        const inventory &crafting_inventory( const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
@@ -3497,11 +3507,11 @@ class Character : public Creature, public visitable
          * above 4.0 means these activities cannot be performed.
          * takes pos as a parameter so that remote spots can be judged
          * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_min ) const;
+        float fine_detail_vision_mod( const tripoint_bub_ms &p = tripoint_bub_ms::invalid ) const;
 
         // ---- CRAFTING ----
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
-                                      const std::optional<tripoint> &loc );
+                                      const std::optional<tripoint_bub_ms> &loc );
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
@@ -3511,7 +3521,7 @@ class Character : public Creature, public visitable
         // providing the recipe or a nearby allied Character knows it.
         bool has_recipe( const recipe *r ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
+        void learn_recipe( const recipe *rec, bool override_never_learn = false );
         void forget_recipe( const recipe *rec );
         void forget_all_recipes();
         int exceeds_recipe_requirements( const recipe &rec ) const;
@@ -3551,11 +3561,9 @@ class Character : public Creature, public visitable
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
+        float lighting_craft_speed_multiplier( const recipe &rec,
+                                               const tripoint_bub_ms &p = tripoint_bub_ms::invalid ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
-        // TODO: Get rid of untyped overload
-        float workbench_crafting_speed_multiplier( const item &craft,
-                const std::optional<tripoint> &loc )const;
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint_bub_ms> &loc )const;
         /** For use with in progress crafts.
@@ -3563,10 +3571,6 @@ class Character : public Creature, public visitable
          *  is expensive when numorous items are around.
          *  So use pre-calculated cache if possible.
          */
-        // TODO: Get rid of untyped overload
-        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc,
-                                         bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
-                                       ) const;
         float crafting_speed_multiplier( const item &craft, const std::optional<tripoint_bub_ms> &loc,
                                          bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
                                        ) const;
@@ -3591,17 +3595,17 @@ class Character : public Creature, public visitable
          * @param loc the location of the workbench. std::nullopt indicates crafting from inventory.
          * @param goto_recipe the recipe to display initially. A null recipe_id opens the default crafting screen.
          */
-        void craft( const std::optional<tripoint> &loc = std::nullopt,
+        void craft( const std::optional<tripoint_bub_ms> &loc = std::nullopt,
                     const recipe_id &goto_recipe = recipe_id(), const std::string &filterstring = "" );
-        void recraft( const std::optional<tripoint> &loc = std::nullopt );
-        void long_craft( const std::optional<tripoint> &loc = std::nullopt,
+        void recraft( const std::optional<tripoint_bub_ms> &loc = std::nullopt );
+        void long_craft( const std::optional<tripoint_bub_ms> &loc = std::nullopt,
                          const recipe_id &goto_recipe = recipe_id() );
         void make_craft( const recipe_id &id, int batch_size,
-                         const std::optional<tripoint> &loc = std::nullopt );
+                         const std::optional<tripoint_bub_ms> &loc = std::nullopt );
         void make_all_craft( const recipe_id &id, int batch_size,
-                             const std::optional<tripoint> &loc );
+                             const std::optional<tripoint_bub_ms> &loc );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command, const std::optional<tripoint> &loc );
+        void start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc );
 
         struct craft_roll_data {
             float center;
@@ -3621,8 +3625,6 @@ class Character : public Creature, public visitable
         float item_destruction_chance( const recipe &making ) const;
         craft_roll_data recipe_success_roll_data( const recipe &making ) const;
         craft_roll_data recipe_failure_roll_data( const recipe &making ) const;
-        // TODO: Get rid of untyped overload
-        void complete_craft( item &craft, const std::optional<tripoint> &loc );
         void complete_craft( item &craft, const std::optional<tripoint_bub_ms> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
@@ -3688,7 +3690,7 @@ class Character : public Creature, public visitable
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const std::vector<tripoint> &reachable_pts = {}, bool select_ind = false );
+                                       const std::vector<tripoint_bub_ms> &reachable_pts = {}, bool select_ind = false );
         // Selects one entry in components using select_item_component and consumes those items.
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
@@ -3704,10 +3706,10 @@ class Character : public Creature, public visitable
         bool craft_consume_tools( item &craft, int multiplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            const tripoint_bub_ms &origin = tripoint_bub_ms::zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const std::vector<tripoint> &reachable_pts = {},   basecamp *bcp = nullptr );
+                            const std::vector<tripoint_bub_ms> &reachable_pts = {},   basecamp *bcp = nullptr );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -3759,17 +3761,15 @@ class Character : public Creature, public visitable
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         // Checks whether a player can hear a sound at a given volume and location.
-        bool can_hear( const tripoint &source, int volume ) const;
+        bool can_hear( const tripoint_bub_ms &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
         using trap_map = std::map<tripoint, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
-        // TODO: Get rid of untyped overload.
-        bool knows_trap( const tripoint &pos ) const;
         bool knows_trap( const tripoint_bub_ms &pos ) const;
-        void add_known_trap( const tripoint &pos, const trap &t );
+        void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
@@ -3782,7 +3782,7 @@ class Character : public Creature, public visitable
         // used in debugging all health
         int get_lowest_hp() const;
         bool has_weapon() const override;
-        void shift_destination( const point &shift );
+        void shift_destination( const point_rel_ms &shift );
         // Auto move methods
         void set_destination( const std::vector<tripoint_bub_ms> &route,
                               const player_activity &new_destination_activity = player_activity() );
@@ -3802,7 +3802,7 @@ class Character : public Creature, public visitable
         void start_destination_activity();
         std::vector<tripoint_bub_ms> &get_auto_move_route();
         action_id get_next_auto_move_direction();
-        bool defer_move( const tripoint &next );
+        bool defer_move( const tripoint_bub_ms &next );
         time_duration get_consume_time( const item &it ) const;
 
         // For display purposes mainly, how far we are from the next level of weariness
@@ -3873,7 +3873,6 @@ class Character : public Creature, public visitable
          * selected. Out of each mutation with selected comfort data, the comfort data with the
          * lowest `base_comfort` is selected and returned.
          */
-        const comfort_data &get_comfort_data_for( const tripoint &p ) const;
         const comfort_data &get_comfort_data_for( const tripoint_bub_ms &p ) const;
         /**
          * Calculates and caches the comfort of a location. Returns cached comfort if valid.
@@ -3882,7 +3881,6 @@ class Character : public Creature, public visitable
          * Comfort is considered valid until any time has passed or a new location is evaluated.
          * Gaining or losing mutations does not currently invalidate cached comfort.
          */
-        const comfort_data::response &get_comfort_at( const tripoint &p );
         const comfort_data::response &get_comfort_at( const tripoint_bub_ms &p );
         comfort_data::response comfort_cache;
 
@@ -3893,6 +3891,12 @@ class Character : public Creature, public visitable
         void swap_character( Character &other );
     public:
         struct trait_data {
+            /**
+             * Updated in Character::update_cached_mutations(),
+             * corrupted > 0 means that the mutation is not functioning,
+             * because of other conflicting enchantment mutations.
+             */
+            int corrupted = 0;
             /** Whether the mutation is activated. */
             bool powered = false;
             /** Key to select the mutation in the UI. */
@@ -3981,14 +3985,18 @@ class Character : public Creature, public visitable
         // Mutations that have been turned unpurifiable via EoC
         std::unordered_set<trait_id> my_intrinsic_mutations;
         /**
-         * Pointers to mutation branches in @ref my_mutations.
+         * Cache containing my_mutations and enchantment mutations.
          */
-        std::vector<const mutation_branch *> cached_mutations;
+        std::unordered_map<trait_id, trait_data> cached_mutations;
+        /**
+         * Cache newly mutated mutations in my_mutations.
+         */
+        std::unordered_map<trait_id, trait_data> my_mutations_dirty;
 
         // if the player puts on and takes off items these mutations
-        // are added or removed at the beginning of the next
-        std::vector<trait_id> mutations_to_remove;
-        std::vector<trait_id> mutations_to_add;
+        // are added or removed at the beginning of the next turn.
+        std::set<trait_id> mutations_to_remove;
+        std::set<trait_id> mutations_to_add;
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated
@@ -4131,7 +4139,7 @@ class Character : public Creature, public visitable
             bool valid = false; // other fields are only valid if this flag is true
             time_point time;
             int moves;
-            tripoint position;
+            tripoint_bub_ms position;
             int radius;
             pimpl<inventory> crafting_inventory;
         };
@@ -4168,9 +4176,9 @@ class Character : public Creature, public visitable
         mutable time_point next_climate_control_check;
         mutable bool last_climate_control_ret;
 
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchant_cache> enchantment_cache;
+        /* cached enchantment mutations */
+        pimpl<enchant_cache> old_mutation_cache;
+        pimpl<enchant_cache> new_mutation_cache;
 
     private:
         /* cached recipes, which are invalidated if the turn changes */

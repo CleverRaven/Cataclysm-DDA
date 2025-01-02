@@ -795,7 +795,7 @@
     "id": "record_weather",
     "type": "BOOK",
     "name": { "str_sp": "national weather transcripts" },
-    "description": "Old weather records are about as interesting as a rock.",
+    "description": "Old weather records that are about as interesting as a rock.",
     "weight": "454 g",
     "volume": "1750 ml",
     "price": "5 USD",
@@ -1304,8 +1304,8 @@
       {
         "id": "book_judaica_softcover_1",
         "name": {
-          "str": "A Short History of the Jewish People: From Legendary Times to to Modern Statehood",
-          "str_pl": "copies of A Short History of the Jewish People: From Legendary Times to to Modern Statehood"
+          "str": "A Short History of the Jewish People: From Legendary Times to Modern Statehood",
+          "str_pl": "copies of A Short History of the Jewish People: From Legendary Times to Modern Statehood"
         },
         "description": "A survey-level study of Jewish history, from Biblical times through to the 1990s.  At only 250 pages long, it is by necessity very brief on any individual topic."
       },

@@ -31,7 +31,6 @@
 #include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input_context.h"
 #include "input_enums.h"
 #include "item.h"
 #include "level_cache.h"
@@ -230,8 +229,9 @@ void editmap_hilight::draw( editmap &em, bool update )
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
-                if( here.furn( p ).to_i() > 0 ) {
-                    const furn_t &furniture_type = here.furn( p ).obj();
+                const furn_id &f = here.furn( p );
+                if( f.to_i() > 0 ) {
+                    const furn_t &furniture_type = f.obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -264,9 +264,10 @@ tripoint editmap::pos2screen( const tripoint_bub_ms &p )
 /*
  * get_direction with extended moving via HJKL keys
  */
-bool editmap::eget_direction( tripoint_rel_ms &p, const std::string &action ) const
+bool editmap::eget_direction( tripoint_rel_ms &p, const std::string &action,
+                              const input_context &ctxt ) const
 {
-    p = tripoint_rel_ms( tripoint_zero );
+    p = tripoint_rel_ms::zero;
     if( action == "CENTER" ) {
         p = get_player_character().pos_bub() - target;
     } else if( action == "LEFT_WIDE" ) {
@@ -281,16 +282,23 @@ bool editmap::eget_direction( tripoint_rel_ms &p, const std::string &action ) co
         p.z() = -1;
     } else if( action == "LEVEL_UP" ) {
         p.z() = 1;
+    } else if( action == "SELECT" ) {
+        const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates(
+                    g->w_terrain, g->ter_view_p.raw().xy(), true );
+        if( !mouse_pos ) {
+            return false;
+        }
+        p = *mouse_pos - target;
     } else {
-        input_context ctxt( "EGET_DIRECTION" );
-        ctxt.set_iso( true );
-        const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action );
+        input_context ctxt_iso( "EGET_DIRECTION" );
+        ctxt_iso.set_iso( true );
+        const std::optional<tripoint_rel_ms> vec = ctxt_iso.get_direction_rel_ms( action );
         if( !vec ) {
             return false;
         }
         p = *vec;
     }
-    return true;
+    return p != tripoint_rel_ms::zero;
 }
 
 class editmap::game_draw_callback_t_container
@@ -346,11 +354,12 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( player_character.view_offset );
+    restore_on_out_of_scope view_offset_prev( player_character.view_offset );
     target = player_character.pos_bub() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
     ctxt.register_directions();
+    ctxt.register_action( "SELECT" );
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
     ctxt.register_action( "UP_WIDE" );
@@ -359,12 +368,13 @@ std::optional<tripoint_bub_ms> editmap::edit()
     ctxt.register_action( "LEVEL_DOWN" );
     ctxt.register_action( "EDIT_TRAPS" );
     ctxt.register_action( "EDIT_FIELDS" );
+    ctxt.register_action( "EDIT_RADS" );
     ctxt.register_action( "EDIT_TERRAIN" );
     ctxt.register_action( "EDIT_FURNITURE" );
     ctxt.register_action( "EDIT_OVERMAP" );
     ctxt.register_action( "EDIT_ITEMS" );
     ctxt.register_action( "EDIT_MONSTER" );
-    ctxt.register_action( "EDITMAP_SHOW_ALL" );
+    ctxt.register_action( "EDITMAP_SHOW_ALL" ); // Only supported for curses
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     // Needed for timeout to be useful
@@ -379,8 +389,8 @@ std::optional<tripoint_bub_ms> editmap::edit()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     creature_tracker &creatures = get_creature_tracker();
     do {
@@ -393,17 +403,18 @@ std::optional<tripoint_bub_ms> editmap::edit()
 
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
+                                       "%s, %s, %s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDIT_TRAPS" ),
                                        ctxt.describe_key_and_name( "EDIT_FIELDS" ),
-                                       ctxt.get_desc( "LEFT_WIDE", 1 ), ctxt.get_desc( "RIGHT_WIDE", 1 ),
-                                       ctxt.get_desc( "UP_WIDE", 1 ), ctxt.get_desc( "DOWN_WIDE", 1 ),
-                                       ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
+                                       ctxt.describe_key_and_name( "EDIT_RADS" ),
                                        ctxt.describe_key_and_name( "EDIT_TERRAIN" ),
                                        ctxt.describe_key_and_name( "EDIT_FURNITURE" ),
                                        ctxt.describe_key_and_name( "EDIT_OVERMAP" ),
-                                       ctxt.describe_key_and_name( "EDIT_ITEMS" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+                                       ctxt.describe_key_and_name( "EDIT_ITEMS" ) );
+#ifndef TILES
+        info_txt_curr += ", ";
+        info_txt_curr += ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" );
+#endif
         info_title_curr = pgettext( "map editor state", "Looking around" );
         do_ui_invalidation();
 
@@ -417,6 +428,8 @@ std::optional<tripoint_bub_ms> editmap::edit()
             edit_feature<furn_t>();
         } else if( action == "EDIT_FIELDS" ) {
             edit_fld();
+        } else if( action == "EDIT_RADS" ) {
+            edit_rads();
         } else if( action == "EDIT_ITEMS" ) {
             edit_itm();
         } else if( action == "EDIT_TRAPS" ) {
@@ -432,7 +445,7 @@ std::optional<tripoint_bub_ms> editmap::edit()
             target_list.clear();
             origin = target;
             target_list.push_back( target );
-        } else if( move_target( action, 1 ) ) {
+        } else if( move_target( action, ctxt, 1 ) ) {
             recalc_target( editshape );         // target_list must follow movement
         }
         blink = action == "TIMEOUT" ? !blink : true;
@@ -534,8 +547,8 @@ void editmap::draw_main_ui_overlay()
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
-                p[0] += point_north_west;
-                p[1] += point_south_east;
+                p[0] += point::north_west;
+                p[1] += point::south_east;
             }
             for( const point_bub_ms &pi : p ) {
                 for( const point_bub_ms &pj : p ) {
@@ -609,11 +622,13 @@ void editmap::draw_main_ui_overlay()
 
     // draw arrows if altblink is set (ie, [m]oving a large selection
     if( blink && altblink ) {
-        const point mp = tmax / 2 + point_south_east;
-        mvwputch( g->w_terrain, point( 1, mp.y ), c_yellow, '<' );
-        mvwputch( g->w_terrain, point( tmax.x - 1, mp.y ), c_yellow, '>' );
-        mvwputch( g->w_terrain, point( mp.x, 1 ), c_yellow, '^' );
-        mvwputch( g->w_terrain, point( mp.x, tmax.y - 1 ), c_yellow, 'v' );
+        const point mp = tmax / 2 + point::south_east;
+        wattron( g->w_terrain, c_yellow );
+        mvwaddch( g->w_terrain, point( 1, mp.y ), '<' );
+        mvwaddch( g->w_terrain, point( tmax.x - 1, mp.y ), '>' );
+        mvwaddch( g->w_terrain, point( mp.x, 1 ), '^' );
+        mvwaddch( g->w_terrain, point( mp.x, tmax.y - 1 ), 'v' );
+        wattroff( g->w_terrain, c_yellow );
     }
 
     if( tmpmap_ptr ) {
@@ -647,7 +662,7 @@ void editmap::draw_main_ui_overlay()
                                                false );
                     }
                     if( const optional_vpart_position ovp = tmpmap.veh_at( tmp_p ) ) {
-                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount() );
+                        const vpart_display vd = ovp->vehicle().get_display_of_tile( ovp->mount_pos() );
                         char part_mod = 0;
                         if( vd.is_open ) {
                             part_mod = 1;
@@ -655,9 +670,10 @@ void editmap::draw_main_ui_overlay()
                             part_mod = 2;
                         }
                         const units::angle veh_dir = ovp->vehicle().face.dir();
-                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo, ovp->mount() );
+                        g->draw_vpart_override( map_p, vpart_id( vd.id ), part_mod, veh_dir, vd.has_cargo,
+                                                ovp->mount_pos() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_rel_ms::zero );
                     }
                     g->draw_below_override( tripoint_bub_ms( map_p ),
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
@@ -693,7 +709,7 @@ void editmap::draw_main_ui_overlay()
             hilights["mapgentgt"].draw( *this, true );
             drawsq_params params = drawsq_params().center( tripoint_bub_ms( SEEX - 1, SEEY - 1, target.z() ) );
             for( const tripoint_omt_ms &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, p.raw(), params );
+                tmpmap.drawsq( g->w_terrain, rebase_bub( p ), params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
@@ -718,45 +734,57 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         veh_msg = pgettext( "vehicle", "out" );
     }
 
-    const ter_t &terrain_type = here.ter( target ).obj();
+    const ter_id &t = here.ter( target );
+    const ter_t &terrain_type = t.obj();
     const furn_t &furniture_type = here.furn( target ).obj();
 
     int off = 1;
     draw_border( w_info );
 
-    mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w_info, point( 1, 0 ), c_light_gray, "< %d,%d,%d >", target.x(), target.y(),
                target.z() );
 
-    mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
-               static_cast<std::string>( terrain_type.id ),
-               terrain_type.movecost
-             );
-    off++; // 2
-    if( here.furn( target ).to_i() > 0 ) {
-        mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
-        mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
-                   here.furn( target ).to_i(),
-                   static_cast<std::string>( furniture_type.id ),
-                   furniture_type.movecost,
-                   furniture_type.move_str_req
-                 );
-        off++; // 3
+    mvwputch( w_info, point( 1, off ), terrain_type.color(), terrain_type.symbol() );
+    mvwprintw( w_info, point( 2, off++ ), _( "Ter: %s (%d); move cost %d" ), terrain_type.id.str(),
+               t.to_i(), terrain_type.movecost ); // 2
+
+    const furn_id &f = here.furn( target );
+    if( f.to_i() > 0 ) {
+        mvwputch( w_info, point( 1, off ), furniture_type.color(), furniture_type.symbol() );
+        mvwprintw( w_info, point( 2, off++ ), _( "Furn: %s (%d); move cost %d; movestr %d" ),
+                   furniture_type.id.str(), f.to_i(), furniture_type.movecost, furniture_type.move_str_req ); // 3
     }
+
+    const trap &cur_trap = here.tr_at( target );
+    if( !cur_trap.is_null() ) {
+        mvwputch( w_info, point( 1, off ), cur_trap.color, cur_trap.sym );
+        mvwprintw( w_info, point( 2, off++ ), _( "Trap: %s (%d)" ), cur_trap.id.str(),
+                   cur_trap.loadid.to_i() ); // 4
+    }
+
+    for( auto &fld : here.get_field( target ) ) {
+        const field_entry &cur = fld.second;
+        mvwputch( w_info, point( 1, off ), cur.color(), cur.symbol() );
+        mvwprintw( w_info, point( 2, off++ ), _( "Field: %s (%d); Intensity:%d (%s); Age:%d" ),
+                   cur.get_field_type().id().str(), cur.get_field_type().to_i(), cur.get_field_intensity(), cur.name(),
+                   to_turns<int>( cur.get_field_age() ) ); // 5 (+1 for each field)
+    }
+
     const level_cache &map_cache = here.get_cache( target.z() );
 
     Character &player_character = get_player_character();
     const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
-               rl_dist( player_character.pos_bub(), target ), u_see_msg, veh_msg, get_scent().get( target ) );
+               rl_dist( player_character.pos_bub(), target ), u_see_msg, veh_msg, get_scent().get( target ) ); // 6
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
                player_character.sight_range( g->light_level( player_character.posz() ) ),
-               player_character.sight_range( sun_moon_light_at_noon_near( calendar::turn ) ) );
+               player_character.sight_range( sun_moon_light_at_noon_near( calendar::turn ) ) ); // 7
     mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x()][target.y()],
                map_cache.seen_cache[target.x()][target.y()],
                map_cache.camera_cache[target.x()][target.y()]
-             );
+             ); // 8
     map::apparent_light_info al = map::apparent_light_helper( map_cache, tripoint_bub_ms( target ) );
     int apparent_light = static_cast<int>(
                              here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
@@ -764,11 +792,11 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                static_cast<int>( here.is_outside( target ) ),
                static_cast<int>( al.obstructed ),
                static_cast<int>( here.has_floor( target ) )
-             );
+             ); // 9
     mvwprintw( w_info, point( 1, off++ ), _( "light_at: %s" ),
-               map_cache.lm[target.x()][target.y()].to_string() );
+               map_cache.lm[target.x()][target.y()].to_string() ); // 10
     mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
-               al.apparent_light, apparent_light );
+               al.apparent_light, apparent_light ); // 11
     std::string extras;
     if( vp ) {
         extras += _( " [vehicle]" );
@@ -780,50 +808,28 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         extras += _( " [roof]" );
     }
 
-    mvwprintw( w_info, point( 1, off ), "%s %s", here.features( target ), extras );
-    // 9
-    off++;
-    for( auto &fld : here.get_field( target ) ) {
-        const field_entry &cur = fld.second;
-        mvwprintz( w_info, point( 1, off ), cur.color(),
-                   _( "field: %s L:%d[%s] A:%d" ),
-                   cur.get_field_type().id().str(),
-                   cur.get_field_intensity(),
-                   cur.name(),
-                   to_turns<int>( cur.get_field_age() )
-                 );
-        off++; // 10ish
-    }
-
-    const trap &cur_trap = here.tr_at( target );
-    if( !cur_trap.is_null() ) {
-        mvwprintz( w_info, point( 1, off ), cur_trap.color, _( "trap: %s (%d)" ), cur_trap.name(),
-                   cur_trap.loadid.to_i() );
-        off++; // 11
-    }
+    mvwprintw( w_info, point( 1, off++ ), "%s %s", here.features( target ), extras ); // 12
 
     const Creature *critter = get_creature_tracker().creature_at( target );
     if( critter != nullptr ) {
         off = critter->print_info( w_info, off, 5, 1 );
     } else if( vp ) {
-        mvwprintw( w_info, point( 1, off ), _( "There is a %s there.  Parts:" ), vp->vehicle().name );
-        off++;
+        mvwprintw( w_info, point( 1, off++ ), _( "There is a %s there.  Parts:" ),
+                   vp->vehicle().name ); // 13
         vp->vehicle().print_part_list( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
         off += 6;
-    }
+    } // 19??
     map_stack target_stack = here.i_at( target );
     const int target_stack_size = target_stack.size();
     if( !here.has_flag( ter_furn_flag::TFLAG_CONTAINER, target ) && target_stack_size > 0 ) {
-        trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
+        trim_and_print( w_info, point( 1, off++ ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );
-        off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), n_gettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off++ ), n_gettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );
-            off++;
         }
     }
 
@@ -1015,7 +1021,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint_bub
     ter_id teralt = undefined_ter_id;
     int alta = -1;
     int altb = -1;
-    const ter_id sel_ter = t.id.id();
+    const ter_id &sel_ter = t.id.id();
     if( editshape == editmap_rect ) {
         if( t.symbol() == LINE_XOXO || t.symbol() == '|' ) {
             isvert = true;
@@ -1052,7 +1058,7 @@ template<>
 void apply<furn_t>( const furn_t &t, const shapetype, const tripoint_bub_ms &,
                     const tripoint_bub_ms &, const std::vector<tripoint_bub_ms> &target_list )
 {
-    const furn_id sel_frn = t.id.id();
+    const furn_id &sel_frn = t.id.id();
     map &here = get_map();
     for( const tripoint_bub_ms &elem : target_list ) {
         here.furn_set( elem, sel_frn );
@@ -1119,8 +1125,8 @@ void editmap::edit_feature()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     blink = true;
     bool quit = false;
@@ -1135,12 +1141,15 @@ void editmap::edit_feature()
         }
 
         input_context ctxt( emenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "CONFIRM_QUIT" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
                                        ctxt.describe_key_and_name( "EDITMAP_TAB" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ) );
+#ifndef TILES
+        info_txt_curr += ", ";
+        info_txt_curr += ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" );
+#endif
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
@@ -1211,6 +1220,15 @@ void editmap::setup_fmenu( uilist &fmenu )
     }
 }
 
+void editmap::edit_rads() const
+{
+    map &here = get_map();
+    int value = 0;
+    if( query_int( value, _( "Set rads to?  Currently: %d" ), here.get_radiation( target ) ) ) {
+        here.set_radiation( target, value );
+    }
+}
+
 void editmap::edit_fld()
 {
     uilist fmenu;
@@ -1231,8 +1249,8 @@ void editmap::edit_fld()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     blink = true;
@@ -1249,13 +1267,15 @@ void editmap::edit_fld()
         input_context ctxt( fmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s]\u00A0intensity, %s, %s, %s" ),
+                                       "%s, %s, [%s,%s]\u00A0intensity, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_TAB" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
                                        ctxt.get_desc( "LEFT", 1 ), ctxt.get_desc( "RIGHT", 1 ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
+                                       ctxt.describe_key_and_name( "CONFIRM" ) );
+#ifndef TILES
+        info_txt_curr += ", ";
+        info_txt_curr += ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" );
+#endif
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
@@ -1396,8 +1416,8 @@ void editmap::edit_itm()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
 
@@ -1622,22 +1642,23 @@ static int limited_shift( int var, int &shift, int min, int max )
  * 0: no, 1: yes, -1 (or none): as per bool 'editmap.moveall'.
  * if input or ch are not valid movement keys, do nothing and return false
  */
-bool editmap::move_target( const std::string &action, int moveorigin )
+bool editmap::move_target( const std::string &action, const input_context &ctxt,
+                           int moveorigin )
 {
     tripoint_rel_ms mp;
+    if( !eget_direction( mp, action, ctxt ) ) {
+        return false;
+    }
     bool move_origin = moveorigin == 1 ? true :
                        moveorigin == 0 ? false : moveall;
-    if( eget_direction( mp, action ) ) {
-        target.x() = limited_shift( target.x(), mp.x(), 0, MAPSIZE_X );
-        target.y() = limited_shift( target.y(), mp.y(), 0, MAPSIZE_Y );
-        // OVERMAP_HEIGHT is the limit, not size of a 0 based vector, and limited_shift restricts to <, not <=
-        target.z() = limited_shift( target.z(), mp.z(), -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
-        if( move_origin ) {
-            origin += mp;
-        }
-        return true;
+    target.x() = limited_shift( target.x(), mp.x(), 0, MAPSIZE_X );
+    target.y() = limited_shift( target.y(), mp.y(), 0, MAPSIZE_Y );
+    // OVERMAP_HEIGHT is the limit, not size of a 0 based vector, and limited_shift restricts to <, not <=
+    target.z() = limited_shift( target.z(), mp.z(), -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
+    if( move_origin ) {
+        origin += mp;
     }
-    return false;
+    return true;
 }
 
 /*
@@ -1652,6 +1673,7 @@ int editmap::select_shape( shapetype shape, int mode )
     input_context ctxt( "EDITMAP_SHAPE" );
     ctxt.set_iso( true );
     ctxt.register_directions();
+    ctxt.register_action( "SELECT" );
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
     ctxt.register_action( "UP_WIDE" );
@@ -1681,28 +1703,32 @@ int editmap::select_shape( shapetype shape, int mode )
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     do {
         if( moveall ) {
-            info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
+            info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                            ctxt.describe_key_and_name( "RESIZE" ),
                                            ctxt.describe_key_and_name( "SWAP" ),
-                                           ctxt.describe_key_and_name( "CONFIRM" ),
-                                           ctxt.describe_key_and_name( "QUIT" ),
-                                           ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
+                                           ctxt.describe_key_and_name( "CONFIRM" ) );
+#ifndef TILES
+            info_txt_curr += ", ";
+            info_txt_curr += ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" );
+#endif
             info_title_curr = _( "Moving selection" );
         } else {
             info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                           "%s, %s, %s, %s, %s, %s, %s" ),
+                                           "%s, %s, %s, %s, %s" ),
                                            ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
                                            ctxt.describe_key_and_name( "RESIZE" ),
                                            ctxt.describe_key_and_name( "SWAP" ),
                                            ctxt.describe_key_and_name( "START" ),
-                                           ctxt.describe_key_and_name( "CONFIRM" ),
-                                           ctxt.describe_key_and_name( "QUIT" ),
-                                           ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
+                                           ctxt.describe_key_and_name( "CONFIRM" ) );
+#ifndef TILES
+            info_txt_curr += ", ";
+            info_txt_curr += ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" );
+#endif
             info_title_curr = _( "Resizing selection" );
         }
         do_ui_invalidation();
@@ -1726,8 +1752,8 @@ int editmap::select_shape( shapetype shape, int mode )
                 on_out_of_scope invalidate_current_ui_2( [this]() {
                     do_ui_invalidation();
                 } );
-                restore_on_out_of_scope<std::string> info_txt_prev_2( info_txt_curr );
-                restore_on_out_of_scope<std::string> info_title_prev_2( info_title_curr );
+                restore_on_out_of_scope info_txt_prev_2( info_txt_curr );
+                restore_on_out_of_scope info_title_prev_2( info_title_curr );
 
                 do {
                     info_txt_curr.clear();
@@ -1770,7 +1796,7 @@ int editmap::select_shape( shapetype shape, int mode )
             } else {
                 moveall = true;
             }
-        } else if( move_target( action ) ) {
+        } else if( move_target( action, ctxt ) ) {
             update = true;
         }
         if( update ) {
@@ -1817,6 +1843,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     gmenu.hilight_color = c_black_white;
     //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
 
+    // TODO: gpmenu could really do with not being in the centre of the screen covering up the preview
     uilist gpmenu;
     gpmenu.addentry( pgettext( "map generator", "Regenerate" ) );
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
@@ -1825,8 +1852,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gpmenu.input_category = "MAPGEN_PREVIEW";
     gpmenu.additional_actions = {
-        { "LEFT", translation() },
-        { "RIGHT", translation() },
         { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gpmenu.allow_additional = true;
@@ -1836,15 +1861,16 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<tinymap *> tinymap_ptr_prev( tmpmap_ptr );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope tinymap_ptr_prev( tmpmap_ptr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     int lastsel = gmenu.selected;
     bool showpreview = true;
     do {
         if( gmenu.selected != lastsel ) {
+            // TODO: gmenu should be hidden with current filter/selection preserved until closing gpmenu,at which point it should fully close if you chose either apply
             lastsel = gmenu.selected;
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
@@ -1859,12 +1885,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         }
         input_context ctxt( gpmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
-        info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
-                                       ctxt.get_desc( "LEFT", 1 ), ctxt.get_desc( "RIGHT", 1 ),
-                                       ctxt.get_desc( "UP", 1 ), ctxt.get_desc( "DOWN", 1 ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "[%s] Reselect, %s" ),
+                                       ctxt.get_desc( "QUIT", 1 ), ctxt.describe_key_and_name( "CONFIRM" ) );
         info_title_curr = string_format( pgettext( "map editor state", "Mapgen: %s" ),
                                          oter_id( gmenu.selected ).id().str() );
         do_ui_invalidation();
@@ -1936,14 +1958,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                    orig_oters->get_name( om_vision_level::full ), orig_oters.id().str(),
                    omt_ref->get_name( om_vision_level::full ), omt_ref.id().str() );
-        } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
-            if( gpmenu.ret_act == "LEFT" ) {
-                gmenu.scrollby( -1 );
-                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
-            } else if( gpmenu.ret_act == "RIGHT" ) {
-                gmenu.scrollby( 1 );
-                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
-            }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
     } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UILIST_CANCEL );
@@ -2044,14 +2058,13 @@ void editmap::mapgen_retarget()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
 
     blink = true;
     do {
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s" ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s" ),
+                                       ctxt.describe_key_and_name( "CONFIRM" ) );
         info_title_curr = pgettext( "map generator", "Mapgen: Moving target" );
         do_ui_invalidation();
 
@@ -2111,8 +2124,8 @@ void editmap::edit_mapgen()
     on_out_of_scope invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope info_title_prev( info_title_curr );
     map &here = get_map();
 
     do {
@@ -2137,10 +2150,9 @@ void editmap::edit_mapgen()
         blink = true;
 
         input_context ctxt( gmenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+                                       ctxt.describe_key_and_name( "CONFIRM" ) );
         info_title_curr = pgettext( "map generator", "Mapgen stamp" );
         do_ui_invalidation();
 

@@ -46,7 +46,7 @@
     "longest_side": "82 cm",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
@@ -60,7 +60,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__chainsaw",
-          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
+          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level() > 5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
           "effect": [
             { "turn_cost": 0.8 },
             { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
@@ -82,7 +82,7 @@
     "type": "TOOL",
     "name": { "str": "chainsaw (on)", "str_pl": "chainsaws (on)" },
     "description": "This chainsaw is on and making a lot of noise.  Use it to turn it off.",
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "chainsaw_off",
@@ -96,7 +96,7 @@
         {
           "id": "EOC_toolweapon_deactivate__chainsaw",
           "effect": [
-            { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
+            { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
             { "sound_effect": "chainsaw_on", "id": "chainsaw_stop" }
           ]
         }
@@ -108,7 +108,7 @@
         {
           "id": "EOC_toolweapon_running__chainsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
@@ -148,7 +148,7 @@
         {
           "id": "EOC_toolweapon_activate__polesaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "polesaw_on",
@@ -182,7 +182,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__polesaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
         }
       ]
     },
@@ -192,7 +192,7 @@
         {
           "id": "EOC_toolweapon_running__polesaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
@@ -216,7 +216,7 @@
     "longest_side": "44 cm",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -229,7 +229,7 @@
         {
           "id": "EOC_toolweapon_activate__circsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "circsaw_on",
@@ -254,7 +254,7 @@
     "name": { "str": "circular saw (on)", "str_pl": "circular saws (on)" },
     "//": "Circular saw would be very fast but imprecise butchering tool - alas the qualities are not separate and so speed is sacrificed.",
     "description": "A lightweight, handheld cordless circular saw.  It is currently on and the blade is spinning; use this item to turn it off.",
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
@@ -265,7 +265,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__circsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
         }
       ]
     },
@@ -275,7 +275,7 @@
         {
           "id": "EOC_toolweapon_running__circsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
               "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
@@ -378,7 +378,7 @@
     "longest_side": "82 cm",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
@@ -391,9 +391,9 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_activate__elec_chainsaw",
-          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_activate",
+            "run_eocs": "EOC_toolweapon_activate",
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "elec_chainsaw_on",
@@ -418,7 +418,7 @@
     "type": "TOOL",
     "name": { "str": "electric chainsaw (on)", "str_pl": "electric chainsaws (on)" },
     "description": "This electric chainsaw is on and making a lot of noise.  Use it to turn it off.",
-    "to_hit": -4,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "power_draw": "2 kW",
     "charges_per_use": 0,
     "revert_to": "elec_chainsaw_off",
@@ -430,7 +430,7 @@
       "effect_on_conditions": [
         {
           "id": "EOC_toolweapon_deactivate__elec_chainsaw",
-          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
+          "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
         }
       ]
     },
@@ -440,7 +440,7 @@
         {
           "id": "EOC_toolweapon_running__elec_chainsaw",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
               "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
@@ -469,9 +469,9 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
-            "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+            "condition": { "math": [ "rng(0, 10) - n_damage_level() > 5" ] },
             "effect": {
-              "run_eoc_with": "EOC_toolweapon_activate",
+              "run_eocs": "EOC_toolweapon_activate",
               "variables": {
                 "turn_cost": "0.6",
                 "transform_target": "elec_chainsaw_cord_on",
@@ -502,7 +502,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
-            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
+            "effect": { "run_eocs": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
           }
         ]
       },
@@ -514,7 +514,7 @@
         {
           "id": "EOC_toolweapon_running__elec_chainsaw_cord",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
               "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },
@@ -540,13 +540,13 @@
     "volume": "230 ml",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
     "flags": [ "SHEATH_AXE" ],
-    "melee_damage": { "bash": 7, "cut": 11 }
+    "melee_damage": { "bash": 3, "cut": 11 }
   },
   {
     "id": "makeshift_axe",
@@ -556,7 +556,7 @@
     "description": "A chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well, but really can't compare to a proper axe.",
     "material": [ "steel" ],
     "flags": [ "SHEATH_AXE" ],
-    "melee_damage": { "bash": 8, "cut": 12 }
+    "melee_damage": { "bash": 5, "cut": 12 }
   },
   {
     "id": "primitive_adze",

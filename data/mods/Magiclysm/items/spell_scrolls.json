@@ -1453,7 +1453,7 @@
     "id": "spell_scroll_kelvinist_anti_cold",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of Cloak of Warmth", "str_pl": "Scrolls of Cloak of Warmth" },
-    "description": "Winter-be-gone through the power of of modern magic.",
+    "description": "Winter-be-gone through the power of modern magic.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold" ] }
   },
   {
@@ -1462,7 +1462,7 @@
     "id": "spell_scroll_kelvinist_anti_heat",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of Cloak of Chill", "str_pl": "Scrolls of Cloak of Chill" },
-    "description": "Summer-be-gone through the power of of modern magic.",
+    "description": "Summer-be-gone through the power of modern magic.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_heat" ] }
   },
   {
@@ -2112,5 +2112,77 @@
     "name": { "str": "Scroll of Goodberry", "str_pl": "Scrolls of Goodberry" },
     "description": "Transform a set of berries into a set of even better berries that keep you full and heal your wounds.  Delicious and nutritious.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_goodberry" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_do_psionic_damage_to_head",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Mind Crush", "str_pl": "Scrolls of Mind Crush" },
+    "description": "Use your own spirit to attack the target's spirit.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_do_psionic_damage_to_head" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_permanent_light",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Imperishable Light", "str_pl": "Scrolls of Imperishable Light" },
+    "description": "Create a permanent glowing orb of light in the air.  Well, it will take a few years to see if it's really permanent; hopefully you'll live to know the answer.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_permanent_light" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_get_more_blood",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Carmine Infusion", "str_pl": "Scrolls of Carmine Infusion" },
+    "description": "Using water as a medium, restore some of your lost blood.  Be more careful where you put that blood next time.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_get_more_blood" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_create_temporary_spring",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Fountain of the Depths", "str_pl": "Scrolls of Fountain of the Depths" },
+    "description": "Call up the hidden waters from the depths of the earth to the surface.  Less convenient than a faucet, but the plumbing has been off for a while.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_create_temporary_spring" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_cannot_move_attack_or_damage_target",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Adamantine Gaol", "str_pl": "Scrolls of Adamantine Gaol" },
+    "description": "Imprison the target in an impenetrable shell of force.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_cannot_move_attack_or_damage_target" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_diggable_teleport",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Earth Gate", "str_pl": "Scrolls of Earth Gate" },
+    "description": "Sink into the ground and re-emerge somewhere nearby.  More likely to keep you in shape than the ability to teleport to the kitchen from your bedroom.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_diggable_teleport" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_turn_tree_into_treant",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Awakening of the Forest Guardian", "str_pl": "Scrolls of Awakening of the Forest Guardian" },
+    "description": "Give motion and awareness to a tree, allowing it to shake free of the soil and crush your enemies.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_turn_tree_into_treant" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_set_everyone_on_fire",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Flames of the Apocalypse", "str_pl": "Scrolls of Flames of the Apocalypse" },
+    "description": "Call forth an inner fire from every enemy in the spell's radius, causing multiple explosions.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_set_everyone_on_fire" ] }
   }
 ]

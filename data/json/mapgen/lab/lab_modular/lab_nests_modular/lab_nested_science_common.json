@@ -205,7 +205,7 @@
         "     "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "-": "t_chaingate_c", "X": "t_chainfence_h" }
+      "terrain": { "-": "t_chaingate_c", "X": "t_chainfence" }
     }
   },
   {

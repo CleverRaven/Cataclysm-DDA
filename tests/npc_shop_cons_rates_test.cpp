@@ -23,7 +23,7 @@ TEST_CASE( "npc_shop_cons_rates", "[npc][trade]" )
         REQUIRE( myrates.get_rate( item( "bow_saw" ), guy ) == 2 );
     }
     WHEN( "item is matched by typeid and condition is true" ) {
-        guy.set_value( "npctalk_var_bool_dinner_bow_saw_eater", "yes" );
+        guy.set_value( "bool_dinner_bow_saw_eater", "yes" );
         REQUIRE( myrates.get_rate( item( "bow_saw" ), guy ) == 99 );
     }
     WHEN( "item is matched by category" ) {

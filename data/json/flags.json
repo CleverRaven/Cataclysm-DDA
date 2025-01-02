@@ -592,6 +592,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POST_UP",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall, like a poster."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
@@ -662,7 +667,7 @@
   {
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -1546,10 +1551,6 @@
     "info": "This is <info>naturally sized to the body</info>."
   },
   {
-    "id": "IR_EFFECT",
-    "type": "json_flag"
-  },
-  {
     "id": "IS_ARMOR",
     "type": "json_flag"
   },
@@ -1619,6 +1620,11 @@
     "id": "MUNDANE",
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
     "type": "json_flag"
   },
   {
@@ -2164,8 +2170,8 @@
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
-    "info": "This item fits in items that use heavy batteries.",
-    "name": "heavy battery"
+    "info": "This item fits in items that use tool batteries.",
+    "name": "tool battery"
   },
   {
     "id": "METHANOL_TANK",
@@ -2292,6 +2298,11 @@
     "type": "json_flag",
     "info": "This is meant for exoskeleton foot plating.",
     "inherit": false
+  },
+  {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
   },
   {
     "id": "ROBOFAC_ROBOT_MEDIUM",
@@ -2464,6 +2475,11 @@
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
   },
   {
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
+  },
+  {
     "id": "ANIMALDISCORD",
     "type": "json_flag",
     "info": "The character is disliked by natural animals."
@@ -2597,5 +2613,33 @@
     "id": "CRAFT_IN_DARKNESS",
     "type": "json_flag",
     "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "CANNOT_ATTACK",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."
+  },
+  {
+    "id": "CANNOT_MOVE",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot naturally move."
+  },
+  {
+    "id": "CANNOT_TAKE_DAMAGE",
+    "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
+  },
+  {
+    "id": "CANNOT_GAIN_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
   }
 ]

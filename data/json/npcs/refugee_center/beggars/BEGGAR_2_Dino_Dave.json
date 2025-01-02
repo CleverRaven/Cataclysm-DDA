@@ -49,7 +49,7 @@
     "entries": [
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
-      { "item": "dinosuit" },
+      { "item": "fursuit", "variant": "dinosuit" },
       { "item": "cardboard_crown_loose" },
       { "item": "boots_winter" },
       { "item": "coat_winter" }
@@ -129,10 +129,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD",
     "dynamic_line": "I can tell when it has stuff in it, it's got a sandy texture.  But this doesn't.  Thanks again.",
-    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [ { "effect": { "u_bulk_donate": 1 } }, { "effect": { "run_eocs": [ "EOC_BEGGAR_TEST_IF_FOOD_CANNIBAL" ] } } ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2", "effect": { "u_bulk_donate": 1 } },
-      { "text": "No problem.  <end_talking_bye>", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2" },
+      { "text": "No problem.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -246,7 +246,6 @@
         { "finish_mission": "MISSION_BEGGAR_2_PERMISSION", "success": true },
         { "npc_first_topic": "TALK_DINODAVE_1" },
         { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
-        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" },
         { "npc_teleport": { "global_val": "dave_castle" } }
       ]
     },
@@ -276,6 +275,7 @@
     "count": 40,
     "followup": "MISSION_BEGGAR_2_DUCT_TAPE",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
       "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like… like… forty?",
@@ -299,6 +299,7 @@
     "count": 200,
     "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.",
       "offer": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.  Bring me the Force!",
@@ -322,6 +323,7 @@
     "count": 10,
     "followup": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.",
       "offer": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.  I got a little more on the list, but we're more than half there.",
@@ -345,6 +347,7 @@
     "count": 10,
     "followup": "MISSION_BEGGAR_2_BOX_LARGE",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.",
       "offer": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.  Please bring me some plastic sheets.",
@@ -367,6 +370,7 @@
     "item": "box_large",
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
       "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
@@ -389,6 +393,7 @@
     "goal_condition": { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I have it, I have it all, but I can't find a place to put it.  Will you ask the masters?  Maybe?  I've tried but they ignore me.",
       "offer": "I have it, I have it all, but I can't find a place to put it.  Will you ask the masters?  Maybe?  I've tried but they ignore me.  I just need a place to put it all, a place I can be safe, and not make anyone upset.",
@@ -403,9 +408,10 @@
     "//": "todo2: migrate u refugee happiness to global",
     "end": {
       "effect": [
-        { "math": [ "dave_castle_stage", "++" ] },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
-        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
+        { "math": [ "dave_castle_stage++" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] },
+        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" },
+        { "mapgen_update": "beggar_2_remove_lobbycardboard", "om_terrain": "evac_center_18" }
       ]
     }
   },
@@ -418,12 +424,6 @@
       "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
       "set": [ { "point": "variable", "id": "dave_castle", "x": 4, "y": 19 } ]
     }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "cardboard_castle_1_roof",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "cardboard_castle_1_roof" ], "x": 0, "y": 16 } ] }
   },
   {
     "type": "mapgen",
@@ -446,7 +446,8 @@
         "_": "f_cardboard_floor",
         "C": "f_cardboard_box",
         "B": "f_floor_mattress"
-      }
+      },
+      "place_nested": [ { "chunks": [ "cardboard_castle_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -474,8 +475,14 @@
     "object": {
       "set": [
         { "point": "terrain", "id": "t_door_metal_c", "x": 1, "y": 14 },
-        { "point": "terrain", "id": "t_door_metal_c", "x": 22, "y": 14 }
+        { "point": "terrain", "id": "t_door_metal_c", "x": 21, "y": 14 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "beggar_2_remove_lobbycardboard",
+    "method": "json",
+    "object": { "set": [ { "line": "furniture", "id": "f_clear", "x": 6, "y": 1, "x2": 8, "y2": 1 } ] }
   }
 ]

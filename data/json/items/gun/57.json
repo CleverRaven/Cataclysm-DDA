@@ -29,7 +29,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
     "durability": 8,
-    "min_cycle_recoil": 81,
+    "min_cycle_recoil": 330,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
@@ -83,7 +83,7 @@
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
-    "min_cycle_recoil": 81,
+    "min_cycle_recoil": 330,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
@@ -135,7 +135,7 @@
     "skill": "pistol",
     "dispersion": 380,
     "durability": 8,
-    "min_cycle_recoil": 81,
+    "min_cycle_recoil": 330,
     "reload": 500,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
@@ -190,7 +190,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 400,
     "durability": 8,
-    "min_cycle_recoil": 81,
+    "min_cycle_recoil": 330,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [

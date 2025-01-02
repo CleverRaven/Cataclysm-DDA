@@ -108,10 +108,7 @@
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
             { "compare_string": [ "yes", { "u_val": "chris_planned_for_bomb" } ] },
             {
-              "and": [
-                { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } },
-                { "math": [ "isherwood_luke_truck_status", "<", "1" ] }
-              ]
+              "and": [ { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } }, { "math": [ "isherwood_luke_truck_status < 1" ] } ]
             }
           ]
         },
@@ -125,8 +122,8 @@
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" } },
-                { "math": [ "isherwood_luke_truck_coming", "<", "1" ] },
-                { "math": [ "isherwood_luke_truck_status", "==", "1" ] }
+                { "math": [ "isherwood_luke_truck_coming < 1" ] },
+                { "math": [ "isherwood_luke_truck_status == 1" ] }
               ]
             }
           ]
@@ -152,8 +149,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", "<=", "time('7 d')" ] },
-            { "math": [ "u_timer_barry_rescue", "<=", "time('5 d')" ] }
+            { "math": [ "time_since(u_timer_luke_isherwood_books) <= time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue <= time('5 d')" ] }
           ]
         }
       },
@@ -162,8 +159,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS3",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", ">", "time('7 d')" ] },
-            { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
+            { "math": [ "time_since(u_timer_luke_isherwood_books) > time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue > time('5 d')" ] }
           ]
         }
       },
@@ -490,10 +487,7 @@
     "count": 1,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [
-        { "u_add_var": "u_did_luke_missions", "value": "yes" },
-        { "math": [ "u_timer_luke_isherwood_books", "=", "time('now')" ] }
-      ]
+      "effect": [ { "u_add_var": "u_did_luke_missions", "value": "yes" }, { "math": [ "u_timer_luke_isherwood_books = time('now')" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -525,7 +519,7 @@
         ]
       }
     },
-    "end": { "effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
+    "end": { "effect": [ { "run_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {
@@ -554,7 +548,7 @@
         "place_vehicles": [ { "vehicle": "truck_trailer_explosives", "chance": 100, "rotation": 270, "x": [ 7 ], "y": [ 7 ] } ]
       }
     },
-    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming", "++" ] } ] },
+    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming++" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//2": "Dialogue for this mission is handled externally.",
     "dialogue": {

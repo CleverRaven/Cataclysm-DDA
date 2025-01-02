@@ -11,7 +11,7 @@
         [ "afs_bio_linguistic_coprocessor", 10 ],
         [ "afs_bio_dopamine_stimulators", 10 ],
         [ "afs_bio_neurosoft_aeronautics", 5 ],
-        [ "bio_forcefield_bash_cut_weak", 25 ],
+        [ "bio_shield_weak", 25 ],
         [ "afs_bio_translocator", 5 ],
         [ "bio_shock_absorber", 2 ],
         [ "afs_bio_skullgun", 5 ],
@@ -23,7 +23,7 @@
     "id": "bionics_common",
     "type": "item_group",
     "copy-from": "bionics_common",
-    "extend": { "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_linguistic_coprocessor", 8 ], [ "bio_forcefield_bash_cut_weak", 25 ] ] }
+    "extend": { "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_linguistic_coprocessor", 8 ], [ "bio_shield_weak", 25 ] ] }
   },
   {
     "id": "bionics_reaver",
@@ -73,9 +73,9 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_recoil", 10 ],
-      [ "bio_forcefield_bash_cut_weak", 10 ],
+      [ "bio_shield_weak", 10 ],
       [ "afs_bio_chemical_enhancement_rig", 10 ],
-      [ "bio_forcefield_ballistic_weak", 10 ],
+      [ "bio_shield_weak", 10 ],
       [ "afs_bio_skullgun", 10 ]
     ]
   },
@@ -90,10 +90,9 @@
         [ "afs_bio_melee_optimization_unit", 10 ],
         [ "afs_bio_monowhip", 10 ],
         [ "afs_bio_blood_plus", 10 ],
-        [ "bio_forcefield_bash_cut_medium", 16 ],
-        [ "bio_forcefield_bash_cut_heavy", 3 ],
-        [ "bio_forcefield_ballistic_weak", 10 ],
-        [ "bio_forcefield_ballistic_medium", 10 ],
+        [ "bio_shield_heavy", 3 ],
+        [ "bio_shield_weak", 10 ],
+        [ "bio_shield_medium", 26 ],
         [ "afs_bio_translocator", 5 ],
         [ "afs_bio_blood_brain", 1 ],
         [ "bio_shock_absorber", 2 ],
@@ -160,7 +159,7 @@
       [ "afs_bio_melee_optimization_unit", 10 ],
       [ "afs_bio_neurosoft_aeronautics", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
-      [ "bio_forcefield_ballistic_heavy", 1 ],
+      [ "bio_shield_heavy", 1 ],
       [ "afs_bio_translocator", 5 ],
       [ "bio_shock_absorber", 2 ],
       [ "afs_bio_skullgun", 2 ]

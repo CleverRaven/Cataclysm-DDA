@@ -94,7 +94,7 @@
     "subtype": "hobby",
     "id": "newly_clairsentient",
     "name": "Newly-Awakened Clairsentient",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you you just knew they were there.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you, you just knew they were there.",
     "points": 5,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ]
   },
@@ -152,7 +152,7 @@
     "subtype": "hobby",
     "id": "mid_electrokinetic",
     "name": "Arising Electrokinetic",
-    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You an hurl lightning bolts from your hands, like some kind of superhero, and your smartphone still has a full charge even though you haven't plugged it in in weeks.  Some kind of huge wasp attacked you in the woods and there was a crackle like thunder and it fell to the ground twitching.  You didn't stop to check if it would move again.",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You an hurl lightning bolts from your hands, like some kind of superhero, and your smartphone still has a full charge even though you haven't plugged it in weeks.  Some kind of huge wasp attacked you in the woods and there was a crackle like thunder and it fell to the ground twitching.  You didn't stop to check if it would move again.",
     "points": 7,
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
     "skills": [ { "level": 6, "name": "metaphysics" } ],

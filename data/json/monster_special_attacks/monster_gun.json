@@ -206,6 +206,33 @@
     "durability": 5
   },
   {
+    "id": "civilian_glock19",
+    "copy-from": "glock_19",
+    "looks_like": "glock_19",
+    "flags": [ "PSEUDO" ],
+    "type": "GUN",
+    "name": { "str": "Fighters' Glock 19", "//~": "NO_I18N" },
+    "description": {
+      "str": "A gun carried by civilian monsters, more inaccurate for balancing reasons.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
+    "dispersion": 960,
+    "durability": 5
+  },
+  {
+    "id": "civilian_AR-15",
+    "copy-from": "modular_ar15",
+    "looks_like": "modular_ar15",
+    "flags": [ "PSEUDO" ],
+    "type": "GUN",
+    "ammo": [ "223" ],
+    "name": { "str": "Cops' AR15", "//~": "NO_I18N" },
+    "//": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
+    "dispersion": 960,
+    "durability": 5,
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30" ] } ]
+  },
+  {
     "id": "acid_spit",
     "type": "GUN",
     "copy-from": "fake_item",

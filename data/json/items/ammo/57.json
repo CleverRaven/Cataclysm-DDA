@@ -21,7 +21,7 @@
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 18 },
     "dispersion": 40,
-    "recoil": 90,
+    "recoil": 515,
     "effects": [ "COOKOFF" ]
   },
   {

@@ -4,10 +4,16 @@
     "id": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND",
     "condition": {
       "or": [
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         {
           "and": [
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            {
+              "or": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" }
+              ]
+            },
             { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
             { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
             { "not": { "u_is_on_terrain": "t_fungus" } },
@@ -26,10 +32,16 @@
     "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON",
     "condition": {
       "or": [
-        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        { "math": [ "u_val('pos_z') <= -1" ] },
         {
           "and": [
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            {
+              "or": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" }
+              ]
+            },
             { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
             { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
             { "not": { "u_is_on_terrain": "t_fungus" } },
@@ -64,10 +76,16 @@
         { "u_has_effect": "effect_ierde_sense_nearby_monsters" },
         {
           "or": [
-            { "math": [ "u_val('pos_z')", ">=", "1" ] },
+            { "math": [ "u_val('pos_z') >= 1" ] },
             {
               "or": [
-                { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
+                {
+                  "and": [
+                    { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
+                    { "not": { "u_is_on_terrain": "t_rock_floor" } },
+                    { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } }
+                  ]
+                },
                 { "u_is_on_terrain": "t_grass_alien" },
                 { "u_is_on_terrain": "t_vitrified_sand" },
                 { "u_is_on_terrain": "t_pit_corpsed" },
@@ -282,10 +300,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_activated",
+    "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
+    "effect": { "u_add_effect": "effect_ierde_rooted_in_place", "duration": "PERMANENT" },
+    "false_effect": { "u_message": "You must be standing on the living earth to root yourself in place.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "0.5",
           "spell_to_cast": "ierde_smashing_punch_spell",
@@ -298,10 +323,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_activate",
-    "condition": { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+    "condition": { "math": [ "u_val('pos_z') <= -1" ] },
     "effect": [
       {
-        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "run_eocs": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "ierde_no_sleep_meditate_spell",
@@ -315,7 +340,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE",
-    "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
+    "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] } ] },
     "effect": [ { "u_assign_activity": "ACT_IERDE_NO_SLEEP_MEDITATE", "duration": "510 minutes" } ],
     "false_effect": [ { "u_message": "You're feeling refreshed and have no need to begin a vigil.", "type": "mixed" } ]
   },
@@ -332,7 +357,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_TURN",
-    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] },
+    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] },
     "effect": [ { "run_eocs": [ "EOC_IERDE_SLEEP_SLEEPINESS", "EOC_IERDE_SLEEP_DEPRIVATION" ] } ],
     "false_effect": [
       {
@@ -346,13 +371,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_SLEEPINESS",
-    "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
+    "condition": { "and": [ { "math": [ "u_val('sleepiness') >= 0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
     "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_DEPRIVATION",
-    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
+    "condition": { "math": [ "u_val('sleep_deprivation') >= 0" ] },
     "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
   },
   {
@@ -386,7 +411,7 @@
         }
       },
       {
-        "math": [ "u_earthen_shield_protection_level", "=", "(u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
+        "math": [ "u_earthen_shield_protection_level = (u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
       }
     ],
     "false_effect": [ { "u_message": "You must be on living earth or stone to create the earthen shield.", "type": "bad" } ]
@@ -396,7 +421,7 @@
     "id": "EOC_IERDE_EARTHEN_SHIELD_REDUCER",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
-    "condition": { "math": [ "u_earthen_shield_protection_level", ">=", "1" ] },
+    "condition": { "math": [ "u_earthen_shield_protection_level >= 1" ] },
     "effect": [ { "math": [ "u_earthen_shield_protection_level", "-=", "1" ] } ],
     "false_effect": [ { "u_lose_effect": "effect_ierde_earthen_shield" } ]
   },
@@ -431,7 +456,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SLEEP_IN_EARTH",
-    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "condition": { "not": { "math": [ "u_val('pos_z') == -9" ] } },
     "effect": [
       {
         "run_eocs": {
@@ -484,7 +509,7 @@
     "eoc_type": "EVENT",
     "//": "No cheating and teleporting out to keep your buffs",
     "required_event": "avatar_moves",
-    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "IERDE_STONE_SLEEP" } ] },
+    "condition": { "and": [ { "not": { "math": [ "u_val('pos_z') == -9" ] } }, { "u_has_trait": "IERDE_STONE_SLEEP" } ] },
     "effect": [ { "u_lose_trait": "IERDE_STONE_SLEEP" } ]
   },
   {
@@ -598,7 +623,7 @@
             { "u_is_on_terrain": "t_dirt_underground" }
           ]
         },
-        { "math": [ "u_val('pos_z')", "<=", "-2" ] }
+        { "math": [ "u_val('pos_z') <= -2" ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
@@ -616,7 +641,7 @@
             { "u_is_on_terrain": "t_dirt_underground" }
           ]
         },
-        { "math": [ "u_val('pos_z')", "<=", "-2" ] }
+        { "math": [ "u_val('pos_z') <= -2" ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "ierde_tunnel_translocation_attune_real" }, "targeted": true } ],
@@ -632,17 +657,20 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_FORM_PER_TURN",
-    "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
-    "false_effect": [
-      { "u_message": "You do not have enough mana to maintain your earthen body!", "type": "bad" },
-      { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" }
-    ]
+    "id": "EOC_IERDE_STONE_FORM_OFF",
+    "effect": [ { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_FORM_OFF",
-    "effect": [ { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" } ]
+    "id": "EOC_IERDE_BODY_OF_ADAMANT_LIMB_HEALER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "IERDE_NO_BROKEN_BONES" },
+    "effect": [
+      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')++" ] } },
+      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
+      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
+      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } }
+    ]
   }
 ]

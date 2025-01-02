@@ -188,14 +188,11 @@
     "name": "Manatricity",
     "description": "You have found a way to convert your mana into power you can use for your bionics.",
     "valid_targets": [ "self" ],
-    "flags": [ "RESTORATION_SPELL", "NO_LEGS", "NO_HANDS", "SOMATIC", "VERBAL", "SILENT" ],
+    "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "NO_LEGS", "NO_HANDS", "SOMATIC", "VERBAL", "SILENT" ],
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
-    "min_damage": 250,
-    "damage_increment": 50.0,
-    "max_damage": 15000,
-    "base_energy_cost": 250,
-    "energy_increment": 50.0,
-    "final_energy_cost": 15000,
+    "min_damage": { "math": [ "(u_spell_level('recover_bionic_power') * 80) + 125" ] },
+    "max_damage": { "math": [ "(u_spell_level('recover_bionic_power') * 200) + 300" ] },
+    "base_energy_cost": 550,
     "max_level": 25,
     "spell_class": "TECHNOMANCER",
     "effect": "recover_energy",
@@ -234,7 +231,7 @@
     "name": "Taze",
     "description": "This spell arcs two small bolts of electricity into a target, shocking them.",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "flags": [ "EVOCATION_SPELL", "NO_LEGS", "LOUD", "SOMATIC", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "NO_LEGS", "LOUD", "SOMATIC", "NO_HANDS" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
@@ -249,9 +246,8 @@
     "final_energy_cost": 30,
     "max_level": 20,
     "damage_type": "electric",
-    "min_damage": 10,
-    "max_damage": 30,
-    "damage_increment": 1.0,
+    "min_damage": { "math": [ "(u_spell_level('taze') * 0.3) + 3" ] },
+    "max_damage": { "math": [ "(u_spell_level('taze') * 0.75) + 8" ] },
     "min_range": 1,
     "max_range": 4,
     "range_increment": 0.2
@@ -317,7 +313,7 @@
     "name": "Laze",
     "description": "You concentrate and release a focused beam of photons at a target, also known as a laser.",
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "flags": [ "EVOCATION_SPELL", "NO_LEGS", "LOUD", "SOMATIC", "NO_PROJECTILE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "NO_LEGS", "LOUD", "SOMATIC", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "line",
@@ -331,9 +327,8 @@
     "base_energy_cost": 150,
     "energy_increment": -2.0,
     "final_energy_cost": 110,
-    "min_damage": 15,
-    "max_damage": 60,
-    "damage_increment": 2.5,
+    "min_damage": { "math": [ "(u_spell_level('laze') * 0.8) + 4" ] },
+    "max_damage": { "math": [ "(u_spell_level('laze') * 2) + 10" ] },
     "damage_type": "light",
     "min_range": 10,
     "max_range": 25,
@@ -512,8 +507,8 @@
   {
     "id": "overcharge_burn",
     "type": "SPELL",
-    "name": "Overcharge Burn",
-    "description": "The side effects of casting the overcharge spell.",
+    "name": { "str": "Overcharge Burn", "//~": "NO_I18N" },
+    "description": { "str": "The side effects of casting the overcharge spell.", "//~": "NO_I18N" },
     "message": "",
     "effect": "spawn_item",
     "effect_str": "overcharge_burn_scar",
@@ -537,9 +532,8 @@
     "effect": "attack",
     "shape": "cone",
     "extra_effects": [ { "id": "overcharge_burn", "hit_self": true }, { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "min_damage": 90,
-    "damage_increment": 5.0,
-    "max_damage": 200,
+    "min_damage": { "math": [ "(u_spell_level('overcharge_eyes') * 1.8) + 50" ] },
+    "max_damage": { "math": [ "(u_spell_level('overcharge_eyes') * 3.8) + 70" ] },
     "min_range": 8,
     "range_increment": 0.35,
     "max_range": 20,
@@ -556,7 +550,7 @@
     "base_casting_time": 120,
     "final_casting_time": 120,
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE" ]
   },
   {
     "type": "SPELL",
@@ -638,7 +632,7 @@
     "name": "Knifeshot",
     "description": "This spell generates a magnetic field around a knife, before launching it at high speed.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "SILENT", "SOMATIC", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "SILENT", "SOMATIC", "NO_HANDS" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "components": "spell_components_knifeshot",
     "effect": "attack",
@@ -651,9 +645,8 @@
     "casting_time_increment": -15,
     "final_casting_time": 300,
     "base_energy_cost": 50,
-    "min_damage": 30,
-    "max_damage": 70,
-    "damage_increment": 2.0,
+    "min_damage": { "math": [ "(u_spell_level('technomancer_knifeshot') * 0.6) + 9" ] },
+    "max_damage": { "math": [ "(u_spell_level('technomancer_knifeshot') * 1.6) + 19" ] },
     "damage_type": "stab",
     "min_range": 10,
     "max_range": 20,
@@ -669,7 +662,7 @@
     "name": "Hypervelocity Knifeshot",
     "description": "This spell goes even further beyond, launching a knife so fast it can pierce through targets.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "EVOCATION_SPELL", "CONCENTRATE", "LOUD", "SOMATIC", "NO_HANDS", "NO_FAIL" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "LOUD", "SOMATIC", "NO_HANDS", "NO_FAIL" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "components": "spell_components_knifeshot",
     "effect": "attack",
@@ -680,8 +673,9 @@
     "max_level": 1,
     "base_casting_time": 500,
     "base_energy_cost": 125,
-    "min_damage": 125,
-    "max_damage": 125,
+    "//": "The damage being unaffected by spell level is intentional",
+    "min_damage": 70,
+    "max_damage": 100,
     "damage_type": "bullet",
     "min_range": 7,
     "max_range": 7,
@@ -736,12 +730,12 @@
     "id": "technomancer_conjure_ups",
     "type": "SPELL",
     "name": "Power Supply",
-    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  It will continually recharge until the duration expires.",
+    "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  Just keep it on your person and it will continually recharge your electronic devices until the duration expires.",
     "valid_targets": [ "self" ],
     "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CONJURE_UPS_SWITCHER",
+    "effect_str": "EOC_CONJURE_UPS_INITIATE",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "difficulty": 7,
@@ -751,29 +745,137 @@
     "duration_increment": 10000,
     "energy_source": "MANA",
     "base_casting_time": 3000,
-    "base_energy_cost": 300,
-    "final_energy_cost": 450,
-    "energy_increment": 7
+    "base_energy_cost": 350
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CONJURE_UPS_SWITCHER",
+    "id": "EOC_CONJURE_UPS_INITIATE",
     "effect": [
       {
-        "queue_eocs": "EOC_CONJURE_UPS_REMOVER",
+        "run_eocs": "EOC_CONJURE_UPS_REMOVER",
         "time_in_future": { "math": [ "((u_spell_level('technomancer_conjure_ups') * 100 ) + 1000) * summoning_proficiency_modifier()" ] }
       },
+      { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_BEGIN" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_BEGIN",
+    "condition": { "u_has_item": "technomancer_summoned_ups" },
+    "effect": [
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_BEGIN", "time_in_future": 60 },
       {
-        "switch": { "math": [ "u_spell_level('technomancer_conjure_ups')" ] },
-        "cases": [
-          { "case": 0, "effect": [ { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true } ] },
-          { "case": 4, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_2", "suppress_message": true } ] },
-          { "case": 8, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_3", "suppress_message": true } ] },
-          { "case": 12, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_4", "suppress_message": true } ] },
-          { "case": 16, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_5", "suppress_message": true } ] },
-          { "case": 20, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_6", "suppress_message": true } ] }
+        "math": [ "u_technomancer_conjure_ups_powering", "=", "( (u_spell_level('technomancer_conjure_ups') / 3) + 1) " ]
+      },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT",
+    "//": "recursively runs until available power is < 1 or all items are charged",
+    "condition": { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] },
+    "effect": [
+      { "math": [ "u_technomancer_conjure_ups_item_count = 0" ] },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT" },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_AMMEND_ITEM_COUNT" },
+      {
+        "math": [
+          "u_technomancer_conjure_ups_max_indv_power",
+          "=",
+          "floor(u_technomancer_conjure_ups_powering / u_technomancer_conjure_ups_item_count)"
+        ]
+      },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS",
+    "//": "power uncharged items and calls the main eoc to deal with any remaining power left over",
+    "condition": {
+      "and": [
+        { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] },
+        { "math": [ "u_technomancer_conjure_ups_item_count >= 1" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
+        "true_eocs": [
+          {
+            "id": "EOC_CONJURE_UPS_EFFECT_POWER_ITEMS_DISTRIBUTION",
+            "condition": {
+              "and": [ { "math": [ "n_val('power') < n_val('power_max')" ] }, { "math": [ "u_technomancer_conjure_ups_powering >= 1" ] } ]
+            },
+            "effect": [
+              {
+                "if": { "math": [ "u_technomancer_conjure_ups_max_indv_power >= 1" ] },
+                "then": {
+                  "math": [
+                    "u_technomancer_conjure_ups_powering_used",
+                    "=",
+                    "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_max_indv_power )"
+                  ]
+                },
+                "else": {
+                  "math": [
+                    "u_technomancer_conjure_ups_powering_used",
+                    "=",
+                    "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_powering )"
+                  ]
+                }
+              },
+              {
+                "math": [
+                  "u_technomancer_conjure_ups_powering_used",
+                  "=",
+                  "min( n_val('power_max') - n_val('power'), u_technomancer_conjure_ups_max_indv_power )"
+                ]
+              },
+              { "math": [ "n_val('power')", "+=", "u_technomancer_conjure_ups_powering_used" ] },
+              { "math": [ "u_technomancer_conjure_ups_powering", "-=", "u_technomancer_conjure_ups_powering_used" ] }
+            ]
+          }
+        ]
+      },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT",
+    "//": "get total items without max power",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "uses_energy": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_CONJURE_UPS_EFFECT_GET_ITEM_COUNT_2",
+            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "effect": [ { "math": [ "u_technomancer_conjure_ups_item_count++" ] } ]
+          }
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_EFFECT_AMMEND_ITEM_COUNT",
+    "//": "Reduce item count if the total chargeable power / uncharged item count is less than 1.",
+    "condition": {
+      "and": [
+        { "math": [ "u_technomancer_conjure_ups_powering", ">=", "1" ] },
+        { "math": [ "u_technomancer_conjure_ups_item_count", ">=", "1" ] },
+        { "math": [ "u_technomancer_conjure_ups_powering / u_technomancer_conjure_ups_item_count", "<", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_technomancer_conjure_ups_item_count--" ] },
+      { "run_eocs": "EOC_CONJURE_UPS_EFFECT_AMMEND_ITEM_COUNT" }
     ]
   },
   {
@@ -818,15 +920,14 @@
     "description": "This fancifully-named spell actually restores power to a battery or power grid.  An esoteric curiosity until electrical power became widespread, even then the power efficiency of fossil fuels rendered it a niche spell.",
     "valid_targets": [ "ground" ],
     "spell_class": "TECHNOMANCER",
-    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "CHANNELING_SPELL", "RANDOM_DAMAGE", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "difficulty": 5,
     "max_level": 20,
     "effect": "recharge_vehicle",
     "shape": "blast",
-    "min_damage": 3000,
-    "max_damage": 50000,
-    "damage_increment": 2350,
+    "min_damage": { "math": [ "(u_spell_level('technomancer_recharge_vehicle') * 1650) + 1500" ] },
+    "max_damage": { "math": [ "(u_spell_level('technomancer_recharge_vehicle') * 2400) + 2500" ] },
     "min_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 500,

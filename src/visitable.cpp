@@ -127,7 +127,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int qty = 0;
 
-    point pos = veh.part( part ).mount;
+    point_rel_ms pos = veh.part( part ).mount;
     for( const int n : veh.parts_at_relative( pos, true ) ) {
         const vehicle_part &vp = veh.part( n );
         // only unbroken parts can provide tool qualities
@@ -241,7 +241,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int res = INT_MIN;
 
-    point pos = veh.part( part ).mount;
+    point_rel_ms pos = veh.part( part ).mount;
     for( const int &n : veh.parts_at_relative( pos, true ) ) {
         const vehicle_part &vp = veh.part( n );
 
@@ -274,7 +274,7 @@ int Character::max_quality( const quality_id &qual ) const
     }
 
     if( qual == qual_BUTCHER ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             res = std::max( res, mut->butchering_quality );
         }
     }
@@ -288,7 +288,7 @@ int Character::max_quality( const quality_id &qual, int radius ) const
 
     if( radius > 0 ) {
         res = std::max( res,
-                        crafting_inventory( tripoint_zero, radius, true )
+                        crafting_inventory( tripoint_bub_ms::zero, radius, true )
                         .max_quality( qual ) );
     }
 
@@ -353,7 +353,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
-        /* intentional fallthrough */
+            [[fallthrough]];
 
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;

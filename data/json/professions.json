@@ -495,7 +495,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "socks_wool",
-    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "socks" ] } ]
+    "sub": [ { "present": [ "VEGAN" ], "new": [ "socks" ] }, { "present": [ "WOOLALLERGY" ], "new": [ "socks" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -600,7 +600,7 @@
       {
         "present": [ "ANTIWHEAT", "ANTIJUNK" ],
         "absent": [ "VEGETARIAN" ],
-        "new": [ { "item": "fish_fried", "ratio": 2 }, { "item": "fork", "ratio": 0.5 } ]
+        "new": [ { "item": "fish_fried", "ratio": 1 }, { "item": "fork", "ratio": 0.5 } ]
       }
     ]
   },
@@ -618,7 +618,7 @@
       {
         "present": [ "ANTIWHEAT", "ANTIJUNK" ],
         "absent": [ "VEGETARIAN" ],
-        "new": [ { "item": "fish_fried", "ratio": 2 }, { "item": "fork", "ratio": 0.5 } ]
+        "new": [ { "item": "fish_fried", "ratio": 1 }, { "item": "fork", "ratio": 0.5 } ]
       },
       { "present": [ "MEATARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_meat" ] }
     ]
@@ -1262,7 +1262,7 @@
           { "item": "mouthpiece" },
           { "item": "socks_ankle" },
           { "item": "cleats" },
-          { "item": "football" },
+          { "item": "football", "custom-flags": [ "auto_wield" ] },
           { "item": "knee_pads" },
           { "item": "sports_drink" },
           { "item": "jersey", "snippets": [ "endsville" ] },
@@ -1703,7 +1703,7 @@
           { "item": "pliers" },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "item": "jack" },
-          { "item": "tinyweldtank", "charges": 60, "container-item": "oxy_torch" }
+          { "item": "smallweldtank", "charges": 60, "container-item": "oxy_torch" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -4095,7 +4095,7 @@
           { "item": "bra" },
           { "item": "panties" },
           { "item": "dress" },
-          { "item": "purse" },
+          { "item": "purse", "custom-flags": [ "auto_wield" ] },
           { "item": "tourmaline_silver_bracelet" }
         ]
       }
@@ -5153,7 +5153,6 @@
           { "item": "jacket_light" },
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "pizza_veggy", "count": 4, "container-item": "null", "entry-wrapper": "box_small" },
           { "item": "pizza_meat", "count": 4, "container-item": "null", "entry-wrapper": "box_small" },
           { "item": "money_strap_one" },
           { "item": "wristwatch" },
@@ -7914,7 +7913,7 @@
           { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "camera_pro", "charges": 300 },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "wearable_light" }
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 56, "container-item": "wearable_light" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },

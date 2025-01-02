@@ -3,7 +3,12 @@
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_BASE_1",
     "//": "Check, do player has enough processed sparks to beat the difficulty. If true, substract difficulty from vitamin, increase difficulty for 5, roll_remainder recipe, process sparks, print success message. If false, give 1 processed spark, process sparks, print a fail message.",
-    "condition": { "math": [ "u_vitamin('creative_spark_research')", ">=", "base_difficulty_1" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_1" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_1" ] },
       { "math": [ "base_difficulty_1", "+=", "2" ] },
@@ -44,7 +49,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_BASE_2",
-    "condition": { "math": [ "u_vitamin('creative_spark_research')", ">=", "base_difficulty_2" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_2" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_2" ] },
       { "math": [ "base_difficulty_2", "+=", "3" ] },
@@ -56,6 +66,7 @@
           "wolf_mask",
           "magnetic_holster",
           "binary_sword",
+          "cosmic_dagwood",
           "bio_launcher",
           "bio_warhead",
           "trinket_damage",
@@ -91,7 +102,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_BASE_3",
-    "condition": { "math": [ "u_vitamin('creative_spark_research')", ">=", "base_difficulty_3" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_3" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "base_difficulty_3" ] },
       { "math": [ "base_difficulty_3", "+=", "4" ] },
@@ -130,7 +146,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_ENERGY_1",
-    "condition": { "math": [ "u_vitamin('creative_spark_research')", ">=", "energy_difficulty_1" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= energy_difficulty_1" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_1" ] },
       { "math": [ "energy_difficulty_1", "+=", "2" ] },
@@ -171,7 +192,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_ENERGY_2",
-    "condition": { "math": [ "u_vitamin('creative_spark_research')", ">=", "energy_difficulty_2" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= energy_difficulty_2" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_2" ] },
       { "math": [ "energy_difficulty_2", "+=", "3" ] },
@@ -219,7 +245,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_ENERGY_3",
-    "condition": { "math": [ "u_vitamin('creative_spark_research')", ">=", "energy_difficulty_3" ] },
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('creative_spark_research') >= energy_difficulty_3" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
+      ]
+    },
     "effect": [
       { "math": [ "u_vitamin('creative_spark_research')", "-=", "energy_difficulty_3" ] },
       { "math": [ "energy_difficulty_3", "+=", "4" ] },
@@ -265,8 +296,9 @@
     "id": "EOC_INVENTOR_RESEARCH_AI_1",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('creative_spark_research')", ">=", "base_difficulty_3" ] },
-        { "math": [ "AI_sparks", ">=", "AI_difficulty_1" ] }
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_3" ] },
+        { "math": [ "AI_sparks >= AI_difficulty_1" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
       ]
     },
     "effect": [
@@ -302,8 +334,9 @@
     "id": "EOC_INVENTOR_RESEARCH_DIMENSION_1",
     "condition": {
       "and": [
-        { "math": [ "u_vitamin('creative_spark_research')", ">=", "base_difficulty_3" ] },
-        { "math": [ "dimension_sparks", ">=", "dimension_difficulty_1" ] }
+        { "math": [ "u_vitamin('creative_spark_research') >= base_difficulty_3" ] },
+        { "math": [ "dimension_sparks >= dimension_difficulty_1" ] },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
       ]
     },
     "effect": [
@@ -313,7 +346,14 @@
       { "math": [ "dimension_difficulty_1", "+=", "5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
-        "u_roll_remainder": [ "rip_ticket", "inventor_warp_grenade", "inventor_portal_closer", "teleporter_inventor" ],
+        "u_roll_remainder": [
+          "rip_ticket",
+          "inventor_warp_grenade",
+          "inventor_portal_closer",
+          "teleporter_inventor",
+          "xedra_inventor_time_pierce_tool",
+          "xedra_inventor_damage_reversal_device"
+        ],
         "type": "recipe",
         "true_eocs": [ "EOC_INVENTOR_MESSAGE_GOOD" ],
         "false_eocs": {
@@ -337,7 +377,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_PROCESS_SPARKS",
-    "condition": { "math": [ "u_vitamin('creative_spark')", ">", "0" ] },
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('creative_spark') > 0" ] }, { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" } ]
+    },
     "effect": [
       {
         "math": [
@@ -346,7 +388,7 @@
           "u_vitamin('creative_spark') * floor( (base_difficulty_1 + base_difficulty_2 + base_difficulty_3 + energy_difficulty_1 + energy_difficulty_2 + energy_difficulty_3 + AI_difficulty_1 + dimension_difficulty_1) / 8 )"
         ]
       },
-      { "math": [ "u_vitamin('creative_spark')", "=", "0" ] },
+      { "math": [ "u_vitamin('creative_spark') = 0" ] },
       {
         "u_message": "creative_spark_research = <u_val:creative_spark_research>,\n base_difficulty_1 = <u_val:base_difficulty_1>,\n base_difficulty_2 = <u_val:base_difficulty_2>,\n base_difficulty_3 = <u_val:base_difficulty_3>,\n energy_difficulty_1 = <u_val:energy_difficulty_1>,\n energy_difficulty_2 = <u_val:energy_difficulty_2>,\n energy_difficulty_3 = <u_val:energy_difficulty_3>,\n dimension_sparks = <u_val:dimension_sparks>,\n dimension_difficulty_1 = <u_val:dimension_difficulty_1>.",
         "type": "debug"

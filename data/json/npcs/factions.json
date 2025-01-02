@@ -243,11 +243,7 @@
     "price_rules": [
       { "item": "money_strap_FMCNote", "fixed_adj": 0 },
       { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
-      {
-        "item": "RobofacCoin",
-        "fixed_adj": 0.15,
-        "condition": { "math": [ "free_merchants_hub_trade_route", "==", "2" ] }
-      },
+      { "item": "RobofacCoin", "fixed_adj": 0.15, "condition": { "math": [ "free_merchants_hub_trade_route == 2" ] } },
       { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
       { "group": "games_board_all", "premium": 2.5 }
     ],
@@ -874,6 +870,7 @@
     "likes_u": 30,
     "respects_u": 20,
     "known_by_u": false,
+    "limited_area_claim": true,
     "size": 1,
     "power": 1,
     "currency": "fur",
@@ -978,6 +975,7 @@
     "likes_u": 0,
     "respects_u": 0,
     "known_by_u": true,
+    "limited_area_claim": true,
     "size": 100,
     "power": 100,
     "//": "7 days worth of food for 10 people, at 3000kcal/day and *half* RDA of iron/calcium/vitC",

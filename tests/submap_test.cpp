@@ -108,7 +108,7 @@ TEST_CASE( "submap_rotation2", "[submap]" )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             point_sm_ms p( x, y );
-            point_sm_ms p_after_rotation = point_sm_ms( p.raw().rotate( rotation_turns, {SEEX, SEEY} ) );
+            point_sm_ms p_after_rotation = p.rotate( rotation_turns, {SEEX, SEEY} );
 
             CAPTURE( p, p_after_rotation );
             CHECK( sm.get_radiation( p_after_rotation ) == sm_copy.get_radiation( p ) );

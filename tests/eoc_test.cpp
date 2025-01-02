@@ -8,6 +8,7 @@
 #include "make_static.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "overmapbuffer.h"
 #include "timed_event.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -32,6 +33,10 @@ effect_on_condition_EOC_armor_math_test( "EOC_armor_math_test" );
 static const effect_on_condition_id effect_on_condition_EOC_attack_test( "EOC_attack_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_combat_mutator_test( "EOC_combat_mutator_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_match_all_test( "EOC_compare_string_match_all_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_compare_string_test( "EOC_compare_string_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_increment_var_var( "EOC_increment_var_var" );
 static const effect_on_condition_id
@@ -121,6 +126,15 @@ static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_
 static const effect_on_condition_id
 effect_on_condition_EOC_test_weapon_damage( "EOC_test_weapon_damage" );
 static const effect_on_condition_id effect_on_condition_EOC_try_kill( "EOC_try_kill" );
+static const effect_on_condition_id effect_on_condition_run_eocs_1( "run_eocs_1" );
+static const effect_on_condition_id effect_on_condition_run_eocs_2( "run_eocs_2" );
+static const effect_on_condition_id effect_on_condition_run_eocs_3( "run_eocs_3" );
+static const effect_on_condition_id effect_on_condition_run_eocs_5( "run_eocs_5" );
+static const effect_on_condition_id effect_on_condition_run_eocs_7( "run_eocs_7" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes( "run_eocs_talker_mixes" );
+static const effect_on_condition_id
+effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -198,14 +212,14 @@ TEST_CASE( "EOC_teleport", "[eoc]" )
     effect_on_condition_EOC_teleport_test->activate( newDialog );
     tripoint_abs_ms after = get_avatar().get_location();
 
-    CHECK( before + tripoint_south_east == after );
+    CHECK( before + tripoint::south_east == after );
 }
 
 TEST_CASE( "EOC_beta_elevate", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
+    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
 
     REQUIRE( n.hp_percentage() > 0 );
 
@@ -222,15 +236,15 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
-    REQUIRE( globvars.get_global_value( "npctalk_var_math_test" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_math_test_result" ).empty() );
+    REQUIRE( globvars.get_global_value( "math_test" ).empty() );
+    REQUIRE( globvars.get_global_value( "math_test_result" ).empty() );
     calendar::turn = calendar::start_of_cataclysm;
 
     CHECK_FALSE( effect_on_condition_EOC_math_test_greater_increment->test_condition( d ) );
     effect_on_condition_EOC_math_test_greater_increment->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test" ) ) == Approx( -1 ) );
+    CHECK( std::stod( globvars.get_global_value( "math_test" ) ) == Approx( -1 ) );
     effect_on_condition_EOC_math_switch_math->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test_result" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "math_test_result" ) ) == Approx( 1 ) );
     CHECK( effect_on_condition_EOC_math_duration->recurrence.evaluate( d ) == 1_turns );
     calendar::turn += 1_days;
 
@@ -240,16 +254,16 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_math_test_equals_assign->test_condition( d ) );
     CHECK( effect_on_condition_EOC_math_test_inline_condition->test_condition( d ) );
     effect_on_condition_EOC_math_test_equals_assign->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test" ) ) == Approx( 9 ) );
+    CHECK( std::stod( globvars.get_global_value( "math_test" ) ) == Approx( 9 ) );
     effect_on_condition_EOC_math_switch_math->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test_result" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "math_test_result" ) ) == Approx( 2 ) );
     CHECK( effect_on_condition_EOC_math_duration->recurrence.evaluate( d ) == 2_turns );
 
     CHECK( effect_on_condition_EOC_math_test_greater_increment->test_condition( d ) );
     effect_on_condition_EOC_math_test_greater_increment->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test" ) ) == Approx( 10 ) );
+    CHECK( std::stod( globvars.get_global_value( "math_test" ) ) == Approx( 10 ) );
     effect_on_condition_EOC_math_switch_math->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_math_test_result" ) ) == Approx( 3 ) );
+    CHECK( std::stod( globvars.get_global_value( "math_test_result" ) ) == Approx( 3 ) );
     CHECK( effect_on_condition_EOC_math_duration->recurrence.evaluate( d ) == 3_turns );
 
     int const stam_pre = get_avatar().get_stamina();
@@ -259,34 +273,34 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     get_avatar().set_pain( 0 );
     get_avatar().set_stamina( 9000 );
     effect_on_condition_EOC_math_weighted_list->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( -999 ) );
+    CHECK( std::stod( globvars.get_global_value( "weighted_var" ) ) == Approx( -999 ) );
     get_avatar().set_pain( 9000 );
     get_avatar().set_stamina( 0 );
     effect_on_condition_EOC_math_weighted_list->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "weighted_var" ) ) == Approx( 1 ) );
 }
 
 TEST_CASE( "EOC_jmath", "[eoc][math_parser]" )
 {
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
-    REQUIRE( globvars.get_global_value( "npctalk_var_blorgy" ).empty() );
+    REQUIRE( globvars.get_global_value( "blorgy" ).empty() );
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     effect_on_condition_EOC_jmath_test->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_blorgy" ) ) == Approx( 7 ) );
+    CHECK( std::stod( globvars.get_global_value( "blorgy" ) ) == Approx( 7 ) );
 }
 
 TEST_CASE( "EOC_diag_with_vars", "[eoc][math_parser]" )
 {
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
-    REQUIRE( globvars.get_global_value( "npctalk_var_myskill_math" ).empty() );
+    REQUIRE( globvars.get_global_value( "myskill_math" ).empty() );
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     effect_on_condition_EOC_math_diag_w_vars->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_myskill_math" ) ) == Approx( 0 ) );
+    CHECK( std::stod( globvars.get_global_value( "myskill_math" ) ) == Approx( 0 ) );
     get_avatar().set_skill_level( skill_survival, 3 );
     effect_on_condition_EOC_math_diag_w_vars->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_myskill_math" ) ) == Approx( 3 ) );
+    CHECK( std::stod( globvars.get_global_value( "myskill_math" ) ) == Approx( 3 ) );
 }
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
@@ -317,12 +331,15 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 {
     clear_avatar();
     clear_map();
-    standard_npc npc( "Mr. Testerman" );
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    overmap_buffer.insert_npc( guy );
+    npc &npc = *guy;
+    clear_character( npc );
     std::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
         return p.xy() != get_avatar().pos().xy();
     } );
     REQUIRE( dest.has_value() );
-    npc.setpos( { dest.value().xy(), get_avatar().pos().z } );
+    npc.setpos( { dest.value().xy(), get_avatar().posz() } );
 
     tripoint_abs_ms const start = get_avatar().get_location();
     tripoint_abs_ms const end = npc.get_location();
@@ -340,7 +357,7 @@ TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
 
     complete_activity( get_avatar() );
 
-    CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 1 );
+    CHECK( stoi( get_avatar().get_value( "activitiy_incrementer" ) ) == 1 );
 }
 
 TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
@@ -349,19 +366,19 @@ TEST_CASE( "EOC_combat_mutator_test", "[eoc]" )
     clear_map();
     item weapon( itype_test_knife_combat );
     get_avatar().set_wielded_item( weapon );
-    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
+    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
 
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( n ) );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
     CHECK( effect_on_condition_EOC_combat_mutator_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "RAPID_TEST" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Rapid Strike Test" );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "50% moves, 66% damage" );
+    CHECK( globvars.get_global_value( "key1" ) == "RAPID_TEST" );
+    CHECK( globvars.get_global_value( "key2" ) == "Rapid Strike Test" );
+    CHECK( globvars.get_global_value( "key3" ) == "50% moves, 66% damage" );
 }
 
 TEST_CASE( "EOC_alive_test", "[eoc]" )
@@ -373,16 +390,16 @@ TEST_CASE( "EOC_alive_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
     CHECK( effect_on_condition_EOC_alive_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "alive" );
+    CHECK( globvars.get_global_value( "key1" ) == "alive" );
 }
 
 TEST_CASE( "EOC_attack_test", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
+    npc &n = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
 
     dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( n ) );
     CHECK( effect_on_condition_EOC_attack_test->activate( newDialog ) );
@@ -397,19 +414,19 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_simple_global" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_nested_simple_global" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_non_nested_simple_global" ).empty() );
+    REQUIRE( globvars.get_global_value( "simple_global" ).empty() );
+    REQUIRE( globvars.get_global_value( "nested_simple_global" ).empty() );
+    REQUIRE( globvars.get_global_value( "non_nested_simple_global" ).empty() );
     CHECK( effect_on_condition_EOC_math_test_context->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_simple_global" ) ) == Approx( 12 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_nested_simple_global" ) ) == Approx(
+    CHECK( std::stod( globvars.get_global_value( "simple_global" ) ) == Approx( 12 ) );
+    CHECK( std::stod( globvars.get_global_value( "nested_simple_global" ) ) == Approx(
                7 ) );
     // shouldn't be passed back up
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_non_nested_simple_global" ) ) == Approx(
+    CHECK( std::stod( globvars.get_global_value( "non_nested_simple_global" ) ) == Approx(
                0 ) );
 
     // value shouldn't exist in the original dialogue
-    CHECK( d.get_value( "npctalk_var_simple" ).empty() );
+    CHECK( d.get_value( "simple" ).empty() );
 }
 
 TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
@@ -422,13 +439,13 @@ TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
 
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
     CHECK( effect_on_condition_EOC_options_tests->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ALWAYS" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "4" );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "1" );
+    CHECK( globvars.get_global_value( "key1" ) == "ALWAYS" );
+    CHECK( globvars.get_global_value( "key2" ) == "4" );
+    CHECK( globvars.get_global_value( "key3" ) == "1" );
 }
 
 TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
@@ -440,11 +457,11 @@ TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
     CHECK( effect_on_condition_EOC_mutator_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "zombie" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "zombie" );
+    CHECK( globvars.get_global_value( "key1" ) == "zombie" );
+    CHECK( globvars.get_global_value( "key2" ) == "zombie" );
 }
 
 TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
@@ -456,16 +473,16 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_add_intensity" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_add_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_add_intensity" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_add_turn" ).empty() );
     CHECK( effect_on_condition_EOC_math_addiction_setup->activate( d ) );
     // Finish drinking
     complete_activity( get_avatar() );
 
     CHECK( effect_on_condition_EOC_math_addiction_check->activate( d ) );
 
-    CHECK( globvars.get_global_value( "npctalk_var_key_add_intensity" ) == "1" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_add_turn" ) == "3600" );
+    CHECK( globvars.get_global_value( "key_add_intensity" ) == "1" );
+    CHECK( globvars.get_global_value( "key_add_turn" ) == "3600" );
 }
 
 TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
@@ -479,13 +496,13 @@ TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
     CHECK( effect_on_condition_EOC_math_armor->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 4 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 4 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 9 ) );
+    CHECK( std::stod( globvars.get_global_value( "key3" ) ) == Approx( 0 ) );
 }
 
 TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
@@ -498,13 +515,13 @@ TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
     globvars.clear_global_values();
 
     get_map().add_field( get_avatar().pos_bub(), fd_blood, 3 );
-    get_map().add_field( get_avatar().pos_bub() + point_south, fd_blood_insect, 3 );
+    get_map().add_field( get_avatar().pos_bub() + point::south, fd_blood_insect, 3 );
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength_north" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_field_strength" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_field_strength_north" ).empty() );
     CHECK( effect_on_condition_EOC_math_field->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_field_strength" ) == "3" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_field_strength_north" ) == "3" );
+    CHECK( globvars.get_global_value( "key_field_strength" ) == "3" );
+    CHECK( globvars.get_global_value( "key_field_strength_north" ) == "3" );
 }
 
 TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
@@ -516,11 +533,11 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_item_count" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_charge_count" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_item_count" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_charge_count" ).empty() );
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "32" );
+    CHECK( globvars.get_global_value( "key_item_count" ) == "2" );
+    CHECK( globvars.get_global_value( "key_charge_count" ) == "32" );
 }
 
 TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
@@ -532,23 +549,23 @@ TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_total_time_required" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_spent_50" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_percent_50" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_percent_50_turn" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_permille_50" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_permille_50_turn" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_left_50" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_time_left_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_total_time_required" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_time_spent_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_percent_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_percent_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_permille_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_permille_50_turn" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_time_left_50" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_time_left_50_turn" ).empty() );
     CHECK( effect_on_condition_EOC_math_proficiency->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_total_time_required" ) == "86400" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_time_spent_50" ) == "50" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_percent_50" ) == "50" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_percent_50_turn" ) == "43200" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_permille_50" ) == "50" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_permille_50_turn" ) == "4320" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_time_left_50" ) == "50" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_time_left_50_turn" ) == "86350" );
+    CHECK( globvars.get_global_value( "key_total_time_required" ) == "86400" );
+    CHECK( globvars.get_global_value( "key_time_spent_50" ) == "50" );
+    CHECK( globvars.get_global_value( "key_percent_50" ) == "50" );
+    CHECK( globvars.get_global_value( "key_percent_50_turn" ) == "43200" );
+    CHECK( globvars.get_global_value( "key_permille_50" ) == "50" );
+    CHECK( globvars.get_global_value( "key_permille_50_turn" ) == "4320" );
+    CHECK( globvars.get_global_value( "key_time_left_50" ) == "50" );
+    CHECK( globvars.get_global_value( "key_time_left_50_turn" ) == "86350" );
 }
 
 TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
@@ -560,17 +577,17 @@ TEST_CASE( "EOC_math_spell", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_level" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_school_level_test_trait" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key_spell_count_test_trait" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_highest_spell_level" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_school_level_test_trait" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_spell_count" ).empty() );
+    REQUIRE( globvars.get_global_value( "key_spell_count_test_trait" ).empty() );
     CHECK( effect_on_condition_EOC_math_spell->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_spell_level" ) == "1" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_highest_spell_level" ) == "10" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_school_level_test_trait" ) == "1" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_spell_count_test_trait" ) == "1" );
+    CHECK( globvars.get_global_value( "key_spell_level" ) == "1" );
+    CHECK( globvars.get_global_value( "key_highest_spell_level" ) == "10" );
+    CHECK( globvars.get_global_value( "key_school_level_test_trait" ) == "1" );
+    CHECK( globvars.get_global_value( "key_spell_count" ) == "2" );
+    CHECK( globvars.get_global_value( "key_spell_count_test_trait" ) == "1" );
 
     get_avatar().magic->evaluate_opens_spellbook_data();
 
@@ -591,31 +608,31 @@ TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
     globvars.clear_global_values();
     me.toggle_trait( trait_process_mutation_two );
     me.activate_mutation( trait_process_mutation_two );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+    CHECK( std::stod( globvars.get_global_value( "test_val" ) ) == Approx(
                1 ) );
-    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation_two" );
+    CHECK( globvars.get_global_value( "context_test" ) == "process_mutation_two" );
 
     // test process
     globvars.clear_global_values();
     me.suffer();
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+    CHECK( std::stod( globvars.get_global_value( "test_val" ) ) == Approx(
                1 ) );
-    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation_two" );
+    CHECK( globvars.get_global_value( "context_test" ) == "process_mutation_two" );
 
     // test deactivate
     globvars.clear_global_values();
     me.deactivate_mutation( trait_process_mutation_two );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+    CHECK( std::stod( globvars.get_global_value( "test_val" ) ) == Approx(
                1 ) );
-    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation_two" );
+    CHECK( globvars.get_global_value( "context_test" ) == "process_mutation_two" );
 
     // more complex test
     globvars.clear_global_values();
     me.toggle_trait( trait_process_mutation );
     effect_on_condition_EOC_activate_mutation_to_start_test->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
+    CHECK( std::stod( globvars.get_global_value( "test_val" ) ) == Approx(
                1 ) );
-    CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation" );
+    CHECK( globvars.get_global_value( "context_test" ) == "process_mutation" );
 }
 
 TEST_CASE( "EOC_purifiability", "[eoc][mutations]" )
@@ -653,34 +670,34 @@ TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    g->place_critter_at( mon_zombie, a.pos() + tripoint_east );
-    monster *friendo = g->place_critter_at( mon_zombie, a.pos() + tripoint{ 2, 0, 0 } );
-    g->place_critter_at( mon_triffid, a.pos() + tripoint{ 3, 0, 0 } );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint_north );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 2, 0 } );
-    g->place_critter_at( mon_zombie_tough, a.pos() + tripoint{ 0, 3, 0 } );
-    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 10, 0, 0 } );
-    g->place_critter_at( mon_zombie_smoker, a.pos() + tripoint{ 11, 0, 0 } );
+    g->place_critter_at( mon_zombie, a.pos_bub() + tripoint::east );
+    monster *friendo = g->place_critter_at( mon_zombie, a.pos_bub() + tripoint{ 2, 0, 0 } );
+    g->place_critter_at( mon_triffid, a.pos_bub() + tripoint{ 3, 0, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint::north );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint{ 0, 2, 0 } );
+    g->place_critter_at( mon_zombie_tough, a.pos_bub() + tripoint{ 0, 3, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos_bub() + tripoint{ 10, 0, 0 } );
+    g->place_critter_at( mon_zombie_smoker, a.pos_bub() + tripoint{ 11, 0, 0 } );
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_mons" ).empty() );
+    REQUIRE( globvars.get_global_value( "mons" ).empty() );
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     REQUIRE( effect_on_condition_EOC_mon_nearby_test->activate( d ) );
 
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mons" ) ) == 8 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_triffs" ) ) == 1 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_group" ) ) == 4 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 2 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_friends" ) ) == 0 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_both" ) ) == 2 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust" ) ) == 5 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zplust_adj" ) ) == 2 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_smoks" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "mons" ) ) == 8 );
+    CHECK( std::stoi( globvars.get_global_value( "triffs" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "group" ) ) == 4 );
+    CHECK( std::stoi( globvars.get_global_value( "zombs" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "zombs_friends" ) ) == 0 );
+    CHECK( std::stoi( globvars.get_global_value( "zombs_both" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "zplust" ) ) == 5 );
+    CHECK( std::stoi( globvars.get_global_value( "zplust_adj" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "smoks" ) ) == 1 );
 
     friendo->make_friendly();
     REQUIRE( effect_on_condition_EOC_mon_nearby_test->activate( d ) );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs" ) ) == 1 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_friends" ) ) == 1 );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_zombs_both" ) ) == 2 );
+    CHECK( std::stoi( globvars.get_global_value( "zombs" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "zombs_friends" ) ) == 1 );
+    CHECK( std::stoi( globvars.get_global_value( "zombs_both" ) ) == 2 );
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
@@ -692,7 +709,7 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
     complete_activity( get_avatar() );
 
     // been going for 3 whole seconds should have incremented 3 times
-    CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 3 );
+    CHECK( stoi( get_avatar().get_value( "activitiy_incrementer" ) ) == 3 );
 }
 
 TEST_CASE( "EOC_stored_condition_test", "[eoc]" )
@@ -704,30 +721,30 @@ TEST_CASE( "EOC_stored_condition_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
 
-    d.set_value( "npctalk_var_context", "0" );
+    d.set_value( "context", "0" );
 
     // running with a value of 0 will have the conditional evaluate to 0
     CHECK( effect_on_condition_EOC_stored_condition_test->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 0 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 0 ) );
-    CHECK( std::stod( d.get_value( "npctalk_var_context" ) ) == Approx( 0 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 0 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 0 ) );
+    CHECK( std::stod( d.get_value( "context" ) ) == Approx( 0 ) );
 
     // try again with a different value
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
 
-    d.set_value( "npctalk_var_context", "10" );
+    d.set_value( "context", "10" );
 
     // running with a value greater than 1 will have the conditional evaluate to 1
     CHECK( effect_on_condition_EOC_stored_condition_test->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 1 ) );
-    CHECK( std::stod( d.get_value( "npctalk_var_context" ) ) == Approx( 10 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 1 ) );
+    CHECK( std::stod( d.get_value( "context" ) ) == Approx( 10 ) );
 
 }
 
@@ -741,8 +758,8 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     CHECK( d_copy.actor( true )->get_character() != nullptr );
 
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
-    computer comp( "test_computer", 0, tripoint_zero );
+    item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
+    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
     d2_copy.set_value( "suppress", "1" );
@@ -765,8 +782,8 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     standard_npc dude;
     monster zombie( mon_zombie );
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
-    computer comp( "test_computer", 0, tripoint_zero );
+    item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
+    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
     dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );
@@ -785,52 +802,52 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     globvars.clear_global_values();
 
     CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_avatar ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ) == "yes" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_character" ) == "yes" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+    CHECK( globvars.get_global_value( "key_avatar" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "key_character" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "key_item" ).empty() );
+    CHECK( globvars.get_global_value( "key_furniture" ).empty() );
 
     globvars.clear_global_values();
 
     CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_npc ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ) == "yes" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_character" ) == "yes" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+    CHECK( globvars.get_global_value( "key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "key_npc" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_character" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "key_item" ).empty() );
+    CHECK( globvars.get_global_value( "key_furniture" ).empty() );
 
     globvars.clear_global_values();
 
     CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_monster ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ) == "yes" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+    CHECK( globvars.get_global_value( "key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "key_character" ).empty() );
+    CHECK( globvars.get_global_value( "key_monster" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_item" ).empty() );
+    CHECK( globvars.get_global_value( "key_furniture" ).empty() );
 
     globvars.clear_global_values();
 
     CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_item ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_item" ) == "yes" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ).empty() );
+    CHECK( globvars.get_global_value( "key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "key_character" ).empty() );
+    CHECK( globvars.get_global_value( "key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "key_item" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_furniture" ).empty() );
 
     globvars.clear_global_values();
 
     CHECK( effect_on_condition_EOC_meta_test_talker_type->activate( d_furniture ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_avatar" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_npc" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_character" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_monster" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_item" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key_furniture" ) == "yes" );
+    CHECK( globvars.get_global_value( "key_avatar" ).empty() );
+    CHECK( globvars.get_global_value( "key_npc" ).empty() );
+    CHECK( globvars.get_global_value( "key_character" ).empty() );
+    CHECK( globvars.get_global_value( "key_monster" ).empty() );
+    CHECK( globvars.get_global_value( "key_item" ).empty() );
+    CHECK( globvars.get_global_value( "key_furniture" ) == "yes" );
 }
 
 TEST_CASE( "EOC_increment_var_var", "[eoc]" )
@@ -842,15 +859,15 @@ TEST_CASE( "EOC_increment_var_var", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
 
     CHECK( effect_on_condition_EOC_increment_var_var->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 5 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 10 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_u" ) ) == Approx( 6 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_context" ) ) == Approx( 4 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_global_nested" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 5 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 10 ) );
+    CHECK( std::stod( globvars.get_global_value( "global_u" ) ) == Approx( 6 ) );
+    CHECK( std::stod( globvars.get_global_value( "global_context" ) ) == Approx( 4 ) );
+    CHECK( std::stod( globvars.get_global_value( "global_nested" ) ) == Approx( 2 ) );
 }
 
 TEST_CASE( "EOC_string_var_var", "[eoc]" )
@@ -862,16 +879,16 @@ TEST_CASE( "EOC_string_var_var", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key4" ).empty() );
 
     CHECK( effect_on_condition_EOC_string_var_var->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works_global" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works_context" );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "Works_u" );
-    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "Works_npc" );
+    CHECK( globvars.get_global_value( "key1" ) == "Works_global" );
+    CHECK( globvars.get_global_value( "key2" ) == "Works_context" );
+    CHECK( globvars.get_global_value( "key3" ) == "Works_u" );
+    CHECK( globvars.get_global_value( "key4" ) == "Works_npc" );
 }
 
 TEST_CASE( "EOC_run_with_test", "[eoc]" )
@@ -883,19 +900,19 @@ TEST_CASE( "EOC_run_with_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
 
     CHECK( effect_on_condition_EOC_run_with_test->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "key3" ) ) == Approx( 3 ) );
 
     // value shouldn't exist in the original dialogue
-    CHECK( d.get_value( "npctalk_var_key" ).empty() );
-    CHECK( d.get_value( "npctalk_var_key2" ).empty() );
-    CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+    CHECK( d.get_value( "key" ).empty() );
+    CHECK( d.get_value( "key2" ).empty() );
+    CHECK( d.get_value( "key3" ).empty() );
 }
 
 TEST_CASE( "EOC_run_until_test", "[eoc]" )
@@ -907,10 +924,10 @@ TEST_CASE( "EOC_run_until_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
 
     CHECK( effect_on_condition_EOC_run_until_test->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 10000 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 10000 ) );
 }
 
 TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
@@ -922,23 +939,23 @@ TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
 
     CHECK( capture_debugmsg_during( [&]() {
         effect_on_condition_EOC_run_with_test_expects_fail->activate( d );
     } ) == "Missing required variables: key1, key2, key3, " );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    CHECK( globvars.get_global_value( "key1" ).empty() );
+    CHECK( globvars.get_global_value( "key2" ).empty() );
+    CHECK( globvars.get_global_value( "key3" ).empty() );
 
     globvars.clear_global_values();
 
     effect_on_condition_EOC_run_with_test_expects_pass->activate( d );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "key3" ) ) == Approx( 3 ) );
 }
 
 TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
@@ -950,23 +967,23 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
 
     CHECK( effect_on_condition_EOC_run_with_test_queued->activate( d ) );
 
     set_time( calendar::turn + 2_seconds );
     effect_on_conditions::process_effect_on_conditions( get_avatar() );
 
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+    CHECK( std::stod( globvars.get_global_value( "key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "key3" ) ) == Approx( 3 ) );
 
     // value shouldn't exist in the original dialogue
-    CHECK( d.get_value( "npctalk_var_key" ).empty() );
-    CHECK( d.get_value( "npctalk_var_key2" ).empty() );
-    CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+    CHECK( d.get_value( "key" ).empty() );
+    CHECK( d.get_value( "key2" ).empty() );
+    CHECK( d.get_value( "key3" ).empty() );
 }
 
 TEST_CASE( "EOC_run_inv_test", "[eoc]" )
@@ -975,13 +992,13 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     clear_map();
 
     tripoint_abs_ms pos_before = get_avatar().get_location();
-    tripoint_abs_ms pos_after = pos_before + tripoint_south_east;
+    tripoint_abs_ms pos_after = pos_before + tripoint::south_east;
 
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
 
     effect_on_condition_EOC_run_inv_prepare->activate( d );
     std::vector<item *> items_before = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key1" ).empty();
+        return it.get_var( "general_run_inv_test_key1" ).empty();
     } );
 
     REQUIRE( items_before.size() == 4 );
@@ -990,7 +1007,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_inv_test1->activate( d ) );
 
     std::vector<item *> items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key1" ) == "yes";
+        return it.get_var( "general_run_inv_test_key1" ) == "yes";
     } );
 
     CHECK( items_after.size() == 4 );
@@ -999,7 +1016,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_inv_test2->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key2" ) == "yes";
+        return it.get_var( "general_run_inv_test_key2" ) == "yes";
     } );
 
     CHECK( items_after.size() == 1 );
@@ -1008,7 +1025,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+        return it.get_var( "general_run_inv_test_key3" ) == "yes";
     } );
 
     CHECK( items_after.empty() );
@@ -1020,7 +1037,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_inv_test3->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key3" ) == "yes";
+        return it.get_var( "general_run_inv_test_key3" ) == "yes";
     } );
 
     CHECK( items_after.size() == 1 );
@@ -1029,7 +1046,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_inv_test4->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key4" ) == "yes";
+        return it.get_var( "general_run_inv_test_key4" ) == "yes";
     } );
 
     CHECK( items_after.size() == 1 );
@@ -1038,7 +1055,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_run_inv_test5->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_key5" ) == "yes";
+        return it.get_var( "general_run_inv_test_key5" ) == "yes";
     } );
 
     CHECK( items_after.size() == 3 );
@@ -1047,7 +1064,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_item_flag_test->activate( d ) );
 
     items_after = get_avatar().items_with( []( const item & it ) {
-        return it.get_var( "npctalk_var_general_run_inv_test_is_filthy" ) == "yes";
+        return it.get_var( "general_run_inv_test_is_filthy" ) == "yes";
     } );
 
     CHECK( items_after.size() == 1 );
@@ -1086,10 +1103,10 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     const item &check_item = get_avatar().worn.i_at( 0 );
 
     REQUIRE( check_item.typeId() == itype_backpack );
-    CHECK( std::stod( get_avatar().get_value( "npctalk_var_key1" ) ) == Approx( 27 ) );
-    CHECK( std::stod( get_avatar().get_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
-    CHECK( std::stod( check_item.get_var( "npctalk_var_key1" ) ) == Approx( 27 ) );
-    CHECK( std::stod( check_item.get_var( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( get_avatar().get_value( "key1" ) ) == Approx( 27 ) );
+    CHECK( std::stod( get_avatar().get_value( "key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( check_item.get_var( "key1" ) ) == Approx( 27 ) );
+    CHECK( std::stod( check_item.get_var( "key2" ) ) == Approx( 2 ) );
 }
 
 TEST_CASE( "math_weapon_damage", "[eoc]" )
@@ -1113,10 +1130,10 @@ TEST_CASE( "math_weapon_damage", "[eoc]" )
     int const bullet_damage = myweapon.gun_damage().type_damage( STATIC( damage_type_id( "bullet" ) ) );
 
     CAPTURE( myweapon.typeId().c_str() );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mymelee" ) ) ==  total_damage );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mymelee_bash" ) ) == bash_damage );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mygun" ) ) == gun_damage );
-    CHECK( std::stoi( globvars.get_global_value( "npctalk_var_mygun_bullet" ) ) == bullet_damage );
+    CHECK( std::stoi( globvars.get_global_value( "mymelee" ) ) ==  total_damage );
+    CHECK( std::stoi( globvars.get_global_value( "mymelee_bash" ) ) == bash_damage );
+    CHECK( std::stoi( globvars.get_global_value( "mygun" ) ) == gun_damage );
+    CHECK( std::stoi( globvars.get_global_value( "mygun_bullet" ) ) == bullet_damage );
 }
 
 TEST_CASE( "EOC_event_test", "[eoc]" )
@@ -1128,51 +1145,51 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
 
     // character_casts_spell
     spell temp_spell( spell_test_eoc_spell );
     temp_spell.set_level( get_avatar(), 5 );
     temp_spell.cast_all_effects( get_avatar(), tripoint_bub_ms() );
 
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "test_trait" );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "5" );
-    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "150" );
-    CHECK( globvars.get_global_value( "npctalk_var_key5" ) == "100" );
-    CHECK( globvars.get_global_value( "npctalk_var_key6" ) == "45" );
+    CHECK( globvars.get_global_value( "key1" ) == "test_eoc_spell" );
+    CHECK( globvars.get_global_value( "key2" ) == "test_trait" );
+    CHECK( globvars.get_global_value( "key3" ) == "5" );
+    CHECK( globvars.get_global_value( "key4" ) == "150" );
+    CHECK( globvars.get_global_value( "key5" ) == "100" );
+    CHECK( globvars.get_global_value( "key6" ) == "45" );
 
     // character_starts_activity
     globvars.clear_global_values();
     get_avatar().assign_activity( ACT_GENERIC_EOC, 1 );
 
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "0" );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity start" );
+    CHECK( globvars.get_global_value( "key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "key2" ) == "0" );
+    CHECK( globvars.get_global_value( "key3" ) == "activity start" );
 
     // character_finished_activity
     get_avatar().cancel_activity();
 
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ACT_GENERIC_EOC" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "1" );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "activity finished" );
+    CHECK( globvars.get_global_value( "key1" ) == "ACT_GENERIC_EOC" );
+    CHECK( globvars.get_global_value( "key2" ) == "1" );
+    CHECK( globvars.get_global_value( "key3" ) == "activity finished" );
 
     // character_wields_item
     item weapon_item( itype_test_knife_combat );
     get_avatar().wield( weapon_item );
     item_location weapon = get_avatar().get_wielded_item();
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
-    CHECK( weapon->get_var( "npctalk_var_test_event_last_event" ) == "character_wields_item" );
+    CHECK( get_avatar().get_value( "test_event_last_event" ) == "character_wields_item" );
+    CHECK( weapon->get_var( "test_event_last_event" ) == "character_wields_item" );
 
     // character_wears_item
     std::list<item>::iterator armor = *get_avatar().worn.wear_item( get_avatar(),
                                       item( itype_backpack ), false, true, true );
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
-    CHECK( armor->get_var( "npctalk_var_test_event_last_event" ) == "character_wears_item" );
+    CHECK( get_avatar().get_value( "test_event_last_event" ) == "character_wears_item" );
+    CHECK( armor->get_var( "test_event_last_event" ) == "character_wears_item" );
 }
 
 TEST_CASE( "EOC_combat_event_test", "[eoc]" )
@@ -1185,79 +1202,78 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     clear_map();
 
     // character_melee_attacks_character
-    npc &npc_dst_melee = spawn_npc( get_avatar().pos_bub().xy() + point_south, "thug" );
+    npc &npc_dst_melee = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
     item weapon_item( itype_test_knife_combat );
     get_avatar().wield( weapon_item );
     get_avatar().melee_attack( npc_dst_melee, false );
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( get_avatar().get_value( "test_event_last_event" ) ==
            "character_melee_attacks_character" );
-    CHECK( npc_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( npc_dst_melee.get_value( "test_event_last_event" ) ==
            "character_melee_attacks_character" );
-    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_melee.get_name() );
+    CHECK( globvars.get_global_value( "weapon" ) == "test_knife_combat" );
+    CHECK( globvars.get_global_value( "victim_name" ) == npc_dst_melee.get_name() );
 
     // character_melee_attacks_monster
     clear_map();
-    monster &mon_dst_melee = spawn_test_monster( "mon_zombie", get_avatar().pos_bub() + tripoint_east );
+    monster &mon_dst_melee = spawn_test_monster( "mon_zombie",
+                             get_avatar().pos_bub() + tripoint::east );
     get_avatar().melee_attack( mon_dst_melee, false );
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( get_avatar().get_value( "test_event_last_event" ) ==
            "character_melee_attacks_monster" );
-    CHECK( mon_dst_melee.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( mon_dst_melee.get_value( "test_event_last_event" ) ==
            "character_melee_attacks_monster" );
-    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "test_knife_combat" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+    CHECK( globvars.get_global_value( "weapon" ) == "test_knife_combat" );
+    CHECK( globvars.get_global_value( "victim_type" ) == "mon_zombie" );
 
     // character_ranged_attacks_character
-    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east;
+    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point::east;
     clear_map();
     npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
     for( loop = 0; loop < 1000; loop++ ) {
-        get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
         get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
-        if( !npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+        if( !npc_dst_ranged.get_value( "test_event_last_event" ).empty() ) {
             break;
         }
     }
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( get_avatar().get_value( "test_event_last_event" ) ==
            "character_ranged_attacks_character" );
-    CHECK( npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( npc_dst_ranged.get_value( "test_event_last_event" ) ==
            "character_ranged_attacks_character" );
-    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_name" ) == npc_dst_ranged.get_name() );
+    CHECK( globvars.get_global_value( "weapon" ) == "shotgun_s" );
+    CHECK( globvars.get_global_value( "victim_name" ) == npc_dst_ranged.get_name() );
 
     // character_ranged_attacks_monster
     clear_map();
     monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
     for( loop = 0; loop < 1000; loop++ ) {
-        get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
         get_avatar().fire_gun( mon_dst_ranged.pos_bub(), 1, *get_avatar().get_wielded_item() );
-        if( !mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
+        if( !mon_dst_ranged.get_value( "test_event_last_event" ).empty() ) {
             break;
         }
     }
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( get_avatar().get_value( "test_event_last_event" ) ==
            "character_ranged_attacks_monster" );
-    CHECK( mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ) ==
+    CHECK( mon_dst_ranged.get_value( "test_event_last_event" ) ==
            "character_ranged_attacks_monster" );
-    CHECK( globvars.get_global_value( "npctalk_var_weapon" ) == "shotgun_s" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
+    CHECK( globvars.get_global_value( "weapon" ) == "shotgun_s" );
+    CHECK( globvars.get_global_value( "victim_type" ) == "mon_zombie" );
 
     // character_kills_monster
     clear_map();
     monster &victim = spawn_test_monster( "mon_zombie", target_pos );
     victim.die( &get_avatar() );
 
-    CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_kills_monster" );
-    CHECK( globvars.get_global_value( "npctalk_var_victim_type" ) == "mon_zombie" );
-    CHECK( globvars.get_global_value( "npctalk_var_test_exp" ) == "4" );
+    CHECK( get_avatar().get_value( "test_event_last_event" ) == "character_kills_monster" );
+    CHECK( globvars.get_global_value( "victim_type" ) == "mon_zombie" );
+    CHECK( globvars.get_global_value( "test_exp" ) == "4" );
 }
 
 TEST_CASE( "EOC_spell_exp", "[eoc]" )
@@ -1269,13 +1285,13 @@ TEST_CASE( "EOC_spell_exp", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "key1" ).empty() );
 
     get_avatar().magic->learn_spell( "test_eoc_spell", get_avatar(), true );
 
     CHECK( effect_on_condition_EOC_math_spell_xp->activate( d ) );
 
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "1000" );
+    CHECK( globvars.get_global_value( "key1" ) == "1000" );
 }
 
 TEST_CASE( "EOC_recipe_test", "[eoc]" )
@@ -1307,20 +1323,20 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
 
     map &m = get_map();
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint_north );
+    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint::north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
-    CHECK( globvars.get_global_value( "npctalk_var_this" ) == "test_f_eoc" );
-    CHECK( globvars.get_global_value( "npctalk_var_pos" ) == m.getglobal( tgt ).to_string() );
+    CHECK( globvars.get_global_value( "this" ) == "test_f_eoc" );
+    CHECK( globvars.get_global_value( "pos" ) == m.getglobal( tgt ).to_string() );
 
-    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east * 10;
+    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point::east * 10;
     npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
 
     CHECK( effect_on_condition_EOC_map_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
+    CHECK( globvars.get_global_value( "key_distance_loc" ) == "14" );
+    CHECK( globvars.get_global_value( "key_distance_npc" ) == "10" );
 }
 
 TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
@@ -1331,22 +1347,22 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
     clear_map();
 
     map &m = get_map();
-    g->place_player( tripoint_zero );
+    g->place_player( tripoint_bub_ms::zero );
 
     const tripoint_abs_ms start = get_avatar().get_location();
-    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint_north );
+    const tripoint_bub_ms tgt = m.bub_from_abs( start + tripoint::north );
     m.furn_set( tgt, furn_test_f_eoc );
     m.furn( tgt )->examine( get_avatar(), tgt );
 
-    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east * 10;
+    const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point::east * 10;
     npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
 
     CHECK( effect_on_condition_EOC_loc_relative_test->activate( d ) );
     tripoint_abs_ms tmp_abs_a = tripoint_abs_ms( tripoint::from_string(
-                                    globvars.get_global_value( "npctalk_var_map_test_loc_a" ) ) );
+                                    globvars.get_global_value( "map_test_loc_a" ) ) );
     tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
-                                    globvars.get_global_value( "npctalk_var_map_test_loc_b" ) ) );
+                                    globvars.get_global_value( "map_test_loc_b" ) ) );
     CHECK( m.bub_from_abs( tmp_abs_a ) == tripoint_bub_ms( 70, 70, 0 ) );
     CHECK( m.bub_from_abs( tmp_abs_b ) == tripoint_bub_ms( 70, 60, 0 ) );
 
@@ -1391,15 +1407,141 @@ TEST_CASE( "EOC_string_test", "[eoc]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
-    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
+    REQUIRE( globvars.get_global_value( "key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "key4" ).empty() );
 
     CHECK( effect_on_condition_EOC_string_test->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "<global_val:key1> <global_val:key2>" );
-    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "test1 test2" );
+    CHECK( globvars.get_global_value( "key3" ) == "<global_val:key1> <global_val:key2>" );
+    CHECK( globvars.get_global_value( "key4" ) == "test1 test2" );
 
     CHECK( effect_on_condition_EOC_string_test_nest->activate( d ) );
-    CHECK( get_avatar().get_value( "npctalk_var_key1" ) == "nest2" );
-    CHECK( get_avatar().get_value( "npctalk_var_key2" ) == "nest3" );
-    CHECK( get_avatar().get_value( "npctalk_var_key3" ) == "nest4" );
+    CHECK( get_avatar().get_value( "key1" ) == "nest2" );
+    CHECK( get_avatar().get_value( "key2" ) == "nest3" );
+    CHECK( get_avatar().get_value( "key3" ) == "nest4" );
+}
+
+TEST_CASE( "EOC_compare_string_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_4" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_test_5" ).empty() );
+
+    CHECK( effect_on_condition_EOC_compare_string_test->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_2" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_3" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_4" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_test_5" ) ) == Approx( 1 ) );
+
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_4" ).empty() );
+    REQUIRE( globvars.get_global_value( "eoc_compare_string_match_all_test_5" ).empty() );
+
+    CHECK( effect_on_condition_EOC_compare_string_match_all_test->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_1" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_2" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_3" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_4" ) ) == Approx(
+               1 ) );
+    CHECK( std::stod( globvars.get_global_value( "eoc_compare_string_match_all_test_5" ) ) == Approx(
+               1 ) );
+}
+
+TEST_CASE( "EOC_run_eocs", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "run_eocs_1" ).empty() );
+    REQUIRE( globvars.get_global_value( "run_eocs_2" ).empty() );
+    REQUIRE( globvars.get_global_value( "run_eocs_3" ).empty() );
+    REQUIRE( globvars.get_global_value( "run_eocs_5" ).empty() );
+    REQUIRE( globvars.get_global_value( "test_global_key_M" ).empty() );
+    REQUIRE( globvars.get_global_value( "test_global_key_N" ).empty() );
+
+    CHECK( effect_on_condition_run_eocs_1->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_2->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_3->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_5->activate( d ) );
+    CHECK( effect_on_condition_run_eocs_7->activate( d ) );
+
+    CHECK( std::stod( globvars.get_global_value( "run_eocs_1" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "run_eocs_2" ) ) == Approx( 20 ) );
+    CHECK( std::stod( globvars.get_global_value( "run_eocs_5" ) ) == Approx( 4 ) );
+
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    REQUIRE( globvars.get_global_value( "run_eocs_3" ).empty() );
+    set_time( calendar::turn + 1_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    CHECK( std::stod( globvars.get_global_value( "run_eocs_3" ) ) == Approx( 2 ) );
+
+    set_time( calendar::turn + 8_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+    CHECK( globvars.get_global_value( "test_global_key_M" ) == "test_context_value_M" );
+    CHECK( globvars.get_global_value( "test_global_key_N" ) == "test_context_value_N" );
+
+    globvars.clear_global_values();
+    avatar &u = get_avatar();
+    clear_avatar();
+    clear_map();
+    clear_npcs();
+    npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "thug" );
+    tripoint_abs_ms mon_loc = u.get_location() + tripoint::west;
+    monster *zombie = g->place_critter_at( mon_zombie, get_map().bub_from_abs( mon_loc ) );
+    REQUIRE( zombie != nullptr );
+
+    item hammer( "hammer" );
+    item_location hammer_loc( map_cursor{ guy.get_location() }, &hammer );
+    dialogue d2( get_talker_for( guy ), get_talker_for( hammer_loc ) );
+    talker *alpha_talker = d2.actor( false );
+    talker *beta_talker = d2.actor( true );
+
+    d2.set_value( "alpha_var", "u" );
+    d2.set_value( "beta_var", "npc" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "alpha_name" ) == alpha_talker->get_name() );
+    CHECK( globvars.get_global_value( "beta_name" ) == beta_talker->get_name() );
+
+    d2.set_value( "alpha_var", "npc" );
+    d2.set_value( "beta_var", "u" );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "alpha_name" ) == beta_talker->get_name() );
+    CHECK( globvars.get_global_value( "beta_name" ) == alpha_talker->get_name() );
+
+    d2.set_value( "alpha_var", "avatar" );
+    d2.set_value( "beta_var", std::to_string( guy.getID().get_value() ) );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "alpha_name" ) == get_avatar().get_name() );
+    CHECK( globvars.get_global_value( "beta_name" ) == guy.get_name() );
+
+    d2.set_value( "alpha_var", std::string{} );
+    d2.set_value( "beta_var", std::string{} );
+    CHECK( effect_on_condition_run_eocs_talker_mixes->activate( d2 ) );
+    CHECK( globvars.get_global_value( "alpha_name" ) == "mixin fail alpha" );
+    CHECK( globvars.get_global_value( "beta_name" ) == "mixin fail beta" );
+
+    d2.set_value( "alpha_var", mon_loc.to_string() );
+    CHECK( effect_on_condition_run_eocs_talker_mixes_loc->activate( d2 ) );
+    CHECK( globvars.get_global_value( "alpha_name" ) == zombie->get_name() );
 }

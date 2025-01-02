@@ -39,7 +39,6 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "count": 5,
     "ammo_type": [ "303" ],
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "303": 5 } } ]

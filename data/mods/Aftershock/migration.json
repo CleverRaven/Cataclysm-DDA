@@ -10,6 +10,21 @@
     "replace": "quilt_patchwork"
   },
   {
+    "id": [ "exo_forcefield" ],
+    "type": "MIGRATION",
+    "replace": "afs_backpack_shieldgen"
+  },
+  {
+    "id": [ "exo_forcefield_bash_cut" ],
+    "type": "MIGRATION",
+    "replace": "afs_backpack_shieldgen"
+  },
+  {
+    "id": [ "exo_forcefield_ballistic_pierce" ],
+    "type": "MIGRATION",
+    "replace": "afs_backpack_shieldgen"
+  },
+  {
     "id": [ "bio_trickle" ],
     "type": "MIGRATION",
     "//": "obsoleted from base game as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/70989",
@@ -20,6 +35,66 @@
     "type": "bionic_migration",
     "//": "obsoleted from base game as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/70989",
     "from": "bio_trickle"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "bio_forcefield_bash_cut_weak",
+    "to": "bio_shield_weak"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "bio_forcefield_bash_cut_medium",
+    "to": "bio_shield_medium"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "bio_forcefield_bash_cut_heavy",
+    "to": "bio_shield_heavy"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "bio_forcefield_ballistic_weak",
+    "to": "bio_shield_weak"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "bio_forcefield_ballistic_medium",
+    "to": "bio_shield_medium"
+  },
+  {
+    "type": "bionic_migration",
+    "from": "bio_forcefield_ballistic_heavy",
+    "to": "bio_shield_heavy"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bio_forcefield_bash_cut_weak",
+    "replace": "bio_shield_weak"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bio_forcefield_bash_cut_medium",
+    "replace": "bio_shield_medium"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bio_forcefield_bash_cut_heavy",
+    "replace": "bio_shield_heavy"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bio_forcefield_ballistic_weak",
+    "replace": "bio_shield_weak"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bio_forcefield_ballistic_medium",
+    "replace": "bio_shield_medium"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "bio_forcefield_ballistic_heavy",
+    "replace": "bio_shield_heavy"
   },
   {
     "id": [ "bot_eyebot" ],

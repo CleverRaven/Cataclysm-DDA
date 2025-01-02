@@ -35,7 +35,7 @@
       "E": "t_elevator",
       "G": "t_door_glass_c",
       "H": "t_wall_glass",
-      "R": "t_railing_v",
+      "R": "t_railing",
       "s": "t_sidewalk",
       "V": "t_wall_glass",
       "w": "t_window",
@@ -78,7 +78,7 @@
       "y": "f_locker",
       "B": "f_bulletin",
       "6": "f_cellphone_booster",
-      "7": "f_small_satelitte_dish"
+      "7": "f_small_satellite_dish"
     },
     "items": {
       "d": [

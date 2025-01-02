@@ -104,7 +104,7 @@
     },
     "responses": [
       { "text": "Nice to meet you, John.", "topic": "TALK_REFUGEE_John_1_firstmeet" },
-      { "text": "Hi John, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi John, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -116,7 +116,7 @@
     },
     "responses": [
       { "text": "Hi, John.  Got a minute?", "topic": "TALK_REFUGEE_John_2" },
-      { "text": "Hi John.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hi John.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -125,14 +125,14 @@
     "dynamic_line": "Nice to meet you too.  I reckon' you got some questions 'bout this place.",
     "responses": [
       { "text": "Yeah, I sure do.", "topic": "TALK_REFUGEE_John_2" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_2",
     "dynamic_line": "What can I do ya for?",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -143,8 +143,8 @@
         "text": "You… you do know what's going on here, right?  With the evacuation and stuff?",
         "topic": "TALK_REFUGEE_John_Background_cataclysm"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -153,8 +153,8 @@
     "dynamic_line": "Course I do, I ain't an idjit.  It's all the folks here c'n talk about.",
     "responses": [
       { "text": "So what, uh, what happened to you?", "topic": "TALK_REFUGEE_John_Background_cataclysm2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -162,21 +162,21 @@
     "id": "TALK_REFUGEE_John_Background_cataclysm2",
     "dynamic_line": "*looks at you like you're in need of special help.  \"Just what I said.  I'm settled down here for a spell, then goin' back on the road with my sixgun.\"",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Situation",
     "dynamic_line": {
-      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
+      "math": [ "u_counter_refugee_center_refugee_happiness >= 7" ],
       "yes": "I reckon I've done my job here.  Goan' be time to ride out into the sunset soon, if'n you catch m'drift.\"  He tilts his hat melodramatically.  \"Folks're comin' around to this here new world we live in.",
       "no": "Folks don't like bein' kept from the blue sky for too long.  Cooped up like cattle in a barn… we need pastures to run free, if'n y'get my drift.  'Til we got 'em, it's gonna be tense in here."
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   }
 ]

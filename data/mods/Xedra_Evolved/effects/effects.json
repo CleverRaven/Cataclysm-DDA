@@ -162,7 +162,7 @@
     "name": [ "Shadow Damage Reduction" ],
     "desc": [ "You are flatter and less real in ways that makes you less susceptible to damage." ],
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "ARMOR_BULLET", "multiply": -0.75 }, { "value": "ARMOR_BASH", "multiply": -0.75 } ] } ]
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "bash", "multiply": -0.75 }, { "type": "bullet", "multiply": -0.75 } ] } ]
   },
   {
     "type": "effect_type",
@@ -411,7 +411,6 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_ascendant",
-    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE4 will be gated behind this.",
     "name": [ "Terminal Porphyria" ],
     "desc": [ "Your skin is deathly white and will redden and burn when exposed to the sun." ],
     "apply_message": "You've chosen to embrace this illness and enhance your curse.",
@@ -427,7 +426,6 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_post_mortal",
-    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE5 will be gated behind this.",
     "name": [ "Homo sapiens homovorus" ],
     "desc": [
       "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
@@ -553,9 +551,9 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "incoming_damage_mod": [
           {
-            "value": "ARMOR_BASH",
+            "type": "bash",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06)), -0.66)"
@@ -563,15 +561,7 @@
             }
           },
           {
-            "value": "ARMOR_CUT",
-            "multiply": {
-              "math": [
-                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
-              ]
-            }
-          },
-          {
-            "value": "ARMOR_STAB",
+            "type": "stab",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025)), -0.25)"
@@ -579,7 +569,15 @@
             }
           },
           {
-            "value": "ARMOR_BULLET",
+            "type": "cut",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
+              ]
+            }
+          },
+          {
+            "type": "bullet",
             "multiply": {
               "math": [
                 "max(((vampire_total_tier_one_traits() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075)), -0.85)"
@@ -743,21 +741,7 @@
     "rating": "good",
     "show_intensity": false,
     "//": "+1 armor for each lvl",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "-1 * u_spell_level('spell_endurance')" ] } } ] } ]
   },
   {
     "id": "spell_melee_damage",
@@ -802,21 +786,8 @@
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARMOR_BASH", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_BULLET", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_ACID", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_BIO", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_COLD", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_ELEC", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
-          { "value": "ARMOR_HEAT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } }
-        ]
-      }
-    ]
+    "//": "todo: doesn't do anything, because monster do not have u_spell_level('spell_weak'); solution: store u_spell_level('spell_weak') as monster variable, and use variable in calculations instead",
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -904,12 +875,13 @@
     "name": [ "Evil Eye" ],
     "desc": [ "Something is definitely wrong." ],
     "rating": "bad",
+    "immune_flags": [ "EVIL_EYE_IMMUNE", "EVIL_EYE_IMMUNE_MONSTER" ],
     "show_in_info": true,
     "max_intensity": 5,
     "show_intensity": false,
     "base_mods": {
-      "hit_mod": [ -3 ],
-      "dodge_mod": [ -4 ],
+      "hit_mod": [ -2 ],
+      "dodge_mod": [ -2 ],
       "per_mod": [ -2 ],
       "health_chance": [ 20 ],
       "health_tick": [ 30 ],
@@ -1167,22 +1139,22 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_tree_immobility",
-    "name": [ "Rooted" ],
-    "desc": [ "Your roots sink into the ground and you are nearly immobile." ],
-    "apply_message": "",
-    "remove_message": "",
-    "rating": "mixed",
-    "max_intensity": 100000,
-    "show_intensity": false,
-    "limb_score_mods": [ { "limb_score": "lift", "modifier": 0.51 }, { "limb_score": "grip", "modifier": 0.25 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_IMPEDING" ]
+    "id": "effect_arvore_seedbearer_available",
+    "name": [ "Seed-Bearer" ],
+    "desc": [ "You can bring forth a fine bunch of seeds, ready for planting." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_seedbearer_cooldown",
+    "//": "Hidden effect, used as a cooldown",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
     "id": "arvore_perennial_rebirth_cooldown",
     "name": [ "Reborn" ],
-    "desc": [ "Your were reborn and your soul and new body are still finding their balance." ]
+    "desc": [ "You were reborn and your soul and new body are still finding their balance." ]
   },
   {
     "type": "effect_type",
@@ -1233,6 +1205,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_rooted_in_place",
+    "name": [ "The Root of the Mountain" ],
+    "desc": [ "Drawing on the immobility of the mountain, you are resilient but rooted in place." ],
+    "removes_effects": [ "stunned", "dazed", "downed" ],
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.25 },
+          { "type": "stab", "multiply": -0.25 },
+          { "type": "cut", "multiply": -0.25 },
+          { "type": "bullet", "multiply": -0.25 },
+          { "type": "heat", "multiply": -0.25 }
+        ]
+      }
+    ],
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_buff_armor_allies",
     "name": [ "Skin of the Mountains" ],
     "desc": [ "Your skin is much harder than it appears." ],
@@ -1241,16 +1232,32 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.3 },
-          { "value": "ARMOR_BULLET", "multiply": -0.3 },
-          { "value": "ARMOR_CUT", "multiply": -0.3 },
-          { "value": "ARMOR_STAB", "multiply": -0.3 },
-          { "value": "MOVE_COST", "multiply": 0.1 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.3 },
+          { "type": "stab", "multiply": -0.3 },
+          { "type": "cut", "multiply": -0.3 },
+          { "type": "bullet", "multiply": -0.3 }
+        ],
+        "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
       }
     ],
     "flags": [ "BLEEDSLOW1" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_limb_breaking_stopper",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "disabled" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_craft_in_darkness",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -1263,7 +1270,6 @@
   {
     "type": "effect_type",
     "id": "effect_ierde_earthen_shield",
-    "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "Impenetrable Earthen Shield" ],
     "desc": [ "You are protected by the living earth." ],
     "remove_message": "Your earthen shield finally crumbles.",
@@ -1279,7 +1285,14 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
-      { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
+      {
+        "special_vision": [
+          {
+            "distance": { "math": [ "u_val('strength') + u_val('perception')" ] },
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -1380,7 +1393,12 @@
     "rating": "good",
     "show_in_info": true,
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "heat", "add": -1000 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1390,7 +1408,12 @@
     "desc": [ "" ],
     "rating": "good",
     "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "heat", "add": -1000 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1635,7 +1658,7 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "undine_acid_resist_ally_thorns", "hit_self": false, "once_in": 3 } ],
-        "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
+        "incoming_damage_mod": [ { "type": "acid", "multiply": -0.75 } ]
       }
     ]
   },
@@ -1654,18 +1677,61 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_1",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": { "dodge_mod": [ 1 ] },
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
-              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') )" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') ) * 0.5" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1676,18 +1742,61 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_2",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": { "dodge_mod": [ 2 ] },
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
               "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') ) * 0.5" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1699,18 +1808,61 @@
     "type": "effect_type",
     "id": "effect_paraclesian_dodge_bonus_3",
     "name": [ "Enhanced Dodging" ],
-    "desc": [ "Like the whistling wind or the supple willow, you can easily move when danger beckons." ],
+    "desc": [
+      "Like the whistling wind or the supple willow, you can easily move when danger beckons.  The spell has greatly reduced effect if not outside (if Sylph) or not on natural terrain (if Arvore)."
+    ],
     "apply_message": "",
     "remove_message": "Your enhanced dodging ability fades away.",
     "rating": "good",
-    "base_mods": { "dodge_mod": [ 3 ] },
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
         "values": [
           {
             "value": "BONUS_DODGE",
             "add": {
               "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * (scaling_factor(u_val('perception') ) )" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "and": [ { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+            {
+              "and": [ { "not": { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } }, { "u_has_trait": "ARVORE" } ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [ "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 10 ) ) ) * scaling_factor(u_val('perception') ) * 0.5" ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( 1 + ( u_spell_level('paraclesian_spell_dodge_bonus') / 4 ) ) ) * scaling_factor(u_val('perception') ) * (u_has_trait('SYLPH') ? 1.2 : 1) * 0.5"
+              ]
             }
           }
         ]
@@ -1734,10 +1886,11 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "value": "SIGHT_RANGE_FAE",
-            "add": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] }
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
+            "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
           }
         ]
       }
@@ -1756,7 +1909,19 @@
     "name": [ "Blood-and-Ash Paste" ],
     "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
     "rating": "mixed",
-    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 40 } ] } ],
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+            },
+            "distance": 40,
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          }
+        ]
+      }
+    ],
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.6 } ],
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 60 ], "pain_tick": [ 180 ] },
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
@@ -2003,43 +2168,43 @@
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_noble",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_brownie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_pooka",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_selkie",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_fair_folk_commoner_trow",
-    "name": [ "Fair Folk Mutation" ],
-    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Fair Folk Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Fair Folk powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
     "type": "effect_type",
     "id": "mutagen_lilin",
-    "name": [ "Lilin Mutation" ],
-    "desc": [ "You are gaining Lilin powers.  This should only be visible for a moment." ],
+    "name": [ { "str": "Lilin Mutation", "//~": "NO_I18N" } ],
+    "desc": [ { "str": "You are gaining Lilin powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
   },
   {
@@ -2241,33 +2406,24 @@
     "type": "effect_type",
     "id": "effect_dream_drainer_armor",
     "name": [ "Armored" ],
-    "desc": [ "The bug is shielded.  This is a bug if you have it." ],
+    "desc": [ { "str": "The bug is shielded.  This is a bug if you have it.", "//~": "NO_I18N" } ],
     "max_duration": "25 s",
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_BASH", "add": -15 },
-          { "value": "ARMOR_STAB", "add": -15 },
-          { "value": "ARMOR_CUT", "add": -15 },
-          { "value": "ARMOR_HEAT", "add": -15 },
-          { "value": "ARMOR_COLD", "add": -15 },
-          { "value": "ARMOR_ELEC", "add": -15 },
-          { "value": "ARMOR_ACID", "add": -15 },
-          { "value": "ARMOR_BULLET", "add": -15 }
-        ]
-      }
-    ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "add": -15 } ] } ]
   },
   {
     "id": "effect_moon_withdrawal",
     "type": "effect_type",
     "max_duration": "11 s",
     "name": [ "Moon-starved" ],
-    "desc": [ "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it." ],
+    "desc": [
+      {
+        "str": "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it.",
+        "//~": "NO_I18N"
+      }
+    ],
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
@@ -2291,8 +2447,23 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_attack_warning_cooldown",
+    "//": "Hidden effect, used as a blocker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_health_effects_of_draining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_vampire_immune",
-    "//": "Hidden effects, prevents you from being vampirized",
+    "//": "Hidden effect, prevents you from being vampirized",
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "vampire_virus" ]
@@ -2300,14 +2471,37 @@
   {
     "type": "effect_type",
     "id": "effect_gained_lilin_power",
-    "//": "Hidden effects, prevents you from gaining more lilin powers too quickly",
+    "//": "Hidden effect, prevents you from gaining more lilin powers too quickly",
     "name": [ "" ],
     "desc": [ "" ]
   },
   {
     "type": "effect_type",
-    "id": "effect_lilin_temmporary_glorious",
-    "//": "Hidden effects, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active",
+    "id": "effect_lilin_temporary_glorious",
+    "//": "Hidden effect, tracking whether you have EOC_LILIN_TEMPORARY_GLORIOUS active.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "lilit_prevent_death_escape",
+    "//": "Hidden effect, allows you to get away after turning into an owl.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "grabbed", "downed" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 0.55 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "lilit_prevent_death_cooldown",
+    "//": "Hidden effect, used to prevent Their Worm Shall Not Die from activating multiple times back to back",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_bonus_healing_active",
+    "//": "Hidden effects, tracking whether you have LILIN_BONUS_HEALING_ACTIVE active.",
     "name": [ "" ],
     "desc": [ "" ]
   },
@@ -2446,19 +2640,402 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_lilin_silent_at_night",
+    "name": [ { "str": "Silent in Darkness" } ],
+    "desc": [ "Your movements make as little noise as the shadows of the night." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_steady_speed",
+    "name": [ { "str": "Enduring Through All Generations" } ],
+    "desc": [ "You will endure all obstacles without faltering." ],
+    "rating": "good",
+    "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lilin_limb_score_bonuses_at_night",
     "name": [ { "str": "The Night Hunter" } ],
     "desc": [ "Now they will know why they fear the night." ],
     "rating": "good",
     "limb_score_mods": [
-      { "limb_score": "balance", "modifier": 1.2 },
-      { "limb_score": "breathing", "modifier": 1.5 },
-      { "limb_score": "lift", "modifier": 1.25 },
-      { "limb_score": "grip", "modifier": 1.25 },
-      { "limb_score": "reaction", "modifier": 1.35 },
-      { "limb_score": "block", "modifier": 1.3 },
-      { "limb_score": "vision", "modifier": 1.5 }
+      { "limb_score": "balance", "modifier": 1.1 },
+      { "limb_score": "breathing", "modifier": 1.3 },
+      { "limb_score": "lift", "modifier": 1.1 },
+      { "limb_score": "grip", "modifier": 1.15 },
+      { "limb_score": "reaction", "modifier": 1.2 },
+      { "limb_score": "block", "modifier": 1.1 },
+      { "limb_score": "vision", "modifier": 1.35 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_incremental_speed_boost",
+    "name": [ { "str": "The Treasures of Darkness" } ],
+    "desc": [ "Having spent a long time in the shadows, you are now quicker than usual." ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 3 ] },
+    "scaling_mods": { "speed_mod": [ 3 ] },
+    "show_intensity": false,
+    "max_intensity": 10
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_lose_incremental_speed_boost",
+    "name": [ { "str": "" } ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_lilin_incremental_speed_boost" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_allowed_ruach_drain",
+    "name": [ { "str": "Willingly drained" } ],
+    "desc": [
+      "This follower allowed you to take some of their ruach, and they won't respond kindly to being drained more this soon."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield_check",
+    "name": [ "Promises of undisrupted sleep" ],
+    "desc": [ "I wish you a good night." ],
+    "apply_message": "You could swear that this man wished you a good night.",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "3 seconds",
+    "show_intensity": false,
+    "max_intensity": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sleep_shield",
+    "name": [ "Undisrupted sleep" ],
+    "desc": [ "Sleep well.  Nothing but you can disrupt your sleep." ],
+    "apply_message": "As you fall asleep, you feel safer than you ever were.",
+    "remove_message": "As you wake up, the feeling of safety quickly fades away.",
+    "rating": "good",
+    "max_duration": "3 days",
+    "show_intensity": false,
+    "max_intensity": 1,
+    "flags": [ "INVISIBLE", "NO_SCENT", "PAIN_IMMUNE", "BLIND", "DEAF", "LEVITATION" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SLEEPY", "add": 9999 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 500 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 500 },
+          { "value": "FORCEFIELD", "add": 1 }
+        ]
+      }
+    ],
+    "removes_effects": [ "grabbed", "bleed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_mesmerize_tracker",
+    "name": [ "Mesmerized" ],
+    "desc": [ "You are in a daze." ],
+    "apply_message": "",
+    "remove_message": "You snap out of your trance.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_aoe_daze",
+    "name": [ "Disoriented" ],
+    "desc": [ { "str": "A loud noise fueled by a curse has sent you reeling." } ],
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_supernatural_disease",
+    "name": [ "Miasma" ],
+    "desc": [ { "str": "You are infected by a supernatural disease." } ],
+    "rating": "bad",
+    "max_duration": "5 h",
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -2 ] },
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.1 },
+          { "value": "ARMOR_ALL", "multiply": 0.05 },
+          { "value": "VISION_RANGE", "multiply": -0.15 },
+          { "value": "REGEN_HP", "multiply": -0.5 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.8 },
+      { "limb_score": "breathing", "modifier": 0.75 },
+      { "limb_score": "lift", "modifier": 0.75 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.85 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "vision", "modifier": 0.85 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_supernatural_disease_focused",
+    "name": [ "Devouring Plague" ],
+    "desc": [ { "str": "You are infected by a supernatural disease." } ],
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "hit_mod": [ -2 ], "dodge_mod": [ -4 ] },
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.25 },
+          { "value": "ARMOR_ALL", "multiply": 0.1 },
+          { "value": "VISION_RANGE", "multiply": -0.35 },
+          { "value": "REGEN_HP", "multiply": -0.95 }
+        ]
+      }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.6 },
+      { "limb_score": "breathing", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.65 },
+      { "limb_score": "grip", "modifier": 0.6 },
+      { "limb_score": "reaction", "modifier": 0.65 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "vision", "modifier": 0.55 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_lilin_owl_form_pass_through_walls",
+    "//": "Allows owl form lilin with the appropriate traits to fly through walls and avoid attacks",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_trait": "TURN_INTO_OWL_TRAITS" },
+        "values": [ { "value": "EVASION", "add": { "math": [ "0.4 + (u_vitamin('lilin_ruach_vitamin') / 18000)" ] } } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_trait": "TURN_INTO_OWL_TRAITS" }, { "not": "is_day" } ] },
+        "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_freeze",
+    "name": [ "Frozen in Time" ],
+    "desc": [ "You are completely frozen in time." ],
+    "remove_message": "Everything is suddenly different.",
+    "rating": "neutral",
+    "immune_flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "flags": [
+      "CANNOT_ATTACK",
+      "CANNOT_MOVE",
+      "CANNOT_TAKE_DAMAGE",
+      "CANNOT_CHANGE_TEMPERATURE",
+      "FREEZE_EFFECTS",
+      "CANNOT_GAIN_EFFECTS"
+    ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_stabilize_reality",
+    "name": [ "Stabilized Reality" ],
+    "desc": [ "You are anchored in normal reality." ],
+    "remove_message": "You feel much more vulnerable.",
+    "rating": "good",
+    "flags": [ "DIMENSIONAL_ANCHOR", "STABILIZED_TIMELINE" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_dreamer_generate_accelerated_time",
+    "name": [ "Accelerated Time Emission" ],
+    "desc": [ "You continuously generate fields of short-lived accelerated time." ],
+    "enchantments": [ { "emitter": "xedra_dreamer_emit_accelerated_time" } ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_dreamer_accelerated_time",
+    "name": [ "Time Accelerated" ],
+    "desc": [ "Your local time is far accelerated to the baseline, allowing you to act much quicker." ],
+    "remove_message": "Everything seems much quicker.",
+    "rating": "good",
+    "max_intensity": 1,
+    "max_duration": "2 seconds",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_eater_erosion",
+    "name": [ "Erosion" ],
+    "desc": [ "You maintain a field of unstable time around you.  When you attack targets in melee they will degrade over time." ],
+    "remove_message": "Your field of unstable time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_eater_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_chronal_accel",
+    "name": [ "Chronal Acceleration" ],
+    "desc": [ "You are accelerating your relative progression of time compared to the universal baseline." ],
+    "apply_message": "The world slows down around you.",
+    "remove_message": "The world speeds up again.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 5, 0 )" ] }
+          },
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_destabilizing_strikes",
+    "name": [ "Destabilizing Strikes" ],
+    "desc": [ "You maintain a field of destabilized time around you.  Your attacks cause your targets to erode over time." ],
+    "apply_message": "Your hands turn gray as the air around them starts to flicker.",
+    "remove_message": "Your field of destabilized time fades.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      { "hit_you_effect": [ { "id": "xedra_chronomancer_destabilizing_strikes_attack" } ] },
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stabilize_timeline",
+    "name": [ "Stabilized Timeline" ],
+    "desc": [ "You are protected from adverse changes in your personal timestream." ],
+    "apply_message": "You may not look any different, but you can tell that you're completely protected from harmful time magic",
+    "remove_message": "You feel more vulnerable to manipulated time.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "flags": [ "STABILIZED_TIMELINE" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 500 - ( 12.5 * u_spell_level('xedra_chronomancer_chronal_acceleration') ), 125 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_reverse_entropy",
+    "name": [ "Reversed Entropy" ],
+    "desc": [ "Your equipment is slowly losing its damage, repairing itself to its original, ideal form." ],
+    "apply_message": "Your equipment obtains a gray tint and appears ever so slightly more whole.",
+    "remove_message": "Your equipment loses its gray tint.",
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MAX_MANA",
+            "add": { "math": [ "-max( 1000 - ( 25 * u_spell_level('xedra_chronomancer_reverse_entropy') ), 250 )" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_wound_causality",
+    "name": [ "Rewriting Wound Causality" ],
+    "desc": [ "Your injuries are disappearing in a harmless paradox." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_rewrite_equipment_causality",
+    "name": [ "Rewriting Equipment Causality" ],
+    "desc": [ "The equipments' faults are disappearing in a harmless paradox." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_time_loop",
+    "name": [ "Time Looped" ],
+    "desc": [ "Every few seconds every change to your person reverts." ],
+    "rating": "good",
+    "flags": [ "CANNOT_CHANGE_TEMPERATURE", "FREEZE_EFFECTS", "CANNOT_GAIN_EFFECTS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 } ] } ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_chronomancer_stable_timeloop",
+    "name": [ "Stable Time Loop" ],
+    "desc": [ "You are prepared to revert yourself to a prior point in time." ],
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xedra_monster_erosion",
+    "name": [ "Eroding Time" ],
+    "desc": [ "This creature destabilizes time around it, eroding everything it touches." ],
+    "rating": "good",
+    "max_intensity": 1,
+    "show_in_info": true,
+    "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
   }
 ]

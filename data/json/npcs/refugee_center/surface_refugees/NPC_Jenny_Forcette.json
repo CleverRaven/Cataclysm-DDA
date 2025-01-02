@@ -118,7 +118,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach) > time('1 d')" ] },
             { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] }
           ]
         }
@@ -152,7 +152,7 @@
     ],
     "responses": [
       { "text": "Hi, Jenny.  What are you up to these days?", "topic": "TALK_REFUGEE_JENNY_2" },
-      { "text": "Sorry Jenny, I can't stay to chat.", "topic": "TALK_DONE" }
+      { "text": "Sorry Jenny.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -160,8 +160,8 @@
     "id": "TALK_REFUGEE_JENNY_2",
     "dynamic_line": "I'm puttering around, I always have stuff on the go.\"  Jenny rubs the bridge of her nose briefly, blinking fatigue from her eyes.  \"Gotta keep busy, keep my mind off stuff, you know?",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -178,7 +178,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach1",
         "condition": {
           "and": [
-            { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
+            { "math": [ "time_since(n_timer_flag_Jenny_teach) > time('1 d')" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "knowledge_flag_Jenny_teach" } ] } }
           ]
         }
@@ -188,8 +188,8 @@
         "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
         "topic": "TALK_REFUGEE_JENNY_Exodii"
       },
-      { "text": "Sorry about your luck.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sorry about your luck.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -198,8 +198,8 @@
     "dynamic_line": "*grins and tugs at her shirt, an uncharacteristically crisp white T-shirt sporting a brightly colored penguin holding a slide rule, and a rainbow slogan reading 'sudo build it the way I told you to'.  \"Ha!  You must not know many engineers, hey?  I guess there's more to me than engineering, but most of my hobbies come back to it one way or the other.  It's not that I live for my work, doing engineering for a heating company wasn't some great dream, but when I got home I'd putter with the projects I wanted to do instead of the ones they made me do.  You know?  And of course, I had my friends and things, we'd go out or hang out and play board games and stuff.  Maybe some day I'll get a board game group started up here, although there's nothing wrong with the card games we've got now.  Plus I don't think Zombicide would hold the same interest for me as it used to.\"",
     "responses": [
       { "text": "What kind of board games do you play?", "topic": "TALK_REFUGEE_JENNY_Games1" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -207,8 +207,8 @@
     "id": "TALK_REFUGEE_JENNY_Survival",
     "dynamic_line": "*shrugs, looking distant.  \"I don't really like to talk about that time much.  None of us do.  Short story is that I made it to one of the evacuation shelters and got loaded onto a bus.  It was supposed to go to some sort of FEMA support camp, but there was a roadblock on the way there.  A few people just jumped out and ran for the military for protection.  They… it… it was bad.  The driver managed to get us turned around and booked it, and I guess they didn't chase us.  She took us back to one of the shelters and we found the address for this place.  Only a few of us decided to risk it, the rest stayed at the shelter to try their luck a different way.  I still wonder how they did.\"",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -216,8 +216,8 @@
     "id": "TALK_REFUGEE_JENNY_World",
     "dynamic_line": "Ha!  I wonder how long that's going to be one of our go-to small talk questions.  It's perfect, isn't it?  Doesn't make you talk about the worst stuff but stays on theme for what's on everyone's mind.  Okay, I'll bite.  Have you heard any of the really wild stories?  Giant monsters the size of skyscrapers kicking over tanks and stuff, during the worst days?  I think somehow our planet got moved into another dimension, probably some kind of experimental process gone wrong.  During transit, some of those things came across, but they left when we arrived wherever we are now.  The rules are different here, and maybe we're superimposed with whatever version of Earth was here to start with, and that's why we hear about aliens and other unbelievable stuff out there along with the zombies.\"  She grins.  \"And before you say that's implausible, bear in mind that *the dead walk now*, so plausibility is off the table.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -230,8 +230,8 @@
         "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodization_u_knows_exodiilore" } ] },
         "topic": "TALK_REFUGEE_JENNY_Exodii2"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -244,8 +244,8 @@
         "condition": { "u_has_trait": "CBM_Interface" },
         "topic": "TALK_REFUGEE_JENNY_Exodii_Proof"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -254,8 +254,8 @@
     "dynamic_line": "*breathes a long, sighing curse as she examines your CBM interface.  \"Holeeeeeeshiiiiiiit.  This is amazing!  Like seriously, it's not even high tech.  At least not this part.  Can I see the schematics?  Can we dissect you?  I'm kidding.  Unless?  No, really kidding though.  Holy shit.\"  She pauses and studies you with a furrowed brow.  \"Wait, you let a strange interdimensional cyborg do brain surgery on you?  Never mind, I'd totally do that too.  Can you get me one of these?  No, I'd wind up taking it out and dismantling it.\"  She looks you up and down.  \"Thanks.  That's incredible.  It sucks that the world ended but I'm glad to know at least it ended with *cyborgs*.\"",
     "//": "TK: Bring her a CBM to check out. Nothing useful results, it just makes her happy.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -265,8 +265,8 @@
     "responses": [
       { "text": "Have you ever thought about going back for them?", "topic": "TALK_REFUGEE_JENNY_Games2" },
       { "text": "Do you mean stuff like D&D?", "topic": "TALK_REFUGEE_JENNY_Games3" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -275,8 +275,8 @@
     "dynamic_line": "No, mainly because my whole neighborhood burnt to the ground.  Some scouts went by a while ago.  Nothing there for me but melted plastic miniatures and thousands of hours of gameplay I'll never have.",
     "responses": [
       { "text": "Do you mean stuff like D&D?", "topic": "TALK_REFUGEE_JENNY_Games3" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -285,8 +285,8 @@
     "dynamic_line": "Well, of course I played the mandatory amount of dice based RPGs necessary to graduate my engineering program,\" she grins.  \"They're fun, something like that would be nice around here, but I'm not that kind of storyteller and I don't think anyone else here is nerdy enough for it.\"  Jenny tips her head a bit.  \"It's nice that you're asking but don't worry about me, I've got recreation.\"",
     "responses": [
       { "text": "Have you ever thought about going back for your board games?", "topic": "TALK_REFUGEE_JENNY_Games2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -298,9 +298,9 @@
         "text": "[Skill 2] I'm not a total noob.",
         "condition": {
           "or": [
-            { "math": [ "u_skill('computer')", ">=", "2" ] },
-            { "math": [ "u_skill('electronics')", ">=", "2" ] },
-            { "math": [ "u_skill('mechanics')", ">=", "2" ] }
+            { "math": [ "u_skill('computer') >= 2" ] },
+            { "math": [ "u_skill('electronics') >= 2" ] },
+            { "math": [ "u_skill('mechanics') >= 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2"
@@ -309,9 +309,9 @@
         "text": "[Skill <2] No, that's why I want you to teach me.",
         "condition": {
           "and": [
-            { "math": [ "u_skill('computer')", "<", "2" ] },
-            { "math": [ "u_skill('electronics')", "<", "2" ] },
-            { "math": [ "u_skill('mechanics')", "<", "2" ] }
+            { "math": [ "u_skill('computer') < 2" ] },
+            { "math": [ "u_skill('electronics') < 2" ] },
+            { "math": [ "u_skill('mechanics') < 2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
@@ -320,9 +320,9 @@
         "text": "[INT 10] No, but I'm a fast learner.",
         "condition": {
           "and": [
-            { "math": [ "u_skill('computer')", "<", "2" ] },
-            { "math": [ "u_skill('electronics')", "<", "2" ] },
-            { "math": [ "u_skill('mechanics')", "<", "2" ] },
+            { "math": [ "u_skill('computer') < 2" ] },
+            { "math": [ "u_skill('electronics') < 2" ] },
+            { "math": [ "u_skill('mechanics') < 2" ] },
             { "u_has_intelligence": 10 }
           ]
         },
@@ -331,7 +331,7 @@
         "success": { "topic": "TALK_REFUGEE_JENNY_Teach2" }
       },
       { "text": "Um, you know what?  Nevermind.  What were you saying?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -341,22 +341,22 @@
     "speaker_effect": {
       "effect": [
         { "u_add_var": "knowledge_flag_Jenny_teach", "value": "yes" },
-        { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] }
+        { "math": [ "n_timer_flag_Jenny_teach = time('now')" ] }
       ]
     },
     "responses": [
       { "text": "Just say the word, teach.", "topic": "TALK_TRAIN" },
-      { "text": "Actually, I'd better get going.  Let's do this later.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  Let's do this later.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Teach2_Sorry",
     "dynamic_line": "&\"I'm sorry, I don't have the time to teach someone who can't pull their weight, I just don't.\"  She gives you a look of genuine regret, then shrugs.",
-    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Jenny_teach = time('now')" ] } },
     "responses": [
       { "text": "Fine.  What were you saying?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -385,8 +385,8 @@
         }
       },
       { "text": "Tell me more about your project.", "topic": "TALK_REFUGEE_JENNY_Project2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -399,8 +399,8 @@
     },
     "responses": [
       { "text": "Tell me more about your project.", "topic": "TALK_REFUGEE_JENNY_Project2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -417,29 +417,29 @@
         "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project3",
     "dynamic_line": {
-      "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('7 d')" ],
+      "math": [ "time_since(n_timer_flag_Jenny_project_timer) >= time('7 d')" ],
       "no": {
         "gendered_line": "Things are coming along.  I have a lot of studying to do before I know how to fix my design issues, but the book you brought definitely has everything I need.  Now that I've got some progress to show, administration is much more willing to help me get the parts I need.  You've been a great gofer, but I can probably handle the rest on my own.  Check back in a week or two!",
         "relevant_genders": [ "u" ]
       },
       "yes": {
-        "math": [ "time_since(n_timer_flag_Jenny_project_timer)", ">=", "time('14 d')" ],
+        "math": [ "time_since(n_timer_flag_Jenny_project_timer) >= time('14 d')" ],
         "no": "I'm really making headway.  We've done some live demonstrations with a working device, and now it's just a matter of manufacturing a few of them.  We should be ready for release in a week or two.",
         "yes": "It's finally ready!  The pipes are laid to the first patch of ground we'll set turrets up in and I'd like for you to join me to go inspect how they are working.  I'll let you know when I'm ready to go.",
         "//": "After content freeze remove last sentence on var yes, create mission to nearby field, create air powered turrets, use update mapgen to have some corpses that will rise near the turrets as you approach, create followup followup missions that add additional turrets to nearby fields as time goes on."
       }
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -459,8 +459,8 @@
       }
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -497,8 +497,8 @@
     },
     "//": "see table of contents for the rest of the conversation options here",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -506,8 +506,8 @@
     "id": "TALK_REFUGEE_JENNY_FreeMerchants",
     "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all… there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumor is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -515,8 +515,8 @@
     "id": "TALK_REFUGEE_JENNY_Refugees2_Fatima",
     "dynamic_line": "Fatima's a sweety, but she's a total dork.  I know, I know, it's backwards for the engineer to call the heavy-duty mechanic a nerd, but hey.  I call it like it is.  She and I have been doing some odd jobs around the upstairs here, fixing up old machinery and things.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -524,8 +524,8 @@
     "id": "TALK_REFUGEE_JENNY_Refugees2_Friends",
     "dynamic_line": "Well, Dana lost her baby right after <the_cataclysm>, in a bus rollover.  She was lucky to make it out alive.  She and Pedro had one of the rougher trips here, I guess.  We just kinda click as friends, I'm grateful there's someone else here I can really get along with.  Her husband, Pedro, is still pretty shell-shocked.  He doesn't talk much.  I like him though, when he opens up he's just hilarious.  Draco is just a cantankerous old fart who hasn't actually got old yet, give him twenty years and he'll be there.  I like grumpy people.  We also have pretty similar taste in music.  Aleesha's a sweet kid, and we've all kind of adopted her, but she seems to hang out with me and Dana the most.  She's a great artist, and she's full of crazy ideas.  I guess I like her because of all of us, she seems to have the most hope that there's a future to be had.",
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -537,8 +537,8 @@
       "no": "Boris and Stan are married, I guess.  They kinda keep to themselves, they seem a bit standoffish if you ask me.  Garry is Stan's brother, I think, but I'm not totally sure.  He seems nice enough, but he's a man of few words.  I can't get a good bead on them.  I've learned not to pry too much though."
     },
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -550,8 +550,8 @@
       "no": "I really can't get a bead on them.  They never really talk to anyone outside of their little family group, they just sit in their own spot and speak Punjabi.  They always seem nice, and they do their share, they just don't have any social connection."
     },
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -563,8 +563,8 @@
       "no": "Vanessa… well, she's nice, I guess.  I gotta say, she kinda drives me nuts, but we're in this together so I try not to be too harsh.  Uyen and Rhyzaea both seem to want to run the show here, but I try to stay out of those politics and just focus on building stuff.  I don't see much good coming of it.  Alonso is fine, he's clearly interested in me, and also in every other single person here.  Not my thing, in a group this small.  John is a walking stereotype, I imagine there must be more depth to him, but I haven't seen it yet."
     },
     "responses": [
-      { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -577,6 +577,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "book_pneumatics",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
       "offer": "If you happen to see anything in your travels about high-powered air rifles, it would help a lot.",
@@ -602,6 +603,7 @@
     "item": "motor",
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
@@ -617,7 +619,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 4 },
         { "u_add_var": "mission_completed_Jenny_mission_2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -630,6 +632,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "metal_tank",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_REFUGEE_Jenny_GET_TEXT",
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
@@ -646,7 +649,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Jenny_mission_2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -660,6 +663,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "text_gunsmith",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I hate to admit it, but my first few tests haven't gone well.  I think I know what's wrong, but I need more information.",
       "offer": "I need a good quality reference book on gunsmithing.  This isn't my area of expertise, and I don't want to blow anybody up.",
@@ -675,8 +679,8 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "mission_completed_Jenny_mission_3", "value": "yes" },
-        { "math": [ "n_timer_flag_Jenny_project_timer", "=", "time('now')" ] },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "n_timer_flag_Jenny_project_timer = time('now')" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   }

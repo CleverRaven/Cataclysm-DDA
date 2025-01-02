@@ -136,6 +136,7 @@
       { "item": "corkscrew", "prob": 60 },
       { "item": "bottle_opener", "prob": 75 },
       { "item": "candle", "prob": 75, "charges": [ 10, -1 ] },
+      { "group": "small_candles_in_box", "prob": 50 },
       { "item": "extension_cable", "prob": 45 },
       { "item": "long_extension_cable", "prob": 20 },
       { "item": "RPG_die", "prob": 10 },
@@ -395,6 +396,7 @@
       { "item": "hairbrush", "prob": 80 },
       { "item": "office_letter_opener", "prob": 75 },
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges": [ 70, -1 ] },
+      { "group": "small_candles_in_box", "prob": 25 },
       { "item": "corkscrew", "prob": 70 },
       { "group": "adhesive_bandages_box_used", "prob": 60 },
       { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
@@ -903,6 +905,7 @@
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           },
+          { "item": "vitc_tablet", "prob": 7, "count": [ 1, 30 ], "entry-wrapper": "bottle_plastic_small" },
           {
             "item": "calcium_tablet",
             "prob": 10,
@@ -1147,7 +1150,6 @@
   {
     "type": "item_group",
     "id": "garlic_powder_various",
-    "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
       { "prob": 18, "group": "garlic_powder_bottle_plastic_small" },
@@ -1162,7 +1164,6 @@
     "type": "item_group",
     "id": "garlic_powder_bottle_plastic_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
   },
@@ -1170,7 +1171,6 @@
     "type": "item_group",
     "id": "garlic_powder_bottle_glass_small",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning_small",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
   },
@@ -1178,7 +1178,6 @@
     "type": "item_group",
     "id": "garlic_powder_bottle_plastic",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
   },
@@ -1186,7 +1185,6 @@
     "type": "item_group",
     "id": "garlic_powder_bottle_glass",
     "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_glass_seasoning",
     "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
   },

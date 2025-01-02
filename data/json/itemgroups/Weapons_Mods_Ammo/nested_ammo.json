@@ -233,20 +233,6 @@
     ]
   },
   {
-    "id": "on_hand_460",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "460_fmj", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "460_rowland", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "460_fmj", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "460_rowland", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "460_fmj", "prob": 30, "charges": [ 44, 80 ] },
-      { "item": "460_rowland", "prob": 30, "charges": [ 44, 80 ] }
-    ]
-  },
-  {
     "id": "on_hand_357sig",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

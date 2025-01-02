@@ -228,70 +228,14 @@
     ]
   },
   {
-    "id": "PHOTOKIN_HIDE_UGLY_01",
     "type": "mutation",
-    "name": { "str": "Mirror-Mask" },
-    "description": "You're just an average Joe.",
+    "id": "CLAIR_ASTRAL_PROJECTION_APPEARANCE",
+    "name": { "str": "Astral Form", "//~": "NO_I18N" },
+    "description": { "str": "You're a disembodied mind so you're all glowy and blue.  Spooky!", "//~": "NO_I18N" },
     "points": 0,
-    "visibility": 0,
-    "ugliness": -2,
+    "valid": false,
     "player_display": false,
-    "valid": false
-  },
-  {
-    "id": "PHOTOKIN_HIDE_UGLY_02",
-    "type": "mutation",
-    "name": { "str": "Mirror-Mask" },
-    "description": "You're just an average Joe.",
-    "points": 0,
-    "visibility": 0,
-    "ugliness": -4,
-    "player_display": false,
-    "valid": false
-  },
-  {
-    "id": "PHOTOKIN_HIDE_UGLY_03",
-    "type": "mutation",
-    "name": { "str": "Mirror-Mask" },
-    "description": "You're just an average Joe.",
-    "points": 0,
-    "visibility": 0,
-    "ugliness": -6,
-    "player_display": false,
-    "valid": false
-  },
-  {
-    "id": "PHOTOKIN_HIDE_UGLY_04",
-    "type": "mutation",
-    "name": { "str": "Mirror-Mask" },
-    "description": "You're just an average Joe.",
-    "points": 0,
-    "visibility": 0,
-    "ugliness": -8,
-    "player_display": false,
-    "valid": false
-  },
-  {
-    "id": "PHOTOKIN_HIDE_UGLY_05",
-    "type": "mutation",
-    "name": { "str": "Mirror-Mask" },
-    "description": "You're just an average Joe.",
-    "points": 0,
-    "visibility": 0,
-    "ugliness": -10,
-    "player_display": false,
-    "valid": false
-  },
-  {
-    "id": "PHOTOKIN_HIDE_UGLY_06",
-    "type": "mutation",
-    "name": { "str": "Mirror-Mask" },
-    "description": "You're just an average Joe.",
-    "points": 0,
-    "visibility": 0,
-    "ugliness": -12,
-    "player_display": false,
-    "valid": false
+    "override_look": { "id": "mon_hologram", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -662,8 +606,11 @@
   {
     "id": "telelixir_random",
     "type": "SPELL",
-    "name": "[Ψ]Telelixir Random Choice",
-    "description": "Part of the Telekinetic Elixir spell that chooses another spell to cast.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Telelixir Random Choice", "//~": "NO_I18N" },
+    "description": {
+      "str": "Part of the Telekinetic Elixir spell that chooses another spell to cast.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "flags": [ "WONDER", "NO_PROJECTILE", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "hostile" ],
     "message": "",
@@ -678,8 +625,8 @@
   {
     "id": "telelixir_slam",
     "type": "SPELL",
-    "name": "[Ψ]Telelixir Slam",
-    "description": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Telelixir Slam", "//~": "NO_I18N" },
+    "description": { "str": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "message": "",
@@ -692,8 +639,8 @@
   {
     "id": "telelixir_push",
     "type": "SPELL",
-    "name": "[Ψ]Telelixir Shove",
-    "description": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Telelixir Shove", "//~": "NO_I18N" },
+    "description": { "str": "One spell for the telekinetic elixir mutation.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "message": "",

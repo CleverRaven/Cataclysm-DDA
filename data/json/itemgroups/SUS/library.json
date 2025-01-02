@@ -405,6 +405,31 @@
     ]
   },
   {
+    "id": "SUS_martial_bookcase",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a set of martial arts manuals.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "book_martial_rare", "prob": 65 },
+      { "group": "book_martial_common", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "book_mag_combat", "count": [ 1, 4 ], "prob": 100 },
+      { "group": "book_manual_combat", "count": [ 1, 2 ], "prob": 50 }
+    ]
+  },
+  {
+    "id": "SUS_martial_bookcase_vandalized",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a set of martial arts manuals.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "SUS_martial_bookcase", "prob": 100 },
+      { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
+    ]
+  },
+  {
     "id": "SUS_fiction_bookcase",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",

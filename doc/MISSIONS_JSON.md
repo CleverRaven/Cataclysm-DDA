@@ -9,6 +9,7 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "name": "Retrieve Black Box Transcript",
     "description": "Decrypt the contents of the black box using a terminal from a nearby lab.",
     "goal": "MGOAL_FIND_ITEM",
+    "deadline": [ "16 hours", "math": [ "time(' 16 h') * 2" ] ],
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
@@ -17,6 +18,14 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
        "effect": { "u_buy_item": "black_box" },
        "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
     },
+    "urgent": false,
+    "has_generic_rewards": true,
+    "item": "pencil",
+    "item_group": "pencil_box_with_pencil",
+    "count": 6,
+    "required_container": "pencil_box",
+    "remove_container": true,
+    "empty_container": "can_drink",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -43,6 +52,11 @@ it with "MISSION" and to use a fairly descriptive name.
 ### name
 The name is also required, and is displayed to the user in the 'm'issions menu.
 
+### deadline
+How long after being assigned this mission before it will automatically fail (if not already completed). Can be a pair of values, in which case a random value between the two is picked. If only a single value is given, always uses that value.
+
+Supports variable objects and math expressions.
+
 ### description
 Not required, but it's strongly recommended that you summarize all relevant info for the mission.
 You may refer to mission end effects of the "u_buy_item" type, as long as they do not come at a
@@ -60,6 +74,9 @@ cost to the player. See the example below:
     }
 ```
 This system may be expanded in the future to allow referring to other mission parameters and effects.
+
+### urgent
+If true, the NPC giving this mission will refuse to speak on any other topics besides completing this mission while it is active.
 
 ### goal
 Must be included, and must be one of these strings:

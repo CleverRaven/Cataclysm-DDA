@@ -35,5 +35,77 @@
         }
       ]
     }
+  },
+  {
+    "id": "aura_caustic",
+    "type": "ARMOR",
+    "name": "acid aura",
+    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
+  },
+  {
+    "id": "technomancer_summoned_ups_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 8000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "technomancer_summoned_ups_6",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "technomantic power supply", "str_pl": "technomantic power supplies" },
+    "description": "A smoothly-curved conglomeration of mana, humming softly as it provides power.",
+    "copy-from": "technomancer_summoned_ups",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 32000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
   }
 ]

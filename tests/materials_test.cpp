@@ -24,7 +24,7 @@ static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
 static constexpr int num_iters = 1000;
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint_bub_ms target_pos( HALF_MAPSIZE_X - 10, HALF_MAPSIZE_Y, 0 );
 
 static void check_near( const std::string &subject, float prob, const float expected,

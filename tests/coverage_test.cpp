@@ -22,6 +22,8 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
+static const sub_bodypart_str_id sub_body_part_eyes_right( "eyes_right" );
+
 static const int num_iters = 10000;
 static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
@@ -47,8 +49,8 @@ static void check_not_near( const std::string &subject, float actual, const floa
 
 static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk = false )
 {
-    monster zed( mon_manhack, mon_pos.raw() );
-    standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
+    monster zed( mon_manhack, mon_pos );
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );
@@ -83,8 +85,8 @@ static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk
 
 static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 {
-    monster zed( mon_manhack, mon_pos.raw() );
-    standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
+    monster zed( mon_manhack, mon_pos );
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );
     }
@@ -120,9 +122,9 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
 {
     clear_map();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
-                                           badguy_pos.raw(), std::vector<std::string>(), 0, 8, 8, 8, 8 );
+                                           badguy_pos, std::vector<std::string>(), 0, 8, 8, 8, 8 );
     std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter",
-                                         dude_pos.raw(), std::vector<std::string>(), 0, 8, 8, 8, 8 );
+                                         dude_pos, std::vector<std::string>(), 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;
@@ -237,13 +239,52 @@ TEST_CASE( "Ghost_ablative_vest", "[coverage]" )
     }
 }
 
+TEST_CASE( "helmet_with_face_shield_coverage", "[coverage]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    item hat_hard( "hat_hard" );
+    CHECK( hat_hard.get_coverage( body_part_eyes ) == 0 );
+
+    WHEN( "wearing helmet with face shield should cover eyes and mouth" ) {
+        item face_shield( "face_shield" );
+        REQUIRE( hat_hard.put_in( face_shield, pocket_type::CONTAINER ).success() );
+        dummy.wear_item( hat_hard );
+
+        CHECK( hat_hard.get_coverage( body_part_eyes ) == 100 );
+        CHECK( hat_hard.get_coverage( body_part_mouth ) == 100 );
+        CHECK( hat_hard.get_coverage( sub_body_part_eyes_right ) == 100 );
+    }
+
+}
+
+TEST_CASE( "vest_with_plate_coverage", "[coverage]" )
+{
+    //Vest covers torso_upper and torso_lower
+    item vest = item( "ballistic_vest_esapi" );
+    //100 (torso_upper coverage) * 0.6 (torso_upper max_coverage) + 80 (torso_lower coverage) * 0.4
+    CHECK( vest.get_coverage( body_part_torso ) == 92 );
+
+    WHEN( "inserting 2 plates" ) {
+        //Each plate covers torso_upper with coverage 45
+        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+        CHECK( vest.put_in( item( "test_plate" ), pocket_type::CONTAINER ).success() );
+
+        THEN( "vest with plates should retain the same coverage" ) {
+            CHECK( vest.get_coverage( body_part_torso ) == 92 );
+        }
+    }
+
+}
+
 TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered seperate limb" ) {
         item full = item( "test_ghost_vest" );
         full.force_insert_item( item( "test_plate_skirt_super" ), pocket_type::CONTAINER );
 
-        standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
+        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         dude.wear_item( full, false );
         damage_instance du_full = damage_instance( damage_bullet, 100.0f );
         dude.absorb_hit( weakpoint_attack(), bodypart_id( "leg_l" ), du_full );

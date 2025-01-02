@@ -102,7 +102,7 @@ class cata_path
         }
 
         template<typename T>
-        cata_path operator+( T &&segment ) {
+        cata_path operator+( T &&segment ) const {
             cata_path ret = *this;
             ret += as_fs_path( std::forward<T>( segment ) );
             return ret;

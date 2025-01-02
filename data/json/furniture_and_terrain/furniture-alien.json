@@ -202,7 +202,7 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN", "FREE_TO_EXAMINE" ],
     "deconstruct": { "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
     "bash": {
       "str_min": 6,
@@ -700,21 +700,21 @@
       "effect_on_conditions": [
         {
           "id": "EOC_EXOWARE_LOCATOR_ACTIVE",
-          "condition": { "math": [ "u_rebooted_locator", "==", "1" ] },
+          "condition": { "math": [ "u_rebooted_locator == 1" ] },
           "effect": [ { "u_message": "The locator is already active" } ]
         },
         {
           "id": "EOC_EXOWARE_LOCATOR_FALSE",
-          "condition": { "and": [ { "not": { "u_has_item": "warehouse_rebooter" } }, { "math": [ "u_rebooted_locator", "==", "0" ] } ] },
+          "condition": { "and": [ { "not": { "u_has_item": "warehouse_rebooter" } }, { "math": [ "u_rebooted_locator == 0" ] } ] },
           "effect": [ { "u_message": "You don't have anything that could reactivate this device" } ]
         },
         {
           "id": "EOC_EXOWARE_LOCATOR",
-          "condition": { "and": [ { "u_has_item": "warehouse_rebooter" }, { "math": [ "u_rebooted_locator", "==", "0" ] } ] },
+          "condition": { "and": [ { "u_has_item": "warehouse_rebooter" }, { "math": [ "u_rebooted_locator == 0" ] } ] },
           "effect": [
             { "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>" },
             { "u_consume_item": "warehouse_rebooter" },
-            { "math": [ "u_rebooted_locator", "=", "1" ] }
+            { "math": [ "u_rebooted_locator = 1" ] }
           ]
         }
       ]
@@ -805,7 +805,7 @@
       "str_max": 100,
       "sound": "smash!",
       "sound_fail": "an absence of sound.",
-      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 2 ] } ]
     },
     "examine_action": {
       "type": "effect_on_condition",

@@ -2,8 +2,8 @@
   {
     "abstract": "mbelt_leather",
     "type": "TOOL_ARMOR",
-    "name": "magic leather belt",
-    "description": "A leather belt.  Useful for making your pair of pants fit.",
+    "name": { "str": "magic leather belt", "//~": "NO_I18N" },
+    "description": { "str": "A leather belt.  Useful for making your pair of pants fit.", "//~": "NO_I18N" },
     "weight": "102 g",
     "volume": "250 ml",
     "price": "900 USD",

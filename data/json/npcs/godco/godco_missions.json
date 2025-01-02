@@ -181,7 +181,12 @@
     },
     "end": {
       "effect": [
-        { "queue_eocs": "godco_place_warehouse_new", "time_in_future": "336 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "run_eocs": "godco_place_warehouse_new",
+          "time_in_future": "336 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 137 }
       ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
@@ -312,8 +317,13 @@
     },
     "end": {
       "effect": [
-        { "math": [ "darryl_building_coop", "=", "1" ] },
-        { "queue_eocs": "godco_place_coop_new", "time_in_future": "168 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        { "math": [ "darryl_building_coop = 1" ] },
+        {
+          "run_eocs": "godco_place_coop_new",
+          "time_in_future": "168 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 6 }
       ],
       "opinion": { "trust": 2, "value": 2 }
@@ -329,7 +339,7 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "slimepit_down", "om_special": "Slime Pit", "reveal_radius": 3, "search_range": 280 }
+      "assign_mission_target": { "om_terrain": "slimepit_z0", "om_special": "Slime Pit", "reveal_radius": 3, "search_range": 280 }
     },
     "item": "slime_scrap",
     "count": 3,
@@ -360,13 +370,13 @@
     "value": 0,
     "count": 1,
     "goal_condition": {
-      "or": [
-        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
-        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      "u_has_items_sum": [
+        { "item": "egg_spider_cellar", "amount": 1 },
+        { "item": "egg_spider_jumping", "amount": 1 },
+        { "item": "egg_spider_trapdoor", "amount": 1 },
+        { "item": "egg_spider_web", "amount": 1 },
+        { "item": "egg_spider_widow", "amount": 1 },
+        { "item": "egg_spider_wolf", "amount": 1 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -387,7 +397,16 @@
       "effect": [
         { "u_spawn_item": "270win_jsp", "count": 4 },
         { "u_spawn_item": "icon", "count": 5 },
-        { "run_eocs": "EOC_MISSION_GODCO_TROPHY2_done" }
+        {
+          "u_consume_item_sum": [
+            { "item": "egg_spider_cellar", "amount": 1 },
+            { "item": "egg_spider_jumping", "amount": 1 },
+            { "item": "egg_spider_trapdoor", "amount": 1 },
+            { "item": "egg_spider_web", "amount": 1 },
+            { "item": "egg_spider_widow", "amount": 1 },
+            { "item": "egg_spider_wolf", "amount": 1 }
+          ]
+        }
       ],
       "opinion": { "trust": 2, "value": 2 }
     },
@@ -823,7 +842,7 @@
     "difficulty": 1,
     "value": 0,
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript", "=", "time('now')" ] } ],
+      "effect": [ { "u_spawn_item": "icon", "count": 4 }, { "math": [ "n_timer_trade_writing_manuscript = time('now')" ] } ],
       "opinion": { "trust": 1, "value": 1 }
     },
     "fail": { "opinion": { "anger": 1 } },
@@ -968,7 +987,12 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 90 },
-        { "queue_eocs": "godco_place_herb_garden_new", "time_in_future": "72 hours" }
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "run_eocs": "godco_place_herb_garden_new",
+          "time_in_future": "72 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        }
       ],
       "opinion": { "trust": 3, "value": 2 }
     },
@@ -1243,7 +1267,12 @@
     "end": {
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
-        { "queue_eocs": "godco_place_wall_new", "time_in_future": "432 hours" },
+        { "npc_location_variable": { "context_val": "search_locale" } },
+        {
+          "run_eocs": "godco_place_wall_new",
+          "time_in_future": "432 hours",
+          "variables": { "search_locale": { "context_val": "search_locale" } }
+        },
         { "u_spawn_item": "icon", "count": 40 }
       ],
       "opinion": { "trust": 2, "value": 1 }
@@ -1313,7 +1342,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "math": [ "godco_has_canningpots", "=", "1" ] },
+        { "math": [ "godco_has_canningpots = 1" ] },
         { "u_spawn_item": "icon", "count": 80 },
         { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
       ],
@@ -1346,7 +1375,7 @@
     "start": "reveal_refugee_center",
     "end": {
       "effect": [
-        { "math": [ "godco_met_merchants", "=", "0" ] },
+        { "math": [ "godco_met_merchants = 0" ] },
         { "u_spawn_item": "icon", "count": 5 },
         { "u_assign_activity": "ACT_WAIT_NPC", "duration": "30 minutes" }
       ],
@@ -1357,13 +1386,13 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "See who's over there.",
-      "offer": "If you see this, it's a bug.",
-      "accepted": "If you see this, it's a bug.",
-      "rejected": "If you see this, it's a bug.",
-      "advice": "If you see this, it's a bug.",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
       "inquire": "What have you found out?",
       "success": "This should be very useful to us.  Now we can truly begin our march of righteousness.",
-      "success_lie": "If you see this, it's a bug.",
+      "success_lie": ".",
       "failure": "As expected of such a person…"
     }
   },
@@ -1374,19 +1403,19 @@
     "description": "Find some proof that the representative near the New England Community Church is crooked.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
+    "goal_condition": { "math": [ "freemerch_godco_trader_investigated == 1" ] },
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Find some proof about that merchant.",
-      "offer": "If you see this, it's a bug.",
-      "accepted": "If you see this, it's a bug.",
-      "rejected": "If you see this, it's a bug.",
-      "advice": "If you see this, it's a bug.",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
       "inquire": "What have you found out?",
       "success": "Thanks, we'll take the needed initiative.",
-      "success_lie": "If you see this, it's a bug.",
+      "success_lie": ".",
       "failure": "Of course, you have no evidence."
     }
   },

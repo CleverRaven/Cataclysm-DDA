@@ -107,18 +107,19 @@ using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
 enum peek_act : int {
-    PA_BLIND_THROW
+    PA_BLIND_THROW,
+    PA_BLIND_THROW_WIELDED,
     // obvious future additional value is PA_BLIND_FIRE
 };
 
 struct look_around_result {
-    std::optional<tripoint> position;
+    std::optional<tripoint_bub_ms> position;
     std::optional<peek_act> peek_action;
 };
 struct look_around_params {
     const bool show_window;
-    tripoint &center;
-    const tripoint &start_point;
+    tripoint_bub_ms &center;
+    const tripoint_bub_ms &start_point;
     bool has_first_point;
     bool select_zone;
     bool peeking;
@@ -132,7 +133,7 @@ struct w_map {
     catacurses::window win;
 };
 
-bool is_valid_in_w_terrain( const point &p );
+bool is_valid_in_w_terrain( const point_rel_ms &p );
 namespace turn_handler
 {
 bool cleanup_at_end();
@@ -225,7 +226,7 @@ class game
         void mark_main_ui_adaptor_resize() const;
         void draw( ui_adaptor &ui );
         void draw_ter( bool draw_sounds = true );
-        void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+        void draw_ter( const tripoint_bub_ms &center, bool looking = false, bool draw_sounds = true );
 
         class draw_callback_t
         {
@@ -261,14 +262,14 @@ class game
                 async_anim_layer_curses; // NOLINT(cata-serialize)
 
     public:
-        void init_draw_blink_curses( const tripoint &p, const std::string &ncstr,
+        void init_draw_blink_curses( const tripoint_bub_ms &p, const std::string &ncstr,
                                      const nc_color &nccol );
         void draw_blink_curses();
         void void_blink_curses();
         bool has_blink_curses();
         bool blink_active_phase = true; // NOLINT(cata-serialize)
     protected:
-        std::map<tripoint, std::pair <std::string, nc_color>>
+        std::map<tripoint_bub_ms, std::pair <std::string, nc_color>>
                 blink_layer_curses; // NOLINT(cata-serialize)
 
     public:
@@ -282,7 +283,7 @@ class game
          * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
          * instead of the one it is currently facing.
          */
-        std::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
+        std::optional<tripoint_rel_ms> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
         /**
@@ -291,17 +292,19 @@ class game
          * If peeking == true, forbids some exotic movement options
          */
         void vertical_move( int z, bool force, bool peeking = false );
-        void start_hauling( const tripoint &pos );
+        void start_hauling( const tripoint_bub_ms &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
-        std::optional<tripoint> find_stairs( const map &mp, int z_after, const tripoint &pos );
-        std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
-                bool peeking, const tripoint &pos );
+        std::optional<tripoint_bub_ms> find_stairs( const map &mp, int z_after,
+                const tripoint_bub_ms &pos );
+        std::optional<tripoint_bub_ms> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
+                bool peeking, const tripoint_bub_ms &pos );
         /*
         * Prompt player on direction they want to climb up or down.
         */
-        std::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts, bool up = true );
+        std::optional<tripoint_bub_ms> point_selection_menu( const std::vector<tripoint_bub_ms> &pts,
+                bool up = true );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
@@ -350,17 +353,14 @@ class game
          * the one contained in @p mon).
          */
         /** @{ */
-        // TODO: Get rid of untyped overload.
-        monster *place_critter_at( const mtype_id &id, const tripoint &p );
         monster *place_critter_at( const mtype_id &id, const tripoint_bub_ms &p );
-        monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &p );
-        monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
-        monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
+        monster *place_critter_around( const mtype_id &id, const tripoint_bub_ms &center, int radius );
+        monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &center,
                                        int radius, bool forced = false );
-        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint_bub_ms> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
-                                       const tripoint_range<tripoint> &range );
+                                       const tripoint_range<tripoint_bub_ms> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -375,19 +375,20 @@ class game
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
         /** Spawns a hallucination at a determined position. */
-        bool spawn_hallucination( const tripoint &p );
+        bool spawn_hallucination( const tripoint_bub_ms &p );
         /** Spawns a hallucination at a determined position of a given monster. */
-        bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
+        bool spawn_hallucination( const tripoint_bub_ms &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
         /** Spawns a npc at a determined position. */
-        bool spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class, std::string &unique_id,
+        bool spawn_npc( const tripoint_bub_ms &p, const string_id<npc_template> &npc_class,
+                        std::string &unique_id,
                         std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
         /** Finds somewhere to spawn a monster or npc. */
-        bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+        bool find_nearby_spawn_point( const tripoint_bub_ms &target, const mtype_id &mt, int min_radius,
+                                      int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only,
                                       bool open_air_allowed = false );
-        bool find_nearby_spawn_point( const tripoint &target, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+        bool find_nearby_spawn_point( const tripoint_bub_ms &target, int min_radius,
+                                      int max_radius, tripoint_bub_ms &point, bool outdoor_only, bool indoor_only,
                                       bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
@@ -501,10 +502,8 @@ class game
         bool is_empty( const tripoint &p );
         bool is_empty( const tripoint_bub_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
-        bool is_in_sunlight( const tripoint &p );
+        bool is_in_sunlight( const tripoint_bub_ms &p );
         /** Returns true if p is indoors, underground, or in a car. */
-        // TODO: Get rid of untyped overload.
-        bool is_sheltered( const tripoint &p );
         bool is_sheltered( const tripoint_bub_ms &p );
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
@@ -517,11 +516,11 @@ class game
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
-        bool revive_corpse( const tripoint &p, item &it );
+        bool revive_corpse( const tripoint_bub_ms &p, item &it );
         // same as above, but with relaxed placement radius.
-        bool revive_corpse( const tripoint &p, item &it, int radius );
+        bool revive_corpse( const tripoint_bub_ms &p, item &it, int radius );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
+        void save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -529,7 +528,7 @@ class game
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
         bool portal_storm_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
-        void moving_vehicle_dismount( const tripoint &dest_loc );
+        void moving_vehicle_dismount( const tripoint_bub_ms &dest_loc );
 
         /** Returns the current remotely controlled vehicle. */
         vehicle *remoteveh();
@@ -544,6 +543,10 @@ class game
         npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+
+        /** NPCs who saw player interacting with their stuff (disassembling, cutting etc)
+        * will notify the player that thievery was witnessed and make angry at the player. */
+        void on_witness_theft( const item &target );
     private:
         /** Unloads all NPCs.
          *
@@ -574,7 +577,7 @@ class game
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( monster *fish, const tripoint &pos, Character *p,
+        void catch_a_monster( monster *fish, const tripoint_bub_ms &pos, Character *p,
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specified distance.
@@ -582,14 +585,21 @@ class game
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
          */
-        std::unordered_set<tripoint> get_fishable_locations( int distance, const tripoint &fish_pos );
+        // TODO: Get rid of untyped overload.
+        std::unordered_set<tripoint> get_fishable_locations( int distance,
+                const tripoint_bub_ms &fish_pos );
+        std::unordered_set<tripoint_bub_ms> get_fishable_locations_bub( int distance,
+                const tripoint_bub_ms &fish_pos );
         /**
          * Get the fishable monsters within the provided fishable locations.
          * @param fishable_locations A set of locations which are valid fishable terrain. Any fishable monsters
          * are filtered by this collection to determine those which can actually be caught.
          * @return Fishable monsters within the specified fishable terrain.
          */
+        // TODO: Get rid of untyped overload.
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
+        std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint_bub_ms>
+                &fishable_locations );
 
         /** Destroy / dissolve character items when in water. */
         void water_affect_items( Character &ch ) const;
@@ -611,17 +621,17 @@ class game
         field_entry *is_in_dangerous_field();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( Character &p, bool z_level_changed = false );
-        point update_map( int &x, int &y, bool z_level_changed = false );
+        point_rel_sm update_map( Character &p, bool z_level_changed = false );
+        point_rel_sm update_map( int &x, int &y, bool z_level_changed = false );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void peek();
         void peek( const tripoint_bub_ms &p );
         std::optional<tripoint_bub_ms> look_debug();
 
-        bool check_zone( const zone_type_id &type, const tripoint &where ) const;
+        bool check_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
-        bool check_near_zone( const zone_type_id &type, const tripoint &where ) const;
+        bool check_near_zone( const zone_type_id &type, const tripoint_bub_ms &where ) const;
         bool is_zones_manager_open() const;
         void zones_manager();
 
@@ -636,7 +646,7 @@ class game
                 const std::function<void( const std::string &msg )> &report ) const;
 
         // Look at nearby terrain ';', or select zone points
-        std::optional<tripoint> look_around();
+        std::optional<tripoint_bub_ms> look_around();
         /**
         * @brief
         *
@@ -647,31 +657,31 @@ class game
         * @param select_zone true if the zone is being edited
         * @param peeking determines if the player is peeking
         * @param is_moving_zone true if the zone is being moved, false by default
-        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+        * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint::zero
         * @param change_lv determines allow if change z-level
         * @return look_around_result
         */
-        look_around_result look_around( bool show_window, tripoint &center,
-                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero,
+        look_around_result look_around( bool show_window, tripoint_bub_ms &center,
+                                        const tripoint_bub_ms &start_point, bool has_first_point, bool select_zone, bool peeking,
+                                        bool is_moving_zone = false, const tripoint_bub_ms &end_point = tripoint_bub_ms::zero,
                                         bool change_lv = true );
         look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
-        void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
+        void pre_print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_info,
                                       int &line, int last_line, const visibility_variables &cache );
 
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, const catacurses::window &w_look,
+        void print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
                                   const std::string &area_name, int column,
                                   int &line, int last_line, const visibility_variables &cache );
 
-        void draw_look_around_cursor( const tripoint &lp, const visibility_variables &cache );
+        void draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_variables &cache );
 
         /** Long description of (visible) things at tile. */
-        void extended_description( const tripoint &p );
+        // void extended_description( const tripoint &p ); // Has no implementation, so assuming it's a stub for future expansion.
 
-        void draw_trail_to_square( const tripoint &t, bool bDrawX );
+        void draw_trail_to_square( const tripoint_rel_ms &t, bool bDrawX );
 
         enum inventory_item_menu_position {
             RIGHT_TERMINAL_EDGE,
@@ -735,6 +745,9 @@ class game
          * disabled).
          */
         void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
+        // Removes legacy npctalk_var_ prefix from older versions of the game. Should be removed after 0.J
+        static void legacy_migrate_npctalk_var_prefix( std::unordered_map<std::string, std::string>
+                &map_of_vars );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -743,7 +756,7 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
         // Setter for driving_view_offset
-        void set_driving_view_offset( const point &p );
+        void set_driving_view_offset( const point_rel_ms &p );
         // Calculates the driving_view_offset for the given vehicle
         // and sets it (view set_driving_view_offset), if
         // the options for this feature is deactivated or if veh is NULL,
@@ -752,8 +765,6 @@ class game
 
         /**@}*/
 
-        // TODO: Get rid of untyped overload.
-        void open_gate( const tripoint &p );
         void open_gate( const tripoint_bub_ms &p );
 
         // Knockback functions: knock target at t along a line, either calculated
@@ -762,78 +773,46 @@ class game
         // force also determines damage along with dam_mult;
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
-        void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
-        void knockback( std::vector<tripoint> &traj, int stun, int dam_mult );
+        void knockback( const tripoint_bub_ms &s, const tripoint_bub_ms &t, int force, int stun,
+                        int dam_mult );
+        void knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult );
 
         // Animation related functions
-        // TODO: Get rid of untyped overload
-        void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
-                          char bullet );
         void draw_bullet( const tripoint_bub_ms &t, int i, const std::vector<tripoint_bub_ms> &trajectory,
                           char bullet );
-        // TODO: Get rid of untyped overload
-        void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_mon( const tripoint_bub_ms &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
-        // TODO: fix point types (remove the first overload)
-        void draw_line( const tripoint &p, const tripoint &center_point,
-                        const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
-        // TODO: Change to typed when single user is updated.
-        void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
         void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                         const tripoint &offset ) const;
+                         const tripoint_rel_ms &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
-        void draw_critter( const Creature &critter, const tripoint &center );
-        // TODO: Get rid of untyped overload
-        void draw_cursor( const tripoint &p ) const;
+        void draw_critter( const Creature &critter, const tripoint_bub_ms &center );
         void draw_cursor( const tripoint_bub_ms &p ) const;
         // Tiles: equivalent to draw_cusor
         // Curses: draws diagonal arrows pointing at the tile so the target tile isn't obscured
         void draw_cursor_unobscuring( const tripoint_bub_ms &p ) const;
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
-        // TODO: Get rid of untyped overload
-        void draw_highlight( const tripoint &p );
         void draw_highlight( const tripoint_bub_ms &p );
         // Draws an asynchronous animation at p with tile_id as its sprite. If ncstr is specified, it will also be displayed in curses.
-        // TODO: Get rid of untyped overload
-        void draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr = "",
-                              const nc_color &nccol = c_black );
         void draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id,
                               const std::string &ncstr = "",
                               const nc_color &nccol = c_black );
         void draw_radiation_override( const tripoint_bub_ms &p, int rad );
-        // TODO: Get rid of untyped overload
-        void draw_terrain_override( const tripoint &p, const ter_id &id );
         void draw_terrain_override( const tripoint_bub_ms &p, const ter_id &id );
-        // TODO: Get rid of untyped overload
-        void draw_furniture_override( const tripoint &p, const furn_id &id );
         void draw_furniture_override( const tripoint_bub_ms &p, const furn_id &id );
         void draw_graffiti_override( const tripoint_bub_ms &p, bool has );
-        // TODO: Get rid of untyped overload
-        void draw_trap_override( const tripoint &p, const trap_id &id );
         void draw_trap_override( const tripoint_bub_ms &p, const trap_id &id );
-        // TODO: Get rid of untyped overload
-        void draw_field_override( const tripoint &p, const field_type_id &id );
         void draw_field_override( const tripoint_bub_ms &p, const field_type_id &id );
-        // TODO: Get rid of untyped overload
-        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
-                                 bool hilite );
         void draw_item_override( const tripoint_bub_ms &p, const itype_id &id, const mtype_id &mid,
                                  bool hilite );
-        // TODO: Get rid of untyped overload
-        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                  const units::angle &veh_dir, bool hilite, const point &mount );
         void draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
-                                  const units::angle &veh_dir, bool hilite, const point &mount );
-        // TODO: Get rid of untyped overload
-        void draw_below_override( const tripoint &p, bool draw );
+                                  const units::angle &veh_dir, bool hilite, const point_rel_ms &mount );
         void draw_below_override( const tripoint_bub_ms &p, bool draw );
         void draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
@@ -847,10 +826,10 @@ class game
         void set_safe_mode( safe_mode_type mode );
 
         /** open appliance interaction screen */
-        void exam_appliance( vehicle &veh, const point &cp = point_zero );
+        void exam_appliance( vehicle &veh, const point_rel_ms &cp = point_rel_ms::zero );
 
         /** open vehicle interaction screen */
-        void exam_vehicle( vehicle &veh, const point &cp = point_zero );
+        void exam_vehicle( vehicle &veh, const point_rel_ms &cp = point_rel_ms::zero );
 
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
@@ -859,13 +838,11 @@ class game
         bool npc_menu( npc &who );
 
         // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest, bool via_ramp = false );
+        bool phasing_move( const tripoint_bub_ms &dest, bool via_ramp = false );
         // Handle shifting through terrain and walls, with distance defined by enchantment.
-        bool phasing_move_enchant( const tripoint &dest, int phase_distance = 0 );
-        bool can_move_furniture( tripoint fdest, const tripoint &dp );
+        bool phasing_move_enchant( const tripoint_bub_ms &dest, int phase_distance = 0 );
+        bool can_move_furniture( tripoint_bub_ms fdest, const tripoint_rel_ms &dp );
         // Regular movement. Returns false if it failed for any reason
-        // TODO: Get rid of untyped overload
-        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
         bool walk_move( const tripoint_bub_ms &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
     private:
@@ -912,13 +889,11 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp, bool via_ramp );
+        bool grabbed_move( const tripoint_rel_ms &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items
-        // TODO: Get rid of untyped overload.
-        void examine( const tripoint &p, bool with_pickup = false );
         void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
 
@@ -928,7 +903,7 @@ class game
         void pickup_all();
 
         void unload_container(); // Unload a container w/ direction  'd'
-        void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
+        void drop_in_direction( const tripoint_bub_ms &pnt ); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
 
@@ -942,8 +917,8 @@ class game
         */
         bool warn_player_maybe_anger_local_faction( bool really_bad_offense = false,
                 bool asking_for_public_goods = false );
-        int grabbed_furn_move_time( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
+        int grabbed_furn_move_time( const tripoint_rel_ms &dp );
+        bool grabbed_furn_move( const tripoint_rel_ms &dp );
 
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
@@ -951,7 +926,7 @@ class game
         void insert_item(); // Insert items to container  'v'
         void insert_item( drop_locations &targets );
         // Places the player at the specified point; hurts feet, lists items etc.
-        point place_player( const tripoint &dest, bool quick = false );
+        point_rel_sm place_player( const tripoint_bub_ms &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
         void perhaps_add_random_npc( bool ignore_spawn_timers_and_rates );
         static void display_om_pathfinding_progress( size_t open_set, size_t known_size );
@@ -964,13 +939,12 @@ class game
         void set_critter_died();
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
-        bool is_dangerous_tile( const tripoint &dest_loc ) const;
-        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
-        bool prompt_dangerous_tile( const tripoint &dest_loc,
+        bool is_dangerous_tile( const tripoint_bub_ms &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint_bub_ms &dest_loc,
+                size_t max = 0 ) const;
+        bool prompt_dangerous_tile( const tripoint_bub_ms &dest_loc,
                                     std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
-        // TODO: Get rid of untyped overloads.
-        void pickup( const tripoint &p );
         void pickup( const tripoint_bub_ms &p );
     private:
         void wield();
@@ -979,16 +953,16 @@ class game
         void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info
-        void print_fields_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_fields_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                 int &line );
-        void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
+        void print_terrain_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
                                  const std::string &area_name, int column,
                                  int &line );
-        void print_furniture_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_furniture_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                    int &line );
-        void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_trap_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                               int &line );
-        void print_part_con_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_part_con_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                   int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
@@ -996,21 +970,22 @@ class game
                                  int column, int &line, int last_line );
         void print_visibility_info( const catacurses::window &w_look, int column, int &line,
                                     visibility_type visibility );
-        void print_items_info( const tripoint &lp, const catacurses::window &w_look, int column, int &line,
+        void print_items_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
+                               int &line,
                                int last_line );
-        void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
+        void print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
 
         input_context get_player_input( std::string &action );
 
         /**
-         * Shift all active monsters, the shift vector is the number of
+         * Shift all active monsters, the shift coordinate is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
          * shifting are despawned.
          * Note on z-levels: this works with vertical shifts, but currently all
          * monsters are despawned upon a vertical shift.
          */
-        void shift_monsters( const tripoint &shift );
+        void shift_monsters( const tripoint_rel_sm &shift );
     public:
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
@@ -1024,7 +999,7 @@ class game
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,
-                                const std::optional<tripoint> &mouse_target );
+                                const std::optional<tripoint_bub_ms> &mouse_target );
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
@@ -1044,8 +1019,6 @@ class game
          * been done. false if the player did not choose any action and the function
          * has effectively done nothing.
          */
-        // TODO: Get rid of untyped overload.
-        bool disable_robot( const tripoint &p );
         bool disable_robot( const tripoint_bub_ms &p );
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
@@ -1148,7 +1121,7 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false; // NOLINT(cata-serialize)
 
-        tripoint ter_view_p; // NOLINT(cata-serialize)
+        tripoint_bub_ms ter_view_p; // NOLINT(cata-serialize)
         catacurses::window w_terrain; // NOLINT(cata-serialize)
         catacurses::window w_overmap; // NOLINT(cata-serialize)
         catacurses::window w_omlegend; // NOLINT(cata-serialize)
@@ -1162,7 +1135,7 @@ class game
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
         // Don't write to this directly, always use set_driving_view_offset
-        point driving_view_offset;
+        point_rel_ms driving_view_offset;
 
         // show NPC pathfinding on overmap ui
         bool debug_pathfinding = false; // NOLINT(cata-serialize)
@@ -1254,10 +1227,12 @@ class game
 
         // NOLINTNEXTLINE(cata-serialize)
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
-        tripoint last_mouse_edge_scroll_vector_terrain; // NOLINT(cata-serialize)
-        tripoint last_mouse_edge_scroll_vector_overmap; // NOLINT(cata-serialize)
-        std::pair<tripoint, tripoint> mouse_edge_scrolling( input_context &ctxt, int speed,
-                const tripoint &last, bool iso );
+        tripoint_rel_ms last_mouse_edge_scroll_vector_terrain; // NOLINT(cata-serialize)
+        tripoint_rel_omt last_mouse_edge_scroll_vector_overmap; // NOLINT(cata-serialize)
+        std::pair<tripoint_rel_ms, tripoint_rel_ms> mouse_edge_scrolling( input_context &ctxt, int speed,
+                const tripoint_rel_ms &last, bool iso );
+        std::pair<tripoint_rel_omt, tripoint_rel_omt> mouse_edge_scrolling( input_context &ctxt, int speed,
+                const tripoint_rel_omt &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor; // NOLINT(cata-serialize)
 
@@ -1273,12 +1248,12 @@ class game
          *  This variant adjust scrolling speed according to zoom
          *  level, making it suitable when viewing the "terrain".
          */
-        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        tripoint_rel_ms mouse_edge_scrolling_terrain( input_context &ctxt );
         /** This variant is suitable for the overmap. */
-        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
+        tripoint_rel_omt mouse_edge_scrolling_overmap( input_context &ctxt );
 
         // called on map shifting
-        void shift_destination_preview( const point &delta );
+        void shift_destination_preview( const point_rel_ms &delta );
 
         /** Passed to climbing-related functions (slip_down) to
         *   indicate the climbing action being attempted.
@@ -1319,24 +1294,24 @@ class game
         * Otherwise the safest available affordance (see above) is detected and used.
         * The player is shown a confirmation query with an assessment of falling risk and damage.
         */
-        void climb_down( const tripoint &examp );
+        void climb_down( const tripoint_bub_ms &examp );
 
-        void climb_down_menu_gen( const tripoint &examp, uilist &cmenu );
-        bool climb_down_menu_pick( const tripoint &examp, int retval );
+        void climb_down_menu_gen( const tripoint_bub_ms &examp, uilist &cmenu );
+        bool climb_down_menu_pick( const tripoint_bub_ms &examp, int retval );
         void climb_down_using(
-            const tripoint &examp,
+            const tripoint_bub_ms &examp,
             climbing_aid_id aid,
             bool deploy_affordance = false );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-units::temperature_delta get_heat_radiation( const tripoint &location );
+units::temperature_delta get_heat_radiation( const tripoint_bub_ms &location );
 
 // Returns heat intensity of adjecent fires
-int get_best_fire( const tripoint &location );
+int get_best_fire( const tripoint_bub_ms &location );
 // Returns temperature modifier from hot air fields of given location
-units::temperature_delta get_convection_temperature( const tripoint &location );
+units::temperature_delta get_convection_temperature( const tripoint_bub_ms &location );
 
 namespace cata_event_dispatch
 {
@@ -1344,7 +1319,9 @@ namespace cata_event_dispatch
 // @param p The point the avatar moved from in absolute coordinates
 // @param u The avatar (should have already moved to the new pos)
 // @param m The map the avatar is moving on
-void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m );
+void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m );
 } // namespace cata_event_dispatch
+
+bool are_we_quitting();
 
 #endif // CATA_SRC_GAME_H

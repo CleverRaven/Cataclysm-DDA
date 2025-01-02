@@ -141,11 +141,11 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_BASH", "add": -8.0 },
-          { "value": "ARMOR_CUT", "add": -8.0 },
-          { "value": "ARMOR_BULLET", "add": -8.0 },
-          { "value": "ARMOR_ACID", "multiply": 0.0 }
+        "incoming_damage_mod": [
+          { "type": "acid", "multiply": -1 },
+          { "type": "bash", "add": -8 },
+          { "type": "cut", "add": -8 },
+          { "type": "bullet", "add": -8 }
         ]
       }
     ]

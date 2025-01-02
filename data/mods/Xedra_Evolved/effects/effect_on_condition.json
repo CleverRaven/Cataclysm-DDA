@@ -15,8 +15,14 @@
     "type": "effect_on_condition",
     "id": "xe_night_messages",
     "recurrence": [ "8 hours", "72 hours" ],
-    "condition": { "and": [ { "one_in_chance": 6 }, { "not": "is_day" }, "u_can_see", { "is_weather": "clear" }, "u_is_outside" ] },
-    "effect": [ { "u_message": "XE_NIGHT_MESSAGES_1", "snippet": true } ]
+    "condition": { "and": [ { "one_in_chance": 6 }, { "not": "is_day" }, "u_can_see", "u_is_outside" ] },
+    "effect": [
+      {
+        "if": { "or": [ { "is_weather": "clear" }, { "is_weather": "sunny" } ] },
+        "then": { "u_message": "XE_NIGHT_MESSAGES_CLEAR_1", "snippet": true },
+        "else": { "u_message": "XE_NIGHT_MESSAGES_CLOUDY_1", "snippet": true }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -55,7 +61,7 @@
     "id": "EOC_EATER_CHECK",
     "global": true,
     "recurrence": [ "12 hours", "72 hours" ],
-    "condition": { "math": [ "u_spell_count('school': 'EATER')", ">=", "6" ] },
+    "condition": { "math": [ "u_spell_count('school': 'EATER') >= 6" ] },
     "deactivate_condition": { "u_has_trait": "EATER_SIXTH_SENSE" },
     "effect": [
       {

@@ -146,7 +146,7 @@
     "id": "t_tree_small_alien_2",
     "name": "alien tree",
     "looks_like": "t_bamboo_tall",
-    "description": "A tall, thin alien plant.  From a distance it seems more like a column than a tree, but when you get closer you can see that it's made up of a series of of broad, serrated leaves all folded so closely together that they form a single stalk.",
+    "description": "A tall, thin alien plant.  From a distance it seems more like a column than a tree, but when you get closer you can see that it's made up of a series of broad, serrated leaves all folded so closely together that they form a single stalk.",
     "symbol": "7",
     "color": "dark_gray",
     "move_cost": 0,

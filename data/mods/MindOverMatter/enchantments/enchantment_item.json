@@ -4,7 +4,7 @@
     "id": "pyrokinetic_banked_fire_damage_enchant",
     "has": "WORN",
     "condition": { "not": "u_has_weapon" },
-    "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": { "math": [ "u_spell_level('pyrokinetic_call_flames') + 5" ] } } ]
+    "melee_damage_bonus": [ { "type": "heat", "add": { "math": [ "u_spell_level('pyrokinetic_call_flames') + 5" ] } } ]
   },
   {
     "type": "enchantment",

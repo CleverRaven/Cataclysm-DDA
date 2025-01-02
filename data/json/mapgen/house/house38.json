@@ -61,7 +61,10 @@
         { "item": "stereo", "x": 14, "y": 18, "chance": 35 }
       ],
       "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 6, "chance": 35, "rotation": 270 } ],
-      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "carcrash_8x8_straight", 5 ] ], "x": [ 7, 8 ], "y": 0 }
+      ]
     }
   },
   {

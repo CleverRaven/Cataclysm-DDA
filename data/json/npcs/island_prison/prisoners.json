@@ -399,7 +399,7 @@
       {
         "text": "[Survival 2] I have some survival expertise!",
         "topic": "TALK_PRISONER_LEADER_NO",
-        "condition": { "math": [ "u_skill('survival')", ">=", "2" ] }
+        "condition": { "math": [ "u_skill('survival') >= 2" ] }
       },
       { "text": "I guess I need to find some other place…", "topic": "TALK_DONE" }
     ]

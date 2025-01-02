@@ -11,7 +11,6 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "skill.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
@@ -24,23 +23,18 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
-talker_avatar::talker_avatar( avatar *new_me )
-{
-    me_chr = new_me;
-    me_chr_const = new_me;
-}
-
-std::vector<std::string> talker_avatar::get_topics( bool )
+std::vector<std::string> talker_avatar_const::get_topics( bool ) const
 {
     std::vector<std::string> add_topics;
-    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
-                                            is_wearing( itype_foodperson_mask_on ) ) ) {
+    if( has_trait( trait_PROF_FOODP ) &&
+        !( is_wearing( itype_foodperson_mask ) ||
+           is_wearing( itype_foodperson_mask_on ) ) ) {
         add_topics.emplace_back( "TALK_NOFACE" );
     }
     return add_topics;
 }
 
-int talker_avatar::parse_mod( const std::string &attribute, const int factor ) const
+int talker_avatar_const::parse_mod( const std::string &attribute, const int factor ) const
 {
     int modifier = 0;
     if( attribute == "U_INTIMIDATE" ) {
@@ -50,7 +44,7 @@ int talker_avatar::parse_mod( const std::string &attribute, const int factor ) c
     return modifier;
 }
 
-int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
+int talker_avatar_const::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
     const social_modifiers &me_mods = me_chr->get_mutation_bionic_social_mods();
@@ -64,9 +58,9 @@ int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
     return chance;
 }
 
-int talker_avatar::get_daily_calories( int day, std::string const &type ) const
+int talker_avatar_const::get_daily_calories( int day, std::string const &type ) const
 {
-    return me_chr_const->as_avatar()->get_daily_calories( day, type );
+    return me_chr->get_daily_calories( day, type );
 }
 
 bool talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost,
@@ -83,7 +77,7 @@ bool talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     }
 
     for( int i = 0; i < count; i++ ) {
-        monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
+        monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos_bub(), 3 );
         if( !mon_ptr ) {
             add_msg_debug( debugmode::DF_TALKER, "Cannot place u_buy_monster, no valid placement locations." );
             break;

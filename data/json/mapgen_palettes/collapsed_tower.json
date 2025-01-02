@@ -16,7 +16,7 @@
       "D": "t_door_metal_locked",
       "E": "t_elevator_control",
       "T": "t_region_tree_shade",
-      "[": "t_fence_v",
+      "[": "t_fence",
       "_": "t_pavement",
       "c": "t_door_locked",
       "e": "t_elevator",
@@ -26,7 +26,7 @@
       "w": "t_door_c",
       "y": "t_pavement_y",
       "z": "t_region_shrub_decorative",
-      "`": "t_hole",
+      "`": "t_open_air",
       "{": "t_door_glass_c",
       "|": "t_concrete_wall",
       "~": "t_water_sh"

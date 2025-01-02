@@ -1803,7 +1803,9 @@
       { "item": "kittel", "prob": 25 },
       { "item": "kippah", "prob": 50 },
       { "item": "tallit_gadol", "prob": 45 },
-      { "item": "tallit_katan", "prob": 20 }
+      { "item": "tallit_katan", "prob": 20 },
+      { "item": "menorah", "prob": 5 },
+      { "group": "small_candles_in_box", "prob": 2 }
     ]
   },
   {
@@ -1972,8 +1974,7 @@
       { "prob": 20, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       [ "cola_meth", 1 ],
       [ "picklocks", 10 ],
-      [ "wolfsuit", 4 ],
-      [ "dinosuit", 4 ],
+      [ "fursuit", 4 ],
       [ "jedi_cloak", 4 ],
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       [ "blanket", 10 ],
@@ -2034,7 +2035,7 @@
       [ "breadboard", 70 ],
       { "item": "voltmeter", "prob": 50 },
       { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
-      [ "mask_hockey", 10 ],
+      { "item": "mask_hockey", "prob": 10, "custom-flags": [ "UNDERSIZE" ] },
       [ "hockey_stick", 20 ],
       [ "puck", 20 ],
       [ "jersey", 40 ],
@@ -2076,17 +2077,17 @@
       [ "frisbee", 10 ],
       [ "disc_golf", 10 ],
       [ "pom_poms", 10 ],
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
-      [ "cheerleader_top_short", 1 ],
-      [ "cheerleader_skirt", 5 ],
-      [ "cheerleader_skirt_short", 1 ],
-      [ "football_armor", 5 ],
-      [ "helmet_football", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "cheerleader_top_short", "prob": 1, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "cheerleader_skirt", "prob": 5, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "cheerleader_skirt_short", "prob": 1, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "football_armor", "prob": 5, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "helmet_football", "prob": 5, "custom-flags": [ "UNDERSIZE" ] },
       [ "mouthpiece", 5 ],
       [ "football", 5 ],
-      [ "roller_blades", 20 ],
-      [ "rollerskates", 20 ],
-      [ "roller_shoes_off", 20 ],
+      { "item": "roller_blades", "prob": 20, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "rollerskates", "prob": 20, "custom-flags": [ "UNDERSIZE" ] },
+      { "item": "roller_shoes_off", "prob": 20, "custom-flags": [ "UNDERSIZE" ] },
       [ "folded_skateboard_generic", 20 ],
       [ "survnote", 3 ],
       { "group": "toy_radio_car", "prob": 3 },
@@ -2437,7 +2438,7 @@
       [ "con_milk", 20 ],
       [ "milk_evap", 15 ],
       [ "milk_UHT", 10 ],
-      { "count": 20, "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" },
+      { "prob": 20, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_10" },
       [ "can_spam", 30 ],
       [ "can_tuna", 35 ],
       [ "can_salmon", 25 ],
@@ -2818,7 +2819,11 @@
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
           {
-            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "distribution": [
+              { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] },
+              { "item": "smallweldtank", "prob": 100, "count": [ 1, 3 ] }
+            ],
             "prob": 100
           },
           {
@@ -2832,6 +2837,7 @@
       },
       [ "oxy_torch", 25 ],
       { "item": "weldtank", "prob": 12, "count": [ 1, 2 ] },
+      { "item": "smallweldtank", "prob": 12, "count": [ 1, 3 ] },
       { "item": "tinyweldtank", "prob": 12, "count": [ 1, 3 ] },
       { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
@@ -2930,6 +2936,14 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "antibiotics", "container-item": "null", "count": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "melatonin_tablet_bottle_plastic_pill_supplement_1_10",
+    "subtype": "collection",
+    "//": "Spawns 1-10 to allow for variance. Other groups were 10 full bottle and 30 full bottle, so I went with 1-10.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

@@ -30,7 +30,6 @@
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "proficiency.h"
 #include "ret_val.h"
@@ -41,7 +40,6 @@
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
-#include "value_ptr.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -56,14 +54,7 @@ static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
-talker_npc::talker_npc( npc *new_me )
-{
-    me_npc = new_me;
-    me_chr = new_me;
-    me_chr_const = new_me;
-}
-
-std::string talker_npc::distance_to_goal() const
+std::string talker_npc_const::distance_to_goal() const
 {
     // TODO: this ignores the z-component
     int dist = rl_dist( me_npc->global_omt_location(), me_npc->goal );
@@ -83,7 +74,7 @@ std::string talker_npc::distance_to_goal() const
     return response;
 }
 
-bool talker_npc::will_talk_to_u( const Character &you, bool force )
+bool talker_npc::will_talk_to_u( const Character &you, bool force ) const
 {
     if( you.is_dead_state() ) {
         me_npc->set_attitude( NPCATT_NULL );
@@ -109,7 +100,7 @@ bool talker_npc::will_talk_to_u( const Character &you, bool force )
     return true;
 }
 
-std::vector<std::string> talker_npc::get_topics( bool radio_contact )
+std::vector<std::string> talker_npc::get_topics( bool radio_contact ) const
 {
     avatar &player_character = get_avatar();
     std::vector<std::string> add_topics;
@@ -229,14 +220,14 @@ void talker_npc::update_missions( const std::vector<mission *> &missions_assigne
     }
 }
 
-bool talker_npc::check_hostile_response( const int anger ) const
+bool talker_npc_const::check_hostile_response( const int anger ) const
 {
     return me_npc->op_of_u.anger + anger > me_npc->hostile_anger_level();
 }
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 static constexpr int OWED_VAL = 1000;
-int talker_npc::parse_mod( const std::string &attribute, const int factor ) const
+int talker_npc_const::parse_mod( const std::string &attribute, const int factor ) const
 {
     int modifier = 0;
     if( attribute == "ANGER" ) {
@@ -270,7 +261,7 @@ int talker_npc::parse_mod( const std::string &attribute, const int factor ) cons
     return modifier;
 }
 
-int talker_npc::trial_chance_mod( const std::string &trial_type ) const
+int talker_npc_const::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
     if( trial_type == "lie" ) {
@@ -291,7 +282,7 @@ void talker_npc::store_chosen_training( const skill_id &c_skill, const matype_id
     me_npc->chatbin.store_chosen_training( c_skill, c_style, c_spell, c_proficiency );
 }
 
-int talker_npc::debt() const
+int talker_npc_const::debt() const
 {
     return me_npc->op_of_u.owed;
 }
@@ -301,7 +292,7 @@ void talker_npc::add_debt( const int cost )
     me_npc->op_of_u.owed += cost;
 }
 
-int talker_npc::sold() const
+int talker_npc_const::sold() const
 {
     return me_npc->op_of_u.sold;
 }
@@ -311,12 +302,12 @@ void talker_npc::add_sold( const int value )
     me_npc->op_of_u.sold += value;
 }
 
-int talker_npc::cash_to_favor( const int value ) const
+int talker_npc_const::cash_to_favor( const int value ) const
 {
     return npc_trading::cash_to_favor( *me_npc, value );
 }
 
-int talker_npc::value( const item &it ) const
+int talker_npc_const::value( const item &it ) const
 {
     return me_npc->value( it );
 }
@@ -520,17 +511,17 @@ bool talker_npc::buy_from( const int amount )
     return npc_trading::pay_npc( *me_npc, amount );
 }
 
-std::vector<mission *> talker_npc::available_missions() const
+std::vector<mission *> talker_npc_const::available_missions() const
 {
     return me_npc->chatbin.missions;
 }
 
-std::vector<mission *> talker_npc::assigned_missions() const
+std::vector<mission *> talker_npc_const::assigned_missions() const
 {
     return me_npc->chatbin.missions_assigned;
 }
 
-mission *talker_npc::selected_mission() const
+mission *talker_npc_const::selected_mission() const
 {
     return me_npc->chatbin.mission_selected;
 }
@@ -567,27 +558,27 @@ void talker_npc::add_faction_rep( const int rep_change )
     }
 }
 
-bool talker_npc::is_following() const
+bool talker_npc_const::is_following() const
 {
     return me_npc->is_following();
 }
 
-bool talker_npc::is_friendly( const Character &guy ) const
+bool talker_npc_const::is_friendly( const Character &guy ) const
 {
     return me_npc->is_friendly( guy );
 }
 
-bool talker_npc::is_enemy() const
+bool talker_npc_const::is_enemy() const
 {
     return me_npc->is_enemy();
 }
 
-bool talker_npc::is_player_ally()  const
+bool talker_npc_const::is_player_ally()  const
 {
     return me_npc->is_player_ally();
 }
 
-bool talker_npc::turned_hostile() const
+bool talker_npc_const::turned_hostile() const
 {
     return me_npc->turned_hostile();
 }
@@ -597,8 +588,8 @@ void talker_npc::make_angry()
     me_npc->make_angry();
 }
 
-bool talker_npc::has_ai_rule( const std::string &type,
-                              const std::string &rule ) const
+bool talker_npc_const::has_ai_rule( const std::string &type,
+                                    const std::string &rule ) const
 {
     if( type == "aim_rule" ) {
         auto rule_val = aim_rule_strs.find( rule );
@@ -697,18 +688,18 @@ void talker_npc::clear_ai_rule( const std::string &, const std::string &rule )
     me_npc->wield_better_weapon();
 }
 
-std::string talker_npc::get_job_description() const
+std::string talker_npc_const::get_job_description() const
 {
     return me_npc->describe_mission();
 }
 
-std::string talker_npc::view_personality_traits() const
+std::string talker_npc_const::view_personality_traits() const
 {
     // Special starting char so it doesn't appear as though the NPC is talking to us
     std::string assessment = "&";
     assessment += _( "<npc_name> seems to be:" );
     bool found_personality_trait = false;
-    for( const auto &trait_data_pairs : me_npc->my_mutations ) {
+    for( const auto &trait_data_pairs : me_npc->cached_mutations ) {
         const mutation_branch &mdata = trait_data_pairs.first.obj();
         if( mdata.personality_score ) {
             found_personality_trait = true;
@@ -730,7 +721,7 @@ std::string talker_npc::view_personality_traits() const
     return assessment;
 }
 
-std::string talker_npc::evaluation_by( const talker &alpha ) const
+std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
 {
     if( !alpha.can_see() ) {
         return _( "&You're blind and can't make anything out." );
@@ -811,12 +802,12 @@ std::string talker_npc::evaluation_by( const talker &alpha ) const
 
 }
 
-bool talker_npc::has_activity() const
+bool talker_npc_const::has_activity() const
 {
     return !me_npc->activity.is_null();
 }
 
-bool talker_npc::is_myclass( const npc_class_id &class_to_check ) const
+bool talker_npc_const::is_myclass( const npc_class_id &class_to_check ) const
 {
     return me_npc->myclass == class_to_check;
 }
@@ -831,7 +822,7 @@ void talker_npc::say( const std::string &speech )
     me_npc->say( speech );
 }
 
-std::string talker_npc::opinion_text() const
+std::string talker_npc_const::opinion_text() const
 {
     return me_npc->opinion_text();
 }
@@ -854,7 +845,7 @@ void talker_npc::set_first_topic( const std::string &chat_topic )
     me_npc->chatbin.first_topic = chat_topic;
 }
 
-bool talker_npc::is_safe() const
+bool talker_npc_const::is_safe() const
 {
     return me_npc->is_safe();
 }
@@ -873,7 +864,7 @@ void talker_npc::set_npc_trust( const int trust )
     me_npc->op_of_u.trust = trust;
 }
 
-int talker_npc::get_npc_trust() const
+int talker_npc_const::get_npc_trust() const
 {
     return me_npc->op_of_u.trust;
 }
@@ -883,7 +874,7 @@ void talker_npc::set_npc_fear( const int fear )
     me_npc->op_of_u.fear = fear;
 }
 
-int talker_npc::get_npc_fear() const
+int talker_npc_const::get_npc_fear() const
 {
     return me_npc->op_of_u.fear;
 }
@@ -893,7 +884,7 @@ void talker_npc::set_npc_value( const int value )
     me_npc->op_of_u.value = value;
 }
 
-int talker_npc::get_npc_value() const
+int talker_npc_const::get_npc_value() const
 {
     return me_npc->op_of_u.value;
 }
@@ -903,7 +894,7 @@ void talker_npc::set_npc_anger( const int anger )
     me_npc->op_of_u.anger = anger;
 }
 
-int talker_npc::get_npc_anger() const
+int talker_npc_const::get_npc_anger() const
 {
     return me_npc->op_of_u.anger;
 }

@@ -106,7 +106,7 @@
         "                        "
       ],
       "terrain": { " ": "t_open_air" },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "X": "f_small_satelitte_dish" }
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "X": "f_small_satellite_dish" }
     }
   }
 ]

@@ -182,8 +182,7 @@
     "price_postapoc": "50 cent",
     "material": [ "brass", "glass" ],
     "weight": "5 g",
-    "volume": "250 ml",
-    "to_hit": -3
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -198,7 +197,6 @@
     "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "weight": "25 g",
-    "volume": "1000 ml",
-    "to_hit": -3
+    "volume": "1000 ml"
   }
 ]

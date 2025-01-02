@@ -873,14 +873,16 @@
     "color": "blue",
     "name": { "str": "headlamp" },
     "description": "An LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
-    "price": "40 USD",
+    "//": "reference: https://www.rei.com/product/202772/black-diamond-astro-300-headlamp",
+    "price": "20 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "aluminum" ],
     "flags": [ "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
-    "weight": "520 g",
-    "volume": "500 ml",
+    "weight": "150 g",
+    "volume": "141 ml",
+    "longest_side": "136 mm",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the headlamp on.",
@@ -894,8 +896,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "armor": [ { "coverage": 45, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
@@ -960,7 +962,7 @@
     "name": { "str": "headlamp (on)", "str_pl": "headlamps (on)" },
     "description": "An LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
-    "power_draw": "10 W",
+    "power_draw": "1560 mW",
     "revert_to": "wearable_light",
     "use_action": {
       "ammo_scale": 0,
@@ -975,9 +977,9 @@
     "copy-from": "wearable_big_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "heavy-duty headlamp (on)", "str_pl": "heavy-duty headlamps (on)" },
-    "description": "A large and unwieldy homemade headlamp with an overpowered LED array and adjustable strap so as to be worn on your head or attached to your helmet while being as comfortable as possible.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-    "flags": [ "LIGHT_500", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
-    "power_draw": "15 W",
+    "description": "A heavy-duty LED headlamp with a durable polymer housing.  It's impact-resistant, chemical-resistant, waterproof and certified for use in hazardous environments.  Designed for firefighters, rescue personnel and miners.  Use it to turn it off.",
+    "flags": [ "LIGHT_650", "CHARGEDIM", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
+    "power_draw": "4 W",
     "revert_to": "wearable_big_light",
     "use_action": {
       "ammo_scale": 0,
@@ -994,15 +996,16 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "heavy-duty headlamp" },
-    "description": "A large and unwieldy homemade headlamp with an overpowered LED array and adjustable strap so as to be worn on your head or attached to your helmet while being as comfortable as possible.  Use it to turn it on.",
-    "price": "40 USD",
+    "description": "A heavy-duty LED headlamp with a durable polymer housing.  It's impact-resistant, chemical-resistant, waterproof and certified for use in hazardous environments.  Designed for firefighters, rescue personnel and miners.  Use it to turn it on.",
+    "//": "see heavy_flashlight. Based on https://www.nightstick.com/collections/fire/products/xpp-5462rx",
+    "price": "65 USD",
     "price_postapoc": "2 USD",
-    "material": [ "plastic", "aluminum" ],
+    "material": [ "thermo_resin", "aluminum" ],
     "flags": [ "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
-    "weight": "830 g",
+    "weight": "300 g",
     "volume": "750 ml",
     "charges_per_use": 1,
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the headlamp on.",
@@ -1016,11 +1019,11 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ],
     "melee_damage": { "bash": 1 },
     "looks_like": "wearable_light"
   },
@@ -1344,6 +1347,7 @@
       "ALARMCLOCK",
       "SWIM_GOGGLES",
       "SUN_GLASSES",
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "GAS_PROOF",
       "ELECTRIC_IMMUNE",
@@ -1521,6 +1525,7 @@
     "environmental_protection": 10,
     "material_thickness": 3,
     "flags": [
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -1631,6 +1636,7 @@
     },
     "environmental_protection": 80,
     "flags": [
+      "IRRITANT_IMMUNE",
       "RAD_PROOF",
       "PORTAL_PROOF",
       "STURDY",
@@ -2437,6 +2443,7 @@
     "warmth": 10,
     "environmental_protection": 3,
     "material_thickness": 2,
+    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2454,7 +2461,7 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "flags": [ "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "power_draw": "1 W",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
@@ -3537,7 +3544,7 @@
     "volume": "2500 ml",
     "price": "55 USD",
     "price_postapoc": "2 USD 50 cent",
-    "material": [ "cotton" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "brown",
     "warmth": 50,

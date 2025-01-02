@@ -30,7 +30,6 @@
       "_": "t_linoleum_white",
       "&": "t_linoleum_white",
       "%": "t_linoleum_white",
-      "|": "t_wall_w",
       "'": { "param": "window_type", "fallback": "t_window" },
       "+": "t_door_c",
       "!": "t_door_locked",
@@ -41,7 +40,7 @@
       "<": "t_ladder_up"
     },
     "furniture": {
-      "#": "f_counter",
+      "G": "f_counter",
       "U": [ "f_dumpster", "f_recycle_bin" ],
       "h": "f_chair",
       "%": "f_sink",

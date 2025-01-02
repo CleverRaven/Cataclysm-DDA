@@ -25,6 +25,11 @@ class vehicle;
 struct mutation_variant;
 enum class get_body_part_flags;
 
+namespace npc_factions
+{
+enum class relationship : int;
+} // namespace npc_factions
+
 using bodytype_id = std::string;
 
 /*
@@ -32,48 +37,36 @@ using bodytype_id = std::string;
  * Talker is a virtual abstract class and should never really be used.  Instead,
  * entity specific talker child classes such as character_talker should be used.
  */
-class talker
+class const_talker
 {
     public:
-        virtual ~talker() = default;
-        virtual std::unique_ptr<talker> clone() const {
-            return std::make_unique<talker>();
+        const_talker() = default;
+        const_talker( const const_talker & ) = default;
+        const_talker( const_talker && ) = delete;
+        const_talker &operator=( const const_talker & ) = default;
+        const_talker &operator=( const_talker && ) = delete;
+        virtual ~const_talker() = default;
+
+        virtual std::unique_ptr<const_talker> const_clone() const {
+            return std::make_unique<const_talker>();
         }
         // virtual member accessor functions
-        virtual Character *get_character() {
+        virtual Character const *get_const_character() const {
             return nullptr;
         }
-        virtual const Character *get_character() const {
+        virtual npc const *get_const_npc() const {
             return nullptr;
         }
-        virtual npc *get_npc() {
+        virtual item_location const *get_const_item() const {
             return nullptr;
         }
-        virtual npc *get_npc() const {
+        virtual monster const *get_const_monster() const {
             return nullptr;
         }
-        virtual item_location *get_item() {
+        virtual Creature const *get_const_creature() const {
             return nullptr;
         }
-        virtual item_location const *get_item() const {
-            return nullptr;
-        }
-        virtual monster *get_monster() {
-            return nullptr;
-        }
-        virtual const monster *get_monster() const {
-            return nullptr;
-        }
-        virtual Creature *get_creature() {
-            return nullptr;
-        }
-        virtual const Creature *get_creature() const {
-            return nullptr;
-        }
-        virtual computer *get_computer() {
-            return nullptr;
-        }
-        virtual const computer *get_computer() const {
+        virtual computer const *get_const_computer() const {
             return nullptr;
         }
         // identity and location
@@ -104,26 +97,26 @@ class talker
         virtual tripoint pos() const {
             return {};
         }
+        virtual tripoint_bub_ms pos_bub() const {
+            return {};
+        }
         virtual tripoint_abs_ms global_pos() const {
             return {};
         }
         virtual tripoint_abs_omt global_omt_location() const {
             return {};
         }
-        virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
         }
 
         // mandatory functions for starting a dialogue
-        virtual bool will_talk_to_u( const Character &, bool ) {
+        virtual bool will_talk_to_u( const Character &, bool ) const {
             return false;
         }
-        virtual std::vector<std::string> get_topics( bool ) {
+        virtual std::vector<std::string> get_topics( bool ) const {
             return {};
         }
-        virtual void check_missions() {}
-        virtual void update_missions( const std::vector<mission *> & ) {}
         virtual bool check_hostile_response( int ) const {
             return false;
         }
@@ -134,6 +127,9 @@ class talker
             return 0;
         }
         virtual int get_cur_hp( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_degradation() const {
             return 0;
         }
         virtual int get_hp_max( const bodypart_id & ) const {
@@ -149,6 +145,9 @@ class talker
             return false;
         }
 
+        virtual bool is_warm() const {
+            return false;
+        }
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
             return 0;
@@ -162,14 +161,6 @@ class talker
         virtual int per_cur() const {
             return 0;
         }
-        virtual void set_str_max( int ) {}
-        virtual void set_dex_max( int ) {}
-        virtual void set_int_max( int ) {}
-        virtual void set_per_max( int ) {}
-        virtual void set_str_bonus( int ) {}
-        virtual void set_dex_bonus( int ) {}
-        virtual void set_int_bonus( int ) {}
-        virtual void set_per_bonus( int ) {}
         virtual int get_str_max() const {
             return 0;
         }
@@ -218,10 +209,6 @@ class talker
         virtual int get_spell_sum( const trait_id &, int ) const {
             return 0;
         }
-        virtual void set_spell_level( const spell_id &, int ) {}
-        virtual void set_spell_exp( const spell_id &, int ) {}
-        virtual void set_skill_level( const skill_id &, int ) {}
-        virtual void set_skill_exp( const skill_id &, int, bool ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
@@ -238,20 +225,9 @@ class talker
         virtual bool has_recipe( const recipe_id & ) const {
             return false;
         }
-        virtual void learn_recipe( const recipe_id & ) {}
-        virtual void forget_recipe( const recipe_id & ) {}
-        virtual void mutate( const int &, const bool & ) {}
         virtual int get_daily_calories( int, std::string const & ) const {
             return 0;
         }
-        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
-        virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
-        virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
-        virtual void unset_mutation( const trait_id & ) {}
-        virtual void activate_mutation( const trait_id & ) {}
-        virtual void deactivate_mutation( const trait_id & ) {}
-        virtual void set_trait_purifiability( const trait_id &, const bool & ) {}
-        virtual void set_sleepiness( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
         }
@@ -285,9 +261,7 @@ class talker
         virtual time_duration proficiency_practiced_time( const proficiency_id & ) const {
             return 0_seconds;
         }
-        virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
-        virtual void train_proficiency_for( const proficiency_id &, int ) {}
-        virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
+        virtual std::vector<skill_id> skills_offered_to( const_talker const & ) const {
             return {};
         }
         virtual std::vector<skill_id> skills_teacheable() const {
@@ -296,47 +270,45 @@ class talker
         virtual std::string skill_seminar_text( const skill_id & ) const {
             return {};
         }
-        virtual std::string skill_training_text( const talker &, const skill_id & ) const {
+        virtual std::string skill_training_text( const_talker const &, const skill_id & ) const {
             return {};
         }
         virtual std::vector<proficiency_id> proficiencies_teacheable() const {
             return {};
         }
-        virtual std::vector<proficiency_id> proficiencies_offered_to( const talker & ) const {
+        virtual std::vector<proficiency_id> proficiencies_offered_to( const_talker const & ) const {
             return {};
         }
         virtual std::string proficiency_seminar_text( const proficiency_id & ) const {
             return {};
         }
-        virtual std::string proficiency_training_text( const talker &, const proficiency_id & ) const {
+        virtual std::string proficiency_training_text( const_talker const &,
+                const proficiency_id & ) const {
             return {};
         }
         virtual std::vector<matype_id> styles_teacheable() const {
             return {};
         }
-        virtual std::vector<matype_id> styles_offered_to( const talker & ) const {
+        virtual std::vector<matype_id> styles_offered_to( const_talker const & ) const {
             return {};
         }
         virtual std::string style_seminar_text( const matype_id & ) const {
             return {};
         }
-        virtual std::string style_training_text( const talker &, const matype_id & ) const {
+        virtual std::string style_training_text( const_talker const &, const matype_id & ) const {
             return {};
         }
         virtual std::vector<spell_id> spells_teacheable() const {
             return {};
         }
-        virtual std::vector<spell_id> spells_offered_to( talker & ) const {
+        virtual std::vector<spell_id> spells_offered_to( const_talker const & ) const {
             return {};
         }
         virtual std::string spell_seminar_text( const spell_id & ) const {
             return {};
         }
-        virtual std::string spell_training_text( talker &, const spell_id & ) const {
+        virtual std::string spell_training_text( const_talker const &, const spell_id & ) const {
             return {};
-        }
-        virtual void store_chosen_training( const skill_id &, const matype_id &,
-                                            const spell_id &, const proficiency_id & ) {
         }
 
         // effects and values
@@ -352,25 +324,18 @@ class talker
         virtual bool can_see() const {
             return false;
         }
-        virtual bool can_see_location( const tripoint & ) const {
+        virtual bool can_see_location( const tripoint_bub_ms & ) const {
             return false;
         }
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
-                                 int ) {}
-        virtual void remove_effect( const efftype_id &, const std::string & ) {}
-        virtual void add_bionic( const bionic_id & ) {}
-        virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string &key ) const {
             return maybe_get_value( key ).value_or( std::string{} );
         }
         virtual std::optional<std::string> maybe_get_value( const std::string & ) const {
             return std::nullopt;
         }
-        virtual void set_value( const std::string &, const std::string & ) {}
-        virtual void remove_value( const std::string & ) {}
 
         // inventory, buying, and selling
         virtual bool is_wearing( const itype_id & ) const {
@@ -386,21 +351,11 @@ class talker
         virtual bool has_charges( const itype_id &, int, bool ) const {
             return false;
         }
-        virtual std::list<item> use_charges( const itype_id &, int ) {
-            return {};
-        }
-        // bool = match tool containing charges of itype_id
-        virtual std::list<item> use_charges( const itype_id &, int, bool ) {
-            return {};
-        }
         virtual bool has_amount( const itype_id &, int ) const {
             return false;
         }
         virtual int get_amount( const itype_id & ) const {
             return 0;
-        }
-        virtual std::list<item> use_amount( const itype_id &, int ) {
-            return {};
         }
         virtual int value( const item & ) const {
             return 0;
@@ -411,42 +366,24 @@ class talker
         virtual int debt() const {
             return 0;
         }
-        virtual void add_debt( int ) {}
         virtual int sold() const {
             return 0;
-        }
-        virtual void add_sold( int ) {}
-        virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
-            return {};
         }
         virtual std::vector<const item *> const_items_with( const std::function<bool( const item & )> & )
         const {
             return {};
         }
-        virtual void i_add( const item & ) {}
-        virtual void i_add_or_drop( item &, bool = false ) {}
-        virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {
             return false;
         }
         virtual bool can_stash_weapon() const {
             return false;
         }
-        virtual bool has_stolen_item( const talker & ) const {
+        virtual bool has_stolen_item( const_talker const & ) const {
             return false;
         }
         virtual int cash_to_favor( int ) const {
             return 0;
-        }
-        virtual std::string give_item_to( bool ) {
-            return _( "Nope." );
-        }
-        virtual bool buy_from( int ) {
-            return false;
-        }
-        virtual bool buy_monster( talker &, const mtype_id &, int, int, bool,
-                                  const translation & ) {
-            return false;
         }
 
         // missions
@@ -459,17 +396,11 @@ class talker
         virtual mission *selected_mission() const {
             return nullptr;
         }
-        virtual void select_mission( mission * ) {
-        }
-        virtual void add_mission( const mission_type_id & ) {}
-        virtual void set_companion_mission( const std::string & ) {}
 
         // factions and alliances
         virtual faction *get_faction() const {
             return nullptr;
         }
-        virtual void set_fac( const faction_id & ) {}
-        virtual void add_faction_rep( int ) {}
         virtual bool is_following() const {
             return false;
         }
@@ -485,21 +416,17 @@ class talker
         virtual bool is_enemy() const {
             return false;
         }
-        virtual void make_angry() {}
 
         // ai rules
         virtual bool has_ai_rule( const std::string &, const std::string & ) const {
             return false;
         }
-        virtual void toggle_ai_rule( const std::string &, const std::string & ) {}
-        virtual void set_ai_rule( const std::string &, const std::string & ) {}
-        virtual void clear_ai_rule( const std::string &, const std::string & ) {}
 
         // other descriptors
         virtual std::string get_job_description() const {
             return "";
         }
-        virtual std::string evaluation_by( const talker & ) const {
+        virtual std::string evaluation_by( const_talker const & ) const {
             return "";
         }
         virtual std::string view_personality_traits() const {
@@ -517,7 +444,6 @@ class talker
         virtual bool is_myclass( const npc_class_id & ) const {
             return false;
         }
-        virtual void set_class( const npc_class_id & ) {}
         virtual int get_activity_level() const {
             return 0;
         }
@@ -551,43 +477,26 @@ class talker
         virtual int get_addiction_turns( const addiction_id & ) const {
             return 0;
         }
-        virtual void set_addiction_turns( const addiction_id &, int ) {}
-        virtual void mod_stored_kcal( int, bool ) {}
-        virtual void set_stored_kcal( int ) {}
-        virtual void set_stim( int ) {}
-        virtual void set_thirst( int ) {}
         virtual bool is_in_control_of( const vehicle & ) const {
             return false;
         }
 
-        // speaking
-        virtual void say( const std::string & ) {}
-        virtual void shout( const std::string & = "", bool = false ) {}
-
-        // miscellaneous
-        virtual bool enslave_mind() {
-            return false;
-        }
         virtual std::string opinion_text() const {
             return "";
         }
-        virtual void add_opinion( const npc_opinion & ) {}
-        virtual void set_first_topic( const std::string & ) {}
         virtual bool is_safe() const {
             return true;
         }
-        virtual void mod_pain( int ) {}
-        virtual void set_pain( int ) {}
         virtual int pain_cur() const {
             return 0;
         }
         virtual int perceived_pain_cur() const {
             return 0;
         }
-        virtual void attack_target( Creature &, bool, const matec_id &,
-                                    bool, int ) {}
-
         virtual int attack_speed() const {
+            return 0;
+        }
+        virtual int get_speed() const {
             return 0;
         }
         virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
@@ -630,61 +539,45 @@ class talker
         virtual units::energy power_max() const {
             return 0_kJ;
         }
-        virtual void set_power_cur( units::energy ) {}
         virtual int mana_cur() const {
             return 0;
         }
         virtual int mana_max() const {
             return 0;
         }
-        virtual void set_mana_cur( int ) {}
-        virtual void mod_daily_health( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }
         virtual int focus_cur() const {
             return 0;
         }
-        virtual void mod_focus( int ) {}
         virtual int get_pkill() const {
             return 0;
         }
-        virtual void set_pkill( int ) {}
         virtual int get_stamina() const {
             return 0;
         }
-        virtual void set_stamina( int ) {}
         virtual int get_sleep_deprivation() const {
             return 0;
         }
-        virtual void set_sleep_deprivation( int ) {}
         virtual int get_rad() const {
             return 0;
         }
-        virtual void set_rad( int ) {}
         virtual int get_anger() const {
             return 0;
         }
-        virtual void set_anger( int ) {}
-        virtual void set_morale( int ) {}
         virtual int get_friendly() const {
             return 0;
         }
         virtual int get_difficulty() const {
             return 0;
         }
-        virtual void set_friendly( int ) {}
-        virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
-        virtual void remove_morale( const morale_type & ) {}
-        virtual void set_kill_xp( int ) {}
         virtual int get_kill_xp() const {
             return 0;
         }
-        virtual void set_age( int ) {}
         virtual int get_age() const {
             return 0;
         }
-        virtual void set_height( int ) {}
         virtual int get_height() const {
             return 0;
         }
@@ -694,19 +587,15 @@ class talker
         virtual int get_weight() const {
             return 0;
         }
-        virtual void set_npc_trust( int ) {}
         virtual int get_npc_trust() const {
             return 0;
         }
-        virtual void set_npc_fear( int ) {}
         virtual int get_npc_fear() const {
             return 0;
         }
-        virtual void set_npc_value( int ) {}
         virtual int get_npc_value() const {
             return 0;
         }
-        virtual void set_npc_anger( int ) {}
         virtual int get_npc_anger() const {
             return 0;
         }
@@ -737,15 +626,10 @@ class talker
         virtual int get_part_hp_max( const bodypart_id & ) const {
             return 0;
         }
-        virtual void set_all_parts_hp_cur( int ) const {}
-        virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
-        virtual void die() {}
-        virtual matec_id get_random_technique( Creature &, bool, bool,
+        virtual matec_id get_random_technique( Creature const &, bool, bool,
                                                bool, const std::vector<matec_id> & = {} ) const {
             return matec_id();
         }
-        virtual void learn_martial_art( const matype_id & ) const {}
-        virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {
             return false;
         }
@@ -759,8 +643,172 @@ class talker
             return 0;
         }
 };
+
+class talker: virtual public const_talker
+{
+    public:
+        talker() = default;
+        talker( const talker & ) = default;
+        talker( talker && ) = delete;
+        talker &operator=( const talker & ) = default;
+        talker &operator=( talker && ) = delete;
+        ~talker() noexcept override = default;
+
+        virtual std::unique_ptr<talker> clone() const {
+            return std::make_unique<talker>();
+        }
+
+        virtual Character *get_character() {
+            return nullptr;
+        }
+        virtual npc *get_npc() {
+            return nullptr;
+        }
+        virtual item_location *get_item() {
+            return nullptr;
+        }
+        virtual monster *get_monster() {
+            return nullptr;
+        }
+        virtual Creature *get_creature() {
+            return nullptr;
+        }
+        virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual void set_pos( tripoint_bub_ms ) {}
+        virtual void update_missions( const std::vector<mission *> & ) {}
+        virtual void set_str_max( int ) {}
+        virtual void set_dex_max( int ) {}
+        virtual void set_int_max( int ) {}
+        virtual void set_per_max( int ) {}
+        virtual void set_str_bonus( int ) {}
+        virtual void set_dex_bonus( int ) {}
+        virtual void set_int_bonus( int ) {}
+        virtual void set_per_bonus( int ) {}
+        virtual void set_spell_level( const spell_id &, int ) {}
+        virtual void set_spell_exp( const spell_id &, int ) {}
+        virtual void set_skill_level( const skill_id &, int ) {}
+        virtual void set_skill_exp( const skill_id &, int, bool ) {}
+        virtual void learn_recipe( const recipe_id & ) {}
+        virtual void forget_recipe( const recipe_id & ) {}
+        virtual void mutate( const int &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
+        virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
+        virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
+        virtual void unset_mutation( const trait_id & ) {}
+        virtual void activate_mutation( const trait_id & ) {}
+        virtual void deactivate_mutation( const trait_id & ) {}
+        virtual void set_trait_purifiability( const trait_id &, const bool & ) {}
+        virtual void set_sleepiness( int ) {};
+        virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
+        virtual void train_proficiency_for( const proficiency_id &, int ) {}
+        virtual void store_chosen_training( const skill_id &, const matype_id &,
+                                            const spell_id &, const proficiency_id & ) {
+        }
+        virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
+                                 int ) {}
+        virtual void remove_effect( const efftype_id &, const std::string & ) {}
+        virtual void add_bionic( const bionic_id & ) {}
+        virtual void remove_bionic( const bionic_id & ) {}
+        virtual void set_value( const std::string &, const std::string & ) {}
+        virtual void remove_value( const std::string & ) {}
+        virtual std::list<item> use_charges( const itype_id &, int ) {
+            return {};
+        }
+        // bool = match tool containing charges of itype_id
+        virtual std::list<item> use_charges( const itype_id &, int, bool ) {
+            return {};
+        }
+        virtual std::list<item> use_amount( const itype_id &, int ) {
+            return {};
+        }
+        virtual void add_debt( int ) {}
+        virtual void i_add( const item & ) {}
+        virtual void i_add_or_drop( item &, bool = false ) {}
+        virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
+        virtual std::string give_item_to( bool ) {
+            return _( "Nope." );
+        }
+        virtual bool buy_from( int ) {
+            return false;
+        }
+        virtual bool buy_monster( talker &, const mtype_id &, int, int, bool,
+                                  const translation & ) {
+            return false;
+        }
+        virtual void select_mission( mission * ) {
+        }
+        virtual void check_missions() {}
+        virtual void add_mission( const mission_type_id & ) {}
+        virtual void set_companion_mission( const std::string & ) {}
+        virtual void set_fac( const faction_id & ) {}
+        virtual void add_faction_rep( int ) {}
+        virtual void make_angry() {}
+        virtual void add_sold( int ) {}
+        virtual void toggle_ai_rule( const std::string &, const std::string & ) {}
+        virtual void set_ai_rule( const std::string &, const std::string & ) {}
+        virtual void clear_ai_rule( const std::string &, const std::string & ) {}
+        virtual void set_class( const npc_class_id & ) {}
+        virtual void set_addiction_turns( const addiction_id &, int ) {}
+        virtual void mod_stored_kcal( int, bool ) {}
+        virtual void set_stored_kcal( int ) {}
+        virtual void set_stim( int ) {}
+        virtual void set_thirst( int ) {}
+        virtual void say( const std::string & ) {}
+        virtual void shout( const std::string & = "", bool = false ) {}
+        virtual bool enslave_mind() {
+            return false;
+        }
+        virtual void add_opinion( const npc_opinion & ) {}
+        virtual void set_first_topic( const std::string & ) {}
+        virtual void mod_pain( int ) {}
+        virtual void set_pain( int ) {}
+        virtual void set_power_cur( units::energy ) {}
+        virtual void set_part_hp_cur( const bodypart_id &, int ) {}
+        virtual void set_sleep_deprivation( int ) {}
+        virtual void set_rad( int ) {}
+        virtual void set_anger( int ) {}
+        virtual void set_morale( int ) {}
+        virtual void set_friendly( int ) {}
+        virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
+        virtual void remove_morale( const morale_type & ) {}
+        virtual void set_kill_xp( int ) {}
+        virtual void set_age( int ) {}
+        virtual void set_height( int ) {}
+        virtual void set_npc_trust( int ) {}
+        virtual void set_npc_fear( int ) {}
+        virtual void set_npc_value( int ) {}
+        virtual void set_npc_anger( int ) {}
+        virtual void set_all_parts_hp_cur( int ) {}
+        virtual void set_degradation( int ) {}
+        virtual void die() {}
+        virtual void set_mana_cur( int ) {}
+        virtual void mod_daily_health( int, int ) {}
+        virtual void mod_livestyle( int ) {}
+        virtual void mod_focus( int ) {}
+        virtual void set_pkill( int ) {}
+        virtual void set_stamina( int ) {}
+        virtual void learn_martial_art( const matype_id & ) {}
+        virtual void forget_martial_art( const matype_id & ) {}
+        virtual void attack_target( Creature &, bool, const matec_id &, bool, int ) {}
+        virtual void set_fac_relation( const Character *, npc_factions::relationship, bool ) {}
+        virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) {
+            return {};
+        }
+};
+
+template <class T, class B = const_talker>
+class const_talker_cloner : virtual public B
+{
+    public:
+        std::unique_ptr<const_talker> const_clone() const override {
+            return std::make_unique<T>( static_cast<T const &>( *this ) );
+        }
+};
+
 template <class T, class B = talker>
-class talker_cloner : public B
+class talker_cloner : virtual public B
 {
     public:
         std::unique_ptr<talker> clone() const override {

@@ -921,6 +921,7 @@
   {
     "id": "hoodie_cropped",
     "copy-from": "hoodie",
+    "delete": { "flags": [ "POCKETS" ] },
     "type": "ARMOR",
     "name": { "str": "cropped hoodie" },
     "description": "A sweatshirt with a hood, cropped to expose the stomach.",
@@ -2510,5 +2511,25 @@
     "warmth": 25,
     "material_thickness": 1.5,
     "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
+    "id": "bunny_suit_playboy",
+    "type": "ARMOR",
+    "name": { "str": "bunny suit" },
+    "description": "A bunny suit, still shiny despite the time it's likely spent in storage, or worse, on a corpse.  While not resembling a bunny without its accompanying tail and ears, it was a recognizable piece of clothing often found in clubs or in playboy magazines.",
+    "weight": "136 g",
+    "volume": "750 ml",
+    "price": "50 USD",
+    "price_postapoc": "60 cent",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "wetsuit_spring",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 60 },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
 ]

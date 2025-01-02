@@ -1,0 +1,72 @@
+[
+  {
+    "id": "pertifying_touch_moves",
+    "type": "SPELL",
+    "name": { "str": "Petrifying Touch Moves Removing", "//~": "NO_I18N" },
+    "description": {
+      "str": "Delete some amount of moves from monster, and inflict DoT.  You can see it only in debug mode.",
+      "//~": "NO_I18N"
+    },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
+    "effect": "mod_moves",
+    "shape": "blast",
+    "min_damage": -1000,
+    "max_damage": -1,
+    "damage_increment": 50,
+    "min_dot": 0,
+    "max_dot": 10,
+    "dot_increment": 0.5,
+    "max_level": 20
+  },
+  {
+    "id": "druid_renew_forest_spell_real",
+    "type": "SPELL",
+    "name": { "str": "Renewing the Forest Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "flags": [ "CHANNELING_SPELL", "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_renew_forest",
+    "min_aoe": {
+      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+    },
+    "max_aoe": {
+      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+    }
+  },
+  {
+    "id": "summon_shambling_mound",
+    "type": "SPELL",
+    "name": { "str": "Call of Mound" },
+    "description": "Summons a Shambling Mound, a giant carnivorous plant mess with devastating area attacks.  It is too slow for a normal fight, but excels at defending its shaman.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "effect": "summon",
+    "effect_str": "mon_shambling_mound",
+    "shape": "blast",
+    "spell_class": "SHAMAN",
+    "energy_source": "MANA",
+    "difficulty": 7,
+    "max_level": 35,
+    "base_casting_time": 1200,
+    "casting_time_increment": -26,
+    "final_casting_time": 300,
+    "base_energy_cost": 800,
+    "energy_increment": -9,
+    "final_energy_cost": 500,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "max_range": 8,
+    "range_increment": 0.2,
+    "min_aoe": 8,
+    "max_aoe": 1,
+    "aoe_increment": -0.2,
+    "min_duration": 14400,
+    "max_duration": 144000,
+    "duration_increment": 4000
+  }
+]

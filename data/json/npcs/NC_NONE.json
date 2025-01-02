@@ -1,0 +1,128 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_NONE_foot",
+    "subtype": "distribution",
+    "groups": [ [ "clothing_outdoor_shoes", 50 ], [ "shoes", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_arm",
+    "subtype": "distribution",
+    "entries": [ { "item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_hand",
+    "subtype": "distribution",
+    "groups": [ [ "clothing_work_gloves", 25 ], [ "common_gloves", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_head",
+    "subtype": "distribution",
+    "groups": [ [ "hatstore_hats", 50 ], [ "clothing_work_hat", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_leg",
+    "subtype": "distribution",
+    "groups": [ [ "clothing_outdoor_pants", 50 ], [ "pants", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_mouth",
+    "subtype": "distribution",
+    "groups": [ [ "hatstore_accessories", 50 ], [ "masks_unisex", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_sensor",
+    "subtype": "distribution",
+    "groups": [ "clothing_glasses" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_torso",
+    "subtype": "distribution",
+    "groups": [ [ "clothing_outdoor_torso", 50 ], [ "jackets", 25 ], [ "shirts", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_stabbing",
+    "subtype": "distribution",
+    "groups": [ "melee_stabbing_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_bashing",
+    "subtype": "distribution",
+    "groups": [ "melee_bashing_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_cutting",
+    "subtype": "distribution",
+    "groups": [ "melee_cutting_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_throw",
+    "items": [ [ "throwing_knife", 50 ], [ "throwing_axe", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_archery",
+    "subtype": "distribution",
+    "groups": [ "archery_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_quiver",
+    "subtype": "distribution",
+    "groups": [ "archery_quivers" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_pistol",
+    "subtype": "distribution",
+    "groups": [ "guns_pistol_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_shotgun",
+    "subtype": "distribution",
+    "groups": [ "guns_shotgun_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_smg",
+    "subtype": "distribution",
+    "groups": [ "guns_smg_milspec" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_rifle",
+    "subtype": "distribution",
+    "groups": [ "guns_rifle_common" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_storage",
+    "subtype": "distribution",
+    "groups": [ "bags" ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NONE_extra",
+    "subtype": "distribution",
+    "groups": [
+      [ "vending_drink_items", 70 ],
+      [ "cannedfood", 50 ],
+      [ "drugs_heal_simple", 10 ],
+      [ "big_canned_food", 10 ],
+      [ "produce", 5 ],
+      [ "harddrugs", 5 ]
+    ]
+  }
+]

@@ -10,7 +10,7 @@
 
 #include "coordinates.h"
 #include "point.h"
-#include "units_fwd.h"
+#include "units.h"
 
 template <typename T> struct enum_traits;
 struct rl_vec2d;
@@ -41,35 +41,35 @@ inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
 unsigned make_xyz( const tripoint & );
 
 enum class direction : unsigned {
-    ABOVENORTHWEST = make_xyz_unit( tripoint_above + tripoint_north_west ),
-    NORTHWEST      = make_xyz_unit( tripoint_north_west ),
-    BELOWNORTHWEST = make_xyz_unit( tripoint_below + tripoint_north_west ),
-    ABOVENORTH     = make_xyz_unit( tripoint_above + tripoint_north ),
-    NORTH          = make_xyz_unit( tripoint_north ),
-    BELOWNORTH     = make_xyz_unit( tripoint_below + tripoint_north ),
-    ABOVENORTHEAST = make_xyz_unit( tripoint_above + tripoint_north_east ),
-    NORTHEAST      = make_xyz_unit( tripoint_north_east ),
-    BELOWNORTHEAST = make_xyz_unit( tripoint_below + tripoint_north_east ),
+    ABOVENORTHWEST = make_xyz_unit( tripoint::above + tripoint::north_west ),
+    NORTHWEST      = make_xyz_unit( tripoint::north_west ),
+    BELOWNORTHWEST = make_xyz_unit( tripoint::below + tripoint::north_west ),
+    ABOVENORTH     = make_xyz_unit( tripoint::above + tripoint::north ),
+    NORTH          = make_xyz_unit( tripoint::north ),
+    BELOWNORTH     = make_xyz_unit( tripoint::below + tripoint::north ),
+    ABOVENORTHEAST = make_xyz_unit( tripoint::above + tripoint::north_east ),
+    NORTHEAST      = make_xyz_unit( tripoint::north_east ),
+    BELOWNORTHEAST = make_xyz_unit( tripoint::below + tripoint::north_east ),
 
-    ABOVEWEST      = make_xyz_unit( tripoint_above + tripoint_west ),
-    WEST           = make_xyz_unit( tripoint_west ),
-    BELOWWEST      = make_xyz_unit( tripoint_below + tripoint_west ),
-    ABOVECENTER    = make_xyz_unit( tripoint_above ),
-    CENTER         = make_xyz_unit( tripoint_zero ),
-    BELOWCENTER    = make_xyz_unit( tripoint_below ),
-    ABOVEEAST      = make_xyz_unit( tripoint_above + tripoint_east ),
-    EAST           = make_xyz_unit( tripoint_east ),
-    BELOWEAST      = make_xyz_unit( tripoint_below + tripoint_east ),
+    ABOVEWEST      = make_xyz_unit( tripoint::above + tripoint::west ),
+    WEST           = make_xyz_unit( tripoint::west ),
+    BELOWWEST      = make_xyz_unit( tripoint::below + tripoint::west ),
+    ABOVECENTER    = make_xyz_unit( tripoint::above ),
+    CENTER         = make_xyz_unit( tripoint::zero ),
+    BELOWCENTER    = make_xyz_unit( tripoint::below ),
+    ABOVEEAST      = make_xyz_unit( tripoint::above + tripoint::east ),
+    EAST           = make_xyz_unit( tripoint::east ),
+    BELOWEAST      = make_xyz_unit( tripoint::below + tripoint::east ),
 
-    ABOVESOUTHWEST = make_xyz_unit( tripoint_above + tripoint_south_west ),
-    SOUTHWEST      = make_xyz_unit( tripoint_south_west ),
-    BELOWSOUTHWEST = make_xyz_unit( tripoint_below + tripoint_south_west ),
-    ABOVESOUTH     = make_xyz_unit( tripoint_above + tripoint_south ),
-    SOUTH          = make_xyz_unit( tripoint_south ),
-    BELOWSOUTH     = make_xyz_unit( tripoint_below + tripoint_south ),
-    ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
-    SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
-    BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
+    ABOVESOUTHWEST = make_xyz_unit( tripoint::above + tripoint::south_west ),
+    SOUTHWEST      = make_xyz_unit( tripoint::south_west ),
+    BELOWSOUTHWEST = make_xyz_unit( tripoint::below + tripoint::south_west ),
+    ABOVESOUTH     = make_xyz_unit( tripoint::above + tripoint::south ),
+    SOUTH          = make_xyz_unit( tripoint::south ),
+    BELOWSOUTH     = make_xyz_unit( tripoint::below + tripoint::south ),
+    ABOVESOUTHEAST = make_xyz_unit( tripoint::above + tripoint::south_east ),
+    SOUTHEAST      = make_xyz_unit( tripoint::south_east ),
+    BELOWSOUTHEAST = make_xyz_unit( tripoint::below + tripoint::south_east ),
 
     last = 27
 };
@@ -151,8 +151,10 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
                           int distance );
 tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
                                  const std::vector<tripoint_bub_ms> &line, int distance );
+// line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
+// line from p1 to p2, including p2 but not p1, using Bresenham's algorithm
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)

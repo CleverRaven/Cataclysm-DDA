@@ -85,7 +85,7 @@
       ],
       "sealed_item": { "#": { "item": { "item": "seed_corn", "chance": 100 }, "furniture": "f_plant_seedling" } },
       "terrain": {
-        "│": "t_hole",
+        "│": "t_open_air",
         " ": [ [ "t_region_groundcover", 99 ], [ "t_region_shrub", 1 ] ],
         ",": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ],
         ";": [ [ "t_dirtfloor_no_roof", 80 ], [ "t_region_soil", 20 ] ],
@@ -284,8 +284,14 @@
         "...........||||oo||||||oo||||||||o|||...........",
         "................................................"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { ":": "t_open_air_rooved", ".": "t_open_air", "|": "t_wall_wood", "'": "t_linoleum_gray", "-": "t_railing" },
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": {
+        ":": "t_open_air_rooved",
+        ".": "t_open_air",
+        "|": "t_wall_wood",
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "-": "t_railing"
+      },
       "place_monster": [ { "monster": "mon_zombie_crawler", "name": "Mark", "x": 25, "y": 20 } ],
       "place_fields": [
         { "field": "fd_blood", "intensity": 1, "age": 10, "x": 31, "y": [ 14, 16 ], "repeat": [ 1, 2 ] },

@@ -205,6 +205,7 @@
     "required_str": -1,
     "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "close": "f_cardboard_door",
     "deconstruct": {
       "items": [
         { "item": "box_large", "count": 1 },
@@ -866,6 +867,34 @@
     "id": "f_wreckage",
     "name": "metal wreckage",
     "description": "A pile of various bent and twisted metals.  Some of it looks pretty rusty, you wouldn't want to cut yourself on this.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_sharp_metal_wreckage",
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "SMALL_HIDE",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_plane_wreckage",
+    "name": "metal wreckage from a plane",
+    "description": "A pile of various bent and twisted metals.  Some of it looks pretty rusty, you wouldn't want to cut yourself on this.",
+    "looks_like": "t_scrap_wall_halfway",
     "symbol": "#",
     "color": "cyan",
     "move_cost_mod": 6,

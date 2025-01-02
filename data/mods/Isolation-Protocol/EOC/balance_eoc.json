@@ -4,7 +4,7 @@
     "id": "ISO_REGEN_CLOCK",
     "recurrence": "15 seconds",
     "global": true,
-    "condition": { "math": [ "u_monsters_nearby('radius': 10, 'attitude': 'hostile')", "==", "0" ] },
+    "condition": { "math": [ "u_monsters_nearby('radius': 10, 'attitude': 'hostile') == 0" ] },
     "effect": [
       { "math": [ "u_hp('torso')", "+=", "2" ] },
       { "math": [ "u_hp('head')", "+=", "2" ] },
@@ -20,7 +20,7 @@
     "id": "ISO_PAIN_CEILING",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
-    "condition": { "math": [ "u_pain()", ">", "40" ] },
-    "effect": [ { "math": [ "u_pain()", "=", "40" ] } ]
+    "condition": { "math": [ "u_pain() > 40" ] },
+    "effect": [ { "math": [ "u_pain() = 40" ] } ]
   }
 ]

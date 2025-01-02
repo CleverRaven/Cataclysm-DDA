@@ -168,6 +168,21 @@
     "entries": [ { "drop": "rose_hips", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "shrub_autumn_olive_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "autumn_olive", "base_num": [ 4, 20 ], "scale_num": [ 0, 0.1 ] } ]
+  },
+  {
+    "id": "shrub_chokeberry_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "chokeberries", "base_num": [ 6, 12 ], "scale_num": [ 0, 0.1 ] } ]
+  },
+  {
+    "id": "shrub_spicebush_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "spicebush_berries", "base_num": [ 1, 4 ], "scale_num": [ 0, 0.1 ] } ]
+  },
+  {
     "id": "shrub_grape_harv",
     "type": "harvest",
     "entries": [
@@ -199,6 +214,11 @@
     "id": "shrub_blueberry_harv",
     "type": "harvest",
     "entries": [ { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "shrub_hobblebush_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "hobbleberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.1 ] } ]
   },
   {
     "id": "shrub_peanut_harv",
@@ -253,6 +273,16 @@
     "id": "elderberry_harv",
     "type": "harvest",
     "entries": [ { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "nannyberry_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "nannyberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "tupelo_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "tupelo_fruit", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "mulberry_harv",
@@ -1725,6 +1755,13 @@
     }
   },
   {
+    "id": "zombie_humanoid_mushroom_acid",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid_mushroom",
+    "delete": { "entries": [ { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 } ] },
+    "extend": { "entries": [ { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 } ] }
+  },
+  {
     "id": "zombie_animal_mushroom",
     "//": "moldy animal zombie - fungus chunks replace a part of the innards",
     "type": "harvest",
@@ -2350,6 +2387,18 @@
     "id": "beaver_with_skull",
     "type": "harvest",
     "copy-from": "mammal_small_fur",
+    "extend": { "entries": [ { "drop": "skull_beaver", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "beaver_with_skull_fur_mutant",
+    "type": "harvest",
+    "copy-from": "mutant_mammal_fur",
+    "extend": { "entries": [ { "drop": "skull_beaver_huge", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
+    "id": "beaver_with_skull_feather_mutant",
+    "type": "harvest",
+    "copy-from": "mutant_bird_flightless",
     "extend": { "entries": [ { "drop": "skull_beaver", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
   },
   {

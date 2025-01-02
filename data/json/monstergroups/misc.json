@@ -499,11 +499,6 @@
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
   },
   {
-    "type": "monstergroup",
-    "name": "GROUP_JABBERWOCK",
-    "monsters": [ { "monster": "mon_jabberwock" } ]
-  },
-  {
     "name": "GROUP_RATTLESNAKE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_rattlesnake", "weight": 19 }, { "monster": "mon_rattlesnake_big", "weight": 1 } ],
@@ -515,7 +510,7 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
     "monsters": [
-      { "monster": "mon_beaver", "weight": 10 },
+      { "group": "GROUP_BEAVER", "weight": 10 },
       { "monster": "mon_fox_red", "weight": 10 },
       { "monster": "mon_fox_gray", "weight": 10 },
       { "monster": "mon_mink", "weight": 5 },

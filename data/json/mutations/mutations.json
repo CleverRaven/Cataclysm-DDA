@@ -2,12 +2,12 @@
   {
     "type": "mutation",
     "id": "CHANGING",
-    "name": { "str": "Changing" },
+    "name": { "str": "Changing", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "purifiable": false,
     "valid": false,
-    "description": "You shouldn't see this.  This makes you mutate.",
+    "description": { "str": "You shouldn't see this.  This makes you mutate.", "//~": "NO_I18N" },
     "flags": [ "CHANGING" ]
   },
   {
@@ -420,7 +420,7 @@
     "triggers": [
       [
         {
-          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
+          "condition": { "math": [ "u_val('morale') < -50" ] },
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
         }
       ],
@@ -526,29 +526,10 @@
     "points": 2,
     "vitamin_cost": 160,
     "prereqs": [ "SLIT_NOSTRILS", "BLOODFEEDER" ],
-    "flags": [ "INFRARED" ],
     "category": [ "CHIROPTERAN" ],
     "ugliness": 3,
     "description": "Your nose is upturned, ridged and flared out into a leaf shape that humans will likely find unsightly.  On the plus side, thermoreceptors in your nostrils allow you to smell heat as long as you can breathe.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "not": {
-              "or": [
-                { "u_has_effect": "smoke", "bodypart": "mouth" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "tpollen" },
-                { "u_has_effect": "asthma" },
-                { "u_has_effect": "hay_fever" },
-                "u_is_underwater"
-              ]
-            }
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ]
+    "enchantments": [ "THERMAL_VISION_LEAFNOSE" ]
   },
   {
     "type": "mutation",
@@ -644,7 +625,7 @@
     "category": [ "INSECT", "TROGLOBITE", "RAT" ],
     "enchantments": [
       {
-        "condition": { "math": [ "u_val('pos_z')", "<", "0" ] },
+        "condition": { "math": [ "u_val('pos_z') < 0" ] },
         "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
       }
     ]
@@ -767,7 +748,7 @@
     "description": "You always sleep better surrounded by earth.",
     "category": [ "BATRACHIAN" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
-    "enchantments": [ { "condition": { "math": [ "u_val('pos_z')", "<", "0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
+    "enchantments": [ { "condition": { "math": [ "u_val('pos_z') < 0" ] }, "values": [ { "value": "SLEEPY", "add": 20 } ] } ]
   },
   {
     "type": "mutation",
@@ -1001,6 +982,7 @@
     "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": 0.5 } ] } ],
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false
   },
   {
@@ -1242,6 +1224,7 @@
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false
   },
   {
@@ -1310,6 +1293,7 @@
     "points": 2,
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "flags": [ "CANNIBAL" ]
@@ -1321,6 +1305,7 @@
     "points": 1,
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "cancels": [ "VEGETARIAN", "VEGAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
@@ -1332,6 +1317,7 @@
     "points": 2,
     "description": "You don't feel any remorse or guilt for harming your fellow man.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
     "types": [ "HUMAN_EMPATHY" ],
@@ -1344,6 +1330,7 @@
     "points": 2,
     "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "valid": false,
     "social_modifiers": { "intimidate": 10 },
     "types": [ "HUMAN_EMPATHY" ],
@@ -1916,6 +1903,7 @@
     "vitamin_cost": 160,
     "description": "You suffer from a minor chemical imbalance, whether mental or physical.  Minor changes to your internal chemistry will manifest themselves on occasion, such as hunger, sleepiness, narcotic effects, etc.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "category": [ "SLIME", "MEDICAL", "CHIMERA", "ELFA" ]
   },
   {
@@ -1962,6 +1950,7 @@
     "vitamin_cost": 160,
     "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -1972,6 +1961,7 @@
     "vitamin_cost": 160,
     "description": "You randomly fall asleep without any reason.",
     "starting_trait": true,
+    "random_at_chargen": false,
     "category": [ "MEDICAL" ]
   },
   {
@@ -2479,7 +2469,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "prereqs": [ "NIGHTVISION3" ],
     "cancels": [ "LIZ_IR" ],
     "category": [ "INSECT", "TROGLOBITE", "SPIDER" ],
@@ -2506,7 +2496,7 @@
     "points": 5,
     "vitamin_cost": 210,
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
-    "flags": [ "INFRARED" ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE" ],
     "types": [ "VISION" ],
     "prereqs": [ "LIZ_EYE" ],
     "category": [ "LIZARD", "RAPTOR" ]
@@ -2913,8 +2903,8 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.4 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.4 },
           { "value": "MOVE_COST", "multiply": -0.1 },
           { "value": "ATTACK_SPEED", "multiply": -0.1 },
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
@@ -2941,7 +2931,7 @@
   {
     "type": "mutation",
     "id": "DOWN",
-    "name": { "str": "Down" },
+    "name": { "str": "Down", "ctxt": "mutation" },
     "points": 0,
     "vitamin_cost": 60,
     "visibility": 4,
@@ -3218,7 +3208,7 @@
     "vitamin_cost": 160,
     "visibility": 6,
     "ugliness": 3,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 2 } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "bash", "add": 2 } ] } ],
     "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder.  Somewhat reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN" ],
@@ -3274,7 +3264,7 @@
     "visibility": 8,
     "ugliness": 5,
     "enchantments": [
-      { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 4 } ] },
+      { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "bash", "add": 4 } ] },
       { "values": [ { "value": "DEXTERITY", "add": -1 } ] }
     ],
     "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
@@ -3610,7 +3600,7 @@
     "vitamin_cost": 160,
     "visibility": 8,
     "ugliness": 4,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "stab", "add": 2 } ] } ],
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
     "prereqs": [ "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ]
@@ -3804,7 +3794,12 @@
     "points": 1,
     "vitamin_cost": 60,
     "visibility": 1,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 0.5 } ] } ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_has_weapon" }, { "math": [ "u_encumbrance('hand_l') + u_encumbrance('hand_r') <= 0" ] } ] },
+        "melee_damage_bonus": [ { "type": "stab", "add": 0.5 } ]
+      }
+    ],
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
@@ -4195,7 +4190,7 @@
     "vitamin_cost": 60,
     "visibility": 5,
     "ugliness": 4,
-    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_ACID", "add": { "math": [ "rng(2, 3)" ] } } ] } ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "melee_damage_bonus": [ { "type": "acid", "add": 3 } ] } ],
     "description": "The skin on your hands is now a mucous membrane that produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
     "prereqs": [ "SLIMY" ],
     "category": [ "SLIME" ],
@@ -4553,7 +4548,8 @@
     "category": [ "BIRD" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "allowed_items": [ "ALLOWS_TALONS" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -4924,7 +4920,18 @@
     "active": true,
     "starts_active": true,
     "restricts_gear": [ "head_crown" ],
-    "allow_soft_gear": true
+    "allow_soft_gear": true,
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "special_vision": [
+          {
+            "distance": 3,
+            "descriptions": [ { "id": "antennae_sense", "symbol": "?", "color": "c_white", "text": "You sense something here." } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5223,7 +5230,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC1_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC1" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC1" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
     "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
@@ -5243,7 +5250,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC2_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC2" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC2" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
     "effect": [ { "math": [ "u_pain()", "-=", "4" ] } ]
   },
@@ -5262,7 +5269,7 @@
     "type": "effect_on_condition",
     "id": "PAINREC3_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC3" } ] },
+    "condition": { "and": [ { "math": [ "u_pain() > 0" ] }, { "u_has_trait": "PAINREC3" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
     "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
   },
@@ -7166,8 +7173,8 @@
     "category": [ "BIRD", "SLIME", "ELFA" ],
     "enchantments": [
       {
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "multiply": 0.8 } ],
         "values": [
-          { "value": "EXTRA_BASH", "multiply": 0.8 },
           { "value": "MOVE_COST", "multiply": -0.2 },
           { "value": "ATTACK_SPEED", "multiply": -0.2 },
           { "value": "CARRY_WEIGHT", "multiply": -0.4 }
@@ -7879,6 +7886,7 @@
     "description": "Your body's ability to digest meat is severely hampered.  Eating meat has a good chance of making you vomit it back up; even if you manage to keep it down, its nutritional value is greatly reduced.",
     "types": [ "DIET" ],
     "prereqs": [ "VEGETARIAN", "VEGAN" ],
+    "flags": "HERBIVORE_DIET",
     "leads_to": [ "RUMINANT" ],
     "category": [ "CATTLE", "RABBIT" ]
   },
@@ -7892,6 +7900,7 @@
     "types": [ "DIET" ],
     "cancels": [ "VEGAN" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN", "BEAST", "LUPINE" ],
+    "flags": [ "CARNIVORE_DIET" ],
     "vitamin_rates": [ [ "vitC", -1200 ] ]
   },
   {
@@ -8000,6 +8009,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "attacks": [
       {
@@ -8024,6 +8034,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
+    "flags": [ "VINE_RAPPEL" ],
     "category": [ "PLANT" ],
     "active": true,
     "cost": 90,
@@ -9038,7 +9049,8 @@
     "points": -2,
     "vitamin_cost": 160,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
-    "starting_trait": true
+    "starting_trait": true,
+    "random_at_chargen": false
   },
   {
     "type": "mutation",
@@ -9120,10 +9132,7 @@
     "vitamin_cost": 160,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
-    "enchantments": [
-      { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] },
-      { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] }
-    ],
+    "enchantments": [ "ELECTRIC_VISION", { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] } ],
     "mixed_effect": true
   },
   {
@@ -9337,9 +9346,9 @@
   {
     "type": "mutation",
     "id": "NPC_BRANDY",
-    "name": { "str": "Carries Brandy" },
+    "name": { "str": "Carries Brandy", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries brandy!",
+    "description": { "str": "This Bartender now carries brandy!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9347,9 +9356,9 @@
   {
     "type": "mutation",
     "id": "NPC_RUM",
-    "name": { "str": "Carries Rum" },
+    "name": { "str": "Carries Rum", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries rum!",
+    "description": { "str": "This Bartender now carries rum!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9357,9 +9366,9 @@
   {
     "type": "mutation",
     "id": "NPC_WHISKEY",
-    "name": { "str": "Carries Whiskey" },
+    "name": { "str": "Carries Whiskey", "//~": "NO_I18N" },
     "points": 0,
-    "description": "This Bartender now carries whiskey!",
+    "description": { "str": "This Bartender now carries whiskey!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9367,9 +9376,9 @@
   {
     "type": "mutation",
     "id": "NPC_MISSION_LEV_1",
-    "name": { "str": "Has Level 1 Companion Missions" },
+    "name": { "str": "Has Level 1 Companion Missions", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New mission options have become available!",
+    "description": { "str": "New mission options have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9377,9 +9386,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_1",
-    "name": { "str": "Has Level 1 Construction Built" },
+    "name": { "str": "Has Level 1 Construction Built", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New options may have become available!",
+    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9387,9 +9396,9 @@
   {
     "type": "mutation",
     "id": "NPC_CONSTRUCTION_LEV_2",
-    "name": { "str": "Has Level 2 Construction Built" },
+    "name": { "str": "Has Level 2 Construction Built", "//~": "NO_I18N" },
     "points": 0,
-    "description": "New options may have become available!",
+    "description": { "str": "New options may have become available!", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9397,9 +9406,9 @@
   {
     "type": "mutation",
     "id": "NPC_STARTING_NPC",
-    "name": { "str": "Starting NPC" },
+    "name": { "str": "Starting NPC", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Marker for starting NPCs",
+    "description": { "str": "Marker for starting NPCs", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9407,9 +9416,9 @@
   {
     "type": "mutation",
     "id": "NPC_STATIC_NPC",
-    "name": { "str": "Static NPC" },
+    "name": { "str": "Static NPC", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Marker for static NPCs",
+    "description": { "str": "Marker for static NPCs", "//~": "NO_I18N" },
     "player_display": false,
     "valid": false,
     "purifiable": false
@@ -9417,45 +9426,48 @@
   {
     "type": "mutation",
     "id": "HALLUCINATION",
-    "name": { "str": "Hallucination" },
+    "name": { "str": "Hallucination", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "description": { "str": "NPC trait that makes them be hallucination.  It is a bug if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "IGNORE_SOUND",
-    "name": { "str": "Ignores Sounds" },
+    "name": { "str": "Ignores Sounds", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.",
+    "description": { "str": "NPC ignores sounds and does not investigate them.  If you see this, it's is a bug.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "NO_BASH",
-    "name": { "str": "Will Not Bash" },
+    "name": { "str": "Will Not Bash", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC will not bash to reach things.  If you see this, it's a bug.",
+    "description": { "str": "NPC will not bash to reach things.  If you see this, it's a bug.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "type": "mutation",
     "id": "RETURN_TO_START_POS",
-    "name": { "str": "Returns to Start POS" },
+    "name": { "str": "Returns to Start POS", "//~": "NO_I18N" },
     "points": 99,
     "valid": false,
-    "description": "NPC will return to its spawn position on idle.",
+    "description": { "str": "NPC will return to its spawn position on idle.", "//~": "NO_I18N" },
+    "player_display": false,
     "purifiable": false
   },
   {
     "id": "GETS_RANDOM_MISSION",
     "type": "mutation",
-    "name": { "str": "Assign Random Mission" },
-    "description": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.",
+    "name": { "str": "Assign Random Mission", "//~": "NO_I18N" },
+    "description": { "str": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -9466,8 +9478,11 @@
   {
     "id": "GETS_RANDOM_MISSION_NOMOVE",
     "type": "mutation",
-    "name": { "str": "Assign Random No-move Mission" },
-    "description": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+    "name": { "str": "Assign Random No-move Mission", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "points": 0,
     "valid": false,
     "purifiable": false,
@@ -9519,10 +9534,10 @@
   {
     "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
-    "name": { "str": "Debug Night Vision" },
+    "name": { "str": "Debug Night and Map Vision" },
     "points": 99,
     "valid": false,
-    "description": "You can clearly see that this is for dev purposes only.",
+    "description": "Grants flawless night vision and the ability to see all of the overmaps without having to reveal them manually.  As such, you can clearly see that this is for dev purposes only.",
     "debug": true
   },
   {
@@ -9531,7 +9546,7 @@
     "name": { "str": "Debug Clairvoyance" },
     "points": 99,
     "valid": false,
-    "description": "You can clearly see that this is for dev purposes only.",
+    "description": "Being able to see through walls and the floor is clearly for dev purposes only.",
     "flags": [ "CLAIRVOYANCE_PLUS" ],
     "debug": true
   },
@@ -9541,7 +9556,7 @@
     "name": { "str": "Debug Clairvoyance Super" },
     "points": 99,
     "valid": false,
-    "description": "You can see all the bugs with this one.",
+    "description": "Much bigger range than the other Debug Clairvoyance trait.  Unsure which one to use?  Use them both!  You can see all the bugs with this one.",
     "flags": [ "SUPER_CLAIRVOYANCE" ],
     "debug": true
   },
@@ -9638,7 +9653,7 @@
     "name": { "str": "Debug Mana Furnace" },
     "points": 99,
     "valid": false,
-    "description": "Using mana to incinerate all bugs, activate to start burning",
+    "description": "Using mana to incinerate all bugs, activate to start burning.",
     "active": true,
     "transform": {
       "target": "DEBUG_MANA_FURNACE_active",
@@ -9651,8 +9666,8 @@
   {
     "type": "mutation",
     "id": "DEBUG_MANA_FURNACE_active",
-    "name": { "str": "Debug Mana Furnace (ON) " },
-    "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly",
+    "name": { "str": "Debug Mana Furnace (ON)" },
+    "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly.",
     "copy-from": "DEBUG_MANA_FURNACE",
     "cost": 100,
     "time": "1 s",
@@ -9676,6 +9691,7 @@
     "points": 99,
     "valid": false,
     "description": "Bug-repellent forcefield.",
+    "flags": [ "CANNOT_TAKE_DAMAGE" ],
     "debug": true
   },
   {
@@ -9777,20 +9793,20 @@
   {
     "type": "mutation",
     "id": "BEE",
-    "name": { "str": "Bee" },
+    "name": { "str": "Bee", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
+    "description": { "str": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
   },
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "Mycus friend" },
+    "name": { "str": "Mycus friend", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "description": { "str": "NPC trait that makes fungaloid monsters see this NPC as a friend.", "//~": "NO_I18N" },
     "player_display": false
   },
   {
@@ -10239,10 +10255,13 @@
   {
     "type": "mutation",
     "id": "CARNIVORE_FAKE",
-    "name": { "str": "Imitation Carnivore" },
+    "name": { "str": "Imitation Carnivore", "//~": "NO_I18N" },
     "points": 0,
     "vitamin_cost": 160,
-    "description": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+    "description": {
+      "str": "Fake mutation to allow post-threshold Ursine mutants access to mutations normally gated behind Carnivore.  This is not meant to be visible in-game.",
+      "//~": "NO_I18N"
+    },
     "category": [ "URSINE" ],
     "threshreq": [ "THRESH_URSINE" ],
     "player_display": false
@@ -10278,8 +10297,8 @@
   {
     "type": "mutation",
     "id": "TAINTED_SHADOW",
-    "name": { "str": "Tainted Shadow" },
-    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
+    "name": { "str": "Tainted Shadow", "//~": "NO_I18N" },
+    "description": { "str": "You shouldn't see this.  This makes you spawn tainted shadows.", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
     "purifiable": false,
@@ -10476,14 +10495,8 @@
     "category": [ "ALPHA" ],
     "social_modifiers": { "intimidate": 5, "persuade": 15, "lie": 10 },
     "triggers": [
-      [
-        {
-          "condition": { "or": [ { "math": [ "u_val('morale')", "<", "-75" ] }, { "math": [ "u_val('morale')", "<", "75" ] } ] }
-        }
-      ],
-      [
-        { "condition": { "or": [ { "math": [ "u_val('stim')", "<", "-50" ] }, { "math": [ "u_val('stim')", "<", "50" ] } ] } }
-      ]
+      [ { "condition": { "or": [ { "math": [ "u_val('morale') < -75" ] }, { "math": [ "u_val('morale') < 75" ] } ] } } ],
+      [ { "condition": { "or": [ { "math": [ "u_val('stim') < -50" ] }, { "math": [ "u_val('stim') < 50" ] } ] } } ]
     ],
     "transform": { "target": "DARK_TRIAD", "msg_transform": "You give in to your worst instincts.", "active": false, "moves": 10 }
   },
@@ -10499,7 +10512,7 @@
     "points": -1,
     "flags": [ "ASOCIAL2" ],
     "category": [ "ALPHA" ],
-    "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time)", ">", "time('36 h')" ] } } ] ],
+    "triggers": [ [ { "condition": { "math": [ "time_since(u_transform_time) > time('36 h')" ] } } ] ],
     "transform": { "target": "AMOG", "msg_transform": "Maybe you can make better decisions this time.", "active": false, "moves": 10 },
     "social_modifiers": { "intimidate": -10, "persuade": -25, "lie": -15 }
   },

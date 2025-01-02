@@ -57,7 +57,7 @@
     "harvest": "zombie_humanoid_headless",
     "decay": "zombie_decay_bone",
     "upgrades": { "half_life": 24, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
-    "extend": { "flags": [ "NOHEAD" ] },
+    "extend": { "flags": [ "NOHEAD", "GEN_DORMANT" ] },
     "delete": { "flags": [ "SEES" ], "special_attacks": [ "bite_humanoid" ] },
     "//3": "Removed Bite attack to reflect damage to mouth.",
     "//4": "Has NOHEAD flag to reflect the head is already catastrophically damaged.  Only detects through hearing."
@@ -104,7 +104,7 @@
     "bleed_rate": 80,
     "grab_strength": 15,
     "upgrades": { "half_life": 24, "into": "mon_zombie_brute" },
-    "fungalize_into": "mon_zombie_tough_fungal",
+    "fungalize_into": "mon_zombie_tough_dusted",
     "armor": { "bash": 3, "cut": 2, "bullet": 2, "electric": 2 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
@@ -138,7 +138,7 @@
     "grab_strength": 30,
     "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
-    "fungalize_into": "mon_zombie_brute_fungal",
+    "fungalize_into": "mon_zombie_brute_dusted",
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
@@ -292,7 +292,7 @@
     "death_function": { "eoc": "EOC_NEMESIS_DIED" },
     "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
-    "fungalize_into": "mon_zombie_hulk_fungal",
+    "fungalize_into": "mon_zombie_hulk_dusted",
     "extend": {
       "flags": [ "ALL_SEEING", "GOODHEARING", "SMELLS", "KEENNOSE", "DESTROYS", "PUSH_VEH", "NEMESIS", "LOUDMOVES" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
@@ -390,7 +390,7 @@
     "copy-from": "mon_zombie_base",
     "diff": 5,
     "volume": "875 L",
-    "weight": "200 kg",
+    "weight": "1000 kg",
     "hp": 480,
     "speed": 130,
     "color": "white_magenta",
@@ -406,7 +406,7 @@
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
-    "fungalize_into": "mon_zombie_hulk_fungal",
+    "fungalize_into": "mon_zombie_hulk_dusted",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {
@@ -580,7 +580,7 @@
       }
     ],
     "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
-    "fungalize_into": "mon_zombie_runner_fungal"
+    "fungalize_into": "mon_zombie_runner_dusted"
   },
   {
     "id": "mon_zombie_regenerating",
@@ -799,7 +799,7 @@
     "vision_day": 50,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
-    "fungalize_into": "mon_zombie_smoker_fungus",
+    "fungalize_into": "mon_zombie_smoker_dusted",
     "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
     "armor": { "heat": 5, "electric": 1 },
     "extend": { "flags": [ "HARDTOSHOOT" ] }

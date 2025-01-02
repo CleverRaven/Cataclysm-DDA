@@ -13,7 +13,7 @@
       }
     ],
     "terrain": {
-      "│": "t_hole",
+      "│": "t_open_air",
       "_": "t_concrete",
       "A": "t_concrete",
       "f": "t_chainfence",

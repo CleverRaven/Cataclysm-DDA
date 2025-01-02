@@ -5,12 +5,18 @@
     "extend": {
       "components": [
         [
+          [ "egg_rhea", 1 ],
+          [ "egg_seriema", 1 ],
+          [ "egg_guan", 1 ],
+          [ "egg_curassow", 1 ],
           [ "egg_toucan", 3 ],
-          [ "egg_parrot", 6 ],
           [ "egg_macaw", 3 ],
+          [ "egg_chachalaca", 3 ],
+          [ "egg_parrot", 6 ],
+          [ "egg_great_kiskadee", 6 ],
+          [ "egg_tinamou", 6 ],
           [ "egg_rufous_hornero", 20 ],
-          [ "egg_finch_saffron", 20 ],
-          [ "egg_great_kiskadee", 6 ]
+          [ "egg_finch_saffron", 20 ]
         ]
       ]
     }

@@ -238,7 +238,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armschina", 3 ], [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
     "//": "Hematite has around 70% yield of iron, total yield here is just over 69% at 3500 grams of steel.  Estimated 2% carbon content has minimal effect on these numbers.  Magnetite has around 80% yield, but ironsand isn't pure magnetite.",
-    "result_mult": 75,
+    "result_mult": 37,
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [

@@ -65,16 +65,16 @@
     "global": false,
     "condition": {
       "and": [
-        { "math": [ "godco_met_merchants", "==", "0" ] },
+        { "math": [ "godco_met_merchants == 0" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
     },
-    "deactivate_condition": { "math": [ "godco_met_merchants", "==", "1" ] },
+    "deactivate_condition": { "math": [ "godco_met_merchants == 1" ] },
     "effect": [
       { "mapgen_update": "godco_permanent_trader_predatory_add", "om_terrain": "godco_enter" },
-      { "math": [ "godco_met_merchants", "=", "1" ] }
+      { "math": [ "godco_met_merchants = 1" ] }
     ]
   },
   {
@@ -84,15 +84,15 @@
     "global": false,
     "condition": {
       "and": [
-        { "math": [ "freemerch_godco_trader_investigated", "==", "1" ] },
+        { "math": [ "freemerch_godco_trader_investigated == 1" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
     },
-    "deactivate_condition": { "math": [ "freemerch_godco_trader_investigated", "==", "2" ] },
+    "deactivate_condition": { "math": [ "freemerch_godco_trader_investigated == 2" ] },
     "effect": [
       { "mapgen_update": "godco_permanent_trader_change", "om_terrain": "godco_enter" },
-      { "math": [ "freemerch_godco_trader_investigated", "=", "2" ] }
+      { "math": [ "freemerch_godco_trader_investigated = 2" ] }
     ]
   },
   {
@@ -100,7 +100,7 @@
     "id": "GODCO_TRADER_MISSION_DEATHFAIL",
     "eoc_type": "NPC_DEATH",
     "effect": [
-      { "math": [ "godco_freemerch_representative_dead", "=", "0" ] },
+      { "math": [ "godco_freemerch_representative_dead = 0" ] },
       { "u_lose_var": "general_trade_u_think_suspicious_price" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]
@@ -110,7 +110,7 @@
     "id": "GODCO_EDDIE_CANNING_MISSION_ADD",
     "condition": {
       "and": [
-        { "math": [ "godco_has_canningpots", "==", "1" ] },
+        { "math": [ "godco_has_canningpots == 1" ] },
         { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_missions_got_mission" } ] } }
       ]
     },

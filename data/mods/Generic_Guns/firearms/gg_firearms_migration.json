@@ -62,7 +62,6 @@
       "modular_deagle_357",
       "modular_deagle_44",
       "modular_deagle_50",
-      "m1911-460",
       "draco",
       "draco_mini",
       "draco_micro"
@@ -71,7 +70,7 @@
     "replace": "pistol_magnum_automag"
   },
   {
-    "id": [ "henry_big_boy" ],
+    "id": [ "henry_big_boy", "rossi_r92_44_20", "rossi_r92_44_16" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_levergun"
   },
@@ -124,6 +123,8 @@
       "m1911a1_38super",
       "glock_22",
       "civilian_cop_glock22",
+      "civilian_glock19",
+      "civilian_AR-15",
       "hi_power_40",
       "tommygun",
       "usp_45",
@@ -155,7 +156,19 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895", "draco_9mm" ],
+    "id": [
+      "hk_mp5_semi_pistol",
+      "ksub2000",
+      "calico",
+      "hk_mp5_10_semi",
+      "TDI_10",
+      "mp40semi",
+      "hpt3895",
+      "draco_9mm",
+      "uberti_1873",
+      "rossi_r92_357_16",
+      "rossi_r92_357_20"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -210,7 +223,9 @@
       "ruger_mk4",
       "rough_rider_pistol",
       "rough_rider_pistol_9",
-      "1911_22"
+      "1911_22",
+      "rio_bravo",
+      "henry_golden_boy"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -381,6 +396,11 @@
     "id": [ "pamd68", "pamd71z", "pamd68rubik", "pamd68mountable" ],
     "type": "MIGRATION",
     "replace": "rifle_assault_foreign"
+  },
+  {
+    "id": [ "ree_33" ],
+    "type": "MIGRATION",
+    "replace": "rifle_cannon_foreign"
   },
   {
     "id": [ "combination_gun", "pipe_combination_gun" ],

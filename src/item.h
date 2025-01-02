@@ -36,7 +36,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "rng.h"
-
 class Character;
 class Creature;
 class JsonObject;
@@ -149,6 +148,9 @@ struct iteminfo {
         /** Flag indicating decimal with three points of precision.  */
         bool three_decimal;
 
+        /** info is ASCII art (prefer monospaced font) */
+        bool bIsArt;
+
         enum flags {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
@@ -157,6 +159,7 @@ struct iteminfo {
             lower_is_better = 1 << 3, ///< Lower values are better for this stat
             no_name = 1 << 4, ///< Do not print the name
             show_plus = 1 << 5, ///< Use a + sign for positive values
+            is_art = 1 << 6, ///< is ascii art (prefer monospaced font)
         };
 
         /**
@@ -262,7 +265,7 @@ class item : public visitable
          * @param pos position
          * @return true if the item was destroyed (exploded)
          */
-        bool activate_thrown( const tripoint &pos );
+        bool activate_thrown( const tripoint_bub_ms &pos );
 
         /**
          * Add or remove energy from a battery.
@@ -354,7 +357,7 @@ class item : public visitable
          * the return value can differ on successive calls.
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
-        bool ready_to_revive( map &here, const tripoint &pos ) const;
+        bool ready_to_revive( map &here, const tripoint_bub_ms &pos ) const;
 
         bool is_money() const;
     private:
@@ -366,6 +369,12 @@ class item : public visitable
         bool is_software_storage() const;
 
         bool is_ebook_storage() const;
+
+        /**
+         * Checks whether the item's components (and sub-components if deep_search) are food items
+         * Used for calculating nutrients of crafted food
+         */
+        bool made_of_any_food_components( bool deep_search = false ) const;
 
         /**
          * A heuristic on whether it's a good idea to use this as a melee weapon.
@@ -536,6 +545,11 @@ class item : public visitable
                              bool debug ) const;
         void final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
+
+        /**
+         * @return human readable, translated string.
+         */
+        static std::string layer_to_string( layer_level data );
 
         /**
          * Calculate all burning calculations, but don't actually apply them to item.
@@ -785,7 +799,7 @@ class item : public visitable
          * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
+        bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint_bub_ms &pos,
                           const std::function<bool( const item & )> &filter = return_true<item>,
                           Character *carrier = nullptr, bool in_tools = false );
 
@@ -795,7 +809,7 @@ class item : public visitable
          * @param pos Where is the item being placed. Note: the item isn't there yet.
          * @return true if the item was destroyed during placement.
          */
-        bool on_drop( const tripoint &pos );
+        bool on_drop( const tripoint_bub_ms &pos );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -804,8 +818,6 @@ class item : public visitable
          * @param map A map object associated with that position.
          * @return true if the item was destroyed during placement.
          */
-        // TODO: Get rid of untyped overload.
-        bool on_drop( const tripoint &pos, map &map );
         bool on_drop( const tripoint_bub_ms &pos, map &map );
 
         /**
@@ -1057,7 +1069,8 @@ class item : public visitable
          * @param flag to specify special temperature situations
          * @return true if the item is fully rotten and is ready to be removed
          */
-        bool process_temperature_rot( float insulation, const tripoint &pos, map &here, Character *carrier,
+        bool process_temperature_rot( float insulation, const tripoint_bub_ms &pos, map &here,
+                                      Character *carrier,
                                       temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f,
                                       bool watertight_container = false );
 
@@ -1168,7 +1181,7 @@ class item : public visitable
          * potentially destroying other items and invalidating iterators.
          * Should NOT be called on an item on the map, but on a local copy.
          */
-        bool detonate( const tripoint &p, std::vector<item> &drops );
+        bool detonate( const tripoint_bub_ms &p, std::vector<item> &drops );
 
         bool will_explode_in_fire() const;
 
@@ -1398,7 +1411,8 @@ class item : public visitable
          * This version is for items with durability
          * @return the state of the armor
          */
-        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+        armor_status damage_armor_durability( damage_unit &du, damage_unit &premitigated,
+                                              const bodypart_id &bp,
                                               double enchant_multiplier = 1 );
 
         /**
@@ -1454,15 +1468,12 @@ class item : public visitable
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        // TODO: Get rid of untyped overload.
-        bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
-                      bool watertight_container = false, bool recursive = true );
         bool process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
                       bool watertight_container = false, bool recursive = true );
 
-        bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+        bool leak( map &here, Character *carrier, const tripoint_bub_ms &pos,
+                   item_pocket *pocke = nullptr );
 
         struct link_data {
             /// State of the link's source connection, the end usually represented by the device/cable item itself. @ref link_state.
@@ -1472,11 +1483,11 @@ class item : public visitable
             /// A safe reference to the link's target vehicle. Will recreate itself whenever possible.
             safe_reference<vehicle> t_veh; // NOLINT(cata-serialize)
             /// Absolute position of the linked target vehicle/appliance.
-            tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms::invalid;
             /// The linked part's mount offset on the target vehicle.
-            point t_mount = point_zero;
+            point_rel_ms t_mount = point_rel_ms::zero;
             /// Reality bubble position of the link's source cable item.
-            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
+            tripoint_bub_ms s_bub_pos = tripoint_bub_ms::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.
@@ -1541,7 +1552,7 @@ class item : public visitable
          * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
          * @return true if the item was successfully connected.
          */
-        ret_val<void> link_to( vehicle &veh, const point &mount,
+        ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
 
         /**
@@ -1580,7 +1591,7 @@ class item : public visitable
          * @return True if the cable should be deleted.
          */
         bool reset_link( bool unspool_if_too_long = true, Character *p = nullptr, int vpart_index = -1,
-                         bool loose_message = false, tripoint cable_position = tripoint_zero );
+                         bool loose_message = false, tripoint_bub_ms cable_position = tripoint_bub_ms::zero );
 
         /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
@@ -1608,7 +1619,7 @@ class item : public visitable
          * @param carrier The character carrying the artifact, can be null.
          * @param pos The location of the artifact (should be the player location if carried).
          */
-        void process_relic( Character *carrier, const tripoint &pos );
+        void process_relic( Character *carrier, const tripoint_bub_ms &pos );
 
         void overwrite_relic( const relic &nrelic );
 
@@ -1808,6 +1819,11 @@ class item : public visitable
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
 
+        /** Checks is item affect fall */
+        bool affects_fall() const;
+
+        //flat damage reduction (increase if negative) on fall (some logic may apply)
+        int fall_damage_reduction() const;
         /**
           * if the item will spill if placed into a container
           */
@@ -1825,12 +1841,10 @@ class item : public visitable
          * @param pos Position to dump the contents on.
          * @return If the item is now empty.
          */
-        // TODO: Get rid of untyped overload.
-        bool spill_contents( const tripoint &pos );
         bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         // spill items that don't fit in the container
-        void overflow( const tripoint &pos, const item_location &loc = item_location::nowhere );
+        void overflow( const tripoint_bub_ms &pos, const item_location &loc = item_location::nowhere );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -1872,10 +1886,9 @@ class item : public visitable
          */
         void on_contents_changed();
 
-        bool use_relic( Character &guy, const tripoint &pos );
+        bool use_relic( Character &guy, const tripoint_bub_ms &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
-        std::vector<trait_id> mutations_from_wearing( const Character &guy, bool removing = false ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1928,8 +1941,8 @@ class item : public visitable
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
-        void set_var( const std::string &name, const tripoint &value );
-        tripoint get_var( const std::string &name, const tripoint &default_value ) const;
+        void set_var( const std::string &name, const tripoint_abs_omt &value );
+        tripoint_abs_omt get_var( const std::string &name, const tripoint_abs_omt &default_value ) const;
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
@@ -2097,11 +2110,11 @@ class item : public visitable
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( const bodypart_id &bp ) const;
+        bool covers( const bodypart_id &bp, bool check_ablative_armor = true ) const;
         /**
          * Whether this item (when worn) covers the given sub body part.
          */
-        bool covers( const sub_bodypart_id &bp ) const;
+        bool covers( const sub_bodypart_id &bp, bool check_ablative_armor = true ) const;
         // do both items overlap a bodypart at all? returns the side that conflicts via rhs
         std::optional<side> covers_overlaps( const item &rhs ) const;
         /**
@@ -2520,8 +2533,6 @@ class item : public visitable
          * @param fuel_efficiency if this is a generator of some kind the efficiency at which it consumes fuel
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        // TODO: Get rid of untyped overload
-        int ammo_consume( int qty, const tripoint &pos, Character *carrier );
         int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
@@ -2533,7 +2544,7 @@ class item : public visitable
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
          */
-        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+        units::energy energy_consume( units::energy qty, const tripoint_bub_ms &pos, Character *carrier,
                                       float fuel_efficiency = -1.0 );
 
         /**
@@ -2544,8 +2555,14 @@ class item : public visitable
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int activation_consume( int qty, const tripoint &pos, Character *carrier );
+        int activation_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
 
+        // Returns whether the item has ammo in it, either directly or via a selected magazine, which
+        // contrasts with ammo_data(), which just returns the magazine data if a magazine is selected,
+        // regardless of whether that magazine is empty or not.
+        bool has_ammo() const;
+        // Cheaper way to just check if ammo_data exists if the data is to be just discarded afterwards.
+        bool has_ammo_data() const;
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
@@ -2818,9 +2835,9 @@ class item : public visitable
          * See @game::place_critter for meaning of @p target and @p pos.
          * @return Whether the monster has been spawned (may fail if no space available).
          */
-        bool release_monster( const tripoint &target, int radius = 0 );
+        bool release_monster( const tripoint_bub_ms &target, int radius = 0 );
         /* add the monster at target to this item, despawning it */
-        int contain_monster( const tripoint &target );
+        int contain_monster( const tripoint_bub_ms &target );
 
         time_duration age() const;
         void set_age( const time_duration &age );
@@ -2919,8 +2936,6 @@ class item : public visitable
 
         std::vector<enchant_cache> get_proc_enchantments() const;
         std::vector<enchantment> get_defined_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
-                                         bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
         double calculate_by_enchantment_wield( const Character &owner, double modify,
                                                enchant_vals::mod value,
@@ -3037,12 +3052,14 @@ class item : public visitable
         const use_function *get_use_internal( const std::string &use_name ) const;
         template<typename Item>
         static Item *get_usable_item_helper( Item &self, const std::string &use_name );
-        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation,
+        bool process_internal( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
                                temperature_flag flag, float spoil_modifier, bool watertight_container );
         void iterate_covered_body_parts_internal( side s,
-                const std::function<void( const bodypart_str_id & )> &cb ) const;
+                const std::function<void( const bodypart_str_id & )> &cb,
+                bool check_ablative_armor = true ) const;
         void iterate_covered_sub_body_parts_internal( side s,
-                const std::function<void( const sub_bodypart_str_id & )> &cb ) const;
+                const std::function<void( const sub_bodypart_str_id & )> &cb,
+                bool check_ablative_armor = true ) const;
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
@@ -3092,19 +3109,20 @@ class item : public visitable
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
         // The interface is the same as for @ref process.
-        bool process_corpse( map &here, Character *carrier, const tripoint &pos );
-        bool process_wet( Character *carrier, const tripoint &pos );
-        bool process_litcig( map &here, Character *carrier, const tripoint &pos );
-        bool process_extinguish( map &here, Character *carrier, const tripoint &pos );
+        bool process_corpse( map &here, Character *carrier, const tripoint_bub_ms &pos );
+        bool process_wet( Character *carrier, const tripoint_bub_ms &pos );
+        bool process_litcig( map &here, Character *carrier, const tripoint_bub_ms &pos );
+        bool process_extinguish( map &here, Character *carrier, const tripoint_bub_ms &pos );
         // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
-        bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
-        bool process_link( map &here, Character *carrier, const tripoint &pos );
-        bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
+        bool process_fake_smoke( map &here, Character *carrier, const tripoint_bub_ms &pos );
+        bool process_fake_mill( map &here, Character *carrier, const tripoint_bub_ms &pos );
+        bool process_link( map &here, Character *carrier, const tripoint_bub_ms &pos );
+        bool process_linked_item( Character *carrier, const tripoint_bub_ms &pos,
+                                  link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_gun_cooling( Character *carrier );
-        bool process_tool( Character *carrier, const tripoint &pos );
-        bool process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+        bool process_tool( Character *carrier, const tripoint_bub_ms &pos );
+        bool process_decay_in_air( map &here, Character *carrier, const tripoint_bub_ms &pos,
                                    int max_air_exposure_hours,
                                    time_duration time_delta );
 
@@ -3328,3 +3346,12 @@ struct disp_mod_by_barrel {
         dispersion_modifier( disp ) {}
     void deserialize( const JsonObject &jo );
 };
+
+/**
+ * Given an iterable of `const item* ` (such as obtained from `all_items_top()`),
+ * returns the vector of each unique item in the iterable, and the amount of times it
+ * was encountered.
+ * For display purposes only.
+ */
+std::vector<std::pair<const item *, int>> get_item_duplicate_counts(
+        const std::list<const item *> &items );

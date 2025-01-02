@@ -142,13 +142,13 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "_xxx",
-        "__ax",
-        "_xxx",
-        "__ox"
+        " xxx",
+        "  ax",
+        " xxx",
+        "  ox"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
+      "terrain": { "x": "t_sewage_pipe" },
       "furniture": { "o": [ "f_water_heater", "f_water_heater_family" ], "a": "f_air_conditioner" },
       "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
@@ -225,7 +225,7 @@
     "nested_mapgen_id": "roof_2x2_infrastructure_1",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_furniture": [ { "furn": "f_small_satelitte_dish", "x": 1, "y": 0 }, { "furn": "f_cellphone_booster", "x": 0, "y": 1 } ]
+      "place_furniture": [ { "furn": "f_small_satellite_dish", "x": 1, "y": 0 }, { "furn": "f_cellphone_booster", "x": 0, "y": 1 } ]
     }
   },
   {

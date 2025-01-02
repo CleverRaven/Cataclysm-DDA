@@ -453,11 +453,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
-    "petfood": {
-      "food": [ "DOGFOOD" ],
-      "feed": "If you're seeing this message it's a bug.",
-      "pet": "If you're seeing this message it's a bug."
-    },
+    "petfood": { "food": [ "DOGFOOD" ], "feed": ".", "pet": "." },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
@@ -665,7 +661,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "eoc": [ "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10 } ],
         "cooldown": 1,
         "move_cost": 100,
@@ -727,6 +723,31 @@
       "NOGIB"
     ],
     "armor": { "bash": 8, "electric": 3 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD",
+    "effect": [
+      { "math": [ "u_star_vampire_amount_drained", "=", "rng(250,650)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+          ]
+        }
+      }
+    ]
   },
   {
     "id": "mon_star_vampire_coiling",
@@ -835,7 +856,7 @@
             }
           ]
         },
-        "effects": [ { "id": "star_vampire_blood_drink", "duration": 2, "chance": 100 } ],
+        "eoc": [ "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 5 } ],
         "cooldown": 1,
         "move_cost": 100,
@@ -872,6 +893,31 @@
         "allow_no_target": true,
         "condition": { "or": [ { "not": { "u_has_effect": "invisibility" } }, { "not": { "u_has_effect": "star_vampire_blood_drank" } } ] },
         "monster_message": ""
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD",
+    "effect": [
+      { "math": [ "u_star_vampire_amount_drained", "=", "rng(125,325)" ] },
+      {
+        "if": { "npc_has_flag": "BLEEDSLOW2" },
+        "then": [
+          { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 3" ] },
+          { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 3" ] }
+        ],
+        "else": {
+          "if": { "npc_has_flag": "BLEEDSLOW" },
+          "then": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained / 1.5" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained / 1.5" ] }
+          ],
+          "else": [
+            { "math": [ "n_vitamin('blood')", "-=", "u_star_vampire_amount_drained" ] },
+            { "math": [ "n_vitamin('redcells')", "-=", "u_star_vampire_amount_drained" ] }
+          ]
+        }
       }
     ]
   },

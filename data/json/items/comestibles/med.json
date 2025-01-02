@@ -514,7 +514,7 @@
           {
             "id": "EOC_myopia_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
             }
           }
@@ -541,7 +541,7 @@
           {
             "id": "EOC_myopia_transition_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
             }
           }
@@ -566,7 +566,7 @@
           {
             "id": "EOC_myopia_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
             }
           }
@@ -591,7 +591,7 @@
           {
             "id": "EOC_myopia_transition_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
             }
           }
@@ -615,7 +615,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_weekly",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
           }
         ]
       }
@@ -637,10 +637,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" } }
           }
         ]
       }
@@ -662,7 +659,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_contacts_daily",
-            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
           }
         ]
       }
@@ -684,10 +681,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_hyperopia_transition_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" } }
           }
         ]
       }
@@ -710,7 +704,7 @@
           {
             "id": "EOC_bifocal_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
             }
           }
@@ -735,7 +729,7 @@
           {
             "id": "EOC_bifocal_transition_contacts_weekly",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": {
                 "flag1": "MYOPIC",
                 "flag2": "MYOPIC_IN_LIGHT",
@@ -766,7 +760,7 @@
           {
             "id": "EOC_bifocal_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
             }
           }
@@ -791,7 +785,7 @@
           {
             "id": "EOC_bifocal_transition_contacts_daily",
             "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
+              "run_eocs": "EOC_CONTACTS",
               "variables": {
                 "flag1": "MYOPIC",
                 "flag2": "MYOPIC_IN_LIGHT",
@@ -821,10 +815,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_weekly",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" } }
           }
         ]
       }
@@ -846,10 +837,7 @@
         "effect_on_conditions": [
           {
             "id": "EOC_plano_transition_contacts_daily",
-            "effect": {
-              "run_eoc_with": "EOC_CONTACTS",
-              "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" }
-            }
+            "effect": { "run_eocs": "EOC_CONTACTS", "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" } }
           }
         ]
       }
@@ -1118,7 +1106,7 @@
     "volume": "1 ml",
     "weight": "3 g",
     "price": "7 USD 50 cent",
-    "price_postapoc": "15 USD",
+    "price_postapoc": "65 cent",
     "symbol": "!",
     "color": "light_blue",
     "use_action": {
@@ -1500,11 +1488,8 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Can be used to treat insomnia.",
-      "effect_on_conditions": [ "EOC_SLEEP" ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
+    "sleepiness_mod": -40
   },
   {
     "id": "poppy_pain",
@@ -1543,13 +1528,10 @@
     "symbol": "!",
     "color": "magenta",
     "healthy": -2,
-    "addiction_type": "opiate",
+    "addiction_type": [ "sleeping pill", "opiate" ],
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Can be used to treat insomnia.",
-      "effect_on_conditions": [ "EOC_SLEEP" ]
-    }
+    "use_action": { "type": "consume_drug", "activation_message": "You take a %s." },
+    "sleepiness_mod": -40
   },
   {
     "id": "poppysyrup",
@@ -1569,7 +1551,7 @@
     "stim": -3,
     "healthy": -1,
     "addiction_potential": 15,
-    "addiction_type": "sleeping pill",
+    "addiction_type": [ "sleeping pill", "opiate" ],
     "use_action": [ "FLUSLEEP" ]
   },
   {
@@ -1582,7 +1564,7 @@
     "weight": "40 g",
     "volume": "75 ml",
     "price": "10 USD",
-    "price_postapoc": "50 USD",
+    "price_postapoc": "25 USD",
     "symbol": "!",
     "color": "brown",
     "healthy": -1,
@@ -1784,7 +1766,7 @@
     "weight": "1 g",
     "volume": "5 ml",
     "price": "90 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "30 cent",
     "symbol": "!",
     "color": "magenta",
     "container": "bottle_plastic_pill_supplement",
@@ -1808,7 +1790,7 @@
     "weight": "1 g",
     "volume": "5 ml",
     "price": "20 cent",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "9 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "symbol": "!",
     "color": "magenta",
@@ -1826,7 +1808,7 @@
     "volume": "12 ml",
     "price": "1 cent",
     "fun": -8,
-    "price_postapoc": "12 cent",
+    "price_postapoc": "2 cent",
     "healthy": -2,
     "symbol": "!",
     "color": "white",
@@ -1846,7 +1828,7 @@
     "volume": "11 ml",
     "price": "7 cent",
     "fun": -2,
-    "price_postapoc": "17 cent",
+    "price_postapoc": "3 cent",
     "healthy": -2,
     "symbol": "!",
     "color": "yellow",
@@ -1856,13 +1838,29 @@
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
+    "id": "vitc_tablet",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "vitamin C supplement" },
+    "description": "A small white tablet promising more vitamin C than a human can conceivably absorb.",
+    "material": [ "drug_filler" ],
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": "7 cent",
+    "price_postapoc": "15 cent",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "vitC", 556 ] ] }
+  },
+  {
     "id": "gummy_vitamins",
     "copy-from": "vitamins",
     "type": "COMESTIBLE",
     "name": { "str_sp": "gummy vitamin" },
     "description": "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "material": [ "drug_filler" ],
-    "price_postapoc": "1 USD",
+    "price_postapoc": "40 cent",
     "fun": 4,
     "container": "null",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],

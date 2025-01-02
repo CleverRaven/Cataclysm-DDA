@@ -20,6 +20,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
@@ -95,12 +96,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
     active_mod_order = world_to_copy->active_mod_order;
 }
 
-std::string WORLD::folder_path() const
-{
-    return PATH_INFO::savedir() + world_name;
-}
-
-cata_path WORLD::folder_path_path() const
+cata_path WORLD::folder_path() const
 {
     return PATH_INFO::savedir_path() / world_name;
 }
@@ -188,21 +184,21 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
 static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
-    string_input_popup popup;
-    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+    string_input_popup_imgui popup( 50, cur_worldname );
+    popup.set_max_input_length( max_worldname_len );
+    popup.set_label( title );
 
     input_context ctxt( "STRING_INPUT" );
-    popup.description( string_format(
-                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+    popup.set_description( string_format(
+                               _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                               ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
 
-    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
-    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
-        popup.text( get_next_valid_worldname() );
+    popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
+        popup.set_text( get_next_valid_worldname() );
         return true;
     } );
-    std::string message = popup.query_string();
-    return !popup.canceled() ? std::optional<std::string>( message ) : std::optional<std::string>();
+    std::string message = popup.query();
+    return message;
 }
 
 int worldfactory::show_worldgen_advanced( WORLD *world )
@@ -312,7 +308,7 @@ bool WORLD::save( const bool is_conversion ) const
     }
 
     if( !is_conversion ) {
-        const auto savefile = folder_path() + "/" + PATH_INFO::worldoptions();
+        const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
         const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
             JsonOut jout( fout );
 
@@ -426,12 +422,12 @@ void worldfactory::init()
 
         // save world as conversion world
         if( newworld->save( true ) ) {
-            const std::string origin_path = old_world.folder_path();
+            const cata_path origin_path = old_world.folder_path();
             // move files from origin_path into new world path
-            for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
+            for( cata_path &origin_file : get_files_from_path( ".", origin_path, false ) ) {
+                std::string filename = origin_file.get_relative_path().filename().generic_u8string();
 
-                if( rename_file( origin_file, ( newworld->folder_path() + filename ) ) ) {
+                if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
@@ -505,8 +501,8 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     int iMinScreenWidth = 0;
     size_t num_pages = 1;
 
-    std::map<int, bool> mapLines;
-    mapLines[3] = true;
+    std::set<int> mapLines;
+    mapLines.insert( 3 );
 
     std::map<int, std::vector<std::string> > world_pages;
     std::map<int, inclusive_rectangle<point>> button_map;
@@ -560,42 +556,32 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         button_map.clear();
         draw_border( w_worlds_border, BORDER_COLOR, _( "World selection" ) );
-        mvwputch( w_worlds_border, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+        wattron( w_worlds_border, BORDER_COLOR );
+        mvwaddch( w_worlds_border, point( 0, 4 ), LINE_XXXO ); // |-
+        mvwaddch( w_worlds_border, point( iMinScreenWidth - 1, 4 ), LINE_XOXX ); // -|
 
-        for( auto &mapLine : mapLines ) {
-            if( mapLine.second ) {
-                mvwputch( w_worlds_border, point( mapLine.first + 1, TERMY - 1 ), BORDER_COLOR,
-                          LINE_XXOX ); // _|_
-            }
+        for( const int &mapLine : mapLines ) {
+            mvwaddch( w_worlds_border, point( mapLine + 1, TERMY - 1 ), LINE_XXOX ); // _|_
         }
+        wattroff( w_worlds_border, BORDER_COLOR );
 
         wnoutrefresh( w_worlds_border );
 
-        for( int i = 0; i < getmaxx( w_worlds_border ); i++ ) {
-            if( mapLines[i] ) {
-                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
-            } else {
-                mvwputch( w_worlds_header, point( i, 0 ), BORDER_COLOR, LINE_OXOX ); // Draw header line
-            }
+        wattron( w_worlds_header, BORDER_COLOR );
+        mvwhline( w_worlds_header, point::zero, LINE_OXOX, getmaxx( w_worlds_border ) );
+        for( const int &mapLine : mapLines ) {
+            mvwaddch( w_worlds_header, point( mapLine, 0 ), LINE_OXXX ); // ^|^
         }
+        wattroff( w_worlds_header, BORDER_COLOR );
 
         wnoutrefresh( w_worlds_header );
 
         //Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < getmaxx( w_worlds ); j++ ) {
-                if( mapLines[j] ) {
-                    mvwputch( w_worlds, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                } else {
-                    mvwputch( w_worlds, point( j, i ), c_black, ' ' );
-                }
-
-                if( i < iTooltipHeight ) {
-                    mvwputch( w_worlds_tooltip, point( j, i ), c_black, ' ' );
-                }
-            }
+        mvwrectf( w_worlds, point::zero, c_black, ' ', getmaxx( w_worlds ), iContentHeight );
+        for( const int &mapLine : mapLines ) {
+            mvwvline( w_worlds, point( mapLine, 1 ), BORDER_COLOR, LINE_XOXO, iContentHeight - 2 );
         }
+        mvwrectf( w_worlds_tooltip, point::zero, c_black, ' ', getmaxx( w_worlds ), iTooltipHeight );
 
         //Draw World Names
         for( size_t i = 0; i < world_pages[selpage].size(); ++i ) {
@@ -640,7 +626,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 
         wnoutrefresh( w_worlds_header );
 
-        fold_and_print( w_worlds_tooltip, point_zero, 78, c_white, _( "Pick a world to enter game" ) );
+        fold_and_print( w_worlds_tooltip, point::zero, 78, c_white, _( "Pick a world to enter game" ) );
         wnoutrefresh( w_worlds_tooltip );
 
         wnoutrefresh( w_worlds );
@@ -914,9 +900,10 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
     // Ensure that the scrollbar starts at zero position
     if( first_line_is_category && iActive == 1 ) {
-        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), point_zero );
+        draw_scrollbar( w, 0, iMaxRows, static_cast<int>( iModNum ), point::zero );
     } else {
-        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ), point_zero );
+        draw_scrollbar( w, static_cast<int>( iActive ), iMaxRows, static_cast<int>( iModNum ),
+                        point::zero );
     }
 
     wnoutrefresh( w );
@@ -1195,16 +1182,11 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else {
             werase( win );
             draw_border_below_tabs( win );
-            wmove( win, point( 0, 2 ) );
-            for( int i = 0; i < getmaxx( win ); i++ ) {
-                if( i == 0 ) {
-                    wputch( win, c_light_gray, LINE_OXXO );
-                } else if( i == getmaxx( win ) - 1 ) {
-                    wputch( win, c_light_gray, LINE_OOXX );
-                } else {
-                    wputch( win, c_light_gray, LINE_OXOX );
-                }
-            }
+            wattron( win, c_light_gray );
+            mvwaddch( win, point( 0, 2 ), LINE_OXXO ); // .-
+            mvwhline( win, point( 1, 2 ), LINE_OXOX, getmaxx( win ) - 2 ); // -
+            mvwaddch( win, point( getmaxx( win ) - 1, 2 ), LINE_OOXX ); // -.
+            wattroff( win, c_light_gray );
         }
         draw_modselection_borders( win, ctxt );
 
@@ -1683,11 +1665,11 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         .apply( w_confirmation );
 
         // Bottom box
-        mvwputch( w_confirmation, point( 0, win_height - 10 ), BORDER_COLOR, LINE_XXXO );
-        for( int i = 0; i < win_width; i++ ) {
-            wputch( w_confirmation, BORDER_COLOR, LINE_OXOX );
-        }
-        wputch( w_confirmation, BORDER_COLOR, LINE_XOXX );
+        wattron( w_confirmation, BORDER_COLOR );
+        mvwaddch( w_confirmation, point( 0,             win_height - 10 ), LINE_XXXO );
+        mvwhline( w_confirmation, point( 1,             win_height - 10 ), LINE_OXOX, win_width - 2 );
+        mvwaddch( w_confirmation, point( win_width - 1, win_height - 10 ), LINE_XOXX );
+        wattroff( w_confirmation, BORDER_COLOR );
 
         // Hint text
         std::string hint_txt =
@@ -1871,36 +1853,33 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     std::array<int, 5> ls = {{iMinScreenWidth - 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 - 2, TERMY - 14, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
+    wattron( win, BORDER_COLOR );
+
     for( int i = 0; i < 5; ++i ) {
-        point p( xs[i], ys[i] );
-        int l = ls[i];
+        const point p( xs[i], ys[i] );
         if( hv[i] ) {
-            for( int j = 0; j < l; ++j ) {
-                mvwputch( win, p + point( j, 0 ), BORDER_COLOR, LINE_OXOX ); // -
-            }
+            mvwhline( win, p, LINE_OXOX, ls[i] ); // -
         } else {
-            for( int j = 0; j < l; ++j ) {
-                mvwputch( win, p + point( 0, j ), BORDER_COLOR, LINE_XOXO ); // |
-            }
+            mvwvline( win, p, LINE_XOXO, ls[i] ); // |
         }
     }
 
     // Add in connective characters
-    mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( 0, TERMY - 11 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwaddch( win, point( 0, 4 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( 0, TERMY - 11 ), LINE_XXXO ); // |-
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, 4 ), LINE_XXXO ); // |-
 
-    mvwputch( win, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 11 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth - 1, 4 ), LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth - 1, TERMY - 11 ), LINE_XOXX ); // -|
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, 4 ), LINE_XOXX ); // -|
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, 2 ), LINE_OXXX ); // -.-
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, 2 ), LINE_OXXX ); // -.-
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), BORDER_COLOR,
-              LINE_XXOX ); // _|_
+    mvwaddch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), LINE_XXOX ); // _|_
+    mvwaddch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), LINE_XXOX ); // _|_
+
+    wattroff( win, BORDER_COLOR );
 
     // Add tips & hints
     fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
@@ -2018,7 +1997,7 @@ bool WORLD::save_timestamp() const
         return true;
     }
 
-    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    const cata_path path = folder_path() / PATH_INFO::world_timestamp();
     return write_to_file( path, [this]( std::ostream & file ) {
         JsonOut jsout( file );
         jsout.write( timestamp );
@@ -2027,7 +2006,7 @@ bool WORLD::save_timestamp() const
 
 bool WORLD::load_timestamp()
 {
-    const cata_path path = folder_path_path() / PATH_INFO::world_timestamp();
+    const cata_path path = folder_path() / PATH_INFO::world_timestamp();
     return read_from_file_optional_json( path, [this]( const JsonValue & jv ) {
         const std::string ts = jv.get_string();
         // Sanitize the string since it is used in paths
@@ -2064,7 +2043,7 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    const cata_path path = folder_path_path() / PATH_INFO::worldoptions();
+    const cata_path path = folder_path() / PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
@@ -2088,11 +2067,10 @@ void load_external_option( const JsonObject &jo )
     std::string stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
-        translation sinfo;
-        jo.get_member( "info" ).read( sinfo );
-        opts.add_external( name, "external_options", stype, sinfo, sinfo );
+        opts.add_external( name, "external_options", stype );
     }
     options_manager::cOpt &opt = opts.get_option( name );
+    // TODO: Hook up to cata_variant instead?
     if( stype == "float" ) {
         opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
     } else if( stype == "int" ) {
@@ -2107,10 +2085,6 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
-    }
-    // Just visit this member if it exists
-    if( jo.has_member( "info" ) ) {
-        jo.get_string( "info" );
     }
     options_manager::update_options_cache();
 }
@@ -2155,51 +2129,48 @@ size_t worldfactory::get_world_index( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string_view candidate )
+static bool isForbidden( const cata_path &candidate )
 {
-    return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
-           candidate.find( "mods.json" ) != std::string::npos;
+    std::string filename = candidate.get_relative_path().filename().generic_u8string();
+    return filename == PATH_INFO::worldoptions() || filename == "mods.json";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->folder_path();
-    std::set<std::string> directory_paths;
+    cata_path worldpath = get_world( worldname )->folder_path();
+    std::set<fs::path> directory_paths;
 
+    if( delete_folder ) {
+        fs::remove_all( worldpath.get_unrelative_path() );
+        remove_world( worldname );
+        return;
+    }
+
+    // Clear out everything except options and mods.
+    // It would be easier to delete and recreate the world, but some people,
+    // like the author of this code, use symlinks to have world contents located
+    // 'elsewhere', and doing so would break such use cases.
     auto file_paths = get_files_from_path( "", worldpath, true, true );
-    if( !delete_folder ) {
-        std::vector<std::string>::iterator forbidden = find_if( file_paths.begin(), file_paths.end(),
-                isForbidden );
-        while( forbidden != file_paths.end() ) {
-            file_paths.erase( forbidden );
-            forbidden = find_if( file_paths.begin(), file_paths.end(), isForbidden );
-        }
-    }
-    for( auto &file_path : file_paths ) {
-        // strip to path and remove worldpath from it
-        std::string part = file_path.substr( worldpath.size(),
-                                             file_path.find_last_of( "/\\" ) - worldpath.size() );
-        size_t last_separator = part.find_last_of( "/\\" );
-        while( last_separator != std::string::npos && part.size() > 1 ) {
-            directory_paths.insert( part );
-            part = part.substr( 0, last_separator );
-            last_separator = part.find_last_of( "/\\" );
+    auto end = std::remove_if( file_paths.begin(), file_paths.end(), isForbidden );
+    file_paths.erase( end, file_paths.end() );
+
+    for( cata_path &file_path : file_paths ) {
+        fs::path folder_path = file_path.get_unrelative_path().parent_path();
+        while( folder_path.filename() != fs::u8path( worldname ) ) {
+            directory_paths.insert( folder_path );
+            folder_path = folder_path.parent_path();
         }
     }
 
-    for( auto &file : file_paths ) {
+    for( cata_path &file : file_paths ) {
         remove_file( file );
     }
+
     // Trying to remove a non-empty parent directory before a child
     // directory will fail.  Removing directories in reverse order
     // will prevent this situation from arising.
     for( auto it = directory_paths.rbegin(); it != directory_paths.rend(); ++it ) {
-        remove_directory( worldpath + *it );
+        remove_directory( *it );
     }
-    if( delete_folder ) {
-        remove_directory( worldpath );
-        remove_world( worldname );
-    } else {
-        get_world( worldname )->world_saves.clear();
-    }
+    get_world( worldname )->world_saves.clear();
 }

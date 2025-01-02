@@ -1094,6 +1094,8 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "corn_kernels", "name": { "str_sp": "%s, corn kernels" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cucumber", "name": { "str_sp": "%s, cucumber" } },
       { "type": "COMPONENT_ID", "condition": "dandelion_cooked", "name": { "str_sp": "%s, cooked dandelion greens" } },
+      { "type": "COMPONENT_ID", "condition": "eggplant", "name": { "str_sp": "%s, eggplant" } },
+      { "type": "COMPONENT_ID", "condition": "eggplant_cut", "name": { "str_sp": "%s, cut eggplant" } },
       { "type": "COMPONENT_ID", "condition": "grape_leaves", "name": { "str_sp": "%s, grape leaves" } },
       { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "%s, ground nuts" } },
       { "type": "COMPONENT_ID", "condition": "horseradish_greens", "name": { "str_sp": "%s, horseradish greens" } },
@@ -1454,7 +1456,7 @@
     "description": "Pieces of alien mushroom that have been dried to prevent them from rotting away.  They will still poison you if you eat them.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "FUNGAL_VECTOR" ]
   },
   {
     "type": "COMESTIBLE",

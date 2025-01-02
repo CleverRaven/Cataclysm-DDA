@@ -2,11 +2,26 @@
   {
     "id": "eater_drain_monster",
     "type": "SPELL",
-    "name": "[Ψ]Essence Drain",
-    "description": "Eater's draining attack.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Essence Drain", "//~": "NO_I18N" },
+    "description": { "str": "Eater's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "message": "",
-    "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EATER_DRAIN",
+    "shape": "blast",
+    "min_range": 30
+  },
+  {
+    "id": "eater_drain_monster_close_range",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Essence Drain", "//~": "NO_I18N" },
+    "description": { "str": "Eater's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": 20,
     "effect": "effect_on_condition",
@@ -24,14 +39,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_2",
-    "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
+    "condition": { "math": [ "u_val('mana') >= 150" ] },
     "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
     "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_3" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_EATER_DRAIN_3",
-    "condition": { "math": [ "u_val('stamina')", ">=", "200" ] },
+    "condition": { "math": [ "u_val('stamina') >= 200" ] },
     "effect": [
       { "u_cast_spell": { "id": "eater_drain_stamina" } },
       { "u_message": "For a moment, you feel exhausted.", "type": "bad" }
@@ -44,8 +59,8 @@
   {
     "id": "eater_drain_mana",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Mana",
-    "description": "Eater's spell to drain mana.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Mana", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain mana.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
@@ -58,8 +73,8 @@
   {
     "id": "eater_drain_stamina",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Stamina",
-    "description": "Eater's spell to drain stamina.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Stamina", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain stamina.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
@@ -73,8 +88,8 @@
   {
     "id": "eater_drain_sleepiness",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Sleepiness",
-    "description": "Eater's spell to drain sleepiness.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Sleepiness", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain sleepiness.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
@@ -87,8 +102,8 @@
   {
     "id": "eater_drain_health",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Stamina",
-    "description": "Eater's spell to drain health.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Stamina", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain health.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "effect": "attack",
@@ -108,8 +123,8 @@
   {
     "id": "null_break_concentration_spell",
     "type": "SPELL",
-    "name": "[Ψ]Breaker end powers",
-    "description": "Breaker's power that ends concentration.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Breaker end powers", "//~": "NO_I18N" },
+    "description": { "str": "Breaker's power that ends concentration.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
@@ -135,7 +150,7 @@
         "run_eocs": [
           {
             "id": "EOC_NULL_BREAK_CONCENTRATION_2",
-            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
+            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers') >= 1" ] },
             "effect": [
               {
                 "run_eocs": [
@@ -176,8 +191,11 @@
   {
     "id": "clairsentient_discern_weakness_monster",
     "type": "SPELL",
-    "name": "[Ψ]Discern Weakness Triffid",
-    "description": "The triffid lays your weak points bare and shares them with others through the heartmind.  It's a bug if you have this.",
+    "name": { "str": "[Ψ]Discern Weakness Triffid", "//~": "NO_I18N" },
+    "description": {
+      "str": "The triffid lays your weak points bare and shares them with others through the heartmind.  It's a bug if you have this.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
@@ -194,9 +212,9 @@
     "type": "effect_on_condition",
     "id": "EOC_TRIFFID_CLEAR_DISCERN_WEAKNESS",
     "effect": [
-      { "math": [ "u_discern_weakness_clear_intelligence", "=", "1.15" ] },
-      { "math": [ "u_discern_weakness_clear_power_level", "=", "4" ] },
-      { "math": [ "u_nether_attunement_discern_weakness_scaling", "=", "1.05" ] },
+      { "math": [ "u_discern_weakness_clear_intelligence = 1.15" ] },
+      { "math": [ "u_discern_weakness_clear_power_level = 4" ] },
+      { "math": [ "u_nether_attunement_discern_weakness_scaling = 1.05" ] },
       {
         "u_add_effect": "effect_clair_weak_point",
         "duration": {
@@ -210,8 +228,11 @@
   {
     "id": "teleporter_triffid_summon_allies",
     "type": "SPELL",
-    "name": "[Ψ]Teleporter Triffid Summon Allies",
-    "description": "The triffid uses its connection to the heartmind to teleport in guards around an intruder.  If you see this, it's a bug.",
+    "name": { "str": "[Ψ]Teleporter Triffid Summon Allies", "//~": "NO_I18N" },
+    "description": {
+      "str": "The triffid uses its connection to the heartmind to teleport in guards around an intruder.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
@@ -241,8 +262,11 @@
   {
     "id": "electrokinetic_power_draining",
     "type": "SPELL",
-    "name": "[Ψ]Electrokinetic Power Draining Spell",
-    "description": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+    "name": { "str": "[Ψ]Electrokinetic Power Draining Spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
@@ -259,8 +283,8 @@
   {
     "id": "electrokinetic_power_draining_electric_monster",
     "type": "SPELL",
-    "name": "[Ψ]Electrokinetic Power Draining monster attack",
-    "description": "Gremlin's power to damage electric monsters.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Electrokinetic Power Draining monster attack", "//~": "NO_I18N" },
+    "description": { "str": "Gremlin's power to damage electric monsters.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "effect": "attack",
@@ -289,7 +313,7 @@
                     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
                     "effect": {
                       "u_run_inv_eocs": "random",
-                      "search_data": [ { "uses_energy": true } ],
+                      "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
                       "true_eocs": [
                         {
                           "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
@@ -316,6 +340,115 @@
           }
         ]
       }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "biokinetic_heightened_reflexes_monster",
+    "name": { "str": "Heightened Reflexes enemy check", "//~": "NO_I18N" },
+    "description": { "str": "Applies Enhanced Reflexes when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_heightened_reflex", "duration": { "math": [ "rng(180,990)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "biokinetic_heightened_reflexes_enhanced_monster",
+    "name": { "str": "Heightened Reflexes enemy check", "//~": "NO_I18N" },
+    "description": {
+      "str": "Applies an even stronger version of Heightened Reflexes when a hostile target is detected.",
+      "//~": "NO_I18N"
+    },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_ENHANCED_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_BIOKINESIS_HEIGHTENED_REFLEXES_ENHANCED_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_heightened_reflex_enhanced", "duration": { "math": [ "rng(270,1530)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "electrokinetic_neuro_acceleration_monster",
+    "name": { "str": "Neuro-Acceleration monster enemy check", "//~": "NO_I18N" },
+    "description": { "str": "Applies Neuro-Acceleration when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration", "duration": { "math": [ "rng(225,742)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "electrokinetic_neuro_acceleration_enhanced_monster",
+    "name": { "str": "Neuro-Acceleration Enhanced monster enemy check", "//~": "NO_I18N" },
+    "description": { "str": "Applies an enhanced version of Neuro-Acceleration when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FERAL_ELECTROKINETIC_NEURO_ACCELERATION_ENHANCED_APPLIER",
+    "effect": [ { "npc_add_effect": "effect_monster_neuro_acceleration_enhanced", "duration": { "math": [ "rng(225,742)" ] } } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "hidebehind_apply_obscurity_power",
+    "name": { "str": "Hidebehind Obscurity enemy check", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using Obscurity when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MONSTER_APPLY_OBSCURITY",
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MONSTER_APPLY_OBSCURITY",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TEEPSHIELD" } },
+        { "not": { "u_has_flag": "TEEP_IMMUNE" } },
+        { "not": { "u_has_effect": "eff_monster_immune_to_telepathy" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "n_power_obscurity_duration = rng(205,835)" ] },
+      { "u_add_effect": "telepathic_ignorance", "duration": { "math": [ "n_power_obscurity_duration" ] } },
+      { "npc_add_effect": "telepathic_ignorance_self", "duration": { "math": [ "n_power_obscurity_duration" ] } }
     ]
   }
 ]

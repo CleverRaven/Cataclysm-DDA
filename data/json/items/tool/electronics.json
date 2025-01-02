@@ -54,14 +54,17 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": {
-      "target": "cell_phone_flashlight",
-      "msg": "You light up the screen.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The cellphone's batteries need more charge.",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "target": "cell_phone_flashlight",
+        "msg": "You light up the screen.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The cellphone's batteries need more charge.",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ]
   },
@@ -72,13 +75,16 @@
     "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
     "power_draw": "500 mW",
     "revert_to": "cell_phone",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "cell_phone",
-      "msg": "You turn off the screen.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
+    "use_action": [
+      {
+        "ammo_scale": 0,
+        "target": "cell_phone",
+        "msg": "You turn off the screen.",
+        "menu_text": "Turn off",
+        "type": "transform"
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -91,7 +97,6 @@
     "longest_side": "60 cm",
     "price": "8 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "copper", "wood" ],
     "symbol": ",",
     "color": "light_gray",
@@ -106,7 +111,6 @@
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -8,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "white",
@@ -115,8 +119,7 @@
     "use_action": [ "EHANDCUFFS" ],
     "tick_action": [ "EHANDCUFFS_TICK" ],
     "//": "Don't add ELECTRONIC flag here, since these handcuffs have their own behavior when affected by EMP blast",
-    "flags": [ "ALWAYS_TWOHAND", "TRADER_AVOID", "WATER_BREAK" ],
-    "melee_damage": { "cut": 1 }
+    "flags": [ "ALWAYS_TWOHAND", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "eink_tablet_pc",
@@ -129,8 +132,7 @@
     "longest_side": "158 mm",
     "price": "85 USD",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
-    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
+    "material": [ { "type": "aluminum", "portion": 3 }, { "type": "plastic", "portion": 1 } ],
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
@@ -197,7 +199,6 @@
     "volume": "478 ml",
     "price": "340 USD",
     "price_postapoc": "2 USD",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "electrohack",
     "symbol": ",",
@@ -212,14 +213,13 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 5 },
     "charges_per_use": 1,
     "qualities": [ [ "HACK", 2 ] ]
   },
   {
     "id": "geiger_off",
     "type": "TOOL",
-    "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
+    "name": { "str": "Geiger counter (off)", "str_pl": "Geiger counters (off)" },
     "description": "A tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn on continuous scan, which will provide continuous feedback on ambient radiation.  It is currently off.",
     "//": "https://www.amazon.com/dp/B0B541D433 but AA instead of 14500",
     "weight": "231 g",
@@ -247,13 +247,13 @@
     "id": "geiger_on",
     "copy-from": "geiger_off",
     "type": "TOOL",
-    "name": { "str": "geiger counter (on)", "str_pl": "geiger counters (on)" },
+    "name": { "str": "Geiger counter (on)", "str_pl": "Geiger counters (on)" },
     "description": "A tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.",
     "power_draw": "200 mW",
     "revert_to": "geiger_off",
     "use_action": {
       "target": "geiger_off",
-      "msg": "The geiger counter's SCANNING LED turns off.",
+      "msg": "The Geiger counter's SCANNING LED turns off.",
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform"
@@ -264,7 +264,7 @@
   {
     "id": "resonance_measurement_device",
     "type": "TOOL",
-    "name": { "str": "Otherworldy measuring device" },
+    "name": { "str": "Otherworldly measuring device" },
     "description": "This strange contraption appears to be little more than a laminated box built around a battery, a poorly backlit screen, and a wound spool of cloth netting.  The letters \"X E D R A\" are emblazoned on the side.  To operate the device, unfurl the netting and place it around the object to analyze.  Despite not appearing to do anything, it consumes an enormous amount of electricity and provides a brief numerical readout.",
     "weight": "600 g",
     "volume": "900 ml",
@@ -462,7 +462,7 @@
     "volume": "1 L",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
@@ -484,7 +484,7 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "noise_emitter_on",
@@ -515,7 +515,7 @@
     "volume": "355 ml",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
@@ -537,7 +537,7 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "emf_detector_on",
@@ -587,7 +587,7 @@
     "volume": "111 ml",
     "longest_side": "15 cm",
     "price": "1299 USD",
-    "price_postapoc": "2 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "looks_like": "cell_phone",
     "symbol": ";",
@@ -690,7 +690,7 @@
     "volume": "2500 ml",
     "price": "2 kUSD 800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -715,7 +715,7 @@
     "volume": "2500 ml",
     "price": "2 kUSD 800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -748,7 +748,7 @@
     "volume": "2500 ml",
     "price": "2 kUSD 800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -817,7 +817,7 @@
     "volume": "2500 ml",
     "price": "2 kUSD 800 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -865,7 +865,7 @@
     "name": { "str": "super noise emitter (off)", "str_pl": "super noise emitters (off)" },
     "description": "This is a noisemaker that has been further enhanced with a series of amplifiers.  It's about as loud something can get without making you vomit from sound-induced nausea, and it's as sure to attract every zombie in town as it is to give you permanent hearing damage.",
     "//": "I estimate this thing is about 130 decibels.  Commercial amps can hit similar noise levels at a 100-200w of power input, the survivor's is less efficient.",
-    "weight": "6000 g",
+    "weight": "6 kg",
     "volume": "4 L",
     "longest_side": "30 cm",
     "price": "0 cent",
@@ -916,7 +916,7 @@
         {
           "id": "EOC_toolweapon_running__supernoisemaker",
           "effect": {
-            "run_eoc_with": "EOC_toolweapon_running",
+            "run_eocs": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "0",
               "sound_message": { "i18n": true, "str": "Your super noise emitter produces an unholy blast of sonic chaos." },

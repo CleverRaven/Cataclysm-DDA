@@ -46,7 +46,8 @@
         "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -83,7 +84,7 @@
         "U": "t_concrete",
         "&": "t_dirtmound",
         "0": "t_shrub_lilac",
-        "=": "t_carpet_yellow",
+        "=": { "param": "carpet_color_type", "fallback": "t_carpet_yellow" },
         "₸": "t_region_groundcover_urban",
         "K": "t_region_groundcover_urban",
         "Q": "t_null",

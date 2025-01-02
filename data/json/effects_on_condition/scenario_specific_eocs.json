@@ -59,13 +59,13 @@
         "max_radius": 0
       },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "x_adjust": 11, "y_adjust": 11 },
-      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 0, "z_override": true },
-      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 1, "z_override": true },
-      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
       { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       {
         "u_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
@@ -88,7 +88,7 @@
         "npc_run_monster_eocs": [
           {
             "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
-            "condition": { "math": [ "rand(1)", "==", "0" ] },
+            "condition": { "math": [ "rand(1) == 0" ] },
             "effect": { "run_eocs": "EOC_BANISH_SELF" }
           }
         ],
@@ -140,7 +140,7 @@
       {
         "run_eocs": {
           "id": "EOC_SEX_LAIR_SPAWNS",
-          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2)", "==", "0" ] } ] },
+          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2) == 0" ] } ] },
           "effect": [
             {
               "u_spawn_monster": "mon_zombie_resort_dancer",
@@ -155,7 +155,7 @@
       {
         "run_eocs": {
           "id": "EOC_PANICROOM_SPAWNS",
-          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1)", "==", "0" ] } ] },
+          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1) == 0" ] } ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_SCENARIO_PANICROOM",
@@ -308,5 +308,30 @@
     "update_mapgen_id": "SCENARIO_SMOKE",
     "method": "json",
     "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
+  },
+  {
+    "id": "moonlit_scenario_weather",
+    "copy-from": "sunny",
+    "type": "weather_type",
+    "name": "Moonlit",
+    "priority": 999,
+    "condition": { "math": [ "is_moonlit_scenario", "==", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "eoc_type": "ACTIVATION",
+    "id": "EOC_deactivate_moonlit",
+    "effect": [ { "math": [ "is_moonlit_scenario = 0" ] }, "next_weather" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_clear_weather",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_message": "The moon shines brightly." },
+      { "math": [ "is_moonlit_scenario = 1" ] },
+      "next_weather",
+      { "run_eocs": "EOC_deactivate_moonlit", "time_in_future": "4 hours" }
+    ]
   }
 ]

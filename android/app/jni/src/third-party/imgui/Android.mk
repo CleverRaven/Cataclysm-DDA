@@ -1,6 +1,6 @@
 include $(CLEAR_VARS)
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/third-party
+LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/third-party $(LOCAL_PATH)/../android/app/jni/SDL2_ttf/external/freetype-2.4.12/include
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 

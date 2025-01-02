@@ -107,679 +107,700 @@
     "id": "egg_tawa",
     "name": "tawa egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_tawa" }
+    "rot_spawn": { "monster": "mon_tawa_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_coelophysis",
     "name": "coelophysis egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_coelophysis" }
+    "rot_spawn": { "monster": "mon_coelophysis_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dilophosaurus",
     "name": "dilophosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_dilophosaurus" }
+    "rot_spawn": { "monster": "mon_dilophosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_ceratosaurus",
     "name": "ceratosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_ceratosaurus" }
+    "rot_spawn": { "monster": "mon_ceratosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_spinosaurus",
     "name": "spinosaurus egg",
     "copy-from": "egg_dino_theropod_large",
-    "rot_spawn": { "group": "GROUP_EGG_spinosaurus" }
+    "rot_spawn": { "monster": "mon_spinosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_torvosaurus",
     "name": "torvosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_torvosaurus" }
+    "rot_spawn": { "monster": "mon_torvosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_allosaurus",
     "name": "allosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_allosaurus" }
+    "rot_spawn": { "monster": "mon_allosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_acrocanthosaurus",
     "name": "acrocanthosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_acrocanthosaurus" }
+    "rot_spawn": { "monster": "mon_acrocanthosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_giganotosaurus",
     "name": "giganotosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_giganotosaurus" }
+    "rot_spawn": { "monster": "mon_giganotosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_siats",
     "name": "siats egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_siats" }
+    "rot_spawn": { "monster": "mon_siats_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dryptosaurus",
     "name": "dryptosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_dryptosaurus" }
+    "rot_spawn": { "monster": "mon_dryptosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_appalachiosaurus",
     "name": "appalachiosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_appalachiosaurus" }
+    "rot_spawn": { "monster": "mon_appalachiosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_gorgosaurus",
     "name": "gorgosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_gorgosaurus" }
+    "rot_spawn": { "monster": "mon_gorgosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_albertosaurus",
     "name": "albertosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_albertosaurus" }
+    "rot_spawn": { "monster": "mon_albertosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_qianzhousaurus",
     "name": "qianzhousaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_qianzhousaurus" }
+    "rot_spawn": { "monster": "mon_qianzhousaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_nanuqsaurus",
     "name": "nanuqsaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_nanuqsaurus" }
+    "rot_spawn": { "monster": "mon_nanuqsaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_daspletosaurus",
     "name": "daspletosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_daspletosaurus" }
+    "rot_spawn": { "monster": "mon_daspletosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_tyrannosaurus",
     "name": "tyrannosaurus egg",
     "copy-from": "egg_dino_theropod_large",
-    "rot_spawn": { "group": "GROUP_EGG_tyrannosaurus" }
+    "rot_spawn": { "monster": "mon_tyrannosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_compsognathus",
     "name": "compsognathus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_compsognathus" }
+    "rot_spawn": { "monster": "mon_compsognathus_hatchling" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_nedcolbertia",
+    "name": "nedcolbertia egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": { "monster": "mon_nedcolbertia_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_gallimimus",
     "name": "gallimimus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_gallimimus" }
+    "rot_spawn": { "monster": "mon_gallimimus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_struthiomimus",
     "name": "struthiomimus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_struthiomimus" }
+    "rot_spawn": { "monster": "mon_struthiomimus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_ornithomimus",
     "name": "ornithomimus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_ornithomimus" }
+    "rot_spawn": { "monster": "mon_ornithomimus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_albertonykus",
     "name": "albertonykus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_albertonykus" }
+    "rot_spawn": { "monster": "mon_albertonykus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_falcarius",
     "name": "falcarius egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_falcarius" }
+    "rot_spawn": { "monster": "mon_falcarius_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_therizinosaurus",
     "name": "therizinosaurus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_therizinosaurus" }
+    "rot_spawn": { "monster": "mon_therizinosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_nothronychus",
     "name": "nothronychus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_nothronychus" }
+    "rot_spawn": { "monster": "mon_nothronychus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_anzu",
     "name": "anzu egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_anzu" }
+    "rot_spawn": { "monster": "mon_anzu_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_saurornitholestes",
     "name": "saurornitholestes egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_saurornitholestes" }
+    "rot_spawn": { "monster": "mon_saurornitholestes_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_velociraptor",
     "name": "velociraptor egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_velociraptor" }
+    "rot_spawn": { "monster": "mon_velociraptor_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_deinonychus",
     "name": "deinonychus egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_deinonychus" }
+    "rot_spawn": { "monster": "mon_deinonychus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_utahraptor",
     "name": "utahraptor egg",
     "copy-from": "egg_dino_theropod",
-    "rot_spawn": { "group": "GROUP_EGG_utahraptor" }
+    "rot_spawn": { "monster": "mon_utahraptor_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dromaeosaurus",
     "name": "dromaeosaurus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_dromaeosaurus" }
+    "rot_spawn": { "monster": "mon_dromaeosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_stenonychosaurus",
     "name": "stenonychosaurus egg",
     "copy-from": "egg_dino_theropod_small",
-    "rot_spawn": { "group": "GROUP_EGG_stenonychosaurus" }
+    "rot_spawn": { "monster": "mon_stenonychosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_eoraptor",
     "name": "eoraptor egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_eoraptor" }
+    "rot_spawn": { "monster": "mon_eoraptor_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_sarahsaurus",
     "name": "sarahsaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_sarahsaurus" }
+    "rot_spawn": { "monster": "mon_sarahsaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_anchisaurus",
     "name": "anchisaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_anchisaurus" }
+    "rot_spawn": { "monster": "mon_anchisaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_issi",
     "name": "issi egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_issi" }
+    "rot_spawn": { "monster": "mon_issi_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_haplocanthosaurus",
     "name": "haplocanthosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_haplocanthosaurus" }
+    "rot_spawn": { "monster": "mon_haplocanthosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_amargasaurus",
     "name": "amargasaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_amargasaurus" }
+    "rot_spawn": { "monster": "mon_amargasaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_apatosaurus",
     "name": "apatosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_apatosaurus" }
+    "rot_spawn": { "monster": "mon_apatosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_brontosaurus",
     "name": "brontosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_brontosaurus" }
+    "rot_spawn": { "monster": "mon_brontosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_diplodocus",
     "name": "diplodocus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_diplodocus" }
+    "rot_spawn": { "monster": "mon_diplodocus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_barosaurus",
     "name": "barosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_barosaurus" }
+    "rot_spawn": { "monster": "mon_barosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_camarasaurus",
     "name": "camarasaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_camarasaurus" }
+    "rot_spawn": { "monster": "mon_camarasaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_brachiosaurus",
     "name": "brachiosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_brachiosaurus" }
+    "rot_spawn": { "monster": "mon_brachiosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_astrodon",
     "name": "astrodon egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_astrodon" }
+    "rot_spawn": { "monster": "mon_astrodon_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_alamosaurus",
     "name": "alamosaurus egg",
     "copy-from": "egg_dino_large",
-    "rot_spawn": { "group": "GROUP_EGG_alamosaurus" }
+    "rot_spawn": { "monster": "mon_alamosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_scutellosaurus",
     "name": "scutellosaurus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_scutellosaurus" }
+    "rot_spawn": { "monster": "mon_scutellosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_stegosaurus",
     "name": "stegosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_stegosaurus" }
+    "rot_spawn": { "monster": "mon_stegosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_hesperosaurus",
     "name": "hesperosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_hesperosaurus" }
+    "rot_spawn": { "monster": "mon_hesperosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_gastonia",
     "name": "gastonia egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_gastonia" }
+    "rot_spawn": { "monster": "mon_gastonia_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_gargoyleosaurus",
     "name": "gargoyleosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_gargoyleosaurus" }
+    "rot_spawn": { "monster": "mon_gargoyleosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_sauropelta",
     "name": "sauropelta egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_sauropelta" }
+    "rot_spawn": { "monster": "mon_sauropelta_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_nodosaurus",
     "name": "nodosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_nodosaurus" }
+    "rot_spawn": { "monster": "mon_nodosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_panoplosaurus",
     "name": "panoplosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_panoplosaurus" }
+    "rot_spawn": { "monster": "mon_panoplosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_edmontonia",
     "name": "edmontonia egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_edmontonia" }
+    "rot_spawn": { "monster": "mon_edmontonia_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_zuul",
     "name": "zuul egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_zuul" }
+    "rot_spawn": { "monster": "mon_zuul_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dyoplosaurus",
     "name": "dyoplosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_dyoplosaurus" }
+    "rot_spawn": { "monster": "mon_dyoplosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_ankylosaurus",
     "name": "ankylosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_ankylosaurus" }
+    "rot_spawn": { "monster": "mon_ankylosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_euoplocephalus",
     "name": "euoplocephalus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_euoplocephalus" }
+    "rot_spawn": { "monster": "mon_euoplocephalus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_scolosaurus",
     "name": "scolosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_scolosaurus" }
+    "rot_spawn": { "monster": "mon_scolosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_tenontosaurus",
     "name": "tenontosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_tenontosaurus" }
+    "rot_spawn": { "monster": "mon_tenontosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dryosaurus",
     "name": "dryosaurus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_dryosaurus" }
+    "rot_spawn": { "monster": "mon_dryosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_camptosaurus",
     "name": "camptosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_camptosaurus" }
+    "rot_spawn": { "monster": "mon_camptosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_iguanodon",
     "name": "iguanodon egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_iguanodon" }
+    "rot_spawn": { "monster": "mon_iguanodon_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_eolambia",
     "name": "eolambia egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_eolambia" }
+    "rot_spawn": { "monster": "mon_eolambia_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_hadrosaurus",
     "name": "hadrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_hadrosaurus" }
+    "rot_spawn": { "monster": "mon_hadrosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_maiasaura",
     "name": "maiasaura egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_maiasaura" }
+    "rot_spawn": { "monster": "mon_maiasaura_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_gryposaurus",
     "name": "gryposaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_gryposaurus" }
+    "rot_spawn": { "monster": "mon_gryposaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_prosaurolophus",
     "name": "prosaurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_prosaurolophus" }
+    "rot_spawn": { "monster": "mon_prosaurolophus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_saurolophus",
     "name": "saurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_saurolophus" }
+    "rot_spawn": { "monster": "mon_saurolophus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_edmontosaurus",
     "name": "edmontosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_edmontosaurus" }
+    "rot_spawn": { "monster": "mon_edmontosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_parasaurolophus",
     "name": "parasaurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_parasaurolophus" }
+    "rot_spawn": { "monster": "mon_parasaurolophus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_lambeosaurus",
     "name": "lambeosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_lambeosaurus" }
+    "rot_spawn": { "monster": "mon_lambeosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_corythosaurus",
     "name": "corythosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_corythosaurus" }
+    "rot_spawn": { "monster": "mon_corythosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_hypacrosaurus",
     "name": "hypacrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_hypacrosaurus" }
+    "rot_spawn": { "monster": "mon_hypacrosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_stegoceras",
     "name": "stegoceras egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_stegoceras" }
+    "rot_spawn": { "monster": "mon_stegoceras_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pachycephalosaurus",
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_pachycephalosaurus" }
+    "rot_spawn": { "monster": "mon_pachycephalosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_aquilops",
     "name": "aquilops egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_aquilops" }
+    "rot_spawn": { "monster": "mon_aquilops_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_leptoceratops",
     "name": "leptoceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_leptoceratops" }
+    "rot_spawn": { "monster": "mon_leptoceratops_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_zuniceratops",
     "name": "zuniceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_zuniceratops" }
+    "rot_spawn": { "monster": "mon_zuniceratops_hatchling" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lokiceratops",
+    "name": "lokiceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": { "monster": "mon_lokiceratops_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_styracosaurus",
     "name": "styracosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_styracosaurus" }
+    "rot_spawn": { "monster": "mon_styracosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_centrosaurus",
     "name": "centrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_centrosaurus" }
+    "rot_spawn": { "monster": "mon_centrosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_einiosaurus",
     "name": "einiosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_einiosaurus" }
+    "rot_spawn": { "monster": "mon_einiosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_achelousaurus",
     "name": "achelousaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_achelousaurus" }
+    "rot_spawn": { "monster": "mon_achelousaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pachyrhinosaurus",
     "name": "pachyrhinosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_pachyrhinosaurus" }
+    "rot_spawn": { "monster": "mon_pachyrhinosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_chasmosaurus",
     "name": "chasmosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_chasmosaurus" }
+    "rot_spawn": { "monster": "mon_chasmosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pentaceratops",
     "name": "pentaceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_pentaceratops" }
+    "rot_spawn": { "monster": "mon_pentaceratops_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_kosmoceratops",
     "name": "kosmoceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_kosmoceratops" }
+    "rot_spawn": { "monster": "mon_kosmoceratops_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_torosaurus",
     "name": "torosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_torosaurus" }
+    "rot_spawn": { "monster": "mon_torosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_triceratops",
     "name": "triceratops egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_triceratops" }
+    "rot_spawn": { "monster": "mon_triceratops_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_nanosaurus",
     "name": "nanosaurus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_nanosaurus" }
+    "rot_spawn": { "monster": "mon_nanosaurus_hatchling" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fona",
+    "name": "fona egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": { "monster": "mon_fona_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_oryctodromeus",
     "name": "oryctodromeus egg",
     "copy-from": "egg_dino_small",
-    "rot_spawn": { "group": "GROUP_EGG_oryctodromeus" }
+    "rot_spawn": { "monster": "mon_oryctodromeus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_thescelosaurus",
     "name": "thescelosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": { "group": "GROUP_EGG_thescelosaurus" }
+    "rot_spawn": { "monster": "mon_thescelosaurus_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_dimorphodon" }
+    "rot_spawn": { "monster": "mon_dimorphodon_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_pteranodon" }
+    "rot_spawn": { "monster": "mon_pteranodon_hatchling" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_quetzalcoatlus" }
+    "rot_spawn": { "monster": "mon_quetzalcoatlus_hatchling" }
   },
   {
     "type": "COMESTIBLE",

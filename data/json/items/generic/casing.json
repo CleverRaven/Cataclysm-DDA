@@ -81,6 +81,16 @@
     "volume": "10ml"
   },
   {
+    "id": "33_naval_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": "3.3 naval casing" },
+    "description": "An empty casing from a 3.3 naval round.  If it wasn't for burns and soot, it could be used as a cup.",
+    "weight": "80 g",
+    "volume": "100 ml"
+  },
+  {
     "id": "270win_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
@@ -350,16 +360,6 @@
     "description": "An empty casing from a 4.6x30mm round.",
     "weight": "2 g",
     "volume": "3ml"
-  },
-  {
-    "id": "460_casing",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": ".460 Rowland casing" },
-    "description": "An empty casing from a .460 Rowland round.  It looks deceptively like a .45 ACP casing.",
-    "weight": "4 g",
-    "volume": "6ml"
   },
   {
     "id": "500_casing",

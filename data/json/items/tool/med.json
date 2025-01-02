@@ -9,7 +9,7 @@
     "volume": "2 ml",
     "price": "5 cent",
     "price_postapoc": "2 cent",
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "!",
     "color": "white",
     "flags": [ "SINGLE_USE" ],
@@ -25,6 +25,7 @@
     "volume": "3 ml",
     "price": "10 cent",
     "price_postapoc": "6 cent",
+    "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
     "flags": [ "SINGLE_USE", "IRREPLACEABLE_CONSUMABLE" ],
@@ -434,8 +435,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_250",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "3" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "250" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 3" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "250" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -462,8 +463,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_500",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "500" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "500" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -490,8 +491,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_1000",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "1000" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "1000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]
@@ -518,8 +519,8 @@
         "effect_on_conditions": [
           {
             "id": "SALINE_INFUSION_2000",
-            "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] },
-            "effect": { "run_eoc_with": "SALINE_INFUSION", "variables": { "volume_of_saline": "2000" } },
+            "condition": { "math": [ "u_skill('firstaid') >= 4" ] },
+            "effect": { "run_eocs": "SALINE_INFUSION", "variables": { "volume_of_saline": "2000" } },
             "false_effect": [ { "u_message": "You don't actually know how to use it properly.", "type": "bad" } ]
           }
         ]

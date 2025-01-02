@@ -9,7 +9,8 @@
         "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "parametrized_carpets_palette"
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -44,15 +45,15 @@
         "-": "t_concrete",
         ",": "t_floor_noroof",
         "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
-        "(": "t_railing_v",
+        "(": "t_railing",
         "{": "t_door_metal_locked",
         "?": "t_gates_mech_control",
-        "`": "t_carpet_green",
-        "h": "t_carpet_green",
-        "f": "t_carpet_green",
-        "T": "t_carpet_green",
-        "H": "t_carpet_green",
-        "l": "t_carpet_green",
+        "`": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "T": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "H": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
+        "l": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
         "K": "t_floor_noroof",
         "G": "t_floor_noroof"
       },

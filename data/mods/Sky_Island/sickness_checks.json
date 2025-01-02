@@ -7,9 +7,9 @@
     "condition": { "u_has_trait": "awayfromhome" },
     "deactivate_condition": { "not": { "u_has_trait": "awayfromhome" } },
     "effect": [
-      { "math": [ "timeawayfromhome", "++" ] },
-      { "math": [ "readablepulsesleft", "=", "9 - timeawayfromhome" ] },
-      { "math": [ "readablesicknessintervals", "=", "currentpulselength / 60" ] },
+      { "math": [ "timeawayfromhome++" ] },
+      { "math": [ "readablepulsesleft = 9 - timeawayfromhome" ] },
+      { "math": [ "readablesicknessintervals = currentpulselength / 60" ] },
       { "run_eocs": [ "EOC_sicknesscheck" ] }
     ]
   },
@@ -17,7 +17,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sicknesscheck",
     "//": "This EOC gets called by the above EOC, after your sickness counter goes up.  If you're below a dangerous threshold, you just get a satisfactory message.  Otherwise it runs a chain of else-if EOCs down below.",
-    "condition": { "math": [ "timeawayfromhome", "<=", "7" ] },
+    "condition": { "math": [ "timeawayfromhome <= 7" ] },
     "effect": [
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
       { "u_lose_effect": "warpdisintegration" },
@@ -31,7 +31,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sicknesscheck1",
     "//": "If your threshold is between 80 and 100 percent of your safe time, this warning will play that you're running out of time.  Otherwise it runs a chain of else-if EOCs down below.",
-    "condition": { "math": [ "timeawayfromhome", "<=", "8" ] },
+    "condition": { "math": [ "timeawayfromhome <= 8" ] },
     "effect": [
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
       { "u_lose_effect": "warpdisintegration" },
@@ -46,7 +46,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sicknesscheck2",
     "//": "Like the above EOC this checks to see if you're exactly at a given counter.  On reaching this point instead of a warning it give you Intensity 4 warp sickness, meaning actual stat penalties.  At this point staying out longer will be very difficult and it only gets worse from here.",
-    "condition": { "math": [ "timeawayfromhome", "<=", "9" ] },
+    "condition": { "math": [ "timeawayfromhome <= 9" ] },
     "effect": [
       { "u_lose_effect": "warpdisintegration" },
       { "u_add_effect": "warpsickness", "intensity": 5, "duration": "PERMANENT" },
@@ -62,7 +62,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sicknesscheck3",
     "//": "Like the above EOCs this checks to see if you're exactly at a given counter and if so makes your warp sickness even worse.",
-    "condition": { "math": [ "timeawayfromhome", "<=", "10" ] },
+    "condition": { "math": [ "timeawayfromhome <= 10" ] },
     "effect": [
       { "u_lose_effect": "warpdisintegration" },
       { "u_add_effect": "warpsickness", "intensity": 4, "duration": "PERMANENT" },
@@ -78,7 +78,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sicknesscheck4",
     "//": "Like the above EOCs this checks to see if you're exactly at a given counter and if so makes your warp sickness worse yet.",
-    "condition": { "math": [ "timeawayfromhome", "<=", "11" ] },
+    "condition": { "math": [ "timeawayfromhome <= 11" ] },
     "effect": [
       { "u_lose_effect": "warpdisintegration" },
       { "u_add_effect": "warpsickness", "intensity": 3, "duration": "PERMANENT" },
@@ -94,7 +94,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sicknesscheck5",
     "//": "This is the penultimate EOC to check your counter.  Any further and you start disintegrating.",
-    "condition": { "math": [ "timeawayfromhome", "<=", "12" ] },
+    "condition": { "math": [ "timeawayfromhome <= 12" ] },
     "effect": [
       { "u_add_effect": "warpsickness", "intensity": 2, "duration": "PERMANENT" },
       { "u_lose_effect": "warpdisintegration" },

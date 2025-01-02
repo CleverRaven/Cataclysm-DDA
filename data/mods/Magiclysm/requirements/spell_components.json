@@ -203,7 +203,7 @@
     "//": "Water and soap / lye for Freshen Up",
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
-      [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
+      [ [ "soap", 1 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
     ]
   },
   {
@@ -318,5 +318,23 @@
         [ "wintergreen_berry", 1 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_magus_permanent_light",
+    "type": "requirement",
+    "//": "Precious metals for the Imperishable Light spell",
+    "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 5 ] ], [ [ "copper", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_biomancer_get_more_blood",
+    "type": "requirement",
+    "//": "Water for the Carmine Infusion spell",
+    "components": [ [ [ "salt_water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_kelvinist_set_everyone_on_fire",
+    "type": "requirement",
+    "//": "Ruby for the Flames of the Apocalypse spell.  Add crimsonite once discrete chunks of it exist",
+    "components": [ [ [ "ruby", 1 ] ] ]
   }
 ]

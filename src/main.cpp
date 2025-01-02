@@ -802,6 +802,9 @@ int main( int argc, const char *argv[] )
         exit_handler( -999 );
     }
 
+    // Load the colors of ImGui to match the colors set by the user.
+    cataimgui::init_colors();
+
     // Override existing settings from cli  options
     if( cli.disable_ascii_art ) {
         get_options().get_option( "ENABLE_ASCII_ART" ).setValue( "false" );
@@ -848,17 +851,15 @@ int main( int argc, const char *argv[] )
 
     main_menu::queued_world_to_load = std::move( cli.world );
 
-    get_help().load();
-
     while( true ) {
         main_menu menu;
-        if( !menu.opening_screen() ) {
-            break;
-        }
-
-        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-        get_event_bus().send<event_type::game_begin>( getVersionString() );
         try {
+            if( !menu.opening_screen() ) {
+                break;
+            }
+
+            shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+            get_event_bus().send<event_type::game_begin>( getVersionString() );
             while( !do_turn() ) { }
         } catch( game::exit_exception const &/* ex */ ) {
             break;

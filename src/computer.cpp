@@ -63,7 +63,7 @@ void computer_failure::deserialize( const JsonObject &jo )
     type = jo.get_enum_value<computer_failure_type>( "action" );
 }
 
-computer::computer( const std::string &new_name, int new_security, tripoint new_loc )
+computer::computer( const std::string &new_name, int new_security, tripoint_bub_ms new_loc )
     : name( new_name ), mission_id( -1 ), security( new_security ), alerts( 0 ),
       next_attempt( calendar::before_time_starts ),
       access_denied( _( "ERROR!  Access denied!" ) )

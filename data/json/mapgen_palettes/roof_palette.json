@@ -34,7 +34,7 @@
       "&": "f_roof_turbine_vent",
       "N": "f_TV_antenna",
       ":": "f_cellphone_booster",
-      "X": "f_small_satelitte_dish",
+      "X": "f_small_satellite_dish",
       "~": "f_chimney",
       "=": "f_vent_pipe",
       "A": "f_air_conditioner",
@@ -51,9 +51,15 @@
       "e": "f_oven",
       "F": "f_fridge",
       "Я": "f_standing_tank",
+      "w": "f_water_heater",
+      "W": "f_water_heater_family",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
-    "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
+    "liquids": {
+      "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] },
+      "w": { "liquid": "water_clean", "amount": [ 0, 1000 ] },
+      "W": { "liquid": "water_clean", "amount": [ 0, 100 ] }
+    },
     "nested": {
       "1": {
         "//": "11% chance of solar, 20% chance it's v2",
@@ -68,7 +74,45 @@
         ]
       },
       "2": { "chunks": [ [ "industrial_1x1_solar", 4 ], [ "industrial_1x1_solar_v2", 1 ] ] },
+      "3": {
+        "chunks": [
+          [ "null", 15 ],
+          [ "roof_2x2_utilities", 50 ],
+          [ "roof_2x2_utilities_b", 15 ],
+          [ "roof_2x2_utilities_c", 15 ],
+          [ "roof_2x2_utilities_d", 15 ]
+        ]
+      },
       "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
+      "6": { "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 5 ], [ "roof_4x4_utility_1", 5 ] ] },
+      "7": {
+        "chunks": [
+          [ "null", 20 ],
+          [ "roof_2x2_infrastructure", 15 ],
+          [ "roof_2x2_infrastructure_1", 5 ],
+          [ "roof_2x2_infrastructure_2", 40 ]
+        ]
+      },
+      "8": {
+        "chunks": [
+          [ "null", 50 ],
+          [ "roof_4x4_survivor", 20 ],
+          [ "roof_4x4_party", 10 ],
+          [ "roof_2x2_golf", 7 ],
+          [ "roof_4x4_holdout", 3 ],
+          [ "roof_3x3_wine", 10 ]
+        ]
+      },
+      "9": {
+        "chunks": [
+          [ "null", 120 ],
+          [ "roof_6x6_greenhouse_1", 25 ],
+          [ "roof_6x6_greenhouse_2", 25 ],
+          [ "roof_6x6_garden_1", 25 ],
+          [ "roof_6x6_garden_2", 25 ],
+          [ "roof_6x6_survivor", 20 ]
+        ]
+      },
       "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
     },
     "toilets": { "T": {  } }

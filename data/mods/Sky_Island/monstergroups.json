@@ -135,6 +135,7 @@
       { "monster": "mon_zombie_brute_shocker", "weight": 5 },
       { "monster": "mon_zombie_necro_boomer", "weight": 5 },
       { "monster": "mon_skeleton_electric", "weight": 50 },
+      { "monster": "mon_zombie_bio_op", "weight": 50 },
       { "monster": "mon_zombie_survivor_elite", "weight": 50 },
       { "monster": "mon_zombie_brute_ninja", "weight": 20 },
       { "monster": "mon_gastro_bufo", "weight": 10 },

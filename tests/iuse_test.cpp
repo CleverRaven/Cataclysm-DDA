@@ -929,11 +929,11 @@ TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
 
     SECTION( "6 tablets will purify a toilet tank" ) {
         item_location tablet = give_tablets( dummy, 6, true );
-        get_map().furn_set( dummy.pos_bub() + tripoint_north, furn_f_toilet );
+        get_map().furn_set( dummy.pos_bub() + tripoint::north, furn_f_toilet );
         item water( itype_water );
         water.charges = 24;
-        get_map().add_item( dummy.pos_bub() + tripoint_north, water );
-        item_location water_location( map_cursor( dummy.pos_bub() + tripoint_north ), &water );
+        get_map().add_item( dummy.pos_bub() + tripoint::north, water );
+        item_location water_location( map_cursor( dummy.pos_bub() + tripoint::north ), &water );
 
         REQUIRE( water_location );
         REQUIRE( water_location.get_item()->typeId() == itype_water );

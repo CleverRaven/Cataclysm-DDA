@@ -41,7 +41,6 @@
 #include "messages.h"
 #include "npctrade.h"
 #include "options.h"
-#include "output.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -785,7 +784,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
+                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
                 return _( "Can't drink spilt liquids." );
             }
             if(
@@ -1136,7 +1135,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             }
 
             if( uses.size() == 1 ) {
-                const auto ret = uses.begin()->second.can_call( you, it, you.pos() );
+                const auto ret = uses.begin()->second.can_call( you, it, you.pos_bub() );
                 if( !ret.success() ) {
                     return trim_trailing_punctuations( ret.str() );
                 }
@@ -1459,7 +1458,12 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book() || loc->type->can_use( "learn_spell" );
+            const item_location p_loc = loc.parent_item();
+
+            return ( loc->is_book() || loc->type->can_use( "learn_spell" ) ) &&
+                   ( p_loc.where() == item_location::type::invalid || !p_loc->is_ebook_storage() ||
+                     !p_loc->uses_energy() ||
+                     p_loc->energy_remaining( p_loc.carrier(), false ) >= 1_kJ );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -1688,7 +1692,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 const int total_damage = loc->gun_damage( true ).total_damage();
 
-                if( loc->ammo_data() && loc->ammo_remaining() ) {
+                if( loc->has_ammo() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
                     const damage_instance &damage = loc->ammo_data()->ammo->damage;
                     if( !damage.empty() ) {
@@ -2011,7 +2015,7 @@ class repair_inventory_preset: public inventory_selector_preset
 
             append_cell( [actor, &you]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
-                                                       std::ceil( loc->base_volume() / 250_ml * actor->cost_scaling ) );
+                                                       std::ceil( loc->base_volume() * actor->cost_scaling / 250_ml ) );
                 const inventory &crafting_inv = you.crafting_inventory();
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
@@ -2292,106 +2296,108 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
     return smoke_s.execute();
 }
 
-bool game_menus::inv::compare_items( const item &first, const item &second,
-                                     const std::string &confirm_message )
+game_menus::inv::compare_item_menu::compare_item_menu( const item &first, const item &second,
+        const std::string &confirm_message ) :
+    cataimgui::window( "compare", ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNavInputs ),
+    first( first ),
+    second( second ),
+    confirm_message( confirm_message )
 {
-    std::string action;
-    input_context ctxt;
-    ui_adaptor ui;
-    item_info_data item_info_first;
-    item_info_data item_info_second;
-    int page_size = 0;
-    int scroll_pos_first = 0;
-    int scroll_pos_second = 0;
-    bool first_execution = true;
-    static int lang_version = detail::get_current_language_version();
-    do {
-        //lang check here is needed to redraw the menu when using "Toggle language to English" option
-        if( first_execution || lang_version != detail::get_current_language_version() ) {
-            std::vector<iteminfo> v_item_first;
-            std::vector<iteminfo> v_item_second;
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( !confirm_message.empty() ) {
+        ctxt.register_action( "CONFIRM" );
+    }
+    ctxt.register_action( "QUIT" );
+    ctxt.register_navigate_ui_list();
+    ctxt.set_timeout( 10 );
 
-            first.info( true, v_item_first );
-            second.info( true, v_item_second );
+    // todo: regen info when toggling language?
+    first.info( true, first_info );
+    second.info( true, second_info );
+}
 
-            item_info_first = item_info_data( first.tname(), first.type_name(),
-                                              v_item_first, v_item_second, scroll_pos_first );
-
-            item_info_second = item_info_data( second.tname(), second.type_name(),
-                                               v_item_second, v_item_first, scroll_pos_second );
-
-            item_info_first.without_getch = true;
-            item_info_second.without_getch = true;
-
-            ctxt.register_action( "HELP_KEYBINDINGS" );
-            if( !confirm_message.empty() ) {
-                ctxt.register_action( "CONFIRM" );
-            }
-            ctxt.register_action( "QUIT" );
-            ctxt.register_action( "UP" );
-            ctxt.register_action( "DOWN" );
-            ctxt.register_action( "PAGE_UP" );
-            ctxt.register_action( "PAGE_DOWN" );
-
-            catacurses::window wnd_first;
-            catacurses::window wnd_second;
-            catacurses::window wnd_message;
-
-            ui.reset();
-            ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-                const int half_width = TERMX / 2;
-                const int height = TERMY;
-                const int offset_y = confirm_message.empty() ? 0 : 3;
-                page_size = TERMY - offset_y - 2;
-                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
-                wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
-
-                if( !confirm_message.empty() ) {
-                    wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
-                }
-
-                ui.position( point_zero, point( half_width * 2, height ) );
-            } );
-            ui.mark_resize();
-            ui.on_redraw( [&]( const ui_adaptor & ) {
-                if( !confirm_message.empty() ) {
-                    draw_border( wnd_message );
-                    nc_color col = c_white;
-                    print_colored_text(
-                        wnd_message, point( 3, 1 ), col, col,
-                        confirm_message + " " +
-                        ctxt.describe_key_and_name( "CONFIRM" ) + " " +
-                        ctxt.describe_key_and_name( "QUIT" ) );
-                    wnoutrefresh( wnd_message );
-                }
-
-                draw_item_info( wnd_first, item_info_first );
-                draw_item_info( wnd_second, item_info_second );
-            } );
-            lang_version = detail::get_current_language_version();
-            first_execution = false;
+static void draw_column( const std::string &label, const ImVec2 &size, const item &it,
+                         std::vector<iteminfo> &first, std::vector<iteminfo> &second, cataimgui::scroll &s )
+{
+    if( ImGui::BeginChild( label.c_str(), size ) ) {
+        cataimgui::TextColoredParagraph( c_light_gray, it.tname() );
+        ImGui::NewLine();
+        if( it.tname().find( it.type_name() ) == std::string::npos ) {
+            cataimgui::TextColoredParagraph( c_light_gray, it.type_name() );
+            ImGui::NewLine();
         }
+        ImGui::NewLine();
+        cataimgui::set_scroll( s );
+        display_item_info( first, second );
+    }
+    ImGui::EndChild();
+}
 
+void game_menus::inv::compare_item_menu::draw_controls()
+{
+    float half_width = ImGui::GetContentRegionAvail().x / 2;
+    float height = ImGui::GetContentRegionAvail().y;
+    ImGuiStyle &style = ImGui::GetStyle();
+    float spacing_x = style.ItemSpacing.x;
+    float top_y = ImGui::GetCursorPosY();
+    float confirm_height = confirm_message.empty() ? 0.f : ImGui::GetFrameHeightWithSpacing();
+
+    // cataimgui::set_scroll resets scroll, so we need a copy for parallel scrolling
+    // not ideal, but this is such a special use case it's probably not worth changing
+    // todo: also synchronize scrolling when using mouse wheel/dragging scroll bar?
+    cataimgui::scroll s_copy = s;
+
+    draw_column( "compare_left", ImVec2( half_width - spacing_x, height - confirm_height ), first,
+                 first_info, second_info, s );
+    ImGui::SetCursorPos( { half_width + spacing_x, top_y } );
+    draw_column( "compare_right", ImVec2( half_width - spacing_x, height - confirm_height ), second,
+                 second_info, first_info, s_copy );
+
+    if( !confirm_message.empty() ) {
+        ImGui::AlignTextToFramePadding();
+        cataimgui::TextColoredParagraph( c_white, confirm_message );
+        // todo: spacing should be part of paragraph so it behaves the same as other elements
+        ImGui::Spacing();
+        ImGui::SameLine();
+        action_button( "CONFIRM", ctxt.get_button_text( "CONFIRM" ) );
+        ImGui::SameLine();
+        action_button( "QUIT", ctxt.get_button_text( "QUIT" ) );
+    }
+}
+
+cataimgui::bounds game_menus::inv::compare_item_menu::get_bounds()
+{
+    return { 0.f, 0.f, ImGui::GetMainViewport()->Size.x, ImGui::GetMainViewport()->Size.y };
+}
+
+bool game_menus::inv::compare_item_menu::show()
+{
+    while( true ) {
         ui_manager::redraw();
 
-        action = ctxt.handle_input();
+        std::string action = has_button_action() ? get_button_action() : ctxt.handle_input();
 
         if( action == "UP" ) {
-            scroll_pos_first--;
-            scroll_pos_second--;
+            s = cataimgui::scroll::line_up;
         } else if( action == "DOWN" ) {
-            scroll_pos_first++;
-            scroll_pos_second++;
+            s = cataimgui::scroll::line_down;
         } else if( action == "PAGE_UP" ) {
-            scroll_pos_first  -= page_size;
-            scroll_pos_second -= page_size;
+            s = cataimgui::scroll::page_up;
         } else if( action == "PAGE_DOWN" ) {
-            scroll_pos_first += page_size;
-            scroll_pos_second += page_size;
+            s = cataimgui::scroll::page_down;
+        } else if( action == "HOME" ) {
+            s = cataimgui::scroll::begin;
+        } else if( action == "END" ) {
+            s = cataimgui::scroll::end;
+        } else if( action == "CONFIRM" ) {
+            return true;
+        } else if( action == "QUIT" ) {
+            return false;
         }
-    } while( action != "QUIT" && action != "CONFIRM" );
+    }
 
-    return action == "CONFIRM";
+    return false;
 }
 
 void game_menus::inv::compare( const std::optional<tripoint> &offset )
@@ -2424,7 +2430,8 @@ void game_menus::inv::compare( const std::optional<tripoint> &offset )
             break;
         }
 
-        compare_items( *to_compare.first, *to_compare.second );
+        compare_item_menu menu( *to_compare.first, *to_compare.second );
+        menu.show();
     } while( true );
 }
 

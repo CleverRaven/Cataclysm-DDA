@@ -677,7 +677,8 @@
     "sym": ".",
     "color": "blue",
     "see_cost": "none",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "WATER" ]
   },
   {
     "type": "overmap_terrain",
@@ -687,7 +688,8 @@
     "sym": ".",
     "color": "light_blue",
     "see_cost": "none",
-    "mondensity": 1
+    "mondensity": 1,
+    "flags": [ "WATER" ]
   },
   {
     "type": "overmap_terrain",

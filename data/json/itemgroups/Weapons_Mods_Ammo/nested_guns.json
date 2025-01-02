@@ -996,19 +996,6 @@
     ]
   },
   {
-    "id": "nested_m1911-460",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "m1911-460", "charges": [ 0, 7 ] },
-      { "item": "m1911mag" },
-      { "item": "m1911mag", "prob": 50 },
-      { "group": "on_hand_460" }
-    ]
-  },
-  {
     "id": "nested_makarov",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1449,6 +1436,22 @@
     "entries": [ { "item": "marlin_9a", "charges": [ 0, 19 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_rio_bravo",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rio_bravo", "charges": [ 0, 15 ] }, { "group": "on_hand_22" } ]
+  },
+  {
+    "id": "nested_henry_golden_boy",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "henry_golden_boy", "charges": [ 0, 16 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_rossi_gallery",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1632,6 +1635,46 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "henry_big_boy", "charges": [ 0, 10 ] }, { "group": "on_hand_44" } ]
+  },
+  {
+    "id": "nested_rossi_r92_44_16",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_44_16", "charges": [ 0, 8 ] }, { "group": "on_hand_44" } ]
+  },
+  {
+    "id": "nested_rossi_r92_44_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_44_20", "charges": [ 0, 10 ] }, { "group": "on_hand_44" } ]
+  },
+  {
+    "id": "nested_uberti_1873",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "uberti_1873", "charges": [ 0, 10 ] }, { "group": "on_hand_357" } ]
+  },
+  {
+    "id": "nested_rossi_r92_357_16",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_357_16", "charges": [ 0, 8 ] }, { "group": "on_hand_357" } ]
+  },
+  {
+    "id": "nested_rossi_r92_357_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "rossi_r92_357_20", "charges": [ 0, 10 ] }, { "group": "on_hand_357" } ]
   },
   {
     "id": "nested_m14ebr",

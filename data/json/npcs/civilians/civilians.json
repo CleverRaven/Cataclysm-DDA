@@ -19,7 +19,7 @@
     "id": "TALK_CIVILIAN_FIGHTER",
     "dynamic_line": [
       "I'm gonna kill all these <swear> things!",
-      "&They let out a bellowing warcry and wave their stick.",
+      "&They let out a bellowing warcry and wave their knife.",
       "I'M INVINCIBLE!"
     ],
     "responses": [
@@ -42,6 +42,19 @@
       "&The officer scans the area, looking for trouble.  They have a dangerous glint in their eyes."
     ],
     "responses": [ { "text": "[Back away.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_GUNNER",
+    "dynamic_line": [
+      "I'm gonna kill all these <swear> things!",
+      "&They let out a bellowing warcry and wave their gun.",
+      "I'M INVINCIBLE!"
+    ],
+    "responses": [
+      { "text": "Are you crazy?  Get out of here!", "topic": "TALK_CIVILIAN_FIGHTER_EVAC" },
+      { "text": "[Leave them to their futile fight.]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",

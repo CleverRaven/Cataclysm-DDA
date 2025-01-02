@@ -46,20 +46,20 @@
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
-const std::map<point, base_camps::direction_data> base_camps::all_directions = {
+const std::map<point_rel_omt, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
     { base_camps::base_dir, { "[B]", base_camps::TAB_MAIN, to_translation( "base camp: base", "[B]" ), to_translation( "base camp: base", " MAIN " ) } },
-    { point_north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
-    { point_north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
-    { point_east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
-    { point_south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
-    { point_south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
-    { point_south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
-    { point_west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
-    { point_north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
+    { point_rel_omt::north, { "[N]", base_camps::TAB_N, to_translation( "base camp: north", "[N]" ), to_translation( "base camp: north", "  [N] " ) } },
+    { point_rel_omt::north_east, { "[NE]", base_camps::TAB_NE, to_translation( "base camp: northeast", "[NE]" ), to_translation( "base camp: northeast", " [NE] " ) } },
+    { point_rel_omt::east, { "[E]", base_camps::TAB_E, to_translation( "base camp: east", "[E]" ), to_translation( "base camp: east", "  [E] " ) } },
+    { point_rel_omt::south_east, { "[SE]", base_camps::TAB_SE, to_translation( "base camp: southeast", "[SE]" ), to_translation( "base camp: southeast", " [SE] " ) } },
+    { point_rel_omt::south, { "[S]", base_camps::TAB_S, to_translation( "base camp: south", "[S]" ), to_translation( "base camp: south", "  [S] " ) } },
+    { point_rel_omt::south_west, { "[SW]", base_camps::TAB_SW, to_translation( "base camp: southwest", "[SW]" ), to_translation( "base camp: southwest", " [SW] " ) } },
+    { point_rel_omt::west, { "[W]", base_camps::TAB_W, to_translation( "base camp: west", "[W]" ), to_translation( "base camp: west", "  [W] " ) } },
+    { point_rel_omt::north_west, { "[NW]", base_camps::TAB_NW, to_translation( "base camp: northwest", "[NW]" ), to_translation( "base camp: northwest", " [NW] " ) } },
 };
 
-point base_camps::direction_from_id( const std::string &id )
+point_rel_omt base_camps::direction_from_id( const std::string &id )
 {
     for( const auto &dir : all_directions ) {
         if( dir.second.id == id ) {
@@ -93,6 +93,7 @@ static const time_duration work_day_hours_time = work_day_hours * 1_hours;
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
+    // logic here is duplicated in reverse in basecamp::time_to_food
     if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }
@@ -131,9 +132,9 @@ basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ )
 {
 }
 
-basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    const std::vector<point> &directions_,
-                    const std::map<point, expansion_data> &expansions_ )
+basecamp::basecamp( const std::string &name_, const tripoint_abs_ms &bb_pos_,
+                    const std::vector<point_rel_omt> &directions_,
+                    const std::map<point_rel_omt, expansion_data> &expansions_ )
     : directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -170,14 +171,14 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
         return;
     }
 
-    const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
+    const point_rel_omt dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
 
 void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
-                              const point &dir )
+                              const point_rel_omt &dir )
 {
     expansion_data e;
     e.type = base_camps::faction_decode( bldg );
@@ -269,7 +270,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const point &dir, const int offset ) const
+std::string basecamp::next_upgrade( const point_rel_omt &dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -302,7 +303,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point_rel_omt> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -333,18 +334,18 @@ bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
         return true;
     }
     // Sharing stuff also means sharing access.
-    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_my_stuff ) ) {
         return true;
     }
     // Some factions will share access to infinite water sources, but not food
     if( water_request &&
-        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::relationship::share_public_goods ) ) {
         return true;
     }
     return false;
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( const point_rel_omt &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -409,10 +410,34 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
     return ret_data;
 }
 
+std::unordered_set<recipe_id> basecamp::recipe_deck_all() const
+{
+    std::unordered_set<recipe_id> known_recipes;
+    for( const npc_ptr &guy : assigned_npcs ) {
+        if( guy.get() ) {
+            for( const recipe *rec : guy->get_learned_recipes() ) {
+                known_recipes.insert( rec->ident() );
+            }
+        }
+    }
+
+    for( const auto &exp_data_pair : expansions ) {
+        for( const auto &provides : exp_data_pair.second.provides ) {
+            const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
+            for( const std::pair<const recipe_id, translation> &rec_list : test_s ) {
+                known_recipes.insert( rec_list.first );
+            }
+        }
+    }
+
+    return known_recipes;
+}
+
 // recipes and craft support functions
-std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( const point_rel_omt &dir ) const
 {
     std::map<recipe_id, translation> recipes;
+
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return recipes;
@@ -467,7 +492,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-void basecamp::update_in_progress( const std::string &bldg, const point &dir )
+void basecamp::update_in_progress( const std::string &bldg, const point_rel_omt &dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -697,11 +722,11 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
     }
     // NPC camps may never have had bb_pos registered
     validate_bb_pos( project_to<coords::ms>( omt_pos ) );
-    tripoint_bub_ms src_loc = here.bub_from_abs( bb_pos ) + point_north;
+    tripoint_bub_ms src_loc = here.bub_from_abs( bb_pos ) + point::north;
     std::vector<tripoint_abs_ms> possible_liquid_dumps;
-    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, MAX_VIEW_DISTANCE ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
-                60, get_owner() );
+                MAX_VIEW_DISTANCE, get_owner() );
         // Find the nearest unsorted zone to dump objects at
         if( !zones.empty() ) {
             std::unordered_set<tripoint_abs_ms> src_set;
@@ -920,7 +945,7 @@ void basecamp::form_crafting_inventory()
 }
 
 // display names
-std::string basecamp::expansion_tab( const point &dir ) const
+std::string basecamp::expansion_tab( const point_rel_omt &dir ) const
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
@@ -1014,10 +1039,10 @@ void basecamp_action_components::consume_components()
 {
     map &target_map = base_.get_camp_map();
     avatar &player_character = get_avatar();
-    std::vector<tripoint> src;
-    src.resize( base_.src_set.size() );
+    std::vector<tripoint_bub_ms> src;
+    src.reserve( base_.src_set.size() );
     for( const tripoint_abs_ms &p : base_.src_set ) {
-        src.emplace_back( target_map.bub_from_abs( p ).raw() );
+        src.emplace_back( target_map.bub_from_abs( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,

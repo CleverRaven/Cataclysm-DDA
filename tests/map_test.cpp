@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "itype.h"
@@ -25,16 +24,16 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     } );
 
     tripoint test_point =
-        GENERATE( tripoint_zero, tripoint_south, tripoint_east, tripoint_above, tripoint_below );
+        GENERATE( tripoint::zero, tripoint::south, tripoint::east, tripoint::above, tripoint::below );
     tripoint_bub_ms test_bub( test_point );
     int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
 
     // Make sure we're not in the 'easy' case where abs_sub is zero
     if( here.get_abs_sub().x() == 0 ) {
-        here.shift( point_rel_sm_east );
+        here.shift( point_rel_sm::east );
     }
     if( here.get_abs_sub().y() == 0 ) {
-        here.shift( point_rel_sm_south );
+        here.shift( point_rel_sm::south );
     }
     here.vertical_shift( z );
 
@@ -68,15 +67,15 @@ TEST_CASE( "destroy_grabbed_furniture" )
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         map &here = get_map();
         player_character.setpos( test_origin );
-        const tripoint_bub_ms grab_point = test_origin + tripoint_east;
+        const tripoint_bub_ms grab_point = test_origin + tripoint::east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
-        player_character.grab( object_type::FURNITURE, tripoint_rel_ms_east );
+        player_character.grab( object_type::FURNITURE, tripoint_rel_ms::east );
         REQUIRE( player_character.get_grab_type() == object_type::FURNITURE );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms::zero );
             }
         }
     }
@@ -117,7 +116,7 @@ TEST_CASE( "tinymap_bounds_checking" )
     clear_map();
     tinymap m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
-    m.load( project_to<coords::omt>( point_away_from_real_map + point_east ),
+    m.load( project_to<coords::omt>( point_away_from_real_map + point::east ),
             false ); // Add submap to ensure to OMT lies beyond the reality bubble
     for( int x = -1; x <= SEEX * 2; ++x ) {
         for( int y = -1; y <= SEEY * 2; ++y ) {
@@ -164,7 +163,7 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
     // Regression test for the situation where game::place_player would misuse
     // map::shift if the resulting shift exceeded a single submap, leading to a
     // broken active item cache.
-    g->place_player( tripoint_zero );
+    g->place_player( tripoint_bub_ms::zero );
     get_map().check_submap_active_item_consistency();
 }
 
@@ -218,10 +217,10 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
-    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                get_weather().forced_temperature );
+    restore_on_out_of_scope restore_temp(
+        get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
-    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc.raw() ) ) == 21 );
+    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
 
     item almond_milk( "almond_milk" );
     item *bp = nullptr;
@@ -266,11 +265,11 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
     clear_map();
-    get_avatar().setpos( tripoint_zero );
-    tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint_east;
+    get_avatar().setpos( tripoint::zero );
+    tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint::east;
     map &here = get_map();
-    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
-                get_weather().forced_temperature );
+    restore_on_out_of_scope restore_temp(
+        get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
 
     bool const cookie_rotten_before_death = GENERATE( true, false );

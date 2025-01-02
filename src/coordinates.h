@@ -10,13 +10,14 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "cata_inline.h"
 #include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "game_constants.h"
+#include "map_scale_constants.h"
 #include "line.h"  // IWYU pragma: keep
 #include "point.h"
 
@@ -167,8 +168,38 @@ class coord_point_mut : public coord_point_base<Point>
 };
 
 template<typename Point, origin Origin, scale Scale>
+class coord_point_ob_rel
+{
+    public:
+        static const coord_point_ob<Point, Origin, Scale> north;
+        static const coord_point_ob<Point, Origin, Scale> north_east;
+        static const coord_point_ob<Point, Origin, Scale> east;
+        static const coord_point_ob<Point, Origin, Scale> south_east;
+        static const coord_point_ob<Point, Origin, Scale> south;
+        static const coord_point_ob<Point, Origin, Scale> south_west;
+        static const coord_point_ob<Point, Origin, Scale> west;
+        static const coord_point_ob<Point, Origin, Scale> north_west;
+};
+
+template<typename Point, origin Origin, scale Scale>
+class coord_point_ob_3d
+{
+    public:
+        static const coord_point_ob<Point, Origin, Scale> above;
+        static const coord_point_ob<Point, Origin, Scale> below;
+};
+
+class coord_point_ob_not_rel {};
+class coord_point_ob_not_3d {};
+
+template<typename Point, origin Origin, scale Scale>
 class coord_point_ob : public
-    coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>
+    coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>,
+            public std::
+            conditional_t<Origin == origin::relative, coord_point_ob_rel<Point, Origin, Scale>, coord_point_ob_not_rel>,
+            public std::
+            conditional_t < Origin == origin::relative &&Point::dimension == 3,
+            coord_point_ob_3d<Point, Origin, Scale>, coord_point_ob_not_3d >
 {
         using base = coord_point_mut<Point, coord_point_ob<point, Origin, Scale>>;
 
@@ -176,6 +207,18 @@ class coord_point_ob : public
         using base::base;
 
         static constexpr int dimension = Point::dimension;
+        // Coordinate representing the origin
+        static const coord_point_ob zero;
+        // Coordinate with minimum representable coordinates
+        static const coord_point_ob min;
+        // Coordinate with maximum representable coordinates
+        static const coord_point_ob max;
+        // Sentinel value for returning and detecting invalid coordinates.
+        // Equal to @ref min for backward compatibility.
+        static const coord_point_ob invalid;
+        constexpr bool is_invalid() const {
+            return *this == invalid;
+        }
 
         static constexpr bool is_inbounds = false;
         using this_as_tripoint = coord_point_ob<tripoint, Origin, Scale>;
@@ -210,6 +253,14 @@ class coord_point_ob : public
             return this_as_point( this->raw().xy() );
         }
 
+        constexpr auto abs() const {
+            return coord_point_ob( this->raw().abs() );
+        }
+
+        constexpr auto rotate( int turns, const point &dim = point::south_east ) const {
+            return coord_point_ob( this->raw().rotate( turns, dim ) );
+        }
+
         friend inline this_as_ob operator+( const coord_point_ob &l, const point &r ) {
             return this_as_ob( l.raw() + r );
         }
@@ -234,6 +285,75 @@ class coord_point_ob : public
             return this_as_tripoint_ob( l.raw() - r );
         }
 };
+
+// These definitions can go in the class in clang and gcc, and are much shorter there,
+// but MSVC doesn't allow that, so...
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::min =
+    coord_point_ob<Point, Origin, Scale>( Point::min );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::max =
+    coord_point_ob<Point, Origin, Scale>( Point::max );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::invalid =
+    coord_point_ob<Point, Origin, Scale>( Point::invalid );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob<Point, Origin, Scale>::zero =
+    coord_point_ob<Point, Origin, Scale>( Point::zero );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::north
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::north );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::north_east
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::north_east );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::east
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::east );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::south_east
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::south_east );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::south
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::south );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::south_west
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::south_west );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::west
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::west );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_rel<Point, Origin, Scale>::north_west
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::north_west );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_3d<Point, Origin, Scale>::above
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::above );
+template<typename Point, origin Origin, scale Scale>
+const coord_point_ob<Point, Origin, Scale>
+coord_point_ob_3d<Point, Origin, Scale>::below
+    =
+        coord_point_ob<Point, Origin, Scale>( Point::below );
 
 template<typename Point, origin Origin, scale Scale>
 class coord_point_ib : public coord_point_ob<Point, Origin, Scale>
@@ -404,6 +524,14 @@ constexpr inline auto operator-(
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point_ob<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
+}
+
+template<typename Point, origin Origin, scale Scale>
+constexpr inline auto operator-(
+    const coord_point_ob<Point, Origin, Scale> &l )
+{
+    using PointResult = decltype( Point() );
+    return coord_point_ob<PointResult, Origin, Scale>( - l.raw() );
 }
 
 // Only relative points can be multiplied by a constant
@@ -831,6 +959,7 @@ direction direction_from( const coords::coord_point_ob<Point, Origin, Scale> &lo
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Point, coords::origin Origin, coords::scale Scale, std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
 std::vector < coords::coord_point < Point, Origin, Scale >>
         line_to( const coords::coord_point_ob<Point, Origin, Scale> &loc1,
@@ -846,6 +975,7 @@ std::vector < coords::coord_point < Point, Origin, Scale >>
     return result;
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Point, coords::origin Origin, coords::scale Scale, std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
 std::vector < coords::coord_point_ib < Point, Origin, Scale >>
         line_to( const coords::coord_point_ib<Point, Origin, Scale> &loc1,
@@ -861,6 +991,7 @@ std::vector < coords::coord_point_ib < Point, Origin, Scale >>
     return result;
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Tripoint, coords::origin Origin, coords::scale Scale,
          std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
 std::vector < coords::coord_point < Tripoint, Origin, Scale >>
@@ -877,6 +1008,7 @@ std::vector < coords::coord_point < Tripoint, Origin, Scale >>
     return result;
 }
 
+// line from loc1 to loc2, including loc2 but not loc1
 template<typename Tripoint, coords::origin Origin, coords::scale Scale,
          std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
 std::vector < coords::coord_point_ib < Tripoint, Origin, Scale>>

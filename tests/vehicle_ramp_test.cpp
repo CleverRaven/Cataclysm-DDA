@@ -132,14 +132,14 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     int cycles = 0;
     const int target_z = use_ramp ? ( up ? 1 : -1 ) : 0;
 
-    std::set<tripoint> vpts = veh.get_points();
+    std::set<tripoint_bub_ms> vpts = veh.get_points();
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
         clear_creatures();
         CAPTURE( cycles );
-        for( const tripoint &checkpt : vpts ) {
+        for( const tripoint_bub_ms &checkpt : vpts ) {
             int partnum = 0;
-            vehicle *check_veh = here.veh_at_internal( tripoint_bub_ms( checkpt ), partnum );
-            CAPTURE( veh_ptr->global_pos3() );
+            vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            CAPTURE( veh_ptr->pos_bub() );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
@@ -149,24 +149,24 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         CHECK( veh.velocity == target_velocity );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint &pos : veh.get_points() ) {
+        for( const tripoint_bub_ms &pos : veh.get_points() ) {
             REQUIRE( here.ter( pos ) );
         }
         for( const vpart_reference &vp : veh.get_all_parts() ) {
             if( vp.info().location != "structure" ) {
                 continue;
             }
-            const point &pmount = vp.mount();
+            const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint &ppos = vp.pos();
+            const tripoint_bub_ms &ppos = vp.pos_bub();
             CAPTURE( ppos );
-            if( cycles > ( transition_cycle - pmount.x ) ) {
-                CHECK( ppos.z == target_z );
+            if( cycles > ( transition_cycle - pmount.x() ) ) {
+                CHECK( ppos.z() == target_z );
             } else {
-                CHECK( ppos.z == 0 );
+                CHECK( ppos.z() == 0 );
             }
-            if( pmount.x == 0 && pmount.y == 0 ) {
-                CHECK( player_character.pos() == ppos );
+            if( pmount.x() == 0 && pmount.y() == 0 ) {
+                CHECK( player_character.pos_bub() == ppos );
             }
         }
         vpts = veh.get_points();
@@ -177,7 +177,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {
-        const int z_change = map_starting_point.z() - player_character.pos_bub().z();
+        const int z_change = map_starting_point.z() - player_character.posz();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
         player_character.setpos( map_starting_point );
@@ -266,21 +266,21 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     CHECK( veh.safe_velocity() > 0 );
 
     std::vector<vehicle_part *> all_parts;
-    for( const tripoint &pos : veh.get_points() ) {
+    for( const tripoint_bub_ms &pos : veh.get_points() ) {
         for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
             all_parts.push_back( prt );
-            if( drop_pos && prt->mount.x < 0 ) {
-                prt->precalc[0].z = -1;
-                prt->precalc[1].z = -1;
-            } else if( !drop_pos && prt->mount.x > 1 ) {
-                prt->precalc[0].z = 1;
-                prt->precalc[1].z = 1;
+            if( drop_pos && prt->mount.x() < 0 ) {
+                prt->precalc[0].z() = -1;
+                prt->precalc[1].z() = -1;
+            } else if( !drop_pos && prt->mount.x() > 1 ) {
+                prt->precalc[0].z() = 1;
+                prt->precalc[1].z() = 1;
             }
         }
     }
     std::set<int> z_span;
     for( vehicle_part *prt : all_parts ) {
-        z_span.insert( veh.global_part_pos3( *prt ).z );
+        z_span.insert( veh.bub_part_pos( *prt ).z() );
     }
     REQUIRE( z_span.size() > 1 );
 
@@ -306,10 +306,10 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     here.vehmove();
     for( vehicle_part *prt : all_parts ) {
-        CHECK( veh.global_part_pos3( *prt ).z == 0 );
+        CHECK( veh.bub_part_pos( *prt ).z() == 0 );
     }
     CHECK( dmon.posz() == 0 );
-    CHECK( veh.global_pos3().z == 0 );
+    CHECK( veh.pos_bub().z() == 0 );
 }
 
 static void test_leveling( const std::string &type )

@@ -5,9 +5,9 @@
     "recurrence": 1800,
     "global": true,
     "effect": [
-      { "set_condition": "random_enc_condition", "condition": { "math": [ "0", "==", "0" ] } },
+      { "set_condition": "random_enc_condition", "condition": { "math": [ "0 == 0" ] } },
       {
-        "run_eoc_with": "EOC_RandEnc",
+        "run_eocs": "EOC_RandEnc",
         "variables": {
           "omt": "roadstop_a",
           "map_update": "nest_RandEnc_campervan_traveler_add",

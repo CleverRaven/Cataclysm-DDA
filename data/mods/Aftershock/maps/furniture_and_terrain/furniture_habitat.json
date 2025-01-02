@@ -251,9 +251,9 @@
         {
           "id": "EOC_unlock_afs_crate",
           "effect": [
-            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            { "math": [ "_t_delay = time('20 m')" ] },
             {
-              "run_eoc_with": "EOC_start_lock_hack",
+              "run_eocs": "EOC_start_lock_hack",
               "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9", "t_radius": "0" },
               "alpha_talker": "avatar"
             }
@@ -278,7 +278,7 @@
     "id": "f_reinforced_displaycase",
     "name": "reinforced display case",
     "looks_like": "f_rack",
-    "description": "A secure metal case at about waist-height, with reinforced glass panelling on top.  Useful for storing valuable things while still showing them off.  Secured with an electronic lock.",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Useful for storing valuable things while still showing them off.  Secured with an electronic lock.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -292,9 +292,9 @@
         {
           "id": "EOC_unlock_afs_display_case",
           "effect": [
-            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            { "math": [ "_t_delay = time('20 m')" ] },
             {
-              "run_eoc_with": "EOC_start_lock_hack",
+              "run_eocs": "EOC_start_lock_hack",
               "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "0" },
               "alpha_talker": "avatar"
             }
@@ -319,7 +319,7 @@
     "id": "f_reinforced_displaycase_o",
     "name": "reinforced display case",
     "looks_like": "f_rack",
-    "description": "A secure metal case at about waist-height, with reinforced glass panelling on top.  Useful for storing valuable things while still showing them off.  This one had its lock hacked and is open.",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Useful for storing valuable things while still showing them off.  This one had its lock hacked and is open.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -344,7 +344,7 @@
     "id": "f_reinforced_displaycase_b",
     "name": "broken display case",
     "looks_like": "f_rack",
-    "description": "A secure metal case at about waist-height, with reinforced glass panelling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.",
+    "description": "A secure metal case at about waist-height, with reinforced glass paneling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
@@ -427,9 +427,9 @@
         {
           "id": "EOC_unlock_afs_security_panel",
           "effect": [
-            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            { "math": [ "_t_delay = time('20 m')" ] },
             {
-              "run_eoc_with": "EOC_start_lock_hack",
+              "run_eocs": "EOC_start_lock_hack",
               "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6" },
               "alpha_talker": "avatar"
             }

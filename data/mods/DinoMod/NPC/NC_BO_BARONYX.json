@@ -281,6 +281,7 @@
     "likes_u": 30,
     "respects_u": 20,
     "known_by_u": false,
+    "limited_area_claim": true,
     "size": 25,
     "power": 20,
     "currency": "icon",

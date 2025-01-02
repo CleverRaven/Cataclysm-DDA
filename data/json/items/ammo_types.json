@@ -223,12 +223,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "460",
-    "name": ".460",
-    "default": "460_rowland"
-  },
-  {
-    "type": "ammunition_type",
     "id": "454",
     "name": ".454",
     "default": "454_Casull"
@@ -821,6 +815,12 @@
     "id": "273x44RG",
     "name": "27.3x44 Diyua Grenade",
     "default": "273x44RG"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "33naval",
+    "name": "3.3 naval cartridge",
+    "default": "33naval_ball"
   },
   {
     "type": "ammunition_type",

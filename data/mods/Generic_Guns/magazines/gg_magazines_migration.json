@@ -173,7 +173,6 @@
       "40_speedloader6",
       "44_speedloader6",
       "454_speedloader5",
-      "460_speedloader6",
       "500_speedloader5",
       "8x40_speedloader5",
       "9mm_speedloader7",
@@ -357,6 +356,16 @@
     "id": [ "exodiiminimag" ],
     "type": "MIGRATION",
     "replace": "rifle_sniper_mag_foreign"
+  },
+  {
+    "id": [ "ree_33_4_mag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_mag_cannon"
+  },
+  {
+    "id": [ "ree_33_53_mag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_mag_cannon_big"
   },
   {
     "id": [ "hk_g80mag" ],

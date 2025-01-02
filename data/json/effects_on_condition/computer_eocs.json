@@ -31,30 +31,24 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_READ_LOCAL_FILES",
-    "condition": { "and": [ { "math": [ "u_skill('computer')", ">=", "2" ] }, { "one_in_chance": 2 } ] },
-    "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
-    "false_effect": {
-      "run_eocs": [
-        {
-          "id": "EOC_READ_LOCAL_FILES_MESSAGE",
-          "condition": { "math": [ "u_skill('computer')", ">=", "2" ] },
-          "effect": { "u_message": "You found nothing interesting" },
-          "false_effect": { "u_message": "You understanding of computer devices is not good enough to find anything.", "type": "bad" }
-        }
-      ]
-    }
+    "condition": { "compare_string": [ { "npc_val": "snippet_file" }, "has", "lack" ] },
+    "false_effect": [ { "npc_add_var": "snippet_file", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_READ_LOCAL_FILES" } ],
+    "effect": [
+      {
+        "if": { "compare_string": [ "has", { "npc_val": "snippet_file" } ] },
+        "then": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ]
+      },
+      {
+        "if": { "compare_string": [ "lack", { "npc_val": "snippet_file" } ] },
+        "then": [ { "u_message": "You found nothing interesting." } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_MAP_CACHE",
     "//": "todo: make it not reveal fungal towers and such? would require edits in reveal_map code, to accept blacklist of locations?",
-    "condition": {
-      "or": [
-        { "compare_string": [ "has", { "npc_val": "map_cache" } ] },
-        { "compare_string": [ "lack", { "npc_val": "map_cache" } ] },
-        { "compare_string": [ "read", { "npc_val": "map_cache" } ] }
-      ]
-    },
+    "condition": { "or": [ { "compare_string": [ { "npc_val": "map_cache" }, "has", "lack", "read" ] } ] },
     "false_effect": [ { "npc_add_var": "map_cache", "possible_values": [ "has", "lack" ] }, { "run_eocs": "EOC_CHECK_MAP_CACHE" } ],
     "effect": [
       {

@@ -32,7 +32,7 @@
         "......#o##oo#######oo##.",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "domestic_general_and_variant_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "~": "t_thconc_floor",
         "j": "t_thconc_floor",
@@ -42,14 +42,14 @@
         ":": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "_": "t_railing",
         "%": "t_region_groundcover_urban",
-        "9": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
-        "8": "t_linoleum_gray",
-        "(": "t_linoleum_gray",
+        "9": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "8": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "(": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "$": "t_column",
-        "f": "t_carpet_red",
-        "h": "t_carpet_red"
+        "f": { "param": "carpet_color_type", "fallback": "t_carpet_red" },
+        "h": { "param": "carpet_color_type", "fallback": "t_carpet_red" }
       },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 4, "y": 1 } ],
       "furniture": { "%": "f_region_flower" },

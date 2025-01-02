@@ -234,13 +234,6 @@
     "tools": [
       [
         [ "45_casing", -1 ],
-        [ "460_casing", -1 ],
-        [ "460_fmj", -1 ],
-        [ "460_rowland", -1 ],
-        [ "bp_460_fmj", -1 ],
-        [ "bp_460_rowland", -1 ],
-        [ "reloaded_460_fmj", -1 ],
-        [ "reloaded_460_rowland", -1 ],
         [ "45_acp", -1 ],
         [ "45_jhp", -1 ],
         [ "45_super", -1 ],
@@ -328,7 +321,6 @@
         [ "45colt_casing", 1 ],
         [ "46mm_casing", 1 ],
         [ "57mm_casing", 1 ],
-        [ "460_casing", 1 ],
         [ "500_casing", 1 ],
         [ "762_25_casing", 1 ],
         [ "9mm_casing", 1 ],

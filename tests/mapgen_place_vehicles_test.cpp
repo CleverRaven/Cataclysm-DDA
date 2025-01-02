@@ -36,10 +36,10 @@ TEST_CASE( "mapgen_place_vehicles" )
     tripoint_abs_omt const this_test_omt = project_to<coords::omt>( get_avatar().get_location() );
     SECTION( "update mapgen" ) {
         update_test( here, this_test_omt );
-        update_test( here, this_test_omt + tripoint_east );
+        update_test( here, this_test_omt + tripoint::east );
     }
     SECTION( "nested mapgen" ) {
         nested_test( here, this_test_omt );
-        nested_test( here, this_test_omt + tripoint_east );
+        nested_test( here, this_test_omt + tripoint::east );
     }
 }

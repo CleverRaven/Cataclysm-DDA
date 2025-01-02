@@ -92,7 +92,7 @@
     "durability": 6,
     "blackpowder_tolerance": 96,
     "clip_size": 1,
-    "//": "Sources place muzzle loader firing rate at at up to 4 / minute for elite professionals. Nominal 30s will be cut down to 15s at skill 10.",
+    "//": "Sources place muzzle loader firing rate at up to 4 / minute for elite professionals. Nominal 30s will be cut down to 15s at skill 10.",
     "reload": 3000,
     "valid_mod_locations": [
       [ "sling", 1 ],

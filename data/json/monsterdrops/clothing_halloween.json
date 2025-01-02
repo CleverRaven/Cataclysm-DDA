@@ -1629,15 +1629,7 @@
           { "group": "shirts_unisex", "prob": 65, "damage": [ 1, 4 ] },
           { "group": "pants_unisex", "damage": [ 1, 4 ] },
           { "group": "socks_unisex", "damage": [ 1, 4 ] },
-          {
-            "distribution": [
-              { "item": "wolfsuit", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "dragonsuit", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "felinesuit", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "dinosuit", "prob": 20, "damage": [ 1, 4 ] },
-              { "item": "sharksuit", "prob": 20, "damage": [ 1, 4 ] }
-            ]
-          },
+          { "distribution": [ { "item": "fursuit", "prob": 20, "damage": [ 1, 4 ] } ] },
           {
             "distribution": [
               { "item": "flip_flops", "prob": 35, "damage": [ 1, 4 ] },

@@ -570,13 +570,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": -0.5 },
-          { "value": "ARMOR_BASH", "add": 15 },
-          { "value": "ARMOR_STAB", "add": 15 },
-          { "value": "ARMOR_CUT", "add": 15 },
-          { "value": "ARMOR_BULLET", "add": 50 }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": 15 },
+          { "type": "stab", "add": 15 },
+          { "type": "cut", "add": 15 },
+          { "type": "bullet", "add": 50 }
+        ],
+        "values": [ { "value": "SPEED", "multiply": -0.5 } ]
       }
     ]
   },
@@ -591,12 +591,13 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
-          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
-          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
-        ]
+        "incoming_damage_mod": [
+          { "type": "bash", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "stab", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "cut", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "type": "bullet", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ],
+        "values": [ { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } } ]
       }
     ]
   },
@@ -845,6 +846,14 @@
     "rating": "good",
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.75 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mech_recon_vision",
+    "//": "is applied when you ride a mech. Ideally should be jsonified in some way",
+    "name": [ "" ],
+    "desc": [ "." ],
+    "enchantments": [ "THERMAL_VISION_GOOD_PASSIVE", "nvg_great_mech" ]
   },
   {
     "type": "effect_type",
@@ -3237,6 +3246,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -3258,6 +3268,7 @@
     "apply_message": "You feel a sickness coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
+    "immune_flags": [ "NO_DISEASE" ],
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
@@ -4968,40 +4979,6 @@
     "show_in_info": true
   },
   {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Exsanguination" ],
-    "desc": [ "The monster is greedily drinking your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
-    "id": "star_vampire_blood_drink",
-    "type": "effect_type",
-    "name": [ "Hemorrhage" ],
-    "desc": [ "The monster is sucking up your blood!" ],
-    "rating": "bad",
-    "resist_traits": [ "BLEED_IMMUNE" ],
-    "show_in_info": true,
-    "max_intensity": 2,
-    "show_intensity": false,
-    "int_decay_step": -2,
-    "int_decay_tick": 1,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
-    ]
-  },
-  {
     "id": "star_vampire_blood_drink_feral",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
@@ -5030,10 +5007,10 @@
     "type": "effect_type",
     "id": "cramped_space",
     "name": [ "Cramped Space" ],
-    "desc": [ "You are painfully crammed into a space too small for your body." ],
+    "desc": [ "Your movements are restricted by the surroundings." ],
     "miss_messages": [ [ "You don't have any room to move!", 1 ] ],
-    "apply_message": "You are squeezed uncomfortably into the cramped space.",
-    "remove_message": "It feels good having room to move again.",
+    "apply_message": "Your movements are restricted by the surroundings.",
+    "remove_message": "You are able to move freely again.",
     "rating": "bad",
     "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
     "resist_effects": [ "incorporeal" ],
@@ -5152,5 +5129,40 @@
     "id": "a_winner_is_u",
     "name": [ "Winning!" ],
     "//": "Used to display the winning screen upon winning like a winner."
+  },
+  {
+    "type": "effect_type",
+    "//": "Horrible hack to apply vision flag. Set in C++ basecamp::start_crafting()",
+    "id": "HACK_camp_vision_for_npc",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_5",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "This and the other effects with similar ids are used to set the range of creatures with the MIND_SEEING flag."
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_10",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_20",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eff_mind_seeing_bonus_30",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

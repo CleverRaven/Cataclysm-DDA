@@ -31,6 +31,7 @@
         "$||||||||||||||||||||||$",
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
+      "palettes": [ "parametrized_linoleum_palette" ],
       "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_npcs": [ { "class": "NPC_scrap_trader", "x": 4, "y": 5 } ],
       "terrain": {
@@ -59,11 +60,11 @@
         "^": "t_floor",
         "Q": "t_floor",
         "/": "t_floor",
-        "<": "t_linoleum_white",
-        "T": "t_linoleum_white",
+        "<": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "S": "t_thconc_floor",
         "F": "t_thconc_floor",
-        "Z": "t_linoleum_white",
+        "Z": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "C": "t_thconc_floor",
         "L": "t_thconc_floor",
         "R": "t_thconc_floor",

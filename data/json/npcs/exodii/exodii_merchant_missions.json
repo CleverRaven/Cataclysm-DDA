@@ -57,7 +57,7 @@
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "exo_warehouse_1",
-    "start": { "effect": [ { "u_spawn_item": "warehouse_rebooter" }, { "math": [ "exodii_mission_wh_chance", "=", "6" ] } ] },
+    "start": { "effect": [ { "u_spawn_item": "warehouse_rebooter" }, { "math": [ "exodii_mission_wh_chance = 6" ] } ] },
     "end": { "effect": [ { "u_add_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
     "difficulty": 5,
     "value": 2,
@@ -241,7 +241,7 @@
     "responses": [
       {
         "text": "*Tell him.",
-        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
+        "effect": [ { "u_add_faction_trust": 5 }, { "math": [ "exodii_knows_hub01 = 1" ] } ],
         "topic": "TALK_DONE"
       },
       { "text": "Maybe later, can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -294,13 +294,13 @@
         "str": "Well an surely, fruit gum!  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
       },
       "no": {
-        "math": [ "talked_to_hub", "==", "1" ],
+        "math": [ "talked_to_hub == 1" ],
         "yes": {
           "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
           "str": "Well an surely, fruit gum!  Mayhap this be a chance to show y'self a true, for Rubik's got sommat to ask yet again.  The way o' the Exode is t'shimmy an' wobble, an' on thislike wobble, a few bits wobbled off, kennit?  'Tis rightful common, alack.  One such is hidden for our escolts an' our screeds.  Mayhap as y'know the lands, ye'd have a see of it?  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
         },
         "no": {
-          "math": [ "exodii_knows_hub01", "==", "1" ],
+          "math": [ "exodii_knows_hub01 == 1" ],
           "yes": {
             "//~": "We are unable to locate one of our warehouses since the last jump.  We would need you to go find it and reactivate its locator",
             "str": "Well an surely, fruit gum!  For an' such as ye've done us a good.  Aye, ye kennit well.  'Tis a store-cabin, mayhap the likes you've seen.  This'n be older'n most, clade o' iron and crete-stone.  Abreast the ceil, high atop, there be a steely jut, piercin' the heavens.  In times ordinary, Great Grey could call out and screed the jut, kennit, and send aloft an escolt to razz 'er.  Oft times, the jut is wibbled on the wobble, an' it be coals'n coke.  Ol' Rubik can give you'n a dandy to pop 'er back aloft, and that's a fig and a fiddle."
@@ -368,7 +368,7 @@
       {
         "text": "Beloved jaryi?  What did you just call me?",
         "topic": "TALK_EXODII_MERCHANT_jaryi",
-        "effect": [ { "math": [ "know_jaryi", "=", "1" ] } ]
+        "effect": [ { "math": [ "know_jaryi = 1" ] } ]
       },
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  See you later, Rubik.", "topic": "TALK_DONE" }
@@ -453,20 +453,20 @@
     "id": "TALK_EXODII_MERCHANT_mission_2_complete",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "u_rebooted_locator", "==", "1" ],
+      "math": [ "u_rebooted_locator == 1" ],
       "yes": "An' a fine farthing ye did, on that.  Thankee sai.  We've a crib on the walkway already.",
       "no": "*gives you a long look, and somehow you know they're doing a slow blink inside their metal shell.  \"An' did ye forget sommat?  The booter?  Me heart and skelpy, 'tis not so hard a job.  Alas and alack, give us some directions then.\"  They pull out a notepad and pass a pencil your way."
     },
     "responses": [
       {
         "text": "Long days and pleasant nights, Rubik.  Let's talk payment.",
-        "condition": { "math": [ "u_rebooted_locator", "==", "1" ] },
+        "condition": { "math": [ "u_rebooted_locator == 1" ] },
         "effect": [ { "u_add_faction_trust": 5 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       },
       {
         "text": "[Detail the road to the warehouse.  This will advance time by ten minutes.]",
-        "condition": { "math": [ "u_rebooted_locator", "!=", "1" ] },
+        "condition": { "math": [ "u_rebooted_locator != 1" ] },
         "effect": [ { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" }, { "u_add_faction_trust": 4 } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete_pay"
       }
@@ -535,8 +535,7 @@
     "fail": { "effect": { "math": [ "faction_trust('exodii')", "-=", "20" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
-    "deadline_low": 20,
-    "deadline_high": 20,
+    "deadline": [ "20 days", "20 days" ],
     "//": "Dialogue for this mission is handled externally.",
     "dialogue": {
       "describe": ".",

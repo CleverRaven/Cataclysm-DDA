@@ -115,8 +115,8 @@
           ]
         }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Pablo.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -128,7 +128,7 @@
     },
     "responses": [
       { "text": "Pablo, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Pablo_1_firstmeet" },
-      { "text": "Hi Pablo, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Pablo, nice to meet you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -143,7 +143,7 @@
     },
     "responses": [
       { "text": "Hi, Pablo.  What's up?", "topic": "TALK_REFUGEE_Pablo_2" },
-      { "text": "Hi Pablo, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" }
+      { "text": "Hi Pablo, nice to see you too.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -169,8 +169,8 @@
     "responses": [
       { "text": "What about the pregnancy?", "topic": "TALK_REFUGEE_Pablo_Background2_pregnancy" },
       { "text": "What happened to the other crash survivors?", "topic": "TALK_REFUGEE_Pablo_Background2_survivors" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Pablo.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -205,7 +205,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Situation",
     "dynamic_line": {
-      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
+      "math": [ "u_counter_refugee_center_refugee_happiness >= 5" ],
       "yes": "It's pretty tough here.  People have made so much effort to make things better, and the group is kind of coming together, but I just don't feel like I could ever belong, you know?  I need somewhere with a sky, and a little privacy.",
       "no": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counselor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane."
     },
@@ -241,8 +241,17 @@
     "speaker_effect": {
       "effect": [
         { "finish_mission": "MISSION_TACOMA_Nunez", "success": true },
-        { "math": [ "nunez_travel_timer", "=", "time_since('cataclysm', 'unit': 'days') + 2" ] },
-        { "math": [ "nunez_travel_stage", "=", "1" ] }
+        { "npc_location_variable": { "context_val": "refcenter_nunez_departure" } },
+        { "math": [ "_travel_time = time_since('cataclysm', 'unit': 'days') + 2" ] },
+        {
+          "run_eocs": [ "EOC_Nunez_Travel_To_Tacoma" ],
+          "time_in_future": { "context_val": "travel_time" },
+          "variables": {
+            "refcenter_nunez_departure": { "context_val": "refcenter_nunez_departure" },
+            "tacoma_nunez_trailer_arrive": { "u_val": "tacoma_nunez_trailer_arrive" }
+          }
+        },
+        { "u_lose_var": "tacoma_nunez_trailer_arrive" }
       ]
     }
   },

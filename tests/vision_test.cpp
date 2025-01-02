@@ -68,7 +68,7 @@ static std::string vision_test_info( map_test_case &t )
     using namespace map_test_case_common;
 
     out << "origin: " << t.get_origin() << '\n';
-    out << "player: " << get_player_character().pos() << '\n';
+    out << "player: " << get_player_character().pos_bub() << '\n';
     out << "unimpaired_range: " << get_player_character().unimpaired_range()  << '\n';
     out << "vision_threshold: " << here.get_visibility_variables_cache().vision_threshold << '\n';
 
@@ -105,7 +105,7 @@ static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
+static const tile_predicate ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint::above );
 
 static bool spawn_moncam( map_test_case::tile tile )
 {
@@ -154,7 +154,7 @@ struct vision_test_case {
 
     void test_all() const {
         Character &player_character = get_player_character();
-        g->place_player( tripoint( 60, 60, 0 ) );
+        g->place_player( { 60, 60, 0 } );
         player_character.clear_worn(); // Remove any light-emitting clothing
         player_character.clear_effects();
         player_character.clear_bionics();
@@ -593,7 +593,7 @@ TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
     monster *zombie = nullptr;
     tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
         zombie = g->place_critter_at( mon_zombie, tile.p );
-        get_map().ter_set( tile.p + tripoint_above, ter_t_flat_roof );
+        get_map().ter_set( tile.p + tripoint::above, ter_t_flat_roof );
         return true;
     };
 
@@ -739,7 +739,7 @@ TEST_CASE( "vision_moncam_basic", "[shadowcasting][vision][moncam]" )
 
 TEST_CASE( "vision_moncam_otherz", "[shadowcasting][vision][moncam]" )
 {
-    tripoint const disp = GENERATE( tripoint_below, tripoint_zero, tripoint_above );
+    tripoint const disp = GENERATE( tripoint::below, tripoint::zero, tripoint::above );
     vision_test_case t {
         {
             "-c-",
@@ -764,7 +764,7 @@ TEST_CASE( "vision_moncam_otherz", "[shadowcasting][vision][moncam]" )
     };
 
     tile_predicate spawn_moncam_disp = [&]( map_test_case::tile tile ) {
-        tile_predicate const p = ter_set( ter_t_floor ) + ter_set( ter_t_floor, tripoint_below ) +
+        tile_predicate const p = ter_set( ter_t_floor ) + ter_set( ter_t_floor, tripoint::below ) +
                                  ter_set_flat_roof_above;
         p( tile );
         monster *const slime = g->place_critter_at( mon_test_camera, tile.p + disp );
@@ -929,11 +929,11 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
 
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
-            std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
+            std::vector<vehicle_part *> const horns = v->get_parts_at( v->pos_bub(), "HORN", {} );
             v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
-            REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );
+            REQUIRE( v->install_part( point_rel_ms::zero, vpart_inboard_mirror ) != -1 );
         }
         if( fiddle > 0 ) {
             get_map().add_vehicle_to_cache( v );
@@ -996,9 +996,9 @@ TEST_CASE( "vision_moncam_invalidation", "[shadowcasting][vision][moncam]" )
 
     auto wiggle_slime = [&]() {
         // vehicle camera should still work even if only the moncam moved
-        slime->Creature::move_to( slime->get_location() + tripoint_east );
+        slime->Creature::move_to( slime->get_location() + tripoint::east );
         get_map().build_map_cache( slime->posz() );
-        slime->Creature::move_to( slime->get_location() - tripoint_east );
+        slime->Creature::move_to( slime->get_location() - tripoint::east );
         get_map().build_map_cache( slime->posz() );
     };
 
@@ -1165,9 +1165,9 @@ TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
 {
     // oob crash from game::place_player_overmap() or game::start_game(), simplified
     clear_avatar();
-    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
+    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point::south_east, false,
                     false );
-    get_avatar().sees( tripoint_bub_ms_zero ); // CRASH?
+    get_avatar().sees( tripoint_bub_ms::zero ); // CRASH?
 
     clear_avatar();
 }

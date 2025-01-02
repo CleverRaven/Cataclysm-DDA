@@ -1,0 +1,77 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_burned_ground",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "15x15_burned_ground" ], "x": [ 4, 5 ], "y": [ 4, 5 ] },
+        { "chunks": [ "15x15_burned_ground" ], "x": [ 0, 4 ], "y": [ 0, 9 ] },
+        { "chunks": [ "15x15_burned_ground" ], "x": [ 5, 9 ], "y": [ 0, 9 ] },
+        { "chunks": [ "15x15_burned_ground" ], "x": [ 0, 9 ], "y": [ 0, 4 ] },
+        { "chunks": [ "15x15_burned_ground" ], "x": [ 0, 9 ], "y": [ 5, 9 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_point_burned_ground",
+    "object": { "place_nested": [ { "chunks": [ "15x15_burned_ground" ], "x": [ 0, 9 ], "y": [ 0, 9 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "15x15_burned_ground",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "7x7_burned_ground" ], "x": [ 0, 8 ], "y": [ 0, 8 ] },
+        { "chunks": [ "7x7_burned_ground" ], "x": [ 0, 8 ], "y": [ 0, 8 ] },
+        { "chunks": [ "7x7_burned_ground" ], "x": [ 0, 8 ], "y": [ 0, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x7_burned_ground",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  xxx  ",
+        " xxXxx ",
+        "xxXXXxx",
+        "xxXXXxx",
+        "xxXXXxx",
+        " xxXxx ",
+        "  xxx  "
+      ],
+      "nested": { "X": { "chunks": [ "1x1_burned_ground" ] }, "x": { "chunks": [ "1x1_burned_ground_slight", "null" ] } },
+      "//": "Here rather than the 1x1 nest for mapgen ordering, otherwise the transform occurs afterwards",
+      "furniture": { "X": [ [ "f_null", 7 ], [ "f_fireweed", 1 ] ], "x": [ [ "f_null", 11 ], [ "f_fireweed", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_burned_ground",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "ter_furn_transforms": { " ": { "transform": "dead_vegetation" } },
+      "//": "Bash to wreck any vehicle parts present then destroy flammable ter/furn and their flammable bash results. Leave some unburned/unbashed so the transform/fireweed is still present",
+      "nested": { " ": { "chunks": [ [ "1x1_bash_burn", 2 ], [ "1x1_burn", 1 ], [ "null", 1 ] ] } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_burned_ground_slight",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "ter_furn_transforms": { " ": { "transform": "dead_vegetation" } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
+  }
+]

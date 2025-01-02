@@ -24,7 +24,7 @@ void appliance_convert_examine_actor::load( const JsonObject &jo, const std::str
     mandatory( jo, false, "item", appliance_item );
 }
 
-void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &examp ) const
+void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
         return;
@@ -37,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp, vpart_appliance_from_item( appliance_item ) );
+    place_appliance( examp, vpart_appliance_from_item( appliance_item ), you );
 }
 
 void appliance_convert_examine_actor::finalize() const
@@ -107,14 +107,14 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
             continue;
         }
         if( omt_allowed_radius ) {
-            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint_min );
+            tripoint_abs_omt cardloc = it->get_var( "spawn_location_omt", tripoint_abs_omt::min );
             // Cards without a location are treated as valid
-            if( cardloc == tripoint_min ) {
+            if( cardloc == tripoint_abs_omt::min ) {
                 ret.push_back( it );
                 continue;
             }
             int dist = rl_dist( cardloc.xy(),
-                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy().raw() );
+                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -256,8 +256,8 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
 void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
-    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
-    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
+    d.set_value( "this", get_map().furn( examp ).id().str() );
+    d.set_value( "pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

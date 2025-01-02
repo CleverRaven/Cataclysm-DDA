@@ -9,24 +9,20 @@
       "TALK_GODCO_Julian_Mood"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Julian_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Julian_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       { "text": "How are things here?", "topic": "TALK_GODCO_Julian_Mood" },
       { "text": "What are the advantages of being a dorm leader?", "topic": "TALK_GODCO_Julian_Leader" },
       {
         "text": "Why did you join the Church?",
         "topic": "TALK_GODCO_Julian_Church",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "I want to join the community.",
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "math": [ "n_npc_value() >= 3" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
@@ -53,7 +49,7 @@
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Hey…  I'm Julian, the guy in charge of this room.  Are you… planning on sticking around or somethin'?",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "Why are you still around, don't you have someone else to bother?",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ],
@@ -116,7 +112,7 @@
         "topic": "TALK_GODCO_Julian_2",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
           ]
         }
@@ -126,12 +122,12 @@
         "topic": "TALK_GODCO_Julian_Angry",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
           ]
         }
       },
-      { "text": "Hello, Julian.  I can't stay to talk.", "topic": "TALK_DONE" }
+      { "text": "Hello, Julian.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -142,7 +138,7 @@
       "yes": [ "If you have complaints, please don't tell anyone.", "You're still staying here, joinee?", "Need anything, joinee?" ],
       "no": [ "Need anything?", "Go on…" ]
     },
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -151,7 +147,7 @@
       "gendered_line": "You sure?  I mean, you've been traveling for a long time, haven't you?  Alright, it's your decision.  Let me know when you changed your mind.",
       "relevant_genders": [ "u" ]
     },
-    "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -159,7 +155,7 @@
     "dynamic_line": "Aight, here are the rules: don't commit sins, don't litter, and try not to die.  Have some mutual respect, capiche?",
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Julian_Joinee" },
-      { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
+      { "text": "Actually, <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -190,8 +186,8 @@
         "failure": { "topic": "TALK_GODCO_Julian_NoChat" },
         "success": { "topic": "TALK_GODCO_Julian_Riots" }
       },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -205,7 +201,7 @@
         "topic": "TALK_GODCO_Julian_2"
       },
       {
-        "text": "I'm sorry for your loss.  I gotta go.",
+        "text": "I'm sorry for your loss.  <end_talking_leave>",
         "effect": { "npc_add_var": "general_meeting_told_backstory", "value": "yes" },
         "topic": "TALK_DONE"
       }
@@ -217,8 +213,8 @@
     "dynamic_line": "Advantages?  All I do is work!",
     "responses": [
       { "text": "Anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Yeah, it must be exhausting.  Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Yeah, it must be exhausting.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -226,8 +222,8 @@
     "id": "TALK_GODCO_Julian_Mood",
     "dynamic_line": "It's been a struggle, trying to keep this bunch together.  Oh things could be better here, of course.  It could always be, but sometimes we don't even realize how good we have it here.",
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -240,7 +236,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_NoChat",
     "dynamic_line": "I'd rather not talk about it.",
-    "responses": [ { "text": "Yeah, I can understand.  See ya later.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Yeah, I can understand.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

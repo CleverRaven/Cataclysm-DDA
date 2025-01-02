@@ -943,6 +943,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "big_brass_catcher",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "tailor",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "canvas_patch", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "adjustable_stock",
     "category": "CC_WEAPON",

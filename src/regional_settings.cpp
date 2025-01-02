@@ -587,13 +587,12 @@ void load_region_settings( const JsonObject &jo )
         load_building_types( "parks", new_region.city_spec.parks );
     }
 
-    if( !jo.has_object( "weather" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"weather\": { … } required for default" );
-        }
+    // TODO: Support overwriting only some values in non default regions
+    if( strict && !jo.has_object( "weather" ) ) {
+        jo.throw_error( "\"weather\": { … } required for default" );
     } else {
         JsonObject wjo = jo.get_object( "weather" );
-        new_region.weather = weather_generator::load( wjo );
+        new_region.weather.load( wjo, false );
     }
 
     load_overmap_feature_flag_settings( jo, new_region.overmap_feature_flag, strict, false );
@@ -746,6 +745,11 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_building_types( "houses", region.city_spec.houses );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
+
+    if( jo.has_object( "weather" ) ) {
+        JsonObject wjo = jo.get_object( "weather" );
+        region.weather.load( wjo, true );
+    }
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 

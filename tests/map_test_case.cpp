@@ -5,7 +5,6 @@
 #include <string>
 
 #include "field.h"
-#include "coordinate_constants.h" // Has to come after field.h, or its contents is rejected.
 #include "level_cache.h"
 #include "map.h"
 #include "map_test_case.h"
@@ -19,7 +18,7 @@ tripoint_bub_ms map_test_case::get_origin()
     std::optional<point_bub_ms> res = std::nullopt;
 
     if( anchor_char ) {
-        for_each_tile( tripoint_bub_ms_zero, [&]( map_test_case::tile & t ) {
+        for_each_tile( tripoint_bub_ms::zero, [&]( map_test_case::tile & t ) {
             if( t.setup_c == *anchor_char ) {
                 if( res ) {
                     FAIL( "Origin char '" << *anchor_char << "' is found more than once in setup" );
@@ -32,7 +31,7 @@ tripoint_bub_ms map_test_case::get_origin()
             FAIL( "Origin char '" << *anchor_char << "' is not found in setup" );
         }
     } else {
-        res = point_bub_ms_zero;
+        res = point_bub_ms::zero;
     }
 
     origin = anchor_map_pos - tripoint_bub_ms( *res, 0 ).raw();
@@ -160,7 +159,7 @@ void map_test_case::reflect_y()
 
 void map_test_case::set_anchor_char_from( const std::set<char> &chars )
 {
-    for_each_tile( tripoint_bub_ms_zero, [&]( tile t ) {
+    for_each_tile( tripoint_bub_ms::zero, [&]( tile t ) {
         if( chars.count( t.setup_c ) ) {
             anchor_char = t.setup_c;
         }
@@ -227,7 +226,7 @@ std::string map_test_case_common::printers::format_2d_array( const
 static std::string print_and_format_helper( map_test_case &t, int zshift,
         std::function<void( const tripoint &p, std::ostringstream &out )> print_tile )
 {
-    tripoint shift = tripoint( point_zero, zshift );
+    tripoint shift = tripoint( point::zero, zshift );
     return map_test_case_common::printers::format_2d_array(
     t.map_tiles_str( [&]( map_test_case::tile t, std::ostringstream & out ) {
         print_tile( ( t.p + shift ).raw(), out );
@@ -237,7 +236,7 @@ static std::string print_and_format_helper( map_test_case &t, int zshift,
 static std::string print_and_format_helper( map_test_case &t, int zshift,
         std::function<void( const tripoint_bub_ms &p, std::ostringstream &out )> print_tile )
 {
-    tripoint shift = tripoint( point_zero, zshift );
+    tripoint shift = tripoint( point::zero, zshift );
     return map_test_case_common::printers::format_2d_array(
     t.map_tiles_str( [&]( map_test_case::tile t, std::ostringstream & out ) {
         print_tile( ( t.p + shift ), out );

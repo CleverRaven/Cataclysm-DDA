@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_VEH_APPLIANCE_H
 #define CATA_SRC_VEH_APPLIANCE_H
 
+#include "coordinates.h"
 #include "input_context.h"
 #include "player_activity.h"
 
@@ -10,7 +11,7 @@ class ui_adaptor;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
-                      const std::optional<item> &base = std::nullopt );
+                      const Character &owner, const std::optional<item> &base = std::nullopt );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has
@@ -37,14 +38,14 @@ class veh_app_interact
          * @returns An activity to assign to the player (ACT_VEHICLE),
          * or a null activity if no further action is required.
         */
-        static player_activity run( vehicle &veh, const point &p = point_zero );
+        static player_activity run( vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
 
     private:
-        explicit veh_app_interact( vehicle &veh, const point &p );
+        explicit veh_app_interact( vehicle &veh, const point_rel_ms &p );
         ~veh_app_interact() = default;
 
         // The player's point of interaction on the appliance.
-        point a_point = point_zero;
+        point_rel_ms a_point = point_rel_ms::zero;
         // The vehicle representing the appliance.
         vehicle *veh;
         // An input context to contain registered actions from the APP_INTERACT category.
@@ -138,6 +139,11 @@ class veh_app_interact
         * Connects the power cable to selected tile.
         */
         void plug();
+        /**
+        * Function associated with the "HIDE" action.
+        * Hides the selected tiles sprite.
+        */
+        void hide();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned

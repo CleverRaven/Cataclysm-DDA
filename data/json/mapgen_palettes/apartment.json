@@ -3,21 +3,6 @@
     "type": "palette",
     "id": "apartment_palette",
     "parameters": {
-      "i_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_wall_b", 1 ],
-            [ "t_wall_g", 1 ],
-            [ "t_wall_p", 1 ],
-            [ "t_wall_P", 1 ],
-            [ "t_wall_r", 1 ],
-            [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ]
-          ]
-        }
-      },
-      "wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_strconc_wall", 2 ], [ "t_brick_wall", 5 ] ] } },
       "railing_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_glass_railing", 4 ], [ "t_concrete_railing", 7 ] ] } },
       "shrubbery_type": {
         "type": "ter_str_id",
@@ -30,6 +15,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_walls_palette" ],
     "nested": {
       "á": {
         "chunks": [
@@ -195,7 +181,7 @@
       }
     },
     "terrain": {
-      "#": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" },
+      "-": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" },
       " ": "t_region_groundcover_urban",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "D": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked_interior", 10 ], "t_door_boarded" ],
@@ -217,8 +203,6 @@
         "t_window_no_curtains_open",
         [ "t_curtains", 5 ]
       ],
-      "|": { "param": "wall_type", "fallback": "t_brick_wall" },
-      "-": { "param": "i_wall_type", "fallback": "t_wall_w" },
       ",": "t_thconc_floor",
       "Q": "t_thconc_floor",
       "z": "t_flat_roof",

@@ -289,17 +289,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "1x1_manhole",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "O" ],
-      "palettes": [ "road_palette" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "24x24_road_trash",
     "object": {
       "mapgensize": [ 24, 24 ],

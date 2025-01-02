@@ -61,9 +61,9 @@
           "rng(((15 + (n_spell_level('teleport_banish') * 15)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling),((350 + (n_spell_level('teleport_banish') * 35)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling))"
         ]
       },
-      { "math": [ "u_health_comparison", "=", "u_hp('ALL')" ] },
+      { "math": [ "u_health_comparison = u_hp('ALL')" ] },
       {
-        "if": { "math": [ "u_psi_teleporter_damage", ">", "u_health_comparison" ] },
+        "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
           { "u_cast_spell": { "id": "teleport_banish_self_target", "message": "" } },
           { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" }
@@ -86,7 +86,7 @@
         ]
       },
       {
-        "if": { "math": [ "u_psi_teleporter_damage", ">", "u_health_comparison" ] },
+        "if": { "math": [ "u_psi_teleporter_damage > u_health_comparison" ] },
         "then": [
           "u_die",
           { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" },
@@ -124,7 +124,8 @@
       {
         "u_message": "You have successfully memorized the local area, and may now return to it with your powers.",
         "type": "good"
-      }
+      },
+      "u_cancel_activity"
     ]
   },
   {
@@ -215,8 +216,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_01_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_01_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -274,8 +275,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_02_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_02_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -333,8 +334,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_03_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_03_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -392,8 +393,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_04_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_04_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -451,8 +452,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_05_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_05_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -510,8 +511,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_06_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_06_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -569,8 +570,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_07_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_07_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -605,7 +606,7 @@
     },
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_08", "EOC_TELEPORT_GATEWAY_ATTUNE_07" ],
+        "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_08", "EOC_TELEPORT_GATEWAY_ATTUNE_08" ],
         "names": [ "Destination: <u_val:gateway_destination_name_8>", "Attune to Area" ],
         "keys": [ "1", "2" ],
         "descriptions": [ "Teleport to <u_val:gateway_destination_name_8>.", "Attune to a new destination." ],
@@ -628,8 +629,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_08_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_08_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -665,9 +666,9 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_TELEPORT_GATEWAY_TELEPORT_09", "EOC_TELEPORT_GATEWAY_ATTUNE_09" ],
-        "names": [ "Destination: <u_val:gateway_destination_name_3>", "Attune to Area" ],
+        "names": [ "Destination: <u_val:gateway_destination_name_9>", "Attune to Area" ],
         "keys": [ "1", "2" ],
-        "descriptions": [ "Teleport to <u_val:gateway_destination_name_3>.", "Attune to a new destination." ],
+        "descriptions": [ "Teleport to <u_val:gateway_destination_name_9>.", "Attune to a new destination." ],
         "hide_failing": true,
         "allow_cancel": true
       }
@@ -687,8 +688,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_09_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_09_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },
@@ -746,8 +747,8 @@
       { "u_add_effect": "effect_teleporter_attuning_to_area", "duration": "8 hours" },
       { "u_assign_activity": "ACT_PSI_TELEPORTER_ATTUNING", "duration": "8 hours" },
       {
-        "queue_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_10_SUCCESS",
-        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1080), 0, 27000)" ] }
+        "run_eocs": "EOC_TELEPORT_GATEWAY_ATTUNE_10_SUCCESS",
+        "time_in_future": { "math": [ "28800 - clamp(( u_spell_level('teleport_gateway') * 1200), 0, 27000)" ] }
       }
     ]
   },

@@ -33,7 +33,6 @@
           "10mm": 60,
           "44": 60,
           "45": 60,
-          "460": 60,
           "454": 60,
           "45colt": 60,
           "500": 60,
@@ -535,6 +534,25 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "quiver_simple_cloth",
+    "type": "ARMOR",
+    "name": { "str": "simple cloth quiver" },
+    "description": "A simple quiver made out of cloth that can be adjusted to hold various types of arrows, bolts, and spears of different lengths.  Takes slightly longer to pull ammunition from than a regular quiver.  Use insert to store arrows, bolts, fishing spears, or atlatl spears.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "quiver",
+    "color": "white",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [ { "ammo_restriction": { "arrow": 30, "bolt": 30, "atlatl": 5, "fishspear": 5 }, "moves": 30 } ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "quiver_takedown_bow",

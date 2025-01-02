@@ -16,14 +16,16 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_BEAR_FORM_TRAITS",
-    "name": { "str": "Bear Form" },
+    "name": { "str": "Bear Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+    "description": {
+      "str": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74984.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -40,7 +42,6 @@
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
-      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
       {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
@@ -52,19 +53,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [
-      "MUTE",
-      "MYOPIC_IN_LIGHT",
-      "NO_SPELLCASTING",
-      "PRED3",
-      "QUADRUPED_CROUCH",
-      "QUADRUPED_RUN",
-      "TOUGH_FEET",
-      "TEMPORARY_SHAPESHIFT",
-      "SHAPESHIFT_SIZE_HUGE"
-    ],
-    "override_look": { "id": "mon_bear", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "override_look": { "id": "mon_bear", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -83,14 +73,16 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_COUGAR_FORM_TRAITS",
-    "name": { "str": "Cougar Form" },
+    "name": { "str": "Cougar Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
+    "description": {
+      "str": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74984.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -108,14 +100,6 @@
         "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "HEARING_MULT", "multiply": 0.25 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 5 }
-        ]
-      },
-      {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -126,9 +110,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "NO_SPELLCASTING", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_cougar", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_feline_fur", "integrated_claws" ]
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_cougar", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -147,9 +130,12 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_DEER_FORM_TRAITS",
-    "name": { "str": "Deer Form" },
+    "name": { "str": "Deer Form", "//~": "NO_I18N" },
     "points": 98,
-    "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
+    "description": {
+      "str": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
+      "//~": "NO_I18N"
+    },
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
@@ -178,15 +164,77 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "attacks": {
-      "attack_text_u": "You kick %s with your hooves!",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
-      "chance": 15,
-      "strength_damage": { "damage_type": "bash", "amount": 3 }
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_deer", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_FISH_FORM_TRAITS",
+    "name": { "str": "Fish Form", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "You are a fish.  This provides the actual effects of fish form.  Should not be player-visible.",
+      "//~": "NO_I18N"
     },
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_deer", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ]
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": -0.75 },
+          { "value": "MELEE_DAMAGE", "multiply": -0.95 },
+          { "value": "METABOLISM", "multiply": -0.333 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 40 }
+        ],
+        "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": { "not": { "u_is_on_terrain_with_flag": "SWIMMABLE" } },
+        "ench_effects": [ { "effect": "effect_druid_shifter_fish_form_cant_move", "intensity": 1 } ]
+      },
+      {
+        "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+        "values": [
+          { "value": "DEXTERITY", "add": 8 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.6 },
+          { "value": "REGEN_STAMINA", "multiply": 10 }
+        ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [
+      "EYE_MEMBRANE",
+      "ITEM_WATERPROOFING",
+      "GILLS",
+      "HARDTOHIT",
+      "MUTE",
+      "NO_SPELLCASTING",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_TINY",
+      "WALK_UNDERWATER",
+      "WEBBED_HANDS"
+    ],
+    "wet_protection": [
+      { "part": "head", "ignored": 100 },
+      { "part": "leg_l", "ignored": 100 },
+      { "part": "leg_r", "ignored": 100 },
+      { "part": "foot_l", "ignored": 100 },
+      { "part": "foot_r", "ignored": 100 },
+      { "part": "arm_l", "ignored": 100 },
+      { "part": "arm_r", "ignored": 100 },
+      { "part": "hand_l", "ignored": 100 },
+      { "part": "hand_r", "ignored": 100 },
+      { "part": "torso", "ignored": 100 }
+    ],
+    "override_look": { "id": "mon_fish_carp", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -205,14 +253,16 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_RAVEN_FORM_TRAITS",
-    "name": { "str": "Raven Form" },
+    "name": { "str": "Raven Form", "//~": "NO_I18N" },
     "points": 0,
-    "description": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
+    "description": {
+      "str": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74984.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 300, 800 ],
     "enchantments": [
       {
@@ -231,15 +281,6 @@
         "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "PERCEPTION", "add": 4 },
-          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
-          { "value": "OVERMAP_SIGHT", "add": 4 },
-          { "value": "METABOLISM", "multiply": -0.333 }
-        ]
-      },
-      {
         "condition": "u_has_weapon",
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       },
@@ -251,9 +292,12 @@
   {
     "type": "mutation",
     "id": "DRUID_SHIFTER_MANA_REDUCER",
-    "name": { "str": "Mana Reducer Druid Forms" },
+    "name": { "str": "Mana Reducer Druid Forms", "//~": "NO_I18N" },
     "points": 0,
-    "description": "Prevents you from regenerating mana while in druid shapeshifting form.  You should never actually see this.",
+    "description": {
+      "str": "Prevents you from regenerating mana while in druid shapeshifting form.  You should never actually see this.",
+      "//~": "NO_I18N"
+    },
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

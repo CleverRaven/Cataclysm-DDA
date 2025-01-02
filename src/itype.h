@@ -133,10 +133,6 @@ struct islot_comestible {
         /** effect on character thirst (may be negative) */
         int quench = 0;
 
-        /** Nutrition values to use for this type when they aren't calculated from
-         * components */
-        nutrients default_nutrition;
-
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
 
@@ -154,6 +150,19 @@ struct islot_comestible {
 
         /** Reference to item that will be received after smoking current item */
         itype_id smoking_result;
+
+        /*
+        * For the few rare cases where default nutrition needs to be accessible. Prefer using
+        * default_character_compute_effective_nutrients unless absolutely necessary.
+        */
+        nutrients default_nutrition_read_only() const {
+            return default_nutrition;
+        }
+
+        /** For the one case where default nutrition needs to be overridden. */
+        void set_default_nutrition( nutrients new_nutrition ) {
+            default_nutrition = std::move( new_nutrition );
+        };
 
         /** TODO: add documentation */
         int healthy = 0;
@@ -204,6 +213,10 @@ struct islot_comestible {
         std::pair<int, int> rot_spawn_monster_amount = {1, 1};
 
     private:
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
+
         /** effect on morale when consuming */
         int fun = 0;
 
@@ -401,6 +414,12 @@ struct islot_armor {
          * How much warmth this item provides.
          */
         int warmth = 0;
+        /**
+         * The max health of an energy shield type armor.  Value is completely ignored if the
+         * ENERGY_SHIELD flag is not set.  This value and "energy_shield_hp" are then stored
+         * through item variables so that they might be manipulated with EOCS and magic.
+         */
+        int max_energy_shield_hp = 0;
         /**
          * Whether this is a power armor item.
          */
@@ -909,6 +928,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Modifies base strength required */
     int min_str_required_mod = 0;
+
+    /** Modifies base strength required if user is prone */
+    int min_str_required_mod_if_prone = 0;
 
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
@@ -1445,6 +1467,9 @@ struct itype {
         * greater than zero, transfers faster, cannot be less than zero.
         */
         float insulation_factor = 1.0f;
+
+        /** Flat damage reduction (increase if negative) on fall (some logic may apply). */
+        int fall_damage_reduction = 0;
 
         /**
         * Efficiency of solar energy conversion for solarpacks.

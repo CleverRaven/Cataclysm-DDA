@@ -133,6 +133,7 @@ inventory::inventory() = default;
 invslice inventory::slice()
 {
     invslice stacks;
+    stacks.reserve( items.size() );
     for( auto &elem : items ) {
         stacks.push_back( &elem );
     }
@@ -142,6 +143,7 @@ invslice inventory::slice()
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
+    stacks.reserve( items.size() );
     for( const auto &item : items ) {
         stacks.push_back( &item );
     }
@@ -480,7 +482,7 @@ static int count_charges_in_list( const ammotype *ammotype, const map_stack &ite
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, const Character *pl,
+void inventory::form_from_map( const tripoint_bub_ms &origin, int range, const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
 {
@@ -490,55 +492,58 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
                                 const Character *pl, bool assign_invlet )
 {
-    std::vector<tripoint> pts;
+    std::vector<tripoint_bub_ms> pts;
     pts.reserve( zone_pts.size() );
     for( const tripoint_abs_ms &elem : zone_pts ) {
-        pts.push_back( m.bub_from_abs( elem ).raw() );
+        pts.push_back( m.bub_from_abs( elem ) );
     }
     form_from_map( m, pts, pl, assign_invlet );
 }
 
-void inventory::form_from_map( map &m, const tripoint &origin, int range, const Character *pl,
+void inventory::form_from_map( map &m, const tripoint_bub_ms &origin, int range,
+                               const Character *pl,
                                bool assign_invlet,
                                bool clear_path )
 {
     // populate a grid of spots that can be reached
-    std::vector<tripoint> reachable_pts = {};
+    std::vector<tripoint_bub_ms> reachable_pts = {};
     // If we need a clear path we care about the reachability of points
     if( clear_path ) {
         m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
     } else {
         // Fill reachable points with points_in_radius
-        tripoint_range<tripoint> in_radius = m.points_in_radius( origin, range );
-        for( const tripoint &p : in_radius ) {
+        tripoint_range<tripoint_bub_ms> in_radius = m.points_in_radius( origin, range );
+        for( const tripoint_bub_ms &p : in_radius ) {
             reachable_pts.emplace_back( p );
         }
     }
     form_from_map( m, reachable_pts, pl, assign_invlet );
 }
 
-void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
+void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl,
                                bool assign_invlet )
 {
     items.clear();
     provisioned_pseudo_tools.clear();
 
-    for( const tripoint &p : pts ) {
+    for( const tripoint_bub_ms &p : pts ) {
+        const ter_id &t = m.ter( p );
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        if( t->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_butchery_tree_pseudo );
         }
         // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
         ter_id brick_oven( "t_brick_oven" );
-        if( m.ter( p ) == brick_oven ) {
+        if( t == brick_oven ) {
             provide_pseudo_item( itype_brick_oven_pseudo );
         }
-        const furn_t &f = m.furn( p ).obj();
-        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
-            for( const itype *ammo : f.crafting_ammo_item_types() ) {
+        const furn_id &f = m.furn( p );
+        const furn_t &fo = f.obj();
+        if( item *furn_item = provide_pseudo_item( fo.crafting_pseudo_item ) ) {
+            for( const itype *ammo : fo.crafting_ammo_item_types() ) {
                 if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
                     // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                    const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                    const bool using_ammotype = fo.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
                     int amount = 0;
                     itype_id ammo_id = ammo->get_id();
                     // Some furniture can consume more than one item type.
@@ -584,7 +589,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p )->has_examine( iexamine::keg ) ) {
+        if( f->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( item &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
@@ -965,26 +970,6 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
     }
 
     return ret;
-}
-
-enchant_cache inventory::get_active_enchantment_cache( const Character &owner ) const
-{
-    enchant_cache temp_cache;
-    for( const std::list<item> &elem : items ) {
-        for( const item &check_item : elem ) {
-            for( const enchant_cache &ench : check_item.get_proc_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
-                    temp_cache.force_add( ench );
-                }
-            }
-            for( const enchantment &ench : check_item.get_defined_enchantments() ) {
-                if( ench.is_active( owner, check_item ) ) {
-                    temp_cache.force_add( ench, owner );
-                }
-            }
-        }
-    }
-    return temp_cache;
 }
 
 int inventory::count_item( const itype_id &item_type ) const

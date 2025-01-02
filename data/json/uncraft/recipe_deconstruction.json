@@ -2427,6 +2427,22 @@
     "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
+    "result": "sheet_denim",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_denim_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -2561,9 +2577,9 @@
     "result": "fan",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ], [ [ "plastic_chunk", 15 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 30 ] ] ]
   },
   {
     "result": "fancy_sunglasses",
@@ -5089,7 +5105,7 @@
     "time": "5 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_cotton", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "sheet_nylon", 8 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "result": "wearable_light",

@@ -138,6 +138,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_ITEM_REMOVE,
     JMAPGEN_SETMAP_FIELD_REMOVE,
     JMAPGEN_SETMAP_BASH,
+    JMAPGEN_SETMAP_BURN,
     JMAPGEN_SETMAP_VARIABLE,
     JMAPGEN_SETMAP_OPTYPE_LINE = 100,
     JMAPGEN_SETMAP_LINE_TER,
@@ -249,6 +250,14 @@ class jmapgen_piece
             return ret_val<void>::make_success();
         }
 };
+
+class jmapgen_piece_with_has_vehicle_collision : public jmapgen_piece
+{
+    public:
+        ret_val<void> has_vehicle_collision( const mapgendata &dat,
+                                             const tripoint_rel_ms &p ) const override;
+};
+
 
 /**
  * Where to place something on a map.
@@ -503,7 +512,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
                               const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
-        ter_id fill_ter;
+        cata::value_ptr<mapgen_value<ter_id>> fill_ter;
         oter_id predecessor_mapgen;
 
     protected:
@@ -531,12 +540,12 @@ class update_mapgen_function_json : public mapgen_function_json_base
             bool mirror_vertical = false, int rotation = 0 ) const;
         // Returns an empty string on success and the name of a colliding "vehicle" on failure.
         ret_val<void> update_map( const mapgendata &md,
-                                  const tripoint_rel_ms &offset = tripoint_rel_ms( tripoint_zero ),
+                                  const tripoint_rel_ms &offset = tripoint_rel_ms::zero,
                                   bool verify = false ) const;
 
     protected:
         bool setup_internal( const JsonObject &/*jo*/ ) override;
-        ter_id fill_ter;
+        cata::value_ptr<mapgen_value<ter_id>> fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base
@@ -563,9 +572,7 @@ class nested_mapgen
         const weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> &funcs() const {
             return funcs_;
         }
-        void add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight ) {
-            funcs_.add( p, weight );
-        }
+        void add( const std::shared_ptr<mapgen_function_json_nested> &p, int weight );
         // Returns a set containing every relative coordinate of a point that
         // might have something placed by this mapgen
         std::unordered_set<point> all_placement_coords() const;
@@ -579,9 +586,7 @@ class update_mapgen
         const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs() const {
             return funcs_;
         }
-        void add( std::unique_ptr<update_mapgen_function_json> &&p ) {
-            funcs_.push_back( std::move( p ) );
-        }
+        void add( std::unique_ptr<update_mapgen_function_json> &&p );
     private:
         std::vector<std::unique_ptr<update_mapgen_function_json>> funcs_;
 };

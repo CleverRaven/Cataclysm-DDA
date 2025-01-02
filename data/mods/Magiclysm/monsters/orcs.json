@@ -28,7 +28,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "dodge": 3,
     "harvest": "orc",
-    "families": [ "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
     "vision_day": 20,
@@ -71,29 +71,7 @@
     ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "zombify_into": "mon_zorc",
-    "death_drops": {
-      "subtype": "collection",
-      "items": [
-        { "item": "helmet_scrap", "prob": 20 },
-        { "item": "legguard_scrap", "prob": 20 },
-        { "item": "boots_scrap", "prob": 20 },
-        { "item": "armguard_scrap", "prob": 20 },
-        { "item": "cuirass_scrap", "prob": 10 },
-        { "item": "loincloth_fur", "prob": 10 },
-        { "item": "footrags_fur", "prob": 10 },
-        { "item": "gloves_wraps_fur", "prob": 10 },
-        { "item": "bellywrap_fur", "prob": 5 },
-        { "item": "chestwrap_fur", "prob": 5 },
-        {
-          "distribution": [
-            { "item": "survivor_machete", "prob": 96 },
-            { "item": "arming_sword_plus_one", "prob": 2 },
-            { "item": "broadsword_plus_one", "prob": 2 }
-          ],
-          "prob": 100
-        }
-      ]
-    },
+    "death_drops": "orc_warrior_death_drops",
     "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
@@ -103,24 +81,7 @@
     "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying a bow.  They smile silently, baring a set of sharp teeth, as they aim at you.",
     "copy-from": "mon_orc_warrior",
     "melee_skill": 2,
-    "death_drops": {
-      "subtype": "collection",
-      "items": [
-        { "item": "helmet_scrap", "prob": 40 },
-        { "item": "legguard_scrap", "prob": 40 },
-        { "item": "boots_scrap", "prob": 40 },
-        { "item": "armguard_scrap", "prob": 40 },
-        { "item": "cuirass_scrap", "prob": 40 },
-        { "item": "loincloth_fur", "prob": 10 },
-        { "item": "footrags_fur", "prob": 10 },
-        { "item": "gloves_wraps_fur", "prob": 10 },
-        { "item": "bellywrap_fur", "prob": 5 },
-        { "item": "chestwrap_fur", "prob": 5 },
-        { "item": "longbow", "prob": 100 },
-        { "item": "sheath", "contents-item": "knife_combat", "prob": 50 },
-        { "item": "quiver_large", "contents-group": "quiver_orc_archer", "prob": 100 }
-      ]
-    },
+    "death_drops": "orc_archer_death_drops",
     "starting_ammo": { "arrow_wood_heavy": 60 },
     "extend": {
       "special_attacks": [
@@ -175,29 +136,7 @@
         "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
       }
     ],
-    "death_drops": {
-      "subtype": "collection",
-      "items": [
-        { "item": "helmet_scrap", "prob": 20 },
-        { "item": "legguard_scrap", "prob": 10 },
-        { "item": "boots_scrap", "prob": 10 },
-        { "item": "armguard_scrap", "prob": 30 },
-        { "item": "cuirass_scrap", "prob": 20 },
-        { "item": "loincloth_fur", "prob": 10 },
-        { "item": "footrags_fur", "prob": 10 },
-        { "item": "gloves_wraps_fur", "prob": 10 },
-        { "item": "bellywrap_fur", "prob": 5 },
-        { "item": "chestwrap_fur", "prob": 5 },
-        {
-          "distribution": [
-            { "item": "mace_pipe_large", "prob": 96 },
-            { "item": "mace_plus_one", "prob": 2 },
-            { "item": "warhammer_plus_one", "prob": 2 }
-          ],
-          "prob": 100
-        }
-      ]
-    }
+    "death_drops": "orc_blood_warrior_death_drops"
   },
   {
     "id": "mon_orc_mage_blood",
@@ -240,21 +179,6 @@
         "monster_message": "%1$s makes a frenzied cry and as they point, %3$s is surrounded by a red glow."
       }
     ],
-    "death_drops": {
-      "subtype": "collection",
-      "items": [
-        { "item": "helmet_scrap", "prob": 20 },
-        { "item": "legguard_scrap", "prob": 10 },
-        { "item": "boots_scrap", "prob": 10 },
-        { "item": "cuirass_scrap", "prob": 20 },
-        { "item": "loincloth_fur", "prob": 10 },
-        { "item": "footrags_fur", "prob": 10 },
-        { "item": "gloves_wraps_fur", "prob": 10 },
-        { "item": "bellywrap_fur", "prob": 5 },
-        { "item": "chestwrap_fur", "prob": 5 },
-        { "group": "magic_plants_common", "prob": 10 },
-        { "group": "magic_plants_uncommon", "prob": 1 }
-      ]
-    }
+    "death_drops": "orc_blood_mage_death_drops"
   }
 ]

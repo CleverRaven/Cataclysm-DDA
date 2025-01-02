@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "INVALID",
     "category": "MED",
-    "name": { "str": "abstract gracken improvement" },
+    "name": { "str": "abstract gracken improvement", "//~": "NO_I18N" },
     "weight": "2041 g",
     "volume": "2500 ml",
     "material": [ "flesh", "shadowstuff" ],
@@ -117,6 +117,60 @@
         {
           "id": "dextrous_hands",
           "effect": [ { "u_message": "You exchanged your previous hands for these." }, { "u_add_trait": "SHADE_DEXTROUS_HANDS" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_herbivorous_stomach",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Herbivorous Stomach" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their diet to an herbivorous one.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Changed your diet to eating only plants.",
+      "effect_on_conditions": [
+        {
+          "id": "herbivorous_stomach",
+          "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_HERBIVORE" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_omnivorous_stomach",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Dextrous Hands" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their diet to an omnivorous one.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Changed your diet to eating most things.",
+      "effect_on_conditions": [
+        {
+          "id": "omnivorous_stomach",
+          "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_OMNIVORE" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_carnivorous_stomach",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Dextrous Hands" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their diet to an carnivorous one.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Changed your diet to meat eating.",
+      "effect_on_conditions": [
+        {
+          "id": "carnivorous_stomach",
+          "effect": [ { "u_message": "You exchanged your previous stomach for this." }, { "u_add_trait": "SHADE_CARNIVORE" } ]
         }
       ]
     }
