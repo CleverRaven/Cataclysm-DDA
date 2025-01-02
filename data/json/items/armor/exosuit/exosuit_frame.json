@@ -311,7 +311,20 @@
     ],
     "relic_data": {
       "passive_effects": [
-        { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
+        {
+          "condition": "ACTIVE",
+          "values": [
+            { "value": "STRENGTH", "add": 10 },
+            { "value": "CARRY_WEIGHT", "add": 20000 },
+            {
+              "name": { "str": "Exosuit Heavy Weapons" },
+              "description": "The active exosuit provides enough strength and stability to fire heavy weapons.",
+              "has": "WORN",
+              "condition": "ALWAYS",
+              "mutations": [ "exo_heavy_guns" ]
+            }
+          ]
+        }
       ]
     },
     "use_action": [
