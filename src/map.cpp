@@ -7997,7 +7997,7 @@ std::vector<tripoint_bub_ms> map::reachable_flood_steps( const tripoint_bub_ms &
 
     // temp buffer for grid
     const int grid_dim = range * 2 + 1;
-    const size_t grid_area = static_cast<size_t>( grid_dim * grid_dim );
+    const size_t grid_area = static_cast<size_t>( grid_dim ) * grid_dim;
     // init to -1 as "not visited yet"
     std::vector<int> t_grid( grid_area, -1 );
     const tripoint_rel_ms origin_offset = { range, range, 0 };
