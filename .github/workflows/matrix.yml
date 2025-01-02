@@ -129,7 +129,7 @@ jobs:
             ccache_key: macos-llvm-14-universal-break1
 
           - compiler: g++-9
-            os: ubuntu-latest
+            os: ubuntu-22.04
             release: 1
             cmake: 0
             tiles: 0
@@ -168,7 +168,7 @@ jobs:
             ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
-            os: ubuntu-latest
+            os: ubuntu-22.04
             release: 0
             cmake: 0
             tiles: 0
@@ -185,7 +185,7 @@ jobs:
             ccache_key: linux-gcc-11-asan
 
           - compiler: g++
-            os: ubuntu-latest
+            os: ubuntu-22.04
             release: 0
             cmake: 0
             native:
@@ -205,7 +205,7 @@ jobs:
             ccache_key: mingw-gcc-12
 
           - compiler: g++-9
-            os: ubuntu-latest
+            os: ubuntu-22.04
             release: 1
             cmake: 1
             tiles: 1
