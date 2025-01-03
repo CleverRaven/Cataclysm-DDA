@@ -28,6 +28,7 @@
 #include "type_id.h"
 #include "units.h"
 
+static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -289,7 +290,7 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_var( "spawn_location_omt" ) ) {
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
         tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
         tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
                                          get_avatar().pos_bub() ) ) );
