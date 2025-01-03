@@ -511,7 +511,7 @@
     "id": "pyrokin_flamethrower_hellhound_monster",
     "type": "SPELL",
     "//": "It would be nice if there were an 'affect lower' flag for spells, but alas there is not",
-    "name": { "str": "[Ψ]Flamethrower Hellhound", "//~": "NO_I18TN" },
+    "name": { "str": "[Ψ]Flamethrower Hellhound", "//~": "NO_I18N" },
     "description": "Spray fire in a cone in front of you, if you're a hellhound.",
     "message": "",
     "teachable": false,
@@ -1157,6 +1157,29 @@
     "final_casting_time": 0,
     "casting_time_increment": -4,
     "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleporter_breach_monster",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Breach Monster", "//~": "NO_I18N" },
+    "description": {
+      "str": "Open a portal to the Nether and summon monsters, if you're also a monster.  This will probably end badly for you but who cares, you're a monster.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "max_level": 30,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SUMMON",
+    "shape": "blast",
+    "min_damage": 1,
+    "min_range": 5,
+    "max_range": 80,
+    "range_increment": 1
   },
   {
     "id": "vitakinetic_health_down",
