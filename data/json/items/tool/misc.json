@@ -834,8 +834,7 @@
         "max_contains_volume": "22712 ml",
         "max_contains_weight": "6 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "toilet_travel_folded",
