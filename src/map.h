@@ -993,9 +993,6 @@ class map
                                        const std::bitset<NUM_TERCONN> &connect_group,
                                        const std::map<tripoint_bub_ms, ter_id> &override = {} ) const;
         // as above, but for furniture
-        // TODO: Get rid of untyped overload.
-        uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
-                                         const std::map<tripoint, furn_id> &override = {} ) const;
         uint8_t get_known_connections_f( const tripoint_bub_ms &p,
                                          const std::bitset<NUM_TERCONN> &connect_group,
                                          const std::map<tripoint_bub_ms, furn_id> &override = {} ) const;
