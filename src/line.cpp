@@ -339,18 +339,6 @@ unsigned make_xyz( const tripoint &p )
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
-{
-    cata_assert( !line.empty() && line.front() != line.back() );
-    const double len = trig_dist( line.front(), line.back() );
-    double normDx = ( line.back().x - line.front().x ) / len;
-    double normDy = ( line.back().y - line.front().y ) / len;
-    double normDz = ( line.back().z - line.front().z ) / len;
-    // slope of <x, y, z>
-    return std::make_tuple( normDx, normDy, normDz );
-}
-
-// returns the normalized dx, dy, dz for the current line vector.
 // todo: make it templated to work with all tripoint types?
 static std::tuple<double, double, double> slope_of( const std::vector<tripoint_bub_ms> &line )
 {
@@ -376,19 +364,6 @@ float get_normalized_angle( const point &start, const point &end )
     return min / max;
 }
 
-tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
-                          const int distance )
-{
-    // May want to optimize this, but it's called fairly infrequently as part of specific attack
-    // routines, erring on the side of readability.
-    tripoint res( loc );
-    const auto slope = slope_of( line );
-    res.x += distance * std::get<0>( slope );
-    res.y += distance * std::get<1>( slope );
-    res.z += distance * std::get<2>( slope );
-    return res;
-}
-
 tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
                                  const std::vector<tripoint_bub_ms> &line, const int distance )
 {
@@ -400,11 +375,6 @@ tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
     res.y() += distance * std::get<1>( slope );
     res.z() += distance * std::get<2>( slope );
     return res;
-}
-
-std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const int distance )
-{
-    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
 std::vector<tripoint_bub_ms> continue_line( const std::vector<tripoint_bub_ms> &line,
@@ -687,36 +657,38 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
-std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+std::vector<tripoint_bub_ms> squares_closer_to( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to )
 {
-    std::vector<tripoint> adjacent_closer_squares;
+    std::vector<tripoint_bub_ms> adjacent_closer_squares;
     adjacent_closer_squares.reserve( 5 );
-    const tripoint d( -from + to );
-    const point a( std::abs( d.x ), std::abs( d.y ) );
-    if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+    const tripoint_rel_ms d( to - from );
+    const point_rel_ms a( std::abs( d.x() ), std::abs( d.y() ) );
+    if( d.z() != 0 ) {
+        adjacent_closer_squares.push_back( from + tripoint_rel_ms( sgn( d.x() ), sgn( d.y() ),
+                                           sgn( d.z() ) ) );
     }
-    if( a.x > a.y ) {
+    if( a.x() > a.y() ) {
         // X dominant.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 1 ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), -1 ) );
-        if( d.y != 0 ) {
-            adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( sgn( d.x() ), 1 ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( sgn( d.x() ), -1 ) );
+        if( d.y() != 0 ) {
+            adjacent_closer_squares.push_back( from + point_rel_ms( 0, sgn( d.y() ) ) );
         }
-    } else if( a.x < a.y ) {
+    } else if( a.x() < a.y() ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( 1, sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( -1, sgn( d.y ) ) );
-        if( d.x != 0 ) {
-            adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( 0, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( 1, sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( -1, sgn( d.y() ) ) );
+        if( d.x() != 0 ) {
+            adjacent_closer_squares.push_back( from + point_rel_ms( sgn( d.x() ), 0 ) );
         }
-    } else if( d.x != 0 ) {
+    } else if( d.x() != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), sgn( d.y ) ) );
-        adjacent_closer_squares.push_back( from + point( sgn( d.x ), 0 ) );
-        adjacent_closer_squares.push_back( from + point( 0, sgn( d.y ) ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( sgn( d.x() ), sgn( d.y() ) ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( sgn( d.x() ), 0 ) );
+        adjacent_closer_squares.push_back( from + point_rel_ms( 0, sgn( d.y() ) ) );
     }
 
     return adjacent_closer_squares;
@@ -724,25 +696,49 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+// todo: make it templated to work with all tripoint types?
+std::vector<point_bub_ms> squares_in_direction( const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     int junk = 0;
-    point center_square = line_to( p1, p2, junk )[0];
-    std::vector<point> adjacent_squares;
+    point_bub_ms center_square = line_to( p1, p2, junk )[0];
+    std::vector<point_bub_ms> adjacent_squares;
     adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );
-    if( p1.x == center_square.x ) {
+    if( p1.x() == center_square.x() ) {
         // Horizontally adjacent.
-        adjacent_squares.emplace_back( p1.x + 1, center_square.y );
-        adjacent_squares.emplace_back( p1.x - 1, center_square.y );
-    } else if( p1.y == center_square.y ) {
+        adjacent_squares.emplace_back( p1.x() + 1, center_square.y() );
+        adjacent_squares.emplace_back( p1.x() - 1, center_square.y() );
+    } else if( p1.y() == center_square.y() ) {
         // Vertically adjacent.
-        adjacent_squares.emplace_back( center_square.x, p1.y + 1 );
-        adjacent_squares.emplace_back( center_square.x, p1.y - 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() + 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.emplace_back( p1.x, center_square.y );
-        adjacent_squares.emplace_back( center_square.x, p1.y );
+        adjacent_squares.emplace_back( p1.x(), center_square.y() );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() );
+    }
+    return adjacent_squares;
+}
+
+std::vector<point_omt_ms> squares_in_direction( const point_omt_ms &p1, const point_omt_ms &p2 )
+{
+    int junk = 0;
+    point_omt_ms center_square = line_to( p1, p2, junk )[0];
+    std::vector<point_omt_ms> adjacent_squares;
+    adjacent_squares.reserve( 3 );
+    adjacent_squares.push_back( center_square );
+    if( p1.x() == center_square.x() ) {
+        // Horizontally adjacent.
+        adjacent_squares.emplace_back( p1.x() + 1, center_square.y() );
+        adjacent_squares.emplace_back( p1.x() - 1, center_square.y() );
+    } else if( p1.y() == center_square.y() ) {
+        // Vertically adjacent.
+        adjacent_squares.emplace_back( center_square.x(), p1.y() + 1 );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() - 1 );
+    } else {
+        // Diagonally adjacent.
+        adjacent_squares.emplace_back( p1.x(), center_square.y() );
+        adjacent_squares.emplace_back( center_square.x(), p1.y() );
     }
     return adjacent_squares;
 }
