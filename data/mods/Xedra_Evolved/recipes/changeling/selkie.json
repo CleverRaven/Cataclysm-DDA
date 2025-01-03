@@ -1,0 +1,24 @@
+[
+    {
+      "type": "recipe",
+      "activity_level": "LIGHT_EXERCISE",
+      "result": "selkie_skin",
+      "category": "CC_XEDRA",
+      "subcategory": "CSC_XEDRA_MISC",
+      "skill_used": "survival",
+      "difficulty": 0,
+      "time": "480 m",
+      "components": [ [ [ "scrap_dreamdross", 300 ] ] ],
+      "result_eocs": [
+        {
+          "id": "selkieforget",
+          "effect": [
+            { "u_forget_recipe": "selkie_skin" },
+            { "run_eocs": "selkiecheck" },
+            { "u_add_trait": "FAIR_FOLK_COMMONER_SELKIE_SKIN_CRAFTED" }
+          ]
+        }
+      ]
+    }
+  ]
+  

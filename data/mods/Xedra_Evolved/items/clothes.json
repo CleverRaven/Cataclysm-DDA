@@ -444,5 +444,20 @@
     "copy-from": "holy_symbol_wood",
     "name": { "str": "handmade holy symbol" },
     "extend": { "flags": [ "WARDING_SYMBOL" ] }
+  },
+  {
+    "id": "selkie_skin",
+    "type": "ARMOR",
+    "name": { "str": "your true skin", "str_pl": "sets of your true skin" },
+    "description": "Your true skin. Having it in your possession soothes you and enhances your capabilities. Wearing it restores you to your true form as a monstrously large seal - losing it, however, has devastating effects.",
+    "price": "0 USD",
+    "price_postapoc": "0 USD",
+    "material": [ "leather", "fae_fur" ],
+    "color": "light_gray",
+    "symbol": "@",
+    "weight": "1000 g",
+    "volume": "25000 ml",
+    "relic_data": { "passive_effects": [ { "id": "selkieskinworn" } ] },
+    "flags": [ "ITEM_WATERPROOFING", "MORPHIC" ]
   }
 ]
