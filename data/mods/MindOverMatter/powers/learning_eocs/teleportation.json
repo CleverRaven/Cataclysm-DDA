@@ -174,6 +174,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_REACTIVE_DISPLACEMENT",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "and": [ { "math": [ "u_spell_level('teleport_displacement') >= 5" ] } ] }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_reactive_displacement') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_reactive_displacement" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_reactive_displacement') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_reactive_displacement" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could automatically teleport away attacking enemies, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_COLLAPSE",
     "recurrence": [
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
@@ -295,6 +329,42 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_LOCI_ESTABLISHMENT",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            {
+              "and": [ { "math": [ "u_spell_level('teleport_stride') >= 6" ] }, { "math": [ "u_spell_level('teleport_farstep') >= 6" ] } ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_loci_establishment') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_loci_establishment" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_loci_establishment') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_loci_establishment" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could concentrate on a specific location and teleport there at will.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_GATEWAY",
     "recurrence": [
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
@@ -308,7 +378,10 @@
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
-              "and": [ { "math": [ "u_spell_level('teleport_stride') >= 10" ] }, { "math": [ "u_spell_level('teleport_farstep') >= 10" ] } ]
+              "and": [
+                { "math": [ "u_spell_level('teleport_loci_establishment') >= 6" ] },
+                { "math": [ "u_spell_level('teleport_farstep') >= 10" ] }
+              ]
             }
           ]
         },
@@ -323,6 +396,42 @@
       { "u_learn_recipe": "practice_teleport_gateway" },
       {
         "u_message": "Use of your powers has led to an insight.  Once you properly study a location so you're familiar enough with it, you could return there in moments even if you're fifty miles away, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LEARNING_dilated_gateway",
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [ { "math": [ "u_spell_level('teleport_gateway') >= 8" ] }, { "math": [ "u_spell_level('teleport_banish') >= 2" ] } ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('teleport_dilated_gateway') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_dilated_gateway" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_dilated_gateway') >= 1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_teleport_dilated_gateway" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Just as you can teleport yourself to memorized locations, you can also teleport other beings to those same locations alongside you.",
         "popup": true
       }
     ]

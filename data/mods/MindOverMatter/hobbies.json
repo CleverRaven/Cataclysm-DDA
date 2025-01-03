@@ -422,7 +422,9 @@
       { "id": "teleport_displacement", "level": 5 },
       { "id": "teleport_stride", "level": 8 },
       { "id": "teleport_phase", "level": 11 },
-      { "id": "teleport_farstep", "level": 5 }
+      { "id": "teleport_farstep", "level": 5 },
+      { "id": "teleport_loci_establishment", "level": 2 },
+      { "id": "teleport_loci_technique", "level": 2 }
     ]
   },
   {
@@ -438,12 +440,15 @@
       { "id": "teleport_blink", "level": 11 },
       { "id": "teleport_slow", "level": 12 },
       { "id": "teleport_displacement", "level": 10 },
+      { "id": "teleport_reactive_displacement", "level": 5 },
       { "id": "teleport_stride", "level": 12 },
       { "id": "teleport_phase", "level": 12 },
       { "id": "teleport_ephemeral_walk", "level": 4 },
       { "id": "teleport_collapse", "level": 7 },
       { "id": "teleport_farstep", "level": 10 },
       { "id": "teleport_banish", "level": 6 },
+      { "id": "teleport_loci_establishment", "level": 5 },
+      { "id": "teleport_loci_technique", "level": 5 },
       { "id": "teleport_gateway", "level": 4 }
     ]
   },
