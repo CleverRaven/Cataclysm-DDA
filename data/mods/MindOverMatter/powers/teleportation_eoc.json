@@ -910,5 +910,13 @@
     "effect": [
       { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 2, 6 ], "min_radius": 2, "max_radius": 6 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_LOCI_TECHNIQUE",
+    "condition": { "u_has_effect": "effect_teleport_loci_establishment" },
+    "effect": [
+      { "u_teleport": { "u_val": "teleporter_loci_establishment_loc" }, "success_message": "You teleport successfully!", "fail_message": "Something goes wrong with the Loci Technique!" }
+    ]
   }
 ]

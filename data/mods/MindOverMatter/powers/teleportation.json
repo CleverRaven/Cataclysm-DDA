@@ -683,6 +683,65 @@
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
+    "id": "teleport_loci_establishment",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Establishment (C)",
+    "description": "Start concentrating on your current location, allowing you to return here at will with the [Ψ]Loci Technique power.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_ESTABLISHMENT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 2500 ) + 12500 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('teleport_loci_establishment') * 5000 ) + 25000 ) * ( scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 0 : max( ( 3000 - ( u_spell_level('teleport_reactive_displacement') * 100 ) ), 1000 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )" ]
+    }
+  },
+  {
+    "id": "teleport_loci_technique",
+    "type": "SPELL",
+    "name": "[Ψ]Loci Technique",
+    "description": "Transport yourself through the nether to your established loci location.  You must currently be concentrating on your [Ψ]Loci Establishment (C) for this to function.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_LOCI_TECHNIQUE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
     "id": "teleport_gateway",
     "type": "SPELL",
     "name": "[Ψ]Gateway",
