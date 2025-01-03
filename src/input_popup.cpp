@@ -1,6 +1,7 @@
 #include "input_popup.h"
 
 #include "cata_utility.h"
+#include "game.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/imgui_stdlib.h"
@@ -385,7 +386,7 @@ T number_input_popup<T>::query()
 
         if( action == "TEXT.CONFIRM" ) {
             return value;
-        } else if( action == "TEXT.QUIT" ) {
+        } else if( are_we_quitting() || action == "TEXT.QUIT" ) {
             break;
         }
 

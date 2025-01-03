@@ -4,6 +4,7 @@
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
+#include "game.h"
 #include "input.h"
 #include "input_context.h"
 #include "output.h"
@@ -461,7 +462,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         if( desc_view_ptr && desc_view_ptr->handle_navigation( action, *ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
-        } else if( action == "TEXT.QUIT" ) {
+        } else if( are_we_quitting() || action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 StopTextInput();
