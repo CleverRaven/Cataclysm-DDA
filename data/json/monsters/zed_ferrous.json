@@ -67,6 +67,7 @@
     "name": { "str": "rust urchin" },
     "description": "A spiked horror of a zombie covered in long, rusty spikes.  A walking tetanus infection waiting to happen.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "weight": "90 kg",
     "hp": 100,
     "speed": 60,
