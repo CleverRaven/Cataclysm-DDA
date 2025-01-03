@@ -347,6 +347,6 @@
     "id": "afs_ai_defensive",
     "name": [ "Defensive Stance" ],
     "show_in_info": true,
-    "desc": [ { "str": "This creature is actively trying to defend itself." } ]
+    "desc": [ { "str": "This creature is actively defending itself." } ]
   }
 ]
