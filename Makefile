@@ -835,9 +835,6 @@ else
 endif # TILES
 
 ifeq ($(SOUND), 1)
-  ifneq ($(TILES),1)
-    # $(error "SOUND=1 only works with TILES=1")
-  endif
   ifeq ($(NATIVE),osx)
     ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
