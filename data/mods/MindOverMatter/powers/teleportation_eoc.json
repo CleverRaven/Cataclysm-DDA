@@ -818,7 +818,10 @@
       },
       {
         "if": { "not": { "compare_string": [ { "u_val": "external_gateway_location" }, "" ] } },
-        "then": { "u_cast_spell": { "id": "teleport_external_gateway_teleport", "message": "" }, "targeted": true }
+        "then": [
+          { "u_cast_spell": { "id": "teleport_external_gateway_teleport_others", "message": "" } },
+          { "u_cast_spell": { "id": "teleport_external_gateway_teleport_self", "message": "" } }
+        ]
       },
       { "set_string_var": "", "target_var": { "u_val": "external_gateway_location" } }
     ]
@@ -832,7 +835,7 @@
         "target_var": { "context_val": "temp_var" },
         "parse_tags": true
       },
-      { "u_teleport": { "var_val": "temp_var" } },
+      { "u_teleport": { "var_val": "temp_var" }, "force_safe": true },
       { "message": "<u_name> vanishes!" }
     ]
   },
