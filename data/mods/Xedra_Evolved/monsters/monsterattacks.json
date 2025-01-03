@@ -280,6 +280,29 @@
     "effect_str": "mon_duplicator_pawn"
   },
   {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "migo_flesh_pull",
+    "cooldown": 7,
+    "move_cost": 106,
+    "accuracy": 6,
+    "blockable": false,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 7 } ],
+    "condition": { "not": { "u_has_effect": "maimed_arm" } },
+    "eoc": [ "EOC_MIGO_FLESH_PULL" ],
+    "hit_dmg_u": "%1$s hits your %2$s with an appendage and the flesh becomes like taffy!",
+    "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with an appendage and the flesh becomes like taffy!",
+    "miss_msg_u": "%1$s tries to snatch you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to snatch <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s hits your %2$s and your flesh remains firm.",
+    "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s and their flesh remains firm."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MIGO_FLESH_PULL",
+    "effect": [ { "npc_add_effect": "discombobulate", "duration": { "math": [ "_damage * 10" ] } } ]
+  },
+  {
     "id": "ophanim_death",
     "type": "SPELL",
     "name": { "str": "Ophanim Death", "//~": "NO_I18N" },

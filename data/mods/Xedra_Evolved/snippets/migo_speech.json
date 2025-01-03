@@ -22,5 +22,41 @@
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Your government no longer exists, we will adopt you.\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"…the effects are almost immediately visible on living flesh.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"I've never seen anything like this before in nature.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"It's clearly some form of thaumcraft, but I have no idea the mechanism it follows.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_genetwister" ],
+    "sound": "\"Aaaauuuugggghhhh, what's happening to my hand!  My fingers are gone!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_void_priest" ],
+    "sound": "\"Mi-go religious practices seem to revolve around two main concepts.  Biological change and a hungry void in space.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_void_priest" ],
+    "sound": "\"They seem to have an extreme aversion to inorganic tech.  I have gathered from their diplomatic members of the entourage that there is a significant faction of the mi-go people that views all inorganic technology as an abomination.\"",
+    "volume": 20
   }
 ]

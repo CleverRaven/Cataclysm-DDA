@@ -3037,5 +3037,19 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "discombobulate",
+    "name": [ "Discombobulated" ],
+    "desc": [ "Your %s flesh is warped and taffy-like." ],
+    "main_parts_only": true,
+    "part_descs": true,
+    "show_in_info": true,
+    "miss_messages": [ [ "Your limbs don't move as smoothly as usual.", 1 ] ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "resist_traits": [ "RESTRICTED", "CHAOTIC_BAD" ],
+    "base_mods": { "dex_mod": [ -1 ], "str_mod": [ -1 ], "speed_mod": [ -3 ] },
+    "scaling_mods": { "str_mod": [ -0.5, -0.3 ], "dex_mod": [ -0.5, -0.3 ], "speed_mod": [ -0.5, -0.25 ] }
   }
 ]
