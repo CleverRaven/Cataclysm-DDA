@@ -145,7 +145,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             for( tripoint_abs_ms p : nearest_points ) {
                 // If point is not inbounds, ignore if spot is passible or not.  Creatures in impassable terrain will be automatically teleported out in their turn.
                 // some way of validating terrain passability out of bounds would be superior, however.
-                if( ( !dest->inbounds( here.bub_from_abs( p ) ) || dest->passable( here.bub_from_abs( p ) ) ) && get_creature_tracker().creature_at<Creature>( p ) == nullptr) {
+                if( ( !dest->inbounds( here.bub_from_abs( p ) ) || dest->passable( here.bub_from_abs( p ) ) ) &&
+                    get_creature_tracker().creature_at<Creature>( p ) == nullptr ) {
                     found_new_spot = true;
                     abs_ms = p;
                     target = here.bub_from_abs( p );

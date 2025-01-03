@@ -2146,9 +2146,7 @@
     "desc": [ "You will automatically teleport enemies that strike you away from yourself." ],
     "remove_message": "The surrounding matter feels real again.",
     "rating": "good",
-    "enchantments": [
-      { "hit_me_effect": [ { "id": "teleport_reactive_displacement_teleport" } ] }
-    ]
+    "enchantments": [ { "hit_me_effect": [ { "id": "teleport_reactive_displacement_teleport" } ] } ]
   },
   {
     "type": "effect_type",

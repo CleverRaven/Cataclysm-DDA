@@ -264,7 +264,9 @@
       ]
     },
     "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )" ]
+      "math": [
+        "u_effect_intensity('effect_teleport_reactive_displacement') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
     }
   },
   {
@@ -714,7 +716,9 @@
       ]
     },
     "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )" ]
+      "math": [
+        "u_effect_intensity('effect_teleport_loci_establishment') > -1 ? 10 : max( ( 100 - ( u_spell_level('teleport_reactive_displacement') * 5 ) ), 25 )"
+      ]
     }
   },
   {
