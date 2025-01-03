@@ -169,7 +169,8 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
     "monsters": [
-      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 4720 },
+      { "monster": "mon_zombie_thaumic", "weight": 240 },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 8000 },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 20, "pack_size": [ 25, 60 ] }
@@ -179,6 +180,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_GASSTATION",
     "monsters": [
+      { "monster": "mon_zombie_thaumic", "weight": 15 },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 472 },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 1, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
@@ -193,7 +195,7 @@
   {
     "name": "GROUP_PARK_DOG",
     "type": "monstergroup",
-    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 125 } ]
+    "monsters": [ { "monster": "mon_zombie_thaumic", "weight": 5 }, { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 125 } ]
   },
   {
     "name": "GROUP_PARK_PLAYGROUND",
@@ -203,12 +205,15 @@
   {
     "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
-    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100 } ]
+    "monsters": [ { "monster": "mon_zombie_thaumic", "weight": 7 }, { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100 } ]
   },
   {
     "name": "GROUP_ROOF_ZOMBIE",
     "type": "monstergroup",
-    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100, "pack_size": [ 2, 3 ] } ]
+    "monsters": [
+      { "monster": "mon_zombie_thaumic", "weight": 5 },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100, "pack_size": [ 2, 3 ] }
+    ]
   },
   {
     "type": "monstergroup",
@@ -224,6 +229,7 @@
     "type": "monstergroup",
     "name": "GROUP_LAB",
     "monsters": [
+      { "monster": "mon_zombie_thaumic", "weight": 50 },
       { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 }
@@ -233,6 +239,7 @@
     "type": "monstergroup",
     "name": "GROUP_LAB_SURFACE",
     "monsters": [
+      { "monster": "mon_zombie_thaumic", "weight": 50 },
       { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer_enhanced", "weight": 2, "cost_multiplier": 10 },
@@ -243,6 +250,7 @@
     "type": "monstergroup",
     "name": "GROUP_MICROLAB",
     "monsters": [
+      { "monster": "mon_zombie_thaumic", "weight": 50 },
       { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 2, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer_enhanced", "weight": 1, "cost_multiplier": 50 }
