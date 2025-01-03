@@ -9,20 +9,28 @@
 #include <utility>
 #include <vector>
 
+#include <zstd/zstd.h>
+#include <zstd/zdict.h>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
+#include "mmap_file.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "perf.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "worldfactory.h"
+#include "zzip.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -32,9 +40,9 @@ extern std::unique_ptr<game> g;
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-static cata_path find_quad_path( const cata_path &dirname, const tripoint_abs_omt &om_addr )
+static std::string quad_file_name( const tripoint_abs_omt &om_addr )
 {
-    return dirname / string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
+    return string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
 }
 
 static cata_path find_dirname( const tripoint_abs_omt &om_addr )
@@ -142,8 +150,20 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
         try {
             const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
             const cata_path dirname = find_dirname( om_addr );
-            cata_path quad_path = find_quad_path( dirname, om_addr );
-            return file_exist( quad_path );
+            std::string file_name = quad_file_name( om_addr );
+
+            if( world_generator->active_world->has_compression_enabled() ) {
+                cata_path zzip_name = dirname;
+                zzip_name += ".zzip";
+                if( !file_exist( zzip_name ) ) {
+                    return false;
+                }
+                std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                                      ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+                return z->has_file( file_name );
+            } else {
+                return file_exist( dirname / file_name );
+            }
         } catch( const std::exception &err ) {
             debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
         }
@@ -195,7 +215,7 @@ void mapbuffer::save( bool delete_after_save )
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
         const cata_path dirname = find_dirname( om_addr );
-        const cata_path quad_path = find_quad_path( dirname, om_addr );
+        const cata_path quad_path = dirname / quad_file_name( om_addr );
 
         bool inside_reality_bubble = here.inbounds( om_addr );
         // delete_on_save deletes everything, otherwise delete submaps
@@ -256,44 +276,58 @@ void mapbuffer::save_quad(
         }
     }
 
-    // Don't create the directory if it would be empty
-    assure_dir_exist( dirname );
-    write_to_file( filename, [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-        jsout.start_array();
-        for( auto &submap_addr : submap_addrs ) {
-            if( submaps.count( submap_addr ) == 0 ) {
-                continue;
-            }
-
-            submap *sm = submaps[submap_addr].get();
-
-            if( sm == nullptr ) {
-                continue;
-            }
-
-            jsout.start_object();
-
-            jsout.member( "version", savegame_version );
-            jsout.member( "coordinates" );
-
-            jsout.start_array();
-            jsout.write( submap_addr.x() );
-            jsout.write( submap_addr.y() );
-            jsout.write( submap_addr.z() );
-            jsout.end_array();
-
-            sm->store( jsout );
-
-            jsout.end_object();
-
-            if( delete_after_save ) {
-                submaps_to_delete.push_back( submap_addr );
-            }
+    std::stringstream stringout;
+    JsonOut jsout( stringout );
+    jsout.start_array();
+    for( auto &submap_addr : submap_addrs ) {
+        if( submaps.count( submap_addr ) == 0 ) {
+            continue;
         }
 
+        submap *sm = submaps[submap_addr].get();
+
+        if( sm == nullptr ) {
+            continue;
+        }
+
+        jsout.start_object();
+
+        jsout.member( "version", savegame_version );
+        jsout.member( "coordinates" );
+
+        jsout.start_array();
+        jsout.write( submap_addr.x() );
+        jsout.write( submap_addr.y() );
+        jsout.write( submap_addr.z() );
         jsout.end_array();
-    } );
+
+        sm->store( jsout );
+
+        jsout.end_object();
+
+        if( delete_after_save ) {
+            submaps_to_delete.push_back( submap_addr );
+        }
+    }
+
+    jsout.end_array();
+
+    std::string s = std::move( stringout ).str();
+
+    if( world_generator->active_world->has_compression_enabled() ) {
+        cata_path zzip_name = dirname;
+        zzip_name += ".zzip";
+        std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                              ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+        z->add_file( filename.get_relative_path().filename(), s );
+        z->compact( 1.5 );
+    } else {
+        // Don't create the directory if it would be empty
+        assure_dir_exist( dirname );
+        write_to_file( filename, [&]( std::ostream & fout ) {
+            fout << s;
+        } );
+    }
 
     if( all_uniform && reverted_to_uniform ) {
         fs::remove( filename.get_unrelative_path() );
@@ -307,28 +341,40 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
     // Map the tripoint to the submap quad that stores it.
     const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
     const cata_path dirname = find_dirname( om_addr );
-    cata_path quad_path = find_quad_path( dirname, om_addr );
+    std::string file_name = quad_file_name( om_addr );
+    cata_path quad_path = dirname / file_name;
 
-    if( !file_exist( quad_path ) ) {
-        // Fix for old saves where the path was generated using std::stringstream, which
-        // did format the number using the current locale. That formatting may insert
-        // thousands separators, so the resulting path is "map/1,234.7.8.map" instead
-        // of "map/1234.7.8.map".
-        std::ostringstream buffer;
-        buffer << om_addr.x() << "." << om_addr.y() << "." << om_addr.z()
-               << ".map";
-        cata_path legacy_quad_path = dirname / buffer.str();
-        if( file_exist( legacy_quad_path ) ) {
-            quad_path = std::move( legacy_quad_path );
+    if( world_generator->active_world->has_compression_enabled() ) {
+        cata_path zzip_name = dirname;
+        zzip_name += ".zzip";
+        if( !file_exist( zzip_name ) ) {
+            return nullptr;
+        }
+        std::shared_ptr<zzip> z = zzip::load( zzip_name.get_unrelative_path(),
+                                              ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
+        // TODO check if entry exists.
+        if( !z->has_file( file_name ) ) {
+            return nullptr;
+        }
+        std::vector<std::byte> contents = z->get_file( file_name );
+        std::string_view string_contents{ reinterpret_cast<char *>( contents.data() ), contents.size() };
+        JsonValue jsin = json_loader::from_string( string_contents );
+        try {
+            deserialize( jsin );
+        } catch( std::exception &err ) {
+            debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), zzip_name.generic_u8string() + ":" + file_name,
+                      err.what() );
+            return nullptr;
+        }
+    } else {
+        if( !read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
+        deserialize( jsin );
+        } ) ) {
+            // If it doesn't exist, trigger generating it.
+            return nullptr;
         }
     }
 
-    if( !read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
-    deserialize( jsin );
-    } ) ) {
-        // If it doesn't exist, trigger generating it.
-        return nullptr;
-    }
     // fill in uniform submaps that were not serialized
     oter_id const oid = overmap_buffer.ter( om_addr );
     generate_uniform_omt( project_to<coords::sm>( om_addr ), oid );

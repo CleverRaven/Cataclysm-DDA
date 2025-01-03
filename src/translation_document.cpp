@@ -63,23 +63,24 @@ std::size_t TranslationDocument::EvaluatePluralForm( std::size_t n ) const
 TranslationDocument::TranslationDocument( const std::string &path )
 {
     try {
-        const uintmax_t file_size = fs::file_size( fs::u8path( path ) );
+        fs::path document_path = fs::u8path( path );
+        const uintmax_t file_size = fs::file_size( document_path );
         if( file_size < 20 ) {
             throw InvalidTranslationDocumentException( path, "file too small" );
         }
-        mmap_message_object = mmap_file::map_file( path );
+        mmap_message_object = mmap_file::map_file( document_path );
         if( !mmap_message_object ) {
             throw InvalidTranslationDocumentException( path, "unable to read the file" );
         }
-        if( mmap_message_object->len != file_size ) {
+        if( mmap_message_object->len() != file_size ) {
             throw InvalidTranslationDocumentException( path, "unable to read the file in its entirety" );
         }
     } catch( const std::exception &e ) {
         throw InvalidTranslationDocumentException( path, e.what() );
     }
 
-    data = reinterpret_cast<const char *>( mmap_message_object->base );
-    data_size = mmap_message_object->len;
+    data = reinterpret_cast<const char *>( mmap_message_object->base() );
+    data_size = mmap_message_object->len();
 
     if( GetByte( 0 ) == 0x95U &&
         GetByte( 1 ) == 0x04U &&

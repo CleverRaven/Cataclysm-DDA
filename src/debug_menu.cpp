@@ -366,11 +366,18 @@ bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint>
         return false;
     }
     // discard map buffer outside of current and adjacent segments
-    if( dep.parent_path().filename() == fs::u8path( "maps" ) &&
-        !segs.is_point_inside(
-            tripoint{ _from_map_string( dep.filename().string() ).xy(), 0 } ) ) {
-        iter.disable_recursion_pending();
-        return false;
+    if( dep.parent_path().filename() == fs::u8path( "maps" ) ) {
+        fs::path map_folder = dep.filename();
+        std::string map_coords;
+        if( map_folder.extension().string() == ".zzip" ) {
+            map_coords = map_folder.stem().string();
+        } else {
+            map_coords = map_folder.filename().string();
+        }
+        if( !segs.is_point_inside( tripoint{ _from_map_string( map_coords ).xy(), 0 } ) ) {
+            iter.disable_recursion_pending();
+            return false;
+        }
     }
     return true;
 }

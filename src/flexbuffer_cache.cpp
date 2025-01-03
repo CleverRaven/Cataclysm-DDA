@@ -143,15 +143,15 @@ struct flexbuffer_vector_storage : flexbuffer_storage {
 };
 
 struct flexbuffer_mmap_storage : flexbuffer_storage {
-    std::shared_ptr<mmap_file> mmap_handle_;
+    std::shared_ptr<const mmap_file> mmap_handle_;
 
-    explicit flexbuffer_mmap_storage( std::shared_ptr<mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
+    explicit flexbuffer_mmap_storage( std::shared_ptr<const mmap_file> mmap_handle ) : mmap_handle_{ std::move( mmap_handle ) } {}
 
     const uint8_t *data() const override {
-        return mmap_handle_->base;
+        return static_cast<const uint8_t *>( mmap_handle_->base() );
     }
     size_t size() const override {
-        return mmap_handle_->len;
+        return mmap_handle_->len();
     }
 };
 
@@ -325,7 +325,7 @@ class flexbuffer_disk_cache
             }
 
             // Try to mmap the cached flexbuffer
-            std::shared_ptr<mmap_file> mmap_handle = mmap_file::map_file(
+            std::shared_ptr<const mmap_file> mmap_handle = mmap_file::map_file(
                         disk_entry->second.flexbuffer_path.u8string() );
             if( !mmap_handle ) {
                 return storage;
@@ -402,12 +402,12 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source
         size_t offset )
 {
     std::string json_source_path_string = json_source_path.generic_u8string();
-    std::shared_ptr<mmap_file> json_source = mmap_file::map_file( json_source_path );
+    std::shared_ptr<const mmap_file> json_source = mmap_file::map_file( json_source_path );
     if( !json_source ) {
         throw std::runtime_error( "Failed to mmap " + json_source_path_string );
     }
 
-    const char *json_text = reinterpret_cast<const char *>( json_source->base ) + offset;
+    const char *json_text = reinterpret_cast<const char *>( json_source->base() ) + offset;
 
     std::vector<uint8_t> fb = parse_json_to_flexbuffer_( json_text, json_source_path_string.c_str() );
 

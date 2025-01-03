@@ -339,6 +339,14 @@ cata_path PATH_INFO::jsondir()
 {
     return datadir_path_value / "core";
 }
+cata_path PATH_INFO::map_memory_compression_dictionary_path()
+{
+    return base_path_path_value / "mmr.dict";
+}
+cata_path PATH_INFO::maps_compression_dictionary_path()
+{
+    return base_path_path_value / "maps.dict";
+}
 cata_path PATH_INFO::moddir()
 {
     return datadir_path_value / "mods";

@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "input.h"
 #include "input_context.h"
 #include "input_popup.h"
 #include "json.h"
@@ -27,6 +28,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "popup.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -34,6 +36,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "zzip.h"
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
@@ -294,7 +297,7 @@ void worldfactory::set_active_world( WORLD *world )
     }
 }
 
-bool WORLD::save( const bool is_conversion ) const
+bool WORLD::save() const
 {
     if( !assure_dir_exist( folder_path() ) ) {
         debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
@@ -307,32 +310,30 @@ bool WORLD::save( const bool is_conversion ) const
         return false;
     }
 
-    if( !is_conversion ) {
-        const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
-        const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
-            JsonOut jout( fout );
+    const cata_path savefile = folder_path() / PATH_INFO::worldoptions();
+    const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
+        JsonOut jout( fout );
 
-            jout.start_array();
+        jout.start_array();
 
-            for( const auto &elem : WORLD_OPTIONS ) {
-                // Skip hidden option because it is set by mod and should not be saved
-                if( !elem.second.getDefaultText().empty() ) {
-                    jout.start_object();
+        for( const auto &elem : WORLD_OPTIONS ) {
+            // Skip hidden option because it is set by mod and should not be saved
+            if( !elem.second.getDefaultText().empty() ) {
+                jout.start_object();
 
-                    jout.member( "info", elem.second.getTooltip() );
-                    jout.member( "default", elem.second.getDefaultText( false ) );
-                    jout.member( "name", elem.first );
-                    jout.member( "value", elem.second.getValue( true ) );
+                jout.member( "info", elem.second.getTooltip() );
+                jout.member( "default", elem.second.getDefaultText( false ) );
+                jout.member( "name", elem.first );
+                jout.member( "value", elem.second.getValue( true ) );
 
-                    jout.end_object();
-                }
+                jout.end_object();
             }
-
-            jout.end_array();
-        }, _( "world data" ) );
-        if( !saved ) {
-            return false;
         }
+
+        jout.end_array();
+    }, _( "world data" ) );
+    if( !saved ) {
+        return false;
     }
 
     world_generator->get_mod_manager().save_mods_list( this );
@@ -407,40 +408,6 @@ void worldfactory::init()
             continue;
         }
         add_existing_world( dir );
-    }
-
-    // In old versions, there was only one world, stored directly in the "save" directory.
-    // If that directory contains the expected files, it's an old save and must be converted.
-    if( is_save_dir( "save" ) ) {
-        // @TODO import directly into the new world instead of having this dummy "save" world.
-        add_existing_world( "save" );
-
-        const WORLD &old_world = *all_worlds["save"];
-
-        std::unique_ptr<WORLD> newworld = std::make_unique<WORLD>();
-        newworld->world_name = get_next_valid_worldname();
-
-        // save world as conversion world
-        if( newworld->save( true ) ) {
-            const cata_path origin_path = old_world.folder_path();
-            // move files from origin_path into new world path
-            for( cata_path &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.get_relative_path().filename().generic_u8string();
-
-                if( rename_file( origin_file, ( newworld->folder_path() / filename ) ) ) {
-                    debugmsg( "Error while moving world files: %s.  World may have been corrupted",
-                              strerror( errno ) );
-                }
-            }
-            newworld->world_saves = old_world.world_saves;
-            newworld->WORLD_OPTIONS = old_world.WORLD_OPTIONS;
-
-            all_worlds.erase( "save" );
-
-            all_worlds[newworld->world_name] = std::move( newworld );
-        } else {
-            debugmsg( "worldfactory::convert_to_world -- World Conversion Failed!" );
-        }
     }
 }
 
@@ -2089,6 +2056,73 @@ void load_external_option( const JsonObject &jo )
     options_manager::update_options_cache();
 }
 
+bool WORLD::has_compression_enabled() const
+{
+    return fs::exists( ( folder_path() / "maps.dict" ).get_unrelative_path() ) ||
+           fs::exists( ( folder_path() / "mmr.dict" ).get_unrelative_path() );
+}
+
+bool WORLD::set_compression_enabled( bool enabled ) const
+{
+    // If enabled and has_compression_enabled are both true or both false,
+    // we just return immediately. That's computed by inverting the xor.
+    if( !( enabled ^ has_compression_enabled() ) ) {
+        return true;
+    }
+    static_popup popup;
+    if( enabled ) {
+        fs::path maps_dict = PATH_INFO::maps_compression_dictionary_path().get_unrelative_path();
+        std::vector<cata_path> maps_folders = get_directories( folder_path() / "maps" );
+        size_t done = 0;
+        for( const cata_path &map_folder : maps_folders ) {
+            popup.message( _( "Compressing maps [%d/%d]" ), done++, maps_folders.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            if( !zzip::create_from_folder( ( map_folder + ".zzip" ).get_unrelative_path(),
+                                           map_folder.get_unrelative_path(), maps_dict ) ) {
+                return false;
+            }
+        }
+        copy_file( PATH_INFO::maps_compression_dictionary_path(), folder_path() / "maps.dict" );
+        done = 0;
+        for( const cata_path &map_folder : maps_folders ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, maps_folders.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            fs::remove_all( map_folder.get_unrelative_path(), ec );
+        }
+    } else {
+        fs::path maps_dict = ( folder_path() / "maps.dict" ).get_unrelative_path();
+        std::vector<cata_path> zzips = get_files_from_path( "zzip", folder_path() / "maps", false, true );
+        size_t done = 0;
+        for( const cata_path &map_zzip : zzips ) {
+            popup.message( _( "Decompressing maps [%d/%d]" ), done++, zzips.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            fs::path zzip_path = map_zzip.get_unrelative_path();
+            fs::path dest_folder_name = zzip_path.parent_path() / zzip_path.stem();
+            if( !zzip::extract_to_folder( zzip_path, dest_folder_name, maps_dict ) ) {
+                return false;
+            }
+        }
+        remove_file( maps_dict );
+        done = 0;
+        for( const cata_path &map_zzip : zzips ) {
+            popup.message( _( "Cleaning up [%d/%d]" ), done++, zzips.size() );
+            ui_manager::redraw();
+            refresh_display();
+            inp_mngr.pump_events();
+            std::error_code ec;
+            fs::remove( map_zzip.get_unrelative_path(), ec );
+        }
+    }
+    return true;
+}
+
 mod_manager &worldfactory::get_mod_manager()
 {
     return *mman;
@@ -2131,8 +2165,11 @@ size_t worldfactory::get_world_index( const std::string &name )
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const cata_path &candidate )
 {
-    std::string filename = candidate.get_relative_path().filename().generic_u8string();
-    return filename == PATH_INFO::worldoptions() || filename == "mods.json";
+    fs::path candidate_path = candidate.get_unrelative_path();
+    std::string filename = candidate_path.filename().generic_u8string();
+    return filename == PATH_INFO::worldoptions()
+           || filename == "mods.json"
+           || candidate_path.extension().generic_u8string() == ".dict";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
@@ -2146,7 +2183,7 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         return;
     }
 
-    // Clear out everything except options and mods.
+    // Clear out everything except options and mods and compression dictionaries.
     // It would be easier to delete and recreate the world, but some people,
     // like the author of this code, use symlinks to have world contents located
     // 'elsewhere', and doing so would break such use cases.

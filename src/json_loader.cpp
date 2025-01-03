@@ -151,9 +151,9 @@ JsonValue json_loader::from_path( const cata_path &source_file ) noexcept( false
     return from_path_at_offset( source_file, 0 );
 }
 
-JsonValue json_loader::from_string( std::string const &data ) noexcept( false )
+JsonValue json_loader::from_string( std::string_view data ) noexcept( false )
 {
-    std::shared_ptr<parsed_flexbuffer> buffer = flexbuffer_cache::parse_buffer( data );
+    std::shared_ptr<parsed_flexbuffer> buffer = flexbuffer_cache::parse_buffer( std::string( data ) );
     if( !buffer ) {
         throw JsonError( "Failed to parse string into json" );
     }
