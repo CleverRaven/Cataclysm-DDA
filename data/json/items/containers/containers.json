@@ -254,7 +254,7 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
-    "id": "blister_packaging",
+    "id": "blister_pack",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "blister pack" },

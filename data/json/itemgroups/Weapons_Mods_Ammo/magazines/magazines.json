@@ -178,7 +178,7 @@
     "type": "item_group",
     "id": "mags_common_restricted_packaged",
     "//": "Gun magazines in blister packages",
-    "items": [ { "item": "blister_packaging", "contents-group": "mags_common_restricted" } ]
+    "items": [ { "item": "blister_pack", "contents-group": "mags_common_restricted" } ]
   },
   {
     "type": "item_group",

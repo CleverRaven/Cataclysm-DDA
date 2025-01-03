@@ -130,8 +130,8 @@
     "//2": "This group is for gear that protects hearing.  Should have more items like proper ear muffs, but needs to be added.",
     "subtype": "distribution",
     "entries": [
-      { "item": "blister_packaging", "contents-item": "powered_earmuffs", "prob": 10 },
-      { "item": "blister_packaging", "contents-item": "powered_earplugs", "prob": 1 },
+      { "item": "blister_pack", "contents-item": "powered_earmuffs", "prob": 10 },
+      { "item": "blister_pack", "contents-item": "powered_earplugs", "prob": 1 },
       { "item": "bag_plastic_small", "contents-item": "ear_plugs", "prob": 90 }
     ]
   },

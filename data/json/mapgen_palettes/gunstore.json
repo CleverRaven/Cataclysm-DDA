@@ -255,7 +255,7 @@
     "terrain": {
       "#": "t_brick_wall",
       ":": "t_window_bars_curtains",
-      "+": "t_door_metal_pickable",
+      "+": "t_door_metal_interior_locked",
       "D": "t_door_c",
       "P": "t_door_metal_o",
       ",": "t_region_groundcover_urban",
@@ -319,12 +319,12 @@
       "^": "f_indoor_plant",
       "!": "f_cardboard_box",
       "/": "f_locker",
-      "|": "f_locker"
+      "|": "f_locker",
+      "`": "f_rack"
     },
     "item": { "F": { "item": "gun_lock", "repeat": [ 5, 20 ] } },
     "items": {
       "B": { "item": "guns_common_boxed", "repeat": [ 3, 12 ] },
-      "d": { "item": "SUS_gunstore_displaycase", "chance": 95 },
       "E": {
         "item": { "subtype": "collection", "//": "items on store desks", "entries": [ { "group": "office_mess" } ] },
         "repeat": 3,
@@ -445,7 +445,6 @@
         "repeat": 15,
         "chance": 65
       },
-      "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
       "=": {
         "item": {
           "subtype": "collection",
@@ -454,6 +453,167 @@
         },
         "repeat": 1,
         "chance": 50
+      },
+      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 12, 15 ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "gun_store_palette_occupied",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_wall_w", 1 ], [ "t_wall_gray", 1 ], [ "t_wall_black", 1 ] ] }
+      }
+    },
+    "toilets": { "&": {  } },
+    "terrain": {
+      "#": "t_brick_wall",
+      ":": "t_window_bars_curtains",
+      "+": "t_door_metal_interior_locked",
+      "D": "t_door_c",
+      "P": "t_door_metal_o",
+      ",": "t_region_groundcover_urban",
+      "'": "t_sidewalk",
+      "C": "t_sidewalk",
+      ".": "t_thconc_floor",
+      "x": "t_thconc_floor_no_roof",
+      "j": "t_carpet_concrete_red",
+      ";": "t_gutter_downspout",
+      "W": "t_strconc_wall",
+      "Z": "t_bars",
+      "(": "t_chaingate_c",
+      "%": "t_chainfence",
+      "I": { "param": "interior_wall_type", "fallback": "t_brick_wall" }
+    },
+    "traps": { "a": [ "tr_cot" ] },
+    "furniture": {
+      "A": "f_chair",
+      "B": "f_utility_shelf",
+      "C": "f_sandbag_half",
+      "c": "f_counter_gate_c",
+      "d": "f_displaycase_o",
+      "E": "f_desk",
+      "F": "f_utility_shelf",
+      "f": "f_fridge",
+      "G": "f_rack",
+      "g": "f_rack",
+      "i": "f_rack",
+      "j": "f_gunsafe_c",
+      "K": "f_locker",
+      "l": "f_rack_coat",
+      "M": "f_locker",
+      "m": "f_rack",
+      "N": "f_locker",
+      "n": "f_table",
+      "O": "f_rack",
+      "o": "f_crate_o",
+      "p": "f_sofa",
+      "Q": "f_rack",
+      "q": "f_sink",
+      "R": "f_counter",
+      "r": "f_trashcan",
+      "S": "f_crate_o",
+      "T": "f_target",
+      "v": "f_rack",
+      "w": "f_dumpster",
+      "x": "f_sandbag_half",
+      "Y": "f_rack",
+      "y": "f_rack",
+      "3": "f_counter",
+      "4": "f_foot_locker_aluminum",
+      "$": [ [ "f_atm_off", 5 ], [ "f_null", 95 ] ],
+      "?": "f_console_broken",
+      "^": "f_indoor_plant",
+      "!": "f_cardboard_box",
+      "/": "f_locker"
+    },
+    "items": {
+      "B": { "item": "guns_common_boxed", "repeat": [ 9, 20 ] },
+      "E": {
+        "item": { "subtype": "collection", "//": "items on store desks", "entries": [ { "group": "office_mess" } ] },
+        "repeat": 3,
+        "chance": 20
+      },
+      "f": {
+        "item": { "//": "rec room fridge", "subtype": "collection", "entries": [ { "group": "fridgesnacks" } ] },
+        "repeat": 10,
+        "chance": 35
+      },
+      "g": { "item": "cannedfood", "repeat": [ 40, 150 ] },
+      "i": {
+        "item": {
+          "entries": [
+            { "group": "ammo_pistol_common", "prob": 100 },
+            { "group": "ammo_pistol_rare", "prob": 20 },
+            { "group": "ammo_rifle_common", "prob": 100 },
+            { "group": "ammo_rifle_rare", "prob": 20 },
+            { "group": "ammo_shotgun_common", "prob": 10 }
+          ]
+        },
+        "repeat": [ 4, 10 ]
+      },
+      "K": { "item": "guns_pistol_common", "repeat": [ 6, 10 ] },
+      "n": {
+        "item": {
+          "subtype": "collection",
+          "entries": [ { "group": "silverware", "count": [ 2, 4 ] }, { "group": "dinnerware", "count": [ 1, 2 ] } ]
+        }
+      },
+      "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 8, 16 ] },
+      "o": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "group": "SUS_gunstore_hearing", "count": [ 12, 20 ] },
+            { "group": "SUS_gunstore_carry_gear", "count": [ 6, 8 ] },
+            { "item": "blister_pack", "count": [ 14, 30 ] },
+            { "group": "trash", "count": [ 60, 100 ] }
+          ]
+        }
+      },
+      "t": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "item": "pipe", "count": [ 12, 18 ], "prob": 80 },
+            { "item": "2x4", "count": [ 6, 8 ], "prob": 80 },
+            { "item": "nail", "count": [ 1, 3 ], "prob": 60 },
+            { "item": "pipe_fittings", "count": [ 4, 6 ], "prob": 40 },
+            { "item": "sheet_metal", "count": [ 8, 10 ], "prob": 70 },
+            { "item": "splinter", "count": [ 1, 2 ], "prob": 30 }
+          ]
+        },
+        "repeat": [ 0, 3 ]
+      },
+      "w": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "group": "trash" },
+            { "item": "cup_plastic", "prob": 5 },
+            { "item": "can_food_big", "prob": 10 },
+            { "item": "can_food", "prob": 10 },
+            { "item": "can_medium", "prob": 30 }
+          ]
+        },
+        "repeat": 30,
+        "chance": 45
+      },
+      ".": {
+        "item": {
+          "subtype": "collection",
+          "entries": [
+            { "item": "wrapper", "prob": 60 },
+            { "item": "bag_plastic_small", "prob": 20 },
+            { "item": "cup_plastic", "prob": 5 },
+            { "item": "can_food_big", "prob": 10 },
+            { "item": "can_food", "prob": 10 },
+            { "item": "can_medium", "prob": 30 },
+            { "item": "splinter", "prob": 10 }
+          ]
+        },
+        "chance": 15
       }
     }
   },
