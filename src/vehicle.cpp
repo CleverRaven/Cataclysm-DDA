@@ -280,17 +280,9 @@ bool vehicle::player_is_driving_this_veh() const
     if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
         return true;
     }
-    // Early out, nobody's driving
-    if( !get_driver() ) {
-        return false;
-    }
-    Character &player_character = get_player_character();
-    // Another easy out, just check if the player is controlling any vehicle
-    if( !player_character.controlling_vehicle ) {
-        return false;
-    }
 
-    // Lastly check if the player is controlling *this* vehicle
+    Character &player_character = get_player_character();
+    // Check if the player is controlling *this* vehicle
     return player_in_control( player_character );
 }
 
