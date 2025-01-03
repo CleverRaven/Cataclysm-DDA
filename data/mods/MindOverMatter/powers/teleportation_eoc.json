@@ -916,7 +916,10 @@
     "id": "EOC_TELEPORT_LOCI_TECHNIQUE",
     "condition": { "u_has_effect": "effect_teleport_loci_establishment" },
     "effect": [
-      { "u_teleport": { "u_val": "teleporter_loci_establishment_loc" }, "success_message": "You teleport successfully!", "fail_message": "Something goes wrong with the Loci Technique!" }
+      { "u_teleport": { "u_val": "teleporter_loci_establishment_loc" }, "success_message": "You feel a moment of darkness and terrible cold, but you are quickly back at your established locus.", "fail_message": "Something goes wrong with the Loci Technique!" }
+    ],
+    "false_effect": [
+      { "u_message": "You are currently not concentrating on [Ψ]Loci Establishment!" }
     ]
   }
 ]
