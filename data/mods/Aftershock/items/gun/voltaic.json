@@ -80,5 +80,28 @@
     ],
     "ammo_effects": [ "BEANBAG" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "afs_mine_shocker",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "blue",
+    "name": { "str": "mine shocker", "//~": "NO_I18N" },
+    "description": { "str": "How shocking!", "//~": "NO_I18N" },
+    "material": [ "qt_steel" ],
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD", "NO_TURRET" ],
+    "skill": "pistol",
+    "ammo_effects": [ "LIGHTNING" ],
+    "ranged_damage": { "damage_type": "electric", "amount": 4 },
+    "weight": "12 g",
+    "volume": "12 ml",
+    "longest_side": "25 cm",
+    "to_hit": 1,
+    "reload_noise_volume": 2,
+    "loudness": 2,
+    "range": 12,
+    "dispersion": 150,
+    "durability": 8,
+    "melee_damage": { "bash": 2 }
   }
 ]

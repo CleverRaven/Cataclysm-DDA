@@ -91,5 +91,54 @@
       [ [ "solar_cell", 2 ] ],
       [ [ "canister_empty", 1 ] ]
     ]
+  },
+  {
+    "result": "broken_zenit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "240 m",
+    "using": [ [ "soldering_standard", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "spidery_legs_big", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_material_1", 10 ] ],
+      [ [ "afs_material_3", 1 ] ],
+      [ [ "afs_material_4", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "afs_heat_2_salvage", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_launcher_salvaged", 1 ] ],
+      [ [ "bot_shock_mine", 10 ] ],
+      [ [ "afs_mil_ship_plate", 3 ] ]
+    ]
+  },
+  {
+    "result": "broken_shock_mine",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 3 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "sensor_module", 1 ] ],
+      [ [ "afs_material_1", 10 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "afs_heat_1", 1 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "canister_empty", 1 ] ]
+    ]
   }
 ]

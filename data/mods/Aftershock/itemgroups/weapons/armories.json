@@ -21,7 +21,7 @@
     "id": "afs_grenade_armory",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_any_hand_grenade", "prob": 3 } ]
+    "items": [ { "group": "afs_any_hand_grenade", "prob": 3 }, { "group": "afs_any_mine", "prob": 2 } ]
   },
   {
     "id": "afs_energy_weapon_armory",

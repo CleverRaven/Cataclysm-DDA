@@ -16,6 +16,12 @@
     ]
   },
   {
+    "id": "afs_any_mine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "bot_shock_mine", "count": [ 3, 5 ] } ]
+  },
+  {
     "id": "afs_anti_robot_grenades",
     "type": "item_group",
     "subtype": "distribution",

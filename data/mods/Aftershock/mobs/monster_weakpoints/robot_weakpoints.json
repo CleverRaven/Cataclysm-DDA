@@ -1,0 +1,213 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_robot",
+    "weakpoints": [
+      {
+        "id": "power_plant",
+        "name": "the main power plant",
+        "coverage": 1,
+        "difficulty": { "melee": 10, "ranged": 5 },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 1.5 },
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ],
+            "message": "The %s power plants sparks and smokes.",
+            "chance": 100,
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "cpu",
+        "name": "the AI core",
+        "coverage": 1,
+        "difficulty": { "melee": 10, "ranged": 5 },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 2 },
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ],
+            "message": "The %s processor is completely destroyed!",
+            "chance": 100,
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "governor",
+        "name": "the motive governor",
+        "coverage": 1,
+        "difficulty": { "melee": 10, "ranged": 5 },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 2 },
+        "effects": [
+          { "effect": "downed", "duration": [ 5, 10 ], "message": "The %s stumbles", "damage_required": [ 1, 2 ] },
+          {
+            "effect": "effect_robot_immobilized",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 100,
+            "message": "The %s collapses to the ground as its limbs fail!",
+            "damage_required": [ 2, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "main_sensor",
+        "name": "the main sensory array",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "melee": 3 },
+        "armor_mult": { "all": 0.1 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "duration": 86400,
+            "chance": 100,
+            "message": "The %s sensor mount is completely destroyed!",
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "weak_point",
+        "name": "a lightly armored segment",
+        "coverage": 20,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.05 },
+        "armor_mult": { "all": 1 }
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a segment of sloped armor",
+        "is_good": false,
+        "armor_mult": { "all": 3 },
+        "coverage_mult": { "melee": 1.5 },
+        "coverage": 30
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_robot_explode",
+    "weakpoints": [
+      {
+        "id": "power_plant",
+        "name": "the exposed reactor",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "coverage_mult": { "melee": 0 },
+        "armor_mult": { "all": 2 },
+        "effects": [
+          {
+            "effect_on_conditions": [ "EOC_AFS_REACTOR_MELTDOWN" ],
+            "chance": 100,
+            "message": "The %s sounds a nuclear alarm horn as its power plant detunes!  Run!",
+            "damage_required": [ 2, 100 ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "afs_wps_zenit",
+    "weakpoints": [
+      {
+        "id": "joint_servo",
+        "name": "an exposed servo",
+        "condition": { "not": { "npc_has_any_effect": [ "blind", "afs_ai_defensive" ] } },
+        "coverage": 5,
+        "difficulty": { "melee": 6, "ranged": 8 },
+        "coverage_mult": { "melee": 2 },
+        "armor_mult": { "all": 0.1 }
+      },
+      {
+        "id": "heavy_armor",
+        "name": "an armored limb",
+        "armor_mult": { "all": 5 },
+        "is_good": false,
+        "coverage_mult": { "melee": 0.5 },
+        "coverage": 20
+      },
+      {
+        "id": "main_sensor",
+        "name": "the oculus",
+        "coverage": 6,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "melee": 2 },
+        "condition": { "not": { "npc_has_any_effect": [ "blind", "afs_ai_defensive" ] } },
+        "armor_mult": { "all": 0.1 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 1 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 100,
+            "duration": 86400,
+            "message": "The oculus shatters",
+            "damage_required": [ 1, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "main_sensor_broken",
+        "name": "the oculus fixture",
+        "coverage": 6,
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage_mult": { "melee": 2 },
+        "condition": { "and": [ { "npc_has_any_effect": [ "blind" ] }, { "not": { "npc_has_any_effect": [ "afs_ai_defensive" ] } } ] },
+        "armor_mult": { "all": 0.1 }
+      },
+      {
+        "id": "upper_armor",
+        "name": "the upper armor disk",
+        "coverage": 30,
+        "coverage_mult": { "melee": 0.5 },
+        "armor_mult": { "all": 10 },
+        "condition": { "not": { "npc_has_any_effect": [ "maimed_armor", "afs_ai_defensive" ] } },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "duration": 86400,
+            "chance": 100,
+            "message": "The Zenit's armor disk is shredded!",
+            "damage_required": [ 5, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "upper_armor_defensive",
+        "name": "the upper armor disk",
+        "coverage": 60,
+        "is_good": false,
+        "coverage_mult": { "melee": 0.5 },
+        "difficulty": { "melee": 6, "ranged": 10 },
+        "armor_mult": { "all": 10 },
+        "condition": { "and": [ { "npc_has_any_effect": [ "afs_ai_defensive" ] }, { "not": { "npc_has_any_effect": [ "maimed_armor" ] } } ] },
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "duration": 86400,
+            "chance": 100,
+            "message": "The Zenit's armor disk is shredded!",
+            "damage_required": [ 5, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "upper_armor_weak",
+        "name": "the exposed circuitry",
+        "coverage": 60,
+        "armor_mult": { "all": 0.1 },
+        "condition": { "npc_has_any_effect": [ "maimed_armor" ] },
+        "effects": [ { "effect_on_conditions": [ "EOC_AFS_INSTANT_DEATH" ], "chance": 100, "damage_required": [ 1, 100 ] } ]
+      }
+    ]
+  }
+]

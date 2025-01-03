@@ -245,6 +245,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_robot_immobilized",
+    "name": [ "Immobilized" ],
+    "desc": [ "You are completely immobile" ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "afs_medigel_eff_trigger"
   },
   {
@@ -331,5 +341,12 @@
     "id": "afs_cureall",
     "removes_effects": [ "afs_badpoison" ],
     "base_mods": { "pkill_min": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_ai_defensive",
+    "name": [ "Defensive Stance" ],
+    "show_in_info": true,
+    "desc": [ { "str": "This creature is actively defending itself." } ]
   }
 ]
