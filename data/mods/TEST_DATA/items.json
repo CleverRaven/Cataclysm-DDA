@@ -1590,6 +1590,31 @@
     ]
   },
   {
+    "id": "test_xl_waist_apron_long",
+    "type": "GENERIC",
+    "name": { "str": "long waist apron" },
+    "copy-from": "test_waist_apron_long",
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "//": "the variants are not copy-from'd at the time of writing so let's make some",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "long waist apron" },
+        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink long waist apron" },
+        "description": "It's colored neon pink, commonly used by women or men who like pink.",
+        "color": "pink",
+        "weight": 3,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "test_umbrella",
     "type": "GENERIC",
     "category": "tools",
