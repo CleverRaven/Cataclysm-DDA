@@ -342,7 +342,7 @@
   {
     "id": "mon_zombie_horse_white",
     "type": "MONSTER",
-    "name": { "str": "pestilent prancer" },
+    "name": { "str": "acidic zombie horse" },
     "copy-from": "mon_zombie_horse",
     "description": "The abdomen of this once majestic horse has grown rotund to the point you can see through the skin, at the reservoir of caustic bile inside.  Its neck is equally enlarged as well as slightly longer than normal.",
     "diff": 3,

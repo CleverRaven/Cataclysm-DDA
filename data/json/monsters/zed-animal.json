@@ -674,7 +674,7 @@
   {
     "id": "mon_zeindeer",
     "type": "MONSTER",
-    "name": { "str": "zeindeer" },
+    "name": { "str": "zombie reindeer" },
     "looks_like": "mon_zeer",
     "description": "Once a majestic caribou, this undead creature barely resembles Santa's helpful reindeer and seems to only be interested in human flesh.",
     "default_faction": "zombie",
