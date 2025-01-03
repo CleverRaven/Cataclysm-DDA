@@ -135,7 +135,7 @@
     "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_decayed_pouncer" ] }
   },
-{
+  {
     "id": "shotcestus",
     "copy-from": "shotgun_base",
     "type": "ARMOR",
