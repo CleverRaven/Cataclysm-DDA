@@ -55,7 +55,7 @@
     "dissect": "dissect_plant_sample_single",
     "fungalize_into": "mon_fungaloid",
     "death_drops": { "subtype": "collection", "items": [ { "item": "triffid_spellbook", "prob": 25 } ] },
-    "flags": [ "SEES", "HAS_MIND", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "SEES", "HAS_MIND", "SMELLS", "MAGIC_USER", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
@@ -122,7 +122,7 @@
     "dissect": "dissect_plant_sample_single",
     "fungalize_into": "mon_fungaloid",
     "death_drops": { "subtype": "collection", "items": [ { "item": "triffid_spellbook", "prob": 25 } ] },
-    "flags": [ "SEES", "SMELLS", "HAS_MIND", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "flags": [ "SEES", "SMELLS", "HAS_MIND", "MAGIC_USER", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
     "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   }
 ]

@@ -1158,6 +1158,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_detect_wizards",
+    "name": [ "Witchsight" ],
+    "desc": [ "You can sense nearby magic-wielders." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of the magically-inclined fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+            },
+            "distance": { "math": [ "( u_spell_level('animist_detect_wizards') * 2) + 3" ] },
+            "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You see the ley lines of a wielder of magic." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_animist_add_evasion",
     "name": [ "Guardian Spirit" ],
     "desc": [ "A protective spirit is looking out for you." ],
@@ -1823,6 +1845,7 @@
       "effect_tremorsense",
       "effect_sense_outsiders",
       "effect_animist_vocalize",
+      "effect_animist_detect_wizards",
       "effect_kelvinist_anti_cold",
       "effect_kelvinist_anti_heat",
       "effect_magus_slowfall",
@@ -1971,6 +1994,7 @@
       "effect_thorns_electric",
       "effect_animist_add_evasion",
       "effect_animist_vocalize",
+      "effect_animist_detect_wizards",
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
