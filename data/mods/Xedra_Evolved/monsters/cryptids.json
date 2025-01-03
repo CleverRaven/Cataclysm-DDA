@@ -22,7 +22,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "dodge": 6,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "families": [ "prof_wp_demihuman" ],
@@ -77,7 +77,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "dodge": 6,
     "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the head", "is_head": true, "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "families": [ "prof_wp_demihuman" ],

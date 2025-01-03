@@ -464,6 +464,7 @@ static std::vector<tripoint_bub_ms> shrapnel( map *m, const Creature *source,
             int hits = d( rng_get_engine() );
             dealt_projectile_attack frag;
             frag.proj = proj;
+            frag.shrapnel = true;
             frag.proj.speed = cloud.velocity;
             frag.proj.impact = damage_instance( damage_bullet, damage );
             // dealt_dam.total_damage() == 0 means armor block

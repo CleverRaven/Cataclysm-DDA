@@ -346,7 +346,8 @@ Field              | Description
 `id`               | id of the weakpoint. Defaults to `name`, if not specified.
 `name`             | name of the weakpoint. Used in hit messages.
 `coverage`         | base percentage chance of hitting the weakpoint. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
-`is_good`          | marks mutation, that is beneficial for you to hit (like headshot); false means it is a bad weakpoint for you to hit (like thick piece of armor); default true; 
+`is_good`          | marks mutation, that is beneficial for you to hit (like headshot); false means it is a bad weakpoint for you to hit (like thick piece of armor); default true;
+`is_head`          | determines whether this weakpoint is part of the monster's head and can trigger a headshot; Only functions when `is_good` is also true, default false;
 `coverage_mult`    | object mapping weapon types to constant coverage multipliers.
 `difficulty`       | object mapping weapon types to difficulty values. Difficulty acts as soft "gate" on the attacker's skill. If the the attacker has skill equal to the difficulty, coverage is reduced to 50%. For bad weakpoint, attacker's skill will reduce the chance of hitting it.
 `armor_mult`       | object mapping damage types to multipliers on the monster's base protection, when hitting the weakpoint.
