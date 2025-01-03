@@ -20,6 +20,7 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+
     // bitmap font size test
     // return face index that has this size or below
     static int test_face_size( const std::string &f, int size, int faceIndex )
@@ -584,15 +585,15 @@ FontFallbackList::FontFallbackList(
     SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
     const int w, const int h,
     const palette_array &palette,
-    const std::vector<std::string> &typefaces,
+    const std::vector<font_config> &typefaces,
     const int fontsize, const bool fontblending )
     : Font( w, h, palette )
 {
-    for( const std::string &typeface : typefaces ) {
-        std::unique_ptr<Font> font = Font::load_font( renderer, format, typeface, fontsize, w, h, palette,
-                                     fontblending );
+    for( const font_config &font_config : typefaces ) {
+        std::unique_ptr<Font> font = Font::load_font( renderer, format, font_config.path, fontsize, w, h,
+                                     palette, fontblending );
         if( !font ) {
-            throw std::runtime_error( "Cannot load font " + typeface );
+            throw std::runtime_error( "Cannot load font " + font_config.path );
         }
         fonts.emplace_back( std::move( font ) );
     }
