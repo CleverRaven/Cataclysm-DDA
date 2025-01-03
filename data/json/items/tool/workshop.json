@@ -1735,5 +1735,23 @@
     "color": "light_gray",
     "qualities": [ [ "VISE", 3 ], [ "ANVIL", 1 ] ],
     "melee_damage": { "bash": 14 }
+  },
+  {
+    "id": "exodii_kiln",
+    "type": "TOOL",
+    "name": { "str": "Exodii kiln" },
+    "description": "An electric kiln, powered by your electric grid.  A bit larger than a refridgerator, this Exodii-manufactured kiln is large enough to repair the sheets of ceramic they use for armor.  It is designed for firing sheets of the Exodii's ceramic, but you could use it to fire anything made of clay.  A large and power-hungry appliance.",
+    "weight": "175 kg",
+    "volume": "1000 L",
+    "price": "5000 USD",
+    "price_postapoc": "5000 USD",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "lc_steel", "exodii_ceramic", "copper" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "2500 W" } ],
+    "melee_damage": { "bash": 20 }
   }
 ]

@@ -53,7 +53,8 @@
       "ß": "f_metal_bench",
       "Ҏ": [ [ "f_exodii_pump", 4 ], "f_machinery_heavy", "f_machinery_light", "f_machinery_electronic" ],
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-      "¶": "f_exodii_portal_tower"
+      "¶": "f_exodii_portal_tower",
+      "ö": "f_exodii_kiln"
     },
     "//": "at some point, Exodii lockers should contain hints of personal effects and things",
     "mapping": {
