@@ -196,8 +196,14 @@
         "K": { "item": "allclothes", "chance": 20, "repeat": [ 1, 2 ] },
         "B": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] }
       },
-      "place_npcs": [ { "class": "healer_priest", "x": 10, "y": 10 } ]
+      "place_nested": [ { "chunks": [ [ "NPC_healer_priest", 20 ], [ "null", 80 ] ], "x": 10, "y": 10 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NPC_healer_priest",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "place_npcs": [ { "class": "healer_priest", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
