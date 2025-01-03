@@ -112,5 +112,10 @@
   {
     "type": "overmap_special_migration",
     "id": "forge_of_wonders"
+  },
+  {
+    "id": "tainted_blood",
+    "type": "MIGRATION",
+    "replace": "blood_tainted"
   }
 ]
