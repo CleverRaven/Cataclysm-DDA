@@ -185,5 +185,35 @@
     "//": "For use when the lilit is the beta talker of the spell EoC, such as when it's targeting someone else",
     "num_args": 0,
     "return": "1 - min( ( (n_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (n_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_one_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_two_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SENSE_SPIRITS_AND_ALIENS')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_three_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_PARTIAL_SHIFT')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_four_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "werewolf_tier_five_traits",
+    "num_args": 0,
+    "return": "u_has_trait('WEREWOLF_SMELL_NEARBY_ENEMIES')"
   }
 ]
