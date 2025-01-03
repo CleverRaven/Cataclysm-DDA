@@ -1134,7 +1134,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: dilated gateway",
     "id": "practice_teleport_dilated_gateway",
-    "description": "Contemplate your powers and improve your ability to teleport other creatures to long-distant points.",
+    "description": "Contemplate your powers and improve your ability to teleport other creatures with you to long-distant points.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
