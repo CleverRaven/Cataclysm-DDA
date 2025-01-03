@@ -953,7 +953,8 @@
         "school": 15,
         "motel_city": 10,
         "fishing_pond_city": 10,
-        "house_fungus_01": 10
+        "house_fungus_01": 10,
+        "small_kindergarten": 30
       },
       "parks": {
         "park": 50,

@@ -797,5 +797,21 @@
     "name": "nursing home lab",
     "sym": "N",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_kindergarten" ],
+    "name": "small kindergarten",
+    "copy-from": "generic_city_building",
+    "sym": "K",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_kindergarten_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "small kindergarten roof",
+    "sym": "K",
+    "color": "i_light_blue"
   }
 ]
