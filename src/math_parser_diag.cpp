@@ -1504,6 +1504,14 @@ diag_eval_dbl_f test_str_len( char /* scope */, std::vector<diag_value> const &p
     return _test_func( params, kwargs, _test_len );
 }
 
+diag_eval_dbl_f ugliness_eval( char scope, std::vector<diag_value> const & /* params */,
+                               diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope )]( const_dialogue const & d ) {
+        return d.const_actor( beta )->get_ugliness();
+    };
+}
+
 diag_eval_dbl_f value_or_eval( char /* scope */, std::vector<diag_value> const &params,
                                diag_kwargs const & /* kwargs */ )
 {
@@ -1881,6 +1889,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "npc_fear", { "un", 0, npc_fear_eval, npc_fear_ass } },
     { "npc_value", { "un", 0, npc_value_eval, npc_value_ass } },
     { "npc_trust", { "un", 0, npc_trust_eval, npc_trust_ass } },
+    { "ugliness", { "un", 0, ugliness_eval } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval, vitamin_ass } },
