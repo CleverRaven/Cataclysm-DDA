@@ -107,5 +107,32 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 32000 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_zombie",
+    "//": "obsoleted",
+    "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
+    "description": "An ethereal-looking zombie rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_skeleton",
+    "//": "obsoleted",
+    "name": { "str": "Scroll of Summon Skeleton", "str_pl": "Scrolls of Summon Skeleton" },
+    "description": "A ghostly skeleton rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_decayed_pouncer",
+    "//": "obsoleted",
+    "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },
+    "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_decayed_pouncer" ] }
   }
 ]
