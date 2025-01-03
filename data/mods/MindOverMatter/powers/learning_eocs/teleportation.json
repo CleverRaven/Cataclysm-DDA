@@ -402,7 +402,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPORT_LEARNING_EXTERNAL_GATEWAY",
+    "id": "EOC_TELEPORT_LEARNING_dilated_gateway",
     "recurrence": [
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
       { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
@@ -420,16 +420,16 @@
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('teleport_external_gateway') <= 0" ] },
-        { "not": { "u_know_recipe": "practice_teleport_external_gateway" } }
+        { "math": [ "u_spell_level('teleport_dilated_gateway') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_teleport_dilated_gateway" } }
       ]
     },
     "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_external_gateway') >= 1" ] } ]
+      "or": [ { "not": { "u_has_trait": "TELEPORTER" } }, { "math": [ "u_spell_level('teleport_dilated_gateway') >= 1" ] } ]
     },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
-      { "u_learn_recipe": "practice_teleport_external_gateway" },
+      { "u_learn_recipe": "practice_teleport_dilated_gateway" },
       {
         "u_message": "Use of your powers has led to an insight.  Just as you can teleport yourself to memorized locations, you can also teleport other beings to those same locations.",
         "popup": true

@@ -770,9 +770,9 @@
     "casting_time_increment": -5.5
   },
   {
-    "id": "teleport_external_gateway",
+    "id": "teleport_dilated_gateway",
     "type": "SPELL",
-    "name": "[Ψ]External Gateway",
+    "name": "[Ψ]Dilated Gateway",
     "description": "Transport your target through the Nether to an attuned location.  You must have already attuned an area to sent them to with [Ψ]Gateway.",
     "message": "",
     "teachable": false,
@@ -783,7 +783,7 @@
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEPORT_EXTERNAL_GATEWAY_SELECTOR",
+    "effect_str": "EOC_TELEPORT_dilated_gateway_SELECTOR",
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
@@ -794,9 +794,9 @@
     "casting_time_increment": -5.5
   },
   {
-    "id": "teleport_external_gateway_teleport_others",
+    "id": "teleport_dilated_gateway_teleport_others",
     "type": "SPELL",
-    "name": "[Ψ]External Gateway - Teleport",
+    "name": "[Ψ]Dilated Gateway - Teleport Others",
     "description": "The spell that actually teleports the targets.  Should only be casted via teleport_gateway_other's eoc.",
     "message": "",
     "teachable": false,
@@ -813,9 +813,9 @@
     "energy_source": "NONE"
   },
   {
-    "id": "teleport_external_gateway_teleport_self",
+    "id": "teleport_dilated_gateway_teleport_self",
     "type": "SPELL",
-    "name": "[Ψ]External Gateway - Teleport",
+    "name": "[Ψ]Dilated Gateway - Teleport Self",
     "description": "The spell that actually teleports the player.  Should only be casted via teleport_gateway_other's eoc.",
     "message": "",
     "teachable": false,
