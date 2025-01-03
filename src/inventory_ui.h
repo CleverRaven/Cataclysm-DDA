@@ -235,6 +235,13 @@ class inventory_selector_preset
         virtual std::string get_denial( const item_location & ) const {
             return std::string();
         }
+        /**
+         * Can this entry be selected?
+         * By default, it cannot be if get_denial returns an empty string.
+         */
+        virtual bool get_enabled( const item_location &loc ) const {
+            return get_denial( loc ).empty();
+        }
         /** Whether the first item is considered to go before the second. */
         virtual bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const;
         virtual bool cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const;
@@ -261,6 +268,7 @@ class inventory_selector_preset
 
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
+        virtual void on_filter_change( const std::string &filter ) const;
 
         bool indent_entries() const {
             return _indent_entries;
@@ -287,6 +295,15 @@ class inventory_selector_preset
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = std::string(),
                           const std::string &stub = std::string() );
+        /**
+         * Replace an existing cell.
+         */
+        void replace_cell( const std::function<std::string( const item_location & )> &func,
+                           const std::string &title = std::string(),
+                           const std::string &stub = std::string() ) const;
+        void replace_cell( const std::function<std::string( const inventory_entry & )> &func,
+                           const std::string &title = std::string(),
+                           const std::string &stub = std::string() ) const;
         bool check_components = false;
 
         // whether to indent contained entries in the menu
@@ -314,7 +331,7 @@ class inventory_selector_preset
                 std::function<std::string( const inventory_entry & )> func;
         };
 
-        std::vector<cell_t> cells;
+        mutable std::vector<cell_t> cells;
 };
 
 class inventory_holster_preset : public inventory_selector_preset

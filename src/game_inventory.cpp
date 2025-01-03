@@ -590,6 +590,70 @@ class pickup_inventory_preset : public inventory_selector_preset
         bool ignore_liquidcont;
 };
 
+std::function<bool( const std::string & )> basic_item_filter_only_disassembly( std::string filter )
+{
+    size_t colon;
+    char flag = '\0';
+    if( ( colon = filter.find( ':' ) ) != std::string::npos ) {
+        if( colon >= 1 ) {
+            flag = filter[colon - 1];
+            filter = filter.substr( colon + 1 );
+        }
+    }
+    switch( flag ) {
+        // disassembled components
+        case 'd':
+            return [filter]( const std::string & component ) {
+                return lcmatch( component, filter );
+            };
+        default:
+            return []( const std::string & ) {
+                return false;
+            };
+    }
+}
+
+/**
+ * Take disassembly requests from filter, return OR function matching any disassembly components asked for in filter.
+ */
+std::function<bool( const std::string & )> filter_from_string( std::string filter )
+{
+    // remove curly braces (they only get in the way)
+    if( filter.find( '{' ) != std::string::npos ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '{' ), filter.end() );
+    }
+    if( filter.find( '}' ) != std::string::npos ) {
+        filter.erase( std::remove( filter.begin(), filter.end(), '}' ), filter.end() );
+    }
+    if( filter.find( ',' ) != std::string::npos ) {
+        // functions which only one of which must return true
+        std::vector<std::function<bool( const std::string & )> > functions;
+        size_t comma = filter.find( ',' );
+        while( !filter.empty() ) {
+            const std::string &current_filter = trim( filter.substr( 0, comma ) );
+            if( !current_filter.empty() ) {
+                auto current_func = filter_from_string( current_filter );
+                functions.push_back( current_func );
+            }
+            if( comma != std::string::npos ) {
+                filter = trim( filter.substr( comma + 1 ) );
+                comma = filter.find( ',' );
+            } else {
+                break;
+            }
+        }
+
+        return [functions]( const std::string & it ) {
+            auto apply = [&]( const std::function<bool( const std::string & )> &func ) {
+                return func( it );
+            };
+            return std::any_of( functions.begin(), functions.end(), apply );;
+        };
+    }
+
+    return basic_item_filter_only_disassembly( filter );
+}
+
 class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -597,8 +661,78 @@ class disassemble_inventory_preset : public inventory_selector_preset
             inv( inv ) {
 
             check_components = true;
+            auto filter_func = []( const std::string & ) {
+                return false;
+            };
+
+            append_cell( highlight_filter_disassembly_components( filter_func ), _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
+                return colorize( to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
+                                                    recipe_time_flag::ignore_proficiencies ) ), c_light_gray );
+            }, _( "TIME" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return colorize( _get_denial( loc ), c_red );
+            }, _( "CAN DISASSEMBLE" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return !get_recipe( loc ).is_null();
+        }
+
+        bool get_enabled( const item_location &loc ) const override {
+            const auto ret = you.can_disassemble( *loc, inv );
+            if( !ret.success() ) {
+                return false;
+            }
+
+            item_location ancestor = loc;
+            while( ancestor.has_parent() ) {
+                ancestor = ancestor.parent_item();
+            }
+            return rl_dist( you.pos(), ancestor.position() ) <= 1;
+        }
+
+        void on_filter_change( const std::string &filter ) const override {
+            auto filter_func = filter_from_string( filter );
+            replace_cell( highlight_filter_disassembly_components( filter_func ), _( "YIELD" ) );
+        }
+
+    protected:
+        const recipe &get_recipe( const item_location &loc ) const {
+            return recipe_dictionary::get_uncraft( loc->typeId() );
+        }
+
+    private:
+        const Character &you;
+        /// Tools etc. in crafters inventory to use for disassembly.
+        const inventory &inv;
+
+        std::string _get_denial( const item_location &loc ) const {
+            const auto ret = you.can_disassemble( *loc, inv );
+            if( !ret.success() ) {
+                return ret.str();
+            }
+
+            item_location ancestor = loc;
+            while( ancestor.has_parent() ) {
+                ancestor = ancestor.parent_item();
+            }
+            if( rl_dist( you.pos(), ancestor.position() ) > 1 ) {
+                return string_format( "%s is too far.",
+                                      colorize( direction_suffix( you.pos(), ancestor.position() ), c_red ) );
+            }
+
+            return std::string();
+        }
+
+        std::function<std::string( const item_location &loc )> highlight_filter_disassembly_components(
+            std::function<bool( const std::string & )> filter_func
+        ) const {
+            // TODO bug: changing hiearchy `;` twice removes effect of filter
+            // TODO bug: changing hiearchy `;` doesn't apply effect of filter
+            return [ this, filter_func ]( const item_location & loc ) {
                 const requirement_data &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
@@ -611,44 +745,23 @@ class disassemble_inventory_preset : public inventory_selector_preset
                     ++( it->count );
                     components.erase( std::next( it ) );
                 }
-                return enumerate_as_string( components.begin(), components.end(),
-                []( const decltype( components )::value_type & comps ) {
-                    return comps.to_string();
-                } );
-            }, _( "YIELD" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
-                                          recipe_time_flag::ignore_proficiencies ) );
-            }, _( "TIME" ) );
+                // TODO this color doesn't work if the text is trimmed (contains …)
+                return colorize( enumerate_as_string( components.begin(), components.end(),
+                [&filter_func]( const decltype( components )::value_type & comps ) {
+                    // if it matches, color it
+                    const std::string ret = comps.to_string();
+                    return colorize( ret, filter_func( ret ) ? c_light_red : c_white );
+                } ), c_light_gray );
+            };
         }
-
-        bool is_shown( const item_location &loc ) const override {
-            return !get_recipe( loc ).is_null();
-        }
-
-        std::string get_denial( const item_location &loc ) const override {
-            const auto ret = you.can_disassemble( *loc, inv );
-            if( !ret.success() ) {
-                return ret.str();
-            }
-            return std::string();
-        }
-
-    protected:
-        const recipe &get_recipe( const item_location &loc ) const {
-            return recipe_dictionary::get_uncraft( loc->typeId() );
-        }
-
-    private:
-        const Character &you;
-        const inventory &inv;
 };
 
 item_location game_menus::inv::disassemble( Character &you )
 {
+    // TODO register context for `T`ravel to
+    // TODO items 3W are visïble in disassembly menu, Is that ok since they are within crafting? probably not
     return inv_internal( you, disassemble_inventory_preset( you, you.crafting_inventory() ),
-                         _( "Disassemble item" ), 1,
+                         _( "Disassemble item" ), 60,
                          _( "You don't have any items you could disassemble." ) );
 }
 

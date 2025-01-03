@@ -608,10 +608,10 @@ void inventory_entry::cache_denial( inventory_selector_preset const &preset ) co
 {
     if( !denial ) {
         denial.emplace( preset.get_denial( *this ) );
-        enabled = denial->empty();
+        enabled = is_item() && preset.get_enabled( any_item() );
     }
     if( is_collation_header() ) {
-        collation_meta->enabled = denial->empty();
+        collation_meta->enabled = is_item() && preset.get_enabled( any_item() );
     }
 }
 
@@ -719,6 +719,8 @@ std::function<bool( const inventory_entry & )> inventory_selector_preset::get_fi
     };
 }
 
+void inventory_selector_preset::on_filter_change( const std::string &/*filter*/ ) const {};
+
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
     size_t count = entry.get_stack_size();
@@ -824,6 +826,33 @@ void inventory_selector_preset::append_cell( const
         return;
     }
     cells.emplace_back( func, title, stub );
+}
+
+// TODO should not be const
+void inventory_selector_preset::replace_cell( const
+        std::function<std::string( const item_location & )> &func,
+        const std::string &title, const std::string &stub ) const
+{
+    // Don't capture by reference here. The func should be able to die earlier than the object itself
+    replace_cell( std::function<std::string( const inventory_entry & )>( [ func ](
+    const inventory_entry & entry ) {
+        return func( entry.any_item() );
+    } ), title, stub );
+}
+
+void inventory_selector_preset::replace_cell( const
+        std::function<std::string( const inventory_entry & )> &func,
+        const std::string &title, const std::string &stub ) const
+{
+    const auto iter = std::find_if( cells.begin(), cells.end(), [ &title ]( const cell_t &cell ) {
+        return cell.title == title;
+    } );
+    if( iter == cells.end() ) {
+        debugmsg( "Tried to replace a non duplicate cell \"%s\": ignored.", title.c_str() );
+        return;
+    }
+    *iter = {func, title, stub};
+    //reset_entry_cell_cache();
 }
 
 std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
@@ -1697,6 +1726,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             }
         }
 
+        // TODO: make denial empty and make extra column for denial
         size_t count = denial.empty() ? cells.size() : 1;
 
         for( size_t cell_index = 0; cell_index < count; ++cell_index ) {
@@ -1739,7 +1769,9 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     trim_and_print( win, point( text_x - 1, yy ), 1, col,
                                     stat ? "▶" : "▼" );
                 }
-                if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
+                /*if( entry.is_item() && !selected && !entry.is_selectable() && denial.empty() ) {
+                    trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
+                } else*/ if( entry.is_item() && ( selected || ( !entry.is_selectable() && !denial.empty() ) ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
                 } else if( entry.is_item() && entry.highlight_as_parent ) {
@@ -1761,6 +1793,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     }
                     entry.highlight_as_child = false;
                 } else {
+                    // TODO this screws the colors of `,`, `, and`
                     trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
                 }
             }
@@ -2727,7 +2760,9 @@ void inventory_selector::set_filter( const std::string &str )
     filter = str;
     for( inventory_column *const elem : columns ) {
         elem->set_filter( filter );
+        // reset_entry_cell_cache();
     }
+    preset.on_filter_change( filter );
 }
 
 std::string inventory_selector::get_filter() const
@@ -2962,6 +2997,7 @@ inventory_input inventory_selector::process_input( const std::string &action, in
                 if( res.entry != nullptr && res.entry->is_selectable() ) {
                     return res;
                 }
+                // todo denial popup
                 if( res.entry == nullptr && res.action == "SELECT" ) {
                     p.x++;
                     res.entry = find_entry_by_coordinate( p );
@@ -3078,6 +3114,8 @@ void inventory_selector::on_input( const inventory_input &input )
 
 void inventory_selector::on_change( const inventory_entry &entry )
 {
+    // TODO does not reset. Workaround during testing: use "Toggle language to English" option
+    entry.reset_entry_cell_cache();
     for( inventory_column *&elem : columns ) {
         elem->on_change( entry );
     }
