@@ -17,7 +17,7 @@
     "capacity": 3000,
     "//1": "58Ah @ 12VDC. Could supply ~833 watts for an hour",
     "//2": "Approximate energy density 0.3 MJ/L / 0.14 MJ/Kg for lead-acid batteries",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "flags": [ "NO_SALVAGE", "RECHARGE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 3000 } } ]
   },
   {
@@ -144,7 +144,7 @@
     "ammo_type": [ "battery" ],
     "capacity": 50000,
     "//": "Approximate energy density 2.1 MJ/L / 0.73 MJ/Kg for lithium nickel manganese cobalt oxide (NMC) batteries",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ],
+    "flags": [ "NO_SALVAGE", "RECHARGE", "NO_REPAIR" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50000 } } ],
     "melee_damage": { "bash": 20 }
   }

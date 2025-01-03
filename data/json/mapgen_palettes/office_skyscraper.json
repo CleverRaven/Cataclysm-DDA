@@ -333,7 +333,13 @@
       "b": "f_bathtub",
       "j": "f_trashcan",
       "J": "f_dumpster",
-      "K": "f_generator_broken",
+      "K": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "M": "f_machinery_heavy",
       "p": "f_mailbox",
       "C": "f_desk",
@@ -459,7 +465,13 @@
       "t": "f_table",
       "T": "f_toilet",
       "x": "f_console_broken",
-      "X": "f_generator_broken",
+      "X": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "y": "f_locker",
       "Y": "f_rack_coat"
     },

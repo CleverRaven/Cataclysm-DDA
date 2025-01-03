@@ -26,15 +26,24 @@
         "...!!.############......",
         "...!!.#]]]]...#..#......",
         "......#]......+..+......",
-        ".....!#)..??..#..#......",
-        ".!!...#]..??..#..#......",
+        ".....!#)..?...#..#......",
+        ".!!...#]......#..#......",
         ".!!..!#]......#..#......",
         "......#].qq.q.#<<#......",
         "###++##############++###"
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -384,8 +393,8 @@
         "#####%[###%[%%###[%#####",
         "   #....#......#...q#   ",
         "   #...............q#   ",
-        "   #]]]....}}.......#   ",
-        "   #..]....}}...=.=.#   ",
+        "   #]]]....}........#   ",
+        "   #..].........=.=.#   ",
         "   #..)]]...........#   ",
         "   #....]........ggg#   ",
         "   ##################   ",
@@ -402,7 +411,18 @@
         "[": "t_chaingate_c",
         "%": "t_chainfence"
       },
-      "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "&": "f_table",
+        "=": "f_machinery_old",
+        "}": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -1041,8 +1061,8 @@
         "J`````#`````UUUY`#......",
         "##++################++##",
         ".......!!!..............",
-        "........!!.??.........!!",
-        ".!!........??.........!!",
+        "........!!.?..........!!",
+        ".!!...................!!",
         ".!!!!...#......#...!!...",
         "###!!.]]]].........!!.##",
         "  #...])#].....#..##### ",
@@ -1079,7 +1099,18 @@
         "&": "t_linoleum_white",
         "h": "t_linoleum_white"
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "`": { "item": "clutter_basement", "chance": 1 },
@@ -1500,8 +1531,8 @@
         "#zz....].)]]]..#......!#",
         "#zz....]]]].]..#!....!!#",
         "#...........)..#...!!H!#",
-        "#!!...??.......+...!hH.#",
-        "#!!...??..=....#...iiHd#",
+        "#!!...?........+...!hH.#",
+        "#!!.......=....#...iiHd#",
         "#............R.#....v!d#",
         "####+###########....hhc#",
         "#.....WO#--$rrr#&&...gh#",
@@ -1537,7 +1568,13 @@
         "/": "f_chair",
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "$": "f_gunsafe_ml"
       },
       "items": {
@@ -1589,7 +1626,13 @@
       "furniture": {
         "&": "f_table",
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "$": "f_gunsafe_ml"
       },
@@ -2136,8 +2179,8 @@
         "     #&&&.....#.].....!#",
         "     ####....####....###",
         "       #......#........#",
-        "       #...!!.#.??.....#",
-        "       #r..!!...??..!..+",
+        "       #...!!.#.?......#",
+        "       #r..!!.......!..+",
         "       #r..........!!..+",
         "       #...........!!..#",
         "       #6....6.........#",
@@ -2147,7 +2190,18 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "=": "f_machinery_old",
+        "&": "f_table",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": { ".": { "item": "clutter_basement", "chance": 1 }, "!": { "item": "crate_stack", "chance": 100 } }
     }
   },
@@ -2438,8 +2492,8 @@
         "      #######``&&``W``Z#",
         "      #...!!#``&&``````#",
         "      #.....#``````````#",
-        "      #.??..######++####",
-        "      #.??.....#````iii#",
+        "      #.?...######++####",
+        "      #........#````iii#",
         "      #......=.#```````+",
         "      #........+```````+",
         "      #]]]]....+```````#",
@@ -2469,7 +2523,18 @@
         "&": "t_linoleum_white",
         "h": "t_linoleum_white"
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 5 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "`": { "item": "clutter_basement", "chance": 1 },
@@ -2605,14 +2670,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump", "/": "t_door_locked_interior" },
-      "furniture": {
-        "%": "f_rack_wood",
-        "!": "f_wood_keg",
-        "&": "f_table",
-        "?": "f_glass_fridge",
-        "=": "f_machinery_old",
-        "}": "f_generator_broken"
-      },
+      "furniture": { "%": "f_rack_wood", "!": "f_wood_keg", "&": "f_table", "?": "f_glass_fridge", "=": "f_machinery_old" },
       "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] } },
       "place_loot": [ { "item": "deck_of_cards", "x": 16, "y": 11, "chance": 100 } ],
       "items": {

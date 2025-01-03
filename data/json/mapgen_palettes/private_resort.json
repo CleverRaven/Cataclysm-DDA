@@ -241,7 +241,13 @@
     "id": "p_resort_palette_basement",
     "palettes": [ "p_resort_palette_main" ],
     "furniture": {
-      "1": "f_generator_broken",
+      "1": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "2": "f_machinery_light",
       "3": "f_machinery_heavy",
       "N": "f_utility_shelf",

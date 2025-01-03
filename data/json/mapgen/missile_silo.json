@@ -27,9 +27,9 @@
         " | *********    │x#│││││",
         " |  *******     │,,,,,,│",
         " |   *****      ││││,│││",
-        " |              │pp│,│^│",
-        " |              │pp-,,$│",
-        " |||||||||||||||│pp│>│$│",
+        " |              │,,│,│^│",
+        " |              │,,-,,$│",
+        " |||||||||||||||│p,│>│$│",
         "                ││││││││"
       ],
       "terrain": {
@@ -47,7 +47,7 @@
         "#": "t_door_metal_locked",
         "-": "t_door_metal_c"
       },
-      "furniture": { "v": "f_vent_pipe", "p": "f_generator_broken" },
+      "furniture": { "v": "f_vent_pipe", "p": [ [ "f_generator_broken", 25 ], [ "f_military_generator", 5 ] ] },
       "signs": { "s": { "signage": "Restricted area!  Violators will be shot!", "furniture": "f_sign_warning" } },
       "monster": {
         "S": { "monster": "mon_turret_searchlight" },
@@ -331,7 +331,7 @@
         "Y": "t_card_military"
       },
       "furniture": {
-        "g": "f_generator_broken",
+        "g": [ [ "f_generator_broken", 25 ], [ "f_military_generator", 5 ] ],
         "%": "f_machinery_electronic",
         "a": "f_air_conditioner",
         "x": "f_console_broken",

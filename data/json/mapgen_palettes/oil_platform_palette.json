@@ -72,7 +72,12 @@
       "4": "f_oven",
       "5": "f_woodstove",
       "9": "f_water_heater",
-      "8": "f_generator_broken",
+      "8": [
+        [ "f_generator_broken", 25 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "A": "f_air_compressor",
       "C": "f_workbench",
       "E": "f_shaker",

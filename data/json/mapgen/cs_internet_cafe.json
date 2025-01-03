@@ -81,8 +81,8 @@
         "  -..................-  ",
         "  -........=.........-  ",
         "  -.#######ggg##.....-  ",
-        "  -.#kkk#cPcccP#.....-  ",
-        "  -.#kkk#,,Y,,cg.....-  ",
+        "  -.#k,k#cPcccP#.....-  ",
+        "  -.#,,,#,,Y,,cg.....-  ",
         "  -.#,,,#,,,,,y#.....-  ",
         "  -.##D####D####.....-  ",
         "  -.#L,,,,,,,CC#.....-  ",
@@ -100,7 +100,10 @@
       ],
       "palettes": [ "roof_palette", "parametrized_walls_palette" ],
       "terrain": { ",": "t_thconc_floor", "D": "t_door_locked", "g": "t_wall_glass_alarm", "&": "t_flat_roof", "=": "t_flat_roof" },
-      "furniture": { "P": "f_console_broken", "k": "f_generator_broken" },
+      "furniture": {
+        "P": "f_console_broken",
+        "k": [ [ "f_generator_broken", 35 ], [ "f_diesel_generator", 5 ], [ "f_12000_gasoline_generator", 5 ] ]
+      },
       "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 100 } ],
       "items": {
         "c": { "item": "electronics", "chance": 40 },

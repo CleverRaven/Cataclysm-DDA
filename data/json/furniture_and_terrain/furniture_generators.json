@@ -1,0 +1,103 @@
+[
+  {
+    "id": "some_diesel",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "diesel", "charges": [ 1000, 10000 ], "prob": 100, "container-item": "null" } ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_active_backup_generator",
+    "name": "active backup generator",
+    "looks_like": "t_plut_generator",
+    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  This one is currently running.  You can hear it humming slightly when you are very close.",
+    "symbol": "0",
+    "color": "green_white",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 8,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "diesel_generator" },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "explosive": 1,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "diesel_generator", "contents-group": "some_diesel", "damage": [ 0, 1 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "diesel_generator", "contents-group": "some_diesel" } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_portable_generator",
+    "copy-from": "f_active_backup_generator",
+    "name": "portable generator",
+    "looks_like": "t_plut_generator",
+    "description": "A small, portable generator, one that people buy for a camp.",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "portable_generator" },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "explosive": 1,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "portable_generator", "damage": [ 0, 1 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "portable_generator" } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_diesel_generator",
+    "copy-from": "f_active_backup_generator",
+    "name": "diesel generator",
+    "looks_like": "t_plut_generator",
+    "description": "Big and powerful generator, used for street works.",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "diesel_generator" },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "explosive": 1,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "diesel_generator", "damage": [ 0, 1 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "diesel_generator" } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_military_generator",
+    "copy-from": "f_active_backup_generator",
+    "name": "military diesel generator",
+    "looks_like": "t_plut_generator",
+    "description": "Big and powerful generator, painted in camo.",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "military_generator" },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "explosive": 1,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "military_generator", "damage": [ 0, 1 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "military_generator" } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_12000_gasoline_generator",
+    "copy-from": "f_active_backup_generator",
+    "name": "powerful gasoline generator",
+    "looks_like": "t_plut_generator",
+    "description": "Big and powerful, yet portable generator.",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "12000_gasoline_generator" },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "explosive": 1,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "12000_gasoline_generator", "damage": [ 0, 1 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "12000_gasoline_generator" } ] }
+  }
+]
