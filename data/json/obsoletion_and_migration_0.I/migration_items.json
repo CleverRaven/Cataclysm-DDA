@@ -60,6 +60,16 @@
     "replace": "qt_steel_chunk"
   },
   {
+    "id": "plasma_gun",
+    "type": "MIGRATION",
+    "replace": "exodii_plasma_projectile"
+  },
+  {
+    "id": "plasma_rifle",
+    "type": "MIGRATION",
+    "replace": "exodii_plasma_projectile"
+  },
+  {
     "id": "power_armor_helmet_basic",
     "type": "MIGRATION",
     "replace": "combat_exoskeleton_armor_head_medium"
