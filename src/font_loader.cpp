@@ -63,7 +63,7 @@ static std::optional<ImGuiFreeTypeBuilderFlags> hint_to_fonthint( const std::str
 void font_config::deserialize( const JsonObject &jo )
 {
     bool has_path = jo.read( "path", path, true );
-    if( !( has_path ) ) {
+    if( !has_path ) {
         jo.throw_error( "Dummy error - force config read to return false." );
     }
     // Manually read hinting.
