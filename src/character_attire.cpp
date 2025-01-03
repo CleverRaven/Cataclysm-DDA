@@ -2570,7 +2570,7 @@ int outfit::clatter_sound() const
     return std::round( max_volume );
 }
 
-float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
+float outfit::clothing_wetness_mult( const bodypart_id &bp, bool permeability_check ) const
 {
     float clothing_mult = 1.0;
     for( const item &i : worn ) {
@@ -2585,9 +2585,13 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
         }
     }
 
-    // always some evaporation even if completely covered
-    // doesn't handle things that would be "air tight"
-    clothing_mult = std::max( clothing_mult, .1f );
+    // Skip this part if we're checking for permeability
+    // and not dealing with sweat
+    if( !permeability_check ) {
+        // always some evaporation even if completely covered
+        // doesn't handle things that would be "air tight"
+        clothing_mult = std::max( clothing_mult, .1f );
+    }
     return clothing_mult;
 }
 

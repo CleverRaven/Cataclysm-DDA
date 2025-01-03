@@ -51,7 +51,8 @@ struct projectile {
                                    const dealt_damage_instance &dealt_dam,
                                    bool critical ) const;
         // pplies proj_effects to a creature that was hit but not damaged
-        void apply_effects_nodamage( Creature &target, Creature *source ) const;
+        void apply_effects_nodamage( Creature &target, Creature *source,
+                                     const bodypart_id &bp_hit, bool soaked_through = false ) const;
 
         projectile();
         projectile( const projectile & );
