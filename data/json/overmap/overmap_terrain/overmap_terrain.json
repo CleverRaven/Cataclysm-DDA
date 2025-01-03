@@ -655,8 +655,7 @@
     "name": "incomplete cabin roof",
     "sym": "+",
     "color": "light_green",
-    "see_cost": "none",
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
