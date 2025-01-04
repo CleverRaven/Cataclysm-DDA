@@ -173,6 +173,10 @@ ret_val<void> can_fertilize( Character &you, const tripoint_bub_ms &tile,
 // Skill training common functions
 void practice_survival_while_foraging( Character &who );
 
+// Retting
+void retting_empty( Character &, const tripoint_bub_ms &examp );
+void retting_full( Character &, const tripoint_bub_ms &examp );
+
 } // namespace iexamine
 
 namespace iexamine_helper
