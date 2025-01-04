@@ -36,5 +36,43 @@
     "mutation_conflicts": [ "EARTHSHAPER" ],
     "enchantments": [ "ench_bio_sneeze_beam" ],
     "flags": [ "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "bio_see_wizards_eyes",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Witchfinder Eyes CBM" },
+    "description": "A series of rune-inscribed implants around the eyes allow the user of this bionic to see the ley lines in the bodies of those who frequently use magic, effectively detecting nearby wizards even through obstructing terrain.",
+    "price": "7 kUSD 500 USD",
+    "weight": "500 g",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_see_wizards_eyes",
+    "type": "bionic",
+    "name": { "str": "Witchfinder Eyes" },
+    "description": "Rune-inscribed metal filaments have been implanted around your eyes, allowing you to detect nearby mages.  Activate to turn it on.",
+    "occupied_bodyparts": [ [ "eyes", 2 ] ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "enchantments": [ "ench_bio_see_wizards_eye" ],
+    "act_cost": "20 J",
+    "react_cost": "6 J",
+    "time": "1 s",
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_bio_see_wizards_eye",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "special_vision": [
+      {
+        "condition": {
+          "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+        },
+        "distance": 22,
+        "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You see the ley lines of a wielder of magic." } ]
+      }
+    ]
   }
 ]

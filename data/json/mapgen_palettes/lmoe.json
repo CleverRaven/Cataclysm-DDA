@@ -34,7 +34,13 @@
       "F": "f_fridge",
       "é": "f_freezer",
       "f": "f_sofa",
-      "G": "f_generator_broken",
+      "G": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "h": "f_chair",
       "H": "f_water_heater",
       "K": "f_sink",

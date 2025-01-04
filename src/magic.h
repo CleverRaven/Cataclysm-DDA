@@ -729,6 +729,8 @@ class known_magic
         spell &select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
+        // Last spell casted
+        spell_id last_spell = spell_id::NULL_ID(); // NOLINT(cata-serialize)
         // directly get the character known spells
         std::map<spell_id, spell> &get_spellbook() {
             return spellbook;
