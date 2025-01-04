@@ -4832,6 +4832,7 @@ void Item_factory::reset()
 void Item_factory::clear()
 {
     m_template_groups.clear();
+    type_contained_in_holsters.clear();
 
     iuse_function_list.clear();
 
@@ -5467,6 +5468,27 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
     } );
 
     return res;
+}
+
+const std::vector<const itype *> &Item_factory::find_holster_for( const itype &it )
+{
+    const itype_id iid = it.get_id();
+    if( type_contained_in_holsters.count( iid ) > 0 ) {
+        return type_contained_in_holsters.at( iid );
+    }
+    const item itm( &it );
+
+    type_contained_in_holsters[iid] = Item_factory::find( [&itm]( const itype & e ) {
+        if( !e.can_use( "holster" ) ) {
+            return false;
+        }
+        const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                   ( e.get_use( "holster" )->get_actor_ptr() );
+        const item holster_item( &e );
+        return ptr->can_holster( holster_item, itm );
+    } );
+
+    return type_contained_in_holsters[iid];
 }
 
 std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const
