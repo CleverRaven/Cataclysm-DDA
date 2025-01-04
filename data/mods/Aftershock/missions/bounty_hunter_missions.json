@@ -12,7 +12,6 @@
         "om_special": "afs_augmentation_clinic_1",
         "reveal_radius": 6,
         "random": true,
-        "search_range": 90,
         "min_distance": 15,
         "z": 0
       },

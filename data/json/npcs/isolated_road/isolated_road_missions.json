@@ -9,9 +9,7 @@
     "difficulty": 5,
     "item": "broken_kord",
     "value": 1000,
-    "start": {
-      "assign_mission_target": { "om_special": "gun_show", "om_terrain": "gunshow_0", "reveal_radius": 2, "random": true, "search_range": 800 }
-    },
+    "start": { "assign_mission_target": { "om_special": "gun_show", "om_terrain": "gunshow_0", "reveal_radius": 2, "random": true } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -37,7 +35,7 @@
     "item": "usb_drive_nano",
     "value": 1000,
     "start": {
-      "assign_mission_target": { "om_terrain": "house_garage", "reveal_radius": 2, "random": true, "search_range": 200 },
+      "assign_mission_target": { "om_terrain": "house_garage", "reveal_radius": 2, "random": true },
       "update_mapgen": {
         "rows": [
           "                        ",

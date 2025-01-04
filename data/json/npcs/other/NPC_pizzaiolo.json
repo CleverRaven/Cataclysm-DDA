@@ -200,14 +200,7 @@
     "goal": "MGOAL_GO_TO",
     "start": {
       "effect": [ { "u_learn_recipe": "cake2" }, { "u_message": "You learn how to craft cake.", "popup": true } ],
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_match_type": "PREFIX",
-        "random": true,
-        "search_range": 75,
-        "min_distance": 5,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "random": true, "min_distance": 5, "z": 0 }
     },
     "fail": { "effect": "end_conversation" },
     "difficulty": 0,

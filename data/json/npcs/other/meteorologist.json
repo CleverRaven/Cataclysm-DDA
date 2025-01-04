@@ -275,7 +275,7 @@
     "difficulty": 0,
     "value": 100,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "search_range": 50, "min_distance": 15, "random": true },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "min_distance": 15, "random": true },
       "update_mapgen": {
         "place_item": [
           { "item": "module_meteorologist", "x": [ 5, 15 ], "y": [ 5, 15 ] },

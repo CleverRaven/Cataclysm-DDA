@@ -13,7 +13,6 @@
         "om_terrain_replace": "forest",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 90,
         "min_distance": 5,
         "z": 0
       },
@@ -74,7 +73,6 @@
         "om_terrain_replace": "forest",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 90,
         "min_distance": 5,
         "z": 0
       },
@@ -105,13 +103,7 @@
     "monster_type": "mon_mi_go_guard",
     "monster_kill_goal": 5,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "mi-go_camp1",
-        "om_special": "Mi-Go Encampment",
-        "reveal_radius": 3,
-        "cant_see": true,
-        "search_range": 200
-      }
+      "assign_mission_target": { "om_terrain": "mi-go_camp1", "om_special": "Mi-Go Encampment", "reveal_radius": 3, "cant_see": true }
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
@@ -141,7 +133,7 @@
     "monster_type": "mon_centipede_mega",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_centipede_mega", "x": 11, "y": 11, "target": true } ] }
     },
     "end": {
@@ -172,7 +164,7 @@
     "monster_type": "mon_dreamforged_automaton",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_dreamforged_automaton", "x": 11, "y": 11, "target": true } ] }
     },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_automaton_for_boann", "value": "yes" } },
@@ -199,13 +191,7 @@
     "value": 0,
     "item": "triffid_heart_chunk",
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "triffid_grove",
-        "om_special": "Triffid Grove",
-        "reveal_radius": 3,
-        "cant_see": true,
-        "search_range": 580
-      }
+      "assign_mission_target": { "om_terrain": "triffid_grove", "om_special": "Triffid Grove", "reveal_radius": 3, "cant_see": true }
     },
     "end": { "opinion": { "trust": 2, "value": 2 } },
     "has_generic_rewards": false,
@@ -232,7 +218,7 @@
     "monster_type": "mon_stag_beetle_mega",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_stag_beetle_mega", "x": 11, "y": 11, "target": true } ] }
     },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_titan_beetle_for_boann", "value": "yes" } },
@@ -283,7 +269,7 @@
     "monster_type": "mon_tindalos",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_tindalos", "x": 11, "y": 11, "target": true } ] }
     },
     "end": {

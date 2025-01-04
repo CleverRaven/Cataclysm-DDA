@@ -38,7 +38,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "iso_elevator", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+        "target_params": { "om_terrain": "iso_elevator", "z": -1, "random": true, "cant_see": true },
         "terrain": "t_elevator",
         "target_max_radius": 30
       },
@@ -51,7 +51,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "iso_elevator_microlab_embed", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+        "target_params": { "om_terrain": "iso_elevator_microlab_embed", "z": -1, "random": true, "cant_see": true },
         "terrain": "t_elevator",
         "target_max_radius": 30
       },
@@ -64,7 +64,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "iso_elevator_safe", "z": -1, "random": true, "cant_see": true, "search_range": 180 },
+        "target_params": { "om_terrain": "iso_elevator_safe", "z": -1, "random": true, "cant_see": true },
         "terrain": "t_elevator",
         "target_max_radius": 30
       },
