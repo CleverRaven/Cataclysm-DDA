@@ -3770,7 +3770,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
 namespace char_creation
 {
-enum description_selector {
+enum description_selector : std::uint8_t {
     NAME,
     GENDER,
     OUTFIT,

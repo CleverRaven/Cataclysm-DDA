@@ -21,7 +21,7 @@ struct tripoint;
 // player is looking at is lit.
 // For non-opaque tiles direction doesn't matter so we just use the single
 // default_ value.
-enum class quadrant : int {
+enum class quadrant : std::uint8_t {
     NE,
     SE,
     SW,
@@ -29,7 +29,7 @@ enum class quadrant : int {
     default_ = NE
 };
 
-enum class vertical_direction {
+enum class vertical_direction : std::uint8_t {
     UP,
     DOWN,
     BOTH

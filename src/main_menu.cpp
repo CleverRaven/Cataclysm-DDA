@@ -59,7 +59,7 @@
 static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mod_id MOD_INFORMATION_dda_tutorial( "dda_tutorial" );
 
-enum class main_menu_opts : int {
+enum class main_menu_opts : std::uint8_t {
     MOTD = 0,
     NEWCHAR,
     LOADCHAR,

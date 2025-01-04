@@ -608,7 +608,7 @@ bool Character::can_mount( const monster &critter ) const
 
 bool monexamine::pet_menu( monster &z )
 {
-    enum choices {
+    enum choices : std::uint8_t {
         swap_pos = 0,
         push_monster,
         lead,
@@ -962,7 +962,7 @@ bool monexamine::pay_bot( monster &z )
 
 bool monexamine::mfriend_menu( monster &z )
 {
-    enum choices {
+    enum choices : std::uint8_t {
         swap_pos = 0,
         push_monster,
         rename,

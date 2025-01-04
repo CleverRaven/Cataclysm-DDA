@@ -8,7 +8,7 @@
 #include "coords_fwd.h"
 #include "submap.h"
 
-enum class timed_event_type : int {
+enum class timed_event_type : std::uint8_t {
     NONE,
     HELP,
     WANTED,

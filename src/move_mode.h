@@ -16,14 +16,14 @@ class JsonObject;
 template<typename T>
 class generic_factory;
 
-enum class steed_type : int {
+enum class steed_type : std::uint8_t {
     NONE,
     ANIMAL,
     MECH,
     NUM
 };
 
-enum class move_mode_type : int {
+enum class move_mode_type : std::uint8_t {
     PRONE,
     CROUCHING,
     WALKING,

@@ -3017,7 +3017,7 @@ class jmapgen_furniture : public jmapgen_piece_with_has_vehicle_collision
 class jmapgen_terrain : public jmapgen_piece_with_has_vehicle_collision
 {
     private:
-        enum apply_action {
+        enum apply_action : std::uint8_t {
             act_unknown, act_ignore, act_dismantle, act_erase
         };
     public:

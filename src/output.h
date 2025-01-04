@@ -461,7 +461,7 @@ inline bool query_yn( const char *const msg, Args &&... args )
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
 }
 
-enum class query_ynq_result {
+enum class query_ynq_result : std::uint8_t {
     quit, no, yes
 };
 query_ynq_result query_ynq( const std::string &text );
@@ -504,7 +504,7 @@ std::vector<std::string> get_hotkeys( std::string_view s );
  *
  */
 /*@{*/
-enum PopupFlags {
+enum PopupFlags : std::uint8_t {
     PF_NONE        = 0,
     PF_GET_KEY     = 1 << 0,
     PF_ON_TOP      = 1 << 2,
@@ -597,7 +597,7 @@ input_event draw_item_info( int iLeft, int iWidth, int iTop, int iHeight, item_i
 input_event draw_item_info( const std::function<catacurses::window()> &init_window,
                             item_info_data &data );
 
-enum class item_filter_type : int {
+enum class item_filter_type : std::uint8_t {
     FIRST = 1, // used for indexing into tables
     FILTER = 1,
     LOW_PRIORITY = 2,
@@ -669,7 +669,7 @@ std::pair<std::string, nc_color> get_light_level( float light );
 
 std::pair<std::string, nc_color> rad_badge_color( int rad );
 
-enum class enumeration_conjunction : int {
+enum class enumeration_conjunction : std::uint8_t {
     none,
     and_,
     or_,
@@ -1055,7 +1055,7 @@ class multiline_list
  * when the mouse is over the window (tiles only) and a click-and-drag scrollbar
  * (technically works in curses, but is smoother in tiles).
  **/
-enum scrolling_key_scheme : int {
+enum scrolling_key_scheme : std::uint8_t {
     no_scheme,
     angle_bracket_scroll,
     arrow_scroll,

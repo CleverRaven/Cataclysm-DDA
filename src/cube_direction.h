@@ -10,7 +10,7 @@ struct tripoint;
 
 namespace om_direction
 {
-enum class type : int;
+enum class type : std::int8_t;
 } // namespace om_direction
 
 // We have other direction enums, but for this purpose we need to have one for

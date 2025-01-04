@@ -69,7 +69,7 @@ struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
 
-enum class side : int;
+enum class side : std::uint8_t;
 
 // Drench cache
 enum water_tolerance : std::uint8_t {

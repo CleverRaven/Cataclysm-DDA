@@ -9,7 +9,7 @@ struct mapgen_parameters;
 template <typename Id> class mapgen_value;
 class mapgendata;
 
-enum class mapgen_parameter_scope {
+enum class mapgen_parameter_scope : std::uint8_t {
     // Should be ordered from most general to most specific
     overmap_special,
     omt,

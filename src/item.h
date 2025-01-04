@@ -50,7 +50,7 @@ class item;
 class iteminfo_query;
 class monster;
 class nc_color;
-enum class pocket_type;
+enum class pocket_type : std::uint8_t;
 class recipe;
 class relic;
 struct part_material;
@@ -71,7 +71,7 @@ class vehicle;
 
 namespace enchant_vals
 {
-enum class mod : int;
+enum class mod : std::uint8_t;
 } // namespace enchant_vals
 
 using bodytype_id = std::string;
@@ -81,7 +81,7 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : std::uint8_t;
-enum class side : int;
+enum class side : std::uint8_t;
 class body_part_set;
 class map;
 struct damage_instance;
@@ -151,7 +151,7 @@ struct iteminfo {
         /** info is ASCII art (prefer monospaced font) */
         bool bIsArt;
 
-        enum flags {
+        enum flags : std::uint8_t {
             no_flags = 0,
             is_decimal = 1 << 0, ///< Print as decimal rather than integer
             is_three_decimal = 1 << 1, ///< Print as decimal with three points of precision
@@ -2270,7 +2270,7 @@ class item : public visitable
         int get_coverage( const sub_bodypart_id &bodypart,
                           const cover_type &type = cover_type::COVER_DEFAULT ) const;
 
-        enum class encumber_flags : int {
+        enum class encumber_flags : std::uint8_t {
             none = 0,
             assume_full = 1,
             assume_empty = 2

@@ -108,7 +108,7 @@ static const mission_type_id mission_MISSION_RECOVER_PRIEST_DIARY( "MISSION_RECO
 static const mission_type_id mission_MISSION_RECRUIT_TRACKER( "MISSION_RECRUIT_TRACKER" );
 static const mission_type_id mission_MISSION_RESCUE_DOG( "MISSION_RESCUE_DOG" );
 
-enum legacy_mission_type_id {
+enum legacy_mission_type_id : std::uint8_t {
     MISSION_NULL,
     MISSION_GET_ANTIBIOTICS,
     MISSION_GET_SOFTWARE,

@@ -82,7 +82,7 @@ class trade_ui
             select_t items_trader;
         };
 
-        enum class event { TRADECANCEL = 0, TRADEOK = 1, SWITCH = 2, NEVENTS = 3 };
+        enum class event : std::uint8_t { TRADECANCEL = 0, TRADEOK = 1, SWITCH = 2, NEVENTS = 3 };
 
         trade_ui( party_t &you, npc &trader, currency_t cost = 0, std::string title = _( "Trade" ) );
 

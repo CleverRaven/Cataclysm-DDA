@@ -41,7 +41,7 @@ class robot_finds_kitten
         cata::mdarray<int, point, rfkCOLS, rfkLINES> rfkscreen;
         int nummessages = 0;
 
-        enum class ui_state : int {
+        enum class ui_state : std::uint8_t {
             instructions,
             main,
             invalid_input,

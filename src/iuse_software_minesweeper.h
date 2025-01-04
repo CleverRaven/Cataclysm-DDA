@@ -20,7 +20,7 @@ class minesweeper_game
         std::map<int, std::map<int, int> > mLevel;
         static constexpr int bomb = -1;
 
-        enum reveal {
+        enum reveal : std::uint8_t {
             unknown,
             flag,
             seen

@@ -69,7 +69,7 @@ std::vector<display_prof_deps *> &prof_window::get_current_set()
 
 void prof_window::filter()
 {
-    enum class _prof_filter_prefix {
+    enum class _prof_filter_prefix : std::uint8_t {
         LEARNED,
         UNLEARNED,
         AS_PROGRESS,

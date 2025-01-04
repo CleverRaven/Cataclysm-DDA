@@ -17,18 +17,18 @@ class JsonOut;
 class safemode
 {
     private:
-        enum Tabs : int {
+        enum Tabs : std::uint8_t {
             GLOBAL_TAB,
             CHARACTER_TAB,
             MAX_TAB
         };
 
-        enum class Categories : int {
+        enum class Categories : std::uint8_t {
             HOSTILE_SPOTTED,
             SOUND
         };
 
-        enum class MovementModes : int {
+        enum class MovementModes : std::uint8_t {
             WALKING,
             DRIVING,
             BOTH

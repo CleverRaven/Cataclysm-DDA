@@ -12,12 +12,12 @@
 
 class pixel_minimap_projector;
 
-enum class pixel_minimap_type : int {
+enum class pixel_minimap_type : std::uint8_t {
     ortho,
     iso
 };
 
-enum class pixel_minimap_mode : int {
+enum class pixel_minimap_mode : std::uint8_t {
     solid,
     squares,
     dots

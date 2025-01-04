@@ -53,7 +53,7 @@ inline const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_
 namespace om_direction
 {
 /** Basic enum for directions. */
-enum class type : int {
+enum class type : std::int8_t {
     invalid = -1,
     none,
     north = none,
@@ -177,7 +177,7 @@ struct overmap_static_spawns : public overmap_spawns {
 };
 
 //terrain flags enum! this is for tracking the indices of each flag.
-enum class oter_flags : int {
+enum class oter_flags : std::uint8_t {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
@@ -234,7 +234,7 @@ struct enum_traits<oter_flags> {
     static constexpr oter_flags last = oter_flags::num_oter_flags;
 };
 
-enum class oter_travel_cost_type : int {
+enum class oter_travel_cost_type : std::uint8_t {
     other,
     impassable,
     road,
@@ -628,7 +628,7 @@ struct overmap_special_placement_constraints {
     numeric_interval<int> occurrences;
 };
 
-enum class overmap_special_subtype {
+enum class overmap_special_subtype : std::uint8_t {
     fixed,
     mutable_,
     last

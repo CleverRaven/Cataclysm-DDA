@@ -50,7 +50,7 @@ constexpr inline int LIGHT_RANGE( float b )
                              LIGHT_TRANSPARENCY_OPEN_AIR ) );
 }
 
-enum class lit_level : int {
+enum class lit_level : std::uint8_t {
     DARK = 0,
     LOW, // Hard to see
     BRIGHT_ONLY, // bright but indistinct

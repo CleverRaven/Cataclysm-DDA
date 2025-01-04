@@ -20,7 +20,7 @@ template <typename E> struct enum_traits;
 
 namespace sounds
 {
-enum class sound_t : int {
+enum class sound_t : std::uint8_t {
     background = 0,
     weather,
     sensory, // Sonar etc. Ensures this sound will usually get a visual marker so the player can see it.
@@ -94,7 +94,7 @@ struct enum_traits<sounds::sound_t> {
 namespace sfx
 {
 //Channel assignments:
-enum class channel : int {
+enum class channel : std::int8_t {
     any = -1,                   //Finds the first available channel
     daytime_outdoors_env = 0,
     nighttime_outdoors_env,
@@ -130,7 +130,7 @@ enum class channel : int {
 };
 
 //Group Assignments:
-enum class group : int {
+enum class group : std::uint8_t {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes

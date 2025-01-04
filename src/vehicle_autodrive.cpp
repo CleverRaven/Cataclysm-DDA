@@ -360,7 +360,7 @@ struct auto_navigation_data {
     Tripoint adjust_z( const Tripoint &p ) const;
 };
 
-enum class collision_check_result : int {
+enum class collision_check_result : std::uint8_t {
     ok,
     no_visibility,
     close_obstacle,

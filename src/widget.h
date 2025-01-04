@@ -15,7 +15,7 @@
 
 // These are the supported data variables for widgets, defined as enum widget_var.
 // widget_var names may be given as the "var" field in widget JSON.
-enum class widget_var : int {
+enum class widget_var : std::uint8_t {
     focus,          // Current focus, integer
     move,           // Current move counter, integer
     move_remainder, // Current remaining moves, integer
@@ -99,7 +99,7 @@ struct enum_traits<widget_var> {
 
 // This is deliberately separate from "direction".
 // The values correspond to the indexed directions returned from avatar::get_mon_visible
-enum class cardinal_direction : int {
+enum class cardinal_direction : std::uint8_t {
     NORTH = 0,
     NORTHEAST = 1,
     EAST = 2,
@@ -120,7 +120,7 @@ struct enum_traits<cardinal_direction> {
 };
 
 // Used when determining bodypart status indicators in sidebar widgets.
-enum class bodypart_status : int {
+enum class bodypart_status : std::uint8_t {
     BITTEN,
     INFECTED,
     BROKEN,
@@ -137,7 +137,7 @@ struct enum_traits<bodypart_status> {
 };
 
 // Determines how text and labels are aligned for widgets
-enum class widget_alignment : int {
+enum class widget_alignment : std::uint8_t {
     LEFT,
     CENTER,
     RIGHT,

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_FRAGMENT_CLOUD_H
 #define CATA_SRC_FRAGMENT_CLOUD_H
 
-enum class quadrant : int;
+enum class quadrant : std::uint8_t;
 /*
  * fragment_cloud represents the density and velocity of fragments passing through a square.
  */

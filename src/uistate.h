@@ -108,7 +108,7 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        enum side { left = 0, right = 1, NUM_PANES = 2 };
+        enum side : std::uint8_t { left = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
 

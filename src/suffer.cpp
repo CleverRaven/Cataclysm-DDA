@@ -815,7 +815,7 @@ void suffer::from_sunburn( Character &you, bool severe )
     // TODO: Could factor bodypart_exposure out of Character too
     std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
 
-    enum Sunburn { None, Focus_Loss, Pain, Damage };
+    enum Sunburn : std::uint8_t { None, Focus_Loss, Pain, Damage };
 
     auto heavy_sunburn = [severe, &you]( bodypart_id bp ) {
         if( severe ) {

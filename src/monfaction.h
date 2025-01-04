@@ -17,7 +17,7 @@ class monfaction;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
 
-enum mf_attitude {
+enum mf_attitude : std::uint8_t {
     MFA_BY_MOOD = 0,    // Hostile if angry
     MFA_NEUTRAL,        // Neutral even when angry
     MFA_FRIENDLY,       // Friendly

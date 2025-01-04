@@ -51,7 +51,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     int content_height = 0;
     const int num_columns = 6;
 
-    enum Columns : int {
+    enum Columns : std::uint8_t {
         COLUMN_RULE,
         COLUMN_ATTITUDE,
         COLUMN_PROXIMITY,

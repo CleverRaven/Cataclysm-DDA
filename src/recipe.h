@@ -26,13 +26,13 @@ class JsonObject;
 class item;
 template <typename E> struct enum_traits;
 
-enum class recipe_filter_flags : int {
+enum class recipe_filter_flags : std::uint8_t {
     none = 0,
     no_rotten = 1,
     no_favorite = 2,
 };
 
-enum class recipe_time_flag : int {
+enum class recipe_time_flag : std::uint8_t {
     none = 0,
     ignore_proficiencies = 1,
 };

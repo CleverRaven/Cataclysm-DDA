@@ -32,7 +32,7 @@ struct comfort_data {
     static const int COMFORT_COMFORTABLE = 5;
     static const int COMFORT_VERY_COMFORTABLE = 10;
 
-    enum class category {
+    enum class category : std::uint8_t {
         terrain,
         furniture,
         trap,

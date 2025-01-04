@@ -20,7 +20,7 @@ struct regional_settings;
 
 namespace om_direction
 {
-enum class type : int;
+enum class type : std::int8_t;
 } // namespace om_direction
 
 struct mapgen_arguments {

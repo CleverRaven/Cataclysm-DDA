@@ -18,7 +18,7 @@
 class JsonObject;
 template <typename T> struct enum_traits;
 
-enum class vitamin_type : int {
+enum class vitamin_type : std::uint8_t {
     VITAMIN,
     TOXIN,
     DRUG,

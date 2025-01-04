@@ -64,7 +64,7 @@ struct pickup_count {
     int count = 0;
 };
 
-enum pickup_answer : int {
+enum pickup_answer : std::int8_t {
     CANCEL = -1,
     WIELD,
     SPILL,

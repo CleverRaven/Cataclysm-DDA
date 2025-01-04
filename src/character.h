@@ -112,11 +112,11 @@ struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
 
-enum npc_attitude : int;
+enum npc_attitude : std::uint8_t;
 enum action_id : int;
-enum class recipe_filter_flags : int;
-enum class steed_type : int;
-enum class proficiency_bonus_type : int;
+enum class recipe_filter_flags : std::uint8_t;
+enum class steed_type : std::uint8_t;
+enum class proficiency_bonus_type : std::uint8_t;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

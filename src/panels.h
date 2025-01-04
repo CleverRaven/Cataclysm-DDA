@@ -21,9 +21,9 @@ class Character;
 class Creature;
 class mood_face;
 struct point;
-enum class cardinal_direction;
+enum class cardinal_direction : std::uint8_t;
 
-enum face_type : int {
+enum face_type : std::uint8_t {
     face_human = 0,
     face_bird,
     face_bear,

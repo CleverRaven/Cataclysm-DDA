@@ -27,7 +27,7 @@ template<typename T>
 class generic_factory;
 class Character;
 
-enum class proficiency_bonus_type : int {
+enum class proficiency_bonus_type : std::uint8_t {
     strength,
     dexterity,
     intelligence,

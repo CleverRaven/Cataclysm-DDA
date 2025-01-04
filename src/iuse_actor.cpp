@@ -1900,7 +1900,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
         return false;
     }
 
-    enum inscription_type {
+    enum inscription_type : std::uint8_t {
         INSCRIPTION_LABEL,
         INSCRIPTION_NOTE,
     };
@@ -3228,7 +3228,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     const auto chance = repair_chance( pl, *fix, action );
     int practice_amount = repair_recipe_difficulty( *fix ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
-    enum roll_result {
+    enum roll_result : std::uint8_t {
         SUCCESS,
         FAILURE,
         NEUTRAL

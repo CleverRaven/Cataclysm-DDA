@@ -21,7 +21,7 @@
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
-enum class mission_ui_tab_enum : int {
+enum class mission_ui_tab_enum : std::uint8_t {
     ACTIVE = 0,
     COMPLETED,
     FAILED,

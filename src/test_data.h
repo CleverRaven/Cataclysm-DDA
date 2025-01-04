@@ -22,7 +22,7 @@ struct efficiency_data {
     void deserialize( const JsonObject &jo );
 };
 
-enum class spawn_type : int {
+enum class spawn_type : std::uint8_t {
     none = 0,
     item_group,
     recipe,

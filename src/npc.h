@@ -105,7 +105,7 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
  */
 
 // Attitude is how we feel about the player, what we do around them
-enum npc_attitude : int {
+enum npc_attitude : std::uint8_t {
     NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
     NPCATT_TALK,  // Move to and talk to player
     NPCATT_LEGACY_1,
@@ -133,7 +133,7 @@ std::string npc_attitude_id( npc_attitude );
 std::string npc_attitude_name( npc_attitude );
 
 // Attitudes are grouped by overall behavior towards player
-enum class attitude_group : int {
+enum class attitude_group : std::uint8_t {
     neutral = 0, // Doesn't particularly mind the player
     hostile, // Not necessarily attacking, but also mugging, exploiting etc.
     fearful, // Run
@@ -171,7 +171,7 @@ class job_data
         void deserialize( const JsonValue &jv );
 };
 
-enum npc_mission : int {
+enum npc_mission : std::uint8_t {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
     NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
@@ -232,7 +232,7 @@ struct npc_personality {
     void deserialize( const JsonObject &data );
 };
 
-enum class combat_engagement : int {
+enum class combat_engagement : std::uint8_t {
     NONE = 0,
     CLOSE,
     WEAK,
@@ -252,14 +252,14 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
     }
 };
 
-enum class combat_skills : int {
+enum class combat_skills : std::uint8_t {
     ALL = 0,
     NO_GENERAL,
     WEAPONS_ONLY,
     WEAPONS_ONLY_NO_THROW
 };
 
-enum class aim_rule : int {
+enum class aim_rule : std::uint8_t {
     // Aim some
     WHEN_CONVENIENT = 0,
     // No concern for ammo efficiency
@@ -589,7 +589,7 @@ struct npc_need_goal_cache {
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
 // TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
 // the new string values (used to load old saves).
-enum talk_topic_enum {
+enum talk_topic_enum : std::uint8_t {
     TALK_NONE = 0, // Used to go back to last subject
     TALK_DONE, // Used to end the conversation
     TALK_GUARD, // End conversation, nothing to be said
@@ -1487,7 +1487,7 @@ class npc_template
         translation name_unique;
         translation name_suffix;
         translation temp_suffix;
-        enum class gender : int {
+        enum class gender : std::uint8_t {
             random,
             male,
             female

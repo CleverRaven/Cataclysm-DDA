@@ -242,7 +242,7 @@ class ui_adaptor
         // modified before, during, or after drawing, so they do not necessarily
         // indicate what the current cursor position would be, and therefore
         // should not be made public or have a public getter.
-        enum class cursor {
+        enum class cursor : std::uint8_t {
             last, custom, disabled
         };
         cursor cursor_type = cursor::last;

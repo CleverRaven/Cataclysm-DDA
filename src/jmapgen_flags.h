@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_JMAPGEN_FLAGS_H
 #define CATA_SRC_JMAPGEN_FLAGS_H
 
-enum class jmapgen_flags {
+enum class jmapgen_flags : std::uint8_t {
     allow_terrain_under_other_data,
     dismantle_all_before_placing_terrain,
     erase_all_before_placing_terrain,
