@@ -1326,7 +1326,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                     return it.is_seed();
                 } );
-                if( seed->has_flag( json_flag_CUT_HARVEST ) ) {
+                if( seed == items.end() ) {
+                    debugmsg( "Missing seed item at %s", src_loc.to_string() );
+                    return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
+                } else if( seed->has_flag( json_flag_CUT_HARVEST ) ) {
                     // The plant in this location needs a grass cutting tool.
                     if( you.has_quality( quality_id( qual_GRASS_CUT ), 1 ) ) {
                         return activity_reason_info::ok( do_activity_reason::NEEDS_CUT_HARVESTING );
