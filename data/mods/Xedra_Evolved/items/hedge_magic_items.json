@@ -237,11 +237,7 @@
     "color": "blue",
     "flags": [ "EATEN_COLD", "HEDGE_ENCHANTED" ],
     "phase": "solid",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Rub the paste on your eyes.",
-      "effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
   },
   {
     "type": "COMESTIBLE",
