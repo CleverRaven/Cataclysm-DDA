@@ -55,6 +55,7 @@ static const ammo_effect_str_id ammo_effect_STREAM( "STREAM" );
 static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
 static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
 static const efftype_id effect_bounced( "bounced" );
 
@@ -231,9 +232,18 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg,
     creature_tracker &creatures = get_creature_tracker();
     Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
-    double target_size = target_critter != nullptr ?
-                         target_critter->ranged_target_size() :
-                         here.ranged_target_size( target_arg );
+    double target_size;
+    if( target_critter != nullptr ) {
+        const monster *mon = target_critter->as_monster();
+        if( mon && proj_arg.proj_effects.count( ammo_effect_WIDE ) ) {
+            // ammo with ammo_effect_WIDE ignores mon_flag_HARDTOSHOOT
+            target_size = occupied_tile_fraction( mon->get_size() );
+        } else {
+            target_size = target_critter->ranged_target_size();
+        }
+    } else {
+        target_size = here.ranged_target_size( target_arg );
+    }
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     if( target_critter && target_critter->as_character() &&
