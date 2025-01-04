@@ -26,7 +26,7 @@ class harvest_drop_type
         void load( const JsonObject &jo, std::string_view src );
         static const std::vector<harvest_drop_type> &get_all();
 
-        const harvest_drop_type_id &getId() {
+        const harvest_drop_type_id &getId() const {
             return id;
         }
         // Get skills required for harvesting rolls

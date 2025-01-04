@@ -376,7 +376,7 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-bool avatar::has_mission_id( const mission_type_id &miss_id )
+bool avatar::has_mission_id( const mission_type_id &miss_id ) const
 {
     for( mission *miss : active_missions ) {
         if( miss->mission_id() == miss_id ) {

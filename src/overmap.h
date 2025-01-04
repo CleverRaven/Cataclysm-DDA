@@ -160,7 +160,7 @@ class overmap_special_batch
             std::vector<overmap_special_placement>::iterator pos ) {
             return placements.erase( pos );
         }
-        bool empty() {
+        bool empty() const {
             return placements.empty();
         }
 

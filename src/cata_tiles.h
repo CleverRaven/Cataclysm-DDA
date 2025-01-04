@@ -108,10 +108,10 @@ class tile_lookup_res
         tile_type *_tile;
     public:
         tile_lookup_res( const std::string &id, tile_type &tile ): _id( &id ), _tile( &tile ) {}
-        inline const std::string &id() {
+        inline const std::string &id() const {
             return *_id;
         }
-        inline tile_type &tile() {
+        inline tile_type &tile() const {
             return *_tile;
         }
 };
@@ -435,7 +435,7 @@ class cata_tiles
         void on_options_changed();
 
         // checks if the tileset_ptr is valid
-        bool is_valid() {
+        bool is_valid() const {
             return tileset_ptr != nullptr;
         }
 

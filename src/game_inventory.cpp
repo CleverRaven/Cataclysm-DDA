@@ -2636,7 +2636,7 @@ class bionic_install_preset: public inventory_selector_preset
                                   chance_of_failure );
         }
 
-        std::string get_anesth_amount( const item_location &loc ) {
+        std::string get_anesth_amount( const item_location &loc ) const {
 
             const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
             const int duration = loc.get_item()->type->bionic->difficulty * 2;

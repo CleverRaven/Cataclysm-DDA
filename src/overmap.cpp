@@ -2333,7 +2333,7 @@ class joins_tracker
         }
 
         struct compare_iterators {
-            bool operator()( iterator l, iterator r ) {
+            bool operator()( iterator l, iterator r ) const {
                 return l->where < r->where;
             }
         };

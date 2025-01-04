@@ -4054,7 +4054,7 @@ class Character : public Creature, public visitable
          * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
          * Used to determine suffering effects of albinism and solar sensitivity.
          */
-        std::map<bodypart_id, float> bodypart_exposure();
+        std::map<bodypart_id, float> bodypart_exposure() const;
     private:
         /**
          * Check whether the other creature is in range and can be seen by this creature.

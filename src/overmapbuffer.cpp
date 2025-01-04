@@ -1251,7 +1251,7 @@ tripoint_abs_omt overmapbuffer::find_random(
     return find_random( origin, params );
 }
 
-shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
+shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id ) const
 {
     for( auto &it : overmaps ) {
         if( auto p = it.second->find_npc( id ) ) {
@@ -1276,7 +1276,7 @@ shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &un
     return get( loc ).find_npc_by_unique_id( unique_id );
 }
 
-std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
+std::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p ) const
 {
     for( auto &it : overmaps ) {
         const point_abs_omt p2( p );
@@ -1455,7 +1455,7 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
     return result;
 }
 
-std::vector<shared_ptr_fast<npc>> overmapbuffer::get_overmap_npcs()
+std::vector<shared_ptr_fast<npc>> overmapbuffer::get_overmap_npcs() const
 {
     std::vector<shared_ptr_fast<npc>> result;
     for( auto &om : overmaps ) {

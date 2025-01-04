@@ -1834,7 +1834,7 @@ class vehicle
          */
         bool check_heli_descend( Character &p ) const;
         bool check_heli_ascend( Character &p ) const;
-        bool check_is_heli_landed();
+        bool check_is_heli_landed() const;
         /**
          * Player is driving the vehicle
          * @param trn is turn direction
@@ -2044,7 +2044,7 @@ class vehicle
         void unlock( int part_index );
         // returns whether the door can be locked with an attached DOOR_LOCKING part.
         bool part_has_lock( int part_index ) const;
-        bool can_close( int part_index, Character &who );
+        bool can_close( int part_index, Character &who ) const;
 
         // @returns true if vehicle only has foldable parts
         bool is_foldable() const;

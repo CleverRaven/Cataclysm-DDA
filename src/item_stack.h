@@ -45,9 +45,9 @@ class item_stack
 
         // While iterators to colonies are stable, indexes are not.
         // These functions should only be used for serialization/deserialization
-        iterator get_iterator_from_pointer( item *it );
-        iterator get_iterator_from_index( size_t idx );
-        size_t get_index_from_iterator( const const_iterator &it );
+        iterator get_iterator_from_pointer( item *it ) const;
+        iterator get_iterator_from_index( size_t idx ) const;
+        size_t get_index_from_iterator( const const_iterator &it ) const;
 
         iterator begin();
         iterator end();

@@ -190,7 +190,7 @@ class avatar : public Character
         /**
          * Returns true if character has the mission in their active missions list.
          */
-        bool has_mission_id( const mission_type_id &miss_id );
+        bool has_mission_id( const mission_type_id &miss_id ) const;
 
         void remove_active_mission( mission &cur_mission );
 

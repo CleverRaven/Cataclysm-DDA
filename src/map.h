@@ -2894,7 +2894,7 @@ class tinymap : private map
         using map::set_abs_sub;
         using map::setsubmap;
         using map::get_nonant;
-        int get_my_MAPSIZE() {
+        int get_my_MAPSIZE() const {
             return my_MAPSIZE;
         }
 };

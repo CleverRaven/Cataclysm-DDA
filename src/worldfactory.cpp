@@ -2089,7 +2089,7 @@ void load_external_option( const JsonObject &jo )
     options_manager::update_options_cache();
 }
 
-mod_manager &worldfactory::get_mod_manager()
+mod_manager &worldfactory::get_mod_manager() const
 {
     return *mman;
 }
@@ -2104,7 +2104,7 @@ WORLD *worldfactory::get_world( const std::string &name )
     return iter->second.get();
 }
 
-std::string worldfactory::get_world_name( const size_t index )
+std::string worldfactory::get_world_name( const size_t index ) const
 {
     size_t i = 0;
     for( const auto &elem : all_worlds ) {
@@ -2116,7 +2116,7 @@ std::string worldfactory::get_world_name( const size_t index )
     return "";
 }
 
-size_t worldfactory::get_world_index( const std::string &name )
+size_t worldfactory::get_world_index( const std::string &name ) const
 {
     size_t i = 0;
     for( const auto &elem : all_worlds ) {
