@@ -1154,6 +1154,9 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
 };
 const std::vector<std::pair<std::string, money>> money_units = { {
         { "cent", 1_cent },
+        { "cents", 1_cent },
+        { "dollar", 1_USD },
+        { "dollars", 1_USD },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
