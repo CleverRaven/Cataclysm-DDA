@@ -2473,7 +2473,7 @@ void outfit::write_text_memorial( std::ostream &file, const std::string &indent,
                                   const char *eol ) const
 {
     for( const item &elem : worn ) {
-        item next_item = elem;
+        const item &next_item = elem;
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";

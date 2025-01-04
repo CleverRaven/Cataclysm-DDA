@@ -2496,7 +2496,7 @@ bool vehicle::split_vehicles( map &here,
         if( split_parts.empty() ) {
             continue;
         }
-        std::vector<point_rel_ms> split_mounts = new_mounts[ i ];
+        const std::vector<point_rel_ms> &split_mounts = new_mounts[ i ];
         did_split = true;
 
         vehicle *new_vehicle = nullptr;

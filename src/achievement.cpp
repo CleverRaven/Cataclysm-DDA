@@ -550,7 +550,7 @@ class requirement_watcher : stat_watcher
 
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
-        bool is_satisfied( stats_tracker &/*stats*/ ) {
+        bool is_satisfied( stats_tracker &/*stats*/ ) const {
             return requirement_->satisfied_by( current_value_ );
         }
 

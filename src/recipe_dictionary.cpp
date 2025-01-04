@@ -196,7 +196,7 @@ static std::unordered_set<layer_level> filtered_layers;
 
 template<typename Unit>
 static Unit can_contain_filter( std::string_view hint, std::string_view txt, Unit max,
-                                std::vector<std::pair<std::string, Unit>> units )
+                                const std::vector<std::pair<std::string, Unit>> &units )
 {
     auto const error = [hint, txt]( char const *, size_t /* offset */ ) {
         throw math::runtime_error( _( string_format( hint, txt ) ) );

@@ -2898,8 +2898,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            item_location left = lhs.any_item();
-            item_location right = rhs.any_item();
+            const item_location &left = lhs.any_item();
+            const item_location &right = rhs.any_item();
 
             if( left->ammo_remaining() == 0 || right->ammo_remaining() == 0 ) {
                 return ( left->ammo_remaining() != 0 ) > ( right->ammo_remaining() != 0 );

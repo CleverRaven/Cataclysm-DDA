@@ -2166,7 +2166,7 @@ conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view 
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject &jo,
-        std::function<T( const std::string & )> ret_func )
+        const std::function<T( const std::string & )> &ret_func )
 {
     const std::string &mutator = jo.get_string( "mutator" );
     if( mutator == "mon_faction" ) {
@@ -2220,7 +2220,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
 
 template<class T>
 static std::function<T( const_dialogue const & )> get_get_translation_( const JsonObject &jo,
-        std::function<T( const translation & )> ret_func )
+        const std::function<T( const translation & )> &ret_func )
 {
     if( jo.get_string( "mutator" ) == "ma_technique_description" ) {
         str_or_var ma = get_str_or_var( jo.get_member( "matec_id" ), "matec_id" );

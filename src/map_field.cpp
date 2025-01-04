@@ -119,7 +119,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
 void map::create_burnproducts( const tripoint_bub_ms &p, const item &fuel,
                                const units::mass &burned_mass )
 {
-    const std::map<material_id, int> all_mats = fuel.made_of();
+    const std::map<material_id, int> &all_mats = fuel.made_of();
     if( all_mats.empty() ) {
         return;
     }

@@ -15,7 +15,7 @@
  */
 template<typename T>
 std::function<bool( const T & )> filter_from_string( std::string filter,
-        std::function<std::function<bool( const T & )>( const std::string & )> basic_filter )
+        const std::function<std::function<bool( const T & )>( const std::string & )> &basic_filter )
 {
     if( filter.empty() ) {
         // Variable without name prevents unused parameter warning

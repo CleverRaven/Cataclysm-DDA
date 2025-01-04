@@ -5485,7 +5485,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
 
     int index = 0;
     for( const clothing_mod_id &cm : clothing_mods ) {
-        clothing_mod obj = cm.obj();
+        const clothing_mod &obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
 
