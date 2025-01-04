@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Item_group;
 class Item_spawn_data;
@@ -29,6 +30,10 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
+/**
+ * Blacklists are an old way to remove items from the game.
+ * It doesn't change at runtime.
+ */
 bool item_is_blacklisted( const itype_id &id );
 
 using item_action_id = std::string;
@@ -265,6 +270,13 @@ class Item_factory
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
+        /**
+         * All armor that can be used as a container. Much faster than iterating all items.
+         *
+         * Return begin and end iterators.
+         */
+        std::pair<std::vector<item>::const_iterator, std::vector<item>::const_iterator>
+        get_armor_containers( units::volume min_volume ) const;
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
@@ -286,6 +298,15 @@ class Item_factory
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;
         std::unordered_map<itype_id, itype_id> migrated_magazines;
+
+        /**
+         * Cache for armor_containers.
+         *
+         * If `!armor_containers.empty()` then cache is valid. When valid they have the same size
+         * and `armor_containers[i]` has the biggest pocket volume equal to `volumes[i]`.
+         */
+        mutable std::vector<item> armor_containers;
+        mutable std::vector<units::volume> volumes;
 
         /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.

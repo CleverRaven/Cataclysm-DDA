@@ -6044,28 +6044,41 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    // does the item fit in any holsters?
-    std::vector<const itype *> holsters = Item_factory::find( [this]( const itype & e ) {
-        if( !e.can_use( "holster" ) ) {
-            return false;
+    // Does the item fit into any armor?
+    std::vector<std::reference_wrapper<const item>> armor_containers;
+    auto /*std::vector<item>::const_iterator*/ [begin, end] =
+        item_controller->get_armor_containers( volume() );
+    for( std::vector<item>::const_iterator iter = begin; iter != end; ++iter ) {
+        if( iter->can_contain_directly( *this ).success() ) {
+            armor_containers.emplace_back( *iter );
         }
-        const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                   ( e.get_use( "holster" )->get_actor_ptr() );
-        const item holster_item( &e );
-        return ptr->can_holster( holster_item, *this ) && !item_is_blacklisted( holster_item.typeId() );
-    } );
+    }
 
-    if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
+    if( !armor_containers.empty() && parts->test( iteminfo_parts::DESCRIPTION_ARMOR_CONTAINERS ) ) {
         insert_separation_line( info );
-        std::vector<std::string> holsters_str;
-        holsters_str.reserve( holsters.size() );
-        for( const itype *e : holsters ) {
-            holsters_str.emplace_back( player_character.is_wearing( e->get_id() )
-                                       ? string_format( "<good>%s</good>", e->nname( 1 ) )
-                                       : e->nname( 1 ) );
+        const bool too_many_items = armor_containers.size() > 100;
+        std::vector<std::string> armor_containers_str;
+        for( const item &it : armor_containers ) {
+            // This sorts the green worn items in front of others, as '<' sorts before 'a', 'B' etc.
+            if( player_character.is_wearing( it.type->get_id() ) ) {
+                armor_containers_str.emplace_back( string_format( "<good>%s</good>", it.type->nname( 1 ) ) );
+            } else if( !too_many_items ) {
+                armor_containers_str.emplace_back( it.type->nname( 1 ) );
+            }
         }
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can be stored in</bold>: %s." ),
-                           enumerate_lcsorted_with_limit( holsters_str, 30 ) ) );
+        const int unworn_items = armor_containers.size() - armor_containers_str.size();
+        if( too_many_items && armor_containers_str.empty() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in %d unworn wearables.</bold>" ), unworn_items ) );
+        } else if( too_many_items && unworn_items > 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (worn)</bold>: %s.  And %d unworn wearables." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ), unworn_items ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (wearables)</bold>: %s." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ) ) );
+        }
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
@@ -12721,6 +12734,11 @@ units::mass item::get_total_holster_weight() const
 units::mass item::get_used_holster_weight() const
 {
     return contents.get_used_holster_weight();
+}
+
+units::volume item::get_biggest_pocket_capacity() const
+{
+    return contents.biggest_pocket_capacity();
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
