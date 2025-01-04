@@ -584,6 +584,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "shonisaurus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "shonisaurus", "shonisaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "plesiosaurus",
     "base_faction": "fishing_dino",
     "friendly": [ "plesiosaurus" ]
