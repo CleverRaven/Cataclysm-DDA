@@ -90,7 +90,7 @@ Skill::Skill( const skill_id &ident, const translation &name, const translation 
 }
 
 std::vector<const Skill *> Skill::get_skills_sorted_by(
-    std::function<bool ( const Skill &, const Skill & )> pred )
+    const std::function<bool ( const Skill &, const Skill & )> &pred )
 {
     std::vector<const Skill *> result;
     result.reserve( skills.size() );

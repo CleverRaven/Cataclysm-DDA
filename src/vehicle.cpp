@@ -4379,7 +4379,7 @@ double vehicle::coeff_air_drag() const
                   p.info().has_flag( "OPENABLE" ) );
     };
 
-    const auto d_protrusion = [&]( std::vector<int> parts_at ) {
+    const auto d_protrusion = [&]( const std::vector<int> &parts_at ) {
         if( parts_at.size() > 1 ) {
             return false;
         } else {

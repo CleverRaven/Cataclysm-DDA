@@ -472,9 +472,9 @@ class basecamp
         void add_assignee( character_id id );
         void remove_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
-        void hide_mission( ui_mission_id id );
-        void reveal_mission( ui_mission_id id );
-        bool is_hidden( ui_mission_id id );
+        void hide_mission( const ui_mission_id &id );
+        void reveal_mission( const ui_mission_id &id );
+        bool is_hidden( const ui_mission_id &id );
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

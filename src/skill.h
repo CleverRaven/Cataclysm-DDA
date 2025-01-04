@@ -59,7 +59,7 @@ class Skill
         static void reset();
 
         static std::vector<const Skill *> get_skills_sorted_by(
-            std::function<bool ( const Skill &, const Skill & )> pred );
+            const std::function<bool ( const Skill &, const Skill & )> &pred );
 
         Skill();
         Skill( const skill_id &ident, const translation &name, const translation &description,

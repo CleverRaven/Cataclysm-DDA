@@ -2489,7 +2489,7 @@ std::vector<spell> Character::spells_known_of_class( const trait_id &spell_class
     return ret;
 }
 
-static void refresh_favorite( uilist *menu, std::vector<spell *> known_spells )
+static void refresh_favorite( uilist *menu, const std::vector<spell *> &known_spells )
 {
     for( uilist_entry &entry : menu->entries ) {
         if( get_player_character().magic->is_favorite( known_spells[entry.retval]->id() ) ) {
