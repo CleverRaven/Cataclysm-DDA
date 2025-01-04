@@ -9580,7 +9580,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         return true;
     };
 
-    const std::string cannot_see = colorize( _( "can't see!" ), c_red );
+    std::string cannot_see = colorize( _( "can't see!" ), c_red );
     auto time_or_disabledreason = [&]( butcher_type bt ) {
         if( bt == butcher_type::DISMEMBER ) {
             return cut_time( bt );
