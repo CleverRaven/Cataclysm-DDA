@@ -18,14 +18,18 @@
 #include <vector>
 
 #include "cached_options.h" // IWYU pragma: keep
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
 #include "game_constants.h"
+#if defined(IMGUI)
 #include "imgui/imgui.h"
+#endif
 #include "input.h"
 #include "input_context.h"
 #include "item.h"
@@ -1230,6 +1234,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer;
 }
 
+#if defined(IMGUI)
 static nc_color get_comparison_color( const iteminfo &i,
                                       const std::vector<iteminfo> &vItemCompare )
 {
@@ -1328,6 +1333,7 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
         }
     }
 }
+#endif
 
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
 {

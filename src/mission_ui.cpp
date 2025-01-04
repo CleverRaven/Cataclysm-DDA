@@ -18,8 +18,10 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units_utility.h"
+#if defined(IMGUI)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
+#endif
 
 enum class mission_ui_tab_enum : int {
     ACTIVE = 0,

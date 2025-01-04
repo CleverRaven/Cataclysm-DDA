@@ -449,7 +449,11 @@ bool veh_menu::query()
 
     if( locations.size() == items.size() ) { // all items have valid location attached
         menu.callback = &cb;
+#if defined(IMGUI)
         menu.desired_bounds = { 4.0, -1.0, -1.0, -1.0 };
+#else
+        menu.w_x_setup = 4; // move menu to the left so more space around vehicle is visible
+#endif
     } else {
         menu.callback = nullptr;
     }

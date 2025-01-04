@@ -1292,9 +1292,20 @@ void editmap::edit_fld()
             const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
+#if defined(IMGUI)
                 shared_ptr_fast<uilist_impl> fmenu_ui = fmenu.create_or_get_ui();
-
+#else
+                shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
+#endif
                 uilist femenu;
+#if !defined(IMGUI)
+                femenu.w_width_setup = width;
+                femenu.w_height_setup = infoHeight;
+                femenu.w_y_setup = [this]( int ) -> int {
+                    return TERMY - infoHeight;
+                };
+                femenu.w_x_setup = offsetX;
+#endif
 
                 femenu.text = field_intensity < 1 ? "" : ftype.get_name( field_intensity - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (e.g. without blood)",
@@ -1419,7 +1430,11 @@ void editmap::edit_itm()
     restore_on_out_of_scope info_txt_prev( info_txt_curr );
     restore_on_out_of_scope info_title_prev( info_title_curr );
 
+#if defined(IMGUI)
     shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
+#else
+    shared_ptr_fast<ui_adaptor> ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
+#endif
 
     do {
         info_txt_curr.clear();
@@ -1430,6 +1445,15 @@ void editmap::edit_itm()
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
             item &it = *items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
+#if !defined(IMGUI)
+            imenu.w_x_setup = offsetX;
+            imenu.w_y_setup = [this]( int ) -> int {
+                return TERMY - infoHeight - 1;
+            };
+            imenu.w_height_setup = [this]() -> int {
+                return infoHeight + 1;
+            };
+#endif
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1453,7 +1477,11 @@ void editmap::edit_itm()
             };
             imenu.allow_additional = true;
 
+#if defined(IMGUI)
             shared_ptr_fast<uilist_impl> imenu_ui = imenu.create_or_get_ui();
+#else
+            shared_ptr_fast<ui_adaptor> imenu_ui = imenu.create_or_get_ui_adaptor();
+#endif
 
             do {
                 imenu.query();
@@ -2160,7 +2188,11 @@ void editmap::edit_mapgen()
 
         if( gmenu.ret >= 0 ) {
             blink = false;
+#if defined(IMGUI)
             shared_ptr_fast<uilist_impl> gmenu_ui = gmenu.create_or_get_ui();
+#else
+            shared_ptr_fast<ui_adaptor> gmenu_ui = gmenu.create_or_get_ui_adaptor();
+#endif
             mapgen_preview( tc, gmenu );
             blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {

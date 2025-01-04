@@ -14,7 +14,9 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "catacharset.h"
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -22,7 +24,9 @@
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
+#if defined(IMGUI)
 #include "imgui/imgui.h"
+#endif
 #include "input.h"
 #include "input_context.h"
 #include "item.h"
@@ -56,6 +60,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class ui_adaptor;
 
+#if defined(IMGUI)
 class wish_mutate_callback: public uilist_callback
 {
     public:
@@ -242,6 +247,211 @@ class wish_mutate_callback: public uilist_callback
 
         ~wish_mutate_callback() override = default;
 };
+#else
+class wish_mutate_callback: public uilist_callback
+{
+    public:
+        // Last menu entry
+        int lastlen = 0;
+        // Feedback message
+        std::string msg;
+        bool started = false;
+        bool only_active = false;
+        std::vector<trait_id> vTraits;
+        std::map<trait_id, bool> pTraits;
+        Character *you;
+
+        nc_color mcolor( const trait_id &m ) {
+            if( pTraits[ m ] ) {
+                return c_green;
+            }
+            return c_light_gray;
+        }
+
+        wish_mutate_callback() = default;
+        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
+            if( event.get_first_input() == 't' && you->has_trait( vTraits[ entnum ] ) ) {
+                if( !you->has_base_trait( vTraits[ entnum ] ) ) {
+                    you->unset_mutation( vTraits[ entnum ] );
+                }
+
+                you->toggle_trait( vTraits[ entnum ] );
+                you->set_mutation( vTraits[ entnum ] );
+
+                menu->entries[ entnum ].text_color = you->has_trait( vTraits[ entnum ] ) ? c_green :
+                                                     menu->text_color;
+                menu->entries[ entnum ].extratxt.txt = you->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                return true;
+            } else if( event.get_first_input() == 'a' ) {
+                only_active = !only_active;
+
+                for( size_t i = 0; i < vTraits.size(); i++ ) {
+                    if( !you->has_trait( vTraits[ i ] ) ) {
+                        menu->entries[ i ].enabled = !only_active;
+                    }
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        void refresh( uilist *menu ) override {
+            if( !started ) {
+                started = true;
+                for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
+                    vTraits.push_back( traits_iter.id );
+                    pTraits[traits_iter.id] = you->has_trait( traits_iter.id );
+                }
+            }
+
+            const std::string padding = std::string( menu->pad_right - 1, ' ' );
+
+            const int startx = menu->w_width - menu->pad_right;
+            for( int i = 2; i < lastlen; i++ ) {
+                mvwprintw( menu->window, point( startx, i ), padding );
+            }
+
+            int line2 = 4;
+
+            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < vTraits.size() ) {
+                const mutation_branch &mdata = vTraits[menu->selected].obj();
+
+                mvwprintw( menu->window, point( startx, 3 ),
+                           mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
+
+                line2++;
+                mvwprintz(
+                    menu->window,
+                    point( startx, line2 ),
+                    c_light_gray,
+                    _( "Id:" )
+                );
+                mvwprintw(
+                    menu->window,
+                    point( startx + 11, line2 ),
+                    mdata.id.str()
+                );
+
+                if( !mdata.prereqs.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
+                    for( const trait_id &j : mdata.prereqs ) {
+                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
+                                   j->name() );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.prereqs2.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
+                    for( const trait_id &j : mdata.prereqs2 ) {
+                        mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
+                                   j->name() );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.threshreq.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
+                    for( const trait_id &j : mdata.threshreq ) {
+                        mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
+                                   j->name() );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.cancels.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
+                    for( const trait_id &j : mdata.cancels ) {
+                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
+                                   j->name() );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.replacements.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
+                    for( const trait_id &j : mdata.replacements ) {
+                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
+                                   j->name() );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.additions.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
+                    for( const string_id<mutation_branch> &j : mdata.additions ) {
+                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
+                                   j->name() );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.types.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Type:" ) );
+                    for( const std::string &j : mdata.types ) {
+                        mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                        line2++;
+                    }
+                }
+
+                if( !mdata.category.empty() ) {
+                    line2++;
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
+                    for( const mutation_category_id &j : mdata.category ) {
+                        mvwprintw( menu->window, point( startx + 11, line2 ), j.str() );
+                        line2++;
+                    }
+                }
+                line2 += 2;
+
+                //~ pts: points, vis: visibility, ugly: ugliness
+                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "pts: %d vis: %d ugly: %d" ),
+                           mdata.points,
+                           mdata.visibility,
+                           mdata.ugliness
+                         );
+                line2 += 2;
+
+                std::vector<std::string> desc = foldstring( mdata.desc(),
+                                                menu->pad_right - 1 );
+                for( auto &elem : desc ) {
+                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, elem );
+                    line2++;
+                }
+            }
+
+            lastlen = line2 + 1;
+
+            mvwprintz( menu->window, point( startx, menu->w_height - 4 ), c_green, msg );
+            msg.clear();
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
+            mvwprintw( menu->window, point( startx, menu->w_height - 3 ),
+                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+
+            if( only_active ) {
+                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_green,
+                           _( "[a] show active traits (active)" ) );
+            } else {
+                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_white,
+                           _( "[a] show active traits" ) );
+            }
+
+            wnoutrefresh( menu->window );
+        }
+
+        ~wish_mutate_callback() override = default;
+};
+#endif
+
 
 void debug_menu::wishmutate( Character *you )
 {
@@ -264,7 +474,17 @@ void debug_menu::wishmutate( Character *you )
         }
         c++;
     }
+#if defined(IMGUI)
     wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+#else
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = []() -> int {
+        return TERMX;
+    };
+    wmenu.pad_right_setup = []() -> int {
+        return TERMX - 40;
+    };
+#endif
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.you = you;
@@ -623,6 +843,7 @@ void debug_menu::wisheffect( Creature &p )
     } while( efmenu.ret != UILIST_CANCEL );
 }
 
+#if defined(IMGUI)
 class wish_monster_callback: public uilist_callback
 {
     public:
@@ -717,10 +938,106 @@ class wish_monster_callback: public uilist_callback
 
         ~wish_monster_callback() override = default;
 };
+#else
+class wish_monster_callback: public uilist_callback
+{
+    public:
+        // last menu entry
+        int lastent;
+        // feedback message
+        std::string msg;
+        // spawn friendly critter?
+        bool friendly;
+        bool hallucination;
+        // Number of monsters to spawn.
+        int group;
+        // scrap critter for monster::print_info
+        monster tmp;
+        const std::vector<const mtype *> &mtypes;
+
+        explicit wish_monster_callback( const std::vector<const mtype *> &mtypes )
+            : mtypes( mtypes ) {
+            friendly = false;
+            hallucination = false;
+            group = 0;
+            lastent = -2;
+        }
+
+        bool key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist * /*menu*/ ) override {
+            if( event.get_first_input() == 'f' ) {
+                friendly = !friendly;
+                // Force tmp monster regen
+                lastent = -2;
+                // Tell menu we handled keypress
+                return true;
+            } else if( event.get_first_input() == 'i' ) {
+                group++;
+                return true;
+            } else if( event.get_first_input() == 'h' ) {
+                hallucination = !hallucination;
+                return true;
+            } else if( event.get_first_input() == 'd' && group != 0 ) {
+                group--;
+                return true;
+            }
+            return false;
+        }
+
+        void refresh( uilist *menu ) override {
+            catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
+                                        point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
+
+            const int entnum = menu->selected;
+            const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
+            if( entnum != lastent ) {
+                lastent = entnum;
+                if( valid_entnum ) {
+                    tmp = monster( mtypes[ entnum ]->id );
+                    if( friendly ) {
+                        tmp.friendly = -1;
+                    }
+                } else {
+                    tmp = monster();
+                }
+            }
+
+            werase( w_info );
+            if( valid_entnum ) {
+                tmp.print_info( w_info, 2, 5, 1 );
+
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.str(),
+                                                    group, hallucination ? _( " (hallucination)" ) : "" );
+                mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
+            }
+
+            mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
+            msg.clear();
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
+            mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
+                       _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+
+            wnoutrefresh( w_info );
+        }
+
+        ~wish_monster_callback() override = default;
+};
+#endif
 
 static void setup_wishmonster( uilist &pick_a_monster, std::vector<const mtype *> &mtypes )
 {
+#if defined(IMGUI)
     pick_a_monster.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+#else
+    pick_a_monster.w_x_setup = 0;
+    pick_a_monster.w_width_setup = []() -> int {
+        return TERMX;
+    };
+    pick_a_monster.pad_right_setup = []() -> int {
+        return TERMX - 30;
+    };
+#endif
     pick_a_monster.selected = uistate.wishmonster_selected;
     int i = 0;
     for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
@@ -865,6 +1182,7 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
     return granted;
 }
 
+#if defined(IMGUI)
 class wish_item_callback: public uilist_callback
 {
     public:
@@ -1056,6 +1374,201 @@ class wish_item_callback: public uilist_callback
                          ctxt.get_desc( "QUIT" ).c_str() );
         }
 };
+#else
+class wish_item_callback: public uilist_callback
+{
+    public:
+        int examine_pos;
+        bool incontainer;
+        bool spawn_everything;
+        bool renew_snippet;
+        std::string msg;
+        std::string flags;
+        std::string itype_flags;
+        std::pair<int, std::string> chosen_snippet_id;
+        const std::vector<const itype *> &standard_itype_ids;
+        const std::vector<const itype_variant_data *> &itype_variants;
+        std::string &last_snippet_id;
+
+        explicit wish_item_callback( const std::vector<const itype *> &ids,
+                                     const std::vector<const itype_variant_data *> &variants, std::string &snippet_ids ) :
+            incontainer( false ), spawn_everything( false ),
+            standard_itype_ids( ids ), itype_variants( variants ),
+            last_snippet_id( snippet_ids ) {
+        }
+
+        void select( uilist *menu ) override {
+            if( menu->selected < 0 ) {
+                return;
+            }
+            examine_pos = 0;
+            chosen_snippet_id = { -1, "" };
+            renew_snippet = true;
+            const itype &selected_itype = *standard_itype_ids[menu->selected];
+            // Make liquids "contained" by default (toggled with CONTAINER action)
+            incontainer = selected_itype.phase == phase_id::LIQUID;
+            // Clear instance flags when switching items
+            flags.clear();
+            // Grab default flags for the itype (added with the FLAG action)
+            itype_flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
+            []( const flag_id & f ) {
+                return f.str();
+            } );
+        }
+
+        bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,
+                  uilist *menu ) override {
+
+            const std::string &action = ctxt.input_to_action( event );
+            const int cur_key = event.get_first_input();
+            if( action == "CONTAINER" ) {
+                incontainer = !incontainer;
+                return true;
+            }
+            if( action == "FLAG" ) {
+                std::string edit_flags;
+                if( flags.empty() ) {
+                    // If this is the first time using the FLAG action on this item, start with itype flags
+                    edit_flags = itype_flags;
+                } else {
+                    // Otherwise, edit the existing list of user-defined instance flags
+                    edit_flags = flags;
+                }
+                string_input_popup popup;
+                popup
+                .title( _( "Flags:" ) )
+                .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
+                .max_length( 100 )
+                .text( edit_flags )
+                .query();
+                // Save instance flags on this item (will be reset when selecting another item)
+                if( popup.confirmed() ) {
+                    flags = popup.text();
+                    return true;
+                }
+            }
+            if( action == "EVERYTHING" ) {
+                spawn_everything = !spawn_everything;
+                return true;
+            }
+            if( action == "SNIPPET" ) {
+                if( menu->selected <= -1 ) {
+                    return true;
+                }
+                const int entnum = menu->selected;
+                const itype &selected_itype = *standard_itype_ids[entnum];
+                if( !selected_itype.snippet_category.empty() ) {
+                    const std::string cat = selected_itype.snippet_category;
+                    if( SNIPPET.has_category( cat ) ) {
+                        std::vector<std::pair<snippet_id, std::string>> snippes = SNIPPET.get_snippets_by_category( cat,
+                                true );
+                        if( !snippes.empty() ) {
+                            uilist snipp_query;
+                            snipp_query.text = _( "Choose snippet type." );
+                            snipp_query.desc_lines_hint = 2;
+                            snipp_query.desc_enabled = true;
+                            int cnt = 0;
+                            for( const std::pair<snippet_id, std::string> &elem : snippes ) {
+                                std::string desc = elem.second;
+                                snipp_query.addentry_desc( cnt, true, -1, elem.first.str(), desc );
+                                cnt ++;
+                            }
+                            snipp_query.query();
+                            switch( snipp_query.ret ) {
+                                case UILIST_CANCEL:
+                                    break;
+                                default:
+                                    chosen_snippet_id = { entnum, snippes[snipp_query.ret].first.str() };
+                                    break;
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+            if( action == "SCROLL_DESC_UP" ) {
+                examine_pos = std::max( examine_pos - 1, 0 );
+            }
+            if( action == "SCROLL_DESC_DOWN" ) {
+                examine_pos += 1;
+            }
+            if( cur_key == KEY_LEFT || cur_key == KEY_RIGHT ) {
+                // For Renew snippet_id.
+                renew_snippet = true;
+                return true;
+            }
+            return false;
+        }
+
+        void refresh( uilist *menu ) override {
+            const int description_height = menu->w_height - 6;
+            const int starty = 3;
+            const int startx = menu->w_width - menu->pad_right;
+            const std::string padding( menu->pad_right, ' ' );
+            for( int y = 2; y < menu->w_height - 1; y++ ) {
+                mvwprintw( menu->window, point( startx - 1, y ), padding );
+            }
+            mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
+            const int entnum = menu->selected;
+            if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
+                item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
+
+                const itype_variant_data *variant = itype_variants[entnum];
+                if( variant != nullptr && tmp.has_itype_variant( false ) ) {
+                    // Set the variant type as shown in the selected list item.
+                    std::string variant_id = variant->id;
+                    tmp.set_itype_variant( variant_id );
+                }
+
+                if( !tmp.type->snippet_category.empty() ) {
+                    if( renew_snippet ) {
+                        last_snippet_id = tmp.snip_id.str();
+                        renew_snippet = false;
+                    } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
+                        std::string snip = chosen_snippet_id.second;
+                        if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
+                            tmp.snip_id = snippet_id( snip );
+                            last_snippet_id = snip;
+                        }
+                    } else {
+                        tmp.snip_id = snippet_id( last_snippet_id );
+                    }
+                }
+
+                const std::string header = string_format( "#%d: %s%s%s", entnum,
+                                           standard_itype_ids[entnum]->get_id().c_str(),
+                                           incontainer ? _( " (contained)" ) : "",
+                                           flags.empty() ? "" : _( " (flagged)" ) );
+                mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
+                           c_cyan, header );
+
+                std::vector<std::string> desc = foldstring( tmp.info( true ), menu->pad_right - 1 );
+                const bool do_scroll = desc.size() > static_cast<unsigned>( description_height );
+                examine_pos = std::min( examine_pos, static_cast<int>( desc.size() - description_height ) );
+                const int first_line = do_scroll ? examine_pos : 0;
+                const int last_line = do_scroll ? ( first_line + description_height ) : desc.size();
+                draw_scrollbar( menu->window, first_line, description_height, desc.size(), point( menu->w_width - 1,
+                                starty ),
+                                c_white, true );
+                for( int i = first_line; i < last_line; i++ ) {
+                    fold_and_print( menu->window, point( startx, starty + i - first_line ), menu->pad_right - 1,
+                                    c_light_gray, desc[i] );
+                }
+            }
+
+            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
+            msg.erase();
+            input_context ctxt( menu->input_category, keyboard_mode::keycode );
+            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
+                       _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "CONTAINER" ),
+                       ctxt.get_desc( "FLAG" ), ctxt.get_desc( "EVERYTHING" ),
+                       ctxt.get_desc( "SNIPPET" ),
+                       ctxt.get_desc( "QUIT" ) );
+            wnoutrefresh( menu->window );
+        }
+};
+#endif
 
 void debug_menu::wishitem( Character *you )
 {
@@ -1108,7 +1621,17 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "SCROLL_DESC_UP", translation() },
         { "SCROLL_DESC_DOWN", translation() },
     };
+#if defined(IMGUI)
     wmenu.desired_bounds = { -0.9, -0.9, 0.9, 0.9 };
+#else
+    wmenu.w_x_setup = 0;
+    wmenu.w_width_setup = []() -> int {
+        return TERMX;
+    };
+    wmenu.pad_right_setup = []() -> int {
+        return std::max( TERMX / 2, TERMX - 50 );
+    };
+#endif
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( itypes, ivariants, snipped_id_str );
     wmenu.callback = &cb;
@@ -1156,7 +1679,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                 .width( 20 )
                 .description( granted.tname() )
                 .edit( amount );
-                canceled = popup.canceled();
+                canceled = popup.cancelled();
             }
             if( !canceled ) {
                 did_amount_prompt = true;
@@ -1226,7 +1749,11 @@ void debug_menu::wishskill( Character *you, bool change_theory )
         origskills.push_back( level );
     }
 
+#if defined(IMGUI)
     shared_ptr_fast<uilist_impl> skmenu_ui = skmenu.create_or_get_ui();
+#else
+    shared_ptr_fast<ui_adaptor> skmenu_ui = skmenu.create_or_get_ui_adaptor();
+#endif
 
     do {
         skmenu.query();

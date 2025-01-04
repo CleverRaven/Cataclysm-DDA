@@ -14,13 +14,17 @@
 #include <unordered_set>
 #include <vector>
 
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "dialogue.h"
 #include "game.h"
 #include "npctalk.h"
 #include "ui_manager.h"
+#if defined(IMGUI)
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#endif
 
 static std::map<cbm_recharge_rule, std::string> recharge_map = {
     {cbm_recharge_rule::CBM_RECHARGE_ALL, "<ally_rule_cbm_recharge_all_text>" },

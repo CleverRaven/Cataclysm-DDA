@@ -3050,12 +3050,14 @@ spell &known_magic::select_spell( Character &guy )
         // 3. By spell name
         return strcmp( left->name().c_str(), right->name().c_str() ) < 0;
     } );
+#if defined(IMGUI)
     // set the height of the spell ui
     const float min_y_pix = EVEN_MINIMUM_TERM_HEIGHT * ImGui::GetTextLineHeight();
     float spell_menu_height = std::max( std::min( ( ( known_spells_sorted.size() + 3 ) *
                                         ImGui::GetTextLineHeightWithSpacing() ), ImGui::GetMainViewport()->Size.y * 9 / 10 ),
                                         float( ( ImGui::GetMainViewport()->Size.y < min_y_pix * 1.50 ) ? min_y_pix : min_y_pix * 1.50 ) );
 
+#endif
     uilist spell_menu;
 #if defined(IMGUI)
     spell_menu.desired_bounds = {

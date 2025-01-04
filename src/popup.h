@@ -10,9 +10,16 @@
 
 #include "color.h"
 #include "input_enums.h"
+#if !defined(IMGUI)
+#include "cursesdef.h"
+#include "point.h"
+#include "string_formatter.h"
+#endif
 
 class ui_adaptor;
+#if defined(IMGUI)
 class query_popup_impl;
+#endif
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -34,7 +41,9 @@ class query_popup_impl;
 
 class query_popup
 {
+#if defined(IMGUI)
         friend class query_popup_impl;
+#endif
     public:
         /**
          * Query result returned by `query_once` and `query`.
@@ -178,6 +187,10 @@ class query_popup
          */
         query_popup &preferred_keyboard_mode( keyboard_mode mode );
 
+#if !defined(IMGUI)
+        void show() const;
+#endif
+
         /**
          * Query once and return the result. In order for this method to return
          * valid results, the popup must either have at least one option, or
@@ -194,7 +207,11 @@ class query_popup
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
          * resizing of the popup.
          */
+#if defined(IMGUI)
         std::shared_ptr<query_popup_impl> create_or_get_impl();
+#else
+        std::shared_ptr<ui_adaptor> create_or_get_adaptor();
+#endif
 
     private:
         struct query_option {
@@ -225,7 +242,18 @@ class query_popup
             int width;
         };
 
+#if defined(IMGUI)
         std::weak_ptr<query_popup_impl> p_impl;
+#else
+        std::weak_ptr<ui_adaptor> adaptor;
+        mutable catacurses::window win;
+        static std::vector<std::vector<std::string>> fold_query(
+                    const std::string &category,
+                    keyboard_mode pref_kbd_mode,
+                    const std::vector<query_option> &options,
+                    int max_width, int horz_padding );
+        void init() const;
+#endif
 
         // UI caches
         mutable std::vector<std::string> folded_msg;
@@ -274,7 +302,11 @@ class static_popup : public query_popup
         static_popup();
 
     private:
+#if defined(IMGUI)
         std::shared_ptr<query_popup_impl> ui;
+#else
+        std::shared_ptr<ui_adaptor> ui;
+#endif
 };
 
 #endif // CATA_SRC_POPUP_H
