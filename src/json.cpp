@@ -121,7 +121,7 @@ TextJsonObject::TextJsonObject( TextJsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        if( positions.count( n ) > 0 ) {
+        if( positions.count( n ) > 0 && !string_starts_with( n, "//" ) ) {
             j.error( "duplicate entry in json object" );
         }
         positions[n] = p;

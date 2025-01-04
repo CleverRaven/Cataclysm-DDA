@@ -12,7 +12,7 @@
     "weight": "100 kg",
     "phase": "GAS",
     "hp": 250,
-    "//6": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
+    "//": "Slowed and weakened by light of sufficient brightness. (It lurks outside of flashlight range) Luring it into a trap is a viable path to killing it.",
     "speed": 200,
     "attack_cost": 200,
     "regenerates": 1,
@@ -22,17 +22,17 @@
     "aggression": 100,
     "morale": 300,
     "melee_skill": 10,
-    "//00": "Unfortunately, we do need some melee damage so that it can bash through terrain and the like.",
+    "//": "Unfortunately, we do need some melee damage so that it can bash through terrain and the like.",
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "//0": "Blob bullshit laughs at concepts like armor. This is basically just here as anti-cheese. It should rarely if ever directly attack you.",
+    "//": "Blob bullshit laughs at concepts like armor. This is basically just here as anti-cheese. It should rarely if ever directly attack you.",
     "melee_damage": [ { "damage_type": "pure", "amount": 1, "armor_penetration": 999 } ],
     "dodge": 10,
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 50,
     "melee_training_cap": 0,
-    "//1": "Try to stay this far away from the player with your regular moves, very important",
+    "//": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
     "path_settings": {
       "max_dist": 10,
@@ -42,7 +42,7 @@
       "avoid_sharp": true,
       "allow_climb_stairs": true
     },
-    "//2": "TODO? Upgrade doesn't actually work because amalgamations do not have evolutions. Ideally this would upgrade them one step *and also remove their timed lifespan*. If this is added/resolved the spell cooldowns probably need to be nerfed.",
+    "//": "TODO? Upgrade doesn't actually work because amalgamations do not have evolutions. Ideally this would upgrade them one step *and also remove their timed lifespan*. If this is added/resolved the spell cooldowns probably need to be nerfed.",
     "special_attacks": [
       [ "UPGRADE", 20 ],
       {
@@ -103,7 +103,7 @@
       "NOT_HALLUCINATION",
       "PATH_AVOID_DANGER"
     ],
-    "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
+    "//": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100 }
   },
   {
