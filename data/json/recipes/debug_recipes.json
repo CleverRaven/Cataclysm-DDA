@@ -1,6 +1,7 @@
 [
   {
     "result": "helmet_scavenger",
+    "id_suffix": "debug",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
