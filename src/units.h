@@ -1232,7 +1232,12 @@ T read_from_json_string_common( const std::string_view s,
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit", i );
+        std::string error_msg = "Invalid quantity string: unknown unit. Valid units are:";
+        for( const std::pair<std::string, T> &pair : units ) {
+            error_msg += "\n";
+            error_msg += pair.first;
+        }
+        error( error_msg.c_str(), i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };

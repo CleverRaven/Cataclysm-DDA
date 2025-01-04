@@ -235,6 +235,7 @@ bool assign( const JsonObject &jo, const std::string_view name, units::money &va
              const units::money lo, const units::money hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
+        // Remove after 0.I, int reading should throw a specific error until at least then
         if( obj.has_int( name ) ) {
             std::string error_msg = "Must use denomination for pricing. Valid units are:";
             for( const std::pair<std::string, units::money> &denomination : units::money_units ) {
