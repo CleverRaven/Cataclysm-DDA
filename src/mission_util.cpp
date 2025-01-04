@@ -180,7 +180,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
+        return project_to<coords::omt>( get_tripoint_from_var( params.target_var, d, false ) );
     }
 
     omt_find_params find_params;
