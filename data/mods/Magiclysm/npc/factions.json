@@ -143,7 +143,20 @@
       { "category": "food", "price": 0 },
       { "category": "guns", "premium": 0.1 },
       { "category": "ammo", "premium": 0.1 },
-      { "category": "artifacts", "premium": 1000 }
+      { "category": "artifacts", "premium": 1000 },
+      { "group": "SUS_bathroom_sink", "price": 0 },
+      { "group": "SUS_bathroom_medicine", "price": 0 },
+      { "group": "SUS_toilet", "price": 0 },
+      { "group": "SUS_bathroom_cabinet", "price": 0 },
+      { "group": "SUS_dishes", "price": 0 },
+      { "group": "SUS_cookware", "price": 0 },
+      { "group": "SUS_utensils", "price": 0 },
+      { "group": "SUS_junk_drawer", "price": 0 },
+      { "group": "SUS_kitchen_sink", "price": 0 },
+      { "group": "potions_common", "premium": 1 },
+      { "group": "potions_uncommon", "premium": 1.1 },
+      { "group": "potions_rare", "premium": 1.6 },
+      { "group": "potions_illegal", "premium": 3 }
     ],
     "relations": {
       "lobby_beggars": {
