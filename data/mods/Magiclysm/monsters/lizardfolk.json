@@ -110,7 +110,8 @@
         { "item": "robe", "prob": 40 },
         { "item": "leather_belt", "prob": 20 }
       ]
-    }
+    },
+    "extend": { "flags": [ "MAGIC_USER" ] }
   },
   {
     "id": "mon_lizardfolk_chieftan",

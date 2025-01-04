@@ -164,7 +164,7 @@
         { "group": "enchanted_wands_disposable_combat", "prob": 10 }
       ]
     },
-    "extend": { "armor": { "poison": 25 } }
+    "extend": { "armor": { "poison": 25 }, "flags": [ "MAGIC_USER" ] }
   },
   {
     "id": "mon_troll_goblin_tamed",
