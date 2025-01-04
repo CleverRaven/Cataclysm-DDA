@@ -495,7 +495,7 @@ struct mtype {
         // Monster biosignature variables
         std::optional<time_duration> biosig_timer;
 
-        pathfinding_settings path_settings;
+        PathfindingSettings path_settings;
 
         // All the bools together for space efficiency
         //

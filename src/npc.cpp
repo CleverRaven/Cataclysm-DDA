@@ -260,8 +260,16 @@ npc::npc()
     patience = 0;
     attitude = NPCATT_NULL;
 
-    *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, true, false, true,
-                                           get_size() );
+    PathfindingSettings pf_settings;
+    pf_settings.set_avoid_bashing( true );
+    pf_settings.set_max_distance( 1000 );
+    pf_settings.set_max_cost( 1000 * 50 );
+    pf_settings.set_climb_cost( 10 );
+    pf_settings.set_avoid_dangerous_traps( true );
+    pf_settings.set_avoid_sharp( true );
+    pf_settings.set_size_restriction( get_size() );
+    *path_settings = pf_settings;
+
     for( direction threat_dir : npc_threat_dir ) {
         ai_cache.threat_map[ threat_dir ] = 0.0f;
     }
@@ -3446,26 +3454,26 @@ bool npc::will_accept_from_player( const item &it ) const
     return true;
 }
 
-const pathfinding_settings &npc::get_pathfinding_settings() const
+const PathfindingSettings &npc::get_pathfinding_settings() const
 {
     return get_pathfinding_settings( false );
 }
 
-const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
+const PathfindingSettings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
-    path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    path_settings->set_bash_strength( no_bashing ? 0 : smash_ability() );
     if( has_trait( trait_NO_BASH ) ) {
-        path_settings->bash_strength = 0;
+        path_settings->set_bash_strength( 0 );
     }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...
         // Penalty for failure chance is 1/success = 1/(1-failure) = 1/(1-(1/dex)) = dex/(dex-1)
-        path_settings->climb_cost = ( 10 - climb / 5.0f ) * climb / ( climb - 1 );
+        path_settings->set_climb_cost( ( 10 - climb / 5.0f ) * climb / ( climb - 1 ) );
     } else {
         // Climbing at this dexterity will always fail
-        path_settings->climb_cost = 0;
+        path_settings->set_climb_cost( 0 );
     }
 
     return *path_settings;

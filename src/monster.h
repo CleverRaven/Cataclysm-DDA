@@ -39,7 +39,7 @@ namespace catacurses
 class window;
 }  // namespace catacurses
 struct dealt_projectile_attack;
-struct pathfinding_settings;
+class PathfindingSettings;
 struct trap;
 
 enum class mon_trigger : int;
@@ -621,8 +621,10 @@ class monster : public Creature
          */
         void on_load();
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
+        const PathfindingSettings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
+                                         bool round_output = false ) const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

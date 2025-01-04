@@ -560,16 +560,16 @@ void MonsterGenerator::apply_species_attributes( mtype &mon )
 
 void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
 {
-    if( mon.path_settings.max_length < 0 ) {
-        mon.path_settings.max_length = mon.path_settings.max_dist * 5;
+    if( mon.path_settings.max_cost() / 50 < 0 ) {
+        mon.path_settings.set_max_cost( mon.path_settings.max_distance() * 5 * 50 ) ;
     }
 
-    if( mon.path_settings.bash_strength < 0 ) {
-        mon.path_settings.bash_strength = mon.bash_skill;
+    if( mon.path_settings.bash_strength() < 0 ) {
+        mon.path_settings.set_bash_strength( mon.bash_skill );
     }
 
     if( mon.has_flag( mon_flag_CLIMBS ) ) {
-        mon.path_settings.climb_cost = 3;
+        mon.path_settings.set_climb_cost( 3 );
     }
 }
 
@@ -1300,14 +1300,33 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "path_settings" ) ) {
         JsonObject jop = jo.get_object( "path_settings" );
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
-        optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
-        optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
-        optional( jop, was_loaded, "bash_strength", path_settings.bash_strength, -1 );
-        optional( jop, was_loaded, "allow_open_doors", path_settings.allow_open_doors, false );
-        optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
-        optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
-        optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
-        optional( jop, was_loaded, "avoid_dangerous_fields", path_settings.avoid_dangerous_fields, false );
+        int max_dist;
+        int bash_strength;
+        int max_length;
+        bool allow_open_doors;
+        bool avoid_traps;
+        bool allow_climb_stairs;
+        bool avoid_sharp;
+        bool avoid_dangerous_fields;
+
+        optional( jop, was_loaded, "max_dist", max_dist, 0 );
+        optional( jop, was_loaded, "max_length", max_length, -1 );
+        optional( jop, was_loaded, "bash_strength", bash_strength, -1 );
+        optional( jop, was_loaded, "allow_open_doors", allow_open_doors, false );
+        optional( jop, was_loaded, "avoid_traps", avoid_traps, false );
+        optional( jop, was_loaded, "allow_climb_stairs", allow_climb_stairs, true );
+        optional( jop, was_loaded, "avoid_sharp", avoid_sharp, false );
+        optional( jop, was_loaded, "avoid_dangerous_fields", avoid_dangerous_fields, false );
+
+        path_settings = PathfindingSettings();
+        path_settings.set_max_distance( max_dist );
+        path_settings.set_bash_strength( bash_strength );
+        // FIXME: cost -> length conversion is a stopgap before the new pathfinding system is added.
+        path_settings.set_max_cost( max_length * 50 );
+        path_settings.set_avoid_opening_doors( !allow_open_doors );
+        path_settings.set_avoid_dangerous_traps( !avoid_traps );
+        path_settings.set_avoid_climb_stairway( !allow_climb_stairs );
+        path_settings.set_avoid_dangerous_fields( avoid_dangerous_fields );
     }
 }
 

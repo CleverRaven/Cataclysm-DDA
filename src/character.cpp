@@ -591,7 +591,14 @@ Character::Character() :
     name.clear();
     custom_profession.clear();
 
-    *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, true, false, true, creature_size::medium };
+    PathfindingSettings pf_settings; 
+    pf_settings.set_avoid_bashing(true);
+    pf_settings.set_max_distance(1000);
+    pf_settings.set_max_cost(1000 * 50);
+    pf_settings.set_avoid_dangerous_traps(true);
+    pf_settings.set_avoid_sharp(true);
+    pf_settings.set_size_restriction(creature_size::medium);
+    *path_settings = pf_settings;
 
     move_mode = move_mode_walk;
     next_expected_position = std::nullopt;
@@ -10073,7 +10080,7 @@ std::function<bool( const tripoint_bub_ms & )> Character::get_path_avoid() const
     };
 }
 
-const pathfinding_settings &Character::get_pathfinding_settings() const
+const PathfindingSettings &Character::get_pathfinding_settings() const
 {
     return *path_settings;
 }

@@ -58,7 +58,7 @@ class window;
 }  // namespace catacurses
 struct dealt_projectile_attack;
 struct field_immunity_data;
-struct pathfinding_settings;
+class PathfindingSettings;
 struct projectile;
 struct projectile_attack_results;
 struct trap;
@@ -958,7 +958,7 @@ class Creature : public viewer
         virtual units::mass weight_capacity() const;
 
         /** Returns settings for pathfinding. */
-        virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
+        virtual const PathfindingSettings &get_pathfinding_settings() const = 0;
         /** Returns a set of points we do not want to path through. */
         virtual std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const = 0;
 

@@ -5503,8 +5503,15 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
         std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, max_dist );
         tiles.erase( tiles.begin() ); // we already tried this position
         const int max_path_length = 4 * max_dist;
-        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
-                                            false, false );
+        PathfindingSettings setting;
+        setting.set_avoid_bashing( true );
+        setting.set_max_distance( max_dist );
+        setting.set_max_cost( max_path_length * 50 );
+        setting.set_avoid_opening_doors( true );
+        setting.set_avoid_unlocking_doors( true );
+        setting.set_avoid_dangerous_traps( true );
+        setting.set_avoid_climb_stairway( true );
+
         for( const tripoint_bub_ms &e : tiles ) {
             if( copies_remaining <= 0 ) {
                 break;

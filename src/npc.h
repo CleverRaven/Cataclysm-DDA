@@ -72,7 +72,7 @@ class window;
 struct bionic_data;
 struct mission_type;
 struct overmap_location;
-struct pathfinding_settings;
+class PathfindingSettings;
 
 enum game_message_type : int;
 class gun_mode;
@@ -1197,8 +1197,8 @@ class npc : public Character
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
+        const PathfindingSettings &get_pathfinding_settings() const override;
+        const PathfindingSettings &get_pathfinding_settings( bool no_bashing ) const;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
 
         // Item discovery and fetching

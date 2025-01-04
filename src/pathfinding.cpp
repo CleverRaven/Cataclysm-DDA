@@ -164,6 +164,50 @@ static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
     return true;
 }
 
+void PathfindingSettings::set_size_restriction( std::optional<creature_size> size_restriction )
+{
+    size_restriction_mask_.clear();
+    if( size_restriction ) {
+        switch( *size_restriction ) {
+            case creature_size::tiny:
+                size_restriction_mask_ = PathfindingFlag::RestrictTiny;
+                break;
+            case creature_size::small:
+                size_restriction_mask_ = PathfindingFlag::RestrictSmall;
+                break;
+            case creature_size::medium:
+                size_restriction_mask_ = PathfindingFlag::RestrictMedium;
+                break;
+            case creature_size::large:
+                size_restriction_mask_ = PathfindingFlag::RestrictLarge;
+                break;
+            case creature_size::huge:
+                size_restriction_mask_ = PathfindingFlag::RestrictHuge;
+                break;
+            default:
+                break;
+        }
+    }
+    size_restriction_ = size_restriction;
+}
+
+int PathfindingSettings::bash_rating_from_range( int min, int max ) const
+{
+    if( avoid_bashing_ ) {
+        return 0;
+    }
+    // TODO: Move all the bash stuff to map so this logic isn't duplicated.
+    ///\EFFECT_STR increases smashing damage
+    if( bash_strength_ < min ) {
+        return 0;
+    } else if( bash_strength_ >= max ) {
+        return 10;
+    }
+    const double ret = ( 10.0 * ( bash_strength_ - min ) ) / ( max - min );
+    // Round up to 1, so that desperate NPCs can try to bash down walls
+    return std::max( ret, 1.0 );
+}
+
 std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t ) const
 {
     const std::vector<tripoint_bub_ms> temp = map::straight_route( tripoint_bub_ms( f ),
@@ -209,7 +253,7 @@ std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &f,
 static constexpr int PF_IMPASSABLE = -1;
 static constexpr int PF_IMPASSABLE_FROM_HERE = -2;
 int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
-                       const pathfinding_settings &settings,
+                       const PathfindingSettings &settings,
                        PathfindingFlags p_special ) const
 {
     constexpr PathfindingFlags non_normal = PathfindingFlag::Slow |
@@ -220,27 +264,32 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return 2;
     }
 
-    if( settings.avoid_rough_terrain ) {
+    if( settings.avoid_rough_terrain() ) {
         return PF_IMPASSABLE;
     }
 
-    if( settings.avoid_sharp && ( p_special & PathfindingFlag::Sharp ) ) {
+    if( settings.avoid_sharp() && ( p_special & PathfindingFlag::Sharp ) ) {
         return PF_IMPASSABLE;
     }
 
     // RestrictTiny isn't checked since it's unclear how it would actually work as there's no category smaller than tiny
-    if( settings.size && (
-            ( p_special & PathfindingFlag::RestrictSmall && settings.size > creature_size::tiny ) ||
-            ( p_special & PathfindingFlag::RestrictMedium && settings.size > creature_size::small ) ||
-            ( p_special & PathfindingFlag::RestrictLarge && settings.size > creature_size::medium ) ||
-            ( p_special & PathfindingFlag::RestrictHuge && settings.size > creature_size::large ) ) ) {
+    // FIXME: Make this more ergonomic.
+    if( ( p_special & PathfindingSettings::AnySizeRestriction ) && settings.size_restriction() && (
+            ( p_special & PathfindingFlag::RestrictSmall &&
+              settings.size_restriction() > creature_size::tiny ) ||
+            ( p_special & PathfindingFlag::RestrictMedium &&
+              settings.size_restriction() > creature_size::small ) ||
+            ( p_special & PathfindingFlag::RestrictLarge &&
+              settings.size_restriction() > creature_size::medium ) ||
+            ( p_special & PathfindingFlag::RestrictHuge &&
+              settings.size_restriction() > creature_size::large ) ) ) {
         return PF_IMPASSABLE;
     }
 
-    const int bash = settings.bash_strength;
-    const bool allow_open_doors = settings.allow_open_doors;
-    const bool allow_unlock_doors = settings.allow_unlock_doors;
-    const int climb_cost = settings.climb_cost;
+    const int bash = settings.bash_strength();
+    const bool allow_open_doors = !settings.avoid_opening_doors();
+    const bool allow_unlock_doors = !settings.avoid_unlocking_doors();
+    const int climb_cost = settings.climb_cost();
 
     int part = -1;
     const const_maptile &tile = maptile_at_internal( p );
@@ -306,12 +355,12 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // If terrain/furniture is openable but we can't fit through the open version, ignore the tile
-    if( settings.size && allow_open_doors &&
+    if( settings.size_restriction() && allow_open_doors &&
         ( ( terrain.open && terrain.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
           ( furniture.open && furniture.open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ||
           // Windows with curtains need to be opened twice
           ( terrain.open->open && terrain.open->open->has_flag( ter_furn_flag::TFLAG_SMALL_PASSAGE ) ) ) &&
-        settings.size > creature_size::medium
+        settings.size_restriction() > creature_size::medium
       ) {
         return PF_IMPASSABLE;
     }
@@ -352,9 +401,9 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
 }
 
 int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &p,
-                        const pathfinding_settings &settings, PathfindingFlags p_special ) const
+                        const PathfindingSettings &settings, PathfindingFlags p_special ) const
 {
-    if( settings.avoid_traps && ( p_special & PathfindingFlag::DangerousTrap ) ) {
+    if( settings.avoid_dangerous_traps() && ( p_special & PathfindingFlag::DangerousTrap ) ) {
         const const_maptile &tile = maptile_at_internal( p );
         const ter_t &terrain = tile.get_ter_t();
         const trap &ter_trp = terrain.trap.obj();
@@ -366,7 +415,8 @@ int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &
         }
     }
 
-    if( settings.avoid_dangerous_fields && ( p_special & PathfindingFlag::DangerousField ) ) {
+    if( settings.avoid_dangerous_fields() &&
+        ( p_special & PathfindingFlag::DangerousField ) ) {
         // We'll walk through even known-dangerous fields if we absolutely have to.
         return 500;
     }
@@ -375,7 +425,7 @@ int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &
 }
 
 int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
-                     const pathfinding_settings &settings,
+                     const PathfindingSettings &settings,
                      PathfindingFlags p_special ) const
 {
     int pass_cost = cost_to_pass( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
@@ -391,7 +441,7 @@ int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
 }
 
 std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
-        const pathfinding_settings &settings,
+        const PathfindingSettings &settings,
         const std::function<bool( const tripoint_bub_ms & )> &avoid ) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
@@ -420,11 +470,12 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
     }
 
     // If expected path length is greater than max distance, allow only line path, like above
-    if( rl_dist( f, t ) > settings.max_dist ) {
+    if( rl_dist( f, t ) > settings.max_distance() ) {
         return ret;
     }
 
-    const int max_length = settings.max_length;
+    // FIXME: Temporary number while migration is ongoing.
+    const int max_length = settings.max_cost() / 50;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     tripoint_bub_ms min( std::min( f.x(), t.x() ) - pad, std::min( f.y(), t.y() ) - pad,
@@ -503,7 +554,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
             // Special case: pathfinders that avoid traps can avoid ledges by
             // climbing down. This can't be covered by |extra_cost| because it
             // can add a new point to the search.
-            if( settings.avoid_traps && ( p_special & PathfindingFlag::DangerousTrap ) ) {
+            if( settings.avoid_dangerous_traps() && ( p_special & PathfindingFlag::DangerousTrap ) ) {
                 const const_maptile &tile = maptile_at_internal( p );
                 const ter_t &terrain = tile.get_ter_t();
                 const trap &ter_trp = terrain.trap.obj();
@@ -533,7 +584,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
 
         // TODO: We should be able to go up ramps even if we can't climb stairs.
         if( !( cur_special & ( PathfindingFlag::GoesUp | PathfindingFlag::GoesDown ) ) ||
-            !settings.allow_climb_stairs ) {
+            settings.avoid_climb_stairway() ) {
             // The part below is only for z-level pathing
             continue;
         }
@@ -541,7 +592,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
         bool rope_ladder = false;
         const const_maptile &parent_tile = maptile_at_internal( cur );
         const ter_t &parent_terrain = parent_tile.get_ter_t();
-        if( settings.allow_climb_stairs && cur.z() > min.z() &&
+        if( !settings.avoid_climb_stairway() && cur.z() > min.z() &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
             std::optional<tripoint_bub_ms> opt_dest = g->find_or_make_stairs( get_map(),
                     cur.z() - 1, rope_ladder, false, cur );
@@ -559,7 +610,7 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoin
                               cur.raw(), dest.raw() );
             }
         }
-        if( settings.allow_climb_stairs && cur.z() < max.z() &&
+        if( !settings.avoid_climb_stairway() && cur.z() < max.z() &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
             std::optional<tripoint_bub_ms> opt_dest = g->find_or_make_stairs( get_map(),
                     cur.z() + 1, rope_ladder, false, cur );

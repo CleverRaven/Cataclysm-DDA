@@ -103,7 +103,7 @@ struct itype;
 struct mutation_branch;
 struct mutation_category_trait;
 struct mutation_variant;
-struct pathfinding_settings;
+class PathfindingSettings;
 struct projectile;
 struct requirement_data;
 struct tool_comp;
@@ -3282,7 +3282,7 @@ class Character : public Creature, public visitable
         /** Returns the player's modified base movement cost */
         int run_cost( int base_cost, bool diag = false ) const;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
+        const PathfindingSettings &get_pathfinding_settings() const override;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
@@ -4023,7 +4023,7 @@ class Character : public Creature, public visitable
          * Cache for pathfinding settings.
          * Most of it isn't changed too often, hence mutable.
          */
-        mutable pimpl<pathfinding_settings> path_settings;
+        mutable pimpl<PathfindingSettings> path_settings;
 
         // faction API versions
         // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
