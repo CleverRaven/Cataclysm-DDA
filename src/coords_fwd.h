@@ -10,7 +10,7 @@ struct tripoint;
 namespace coords
 {
 
-enum class origin {
+enum class origin : std::uint8_t {
     relative, // this is a special origin that can be added to any other
     abs, // the global absolute origin for the entire game
     submap, // from corner of submap
@@ -19,7 +19,7 @@ enum class origin {
     reality_bubble, // from corner of a reality bubble (aka 'map' or 'tinymap')
 };
 
-enum class scale {
+enum class scale : std::uint8_t {
     map_square,
     submap,
     overmap_terrain,

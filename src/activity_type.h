@@ -22,7 +22,7 @@ using activity_id = string_id<activity_type>;
 template<>
 const activity_type &string_id<activity_type>::obj() const;
 
-enum class based_on_type : int {
+enum class based_on_type : std::uint8_t {
     TIME = 0,
     SPEED,
     NEITHER,

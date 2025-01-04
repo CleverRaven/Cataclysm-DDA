@@ -21,7 +21,7 @@ class vehicle_stack;
 class vpart_info;
 struct vehicle_part;
 
-enum vpart_bitflags : int;
+enum vpart_bitflags : std::uint8_t;
 class vpart_reference;
 struct point;
 struct tripoint;

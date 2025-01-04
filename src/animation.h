@@ -7,7 +7,7 @@
 
 #include "color.h"
 
-enum explosion_neighbors {
+enum explosion_neighbors : std::uint8_t {
     N_NO_NEIGHBORS = 0,
     N_NORTH = 1,
 

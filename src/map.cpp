@@ -2885,7 +2885,7 @@ void map::drop_furniture( const tripoint_bub_ms &p )
         return;
     }
 
-    enum support_state {
+    enum support_state : std::uint8_t {
         SS_NO_SUPPORT = 0,
         SS_BAD_SUPPORT, // TODO: Implement bad, shaky support
         SS_GOOD_SUPPORT,

@@ -39,7 +39,7 @@ std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Cont
 
 std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoint_bub_ms &dest );
 
-enum class requirement_check_result : int {
+enum class requirement_check_result : std::uint8_t {
     SKIP_LOCATION = 0,
     SKIP_LOCATION_NO_ZONE,  // Zone activity but no zone found
     SKIP_LOCATION_NO_SKILL, // Insufficient npc skill for task.
@@ -51,7 +51,7 @@ enum class requirement_check_result : int {
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
 
-enum class butcher_type : int {
+enum class butcher_type : std::uint8_t {
     BLEED,          // bleeding a corpse
     QUICK,          // quick butchery
     FULL,           // full workshop butchery
@@ -63,7 +63,7 @@ enum class butcher_type : int {
     NUM_TYPES       // always keep at the end, number of butchery types
 };
 
-enum class do_activity_reason : int {
+enum class do_activity_reason : std::uint8_t {
     CAN_DO_CONSTRUCTION,    // Can do construction.
     CAN_DO_FETCH,           // Can do fetch - this is usually the default result for fetch task
     NO_COMPONENTS,          // can't do the activity there due to lack of components /tools
@@ -176,7 +176,7 @@ int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
 double butcher_get_progress( const item &corpse_item, butcher_type action );
 
-enum class item_drop_reason : int {
+enum class item_drop_reason : std::uint8_t {
     deliberate,
     too_large,
     too_heavy,

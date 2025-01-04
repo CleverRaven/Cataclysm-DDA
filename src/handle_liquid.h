@@ -11,7 +11,7 @@ class item;
 class monster;
 class vehicle;
 
-enum liquid_dest : int {
+enum liquid_dest : std::uint8_t {
     LD_NULL,
     LD_CONSUME,
     LD_ITEM,

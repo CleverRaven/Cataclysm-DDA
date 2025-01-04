@@ -19,7 +19,7 @@ template <typename E> struct enum_traits;
 namespace debug_menu
 {
 
-enum class debug_menu_index : int {
+enum class debug_menu_index : std::uint8_t {
     WISH,
     SHORT_TELEPORT,
     LONG_TELEPORT,

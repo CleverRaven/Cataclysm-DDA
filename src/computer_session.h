@@ -69,7 +69,7 @@ class computer_session
         template<typename ...Args>
         void print_text( const std::string &text, Args &&... args );
         // Prints a line and waits for Y/N/Q
-        enum class ynq : int {
+        enum class ynq : std::uint8_t {
             yes,
             no,
             quit,

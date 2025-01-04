@@ -818,14 +818,14 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
-enum class hack_result : int {
+enum class hack_result : std::uint8_t {
     UNABLE,
     FAIL,
     NOTHING,
     SUCCESS
 };
 
-enum class hack_type : int {
+enum class hack_type : std::uint8_t {
     SAFE,
     DOOR,
     GAS,
@@ -7220,7 +7220,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
 void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 {
-    enum activity_stage : int {
+    enum activity_stage : std::uint8_t {
         //Initial stage
         INIT = 0,
         //Think about what to do first: choose destination

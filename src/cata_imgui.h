@@ -37,14 +37,14 @@ struct bounds {
     float h;
 };
 
-enum class mbox_btn {
+enum class mbox_btn : std::uint8_t {
     BT_OK = 0,
     BT_OKCancel = 1,
     BT_YesNoCancel = 2,
     BT_YesNo = 3
 };
 
-enum class dialog_result {
+enum class dialog_result : std::uint8_t {
     None = 0,
     OKClicked,
     CancelClicked,
@@ -52,7 +52,7 @@ enum class dialog_result {
     NoClicked
 };
 
-enum class scroll : int {
+enum class scroll : std::uint8_t {
     none = 0,
     begin,
     end,

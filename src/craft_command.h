@@ -23,7 +23,7 @@ template<typename T> struct enum_traits;
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
 */
-enum class usage_from : int {
+enum class usage_from : std::uint8_t {
     none = 0,
     map = 1,
     player = 2,

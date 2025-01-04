@@ -2008,7 +2008,7 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
 
 void activity_on_turn_move_loot( player_activity &act, Character &you )
 {
-    enum activity_stage : int {
+    enum activity_stage : std::uint8_t {
         //Initial stage
         INIT = 0,
         //Think about what to do first: choose destination

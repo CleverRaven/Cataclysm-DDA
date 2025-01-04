@@ -64,7 +64,7 @@ struct om_vehicle {
     std::string name;
 };
 
-enum class radio_type : int {
+enum class radio_type : std::uint8_t {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };

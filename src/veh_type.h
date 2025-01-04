@@ -54,7 +54,7 @@ const std::vector<vpart_info> &get_all();
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
-enum vpart_bitflags : int {
+enum vpart_bitflags : std::uint8_t {
     VPFLAG_ARMOR,
     VPFLAG_APPLIANCE,
     VPFLAG_ARCADE,

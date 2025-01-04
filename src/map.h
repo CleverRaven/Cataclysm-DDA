@@ -78,7 +78,7 @@ struct trap;
 template<typename Tripoint>
 class tripoint_range;
 
-enum class special_item_type : int;
+enum class special_item_type : std::uint8_t;
 class npc_template;
 class tileray;
 class vpart_reference;
@@ -95,7 +95,7 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
-enum class ter_furn_flag : int;
+enum class ter_furn_flag : std::uint8_t;
 struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
@@ -2425,7 +2425,7 @@ class map
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
 
         /** Enum used by functors in `function_over` to control execution. */
-        enum iteration_state {
+        enum iteration_state : std::uint8_t {
             ITER_CONTINUE = 0,  // Keep iterating
             ITER_SKIP_SUBMAP,   // Skip the rest of this submap
             ITER_SKIP_ZLEVEL,   // Skip the rest of this z-level

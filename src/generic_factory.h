@@ -1273,7 +1273,7 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string_view m
 class text_style_check_reader : public generic_typed_reader<text_style_check_reader>
 {
     public:
-        enum class allow_object : int {
+        enum class allow_object : std::uint8_t {
             no,
             yes,
         };

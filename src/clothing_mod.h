@@ -16,7 +16,7 @@ class JsonObject;
 class item;
 template<typename T> struct enum_traits;
 
-enum clothing_mod_type : int {
+enum clothing_mod_type : std::uint8_t {
     clothing_mod_type_acid,
     clothing_mod_type_fire,
     clothing_mod_type_bash,

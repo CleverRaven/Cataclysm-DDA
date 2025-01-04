@@ -23,7 +23,7 @@ struct tripoint;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
 
-enum class map_extra_method : int {
+enum class map_extra_method : std::uint8_t {
     null = 0,
     map_extra_function,
     mapgen,

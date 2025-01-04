@@ -26,7 +26,7 @@ class ui_adaptor;
 class uilist;
 class vehicle;
 
-enum shapetype {
+enum shapetype : std::uint8_t {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
 

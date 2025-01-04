@@ -13,7 +13,7 @@ template <typename E> struct enum_traits;
 
 enum action_id : int;
 
-enum class tut_lesson : int {
+enum class tut_lesson : std::uint8_t {
     LESSON_INTRO = 0,
     LESSON_MOVE, LESSON_MOVEMENT_MODES, LESSON_LOOK, LESSON_OPEN, LESSON_CLOSE, LESSON_SMASH,
     LESSON_WINDOW, LESSON_PICKUP, LESSON_EXAMINE, LESSON_INTERACT,

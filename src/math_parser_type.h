@@ -7,7 +7,7 @@
 
 #include "string_formatter.h"
 
-enum class math_type_t : int {
+enum class math_type_t : std::uint8_t {
     ret = 0,
     compare,
     assign,

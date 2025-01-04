@@ -16,7 +16,7 @@ enum class type : int;
 // We have other direction enums, but for this purpose we need to have one for
 // the six rectilinear directions.  These correspond to the faces of a cube, so
 // I've called it cube_direction
-enum class cube_direction : int {
+enum class cube_direction : std::uint8_t {
     north,
     east,
     south,

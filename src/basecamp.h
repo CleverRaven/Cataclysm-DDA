@@ -42,7 +42,7 @@ class recipe;
 class time_duration;
 class zone_data;
 struct MonsterGroupResult;
-enum class farm_ops;
+enum class farm_ops : std::uint8_t;
 
 using faction_id = string_id<faction>;
 
@@ -72,7 +72,7 @@ class window;
 namespace base_camps
 {
 
-enum tab_mode : int {
+enum tab_mode : std::uint8_t {
     TAB_MAIN,
     TAB_N,
     TAB_NE,

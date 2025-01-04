@@ -30,7 +30,7 @@ static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 
-enum class medical_tab_mode {
+enum class medical_tab_mode : std::uint8_t {
     TAB_SUMMARY
 };
 

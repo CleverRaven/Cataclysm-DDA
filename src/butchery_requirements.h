@@ -13,7 +13,7 @@
 class JsonObject;
 class read_only_visitable;
 
-enum class butcher_type : int;
+enum class butcher_type : std::uint8_t;
 enum class creature_size : int;
 
 /**

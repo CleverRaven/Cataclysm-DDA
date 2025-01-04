@@ -3105,7 +3105,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     - str_values[2]: installer_name
     - str_values[3]: bool autodoc
     */
-    enum operation_values_ids {
+    enum operation_values_ids : std::uint8_t {
         operation_type = 0,
         cbm_id = 1,
         installer_name = 2,

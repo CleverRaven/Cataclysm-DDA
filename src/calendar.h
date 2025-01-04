@@ -18,7 +18,7 @@ class time_point;
 template<typename T> struct enum_traits;
 
 /** Real world seasons */
-enum season_type {
+enum season_type : std::uint8_t {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
@@ -32,7 +32,7 @@ struct enum_traits<season_type> {
 };
 
 /** Phases of the moon */
-enum moon_phase {
+enum moon_phase : std::uint8_t {
     /** New (completely dark) moon */
     MOON_NEW = 0,
     /** One quarter of moon lit, amount lit is increasing every day */
@@ -53,7 +53,7 @@ enum moon_phase {
     MOON_PHASE_MAX
 };
 
-enum class time_accuracy {
+enum class time_accuracy : std::uint8_t {
     /** No accuracy, no idea what time it is **/
     NONE = 0,
     /** Estimated time, can see the sky **/
@@ -400,13 +400,13 @@ constexpr time_duration operator""_weeks( const unsigned long long int v )
  */
 std::string to_string( const time_duration &d, bool compact = false );
 
-enum class clipped_align : int {
+enum class clipped_align : std::uint8_t {
     none,
     right,
     compact
 };
 
-enum class clipped_unit : int {
+enum class clipped_unit : std::uint8_t {
     forever,
     second,
     minute,
@@ -637,7 +637,7 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
  */
 std::optional<rl_vec2d> sunlight_angle( const time_point & );
 
-enum class weekdays : int {
+enum class weekdays : std::uint8_t {
     SUNDAY = 0,
     MONDAY,
     TUESDAY,

@@ -26,7 +26,7 @@ namespace cata
 struct range_hash;
 }  // namespace cata
 
-enum class monotonically : int;
+enum class monotonically : std::uint8_t;
 class score;
 class stats_tracker;
 

@@ -19,7 +19,7 @@
 #include "type_id.h"
 
 struct binary_op {
-    enum class associativity {
+    enum class associativity : std::uint8_t {
         right = 0,
         left,
     };
@@ -50,7 +50,7 @@ constexpr bool operator>( binary_op const &lhs, binary_op const &rhs )
     return lhs.precedence > rhs.precedence ||
            ( lhs.precedence == rhs.precedence && lhs.assoc == binary_op::associativity::left );
 }
-enum class paren {
+enum class paren : std::uint8_t {
     left_sq = 0,
     right_sq,
     left,

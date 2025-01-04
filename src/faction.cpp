@@ -880,7 +880,7 @@ void faction_manager::display() const
     } );
     ui.mark_resize();
 
-    enum class tab_mode : int {
+    enum class tab_mode : std::uint8_t {
         TAB_MYFACTION = 0,
         TAB_FOLLOWERS,
         TAB_OTHERFACTIONS,

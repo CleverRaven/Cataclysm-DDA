@@ -15,7 +15,7 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-enum class special_game_type;
+enum class special_game_type : std::uint8_t;
 
 class JsonArray;
 class JsonObject;

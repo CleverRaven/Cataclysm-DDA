@@ -5,7 +5,7 @@
 
 #include "json.h"
 
-enum class var_type : int {
+enum class var_type : std::uint8_t {
     u,
     npc,
     global,

@@ -106,7 +106,7 @@ class effect_type
         friend void load_effect_type( const JsonObject &jo, std::string_view src );
         friend class effect;
     public:
-        enum class memorial_gender : int {
+        enum class memorial_gender : std::uint8_t {
             male,
             female,
         };

@@ -38,7 +38,7 @@ struct iexamine_actor {
     virtual ~iexamine_actor() = default;
 };
 
-enum fuel_station_fuel_type {
+enum fuel_station_fuel_type : std::uint8_t {
     FUEL_TYPE_NONE,
     FUEL_TYPE_GASOLINE,
     FUEL_TYPE_DIESEL

@@ -226,7 +226,7 @@ struct plant_data {
  * To add a new ter_bitflag, add below and in mapdata.cpp
  * Order does not matter.
  */
-enum class ter_furn_flag : int {
+enum class ter_furn_flag : std::uint8_t {
     TFLAG_TRANSPARENT,
     TFLAG_TRANSLUCENT,
     TFLAG_FLAMMABLE,

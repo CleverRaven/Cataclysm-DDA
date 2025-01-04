@@ -7,7 +7,7 @@
 class JsonObject;
 class JsonOut;
 
-enum npc_favor_type {
+enum npc_favor_type : std::uint8_t {
     FAVOR_NULL,
     FAVOR_GENERAL, // We owe you... a favor?
     FAVOR_CASH, // We owe cash (or goods of equivalent value)

@@ -80,16 +80,16 @@ class item_category;
 struct islot_armor;
 struct use_function;
 
-enum art_effect_passive : int;
+enum art_effect_passive : std::uint8_t;
 enum class side : int;
 class body_part_set;
 class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
-enum class link_state : int;
+enum class link_state : std::uint8_t;
 
-enum clothing_mod_type : int;
+enum clothing_mod_type : std::uint8_t;
 
 struct light_emission {
     unsigned short luminance;

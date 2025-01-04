@@ -80,7 +80,7 @@ bool string_id<achievement>::is_valid() const
     return achievement_factory.is_valid( *this );
 }
 
-enum class requirement_visibility : int {
+enum class requirement_visibility : std::uint8_t {
     always,
     when_requirement_completed,
     when_achievement_completed,

@@ -54,7 +54,7 @@ namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-enum class pool_type;
+enum class pool_type : std::uint8_t;
 
 // Monster visible in different directions (safe mode & compass)
 // Suppressions due to a bug in clang-tidy 12

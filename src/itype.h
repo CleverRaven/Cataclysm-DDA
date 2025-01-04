@@ -40,7 +40,7 @@ template <typename E> struct enum_traits;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
-enum art_effect_passive : int;
+enum art_effect_passive : std::uint8_t;
 
 class gun_modifier_data
 {

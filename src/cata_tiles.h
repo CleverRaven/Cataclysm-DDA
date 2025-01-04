@@ -52,7 +52,7 @@ struct tile_type {
 };
 
 // Make sure to change TILE_CATEGORY_IDS if this changes!
-enum class TILE_CATEGORY {
+enum class TILE_CATEGORY : std::uint8_t {
     NONE,
     VEHICLE_PART,
     TERRAIN,
@@ -93,7 +93,7 @@ const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
 };
 
-enum class NEIGHBOUR {
+enum class NEIGHBOUR : std::uint8_t {
     SOUTH = 1,
     EAST = 2,
     WEST = 4,
@@ -393,7 +393,7 @@ class tileset_cache::loader
                    bool terrain = false );
 };
 
-enum class text_alignment : int {
+enum class text_alignment : std::uint8_t {
     left,
     center,
     right,

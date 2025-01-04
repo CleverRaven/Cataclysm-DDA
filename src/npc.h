@@ -74,7 +74,7 @@ struct mission_type;
 struct overmap_location;
 struct pathfinding_settings;
 
-enum game_message_type : int;
+enum game_message_type : std::uint8_t;
 class gun_mode;
 
 using bionic_id = string_id<bionic_data>;
@@ -197,9 +197,9 @@ struct npc_companion_mission {
 std::string npc_class_name( const npc_class_id & );
 std::string npc_class_name_str( const npc_class_id & );
 
-enum npc_action : int;
+enum npc_action : std::uint8_t;
 
-enum npc_need {
+enum npc_need : std::uint8_t {
     need_none,
     need_ammo, need_weapon, need_gun,
     need_food, need_drink, need_safety,
@@ -207,7 +207,7 @@ enum npc_need {
 };
 
 // TODO: Turn the personality struct into a vector/map?
-enum npc_personality_type : int {
+enum npc_personality_type : std::uint8_t {
     NPE_AGGRESSION,
     NPE_BRAVERY,
     NPE_COLLECTOR,

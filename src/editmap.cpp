@@ -1384,7 +1384,7 @@ void editmap::edit_fld()
 /*
  * edit items in target square. WIP
  */
-enum editmap_imenu_ent {
+enum editmap_imenu_ent : int {
     imenu_bday,
     imenu_damage,
     imenu_degradation,

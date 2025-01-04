@@ -19,7 +19,7 @@ struct advanced_inv_pane_save_state;
 
 enum aim_location : char;
 
-enum advanced_inv_sortby {
+enum advanced_inv_sortby : std::uint8_t {
     SORTBY_NONE,
     SORTBY_NAME,
     SORTBY_WEIGHT,

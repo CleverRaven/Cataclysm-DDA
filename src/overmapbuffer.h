@@ -25,7 +25,7 @@
 
 class basecamp;
 class character_id;
-enum class cube_direction : int;
+enum class cube_direction : std::uint8_t;
 enum class om_vision_level : int8_t;
 class map_extra;
 class monster;

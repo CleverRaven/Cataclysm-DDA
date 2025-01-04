@@ -7,7 +7,7 @@
 
 namespace music
 {
-enum music_id {
+enum music_id : std::uint8_t {
     mp3,
     instrument,
     sound,

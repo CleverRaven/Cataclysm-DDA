@@ -32,7 +32,7 @@ class item;
 class nc_color;
 struct dream;
 
-enum game_message_type : int;
+enum game_message_type : std::uint8_t;
 
 template <typename E> struct enum_traits;
 
@@ -566,7 +566,7 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-enum class mutagen_technique : int {
+enum class mutagen_technique : std::uint8_t {
     consumed_mutagen,
     injected_mutagen,
     consumed_purifier,

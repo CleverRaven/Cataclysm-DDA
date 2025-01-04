@@ -176,7 +176,7 @@
 #define c_neutral all_colors.get(def_c_yellow)
 
 // def_x is a color that maps to x with default settings
-enum color_id {
+enum color_id : std::uint16_t {
     def_c_black = 0,
     def_c_white,
     def_c_light_gray,
@@ -342,7 +342,7 @@ class JsonOut;
 void init_colors();
 
 // Index for highlight cache
-enum hl_enum {
+enum hl_enum : std::uint8_t {
     HL_BLUE = 0,
     HL_RED,
     HL_WHITE,
@@ -419,7 +419,7 @@ struct hash<nc_color> {
 };
 } // namespace std
 
-enum class report_color_error {
+enum class report_color_error : std::uint8_t {
     no, yes
 };
 
@@ -511,7 +511,7 @@ struct note_color {
 };
 
 struct color_tag_parse_result {
-    enum tag_type {
+    enum tag_type : std::uint8_t {
         open_color_tag,
         close_color_tag,
         non_color_tag,

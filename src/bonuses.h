@@ -12,7 +12,7 @@ class Character;
 class JsonArray;
 class JsonObject;
 
-enum scaling_stat : int {
+enum scaling_stat : std::uint8_t {
     STAT_NULL = 0,
     STAT_STR,
     STAT_DEX,
@@ -39,7 +39,7 @@ enum scaling_stat : int {
     NUM_STATS
 };
 
-enum class affected_stat : int {
+enum class affected_stat : std::uint8_t {
     NONE = 0,
     HIT,
     CRITICAL_HIT_CHANCE,

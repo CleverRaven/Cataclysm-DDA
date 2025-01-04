@@ -51,7 +51,7 @@ struct null_deleter {
  * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
  * while displaying vehicle speed in km/h.
  */
-enum units_type {
+enum units_type : std::uint8_t {
     VU_VEHICLE,
     VU_WIND
 };

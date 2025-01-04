@@ -574,7 +574,7 @@ std::string press_x( action_id act, const std::string &act_desc );
 std::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
-enum class iso_rotate : int {
+enum class iso_rotate : std::uint8_t {
     no,
     yes
 };

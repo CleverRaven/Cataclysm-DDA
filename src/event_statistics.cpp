@@ -173,7 +173,7 @@ class event_statistic::impl
 };
 
 struct value_constraint {
-    enum comparator { lt, lteq, gteq, gt };
+    enum comparator : std::uint8_t { lt, lteq, gteq, gt };
     std::vector<cata_variant> equals_any_;
     std::optional<string_id<event_statistic>> equals_statistic_;
     std::optional<std::pair<comparator, cata_variant>> val_comp_;
