@@ -19,19 +19,28 @@
     "type": "technique",
     "id": "VIKTORHAND_MANATOUCHED_BLAST",
     "name": "magichand manablast",
-    "//": "supposed to simulate a chaser attack.",
+    "//": "supposed to simulate a chaser attack. You attack, and then your mana-hand pitches in another blast.",
     "melee_allowed": true,
     "unarmed_allowed": true,
     "reach_ok": true,
     "crit_ok": true,
-    "messages": [ "Your appendage blasts $s", "<npcname> blasts $s!" ],
     "weighting": 5,
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "int", "scale": 0.75 },
-      { "stat": "damage", "type": "nether", "scaling-stat": "spellcraft", "scale": 1 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.5 },
-      { "stat": "damage", "type": "pure", "scaling-stat": "u_val('mana')", "scale": 0.001 }
+    "eocs": [
+      {
+        "id": "tec_VITKORHAND_MANATOUCHED_BLAST",
+        "effect": [
+          { "math": [ "damagetracker1 = u_val('mana')/500" ] },
+          { "math": [ "damagetracker2 = u_skill('spellcraft')" ] },
+          { "math": [ "_damagetracker3 = damagetracker1 + damagetracker2" ] },
+          {
+            "u_message": "Your appendage blasts the <npc_name> for <context_val:damagetracker3> damage!",
+            "type": "good"
+          },
+          { "npc_message": "<npc_name>'s appendage blasts the %s!", "type": "good" },
+          { "npc_deal_damage": "pure", "amount": { "math": [ "(u_val('mana')/500)+u_skill('spellcraft')" ] } }
+        ]
+      }
     ],
-    "attack_vectors": ["vector_null"]
+    "attack_vectors": [ "vector_wrist" ]
   }
 ]
