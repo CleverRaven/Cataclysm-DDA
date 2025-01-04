@@ -5344,7 +5344,7 @@ static ret_val<void> apply_mapgen_in_phases(
     const jmapgen_objects &objects, const tripoint_rel_ms &offset, const std::string &context,
     bool verify = false )
 {
-    const ret_val<void> has_vehicle_collision = objects.has_vehicle_collision( md, offset );
+    ret_val<void> has_vehicle_collision = objects.has_vehicle_collision( md, offset );
     if( verify &&  !has_vehicle_collision.success() ) {
 
         return has_vehicle_collision;
@@ -5363,7 +5363,7 @@ static ret_val<void> apply_mapgen_in_phases(
             if( elem.phase() != phase ) {
                 break;
             }
-            const ret_val<void> has_vehicle_collision = elem.has_vehicle_collision( md, offset );
+            has_vehicle_collision = elem.has_vehicle_collision( md, offset );
             if( verify && !has_vehicle_collision.success() ) {
                 return has_vehicle_collision;
             }
@@ -8060,7 +8060,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         };
         return null_function;
     }
-    const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
+    auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
         json_data.update_map( omt_pos, {}, tripoint_rel_ms::zero, miss );
     };
     defer = mapgen_defer::defer;
