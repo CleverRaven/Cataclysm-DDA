@@ -670,7 +670,7 @@ diag_eval_dbl_f num_input_eval( char /*scope*/, std::vector<diag_value> const &p
         .width( 20 )
         .description( prompt.str( d ) )
         .edit( popup_val );
-        if( popup.canceled() ) {
+        if( popup.cancelled() ) {
             return dv;
         }
         return static_cast<double>( popup_val );

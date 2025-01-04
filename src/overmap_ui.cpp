@@ -435,7 +435,7 @@ class map_notes_callback : public uilist_callback
                                            .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
                                            .only_digits( true )
                                            .query_int();
-                        if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                        if( !pop.cancelled() && amount >= 0 && amount <= max_amount ) {
                             overmap_buffer.mark_note_dangerous( note_location(), amount, true );
                             menu->ret = UILIST_MAP_NOTE_EDITED;
                             return true;
@@ -1305,7 +1305,7 @@ static bool create_note( const tripoint_abs_omt &curs, std::optional<std::string
 
     do {
         new_note = input_popup.query_string( false );
-        if( input_popup.canceled() ) {
+        if( input_popup.cancelled() ) {
             new_note = old_note;
             esc_pressed = true;
             break;
@@ -2074,7 +2074,7 @@ static tripoint_abs_omt display()
                                        .text( std::to_string( clamp( danger_radius, 0, max_amount ) ) )
                                        .only_digits( true )
                                        .query_int();
-                    if( !pop.canceled() && amount >= 0 && amount <= max_amount ) {
+                    if( !pop.cancelled() && amount >= 0 && amount <= max_amount ) {
                         overmap_buffer.mark_note_dangerous( curs, amount, true );
                     }
                 }

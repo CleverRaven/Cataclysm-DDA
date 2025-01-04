@@ -807,10 +807,10 @@ void Messages::dialog::input()
     canceled = false;
     if( filtering ) {
         filter.query( false );
-        if( filter.confirmed() || filter.canceled() ) {
+        if( filter.confirmed() || filter.cancelled() ) {
             filtering = false;
         }
-        if( !filter.canceled() ) {
+        if( !filter.cancelled() ) {
             const std::string &new_filter_str = filter.text();
             if( new_filter_str != filter_str ) {
                 filter_str = new_filter_str;

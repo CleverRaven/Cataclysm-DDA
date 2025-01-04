@@ -37,6 +37,8 @@ class kill_tracker : public event_subscriber
         // TEMPORARY until 0.G
         int legacy_kill_xp() const;
 
+        std::string get_kills_text() const;
+
         void clear();
         using event_subscriber::notify;
         void notify( const cata::event & ) override;

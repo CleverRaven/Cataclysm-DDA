@@ -914,7 +914,7 @@ bool query_int( int &result, const std::string &text )
     popup.title( text );
     popup.text( "" ).only_digits( true );
     int temp = popup.query_int();
-    if( popup.canceled() ) {
+    if( popup.cancelled() ) {
         return false;
     }
     result = temp;

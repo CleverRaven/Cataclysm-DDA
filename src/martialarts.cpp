@@ -2194,6 +2194,7 @@ std::string ma_technique::get_description() const
     return dump;
 }
 
+#if defined(IMGUI)
 class ma_details_ui
 {
         friend class ma_details_ui_impl;
@@ -2543,3 +2544,236 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
     return true;
 }
+#else
+bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
+                             uilist * )
+{
+    const std::string &action = ctxt.input_to_action( event );
+    if( action != "SHOW_DESCRIPTION" ) {
+        return false;
+    }
+    matype_id style_selected;
+    const size_t index = entnum;
+    if( index >= offset && index - offset < styles.size() ) {
+        style_selected = styles[index - offset];
+    }
+    if( !style_selected.str().empty() ) {
+        const martialart &ma = style_selected.obj();
+
+        std::string buffer;
+
+        if( ma.force_unarmed ) {
+            buffer += _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
+            buffer += "\n";
+        } else if( ma.allow_all_weapons ) {
+            buffer += _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer += "\n";
+        } else if( ma.strictly_melee ) {
+            buffer += _( "<bold>This is an armed combat style.</bold>" );
+            buffer += "\n";
+        }
+
+        buffer += "--\n";
+
+        if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
+            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99  ||
+            ma.nonstandard_block != 99 ) {
+            Character &u = get_player_character();
+            int unarmed_skill =  u.get_skill_level( skill_unarmed );
+            if( u.has_active_bionic( bio_cqb ) ) {
+                unarmed_skill = BIO_CQB_LEVEL;
+            }
+            if( ma.arm_block_with_bio_armor_arms ) {
+                buffer += _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
+                buffer += "\n";
+            } else if( ma.arm_block != 99 ) {
+                buffer += string_format(
+                              _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
+                              unarmed_skill, ma.arm_block ) + "\n";
+            }
+
+            if( ma.leg_block_with_bio_armor_legs ) {
+                buffer += _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" );
+                buffer += "\n";
+            } else if( ma.leg_block != 99 ) {
+                buffer += string_format(
+                              _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
+                              unarmed_skill, ma.leg_block );
+                buffer += "\n";
+            }
+            if( ma.nonstandard_block != 99 ) {
+                buffer += string_format(
+                              _( "You can <info>block with mutated limbs</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
+                              unarmed_skill, ma.nonstandard_block );
+                buffer += "\n";
+            }
+            buffer += "--\n";
+        }
+
+        auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,
+        bool passive = false ) {
+            if( !buffs.empty() ) {
+                buffer += string_format( _( "<header>%s buffs:</header>" ), title );
+                for( const auto &buff : buffs ) {
+                    buffer += "\n" + buff->get_description( passive );
+                }
+                buffer += "--\n";
+            }
+        };
+
+        buff_desc( _( "Passive" ), ma.static_buffs, true );
+        buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Pause" ), ma.onpause_buffs );
+        buff_desc( _( "Hit" ), ma.onhit_buffs );
+        buff_desc( _( "Miss" ), ma.onmiss_buffs );
+        buff_desc( _( "Attack" ), ma.onattack_buffs );
+        buff_desc( _( "Crit" ), ma.oncrit_buffs );
+        buff_desc( _( "Kill" ), ma.onkill_buffs );
+        buff_desc( _( "Dodge" ), ma.ondodge_buffs );
+        buff_desc( _( "Block" ), ma.onblock_buffs );
+        buff_desc( _( "Get hit" ), ma.ongethit_buffs );
+
+        for( const auto &tech : ma.techniques ) {
+            buffer += string_format( _( "<header>Technique:</header> <bold>%s</bold>   " ),
+                                     tech.obj().name ) + "\n";
+            buffer += tech.obj().get_description() + "--\n";
+        }
+
+        // Copy set to vector for sorting
+        std::vector<itype_id> valid_ma_weapons;
+        std::copy( ma.weapons.begin(), ma.weapons.end(), std::back_inserter( valid_ma_weapons ) );
+        for( const itype *itp : item_controller->all() ) {
+            const itype_id &weap_id = itp->get_id();
+            if( ma.has_weapon( weap_id ) )  {
+                valid_ma_weapons.emplace_back( weap_id );
+            }
+        }
+
+        if( !valid_ma_weapons.empty() ) {
+            Character &player = get_player_character();
+            std::map<weapon_category_id, std::vector<std::string>> weaps_by_cat;
+            std::sort( valid_ma_weapons.begin(), valid_ma_weapons.end(),
+            []( const itype_id & w1, const itype_id & w2 ) {
+                return localized_compare( item::nname( w1 ), item::nname( w2 ) );
+            } );
+            for( const itype_id &w : valid_ma_weapons ) {
+                bool carrying = player.has_item_with( [&w]( const item & it ) {
+                    return it.typeId() == w;
+                } );
+                // Wielded weapon in cyan, weapons in player inventory in yellow
+                std::string wname = player.get_wielded_item() && player.get_wielded_item()->typeId() == w ?
+                                    colorize( item::nname( w ) + _( " (wielded)" ), c_light_cyan ) :
+                                    carrying ? colorize( item::nname( w ), c_yellow ) : item::nname( w );
+                bool cat_found = false;
+                for( const weapon_category_id &w_cat : w->weapon_category ) {
+                    // If martial art does not define a weapon category, include all valid categories
+                    // If martial art defines one or more weapon categories, only include those categories
+                    if( ma.weapon_category.empty() || ma.weapon_category.count( w_cat ) > 0 ) {
+                        weaps_by_cat[w_cat].push_back( wname );
+                        cat_found = true;
+                    }
+                }
+                if( !cat_found ) {
+                    // Weapons that are uncategorized or not in the martial art's weapon categories
+                    weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT].push_back( wname );
+                }
+            }
+
+            buffer += std::string( "<bold>" ) + _( "Weapons" ) + std::string( "</bold>" ) + "\n";
+            bool has_other_cat = false;
+            for( auto &weaps : weaps_by_cat ) {
+                if( weaps.first == weapon_category_OTHER_INVALID_WEAP_CAT ) {
+                    // Print "OTHER" category at the end
+                    has_other_cat = true;
+                    continue;
+                }
+                weaps.second.erase( std::unique( weaps.second.begin(), weaps.second.end() ), weaps.second.end() );
+                std::string w_cat;
+                if( weaps.first.is_valid() ) {
+                    w_cat = weaps.first->name().translated();
+                } else {
+                    // MISSING JSON DEFINITION intentionally not translated
+                    w_cat = weaps.first.str() + " - MISSING JSON DEFINITION";
+                }
+
+                buffer += std::string( "<header>" ) + w_cat + std::string( ":</header> " );
+                buffer += enumerate_as_string( weaps.second ) + "\n";
+            }
+            if( has_other_cat ) {
+                std::vector<std::string> &weaps = weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT];
+                weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
+                buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
+                buffer += enumerate_as_string( weaps ) + "\n";
+            }
+            buffer += "--\n";
+        }
+
+        catacurses::window w;
+
+        const std::string text = replace_colors( buffer );
+        int width = 0;
+        int height = 0;
+        int iLines = 0;
+        int selected = 0;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w = catacurses::newwin( TERMY * 0.9, FULL_SCREEN_WIDTH,
+                                    point( TERMX - FULL_SCREEN_WIDTH, TERMY * 0.1 ) / 2 );
+
+            width = catacurses::getmaxx( w ) - 4;
+            height = catacurses::getmaxy( w ) - 2;
+
+            const auto vFolded = foldstring( text, width );
+            iLines = vFolded.size();
+
+            if( iLines < height ) {
+                selected = 0;
+            } else if( selected >= iLines - height ) {
+                selected = iLines - height;
+            }
+
+            ui.position_from_window( w );
+        } );
+        ui.mark_resize();
+
+        scrollbar sb;
+
+        input_context ctxt;
+        sb.set_draggable( ctxt );
+        ctxt.register_navigate_ui_list();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            werase( w );
+            fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
+            sb.offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( iLines )
+            .viewport_pos( selected )
+            .viewport_size( height )
+            .slot_color( BORDER_COLOR )
+            .scroll_to_last( false )
+            .apply( w );
+            wnoutrefresh( w );
+        } );
+
+        do {
+            ui_manager::redraw();
+            const size_t scroll_lines = catacurses::getmaxy( w ) - 3;
+            std::string action = ctxt.handle_input();
+
+            if( action == "QUIT" ) {
+                break;
+            } else if( sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           selected )
+                       || navigate_ui_list( action, selected, scroll_lines, iLines - height + 1, false ) ) {
+                // NO FURTHER ACTION REQUIRED
+            }
+        } while( true );
+    }
+    return true;
+}
+#endif

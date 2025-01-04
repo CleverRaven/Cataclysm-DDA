@@ -358,7 +358,11 @@ void diary::show_diary_ui( diary *c_diary )
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
             currwin = window_mode::PAGE_WIN;
         } else if( action == "VIEW_SCORES" ) {
+#if defined(IMGUI)
             show_scores_ui();
+#else
+            show_scores_ui( g->achievements(), g->stats(), g->get_kill_tracker() );
+#endif
         } else if( action == "DELETE PAGE" ) {
             if( !c_diary->pages.empty() ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {

@@ -216,6 +216,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     }
 }
 
+#if defined(IMGUI)
 void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs_omt &global_omt,
         const int width, const int height )
 {
@@ -316,6 +317,7 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
     // }
     ImGui::EndGroup();
 }
+#endif
 
 static void decorate_panel( const std::string_view name, const catacurses::window &w )
 {

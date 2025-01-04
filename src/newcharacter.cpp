@@ -4949,7 +4949,7 @@ std::optional<std::string> query_for_template_name()
     }
 
     spop.query_string( true );
-    if( spop.canceled() ) {
+    if( spop.cancelled() ) {
         return std::nullopt;
     } else {
         return spop.text();

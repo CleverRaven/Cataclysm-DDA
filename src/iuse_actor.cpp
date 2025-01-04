@@ -1940,7 +1940,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     .identifier( "inscribe_item" )
     .max_length( 128 )
     .query();
-    if( popup.canceled() ) {
+    if( popup.cancelled() ) {
         return false;
     }
     const std::string message = popup.text();
@@ -2451,7 +2451,13 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint_
     }
 
     spellbook_uilist.entries = uilist_initializer;
+#if defined(IMGUI)
     spellbook_uilist.desired_bounds = { -1.0, -1.0, 80 * ImGui::CalcTextSize( "X" ).x, 24 * ImGui::GetTextLineHeightWithSpacing() };
+#else
+    spellbook_uilist.w_height_setup = 24;
+    spellbook_uilist.w_width_setup = 80;
+    spellbook_uilist.pad_left_setup = 38;
+#endif
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
     spellbook_uilist.query();
@@ -4420,7 +4426,11 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
         if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {
 
+#if defined(IMGUI)
             if( game_menus::inv::compare_item_menu( it, gun_copy, _( "Remove modification?" ) ).show() ) {
+#else
+            if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+#endif
                 p->gunmod_remove( it, *mods[mod_index] );
                 return 0;
             }

@@ -907,7 +907,9 @@ class spellbook_callback : public uilist_callback
     public:
         void add_spell( const spell_id &sp );
         void refresh( uilist *menu ) override;
+#if defined(IMGUI)
         float desired_extra_space_right( ) override;
+#endif
 };
 
 // Utility structure to run area queries over weight map. It uses shortest-path-expanding-tree,

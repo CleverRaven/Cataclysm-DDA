@@ -40,7 +40,7 @@ static bool popup_string( std::string &result, std::string &title )
     popup.title( title );
     popup.text( "" ).only_digits( false );
     popup.query();
-    if( popup.canceled() ) {
+    if( popup.cancelled() ) {
         return false;
     }
     result = popup.text();
@@ -186,22 +186,34 @@ std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
     std::optional<tripoint_abs_omt> ret = std::nullopt;
 
     uilist teleport_selector;
+#if defined(IMGUI)
     teleport_selector.desired_bounds = {
         -1.0,
             -1.0,
             std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
             clamp( static_cast<int>( known_teleporters.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
         };
+#else
+    teleport_selector.w_height_setup = 24;
+    int column_width = 25;
+#endif
 
     int index = 0;
     std::map<int, tripoint_abs_omt> index_pairs;
     for( const std::pair<const tripoint_abs_omt, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
+#if !defined(IMGUI)
+        column_width = std::max( column_width, utf8_width( gate.second ) );
+#endif
         index_pairs.emplace( index, gate.first );
         index++;
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
+#if !defined(IMGUI)
+    teleport_selector.w_width_setup = 38 + column_width;
+    teleport_selector.pad_right_setup = 33;
+#endif
     teleport_selector.text = _( "Choose Translocator Gate" );
 
     teleport_selector.query();

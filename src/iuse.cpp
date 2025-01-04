@@ -4930,7 +4930,7 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
                           .text( here.has_graffiti_at( where ) ? here.graffiti_at( where ) : std::string() )
                           .identifier( "graffiti" )
                           .query_string();
-    if( popup.canceled() ) {
+    if( popup.cancelled() ) {
         return std::nullopt;
     }
 
@@ -5327,7 +5327,11 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
 
         modded_gun.put_in( mod_copy, pocket_type::MOD );
 
+#if !defined(IMGUI)
+        if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
+#else
         if( !game_menus::inv::compare_item_menu( *loc, modded_gun, _( "Attach modification?" ) ).show() ) {
+#endif
             continue;
         }
 

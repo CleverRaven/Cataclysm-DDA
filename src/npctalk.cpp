@@ -5256,7 +5256,7 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
                 } catch( const std::invalid_argument &e ) {
                 };
                 popup.edit( num_temp );
-                if( !popup.canceled() ) {
+                if( !popup.cancelled() ) {
                     str = std::to_string( num_temp );
                 }
             } else {
@@ -5264,7 +5264,7 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
                                        input_params.value().default_text->evaluate(
                                            d ) : "";
                 popup.edit( str_temp );
-                if( !popup.canceled() ) {
+                if( !popup.cancelled() ) {
                     str = str_temp;
                 }
             }
