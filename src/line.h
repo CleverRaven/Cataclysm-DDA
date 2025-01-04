@@ -82,7 +82,7 @@ struct enum_traits<direction> {
 namespace std
 {
 template <> struct hash<direction> {
-    std::size_t operator()( const direction &d ) const {
+    std::size_t operator()( const direction &d ) const noexcept {
         return static_cast<std::size_t>( d );
     }
 };

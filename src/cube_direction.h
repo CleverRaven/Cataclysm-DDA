@@ -34,7 +34,7 @@ struct enum_traits<cube_direction> {
 namespace std
 {
 template <> struct hash<cube_direction> {
-    std::size_t operator()( const cube_direction &d ) const {
+    std::size_t operator()( const cube_direction &d ) const noexcept {
         return static_cast<std::size_t>( d );
     }
 };
