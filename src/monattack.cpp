@@ -2142,9 +2142,7 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    std::vector<tripoint_bub_ms> pts = closest_points_first( z->pos_bub(), 1 );
-    // Don't check own tile
-    pts.erase( pts.begin() );
+    std::vector<tripoint_bub_ms> pts = closest_points_first( z->pos_bub(), 1, 1 );
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &dest : pts ) {
         Creature *critter = creatures.creature_at( dest );

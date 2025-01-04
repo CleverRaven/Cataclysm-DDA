@@ -3172,8 +3172,7 @@ void npc::avoid_friendly_fire()
 
     tripoint_bub_ms center = midpoint_round_to_nearest( fr_pts );
 
-    std::vector<tripoint_bub_ms> candidates = closest_points_first( pos_bub(), 1 );
-    candidates.erase( candidates.begin() );
+    std::vector<tripoint_bub_ms> candidates = closest_points_first( pos_bub(), 1, 1 );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint_bub_ms & l, const tripoint_bub_ms & r ) {
         return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <
