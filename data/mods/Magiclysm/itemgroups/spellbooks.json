@@ -51,6 +51,7 @@
       [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_x-ray", 30 ],
       [ "spell_scroll_animist_sense_outsiders", 25 ],
+      [ "spell_scroll_animist_detect_wizards", 35 ],
       [ "spell_scroll_necrotic_gaze", 50 ],
       [ "spell_scroll_crystallize_mana", 20 ],
       [ "spell_scroll_biomancer_paralytic_dart", 40 ],

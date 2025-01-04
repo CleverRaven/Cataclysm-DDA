@@ -110,7 +110,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
             { "forest",           &mapgen_forest },
-            { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
@@ -553,11 +552,6 @@ void mapgen_subway( mapgendata &dat )
 
     // finally, unrotate the map back to its normal orientation, resulting in the new addition being rotated.
     m->rotate( rot );
-}
-
-void mapgen_river_center( mapgendata &dat )
-{
-    fill_background( &dat.m, ter_t_water_moving_dp );
 }
 
 void mapgen_river_curved_not( mapgendata &dat )
