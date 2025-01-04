@@ -103,9 +103,6 @@ namespace turn_handler
 bool cleanup_at_end()
 {
     avatar &u = get_avatar();
-    if( are_we_quitting() ) {
-        return true;
-    }
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         // Put (non-hallucinations) into the overmap so they are not lost.
         for( monster &critter : g->all_monsters() ) {
