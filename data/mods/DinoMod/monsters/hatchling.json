@@ -811,6 +811,19 @@
     "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
   },
   {
+    "id": "mon_shonisaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_spinosaurus_hatchling",
+    "name": "shonisaurus neonate",
+    "description": "A tiny aquatic reptile neonate with huge shiny eyes and pointy little teeth.",
+    "default_faction": "shonisaurus_hatchling",
+    "harvest": "mammal_tiny",
+    "upgrades": { "age_grow": 30, "into": "mon_shonisaurus_juvenile" },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
+  },
+  {
     "id": "mon_plesiosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_spinosaurus_hatchling",
