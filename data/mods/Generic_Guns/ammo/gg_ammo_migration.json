@@ -612,6 +612,11 @@
     "replace": "rocket_he"
   },
   {
+    "id": [ "caotel_cell" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_cell"
+  },
+  {
     "id": [ "84x246mm_hedp", "m235_tpa", "RPG-7_pg7vr", "RPG-7_tbg7v", "RPG-7_og7v" ],
     "type": "MIGRATION",
     "replace": "rocket_hedp"
