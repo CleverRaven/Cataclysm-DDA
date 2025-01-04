@@ -1137,6 +1137,7 @@ class Builder FLATBUFFERS_FINAL_CLASS {
                 auto bs = reinterpret_cast<const char *>(
                     flatbuffers::vector_data(buf_) + b.key.u_);
                 auto comp = strcmp(as, bs);
+                bool dupe_cdda_json_comment = !strncmp(as, "//", 2) && !strncmp(bs, "//", 2);
                 // We want to disallow duplicate keys, since this results in a
                 // map where values cannot be found.
                 // But we can't assert here (since we don't want to fail on
@@ -1146,7 +1147,7 @@ class Builder FLATBUFFERS_FINAL_CLASS {
                 // TODO: Have to check for pointer equality, as some sort
                 // implementation apparently call this function with the same
                 // element?? Why?
-                if (!comp && &a != &b) has_duplicate_keys_ = true;
+                if (!comp && !dupe_cdda_json_comment && &a != &b) has_duplicate_keys_ = true;
                 return comp < 0;
               });
     // First create a vector out of all keys.
