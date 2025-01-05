@@ -465,35 +465,35 @@ void uilist::init()
     extra_space_left = 0.0;
     extra_space_right = 0.0;
 #else
-	w_x_setup = pos_scalar::auto_assign {};
-	w_y_setup = pos_scalar::auto_assign {};
-	w_width_setup = size_scalar::auto_assign {};
-	w_height_setup = size_scalar::auto_assign {};
-	w_x = 0;
-	w_y = 0;
-	w_width = 0;
-	w_height = 0;
-	textformatted.clear();
+    w_x_setup = pos_scalar::auto_assign {};
+    w_y_setup = pos_scalar::auto_assign {};
+    w_width_setup = size_scalar::auto_assign {};
+    w_height_setup = size_scalar::auto_assign {};
+    w_x = 0;
+    w_y = 0;
+    w_width = 0;
+    w_height = 0;
+    textformatted.clear();
 #endif
-	ret = UILIST_WAIT_INPUT;
-	text.clear();          // header text, after (maybe) folding, populates:
-	title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
-	ret_evt = input_event(); // last input event
-	keymap.clear();        // keymap[input_event] == index, for entries[index]
-	selected = 0;          // current highlight, for entries[index]
-	previewing = 0;           // current mouse highlight, for entries[index]
-	entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
-	started = false;       // set to true when width and key calculations are done, and window is generated.
+    ret = UILIST_WAIT_INPUT;
+    text.clear();          // header text, after (maybe) folding, populates:
+    title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
+    ret_evt = input_event(); // last input event
+    keymap.clear();        // keymap[input_event] == index, for entries[index]
+    selected = 0;          // current highlight, for entries[index]
+    previewing = 0;           // current mouse highlight, for entries[index]
+    entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
+    started = false;       // set to true when width and key calculations are done, and window is generated.
 #if !defined(IMGUI)
-	pad_left_setup = 0;
-	pad_right_setup = 0;
-	pad_left = 0;          // make a blank space to the left
-	pad_right = 0;         // or right
-	desc_lines_hint = 6;
-	desc_lines = 6;
+    pad_left_setup = 0;
+    pad_right_setup = 0;
+    pad_left = 0;          // make a blank space to the left
+    pad_right = 0;         // or right
+    desc_lines_hint = 6;
+    desc_lines = 6;
 #endif
-	desc_enabled = false;  // don't show option description by default
-	footer_text.clear();   // takes precedence over per-entry descriptions.
+    desc_enabled = false;  // don't show option description by default
+    footer_text.clear();   // takes precedence over per-entry descriptions.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -676,7 +676,7 @@ void uilist::inputfilter()
 #else
     input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
-	filter_popup->context( ctxt ).text( filter )
+    filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
     bool loop = true;

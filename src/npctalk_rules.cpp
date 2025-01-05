@@ -447,6 +447,6 @@ void follower_rules_ui_impl::draw_controls()
 #else
 void follower_rules_ui::draw_follower_rules_ui( npc *guy )
 {
-	assert(guy != NULL);
+    assert( guy != NULL );
 }
 #endif

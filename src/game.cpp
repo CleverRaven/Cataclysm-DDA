@@ -2287,21 +2287,21 @@ int game::inventory_item_menu( item_location locThisItem,
                 }
                 action_menu.desired_bounds = { x, 0.0, popup_width, -1.0 };
 #else
-				action_menu.w_y_setup = 0;
-				action_menu.w_x_setup = [&]( const int popup_width ) -> int {
-					switch( position )
-					{
-						default:
-						case RIGHT_TERMINAL_EDGE:
-							return 0;
-						case LEFT_OF_INFO:
-							return iStartX() - popup_width;
-						case RIGHT_OF_INFO:
-							return iStartX() + iWidth();
-						case LEFT_TERMINAL_EDGE:
-							return TERMX - popup_width;
-					}
-				};
+                action_menu.w_y_setup = 0;
+                action_menu.w_x_setup = [&]( const int popup_width ) -> int {
+                    switch( position )
+                    {
+                        default:
+                        case RIGHT_TERMINAL_EDGE:
+                            return 0;
+                        case LEFT_OF_INFO:
+                            return iStartX() - popup_width;
+                        case RIGHT_OF_INFO:
+                            return iStartX() + iWidth();
+                        case LEFT_TERMINAL_EDGE:
+                            return TERMX - popup_width;
+                    }
+                };
 #endif
                 // Filtering isn't needed, the number of entries is manageable.
                 action_menu.filtering = false;
@@ -8163,8 +8163,8 @@ look_around_result game::look_around(
             extended_description_window ext_desc( lp );
             ext_desc.show();
 #else
-			// TODO: fix point types
-			extended_description( lp );
+            // TODO: fix point types
+            extended_description( lp );
 #endif
         } else if( action == "CHANGE_MONSTER_NAME" ) {
             creature_tracker &creatures = get_creature_tracker();
@@ -8948,15 +8948,15 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             imgui_popup.set_identifier( "item_filter" );
             sFilter = imgui_popup.query();
 #else
-			string_input_popup()
-			.title( _( "Filter:" ) )
-			.width( 55 )
-			.description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n"
-						  + list_items_filter_history_help() )
-			.desc_color( c_white )
-			.identifier( "item_filter" )
-			.max_length( 256 )
-			.edit( sFilter );
+            string_input_popup()
+            .title( _( "Filter:" ) )
+            .width( 55 )
+            .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n"
+                          + list_items_filter_history_help() )
+            .desc_color( c_white )
+            .identifier( "item_filter" )
+            .max_length( 256 )
+            .edit( sFilter );
 #endif
             refilter = true;
             addcategory = !sort_radius;

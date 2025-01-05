@@ -548,7 +548,7 @@ query_popup::result query_popup::query_once()
         }
 #else
         init();
-#endif		
+#endif
     } else {
         for( size_t ind = 0; ind < options.size(); ++ind ) {
             if( res.action == options[ind].action ) {

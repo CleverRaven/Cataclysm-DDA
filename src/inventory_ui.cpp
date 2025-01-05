@@ -3496,7 +3496,8 @@ void inventory_selector::action_examine( const item_location &sitem )
     info_window.execute();
 #else
     draw_item_info( [&]() -> catacurses::window {
-        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) ); },
+        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) );
+    },
     data ).get_first_input();
 #endif
 }

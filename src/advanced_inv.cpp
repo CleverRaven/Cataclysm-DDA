@@ -1814,9 +1814,9 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         iteminfo_window info_window( data, point( info_startx(), 0 ), info_width(), TERMY );
         info_window.execute();
 #else
-		ret = draw_item_info( [&]() -> catacurses::window {
-			return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
-		}, data ).get_first_input();
+        ret = draw_item_info( [&]() -> catacurses::window {
+            return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
+        }, data ).get_first_input();
 #endif
     }
     if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
@@ -2114,7 +2114,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
     ImGui::NewLine();
     ImGui::NewLine();
 #else
-	int ofs = -25 - 4;
+    int ofs = -25 - 4;
 #endif
     cata_assert( menu->entries.size() >= 9 );
     int sel = 0;
@@ -2151,22 +2151,22 @@ void query_destination_callback::draw_squares( const uilist *menu )
     }
     ImGui::PopFont();
 #else
-	for( int i = 1; i < 10; i++ ) {
-		aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
-		std::string key = _adv_inv.get_location_key( loc );
-		advanced_inv_area &square = _adv_inv.get_one_square( loc );
-		bool in_vehicle = square.can_store_in_vehicle();
-		const char *bracket = in_vehicle ? "<>" : "[]";
-		// always show storage option for vehicle storage, if applicable
-		bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
-		nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
-		nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-		const point p( square.hscreen + point( ofs, 5 ) );
-		mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
-		wprintz( menu->window, kcolor, "%s", key );
-		wprintz( menu->window, bcolor, "%c", bracket[1] );
-	}
-	wnoutrefresh( menu->window );
+    for( int i = 1; i < 10; i++ ) {
+        aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
+        std::string key = _adv_inv.get_location_key( loc );
+        advanced_inv_area &square = _adv_inv.get_one_square( loc );
+        bool in_vehicle = square.can_store_in_vehicle();
+        const char *bracket = in_vehicle ? "<>" : "[]";
+        // always show storage option for vehicle storage, if applicable
+        bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
+        nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
+        nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
+        const point p( square.hscreen + point( ofs, 5 ) );
+        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
+        wprintz( menu->window, kcolor, "%s", key );
+        wprintz( menu->window, bcolor, "%c", bracket[1] );
+    }
+    wnoutrefresh( menu->window );
 #endif
 }
 

@@ -135,7 +135,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         cataimgui::draw_colored_text( format_item_info( info, {} ) );
     }
 #else
-		int starty = 5;
+        int starty = 5;
         const int startx = menu->w_width - menu->pad_right;
         const int width = menu->pad_right - 1;
 
@@ -494,7 +494,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         }
         custom_preset_popup.query_string();
         if( !custom_preset_popup.cancelled() ) {
-			const std::string &rval = custom_preset_popup.text();
+            const std::string &rval = custom_preset_popup.text();
 #endif
             // Check if already exists
             item_pocket::load_presets();
@@ -2808,7 +2808,7 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
 #if defined(IMGUI)
     pocket_selector.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
 #else
-	pocket_selector.w_x_setup = 0;
+    pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {
         return TERMX;
     };

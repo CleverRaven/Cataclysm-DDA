@@ -5337,7 +5337,8 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
 
         p->gunmod_add( *loc, *it );
         return 0;
-    } while( true );
+    }
+    while( true );
 }
 
 std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint_bub_ms & )

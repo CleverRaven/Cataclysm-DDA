@@ -194,15 +194,15 @@ static std::optional<std::string> prompt_world_name( const std::string &title,
     popup.set_description( string_format(
                                _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
                                ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
-	popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
+    popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
         popup.set_text( get_next_valid_worldname() );
 #else
     string_input_popup popup;
     popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
     input_context ctxt( "STRING_INPUT" );
     popup.description( string_format(
-                               _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                               ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
     popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
     popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
         popup.text( get_next_valid_worldname() );

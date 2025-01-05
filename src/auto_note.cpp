@@ -521,12 +521,12 @@ void auto_note_manager_gui::show()
             custom_symbol_popup.set_max_input_length( 1 );
             const std::string &custom_symbol_str = custom_symbol_popup.query();
 #else
-			string_input_popup custom_symbol_popup;
-			custom_symbol_popup
-			.title( _( "Enter a map extra custom symbol (empty to unset):" ) )
-			.width( 2 )
-			.query_string();
-			const std::string &custom_symbol_str = custom_symbol_popup.text();
+            string_input_popup custom_symbol_popup;
+            custom_symbol_popup
+            .title( _( "Enter a map extra custom symbol (empty to unset):" ) )
+            .width( 2 )
+            .query_string();
+            const std::string &custom_symbol_str = custom_symbol_popup.text();
 #endif
 
             if( !custom_symbol_popup.cancelled() ) {

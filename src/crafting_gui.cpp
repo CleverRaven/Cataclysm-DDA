@@ -1916,11 +1916,11 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                          info_width, info_height );
             info_window.execute();
 #else
-			draw_item_info( []() -> catacurses::window {
-				const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
-				const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
-				return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
-			}, data );
+            draw_item_info( []() -> catacurses::window {
+                const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
+                const int height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+                return catacurses::newwin( height, width, point( ( TERMX - width ) / 2, ( TERMY - height ) / 2 ) );
+            }, data );
 #endif
         } else if( action == "FILTER" ) {
             int max_example_length = 0;
@@ -2323,7 +2323,7 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
         game_menus::inv::compare_item_menu menu( recipe_item, *to_compare );
         menu.show();
 #else
-		game_menus::inv::compare_items( recipe_item, *to_compare );
+        game_menus::inv::compare_items( recipe_item, *to_compare );
 #endif
     } while( true );
 }

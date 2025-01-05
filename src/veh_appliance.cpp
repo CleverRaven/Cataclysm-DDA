@@ -210,7 +210,7 @@ void veh_app_interact::init_ui_windows()
                              -1,      // but let uilist choose the height as it pleases.
                            };
 #else
-	const int width_input = win_width;
+    const int width_input = win_width;
     imenu.w_width_setup = width_input;
     imenu.w_x_setup = topleft.x;
     imenu.w_y_setup = topleft.y + height_info;

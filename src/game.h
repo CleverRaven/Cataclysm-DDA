@@ -680,7 +680,8 @@ class game
 
 #if !defined(IMGUI)
         /** Long description of (visible) things at tile. */
-        void extended_description( const tripoint_bub_ms &p ); // Has no implementation, so assuming it's a stub for future expansion.
+        void extended_description( const tripoint_bub_ms
+                                   &p ); // Has no implementation, so assuming it's a stub for future expansion.
 #endif
 
         void draw_trail_to_square( const tripoint_rel_ms &t, bool bDrawX );
