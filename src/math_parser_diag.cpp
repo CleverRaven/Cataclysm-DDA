@@ -1714,8 +1714,10 @@ diag_eval_dbl_f vitamin_eval( char scope, std::vector<diag_value> const &params,
             return chr->vitamin_get( vitamin_id( id.str( d ) ) );
         }
         if( item_location const *const itm = actor->get_const_item(); itm != nullptr ) {
-            const nutrients &nutrient_data = default_character_compute_effective_nutrients( *itm->get_item() );
-            return static_cast<int>( nutrient_data.vitamins().count( vitamin_id( id.str( d ) ) ) );
+            const std::map<vitamin_id, int> &vitamin_data =
+                default_character_compute_effective_nutrients( *itm->get_item() ).vitamins();
+            const auto &v = vitamin_data.find( vitamin_id( id.str( d ) ) );
+            return v != vitamin_data.end() ? v->second : 0;
         }
         throw math::runtime_error( "Tried to access vitamins of a non-Character/non-item talker" );
     };
