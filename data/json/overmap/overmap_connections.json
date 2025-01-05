@@ -30,7 +30,11 @@
         "basic_cost": 5,
         "flags": [ "ORTHOGONAL" ]
       },
-      { "terrain": "underground_sub_station", "locations": [  ] }
+      {
+        "terrain": "underground_sub_station",
+        "locations": [  ],
+        "//": "For some reason this is causing the map to be rotated 180 degrees when it shouldn't be touching it just pathing past it like road_nesw_manhole"
+      }
     ]
   },
   {
