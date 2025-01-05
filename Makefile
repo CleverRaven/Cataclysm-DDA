@@ -945,11 +945,13 @@ ifeq ($(IMGUI), 0)
                        $(SRC_DIR)/input_popup.cpp \
                        $(SRC_DIR)/ui_iteminfo.cpp \
                        $(SRC_DIR)/text.cpp \
+                       $(SRC_DIR)/imgui_demo.cpp \
                        $(SRC_DIR)/ui_extended_description.cpp
   BAD_IMGUI_HEADERS := $(SRC_DIR)/cata_imgui.h \
                        $(SRC_DIR)/input_popup.h \
                        $(SRC_DIR)/ui_iteminfo.h \
                        $(SRC_DIR)/text.h \
+                       $(SRC_DIR)/imgui_demo.h \
                        $(SRC_DIR)/ui_extended_description.h
   SOURCES := $(filter-out $(BAD_IMGUI_SOURCES), $(SOURCES))
   HEADERS := $(filter-out $(BAD_IMGUI_HEADERS), $(HEADERS))

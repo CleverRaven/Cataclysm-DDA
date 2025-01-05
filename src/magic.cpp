@@ -2556,8 +2556,8 @@ class spellcasting_callback : public uilist_callback
                 return true;
             } else if( action == "SCROLL_FAVORITE" ) {
                 get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
-#if defined(IMGUI)
                 refresh_favorite( menu, known_spells );
+#if defined(IMGUI)
             } else if( action == "SCROLL_UP_SPELL_MENU" ) {
                 spell_info_scroll = cataimgui::scroll::line_up;
             } else if( action == "SCROLL_DOWN_SPELL_MENU" ) {
