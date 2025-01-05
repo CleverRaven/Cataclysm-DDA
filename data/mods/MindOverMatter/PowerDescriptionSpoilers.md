@@ -1215,10 +1215,10 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 ## Enervating Touch 
 *Difficulty*: 3<br />
 *Target*: One enemy within range 1<br />
-*Duration*: 4 seconds to 30 seconds, plus 0.5 seconds to 1.5 seconds per power level<br />
+*Duration*: 18 seconds to 1 minute and 1 second, plus 29 seconds to 1 minute and 18 seconds per power level<br />
 *Stamina Cost*: 2000, minus 65 per level to a minimum of 950<br />
 *Channeling Time*: 85 moves, minus 3 moves per level to a minimum of 55<br />
-*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 5% chance per second to cause 1 biological damage, +1% chance per power level to a maximum of a 33% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
+*Effects*: Cause decay in the target's tissues, reducing speed by 5%, slightly reducing their chance to hit, and having a 3% chance per second to cause 1 biological damage, +0.2% chance per power level to a maximum of a 10% chance.  As well, while the power is in effect, any creature with regeneration has their rate of regeneration cut in half.<br />
 *Prerequisites*: Medicinal Touch 5, Coagulation 5<br />
 
 ## Detoxification

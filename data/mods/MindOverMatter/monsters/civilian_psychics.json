@@ -265,7 +265,6 @@
     "diff": 0,
     "copy-from": "mon_civilian_clairsentient",
     "regenerates": 5,
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -3 ] ],
     "vision_day": 10,
     "vision_night": 1,
     "dodge": 1,
