@@ -1,0 +1,52 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [
+      "Chibi_Ultica",
+      "UltimateCataclysm",
+      "MshockXottoplus",
+      "UNDEAD_PEOPLE",
+      "UNDEAD_PEOPLE_BASE",
+      "UNDEAD_PEOPLE_LEGACY",
+      "UlticaShell",
+      "MshockXottoplus12",
+      "MSX++DEAD_PEOPLE",
+      "MXplus12_for_cosmetics"
+    ],
+    "tiles-new": [
+      {
+        "file": "Engineering_Essentials_normal.png",
+        "tiles": [
+          { "id": "bg_shadow_item", "fg": 1 },
+          { "id": "overlay_wielded_bg_shadow_item", "fg": 1 },
+          { "id": "goggles_welding_forehead", "fg": 2 },
+          { "id": "overlay_wielded_goggles_welding_forehead", "fg": 3 },
+          { "id": "overlay_worn_goggles_welding_forehead", "fg": 4 },
+          { "id": "elec_razor", "fg": 5 },
+          { "id": "overlay_wielded_elec_razor", "fg": 6 },
+          { "id": "press_large", "fg": 7 },
+          { "id": "overlay_wielded_press_large", "fg": 8 },
+          { "id": "plasma_torch", "fg": 9 },
+          { "id": "overlay_wielded_plasma_torch", "fg": 10 },
+          { "id": "lathe", "fg": 11 },
+          { "id": "overlay_wielded_lathe", "fg": 12 },
+          { "id": "plasma_slug", "fg": 13 },
+          { "id": "overlay_wielded_plasma_slug", "fg": 14 },
+          { "id": "electric_pump", "fg": 15 },
+          { "id": "overlay_wielded_electric_pump", "fg": 16 },
+          { "id": "survivor_chem", "fg": 17 },
+          { "id": "overlay_wielded_survivor_chem", "fg": 18 },
+          { "id": "materials_fabrication", "fg": 19 },
+          { "id": "overlay_wielded_materials_fabrication", "fg": 20 },
+          { "id": "aero_engine_light", "fg": 21 },
+          { "id": "overlay_wielded_aero_engine_light", "fg": 22 }
+        ],
+        "//": "range 1 to 144",
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0
+      }
+    ]
+  }
+]
