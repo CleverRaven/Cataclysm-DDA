@@ -5854,6 +5854,24 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 
 }
 
+// Cache for can_craft in final_info.
+static std::unordered_map<const recipe *, bool> can_craft_recipe_cache;
+static time_point cache_valid_turn;
+
+static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
+{
+    if( cache_valid_turn != calendar::turn ) {
+        cache_valid_turn = calendar::turn;
+        can_craft_recipe_cache.clear();
+    }
+    if( can_craft_recipe_cache.count( r ) > 0 ) {
+        return can_craft_recipe_cache.at( r );
+    }
+    can_craft_recipe_cache[r] = r->deduped_requirements().can_make_with_inventory( crafting_inv,
+                                r->get_component_filter() );
+    return can_craft_recipe_cache.at( r );
+}
+
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool /* debug */ ) const
 {
@@ -6085,7 +6103,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
         const inventory &crafting_inv = player_character.crafting_inventory();
-        const recipe_subset available_recipe_subset = player_character.get_group_available_recipes();
+        const recipe_subset &available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
         insert_separation_line( info );
@@ -6093,11 +6111,10 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "DESCRIPTION", _( "You know of nothing you could craft with it." ) );
         } else {
             std::vector<std::string> crafts;
+            crafts.reserve( item_recipes.size() );
             for( const recipe *r : item_recipes ) {
-                const bool can_make = r->deduped_requirements()
-                                      .can_make_with_inventory( crafting_inv, r->get_component_filter() );
-
-                // Endarken recipes that can't be constructed with the survivor's inventory
+                const bool can_make = can_craft_recipe( r, crafting_inv );
+                // Endarken recipes that can't be crafted with the survivor's inventory
                 const std::string name = r->result_name( /* decorated = */ true );
                 crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );
             }
