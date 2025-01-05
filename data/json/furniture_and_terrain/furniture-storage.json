@@ -992,7 +992,7 @@
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
     "examine_action": "keg",
-    "keg_capacity": 500,
+    "keg_capacity": "125 L",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 18 },
@@ -1269,7 +1269,7 @@
     "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 5 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
-    "keg_capacity": 1200,
+    "keg_capacity": "300 L",
     "bash": {
       "str_min": 10,
       "str_max": 20,
@@ -1292,7 +1292,7 @@
     "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED" ],
     "deconstruct": { "items": [ { "item": "sheet_metal", "count": 24 }, { "item": "water_faucet", "count": 1 } ] },
     "examine_action": "keg",
-    "keg_capacity": 6000,
+    "keg_capacity": "1500 L",
     "bash": {
       "str_min": 16,
       "str_max": 32,
@@ -1445,7 +1445,7 @@
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
-    "keg_capacity": 45,
+    "keg_capacity": "11250 ml",
     "deconstruct": { "items": [ { "item": "churn", "count": 1 } ] },
     "bash": {
       "str_min": 12,
@@ -1644,7 +1644,7 @@
     "required_str": -1,
     "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
-    "keg_capacity": 6540,
+    "keg_capacity": "1635 L",
     "deconstruct": { "items": [ { "item": "432gal_drum_rubber", "count": 1 } ] },
     "bash": {
       "str_min": 90,
