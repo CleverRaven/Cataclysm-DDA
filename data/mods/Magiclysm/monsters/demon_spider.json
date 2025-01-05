@@ -36,7 +36,7 @@
     "vision_day": 5,
     "vision_night": 7,
     "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
-    "armor": { "bash": 1, "cut": 8, "stab": 8, "acid": 3, "heat": 80, "bullet": 8 },
+    "armor": { "bash": 1, "cut": 8, "stab": 8, "acid": 3, "heat": 150, "bullet": 8 },
     "extend": { "flags": [ "HARDTOSHOOT" ] }
   },
   {
@@ -63,7 +63,13 @@
     "vision_night": 12,
     "emit_fields": [ { "emit_id": "emit_hot_air3_blast", "delay": "1 s" } ],
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 },
+      {
+        "id": "demon_spider_burning_hands",
+        "type": "spell",
+        "spell_data": { "id": "burning_hands_monster", "min_level": 4 },
+        "cooldown": 20,
+        "monster_message": "%1$s breathes a fan of flames!"
+      },
       { "id": "mutant_spinneret", "cooldown": 25 },
       {
         "type": "monster_attack",
@@ -80,16 +86,24 @@
         "no_dmg_msg_npc": "%1$s vomits black ichor at <npcname>, but nothing happens!",
         "miss_msg_u": "%s vomits black ichor!  You avoid it!",
         "miss_msg_npc": "%s vomits black ichor but <npcname> avoids it!"
+      },
+      {
+        "id": "demon_spider_fire_heal",
+        "type": "spell",
+        "spell_data": { "id": "demon_spider_fire_heal", "hit_self": true },
+        "cooldown": 1,
+        "condition": { "u_is_in_field": "fd_fire" },
+        "monster_message": "%1$s drinks in the flames!"
       }
     ],
-    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 80, "bullet": 60 }
+    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 250, "bullet": 60, "cold": -20 }
   },
   {
     "id": "mon_demon_spider_queen",
     "type": "MONSTER",
     "name": "demon spider queen",
     "description": "This gigantic spider is the size of a moving van: you have no idea how it manages to stay together, much less move with that bulk.  Its abdomen is huge and swollen-looking, and an evil intelligence burns in its eyes even as magic crackles around its chitinous barbs.  The air around it distorts with heat.",
-    "copy-from": "mon_demon_spider",
+    "copy-from": "demon_spider_base",
     "weight": "750 kg",
     "hp": 2800,
     "speed": 50,
@@ -123,9 +137,30 @@
           "miss_msg_u": "%s vomits black ichor!  You avoid it!",
           "miss_msg_npc": "%s vomits black ichor but <npcname> avoids it!"
         },
-        { "type": "spell", "spell_data": { "id": "mon_summon_demon_spiderlings" }, "cooldown": 14 },
-        { "type": "spell", "spell_data": { "id": "mon_demon_fireball" }, "cooldown": 45 }
+        {
+          "id": "demon_spider_queen_spiderling_summon",
+          "type": "spell",
+          "spell_data": { "id": "mon_summon_demon_spiderlings" },
+          "cooldown": 14,
+          "monster_message": "Tiny demon spiders detact from %1$s and skitter towards you."
+        },
+        {
+          "id": "demon_spider_queen_fireball",
+          "type": "spell",
+          "spell_data": { "id": "mon_demon_fireball" },
+          "cooldown": 45,
+          "monster_message": "%1$s spews out a ball of fire!"
+        },
+        {
+          "id": "demon_spider_queen_fire_heal",
+          "type": "spell",
+          "spell_data": { "id": "demon_spider_queen_fire_heal", "hit_self": true },
+          "cooldown": 1,
+          "condition": { "u_is_in_field": "fd_fire" },
+          "monster_message": "%1$s drinks in the flames!"
+        }
       ]
-    }
+    },
+    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 999, "bullet": 120, "cold": -50 }
   }
 ]
