@@ -2728,7 +2728,221 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     return enumerate_as_string( spell_data );
 }
 
-#if defined(IMGUI)
+#if !defined(IMGUI)
+void spellcasting_callback::spell_info_text( const spell &sp, int width )
+{
+    Character &pc = get_player_character();
+
+    info_txt.emplace_back( colorize( sp.spell_class() == trait_NONE ? _( "Classless" ) :
+                                     sp.spell_class()->name(), c_yellow ) );
+    for( const std::string &line : foldstring( sp.description(), width ) ) {
+        info_txt.emplace_back( colorize( line, c_light_gray ) );
+    }
+    info_txt.emplace_back( );
+    for( const std::string &line : foldstring( sp.enumerate_spell_data( pc ), width ) ) {
+        info_txt.emplace_back( colorize( line, c_light_gray ) );
+    }
+    info_txt.emplace_back( );
+
+    auto columnize = [&width]( const std::string & col1, const std::string & col2 ) {
+        std::string line = col1;
+        int pad = clamp<int>( width / 2 - utf8_width( line, true ), 1, width / 2 );
+        line.append( pad, ' ' );
+        line.append( col2 );
+        return line;
+    };
+    // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
+    int temp_level_adjust = sp.get_temp_level_adjustment();
+    std::string temp_level_adjust_string;
+    if( temp_level_adjust < 0 ) {
+        temp_level_adjust_string = " (-" + std::to_string( -temp_level_adjust ) + ")";
+    } else if( temp_level_adjust > 0 ) {
+        temp_level_adjust_string = " (+" + std::to_string( temp_level_adjust ) + ")";
+    }
+
+    info_txt.emplace_back(
+        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
+                                            sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                             string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    info_txt.emplace_back(
+        colorize( columnize( sp.colorized_fail_percent( pc ),
+                             string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty( pc ) ) ), c_light_gray ) );
+    info_txt.emplace_back(
+        colorize( columnize( string_format( "%s: %s", _( "Current Exp" ),
+                                            colorize( std::to_string( sp.xp() ), c_light_green ) ),
+                             string_format( "%s: %s", _( "to Next Level" ),
+                                            colorize( std::to_string( sp.exp_to_next_level() ), c_light_green ) ) ), c_light_gray ) );
+
+    info_txt.emplace_back( );
+
+    const bool cost_encumb = sp.energy_cost_encumbered( pc );
+    std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
+    std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                             string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+    if( !pc.magic->has_enough_energy( pc, sp ) ) {
+        cost_string = colorize( _( "Not Enough Energy" ), c_red );
+        energy_cur.clear();
+    }
+    info_txt.emplace_back(
+        colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                 sp.energy_string(), energy_cur ), c_light_gray ) );
+
+    const bool c_t_encumb = sp.casting_time_encumbered( pc );
+    info_txt.emplace_back(
+        colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
+                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+
+    info_txt.emplace_back( );
+
+    std::string targets;
+    if( sp.is_valid_target( spell_target::none ) ) {
+        targets = _( "self" );
+    } else {
+        targets = sp.enumerate_targets();
+    }
+    info_txt.emplace_back(
+        colorize( string_format( "%s: %s", _( "Valid Targets" ), targets ), c_light_gray ) );
+
+    info_txt.emplace_back( );
+
+    std::string target_ids;
+    target_ids = sp.list_targeted_monster_names();
+    if( !target_ids.empty() ) {
+        for( const std::string &line :
+             foldstring( string_format( _( "Only affects the monsters: %s" ), target_ids ), width ) ) {
+            info_txt.emplace_back( colorize( line, c_light_gray ) );
+        }
+        info_txt.emplace_back( );
+    }
+
+    const int damage = sp.damage( pc );
+    std::string damage_string;
+    std::string aoe_string;
+    // if it's any type of attack spell, the stats are normal.
+    if( sp.effect() == "attack" ) {
+        if( damage > 0 ) {
+            std::string dot_string;
+            if( sp.damage_dot( pc ) != 0 ) {
+                //~ amount of damage per second, abbreviated
+                dot_string = string_format( _( ", %d/sec" ), sp.damage_dot( pc ) );
+            }
+            damage_string = string_format( "%s: %s %s%s", _( "Damage" ), sp.damage_string( pc ),
+                                           sp.damage_type_string(), dot_string );
+            damage_string = colorize( damage_string, sp.damage_type_color() );
+        } else if( damage < 0 ) {
+            damage_string = string_format( "%s: %s", _( "Healing" ), colorize( sp.damage_string( pc ),
+                                           c_light_green ) );
+        }
+        if( sp.aoe( pc ) > 0 ) {
+            std::string aoe_string_temp = _( "Spell Radius" );
+            std::string degree_string;
+            if( sp.shape() == spell_shape::cone ) {
+                aoe_string_temp = _( "Cone Arc" );
+                degree_string = _( "degrees" );
+            } else if( sp.shape() == spell_shape::line ) {
+                aoe_string_temp = _( "Line Width" );
+            }
+            aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe( pc ), degree_string );
+        }
+    } else if( sp.effect() == "short_range_teleport" ) {
+        if( sp.aoe( pc ) > 0 ) {
+            aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe( pc ) );
+        }
+    } else if( sp.effect() == "spawn_item" ) {
+        if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // todo: more user-friendly presentation
+            damage_string = string_format( _( "Spawn item group %1$s %2$d times" ), sp.effect_data(),
+                                           sp.damage( pc ) );
+        } else {
+            damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage( pc ),
+                                           item::nname( itype_id( sp.effect_data() ), sp.damage( pc ) ) );
+        }
+    } else if( sp.effect() == "summon" ) {
+        std::string monster_name = "FIXME";
+        if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // TODO: Get a more user-friendly group name
+            if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
+                monster_name = "from " + sp.effect_data();
+            } else {
+                debugmsg( "Unknown monster group: %s", sp.effect_data() );
+            }
+        } else {
+            monster_name = monster( mtype_id( sp.effect_data() ) ).get_name( );
+        }
+        damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage( pc ), monster_name );
+        aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe( pc ) );
+    } else if( sp.effect() == "targeted_polymorph" ) {
+        std::string monster_name = sp.effect_data();
+        if( sp.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
+            // TODO: Get a more user-friendly group name
+            if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( sp.effect_data() ) ) ) {
+                monster_name = _( "random creature" );
+            } else {
+                debugmsg( "Unknown monster group: %s", sp.effect_data() );
+            }
+        } else if( monster_name.empty() ) {
+            monster_name = _( "random creature" );
+        } else {
+            monster_name = mtype_id( sp.effect_data() )->nname();
+        }
+        damage_string = string_format( _( "Targets under: %dhp become a %s" ), sp.damage( pc ),
+                                       monster_name );
+    } else if( sp.effect() == "ter_transform" ) {
+        aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string( pc ) );
+    } else if( sp.effect() == "banishment" ) {
+        damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string( pc ),
+                                       sp.damage_type_string() );
+        if( sp.aoe( pc ) > 0 ) {
+            aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe( pc ) );
+        }
+    }
+
+    // Range / AOE in two columns
+    info_txt.emplace_back( colorize( string_format( "%s: %s", _( "Range" ),
+                                     sp.range( pc ) <= 0 ? _( "self" ) : std::to_string( sp.range( pc ) ) ), c_light_gray ) );
+    info_txt.emplace_back( colorize( aoe_string, c_light_gray ) );
+
+    // One line for damage / healing / spawn / summon effect
+    info_txt.emplace_back( colorize( damage_string, c_light_gray ) );
+
+    // todo: damage over time here, when it gets implemented
+
+    // Show duration for spells that endure
+    if( sp.duration( pc ) > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
+        sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s", _( "Duration" ), sp.duration_string( pc ) ), c_light_gray ) );
+    }
+
+    if( sp.has_components() ) {
+        if( !sp.components().get_components().empty() ) {
+            for( const std::string &line : sp.components().get_folded_components_list(
+                     width - 2, c_light_gray, pc.crafting_inventory(), return_true<item> ) ) {
+                info_txt.emplace_back( line );
+            }
+        }
+        if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
+            for( const std::string &line : sp.components().get_folded_tools_list(
+                     width - 2, c_light_gray, pc.crafting_inventory() ) ) {
+                info_txt.emplace_back( line );
+            }
+        }
+    }
+}
+
+void spellcasting_callback::draw_spell_info( const uilist *menu )
+{
+    const int h_offset = menu->w_width - menu->pad_right + 1;
+    int row = 1;
+    nc_color clr = c_light_gray;
+
+    for( int line = scroll_pos; row < menu->w_height - 1 &&
+         line < static_cast<int>( info_txt.size() ); row++, line++ ) {
+        print_colored_text( menu->window, point( h_offset + 1, row ), clr, c_light_gray, info_txt[line] );
+    }
+}
+
+#else
 void spellcasting_callback::display_spell_info( size_t index )
 {
     const spell &sp = *known_spells[ index ];

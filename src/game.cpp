@@ -8163,7 +8163,7 @@ look_around_result game::look_around(
             ext_desc.show();
 #else
 			// TODO: fix point types
-			extended_description (lp.raw() );
+			extended_description( lp );
 #endif
         } else if( action == "CHANGE_MONSTER_NAME" ) {
             creature_tracker &creatures = get_creature_tracker();

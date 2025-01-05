@@ -40,7 +40,9 @@ class window;
  */
 class input_context
 {
+#if defined(IMGUI)
         friend class keybindings_ui;
+#endif
     public:
 #if defined(__ANDROID__)
         // Whatever's on top is our current input context.

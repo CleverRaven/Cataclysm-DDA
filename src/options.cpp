@@ -19,7 +19,9 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "input_context.h"
+#if defined(IMGUI)
 #include "input_popup.h"
+#endif
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
@@ -3756,6 +3758,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     current_opt.setNext();
                 } else {
                     const bool is_int = current_opt.getType() == "int";
+#if defined(IMGUI)
                     if( is_int ) {
                         number_input_popup<int> popup( 0, current_opt.value_as<int>() );
                         popup.set_label( current_opt.getMenuText() );
@@ -3767,6 +3770,37 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                         float num = popup.query();
                         current_opt.setValue( num );
                     }
+#else
+                    const bool is_float = current_opt.getType() == "float";
+                    const std::string old_opt_val = current_opt.getValueName();
+                    const std::string opt_val = string_input_popup()
+                                                .title( current_opt.getMenuText() )
+                                                .width( 10 )
+                                                .text( old_opt_val )
+                                                .only_digits( is_int )
+                                                .query_string();
+                    if( !opt_val.empty() && opt_val != old_opt_val ) {
+                        if( is_float ) {
+                            std::istringstream ssTemp( opt_val );
+                            // This uses the current locale, to allow the users
+                            // to use their own decimal format.
+                            float tmpFloat;
+                            ssTemp >> tmpFloat;
+                            if( ssTemp ) {
+                                current_opt.setValue( tmpFloat );
+
+                            } else {
+                                popup( _( "Invalid input: not a number" ) );
+                            }
+                        } else {
+                            // option is of type "int": string_input_popup
+                            // has taken care that the string contains
+                            // only digits, parsing is done in setValue
+                            current_opt.setValue( opt_val );
+                        }
+                    }
+
+#endif
                 }
             }
         };

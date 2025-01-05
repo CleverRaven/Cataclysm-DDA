@@ -41,6 +41,7 @@ static ui_state *gLUI = nullptr;
 static void redraw()
 {
 #ifdef TILES
+#if defined(IMGUI)
     ImVec2 pos = { 0.5f, 0.5f };
     ImGui::SetNextWindowPos( ImGui::GetMainViewport()->Size * pos, ImGuiCond_Always, { 0.5f, 0.5f } );
     ImGui::SetNextWindowSize( gLUI->window_size );
@@ -58,6 +59,7 @@ static void redraw()
     ImGui::End();
     ImGui::PopStyleColor();
     ImGui::PopStyleVar();
+#endif
 #else
     int x = ( TERMX - static_cast<int>( gLUI->splash_width ) ) / 2;
     int y = 0;
@@ -94,6 +96,7 @@ static void update_state( const std::string &context, const std::string &step )
         } );
 
 #ifdef TILES
+#if defined(IMGUI)
         std::vector<cata_path> imgs;
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
         for( mod_id &some_mod : active_mod_list ) {
@@ -130,6 +133,7 @@ static void update_state( const std::string &context, const std::string &step )
                             };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
         gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
+#endif
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
         if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {

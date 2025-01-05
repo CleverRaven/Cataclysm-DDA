@@ -16,19 +16,26 @@
 #include <unordered_set>
 #include <vector>
 
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 #include "dialogue.h"
 #include "npctalk.h"
 #include "ui_manager.h"
+#if defined(IMGUI)
 #include "imgui/imgui.h"
+#endif
 
 class follower_rules_ui
 {
+#if defined(IMGUI)
         friend class follower_rules_ui_impl;
+#endif
     public:
         void draw_follower_rules_ui( npc *guy );
 };
 
+#if defined(IMGUI)
 class follower_rules_ui_impl : public cataimgui::window
 {
     public:
@@ -70,5 +77,5 @@ class follower_rules_ui_impl : public cataimgui::window
     protected:
         void draw_controls() override;
 };
-
+#endif
 #endif // CATA_SRC_NPCTALK_RULES_H

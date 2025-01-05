@@ -517,6 +517,9 @@ void uilist::init()
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
+#if !defined(IMGUI)
+    uilist_scrollbar = std::make_unique<scrollbar>();
+#endif
 
     categories.clear();
     switch_to_category = current_category = 0;
@@ -611,6 +614,54 @@ void uilist::filterlist()
         callback->select( this );
     }
 }
+
+#if !defined(IMGUI)
+input_context uilist::create_filter_input_context() const
+{
+    input_context ctxt( input_category, keyboard_mode::keychar );
+    // string input popup actions
+    ctxt.register_action( "TEXT.LEFT" );
+    ctxt.register_action( "TEXT.RIGHT" );
+    ctxt.register_action( "TEXT.QUIT" );
+    ctxt.register_action( "TEXT.CONFIRM" );
+    ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.BACKSPACE" );
+    ctxt.register_action( "TEXT.HOME" );
+    ctxt.register_action( "TEXT.END" );
+    ctxt.register_action( "TEXT.DELETE" );
+#if defined( TILES )
+    ctxt.register_action( "TEXT.PASTE" );
+#endif
+    ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+    // uilist actions
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
+    ctxt.register_action( "END", to_translation( "Go to last entry" ) );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    if( allow_confirm ) {
+        ctxt.register_action( "SELECT" );
+    }
+    ctxt.register_action( "MOUSE_MOVE" );
+    return ctxt;
+}
+
+int uilist::find_entry_by_coordinate( const point &p ) const
+{
+    for( auto it = fentries.begin(); it != fentries.end(); ++it ) {
+        const uilist_entry &entry = entries[*it];
+        if( entry.drawn_rect && entry.drawn_rect.value().contains( p ) ) {
+            return std::distance( fentries.begin(), it );
+        }
+    }
+    return -1;
+}
+#endif
 
 void uilist::inputfilter()
 {

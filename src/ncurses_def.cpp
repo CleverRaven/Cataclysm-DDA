@@ -5,7 +5,9 @@
 #include "input.h"
 #include "point.h"
 #include "translations.h"
+#if defined(IMGUI)
 #include "cata_imgui.h"
+#endif
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
@@ -41,7 +43,9 @@
 #include <langinfo.h>
 #endif
 
+#if defined(IMGUI)
 std::unique_ptr<cataimgui::client> imclient;
+#endif
 
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
@@ -301,9 +305,11 @@ static_assert( catacurses::white == COLOR_WHITE,
 
 void catacurses::init_pair( const short pair, const base_color f, const base_color b )
 {
+#if defined(IMGUI)
     if( imclient ) {
         imclient->upload_color_pair( pair, static_cast<int>( f ), static_cast<int>( b ) );
     }
+#endif
     return curses_check_result( ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) ),
                                 OK, "init_pair" );
 }
@@ -351,7 +357,9 @@ void catacurses::init_interface()
 #endif
     // TODO: error checking
     start_color();
+#if defined(IMGUI)
     imclient = std::make_unique<cataimgui::client>();
+#endif
     init_colors();
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
@@ -484,9 +492,13 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
+#if defined(IMGUI)
                 input_event tmp_event( key, input_event_t::keyboard_char );
                 imclient->process_input( &tmp_event );
                 return tmp_event;
+#else
+                return input_event( key, input_event_t::keyboard_char );
+#endif
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -502,7 +514,9 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             // as it would  conflict with the special keys defined by ncurses
             rval.add_input( key );
         }
+#if defined(IMGUI)
         imclient->process_input( &rval );
+#endif
     } while( key == KEY_RESIZE );
 
     return rval;
