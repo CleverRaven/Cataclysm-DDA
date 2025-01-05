@@ -2184,5 +2184,14 @@
     "name": { "str": "Scroll of Flames of the Apocalypse", "str_pl": "Scrolls of Flames of the Apocalypse" },
     "description": "Call forth an inner fire from every enemy in the spell's radius, causing multiple explosions.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_set_everyone_on_fire" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_detect_wizards",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Witchsight", "str_pl": "Scrolls of Witchsight" },
+    "description": "Open up your senses to detect the brighter ley lines of those who habitually use their magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_detect_wizards" ] }
   }
 ]

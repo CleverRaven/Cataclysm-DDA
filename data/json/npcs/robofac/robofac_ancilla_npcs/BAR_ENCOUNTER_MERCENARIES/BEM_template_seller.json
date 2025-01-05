@@ -20,6 +20,7 @@
       {
         "text": "Offer to buy it for 2 coins.",
         "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "condition": { "not": { "math": [ "has_var(n_dialog_negotiated)" ] } },
         "success": { "topic": "BEM_TEMPLATE_SELLER_DISCOUNT_BUY" },
         "failure": { "topic": "BEM_TEMPLATE_SELLER_NO_DEAL" }
       },
@@ -31,6 +32,7 @@
     "id": "BEM_TEMPLATE_SELLER_DISCOUNT_BUY",
     "type": "talk_topic",
     "dynamic_line": "Sure whatever, two coins and it's all yours.",
+    "speaker_effect": { "effect": { "npc_add_var": "dialog_negotiated", "value": "yes" } },
     "responses": [
       {
         "text": "[2 HGC] It's a deal then.",
@@ -59,6 +61,7 @@
     "id": "BEM_TEMPLATE_SELLER_NO_DEAL",
     "type": "talk_topic",
     "dynamic_line": "Well I'm sure someone who values it will come around, thanks for hearing the pitch anyways.",
+    "speaker_effect": { "effect": { "npc_add_var": "dialog_negotiated", "value": "yes" } },
     "responses": [ { "text": "See you around then.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
   }
 ]

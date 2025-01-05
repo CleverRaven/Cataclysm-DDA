@@ -56,19 +56,7 @@
     "vision_levels": "always_full",
     "see_cost": "opaque",
     "travel_cost_type": "impassable",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "deep_rock",
-    "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "vision_levels": "always_full",
-    "see_cost": "opaque",
-    "travel_cost_type": "impassable",
+    "uniform_terrain": "t_soil",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -655,8 +643,7 @@
     "name": "incomplete cabin roof",
     "sym": "+",
     "color": "light_green",
-    "see_cost": "none",
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
