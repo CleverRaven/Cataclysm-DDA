@@ -1,0 +1,271 @@
+[
+
+  {
+
+    "type": "mod_tileset",
+
+    "compatibility": [
+
+      "Chibi_Ultica",
+
+      "UltimateCataclysm",
+
+      "MshockXottoplus",
+
+      "UNDEAD_PEOPLE",
+
+      "UNDEAD_PEOPLE_BASE",
+
+      "UNDEAD_PEOPLE_LEGACY",
+
+      "UlticaShell",
+
+      "MshockXottoplus12",
+
+      "MSX++DEAD_PEOPLE",
+
+      "MXplus12_for_cosmetics"
+
+    ],
+
+    "tiles-new": [
+
+      {
+
+        "file": "normal.png",
+
+        "tiles": [
+
+          { "id": "bg_shadow_item", "fg": 1 },
+
+          { "id": "overlay_wielded_bg_shadow_item", "fg": 1 },
+
+          { "id": "makeshift_mace", "fg": 2 },
+
+          { "id": "overlay_wielded_makeshift_mace", "fg": 3 },
+
+          { "id": "crude_dagger", "fg": 4 },
+
+          { "id": "overlay_wielded_crude_dagger", "fg": 5 },
+
+          { "id": "crude_mace", "fg": 6 },
+
+          { "id": "overlay_wielded_crude_mace", "fg": 7 },
+
+          { "id": "tele_spear", "fg": 8 },
+
+          { "id": "overlay_wielded_tele_spear", "fg": 9 },
+
+          { "id": "tele_spear_sw", "fg": 10 },
+
+          { "id": "overlay_wielded_tele_spear_sw", "fg": 11 },
+
+          { "id": "stone_maul", "fg": 12 },
+
+          { "id": "overlay_wielded_stone_maul", "fg": 13 },
+          
+          { "id": "woodrass_one", "fg": 14 },
+
+          { "id": "overlay_wielded_woodrass_one", "fg": 15 },
+
+          { "id": "overlay_worn_woodrass_one", "fg": 16 },
+
+          { "id": "woodrass_two", "fg": 17 },
+
+          { "id": "overlay_wielded_woodrass_two", "fg": 18 },
+
+          { "id": "overlay_worn_woodrass_two", "fg": 19 },
+
+          { "id": "woodrass_three", "fg": 20 },
+
+          { "id": "overlay_wielded_woodrass_three", "fg": 21 },
+
+          { "id": "overlay_worn_woodrass_three", "fg": 22 },
+
+          { "id": "woodrass_four", "fg": 23 },
+
+          { "id": "overlay_wielded_woodrass_four", "fg": 24 },
+
+          { "id": "overlay_worn_woodrass_four", "fg": 25 },
+
+          { "id": "wiremail_chest", "fg": 26 },
+
+          { "id": "overlay_wielded_wiremail_chest", "fg": 27 },
+
+          { "id": "overlay_worn_wiremail_chest", "fg": 28 },
+
+          { "id": "wiremail_arms", "fg": 29 },
+
+          { "id": "overlay_wielded_wiremail_arms", "fg": 30 },
+
+          { "id": "overlay_worn_wiremail_arms", "fg": 31 },
+
+          { "id": "wiremail_legs", "fg": 32 },
+
+          { "id": "overlay_wielded_wiremail_legs", "fg": 33 },
+
+          { "id": "overlay_worn_wiremail_legs", "fg": 34 },
+
+          { "id": "wooden_helm", "fg": 35 },
+
+          { "id": "overlay_wielded_wooden_helm", "fg": 36 },
+
+          { "id": "overlay_worn_wooden_helm", "fg": 37 },
+
+          { "id": "bottle_vambraces", "fg": 38 },
+
+          { "id": "overlay_wielded_bottle_vambraces", "fg": 39 },
+
+          { "id": "overlay_worn_bottle_vambraces", "fg": 40 },
+
+          { "id": "plastic_sheath", "fg": 41 },
+
+          { "id": "overlay_wielded_plastic_sheath", "fg": 42 },
+
+          { "id": "overlay_worn_plastic_sheath", "fg": 43 },
+
+          { "id": "can_vambraces", "fg": 44 },
+
+          { "id": "overlay_wielded_can_vambraces", "fg": 45 },
+
+          { "id": "overlay_worn_can_vambraces", "fg": 46 },
+
+          { "id": "linothorax", "fg": 47 },
+
+          { "id": "overlay_wielded_linothorax", "fg": 48 },
+
+          { "id": "overlay_worn_linothorax", "fg": 49 },
+
+          { "id": "cardboard_visor", "fg": 50 },
+
+          { "id": "overlay_wielded_cardboard_visor", "fg": 51 },
+
+          { "id": "overlay_worn_cardboard_visor", "fg": 52 },
+          
+          { "id": "woodrass_five", "fg": 53 },
+
+          { "id": "overlay_wielded_woodrass_five", "fg": 54 },
+
+          { "id": "overlay_worn_woodrass_five", "fg": 55 },
+
+          { "id": "woodrass_six", "fg": 56 },
+
+          { "id": "overlay_wielded_woodrass_six", "fg": 57 },
+
+          { "id": "overlay_worn_woodrass_six", "fg": 58 },
+
+          { "id": "metal_skullcap", "fg": 59 },
+
+          { "id": "overlay_wielded_metal_skullcap", "fg": 60 },
+
+          { "id": "overlay_worn_metal_skullcap", "fg": 61 },
+
+          { "id": "metal_vest", "fg": 62 },
+
+          { "id": "overlay_wielded_metal_vest", "fg": 63 },
+
+          { "id": "overlay_worn_metal_vest", "fg": 64 },
+
+          { "id": "wooden_mask", "fg": 65 },
+
+          { "id": "overlay_wielded_wooden_mask", "fg": 66 },
+
+          { "id": "overlay_worn_wooden_mask", "fg": 67 },
+
+          { "id": "wire_holster", "fg": 68 },
+
+          { "id": "overlay_wielded_wire_holster", "fg": 69 },
+
+          { "id": "patch_pants", "fg": 70 },
+
+          { "id": "overlay_wielded_patch_pants", "fg": 71 },
+
+          { "id": "overlay_worn_patch_pants", "fg": 72 },
+
+          { "id": "shield_wicker", "fg": 73 },
+
+          { "id": "overlay_wielded_shield_wicker", "fg": 74 },
+
+          { "id": "overlay_worn_shield_wicker", "fg": 75 },
+
+          { "id": "visored_helmet", "fg": 76 },
+
+          { "id": "overlay_wielded_visored_helm", "fg": 77 },
+
+          { "id": "overlay_worn_visored_helm", "fg": 78 },
+
+          { "id": "visored_helmet_open", "fg": 79 },
+
+          { "id": "overlay_wielded_visored_helm_open", "fg": 80 },
+
+          { "id": "overlay_worn_visored_helm_open", "fg": 81 },
+
+          { "id": "SMakeshift_Canteen", "fg": 82 },
+
+          { "id": "overlay_wielded_SMakeshift_Canteen", "fg": 83 },
+
+          { "id": "overlay_worn_SMakeshift_Canteen", "fg": 84 },
+
+          { "id": "LMakeshift_Canteen", "fg": 85 },
+
+          { "id": "overlay_wielded_LMakeshift_Canteen", "fg": 86 },
+
+          { "id": "overlay_worn_LMakeshift_Canteen", "fg": 87 },
+
+          { "id": "sandbag_vest", "fg": 88 },
+
+          { "id": "overlay_wielded_sandbag_vest", "fg": 89 },
+
+          { "id": "overlay_worn_sandbag_vest", "fg": 90 },
+
+          { "id": "tire_armguards", "fg": 91 },
+
+          { "id": "overlay_wielded_tire_armguards", "fg": 92 },
+
+          { "id": "overlay_worn_tire_armguards", "fg": 93 },
+
+          { "id": "tire_legguards", "fg": 94 },
+
+          { "id": "overlay_wielded_tire_legguards", "fg": 95 },
+
+          { "id": "overlay_worn_tire_legguards", "fg": 96 },
+
+          { "id": "makeshift_canoe", "fg": 97 },
+
+          { "id": "overlay_wielded_makeshift_canoe", "fg": 98 },
+
+          { "id": "makeshift_raft", "fg": 99 },
+
+          { "id": "overlay_wielded_makeshift_raft", "fg": 100 },
+
+          { "id": "plastic_chest", "fg": 101 },
+
+          { "id": "overlay_wielded_plastic_chest", "fg": 102 },
+
+          { "id": "overlay_worn_plastic_chest", "fg": 103 },
+
+          { "id": "blanket_poncho", "fg": 104 },
+
+          { "id": "overlay_wielded_blanket_poncho", "fg": 105 },
+
+          { "id": "overlay_worn_blanket_poncho", "fg": 106 }
+
+        ],
+
+        "//": "range 1 to 144",
+
+        "sprite_width": 32,
+
+        "sprite_height": 32,
+
+        "sprite_offset_x": 0,
+
+        "sprite_offset_y": 0
+
+      }
+
+    ]
+
+  }
+
+]
