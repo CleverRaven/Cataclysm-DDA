@@ -96,6 +96,7 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": 0,
@@ -115,6 +116,7 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": 0,
@@ -135,6 +137,7 @@
         "target_params": {
           "om_terrain": "basement",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": -1,
@@ -157,6 +160,7 @@
         "target_params": {
           "om_terrain": "roof",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": 1,
@@ -179,6 +183,7 @@
         "target_params": {
           "om_terrain": "lab_stairs",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": -2,

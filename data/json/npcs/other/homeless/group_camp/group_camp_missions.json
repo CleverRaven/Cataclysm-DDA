@@ -12,7 +12,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_HUNT_ANTS",
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "min_distance": 10 },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15, "min_distance": 10 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_blob", "pack_size": [ 6, 6 ], "x": 8, "y": 8, "target": true } ] }
     },
     "has_generic_rewards": true,
@@ -41,7 +41,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_BUILD_CAMP_1",
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_ant", "pack_size": [ 2, 2 ], "x": 8, "y": 8, "target": true } ] }
     },
     "end": { "effect": [ { "npc_add_var": "dialogue_trade_ant_meat_tradeable", "value": "yes" } ] },

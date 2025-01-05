@@ -210,7 +210,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 2, "random": true },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 2, "random": true, "search_range": 10 },
       "update_mapgen": {
         "rows": [
           "                        ",
@@ -353,7 +353,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true },
+      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
       "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ]
     },
@@ -455,6 +455,7 @@
         "om_special": "office_tower_collapsed",
         "reveal_radius": 1,
         "random": true,
+        "search_range": 180,
         "z": -1
       },
       "update_mapgen": [ { "place_nested": [ { "chunks": [ "robofac_mi3_photonics_chunk" ], "x": 10, "y": 22 } ] } ]
@@ -672,7 +673,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true },
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 70 },
       "update_mapgen": {
         "rows": [
           "                        ",
@@ -905,13 +906,7 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "LIXA_road_guard",
-        "om_special": "physics_lab_LIXA",
-        "reveal_radius": 1,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "LIXA_road_guard", "om_special": "physics_lab_LIXA", "reveal_radius": 1, "z": 0 }
     },
     "end": {
       "effect": [

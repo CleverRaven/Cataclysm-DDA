@@ -189,6 +189,7 @@
         "om_terrain_match_type": "PREFIX",
         "om_special": "Standing stones",
         "min_distance": 5,
+        "search_range": 80,
         "random": true,
         "z": 0
       }
@@ -318,6 +319,7 @@
         "om_terrain_replace": "forest",
         "reveal_radius": 1,
         "random": true,
+        "search_range": 60,
         "min_distance": 5,
         "z": 0
       },
@@ -468,7 +470,7 @@
     "has_generic_rewards": false,
     "start": {
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
-      "assign_mission_target": { "om_terrain": "forest", "om_terrain_match_type": "PREFIX", "random": true, "z": 0 }
+      "assign_mission_target": { "om_terrain": "forest", "om_terrain_match_type": "PREFIX", "search_range": 75, "random": true, "z": 0 }
     },
     "end": { "effect": [ "follow", { "u_consume_item": "tinder" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN_INNAWOOD" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],

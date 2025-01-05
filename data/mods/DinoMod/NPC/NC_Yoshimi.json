@@ -127,7 +127,7 @@
     "value": 1000,
     "item": "chemistry_set",
     "start": {
-      "assign_mission_target": { "om_special": "4x4_DinoLab_surface", "om_terrain": "microlab_DinoLab_surface", "reveal_radius": 1, "random": true },
+      "assign_mission_target": { "om_special": "4x4_DinoLab_surface", "om_terrain": "microlab_DinoLab_surface", "reveal_radius": 1 },
       "update_mapgen": [
         {
           "om_terrain": "microlab_DinoLab_surface",
@@ -166,7 +166,13 @@
     "value": 1000,
     "item": "kiernans_notes",
     "start": {
-      "assign_mission_target": { "om_special": "dinosaur exhibit", "om_terrain": "dinoexhibit", "reveal_radius": 1, "random": true },
+      "assign_mission_target": {
+        "om_special": "dinosaur exhibit",
+        "om_terrain": "dinoexhibit",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 120
+      },
       "update_mapgen": [
         {
           "om_terrain": "dinoexhibit",
@@ -200,7 +206,7 @@
     "monster_type": "DINOSAUR",
     "monster_kill_goal": 5,
     "start": {
-      "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true }
+      "assign_mission_target": { "om_terrain": "dinozoo_1_1", "om_terrain_replace": "land", "reveal_radius": 1, "random": true, "search_range": 220 }
     },
     "end": { "effect": [ { "u_spawn_item": "mutagen_raptor" }, { "math": [ "u_counter_DinoLab_DinoLab_power", "+=", "2" ] } ] },
     "origins": [ "ORIGIN_SECONDARY" ],

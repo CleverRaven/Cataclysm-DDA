@@ -271,6 +271,7 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": 0,
@@ -289,6 +290,7 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": 0,
@@ -307,6 +309,7 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
           "min_distance": 200,
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
           "z": 0,
@@ -325,6 +328,7 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
           "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
           "z": 0,
@@ -343,6 +347,7 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
           "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
           "z": 0,
@@ -361,6 +366,7 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "var", "var_name": "exfildistancemax", "default": 30 },
           "min_distance": { "global_val": "var", "var_name": "exfildistancemin", "default": 5 },
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
           "z": 0,
@@ -379,6 +385,7 @@
         "target_params": {
           "om_terrain": "field",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
           "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
           "z": 0,
@@ -398,6 +405,7 @@
         "target_params": {
           "om_terrain": "forest",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
           "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
           "z": 0,
@@ -417,6 +425,7 @@
         "target_params": {
           "om_terrain": "house",
           "om_terrain_match_type": "CONTAINS",
+          "search_range": { "global_val": "var", "var_name": "missiondistancemax", "default": 30 },
           "min_distance": { "global_val": "var", "var_name": "missiondistancemin", "default": 5 },
           "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancetargets", "default": 0 },
           "z": 0,

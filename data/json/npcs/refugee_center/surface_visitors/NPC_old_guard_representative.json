@@ -274,7 +274,7 @@
     "difficulty": 5,
     "value": 100000,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
         "place_monster": [ { "monster": "mon_spider_trapdoor_small", "x": 12, "y": 12, "target": true, "repeat": [ 3, 5 ] } ]
       }

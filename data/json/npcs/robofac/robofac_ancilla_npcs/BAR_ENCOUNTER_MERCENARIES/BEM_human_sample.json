@@ -9,7 +9,7 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "z": 0 },
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 40, "z": 0 },
       "update_mapgen": {
         "place_terrain": [ { "ter": "t_pit_BEM_human_sample", "x": 9, "y": 3 } ],
         "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]

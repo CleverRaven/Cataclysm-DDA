@@ -19,23 +19,23 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "Port_augustmoon" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "zone": "ZONE_START_POINT",
         "target_max_radius": 30
       },
       {
         "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9, "random": true }
+        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9 }
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true }
+        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9 }
       },
       { "math": [ "searched_port_augustmoon = 1" ] }
     ]
@@ -49,13 +49,13 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "landing_pad" },
-        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 380 },
         "zone": "ZONE_START_POINT",
         "target_max_radius": 26
       },
       {
         "u_location_variable": { "global_val": "landing_pad_cargo" },
-        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 380 },
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
@@ -81,7 +81,14 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "landing_site" },
-        "target_params": { "om_terrain": "afs_landed_shuttle", "om_terrain_replace": "field", "z": 0, "random": true, "min_distance": 4 }
+        "target_params": {
+          "om_terrain": "afs_landed_shuttle",
+          "om_terrain_replace": "field",
+          "z": 0,
+          "random": true,
+          "min_distance": 4,
+          "search_range": 10
+        }
       },
       {
         "u_message": "You see the engine plume of your landing drone shuttle in the distance.  You'll have about four hours to reach it before it leaves.",
@@ -206,23 +213,23 @@
       { "u_message": "MANUALLY FINDING PORT AUGUSTMOON AS A FALLBACK.  (PRESS SPACE).", "popup": true },
       {
         "u_location_variable": { "global_val": "Port_augustmoon" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "zone": "ZONE_START_POINT",
         "target_max_radius": 30
       },
       {
         "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
-        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9 },
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9, "random": true }
+        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9 }
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true }
+        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9 }
       }
     ]
   },
@@ -234,13 +241,13 @@
       { "u_message": "MANUALLY FINDING THE LANDING PAD AS A FALLBACK.  (PRESS SPACE).", "popup": true },
       {
         "u_location_variable": { "global_val": "landing_pad" },
-        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 1380 },
         "zone": "ZONE_START_POINT",
         "target_max_radius": 26
       },
       {
         "u_location_variable": { "global_val": "landing_pad_cargo" },
-        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 1380 },
         "terrain": "t_intermodal_crate_scripted_destination",
         "target_max_radius": 26
       }

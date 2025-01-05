@@ -345,7 +345,7 @@
     "value": 1000,
     "item": "pants_leather",
     "start": {
-      "assign_mission_target": { "om_terrain": "cs_sex_shop", "reveal_radius": 1, "random": true },
+      "assign_mission_target": { "om_terrain": "cs_sex_shop", "reveal_radius": 1, "random": true, "search_range": 120 },
       "update_mapgen": { "om_terrain": "cs_sex_shop", "place_item": [ { "item": "pants_leather", "x": 19, "y": 20 } ] },
       "effect": { "u_add_var": "mission_flag_Alonso_pants", "value": "in_progress" }
     },
