@@ -31,6 +31,7 @@ class magic_type
 
         static const std::vector<magic_type> &get_all();
         static void check_consistency();
+        static void reset_all();
     private:
 
 };

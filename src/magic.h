@@ -390,8 +390,8 @@ class spell_type
         bool is_valid() const;
 
         // these two formulas should be the inverse of eachother.  The spell xp will break if this is not the case.
-        std::optional<jmath_func_id> get_level_formula_id;
-        std::optional<jmath_func_id> exp_for_level_formula_id;
+        std::optional<jmath_func_id> overall_get_level_formula_id() const;
+        std::optional<jmath_func_id> overall_exp_for_level_formula_id() const;
 
         // returns the exp required for the given level of the spell.
         int exp_for_level( int level ) const;
@@ -399,7 +399,6 @@ class spell_type
         int get_level( int experience ) const;
     private:
         // default values
-
         static const skill_id skill_default;
         static const requirement_id spell_components_default;
         static const translation message_default;
@@ -449,6 +448,9 @@ class spell_type
         static const int max_level_default;
         static const int base_casting_time_default;
         static const float casting_time_increment_default;
+
+        std::optional<jmath_func_id> get_level_formula_id;
+        std::optional<jmath_func_id> exp_for_level_formula_id;
 };
 
 class spell

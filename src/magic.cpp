@@ -489,6 +489,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     optional( jo, was_loaded, "get_level_formula_id", get_level_formula_id );
     optional( jo, was_loaded, "exp_for_level_formula_id", exp_for_level_formula_id );
+    optional( jo, was_loaded, "magic_type", magic_type );
     if( ( get_level_formula_id.has_value() && !exp_for_level_formula_id.has_value() ) ||
         ( !get_level_formula_id.has_value() && exp_for_level_formula_id.has_value() ) ) {
         debugmsg( "spell id:%s has a get_level_formula_id or exp_for_level_formula_id but not the other!  This breaks the calculations for xp/level!",
@@ -1695,6 +1696,30 @@ static constexpr double a = 6200.0;
 static constexpr double b = 0.146661;
 static constexpr double c = -62.5;
 
+std::optional<jmath_func_id> spell_type::overall_get_level_formula_id() const
+{
+    if( get_level_formula_id.has_value() ) {
+        return get_level_formula_id;
+    } else if ( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
+        return magic_type.value()->get_level_formula_id;
+    } else {
+        std::optional<jmath_func_id> val;
+        return val;
+    }
+}
+
+std::optional<jmath_func_id> spell_type::overall_exp_for_level_formula_id() const
+{
+    if( exp_for_level_formula_id.has_value() ) {
+        return exp_for_level_formula_id;
+    } else if ( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
+        return magic_type.value()->exp_for_level_formula_id;
+    } else {
+        std::optional<jmath_func_id> val;
+        return val;
+    }
+}
+
 int spell::get_level() const
 {
     return type->get_level( experience );
@@ -1702,15 +1727,13 @@ int spell::get_level() const
 
 int spell_type::get_level( int experience ) const
 {
+    std::optional<jmath_func_id> level_formula = overall_get_level_formula_id();
+
     // you aren't at the next level unless you have the requisite xp, so floor
-    if( get_level_formula_id.has_value() ) {
-        return std::max( static_cast<int>( std::floor( get_level_formula_id.value()->eval( dialogue(
-                                               std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
-    } else if ( magic_type.has_value() && magic_type.value()->get_level_formula_id.has_value() ) {
-        return std::max( static_cast<int>( std::floor( magic_type.value()->get_level_formula_id.value()->eval( dialogue(
+    if( level_formula.has_value() ) {
+        return std::max( static_cast<int>( std::floor( level_formula.value()->eval( dialogue(
                                                std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
     }
-
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
@@ -1793,11 +1816,9 @@ int spell_type::exp_for_level( int level ) const
     if( level == 0 ) {
         return 0;
     }
-    if( exp_for_level_formula_id.has_value() ) {
-        return std::ceil( exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
-                          nullptr ), { static_cast<double>( level ) } ) );
-    } else if ( magic_type.has_value() && magic_type.value()->exp_for_level_formula_id.has_value() ) {
-        return std::ceil( magic_type.value()->exp_for_level_formula_id.value()->eval( dialogue( std::make_unique<talker>(),
+    std::optional<jmath_func_id> func_id = overall_exp_for_level_formula_id();
+    if( func_id.has_value() ) {
+        return std::ceil( func_id.value()->eval( dialogue( std::make_unique<talker>(),
                           nullptr ), { static_cast<double>( level ) } ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;

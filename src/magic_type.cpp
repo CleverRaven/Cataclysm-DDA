@@ -75,3 +75,8 @@ const std::vector<magic_type> &magic_type::get_all()
 {
     return magic_type_factory.get_all();
 }
+
+void magic_type::reset_all()
+{
+    magic_type_factory.reset();
+}
