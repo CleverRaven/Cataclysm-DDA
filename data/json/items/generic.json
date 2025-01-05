@@ -3774,7 +3774,7 @@
     "name": { "str": "duct tape wallet" },
     "description": "A wallet made entirely out of duct tape.",
     "material": [ "plastic" ],
-    "flags": [ "NO_REPAIR" ]
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "wallet_leather",
