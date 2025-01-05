@@ -57,7 +57,7 @@
     "energy_source": "MANA",
     "base_energy_cost": "1000",
     "damage_type": "nether",
-    "max_level":0,
+    "max_level": 0,
     "min_damage": 80,
     "max_damage": 80,
     "min_range": 15,
